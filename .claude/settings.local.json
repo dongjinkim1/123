@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(powershell -Command:*)"
+      "Bash(powershell -Command:*)",
+      "Bash(git reflog:*)",
+      "Bash(dir \"C:\\\\Users\\\\김쪨리\\\\.claude\\\\projects\\\\c--Users-----Desktop-mbts-app\"\" /B /A-D)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\n26.02.16.19시34분\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\김쪨리\\Desktop\\mbts-app"
     ]
   }
 }

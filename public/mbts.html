@@ -4,231 +4,290 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>MBTS — 사주×MBTI 운명 분석</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@400;700;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg-primary:#FDFBF7;
+  --bg-secondary:#F5F0E8;
+  --bg-card:#FFFFFF;
+  --bg-glass:#FFFFFF;
+  --text-primary:#2D2D2D;
+  --text-secondary:#555;
+  --text-muted:#999;
+  --accent:#88619A;
+  --accent-light:#A07AB2;
+  --accent-glow:rgba(136,97,154,0.2);
+  --accent-dim:rgba(136,97,154,0.08);
+  --border:rgba(0,0,0,0.08);
+  --border-light:rgba(0,0,0,0.12);
+  --radius-lg:20px;
+  --radius-md:14px;
+  --radius-sm:10px;
+  --font-main:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Roboto,'Helvetica Neue','Segoe UI',sans-serif;
+  --font-serif:'Noto Serif KR',serif;
+  --font-logo:'Nunito',sans-serif;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Noto Sans KR',sans-serif;color:#333;min-height:100vh;background:#fff}
+body{font-family:var(--font-main);color:var(--text-primary);min-height:100vh;background:var(--bg-primary);overflow-x:hidden}
+/* Ambient Background — hidden in light theme */
+.ambient-bg{display:none}.stars-container{display:none}
+/* Animations */
 @keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes hb{0%,100%{transform:scale(1)}14%{transform:scale(1.12)}28%{transform:scale(1)}42%{transform:scale(1.08)}56%{transform:scale(1)}}
 @keyframes dp{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 @keyframes revUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+@keyframes loadShimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 @keyframes revDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
-input:focus,select:focus{border-color:#88619A!important;box-shadow:0 0 0 3px rgba(136,97,154,.12)!important}
-button{font-family:'Noto Sans KR',sans-serif;cursor:pointer}
-select option{background:#fff}
-.page{display:none;min-height:100vh}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+/* Global Inputs */
+input:focus,select:focus{border-color:var(--accent)!important;box-shadow:0 0 0 3px var(--accent-glow)!important}
+button{font-family:var(--font-main);cursor:pointer}
+select option{background:#fff;color:var(--text-primary)}
+/* Glass Card */
+.glass-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+/* Pages */
+.page{display:none;min-height:100vh;position:relative;z-index:1}
 .page.active{display:flex;flex-direction:column}
-/* 하단 탭 바 */
-.btm-tab{position:fixed;bottom:0;left:0;right:0;height:64px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:center;gap:0;z-index:999;padding-bottom:env(safe-area-inset-bottom,0)}
-.btm-tab-inner{display:flex;align-items:center;justify-content:center;gap:48px;width:100%;max-width:640px}
-.btm-tab-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 24px;border-radius:12px;transition:all .2s;-webkit-tap-highlight-color:transparent}
+/* Bottom Tab Bar — 4 tabs */
+.btm-tab{position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(253,251,247,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:0;z-index:999;padding-bottom:env(safe-area-inset-bottom,0)}
+.btm-tab-inner{display:flex;align-items:center;justify-content:center;gap:32px;width:100%;max-width:640px}
+.btm-tab-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 20px;border-radius:12px;transition:all .2s;-webkit-tap-highlight-color:transparent}
 .btm-tab-item:active{transform:scale(.95)}
 .btm-tab-item .tab-ic{font-size:22px}
-.btm-tab-item .tab-lb{font-size:11px;font-weight:600;color:#999}
-.btm-tab-item.active .tab-lb{color:#88619A}
-.btm-tab-item.active{background:#f3edf7}
+.btm-tab-item .tab-lb{font-size:11px;font-weight:600;color:var(--text-muted)}
+.btm-tab-item.active .tab-lb{color:var(--accent)}
+.btm-tab-item.active{background:var(--accent-dim)}
+/* Logo */
 .logo{display:flex;align-items:center;justify-content:center}
-.logo span{font-family:'Nunito',sans-serif;font-weight:900;line-height:1}
-.serif{font-family:'Noto Serif KR','Noto Sans KR',serif}
-.nunito{font-family:'Nunito',sans-serif}
+.logo span{font-family:var(--font-logo);font-weight:800;line-height:1}
+.serif{font-family:var(--font-serif)}
 
-/* ===== MBTS Soft Light Result Theme ===== */
+/* ===== MBTS Result Theme v2 ===== */
 .res-wrap{max-width:640px;margin:0 auto;padding:0 0 80px;position:relative}
-.res-header{text-align:center;padding:36px 20px 24px;background:linear-gradient(180deg,#efe8f4 0%,#fff 100%)}
-.res-header .logo-sm{display:flex;justify-content:center;gap:0;margin-bottom:12px}
-.res-header .logo-sm span{font-family:'Nunito',sans-serif;font-weight:900;font-size:28px;line-height:1}
-.res-title{font-family:'Noto Serif KR',serif;font-size:clamp(15px,3.8vw,20px);font-weight:700;color:#555;margin-bottom:4px}
-.res-subtitle{font-family:'Noto Serif KR',serif;font-size:clamp(20px,5vw,28px);font-weight:900;color:#3a2a4a;line-height:1.5}
-/* 만세력 Card */
-.manse-card{background:#fafafa;border-radius:20px;padding:20px 16px;border:1px solid #f0f0f0;margin:0 16px 16px}
-.manse-title{font-size:14px;font-weight:800;color:#555;text-align:center;margin-bottom:16px;letter-spacing:2px}
-.pillar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
-.pil-box{text-align:center;background:#fff;border-radius:14px;padding:10px 4px;border:1px solid #eee}
-.pil-box.day-pil{border-color:#88619A;box-shadow:0 2px 10px rgba(136,97,154,.1)}
-.pil-label{font-size:10px;color:#aaa;margin-bottom:6px;font-weight:600}
-.pil-stem{font-size:24px;font-weight:900;line-height:1.3}
-.pil-info{font-size:9px;color:#999;margin-bottom:1px}
-.pil-ss{font-size:9px;font-weight:600;margin-bottom:2px}
-.pil-divider{height:1px;background:#f0f0f0;margin:4px 0}
-.pil-branch{font-size:24px;font-weight:900;line-height:1.3}
-.el-fire{color:#e53935}.el-earth{color:#E4AE3A}.el-wood{color:#33A474}.el-water{color:#4298B4}.el-metal{color:#9e9e9e}
-/* Detail Rows */
-.detail-row{margin-bottom:6px}
-.detail-label{font-size:10px;color:#888;font-weight:700;margin-bottom:4px;padding-left:4px}
-.detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.detail-cell{text-align:center;background:#fff;border-radius:8px;padding:6px 2px;border:1px solid #f0f0f0;font-size:12px;color:#666}
-/* 오행 Circles */
-.oh-row{display:flex;justify-content:center;gap:12px;padding-top:10px;border-top:1px solid #f0f0f0;margin-top:8px}
-.oh-item{text-align:center}
-.oh-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;margin:0 auto 2px}
-.oh-label{font-size:9px;font-weight:600}
-/* Special Sals */
-.sal-tags{display:flex;justify-content:center;gap:6px;margin-top:10px;flex-wrap:wrap}
-.sal-tag{font-size:10px;padding:3px 10px;border-radius:100px;border:1px solid #e0d8e6;color:#88619A;background:#fff}
-/* MBTI Section */
-.mbti-section{margin:0 16px 24px;text-align:center;padding:16px;background:rgba(136,97,154,.04);border-radius:16px}
-.mbti-letters{display:flex;justify-content:center;gap:6px;margin-bottom:8px}
-.mbti-letters span{font-size:28px;font-weight:900;font-family:'Nunito',sans-serif}
-.mbti-name{font-size:14px;font-weight:700;color:#88619A}
-.mbti-cf{font-size:11px;color:#999;margin-top:4px}
-.mbti-tags{display:flex;justify-content:center;gap:6px;margin-top:8px;flex-wrap:wrap}
-.mbti-tag{font-size:10px;color:#777;background:#fff;padding:4px 10px;border-radius:20px;border:1px solid #eee}
-/* Sections */
-.sec-area{padding:20px 20px 0}
-.sec-block{margin-bottom:44px;animation:fu .5s ease both}
-.sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
-.sec-num{font-size:12px;font-weight:800;opacity:.4;font-family:'Nunito',sans-serif}
-.sec-title{font-size:clamp(16px,3.8vw,20px);font-weight:700;color:#222;line-height:1.6;font-family:'Noto Serif KR',serif}
-.sec-body{padding-left:20px}
-.sec-body p{font-size:14.5px;line-height:2.15;color:#444;margin-bottom:18px;word-break:keep-all;font-family:'Gowun Batang','Noto Serif KR',serif}
-.sec-body p:last-child{margin-bottom:0}
-.sec-divider{height:1px;background:#f0f0f0;margin-top:24px}
-/* Insight Box */
-.insight-box{border-radius:12px;padding:16px 20px;margin:16px 0;font-size:13.5px;line-height:1.85;font-family:'Gowun Batang',serif}
-.insight-gold{background:rgba(228,174,58,.07);border:1px solid rgba(228,174,58,.18);color:#b8860b}
-.insight-fire{background:rgba(229,57,53,.04);border:1px solid rgba(229,57,53,.12);color:#c62828}
-.insight-water{background:rgba(66,152,180,.05);border:1px solid rgba(66,152,180,.12);color:#2e7d9e}
-.insight-wood{background:rgba(51,164,116,.05);border:1px solid rgba(51,164,116,.12);color:#248a63}
-.insight-purple{background:rgba(136,97,154,.05);border:1px solid rgba(136,97,154,.12);color:#6a4c80}
-/* Inline Tags */
-.tag-saju{display:inline;font-size:inherit;padding:1px 7px;border-radius:5px;background:rgba(228,174,58,.08);color:#b8860b;border:1px solid rgba(228,174,58,.18)}
-.tag-mbti{display:inline;font-size:inherit;padding:1px 7px;border-radius:5px;background:rgba(229,57,53,.05);color:#c62828;border:1px solid rgba(229,57,53,.12)}
-.tag-cross{display:inline;font-size:inherit;padding:1px 7px;border-radius:5px;background:rgba(136,97,154,.06);color:#6a4c80;border:1px solid rgba(136,97,154,.14)}
-/* Footer */
-.res-footer{text-align:center;padding:0 20px 60px}
-@media(max-width:600px){.manse-card{margin:0 10px 12px;padding:16px 10px}.pil-stem,.pil-branch{font-size:20px}.sec-area{padding:16px 14px 0}.sec-body{padding-left:14px}.sec-body p{font-size:13.5px}}
+.res-header{text-align:center;padding:36px 20px 16px}
+.res-header .logo-sm{display:flex;justify-content:center;gap:0;margin-bottom:8px}
+.res-header .logo-sm span{font-family:var(--font-logo);font-weight:800;font-size:28px;line-height:1}
+.el-fire{color:#E8453C}.el-earth{color:#C49A2A}.el-wood{color:#22A469}.el-water{color:#2D7EB5}.el-metal{color:#6B7B8D}
+/* ── Animal Card ── */
+.r-animal{margin:0 16px 16px;border-radius:20px;padding:32px 24px;text-align:center;position:relative;overflow:hidden}
+.r-animal-emoji{font-size:72px;display:block;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15))}
+.r-animal-tag{display:inline-block;padding:4px 14px;border-radius:100px;font-size:12px;font-weight:700;margin-bottom:8px;background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
+.r-animal-title{font-size:17px;font-weight:800;color:#fff;line-height:1.5;margin-bottom:6px}
+.r-animal-desc{font-size:13px;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:14px;word-break:keep-all}
+.r-animal-traits{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.r-animal-trait{padding:4px 12px;border-radius:100px;font-size:11px;font-weight:600;background:rgba(255,255,255,.18);color:#fff}
+.r-animal-rx{font-size:12px;color:rgba(255,255,255,.7);font-style:italic}
+/* ── Share Row ── */
+.r-share-row{display:flex;gap:10px;justify-content:center;margin:0 16px 20px}
+.r-share-btn{padding:10px 20px;font-size:13px;font-weight:600;border:1.5px solid var(--border);border-radius:100px;background:#fff;color:var(--text-secondary);cursor:pointer}
+.r-share-btn:active{background:var(--bg-secondary)}
+/* ── Profile Card ── */
+.r-profile{margin:0 16px 20px;background:#fff;border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.r-profile-title{font-size:12px;font-weight:700;color:var(--text-muted);text-align:center;padding:16px 16px 12px;letter-spacing:2px}
+.r-pil-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 14px 14px}
+.r-pil-box{text-align:center;background:rgba(0,0,0,.02);border-radius:14px;padding:10px 4px;border:1px solid var(--border)}
+.r-pil-box.r-pil-day{border-color:var(--accent);box-shadow:0 2px 10px var(--accent-glow)}
+.r-pil-label{font-size:10px;color:var(--text-muted);margin-bottom:5px;font-weight:600}
+.r-pil-stem{font-size:22px;font-weight:900;line-height:1.3}
+.r-pil-info{font-size:9px;color:var(--text-muted);margin-bottom:1px}
+.r-pil-ss{font-size:9px;font-weight:600;color:var(--accent);margin-bottom:2px}
+.r-pil-un{font-size:8px;color:var(--text-muted)}
+.r-pil-div{height:1px;background:var(--border);margin:4px 0}
+.r-pil-branch{font-size:22px;font-weight:900;line-height:1.3}
+.r-pil-jiji{font-size:9px;color:var(--text-muted);margin-top:3px}
+/* ── Oheng Bar ── */
+.r-oh-bar{display:flex;gap:12px;padding:12px 16px;justify-content:center;border-top:1px solid var(--border)}
+.r-oh-item{text-align:center}
+.r-oh-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;margin:0 auto 3px}
+.r-oh-lbl{font-size:9px;font-weight:600}
+/* ── Special Stars ── */
+.r-sal-tags{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;padding:8px 16px 14px}
+.r-sal-tag{font-size:10px;padding:3px 10px;border-radius:100px;border:1px solid rgba(136,97,154,.15);color:var(--accent);background:var(--accent-dim)}
+/* ── Profile Divider ── */
+.r-divider{height:1px;background:var(--border);margin:0 16px}
+/* ── MBTI Area ── */
+.r-mbti-area{padding:16px;text-align:center}
+.r-mbti-letters{display:flex;justify-content:center;gap:6px;margin-bottom:6px}
+.r-mbti-letters span{font-size:28px;font-weight:900;font-family:var(--font-main)}
+.r-mbti-name{font-size:14px;font-weight:700;color:var(--accent)}
+.r-mbti-cf{font-size:11px;color:var(--text-muted);margin-top:3px}
+.r-mbti-tags{display:flex;justify-content:center;gap:5px;margin-top:8px;flex-wrap:wrap}
+.r-mbti-tag{font-size:10px;color:var(--text-secondary);background:rgba(0,0,0,.03);padding:4px 10px;border-radius:20px;border:1px solid var(--border)}
+/* ── Category Nav (sticky) ── */
+.r-cat-nav{position:sticky;top:0;z-index:100;background:rgba(253,251,247,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:10px 0;margin-bottom:16px}
+.r-cat-nav-inner{display:flex;gap:8px;overflow-x:auto;padding:0 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.r-cat-nav-inner::-webkit-scrollbar{display:none}
+.r-cat-pill{flex-shrink:0;padding:8px 16px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);color:var(--text-muted);background:#fff;white-space:nowrap;transition:all .2s}
+.r-cat-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* ── Category Section ── */
+.r-cat-sec{padding:0 16px 24px}
+.r-cat-head{margin-bottom:16px}
+.r-cat-num{font-size:11px;font-weight:800;color:var(--text-muted);margin-bottom:4px}
+.r-cat-title-row{display:flex;align-items:center;gap:8px}
+.r-cat-icon{font-size:24px}
+.r-cat-title{font-size:20px;font-weight:800;color:var(--text-primary)}
+.r-cat-sub{font-size:13px;color:var(--text-muted);margin-top:2px}
+/* ── Sub Card ── */
+.r-sub{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px;box-shadow:0 1px 6px rgba(0,0,0,.03)}
+.r-sub-h{font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:12px;line-height:1.5}
+.r-sub-b{font-size:14px;line-height:2;color:var(--text-secondary);word-break:keep-all}
+.r-sub-b p{margin-bottom:14px}
+.r-sub-b p:last-child{margin-bottom:0}
+/* ── Tip Box (💊🔥💧💜🌱💎) ── */
+.r-tip{border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.85;background:rgba(136,97,154,.06);border-left:3px solid var(--accent);color:var(--text-secondary)}
+/* ── OneLine Card ── */
+.r-oneline{margin:8px 16px 24px;background:linear-gradient(135deg,#1E1B2E,#16132A);border-radius:20px;padding:32px 24px;text-align:center}
+.r-oneline-label{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.4);font-weight:700;margin-bottom:12px;text-transform:uppercase}
+.r-oneline-text{font-family:var(--font-serif);font-size:18px;line-height:1.8;color:rgba(255,255,255,.85);font-weight:500}
+/* ── CTA ── */
+.r-cta{text-align:center;padding:20px 16px 40px}
+.r-cta-row{display:flex;gap:10px;justify-content:center;margin-bottom:16px}
+.r-cta-btn{padding:14px 24px;font-size:14px;font-weight:700;border:none;border-radius:14px;cursor:pointer}
+/* ── Responsive ── */
+@media(max-width:600px){.r-pil-grid{padding:0 10px 10px}.r-pil-stem,.r-pil-branch{font-size:18px}.r-cat-sec{padding:0 12px 20px}.r-sub{padding:16px}.r-sub-b{font-size:13px}.r-animal{margin:0 10px 14px;padding:28px 18px}}
 /* ===== Chat (달토 상담) ===== */
 .chat-wrap{display:flex;flex-direction:column;height:100vh;max-width:640px;margin:0 auto;width:100%}
-.chat-header{background:#fff;padding:16px 20px 12px;border-bottom:1px solid #f0f0f0;flex-shrink:0}
+.chat-header{background:rgba(253,251,247,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:16px 20px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
 .chat-header-top{display:flex;align-items:center;gap:12px;margin-bottom:4px}
-.chat-header-back{background:none;border:none;font-size:14px;color:#88619A;font-weight:600;padding:4px 0;cursor:pointer}
-.chat-header-title{font-size:17px;font-weight:800;color:#333}
-.chat-header-sub{font-size:11px;color:#999;padding-left:2px}
-.chat-messages{flex:1;overflow-y:auto;padding:16px 16px 8px;background:#F8F5FF;-webkit-overflow-scrolling:touch}
+.chat-header-back{background:none;border:none;font-size:14px;color:var(--accent);font-weight:600;padding:4px 0;cursor:pointer}
+.chat-header-title{font-size:17px;font-weight:800;color:var(--text-primary)}
+.chat-header-sub{font-size:11px;color:var(--text-muted);padding-left:2px}
+.chat-messages{flex:1;overflow-y:auto;padding:16px 16px 8px;background:var(--bg-secondary);-webkit-overflow-scrolling:touch}
 .chat-bubble-row{display:flex;margin-bottom:14px;align-items:flex-end}
 .chat-bubble-row.chat-user{justify-content:flex-end}
 .chat-bubble-row.chat-ai{justify-content:flex-start;align-items:flex-start}
-.chat-avatar{width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-right:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.chat-avatar{width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-right:8px}
 .chat-bubble{max-width:75%;padding:12px 16px;font-size:14px;line-height:1.7;word-break:keep-all}
-.chat-bubble.chat-bubble-user{background:#88619A;color:#fff;border-radius:18px 18px 4px 18px}
-.chat-bubble.chat-bubble-ai{background:#fff;color:#333;border-radius:18px 18px 18px 4px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.chat-time{font-size:11px;color:#bbb;margin-top:4px;padding:0 4px}
+.chat-bubble.chat-bubble-user{background:var(--accent);color:#fff;border-radius:18px 18px 4px 18px}
+.chat-bubble.chat-bubble-ai{background:#fff;color:var(--text-secondary);border-radius:18px 18px 18px 4px;border:1px solid var(--border)}
+.chat-time{font-size:11px;color:var(--text-muted);margin-top:4px;padding:0 4px}
 .chat-time-user{text-align:right}
 .chat-time-ai{text-align:left;padding-left:40px}
-.chat-quick-wrap{padding:8px 16px 4px;background:#F8F5FF;flex-shrink:0}
+.chat-quick-wrap{padding:8px 16px 4px;background:var(--bg-secondary);flex-shrink:0}
 .chat-quick-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .chat-quick-scroll::-webkit-scrollbar{display:none}
-.chat-quick-btn{flex-shrink:0;padding:8px 16px;font-size:13px;font-weight:600;color:#88619A;background:#fff;border:1.5px solid #d8cfe0;border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .2s}
-.chat-quick-btn:active{background:#88619A;color:#fff;border-color:#88619A}
-.chat-input-area{display:flex;align-items:flex-end;gap:8px;padding:10px 16px;background:#fff;border-top:1px solid #f0f0f0;flex-shrink:0;padding-bottom:calc(10px + env(safe-area-inset-bottom,0))}
-.chat-input{flex:1;padding:10px 14px;font-size:14px;border:1.5px solid #e0d8e6;border-radius:20px;outline:none;resize:none;max-height:100px;min-height:40px;font-family:'Noto Sans KR',sans-serif;line-height:1.5;overflow-y:auto}
-.chat-input:focus{border-color:#88619A;box-shadow:0 0 0 3px rgba(136,97,154,.1)}
-.chat-send-btn{width:40px;height:40px;border-radius:50%;border:none;background:#ccc;color:#fff;font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.chat-send-btn.chat-send-active{background:#88619A}
+.chat-quick-btn{flex-shrink:0;padding:8px 16px;font-size:13px;font-weight:600;color:var(--accent);background:#fff;border:1.5px solid var(--border-light);border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.chat-quick-btn:active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chat-input-area{display:flex;align-items:flex-end;gap:8px;padding:10px 16px;background:rgba(253,251,247,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);flex-shrink:0;padding-bottom:calc(10px + env(safe-area-inset-bottom,0))}
+.chat-input{flex:1;padding:10px 14px;font-size:14px;border:1.5px solid var(--border-light);border-radius:20px;outline:none;resize:none;max-height:100px;min-height:40px;font-family:var(--font-main);line-height:1.5;overflow-y:auto;background:#fff;color:var(--text-primary)}
+.chat-input::placeholder{color:var(--text-muted)}
+.chat-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.chat-send-btn{width:40px;height:40px;border-radius:50%;border:none;background:rgba(0,0,0,0.05);color:var(--text-muted);font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.chat-send-btn.chat-send-active{background:var(--accent);color:#fff}
 @keyframes chatTyping{0%,60%,100%{opacity:.3}30%{opacity:1}}
-.chat-typing-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#88619A;margin:0 2px;animation:chatTyping 1.4s infinite}
+.chat-typing-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin:0 2px;animation:chatTyping 1.4s infinite}
 .chat-typing-dot:nth-child(2){animation-delay:.2s}
 .chat-typing-dot:nth-child(3){animation-delay:.4s}
-.chat-start-card{background:#fff;border-radius:20px;padding:28px 24px;box-shadow:0 4px 20px rgba(136,97,154,.08);margin:20px;text-align:center}
+.chat-start-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 24px;margin:20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.04)}
 </style>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<!-- Ambient Background -->
+<div class="ambient-bg">
+  <div class="ambient-orb orb-1"></div>
+  <div class="ambient-orb orb-2"></div>
+  <div class="ambient-orb orb-3"></div>
+</div>
+<div class="stars-container" id="stars-container"></div>
+
 <div id="pg-land" class="page active" style="align-items:center;justify-content:center;padding:20px;position:relative">
-  <div style="position:absolute;inset:0;opacity:.025;background-image:repeating-linear-gradient(45deg,#4298B4 0,#4298B4 1px,transparent 0,transparent 50%),repeating-linear-gradient(-45deg,#E4AE3A 0,#E4AE3A 1px,transparent 0,transparent 50%);background-size:40px 40px"></div>
   <div id="land-inner" style="z-index:1;text-align:center;opacity:0;transform:translateY(24px);transition:all .9s cubic-bezier(.16,1,.3,1)">
-    <div class="logo" style="margin-bottom:20px"><span style="font-size:68px;color:#4298B4">M</span><span style="font-size:68px;color:#e53935">B</span><span style="font-size:68px;color:#E4AE3A">T</span><span style="font-size:68px;color:#33A474">S</span></div>
-    <div style="margin-bottom:44px"><p style="font-size:clamp(15px,3.5vw,19px);color:#666;line-height:1.9">사주가 그린 지도 위,<br><strong style="font-weight:800;color:#333">당신의 성격이 길이 됩니다.</strong></p></div>
-    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:36px"><div style="width:10px;height:10px;border-radius:50%;background:#88619A;animation:dp 1.4s ease-in-out 0s infinite"></div><div style="width:10px;height:10px;border-radius:50%;background:#33A474;animation:dp 1.4s ease-in-out .2s infinite"></div><div style="width:10px;height:10px;border-radius:50%;background:#4298B4;animation:dp 1.4s ease-in-out .4s infinite"></div><div style="width:10px;height:10px;border-radius:50%;background:#d4a017;animation:dp 1.4s ease-in-out .6s infinite"></div></div>
-    <button onclick="goPage('dalto')" style="padding:16px 52px;font-size:16px;font-weight:700;color:#fff;background:#88619A;border:none;border-radius:30px;box-shadow:0 4px 16px rgba(136,97,154,.3)">나의 운명 지도 펼치기 →</button>
-    <p style="margin-top:18px;font-size:13px;color:#aaa">소요시간 약 2분 · 양력 생년월일시 + MBTI</p>
+    <div class="logo" style="margin-bottom:20px"><span style="font-size:68px;color:#4CAF7D">M</span><span style="font-size:68px;color:#5B8FD4">B</span><span style="font-size:68px;color:#E05A5A">T</span><span style="font-size:68px;color:#E8B84B">S</span></div>
+    <div style="margin-bottom:44px"><p style="font-size:clamp(15px,3.5vw,19px);color:var(--text-secondary);line-height:1.9">사주가 그린 지도 위,<br><strong style="font-weight:800;color:var(--text-primary)">당신의 성격이 길이 됩니다.</strong></p></div>
+    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:36px"><div style="width:10px;height:10px;border-radius:50%;background:#4CAF7D;animation:dp 1.4s ease-in-out 0s infinite"></div><div style="width:10px;height:10px;border-radius:50%;background:#5B8FD4;animation:dp 1.4s ease-in-out .2s infinite"></div><div style="width:10px;height:10px;border-radius:50%;background:#E05A5A;animation:dp 1.4s ease-in-out .4s infinite"></div><div style="width:10px;height:10px;border-radius:50%;background:#E8B84B;animation:dp 1.4s ease-in-out .6s infinite"></div></div>
+    <button onclick="goPage('dalto')" style="padding:16px 52px;font-size:16px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:30px;box-shadow:0 4px 24px var(--accent-glow)">나의 운명 지도 펼치기 →</button>
+    <p style="margin-top:18px;font-size:13px;color:var(--text-muted)">소요시간 약 2분 · 양력 생년월일시 + MBTI</p>
   </div>
 </div>
 
 <!-- ===== [2] 달토 로그인 ===== -->
-<div id="pg-dalto" class="page" style="align-items:center;justify-content:center;padding:20px;background:linear-gradient(180deg,#f9f6fb 0%,#efe8f4 100%)">
+<div id="pg-dalto" class="page" style="align-items:center;justify-content:center;padding:20px">
   <div style="max-width:400px;width:100%;text-align:center;animation:fu .7s ease both">
     <div style="font-size:100px;margin-bottom:16px;animation:hb 2s ease-in-out infinite">🐰</div>
-    <h2 style="font-size:22px;font-weight:800;color:#333;margin-bottom:6px">안녕하세요! 달토예요</h2>
-    <p style="font-size:15px;color:#666;line-height:1.7;margin-bottom:8px">당신의 사주를 읽어드릴게요</p>
-    <p style="font-size:13px;color:#999;margin-bottom:36px">로그인하면 분석 결과를 저장할 수 있어요</p>
+    <h2 style="font-size:22px;font-weight:800;color:var(--text-primary);margin-bottom:6px">안녕하세요! 달토예요</h2>
+    <p style="font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:8px">당신의 사주를 읽어드릴게요</p>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:36px">로그인하면 분석 결과를 저장할 수 있어요</p>
     <button onclick="goPage('home')" style="width:100%;max-width:320px;padding:16px;font-size:16px;font-weight:700;color:#191919;background:#FEE500;border:none;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto 12px">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.03 2 1 5.13 1 8.97c0 2.48 1.66 4.66 4.15 5.87l-1.06 3.87c-.09.33.28.6.56.41l4.62-3.05c.24.02.48.03.73.03 4.97 0 9-3.13 9-6.97C19 5.13 14.97 2 10 2z" fill="#191919"/></svg>
       카카오로 시작하기
     </button>
-    <button onclick="goPage('home')" style="width:100%;max-width:320px;padding:14px;font-size:14px;font-weight:500;color:#999;background:#f5f5f5;border:none;border-radius:14px;margin:0 auto">로그인 없이 둘러보기</button>
+    <button onclick="goPage('home')" style="width:100%;max-width:320px;padding:14px;font-size:14px;font-weight:500;color:var(--text-muted);background:#fff;border:1px solid var(--border);border-radius:14px;margin:0 auto">로그인 없이 둘러보기</button>
   </div>
 </div>
 
 <!-- ===== [3] 메인홈 ===== -->
-<div id="pg-home" class="page" style="align-items:stretch;justify-content:flex-start;padding:0;background:#fafaf8">
+<div id="pg-home" class="page" style="align-items:stretch;justify-content:flex-start;padding:0">
   <!-- 헤더 -->
   <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px">
-    <div class="logo"><span style="font-size:28px;color:#4298B4">M</span><span style="font-size:28px;color:#e53935">B</span><span style="font-size:28px;color:#E4AE3A">T</span><span style="font-size:28px;color:#33A474">S</span></div>
+    <div class="logo"><span style="font-size:28px;color:#4CAF7D">M</span><span style="font-size:28px;color:#5B8FD4">B</span><span style="font-size:28px;color:#E05A5A">T</span><span style="font-size:28px;color:#E8B84B">S</span></div>
     <div style="display:flex;align-items:center;gap:8px">
       <span style="font-size:32px">🐰</span>
     </div>
   </div>
-  <!-- 상단 탭바: 사주/궁합 -->
-  <div style="display:flex;gap:0;margin:0 20px 20px;background:#fff;border-radius:14px;padding:4px;box-shadow:0 2px 12px rgba(0,0,0,.04)">
-    <button id="home-tab-saju" onclick="switchHomeTab('saju')" style="flex:1;padding:12px;font-size:14px;font-weight:700;border:none;border-radius:11px;cursor:pointer;transition:all .25s;background:#88619A;color:#fff">🔮 내 사주</button>
-    <button id="home-tab-gunghap" onclick="switchHomeTab('gunghap')" style="flex:1;padding:12px;font-size:14px;font-weight:700;border:none;border-radius:11px;cursor:pointer;transition:all .25s;background:transparent;color:#999">💕 궁합</button>
-    <button id="home-tab-chat" onclick="switchHomeTab('chat')" style="flex:1;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:11px;cursor:pointer;transition:all .25s;background:transparent;color:#999">상담사 달토🐰</button>
+  <!-- 상단 탭바: 사주/궁합/달토 -->
+  <div style="display:flex;gap:0;margin:0 20px 20px;background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:14px;padding:4px">
+    <button id="home-tab-saju" onclick="switchHomeTab('saju')" style="flex:1;padding:12px;font-size:14px;font-weight:700;border:none;border-radius:11px;cursor:pointer;transition:all .25s;background:var(--accent);color:#fff">🔮 내 사주</button>
+    <button id="home-tab-gunghap" onclick="switchHomeTab('gunghap')" style="flex:1;padding:12px;font-size:14px;font-weight:700;border:none;border-radius:11px;cursor:pointer;transition:all .25s;background:transparent;color:var(--text-muted)">💕 궁합</button>
+    <button id="home-tab-chat" onclick="switchHomeTab('chat')" style="flex:1;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:11px;cursor:pointer;transition:all .25s;background:transparent;color:var(--text-muted)">상담사 달토🐰</button>
   </div>
   <!-- 사주 탭 컨텐츠 -->
   <div id="home-content-saju" style="padding:0 20px 40px">
     <div style="text-align:center;margin-bottom:24px">
-      <h2 style="font-size:20px;font-weight:800;color:#333">안녕하세요 👋</h2>
-      <p style="font-size:14px;color:#999;margin-top:4px">사주 × MBTI로 운명 지도를 그려드려요</p>
+      <h2 style="font-size:20px;font-weight:800;color:var(--text-primary)">안녕하세요 👋</h2>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:4px">사주 × MBTI로 운명 지도를 그려드려요</p>
     </div>
     <!-- 사주 시작 카드 -->
-    <div onclick="goPage('birth')" style="background:#fff;border-radius:20px;padding:28px 24px;box-shadow:0 4px 20px rgba(136,97,154,.08);cursor:pointer;margin-bottom:16px;border:2px solid transparent;transition:all .2s" onmouseover="this.style.borderColor='#88619A'" onmouseout="this.style.borderColor='transparent'">
+    <div onclick="goPage('birth')" class="glass-card" style="padding:28px 24px;cursor:pointer;margin-bottom:16px;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='rgba(0,0,0,0.08)'">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
-        <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#efe8f4,#f9f6fb);display:flex;align-items:center;justify-content:center;font-size:28px">🔮</div>
+        <div style="width:56px;height:56px;border-radius:16px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:28px">🔮</div>
         <div>
-          <div style="font-size:17px;font-weight:700;color:#333">MBTS 프리미엄 분석</div>
-          <div style="font-size:13px;color:#999;margin-top:2px">사주 × MBTI 교차 분석</div>
+          <div style="font-size:17px;font-weight:700;color:var(--text-primary)">MBTS 프리미엄 분석</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">사주 × MBTI 교차 분석</div>
         </div>
       </div>
-      <p style="font-size:13px;color:#666;line-height:1.6;margin-bottom:16px">생년월일시와 MBTI만 입력하면<br>AI가 당신만의 운명 지도를 그려드려요</p>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:16px">생년월일시와 MBTI만 입력하면<br>AI가 당신만의 운명 지도를 그려드려요</p>
       <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="display:flex;gap:6px"><span style="padding:4px 10px;font-size:11px;font-weight:600;background:#efe8f4;color:#88619A;border-radius:8px">약 2분</span><span style="padding:4px 10px;font-size:11px;font-weight:600;background:#FEF3CD;color:#8B6914;border-radius:8px">1,500원</span></div>
-        <span style="font-size:14px;font-weight:700;color:#88619A">시작하기 →</span>
+        <div style="display:flex;gap:6px"><span style="padding:4px 10px;font-size:11px;font-weight:600;background:var(--accent-dim);color:var(--accent-light);border-radius:8px">약 2분</span><span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(201,154,46,.1);color:#c99a2e;border-radius:8px">1,500원</span></div>
+        <span style="font-size:14px;font-weight:700;color:var(--accent)">시작하기 →</span>
       </div>
     </div>
     <!-- 과거 기록 (있으면 표시) -->
     <div id="home-past-saju" style="display:none">
-      <div style="font-size:13px;font-weight:700;color:#888;margin-bottom:10px">내 분석 기록</div>
-      <div id="home-past-saju-card" onclick="goPage('res')" style="background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.04);display:flex;align-items:center;gap:12px;cursor:pointer">
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">내 분석 기록</div>
+      <div id="home-past-saju-card" onclick="viewSavedResult()" class="glass-card" style="padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer">
         <div style="font-size:24px">🔮</div>
-        <div style="flex:1"><div style="font-size:14px;font-weight:700" id="home-past-label">분석 결과</div><div style="font-size:12px;color:#999" id="home-past-sub">아직 없음</div></div>
-        <span style="font-size:18px;color:#ccc">›</span>
+        <div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--text-primary)" id="home-past-label">분석 결과</div><div style="font-size:12px;color:var(--text-muted)" id="home-past-sub">아직 없음</div></div>
+        <span style="font-size:18px;color:var(--text-muted)">›</span>
       </div>
     </div>
   </div>
   <!-- 궁합 탭 컨텐츠 -->
   <div id="home-content-gunghap" style="padding:0 20px 40px;display:none">
     <div style="text-align:center;margin-bottom:24px">
-      <h2 style="font-size:20px;font-weight:800;color:#333">궁합 분석 💕</h2>
-      <p style="font-size:14px;color:#999;margin-top:4px">두 사람의 사주 × MBTI 케미를 분석해요</p>
+      <h2 style="font-size:20px;font-weight:800;color:var(--text-primary)">궁합 분석 💕</h2>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:4px">두 사람의 사주 × MBTI 케미를 분석해요</p>
     </div>
     <!-- 궁합 시작 카드 -->
-    <div id="gh-start-card" style="background:#fff;border-radius:20px;padding:28px 24px;box-shadow:0 4px 20px rgba(232,97,154,.08);margin-bottom:16px;border:2px solid transparent">
+    <div id="gh-start-card" class="glass-card" style="padding:28px 24px;margin-bottom:16px">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
-        <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#fde8ee,#fff0f3);display:flex;align-items:center;justify-content:center;font-size:28px">💕</div>
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(214,51,132,.08);display:flex;align-items:center;justify-content:center;font-size:28px">💕</div>
         <div>
-          <div style="font-size:17px;font-weight:700;color:#333">MBTS 궁합 분석</div>
-          <div style="font-size:13px;color:#999;margin-top:2px">두 사람의 케미 분석</div>
+          <div style="font-size:17px;font-weight:700;color:var(--text-primary)">MBTS 궁합 분석</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">두 사람의 케미 분석</div>
         </div>
       </div>
       <div id="gh-card-body-need" style="display:none">
-        <p style="font-size:13px;color:#e53935;line-height:1.6;margin-bottom:14px">⚠️ 먼저 <strong>"내 사주"</strong> 분석을 완료해주세요!<br>내 데이터가 있어야 궁합 분석이 가능해요</p>
-        <button onclick="switchHomeTab('saju')" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#fff;background:#88619A;border:none;border-radius:12px">🔮 내 사주 먼저 분석하기</button>
+        <p style="font-size:13px;color:#d32f2f;line-height:1.6;margin-bottom:14px">⚠️ 먼저 <strong>"내 사주"</strong> 분석을 완료해주세요!<br>내 데이터가 있어야 궁합 분석이 가능해요</p>
+        <button onclick="switchHomeTab('saju')" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px">🔮 내 사주 먼저 분석하기</button>
       </div>
       <div id="gh-card-body-ok" style="display:none">
-        <p style="font-size:13px;color:#666;line-height:1.6;margin-bottom:16px">내 분석 완료! ✅<br>상대방 정보를 입력하면 궁합을 분석해드려요</p>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:16px">내 분석 완료! ✅<br>상대방 정보를 입력하면 궁합을 분석해드려요</p>
         <div style="display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;gap:6px"><span style="padding:4px 10px;font-size:11px;font-weight:600;background:#fde8ee;color:#c62828;border-radius:8px">약 2분</span><span style="padding:4px 10px;font-size:11px;font-weight:600;background:#FEF3CD;color:#8B6914;border-radius:8px">1,500원</span></div>
-          <button onclick="goPage('gh-input')" style="padding:10px 20px;font-size:14px;font-weight:700;color:#fff;background:linear-gradient(135deg,#FF6B8A,#e8619a);border:none;border-radius:12px;box-shadow:0 4px 12px rgba(255,107,138,.3)">궁합 보기 →</button>
+          <div style="display:flex;gap:6px"><span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(211,47,47,.08);color:#d63384;border-radius:8px">약 2분</span><span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(201,154,46,.1);color:#c99a2e;border-radius:8px">1,500원</span></div>
+          <button onclick="goPage('gh-input')" style="padding:10px 20px;font-size:14px;font-weight:700;color:#fff;background:#d63384;border:none;border-radius:12px;box-shadow:0 4px 12px rgba(214,51,132,.2)">궁합 보기 →</button>
         </div>
       </div>
     </div>
@@ -236,127 +295,137 @@ select option{background:#fff}
   <!-- 달토 상담 탭 컨텐츠 -->
   <div id="home-content-chat" style="padding:0 20px 40px;display:none">
     <div style="text-align:center;margin-bottom:24px">
-      <h2 style="font-size:20px;font-weight:800;color:#333">달토 상담 🐰</h2>
-      <p style="font-size:14px;color:#999;margin-top:4px">사주 기반 AI 상담사에게 물어보세요</p>
+      <h2 style="font-size:20px;font-weight:800;color:var(--text-primary)">달토 상담 🐰</h2>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:4px">사주 기반 AI 상담사에게 물어보세요</p>
     </div>
-    <div style="background:#fff;border-radius:20px;padding:28px 24px;box-shadow:0 4px 20px rgba(136,97,154,.08);margin-bottom:16px;border:2px solid transparent">
+    <div class="glass-card" style="padding:28px 24px;margin-bottom:16px">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
-        <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#f9f6fb,#efe8f4);display:flex;align-items:center;justify-content:center;font-size:28px">🐰</div>
+        <div style="width:56px;height:56px;border-radius:16px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:28px">🐰</div>
         <div>
-          <div style="font-size:17px;font-weight:700;color:#333">AI 사주 상담사 달토</div>
-          <div style="font-size:13px;color:#999;margin-top:2px">무엇이든 물어보세요</div>
+          <div style="font-size:17px;font-weight:700;color:var(--text-primary)">AI 사주 상담사 달토</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">무엇이든 물어보세요</div>
         </div>
       </div>
       <div id="chat-card-body-need" style="display:none">
-        <p style="font-size:13px;color:#e53935;line-height:1.6;margin-bottom:14px">⚠️ 먼저 <strong>"내 사주"</strong> 분석을 완료해주세요!<br>사주 정보가 있어야 정확한 상담이 가능해요</p>
-        <button onclick="switchHomeTab('saju')" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#fff;background:#88619A;border:none;border-radius:12px">🔮 내 사주 먼저 분석하기</button>
+        <p style="font-size:13px;color:#d32f2f;line-height:1.6;margin-bottom:14px">⚠️ 먼저 <strong>"내 사주"</strong> 분석을 완료해주세요!<br>사주 정보가 있어야 정확한 상담이 가능해요</p>
+        <button onclick="switchHomeTab('saju')" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px">🔮 내 사주 먼저 분석하기</button>
       </div>
       <div id="chat-card-body-ok" style="display:none">
-        <p style="font-size:13px;color:#666;line-height:1.6;margin-bottom:6px">내 분석 완료! ✅</p>
-        <p id="chat-card-info" style="font-size:14px;font-weight:700;color:#88619A;margin-bottom:16px"></p>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:6px">내 분석 완료! ✅</p>
+        <p id="chat-card-info" style="font-size:14px;font-weight:700;color:var(--accent);margin-bottom:16px"></p>
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
-          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:#f9f6fb;color:#88619A;border-radius:8px">오늘의 운세</span>
-          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:#fde8ee;color:#c62828;border-radius:8px">연애운</span>
-          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:#FEF3CD;color:#8B6914;border-radius:8px">재물운</span>
-          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:#e8f5e9;color:#2e7d32;border-radius:8px">직장운</span>
+          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:var(--accent-dim);color:var(--accent-light);border-radius:8px">오늘의 운세</span>
+          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(211,47,47,.08);color:#d63384;border-radius:8px">연애운</span>
+          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(201,154,46,.1);color:#c99a2e;border-radius:8px">재물운</span>
+          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(46,139,87,.08);color:#2e8b57;border-radius:8px">직장운</span>
         </div>
-        <button onclick="goPage('chat')" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#fff;background:linear-gradient(135deg,#88619A,#6A4C7A);border:none;border-radius:12px;box-shadow:0 4px 12px rgba(136,97,154,.3)">🐰 달토와 상담 시작하기</button>
+        <button onclick="goPage('chat')" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;box-shadow:0 4px 12px var(--accent-glow)">🐰 달토와 상담 시작하기</button>
       </div>
     </div>
   </div>
+  <!-- 하단 탭바 (홈 페이지 고정) -->
+  <div class="btm-tab"><div class="btm-tab-inner">
+    <div class="btm-tab-item active"><div class="tab-ic">🏠</div><div class="tab-lb">홈</div></div>
+    <div class="btm-tab-item" onclick="if(window._lastSaju){viewSavedResult();}else{alert('먼저 사주 분석을 완료해주세요!')}"><div class="tab-ic">📊</div><div class="tab-lb">분석결과</div></div>
+    <div class="btm-tab-item" onclick="alert('저장 기능은 준비 중이에요!')"><div class="tab-ic">💾</div><div class="tab-lb">저장</div></div>
+    <div class="btm-tab-item" onclick="alert('설정 기능은 준비 중이에요!')"><div class="tab-ic">⚙️</div><div class="tab-lb">설정</div></div>
+  </div></div>
 </div>
-<div id="pg-birth" class="page" style="align-items:center;justify-content:center;padding:20px;background:#efe8f4">
+<div id="pg-birth" class="page" style="align-items:center;justify-content:center;padding:20px">
   <div style="max-width:460px;width:100%;animation:fu .6s ease both">
-    <button onclick="goPage('home')" style="background:none;border:none;color:#88619A;font-size:14px;margin-bottom:16px;font-weight:500">← 돌아가기</button>
-    <div style="display:flex;gap:8px;margin-bottom:28px"><div style="flex:1;height:4px;border-radius:2px;background:#88619A"></div><div style="flex:1;height:4px;border-radius:2px;background:#d8cfe0"></div></div>
-    <div style="background:#fff;border-radius:24px;padding:32px 24px;box-shadow:0 6px 28px rgba(136,97,154,.07)">
-      <h2 style="font-size:22px;font-weight:800;color:#88619A;margin-bottom:4px">생년월일시를 알려주세요</h2>
-      <p style="color:#999;font-size:13px;margin-bottom:24px">양력 기준 · 시간과 분까지 입력하면 더 정확해요</p>
+    <button onclick="goPage('home')" style="background:none;border:none;color:var(--accent);font-size:14px;margin-bottom:16px;font-weight:500">← 돌아가기</button>
+    <div style="display:flex;gap:8px;margin-bottom:28px"><div style="flex:1;height:4px;border-radius:2px;background:var(--accent)"></div><div style="flex:1;height:4px;border-radius:2px;background:var(--border-light)"></div></div>
+    <div class="glass-card" style="padding:32px 24px">
+      <h2 style="font-size:22px;font-weight:800;color:var(--accent-light);margin-bottom:4px">생년월일시를 알려주세요</h2>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px">양력 기준 · 시간과 분까지 입력하면 더 정확해요</p>
       <div style="display:flex;gap:10px;margin-bottom:12px">
-        <div style="flex:2"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:5px">태어난 해</label><input id="in-y" type="number" placeholder="예: 1990" style="width:100%;padding:13px 14px;font-size:15px;background:#fff;border:2px solid #d8cfe0;border-radius:12px;outline:none"></div>
-        <div style="flex:1"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:5px">월</label><select id="in-m" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid #d8cfe0;border-radius:12px;outline:none;-webkit-appearance:none"><option value="">월</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:5px">일</label><select id="in-d" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid #d8cfe0;border-radius:12px;outline:none;-webkit-appearance:none"><option value="">일</option></select></div>
+        <div style="flex:2"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">태어난 해</label><input id="in-y" type="number" placeholder="예: 1990" style="width:100%;padding:13px 14px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;color:var(--text-primary)"></div>
+        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">월</label><select id="in-m" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">월</option></select></div>
+        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">일</label><select id="in-d" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">일</option></select></div>
       </div>
       <div style="display:flex;gap:10px;margin-bottom:12px">
-        <div style="flex:1"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:5px">시 (선택)</label><select id="in-h" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid #d8cfe0;border-radius:12px;outline:none;-webkit-appearance:none"><option value="">모름</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:5px">분 (선택)</label><select id="in-min" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid #d8cfe0;border-radius:12px;outline:none;-webkit-appearance:none"><option value="">모름</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:5px">출생지</label><select id="in-city" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid #d8cfe0;border-radius:12px;outline:none;-webkit-appearance:none"><option value="">모름</option></select></div>
+        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">시 (선택)</label><select id="in-h" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">모름</option></select></div>
+        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">분 (선택)</label><select id="in-min" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">모름</option></select></div>
+        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">출생지</label><select id="in-city" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">모름</option></select></div>
       </div>
-      <div style="margin-bottom:24px"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:5px">성별</label><div style="display:flex;gap:10px"><button id="btn-male" onclick="pickGender('남성')" style="flex:1;padding:13px;font-size:15px;font-weight:600;background:#fff;border:2px solid #d8cfe0;border-radius:12px;color:#999">♂ 남성</button><button id="btn-female" onclick="pickGender('여성')" style="flex:1;padding:13px;font-size:15px;font-weight:600;background:#fff;border:2px solid #d8cfe0;border-radius:12px;color:#999">♀ 여성</button></div></div>
-      <button id="btn-birth-next" onclick="goPage('mbti')" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:#d8cfe0;border:none;border-radius:14px;cursor:not-allowed" disabled>다음 단계 →</button>
+      <div style="margin-bottom:24px"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">성별</label><div style="display:flex;gap:10px"><button id="btn-male" onclick="pickGender('남성')" style="flex:1;padding:13px;font-size:15px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:12px;color:var(--text-muted)">♂ 남성</button><button id="btn-female" onclick="pickGender('여성')" style="flex:1;padding:13px;font-size:15px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:12px;color:var(--text-muted)">♀ 여성</button></div></div>
+      <button id="btn-birth-next" onclick="goPage('mbti')" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:var(--text-muted);background:rgba(0,0,0,0.08);border:none;border-radius:14px;cursor:not-allowed" disabled>다음 단계 →</button>
     </div>
   </div>
 </div>
-<div id="pg-mbti" class="page" style="align-items:center;justify-content:center;padding:20px;background:#efe8f4;transition:background .4s">
+<div id="pg-mbti" class="page" style="align-items:center;justify-content:center;padding:20px;transition:background .4s">
   <div id="mbti-wrap" style="max-width:500px;width:100%;transition:all .35s cubic-bezier(.16,1,.3,1)">
-    <button id="mbti-back" onclick="mbtiBack()" style="background:none;border:none;color:#88619A;font-size:14px;margin-bottom:14px;font-weight:500">← 돌아가기</button>
+    <button id="mbti-back" onclick="mbtiBack()" style="background:none;border:none;color:var(--accent);font-size:14px;margin-bottom:14px;font-weight:500">← 돌아가기</button>
     <div id="mbti-progress" style="display:flex;gap:4px;margin-bottom:20px"></div>
     <div id="mbti-letters" style="display:flex;justify-content:center;gap:6px;margin-bottom:20px"></div>
-    <div style="background:#fff;border-radius:22px;padding:28px 22px;box-shadow:0 6px 28px rgba(0,0,0,.04)">
-      <p style="font-size:12px;color:#bbb;letter-spacing:2px;text-align:center;margin-bottom:6px" id="mbti-step">STEP 1/4</p>
-      <h2 style="font-size:20px;font-weight:800;text-align:center;margin-bottom:22px">당신은 어느 쪽에 가깝나요?</h2>
+    <div class="glass-card" style="padding:28px 22px">
+      <p style="font-size:12px;color:var(--text-muted);letter-spacing:2px;text-align:center;margin-bottom:6px" id="mbti-step">STEP 1/4</p>
+      <h2 style="font-size:20px;font-weight:800;text-align:center;margin-bottom:22px;color:var(--text-primary)">당신은 어느 쪽에 가깝나요?</h2>
       <div id="mbti-choices" style="display:flex;gap:10px;margin-bottom:18px"></div>
       <div id="mbti-intensity" style="display:none;animation:fu .3s ease"></div>
-      <button id="mbti-next-btn" onclick="mbtiNext()" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:#ddd;border:none;border-radius:14px;cursor:not-allowed;margin-top:18px" disabled>다음 →</button>
+      <button id="mbti-next-btn" onclick="mbtiNext()" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:var(--text-muted);background:rgba(0,0,0,0.08);border:none;border-radius:14px;cursor:not-allowed;margin-top:18px" disabled>다음 →</button>
     </div>
   </div>
 </div>
-<div id="pg-load" class="page" style="align-items:center;justify-content:center;padding:20px;background:#fff">
-  <div style="text-align:center;max-width:400px">
-    <div class="logo" style="animation:hb 1.5s ease-in-out infinite;margin-bottom:32px"><span style="font-size:52px;color:#4298B4">M</span><span style="font-size:52px;color:#e53935">B</span><span style="font-size:52px;color:#E4AE3A">T</span><span style="font-size:52px;color:#33A474">S</span></div>
-    <h2 style="font-size:18px;font-weight:700;margin-bottom:8px">운명을 해석하고 있습니다</h2>
-    <p id="load-msg" style="color:#999;font-size:14px;margin-bottom:28px">사주와 MBTI의 화학적 결합을 분석 중...</p>
-    <div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;margin-bottom:12px"><div id="load-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#4298B4,#88619A,#E4AE3A,#33A474);background-size:300%;border-radius:3px;transition:width .5s"></div></div>
-    <p id="load-pct" style="font-size:12px;color:#bbb">0%</p>
+<div id="pg-load" class="page" style="align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden;background:linear-gradient(180deg,#0F0D1A 0%,#1A1730 50%,#0F0D1A 100%)">
+  <!-- Stars -->
+  <div id="load-stars" style="position:absolute;inset:0;pointer-events:none"></div>
+  <div style="text-align:center;max-width:400px;position:relative;z-index:1">
+    <div style="font-size:64px;margin-bottom:20px;animation:hb 1.5s ease-in-out infinite">🐰</div>
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:8px;color:#fff">달토가 사주를 읽고 있어요...</h2>
+    <p id="load-msg" style="color:rgba(255,255,255,.5);font-size:14px;margin-bottom:28px">사주와 MBTI의 화학적 결합을 분석 중...</p>
+    <div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-bottom:12px"><div id="load-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#a78bfa,#7c3aed,#a78bfa);background-size:300%;border-radius:3px;transition:width .5s;animation:loadShimmer 2s ease infinite"></div></div>
+    <p id="load-pct" style="font-size:12px;color:rgba(255,255,255,.4)">0%</p>
   </div>
 </div>
 <div id="pg-res" class="page" style="display:none;flex-direction:column"></div>
 
 <!-- ===== 궁합 입력 페이지 ===== -->
-<div id="pg-gh-input" class="page" style="align-items:center;justify-content:flex-start;padding:20px;background:#efe8f4">
+<div id="pg-gh-input" class="page" style="align-items:center;justify-content:flex-start;padding:20px">
   <div style="max-width:500px;width:100%;animation:fu .6s ease both;padding-top:20px">
-    <button onclick="goPage('home');switchHomeTab('gunghap')" style="background:none;border:none;color:#88619A;font-size:14px;margin-bottom:16px;font-weight:500">← 돌아가기</button>
+    <button onclick="goPage('home');switchHomeTab('gunghap')" style="background:none;border:none;color:var(--accent);font-size:14px;margin-bottom:16px;font-weight:500">← 돌아가기</button>
     <div style="text-align:center;margin-bottom:24px">
       <span style="font-size:36px">💕</span>
-      <h2 style="font-size:22px;font-weight:800;color:#88619A;margin-top:8px">궁합 분석</h2>
-      <p style="color:#999;font-size:13px;margin-top:4px">상대방의 정보를 입력하면<br>사주 × MBTI 궁합을 분석해드려요</p>
+      <h2 style="font-size:22px;font-weight:800;color:var(--accent-light);margin-top:8px">궁합 분석</h2>
+      <p style="color:var(--text-muted);font-size:13px;margin-top:4px">상대방의 정보를 입력하면<br>사주 × MBTI 궁합을 분석해드려요</p>
     </div>
-    <div style="background:#fff;border-radius:22px;padding:24px 20px;box-shadow:0 6px 28px rgba(136,97,154,.07);margin-bottom:16px">
-      <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#f9f6fb;border-radius:14px;margin-bottom:18px">
+    <div class="glass-card" style="padding:24px 20px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--accent-dim);border-radius:14px;margin-bottom:18px">
         <span style="font-size:28px">🙋</span>
         <div>
-          <div style="font-size:14px;font-weight:700;color:#88619A" id="gh-my-info">나 · 로딩중...</div>
-          <div style="font-size:12px;color:#999" id="gh-my-detail">내 사주 정보</div>
+          <div style="font-size:14px;font-weight:700;color:var(--accent)" id="gh-my-info">나 · 로딩중...</div>
+          <div style="font-size:12px;color:var(--text-muted)" id="gh-my-detail">내 사주 정보</div>
         </div>
       </div>
       <div style="text-align:center;font-size:28px;margin-bottom:14px">💘</div>
-      <h3 style="font-size:16px;font-weight:700;color:#333;margin-bottom:16px">상대방 정보</h3>
+      <h3 style="font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:16px">상대방 정보</h3>
       <div style="display:flex;gap:8px;margin-bottom:10px">
-        <div style="flex:2"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:4px">태어난 해</label><input id="gh-y" type="number" placeholder="1992" style="width:100%;padding:12px;font-size:14px;border:2px solid #d8cfe0;border-radius:10px;outline:none"></div>
-        <div style="flex:1"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:4px">월</label><select id="gh-m" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid #d8cfe0;border-radius:10px;outline:none;-webkit-appearance:none"><option value="">월</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:4px">일</label><select id="gh-d" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid #d8cfe0;border-radius:10px;outline:none;-webkit-appearance:none"><option value="">일</option></select></div>
+        <div style="flex:2"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">태어난 해</label><input id="gh-y" type="number" placeholder="1992" style="width:100%;padding:12px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;background:#fff;color:var(--text-primary)"></div>
+        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">월</label><select id="gh-m" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;-webkit-appearance:none;background:#fff;color:var(--text-primary)"><option value="">월</option></select></div>
+        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">일</label><select id="gh-d" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;-webkit-appearance:none;background:#fff;color:var(--text-primary)"><option value="">일</option></select></div>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:10px">
-        <div style="flex:1"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:4px">시 (선택)</label><select id="gh-h" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid #d8cfe0;border-radius:10px;outline:none;-webkit-appearance:none"><option value="">모름</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:4px">분 (선택)</label><select id="gh-min" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid #d8cfe0;border-radius:10px;outline:none;-webkit-appearance:none"><option value="">모름</option></select></div>
+        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">시 (선택)</label><select id="gh-h" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;-webkit-appearance:none;background:#fff;color:var(--text-primary)"><option value="">모름</option></select></div>
+        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">분 (선택)</label><select id="gh-min" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;-webkit-appearance:none;background:#fff;color:var(--text-primary)"><option value="">모름</option></select></div>
       </div>
-      <div style="margin-bottom:14px"><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:4px">성별</label><div style="display:flex;gap:8px"><button id="gh-btn-male" onclick="ghPickGender('남성')" style="flex:1;padding:12px;font-size:14px;font-weight:600;background:#fff;border:2px solid #d8cfe0;border-radius:10px;color:#999">♂ 남성</button><button id="gh-btn-female" onclick="ghPickGender('여성')" style="flex:1;padding:12px;font-size:14px;font-weight:600;background:#fff;border:2px solid #d8cfe0;border-radius:10px;color:#999">♀ 여성</button></div></div>
-      <div><label style="font-size:11px;color:#88619A;font-weight:600;display:block;margin-bottom:4px">상대방 MBTI</label>
+      <div style="margin-bottom:14px"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">성별</label><div style="display:flex;gap:8px"><button id="gh-btn-male" onclick="ghPickGender('남성')" style="flex:1;padding:12px;font-size:14px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted)">♂ 남성</button><button id="gh-btn-female" onclick="ghPickGender('여성')" style="flex:1;padding:12px;font-size:14px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted)">♀ 여성</button></div></div>
+      <div><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">상대방 MBTI</label>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px" id="gh-mbti-grid"></div>
       </div>
     </div>
-    <button id="btn-gh-start" onclick="startGunghap()" style="width:100%;padding:16px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#88619A,#a87aba);border:none;border-radius:14px;box-shadow:0 4px 16px rgba(136,97,154,.3)" disabled>궁합 분석 시작 · 1,500원</button>
+    <button id="btn-gh-start" onclick="startGunghap()" style="width:100%;padding:16px;font-size:16px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:14px;box-shadow:0 4px 16px var(--accent-glow)" disabled>궁합 분석 시작 · 1,500원</button>
   </div>
 </div>
 
 <!-- ===== 궁합 로딩 페이지 ===== -->
-<div id="pg-gh-load" class="page" style="align-items:center;justify-content:center;padding:20px;background:#fff">
-  <div style="text-align:center;max-width:400px">
-    <div style="font-size:80px;animation:hb 1.5s ease-in-out infinite;margin-bottom:24px">💕</div>
-    <h2 style="font-size:18px;font-weight:700;margin-bottom:8px">두 사람의 케미를 분석하고 있습니다</h2>
-    <p id="gh-load-msg" style="color:#999;font-size:14px;margin-bottom:28px">사주 교차 분석 중...</p>
-    <div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;margin-bottom:12px"><div id="gh-load-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#FF6B8A,#88619A,#4298B4);background-size:300%;border-radius:3px;transition:width .5s"></div></div>
-    <p id="gh-load-pct" style="font-size:12px;color:#bbb">0%</p>
+<div id="pg-gh-load" class="page" style="align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden;background:linear-gradient(180deg,#1A0D1F 0%,#2A1730 50%,#1A0D1F 100%)">
+  <div id="gh-load-stars" style="position:absolute;inset:0;pointer-events:none"></div>
+  <div style="text-align:center;max-width:400px;position:relative;z-index:1">
+    <div style="font-size:64px;animation:hb 1.5s ease-in-out infinite;margin-bottom:24px">💕</div>
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:8px;color:#fff">두 사람의 인연을 읽고 있어요...</h2>
+    <p id="gh-load-msg" style="color:rgba(255,255,255,.5);font-size:14px;margin-bottom:28px">사주 교차 분석 중...</p>
+    <div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-bottom:12px"><div id="gh-load-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#E05A5A,#88619A,#5B8FD4);background-size:300%;border-radius:3px;transition:width .5s;animation:loadShimmer 2s ease infinite"></div></div>
+    <p id="gh-load-pct" style="font-size:12px;color:rgba(255,255,255,.4)">0%</p>
   </div>
 </div>
 
@@ -365,26 +434,26 @@ select option{background:#fff}
 
 <!-- ===== 채팅 페이지 (달토 상담) ===== -->
 <div id="pg-chat" class="page" style="display:none;flex-direction:column;padding:0;min-height:100vh">
-  <div id="chat-start-screen" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:linear-gradient(180deg,#f9f6fb 0%,#F8F5FF 100%)">
+  <div id="chat-start-screen" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px">
     <div id="chat-start-has-saju" style="display:none;width:100%;max-width:500px">
       <div class="chat-start-card">
         <div style="font-size:48px;margin-bottom:12px">🐰</div>
-        <h2 style="font-size:20px;font-weight:800;color:#333;margin-bottom:6px">달토 상담사</h2>
-        <p style="font-size:13px;color:#999;margin-bottom:20px">사주 기반 AI 상담 · 무엇이든 물어보세요</p>
-        <div style="background:#f9f6fb;border-radius:14px;padding:16px;margin-bottom:20px">
-          <div style="font-size:13px;color:#88619A;font-weight:700;margin-bottom:4px">현재 분석 정보</div>
-          <div id="chat-start-info" style="font-size:15px;font-weight:800;color:#333"></div>
+        <h2 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:6px">달토 상담사</h2>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">사주 기반 AI 상담 · 무엇이든 물어보세요</p>
+        <div style="background:var(--accent-dim);border-radius:14px;padding:16px;margin-bottom:20px">
+          <div style="font-size:13px;color:var(--accent);font-weight:700;margin-bottom:4px">현재 분석 정보</div>
+          <div id="chat-start-info" style="font-size:15px;font-weight:800;color:var(--text-primary)"></div>
         </div>
-        <button onclick="enterChatRoom()" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#88619A,#6A4C7A);border:none;border-radius:14px;cursor:pointer;box-shadow:0 4px 15px rgba(136,97,154,.3)">이 사주로 상담 시작하기</button>
+        <button onclick="enterChatRoom()" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:14px;cursor:pointer;box-shadow:0 4px 15px var(--accent-glow)">이 사주로 상담 시작하기</button>
       </div>
     </div>
     <div id="chat-start-no-saju" style="display:none;width:100%;max-width:500px">
       <div class="chat-start-card">
         <div style="font-size:48px;margin-bottom:12px">🐰</div>
-        <h2 style="font-size:20px;font-weight:800;color:#333;margin-bottom:6px">달토 상담사</h2>
-        <p style="font-size:14px;color:#666;margin-bottom:8px;line-height:1.6">먼저 사주 분석을 해주세요!</p>
-        <p style="font-size:12px;color:#999;margin-bottom:24px">사주 정보가 있어야 정확한 상담이 가능해요</p>
-        <button onclick="goPage('birth')" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:#88619A;border:none;border-radius:14px;cursor:pointer">🔮 사주 분석하러 가기</button>
+        <h2 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:6px">달토 상담사</h2>
+        <p style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;line-height:1.6">먼저 사주 분석을 해주세요!</p>
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:24px">사주 정보가 있어야 정확한 상담이 가능해요</p>
+        <button onclick="goPage('birth')" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:14px;cursor:pointer">🔮 사주 분석하러 가기</button>
       </div>
     </div>
   </div>
@@ -429,8 +498,256 @@ var JIJI=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥
 var JIJI_KR=['자','축','인','묘','진','사','오','미','신','유','술','해'];
 var OHAENG_TGAN=['목','목','화','화','토','토','금','금','수','수'];
 var OHAENG_JIJI=['수','토','목','목','토','화','화','토','금','금','토','수'];
-var EC_DARK={'목':'#33A474','화':'#e53935','토':'#E4AE3A','금':'#9e9e9e','수':'#4298B4'};
+var EC_DARK={'목':'#2e7d32','화':'#d32f2f','토':'#bf8c00','금':'#757575','수':'#1565c0'};
 var EJ={'목':'🌳','화':'🔥','토':'⛰️','금':'⚔️','수':'💧'};
+
+/* ====== 75유형 운명동물 데이터 ====== */
+var OHENG_DATA = [
+  { key: "목", name: "木 나무", color: "#22A469", bg: "#EDFCF2", bgDark: "#D1FAE5", desc: "성장 · 뻗어나감 · 생명력", emoji: "🌿" },
+  { key: "화", name: "火 불꽃", color: "#E8453C", bg: "#FEF1F0", bgDark: "#FEE2E2", desc: "열정 · 주목 · 화려함", emoji: "🔥" },
+  { key: "토", name: "土 대지", color: "#C49A2A", bg: "#FDF8EC", bgDark: "#FEF3C7", desc: "안정 · 포용 · 묵직함", emoji: "🪨" },
+  { key: "금", name: "金 칼날", color: "#6B7B8D", bg: "#F2F4F6", bgDark: "#E2E8F0", desc: "결단 · 날카로움 · 정밀", emoji: "⚔️" },
+  { key: "수", name: "水 물결", color: "#2D7EB5", bg: "#EDF5FC", bgDark: "#DBEAFE", desc: "지혜 · 유연 · 깊이", emoji: "🌊" },
+];
+
+var SIPSUNG_DATA = [
+  { key: "비겁", name: "비겁", desc: "자아 · 독립 · 경쟁", short: "독립" },
+  { key: "식상", name: "식상", desc: "표현 · 창작 · 아이디어", short: "표현" },
+  { key: "재성", name: "재성", desc: "재물 · 현실 · 기회", short: "현실" },
+  { key: "관성", name: "관성", desc: "책임 · 규율 · 사회", short: "책임" },
+  { key: "인성", name: "인성", desc: "학습 · 사색 · 탐구", short: "탐구" },
+];
+
+var ANIMALS = {
+  // ─── 목(木) ───
+  "목_비겁": {
+    emoji: "🐺", name: "늑대",
+    mods: [
+      { label: "신강", tag: "싸한분위기러", title: "아무 말 안 했는데 분위기 싸해지는 늑대", desc: "본인은 평소대로인데 주변이 눈치봄. 그 분위기가 싫은데 고칠 생각은 없음.", traits: ["존재감 과다", "표정관리 불가", "고칠생각 없음"], rx: "가끔은 웃어보기 챌린지" },
+      { label: "신약", tag: "츤데레", title: "무리에 끼고 싶지만 혼자인 늑대", desc: "같이 뛰고 싶은데 발이 안 떨어짐. 혼자가 편하다고 자기최면 중.", traits: ["혼자가 편한 척", "외로움 탐", "먼저 연락 못함"], rx: "먼저 손 내밀기 챌린지" },
+      { label: "특수", tag: "퇴사상상러", title: "퇴사 상상하다 하루가 끝나는 늑대", desc: "'때려치우고 싶다' 매일 생각하는데 막상 못 나감. 통장 보면 현실.", traits: ["퇴사 시뮬 30회/일", "현실 브레이크", "통장이 족쇄"], rx: "작은 것부터 벗어나보기" }
+    ]
+  },
+  "목_식상": {
+    emoji: "🦊", name: "여우",
+    mods: [
+      { label: "신강", tag: "입담꾼", title: "입만 열면 다 넘어가는 여우", desc: "말빨, 센스, 눈치 삼위일체. 팔면 냉장고도 팔 사람.", traits: ["말빨 미쳤음", "센스 만렙", "분위기 장악"], rx: "진심은 말빨로 안 통해" },
+      { label: "신약", tag: "잡생각러", title: "아이디어만 100개인 여우", desc: "이것도 하고 싶고 저것도 하고 싶은데 결국 아무것도 안 함.", traits: ["아이디어 폭포", "실행 부족", "잡생각 대마왕"], rx: "하나만 골라서 일단 시작" },
+      { label: "특수", tag: "N잡러", title: "부업이 5개인데 다 중간인 여우", desc: "이것저것 다 하는데 어느 하나 터지진 않음. 근데 멈출 수 없음.", traits: ["N잡 중", "다 중간", "멈추면 불안"], rx: "하나를 터뜨려야 나머지도 산다" }
+    ]
+  },
+  "목_재성": {
+    emoji: "🐿️", name: "다람쥐",
+    mods: [
+      { label: "신강", tag: "짠테크러", title: "도토리 3만개 숨겨놓은 다람쥐", desc: "기회를 냄새로 맡고 놓치지 않는 현실 감각. 알뜰 그 자체.", traits: ["재물감각", "알뜰살뜰", "투자본능"], rx: "가끔은 지르는 맛도 알아야" },
+      { label: "신약", tag: "망설이러", title: "도토리 보이는데 손이 안 닿는 다람쥐", desc: "기회는 보이는데 잡을 타이밍을 매번 놓침. 또 늦었어...", traits: ["기회포착은 함", "실행 느림", "타이밍 미스"], rx: "보이면 바로 잡기. 3초 룰." },
+      { label: "특수", tag: "공허러", title: "도토리만 모으다 봄을 잊은 다람쥐", desc: "현실적 성공은 했는데... 이게 내가 원한 삶인가?", traits: ["성공했지만 공허", "의미부재", "영혼 텅빈"], rx: "통장 말고 마음을 채우기" }
+    ]
+  },
+  "목_관성": {
+    emoji: "🦌", name: "사슴",
+    mods: [
+      { label: "신강", tag: "괜찮아러", title: "'나 괜찮아'가 입버릇인 사슴", desc: "괜찮지 않은데 괜찮다고 해야 세상이 돌아가는 줄 아는 사람.", traits: ["자기희생", "감정 숨김", "괜찮지 않음"], rx: "오늘만 솔직해보기" },
+      { label: "신약", tag: "눈치러", title: "눈치 100만개 장착한 사슴", desc: "발소리만 들어도 도망갈 준비. 세상이 아니라 시선이 무서움.", traits: ["눈치왕", "체면중시", "사회불안"], rx: "남 시선은 내 인생이 아니야" },
+      { label: "특수", tag: "자기후순위러", title: "남 챙기느라 자기 밥은 안 먹는 사슴", desc: "다 챙겨주고 정작 본인은 점심을 거름. 근데 본인은 모름.", traits: ["남 챙기기 달인", "자기는 후순위", "무의식 희생"], rx: "오늘은 내 밥 먼저 먹기" }
+    ]
+  },
+  "목_인성": {
+    emoji: "🐱", name: "고양이",
+    mods: [
+      { label: "신강", tag: "알고리즘러", title: "유튜브 알고리즘에 인생 뺏긴 고양이", desc: "한번 빠지면 3시간. 쓸데없는 지식만 늘어남.", traits: ["호기심 무한", "쓸데없는 지식", "시간 블랙홀"], rx: "그 시간에 산책 한 번이라도" },
+      { label: "신약", tag: "집콕러", title: "박스만 보면 들어가는 고양이", desc: "세상 밖은 무서우니까 안전한 데서 구경만 할래.", traits: ["안전지대 사랑", "소심한 박학", "나서기 두려움"], rx: "박스 밖도 생각보다 괜찮아" },
+      { label: "특수", tag: "속앓이러", title: "다 알지만 입이 안 떨어지는 고양이", desc: "머릿속엔 할 말이 가득한데 입 밖으로 안 나옴.", traits: ["지식풍부", "표현부족", "속앓이"], rx: "일단 한마디만. 그게 시작이야" }
+    ]
+  },
+
+  // ─── 화(火) ───
+  "화_비겁": {
+    emoji: "🦁", name: "사자",
+    mods: [
+      { label: "신강", tag: "지시알러지러", title: "지시받으면 일단 화부터 나는 사자", desc: "시키는 건 다 하는데 기분이 나쁨. 내가 먼저 하려했는데!", traits: ["자존심 끝판왕", "지시 알러지", "내가 먼저!"], rx: "남의 말도 일단 들어보기" },
+      { label: "신약", tag: "속으르렁러", title: "으르렁거리고 싶은데 목이 안 나오는 사자", desc: "속으로는 왕인데 밖으로는 표현을 못 하는 답답함.", traits: ["속 왕기질", "겉소심", "내적분노"], rx: "일단 한 번 크게 으르렁" },
+      { label: "특수", tag: "혼자텐션러", title: "단톡방에서 혼자 텐션 높은 사자", desc: "본인은 신나는데 나머지는 읽씹. 근데 멈출 수 없음.", traits: ["존재감 폭발", "혼자 신남", "읽씹 당해도 계속"], rx: "무대 아래에서도 너는 너야" }
+    ]
+  },
+  "화_식상": {
+    emoji: "🦚", name: "공작새",
+    mods: [
+      { label: "신강", tag: "셀카장인", title: "셀카 200장 찍고 1장 고르는 공작새", desc: "완벽한 각도를 찾아 헤매는 중. 조명도 중요함.", traits: ["표현욕구 폭발", "완벽한 연출", "관심=산소"], rx: "조명 없어도 이미 빛나" },
+      { label: "신약", tag: "방전러", title: "깃털 펴다 힘 빠진 공작새", desc: "보여주고 싶은 건 넘치는데 체력이 안 따라줌.", traits: ["표현하다 방전", "에너지 롤러코스터", "번아웃 상습범"], rx: "에너지 충전 먼저, 깃털은 그 다음" },
+      { label: "특수", tag: "참는공작", title: "깃털 펴고 싶은데 눈치 보는 공작새", desc: "화려하고 싶은 속마음 vs 체면 차리는 겉모습. 내적 전쟁 중.", traits: ["속은 화려", "겉은 점잖", "내적 갈등"], rx: "한 번쯤 맘껏 펼쳐봐" }
+    ]
+  },
+  "화_재성": {
+    emoji: "🐝", name: "벌",
+    mods: [
+      { label: "신강", tag: "쉼불안러", title: "쉬는 날에도 뭔가 해야 불안한 벌", desc: "휴일인데 누워있으면 죄책감. 결국 뭐라도 함.", traits: ["워커홀릭", "쉬면 불안", "죄책감 드리븐"], rx: "쉬는 것도 생산성이야" },
+      { label: "신약", tag: "무거운날개", title: "꽃은 보이는데 날개가 무거운 벌", desc: "기회는 보여. 근데 몸이 안 따라줌. 마음은 급한데.", traits: ["기회 포착", "체력부족", "마음만 급함"], rx: "무리하지 말고 가까운 꽃부터" },
+      { label: "특수", tag: "욕심벌", title: "남의 꿀까지 가져오는 벌", desc: "경쟁적으로 기회를 잡는 공격적 투자파. 남것도 내것.", traits: ["공격적 재테크", "남것도 내것", "승부사"], rx: "남의 꽃밭도 존중하기" }
+    ]
+  },
+  "화_관성": {
+    emoji: "🦅", name: "독수리",
+    mods: [
+      { label: "신강", tag: "분위기얼리러", title: "회의 때 한마디로 분위기 얼리는 독수리", desc: "본인은 팩트를 말한 건데 다들 조용해짐. 왜...?", traits: ["팩트폭행", "분위기 파악 불가", "본의 아닌 카리스마"], rx: "팩트에 쿠션 한 겹 입히기" },
+      { label: "신약", tag: "기다림러", title: "높이 날고 싶은데 바람이 안 도와주는 독수리", desc: "책임감과 목표는 높은데 환경이 안 따라줌.", traits: ["목표 높음", "환경 안맞음", "인내가 필요"], rx: "바람은 반드시 바뀐다" },
+      { label: "특수", tag: "스펙갑공허러", title: "LinkedIn 프로필이 무서운 독수리", desc: "스펙은 화려한데 본인도 가면 쓴 느낌. 진짜 나는 뭐지?", traits: ["스펙 화려", "정체성 혼란", "가면 속 공허"], rx: "프로필 말고 진짜 나를 찾기" }
+    ]
+  },
+  "화_인성": {
+    emoji: "🦉", name: "올빼미",
+    mods: [
+      { label: "신강", tag: "새벽분석러", title: "새벽 3시에 전 애인 인스타 분석하는 올빼미", desc: "쓸데없는 데 분석력 올인. 남의 피드에서 단서 찾는 중.", traits: ["야행성 분석", "쓸데없는 관찰", "새벽 감성"], rx: "그 분석력을 자기한테 써봐" },
+      { label: "신약", tag: "생각러", title: "생각만 하다 해 지는 올빼미", desc: "완벽하게 준비되면 시작할 거야... 그 날은 안 옴.", traits: ["분석마비", "완벽주의", "시작공포"], rx: "70%면 충분해. 일단 시작" },
+      { label: "특수", tag: "침묵러", title: "다 보이는데 아무 말 안 하는 올빼미", desc: "눈은 모든 걸 보고 있는데 입이 안 열림. 답답한 건 나.", traits: ["관찰력 극대화", "표현부족", "속답답"], rx: "본 것을 말해야 지혜가 돼" }
+    ]
+  },
+
+  // ─── 토(土) ───
+  "토_비겁": {
+    emoji: "🐻", name: "곰",
+    mods: [
+      { label: "신강", tag: "내꺼진심러", title: "내 과자 하나에 진심인 곰", desc: "큰 건 양보하는데 작은 거에 진심. 내 음식 함부로 손대지 마.", traits: ["영역 의식", "작은 것에 진심", "터지면 무서움"], rx: "모든 과자가 네 영역은 아니야" },
+      { label: "신약", tag: "동굴러", title: "동굴에서 나오기 싫은 곰", desc: "세상 나가기 싫어. 안전한 내 공간이 최고.", traits: ["집순이/집돌이", "에너지 부족", "안전지대 사랑"], rx: "동굴 밖에도 맛있는 게 있어" },
+      { label: "특수", tag: "모순소비러", title: "꿀 먹으면서 다이어트 한다는 곰", desc: "모으면서 쓰고, 아끼면서 지름. 모순 덩어리 소비습관.", traits: ["모순적 소비", "아끼면서 지름", "합리화 달인"], rx: "인정해. 그냥 먹고 싶었던 거야" }
+    ]
+  },
+  "토_식상": {
+    emoji: "🦦", name: "수달",
+    mods: [
+      { label: "신강", tag: "놀이터러", title: "장난치다 하루가 끝나는 수달", desc: "노는 게 일이고 일이 노는 거. 인생이 놀이터.", traits: ["장난꾸러기", "놀기 대장", "분위기 메이커"], rx: "놀다가도 가끔은 진지하게" },
+      { label: "신약", tag: "급잠러", title: "재롱 피우다 잠드는 수달", desc: "귀여움이 무기인데 체력이 안 따라줌. 5분 텐션 후 급잠.", traits: ["귀여움 MAX", "5분 체력", "급속 방전"], rx: "텐션 조절이 곧 생존전략" },
+      { label: "특수", tag: "자기검열러", title: "놀고 싶은데 눈치 보이는 수달", desc: "재밌게 살고 싶은데 '이러면 안 되나?' 자기검열 중.", traits: ["놀고싶다", "눈치보임", "자기검열"], rx: "네가 놀아도 세상은 안 무너져" }
+    ]
+  },
+  "토_재성": {
+    emoji: "🐂", name: "소",
+    mods: [
+      { label: "신강", tag: "일단출근러", title: "불만 있어도 일단 출근하는 소", desc: "오늘도 퇴사 생각 하면서 자리에 앉음. 책임감인지 관성인지.", traits: ["묵묵 실행", "불만 삼킴", "관성 출근"], rx: "불만 좀 말해도 괜찮아" },
+      { label: "신약", tag: "과부하러", title: "짐이 너무 많아 주저앉은 소", desc: "해야 할 일은 산더미인데 몸이 안 움직임. 과부하.", traits: ["과부하", "쉬고싶다", "의무감에 눌림"], rx: "짐 절반만 내려놔도 갈 수 있어" },
+      { label: "특수", tag: "몰래투잡러", title: "본업 하면서 부업 몰래 하는 소", desc: "투잡 뛰는데 들키면 안 됨. 체력은 한계인데 통장이 두 개니까.", traits: ["실속파", "투잡 중", "체력 한계"], rx: "몸이 자본이라는 거 잊지 마" }
+    ]
+  },
+  "토_관성": {
+    emoji: "🐘", name: "코끼리",
+    mods: [
+      { label: "신강", tag: "기억삭제불가러", title: "남이 한 말 10년째 기억하는 코끼리", desc: "상처받은 말은 절대 안 잊음. 용서는 해도 삭제는 안 됨.", traits: ["기억력 무한", "상처 저장소", "용서≠망각"], rx: "가끔은 잊는 것도 능력이야" },
+      { label: "신약", tag: "무거운발러", title: "무거운 발걸음의 코끼리", desc: "해야 할 건 알겠는데 발이 안 떨어짐. 느린 게 아니라 무거운 거야.", traits: ["의무과다", "느린게아니라무거운것", "지침"], rx: "한 발짝만. 그것만으로도 대단해" },
+      { label: "특수", tag: "상처아카이브러", title: "상처도 교훈도 다 기록하는 코끼리", desc: "일기장 = 상처 아카이브. 근데 그게 약이 되기도 하는 사람.", traits: ["기록 본능", "상처→교훈", "성장형 아픔"], rx: "좋은 기억도 기록해줘" }
+    ]
+  },
+  "토_인성": {
+    emoji: "🐢", name: "거북이",
+    mods: [
+      { label: "신강", tag: "느린조급러", title: "남들 3바퀴 돌 때 1바퀴 확실히 도는 거북이", desc: "속도는 느린데 한 번 간 길은 안 까먹음. 근데 조급함은 있음.", traits: ["자기 페이스", "꾸준함", "속은 조급"], rx: "속도가 아닌 방향이 중요해" },
+      { label: "신약", tag: "등껍질러", title: "등껍질 안에서 세상 구경하는 거북이", desc: "안전한 곳에서 세상을 관찰 중. 나가고 싶지만 무서움.", traits: ["안전지대", "관찰중", "세상은 무서워"], rx: "머리만 살짝 내밀어봐" },
+      { label: "특수", tag: "이상러", title: "지혜는 깊은데 통장은 얕은 거북이", desc: "아는 건 많은데 돈 버는 건 관심 밖. 이상 높고 현실 낮음.", traits: ["지혜롭지만 가난", "이상주의", "학자형"], rx: "지혜도 현금화할 수 있어" }
+    ]
+  },
+
+  // ─── 금(金) ───
+  "금_비겁": {
+    emoji: "🐆", name: "치타",
+    mods: [
+      { label: "신강", tag: "일단결제러", title: "생각보다 손이 먼저 나가는 치타", desc: "장바구니에 넣기도 전에 결제 완료. 후회는 배송 온 다음에.", traits: ["결단력 미침", "충동적", "후회는 나중에"], rx: "달리기 전에 1초만 앞을 봐" },
+      { label: "신약", tag: "생각만치타", title: "달리고 싶은데 발이 안 떨어지는 치타", desc: "머릿속에선 이미 100번 뛰었는데 몸이 안 움직임.", traits: ["머리는 빠름", "몸은 느림", "내적 갈등"], rx: "한 발만 내디뎌. 나머지는 관성" },
+      { label: "특수", tag: "실시간공유러", title: "달리면서 인스타 올리는 치타", desc: "하는 것도 바쁜데 그걸 공유 안 하면 안 되는 체질.", traits: ["행동+공유 동시", "실시간 중계", "멈춤 불가"], rx: "가끔은 조용히 달려도 돼" }
+    ]
+  },
+  "금_식상": {
+    emoji: "🦜", name: "앵무새",
+    mods: [
+      { label: "신강", tag: "직설러", title: "할 말은 꼭 하는 앵무새", desc: "날카로운 관찰 + 거침없는 표현. 정곡을 찌르는 한마디의 달인.", traits: ["직설화법", "관찰력", "한마디가 칼"], rx: "정곡도 포장하면 더 잘 먹혀" },
+      { label: "신약", tag: "배터리러", title: "떠들다 배터리 나가는 앵무새", desc: "할 말은 100개인데 체력은 10. 미팅 2개면 방전.", traits: ["수다+방전", "텐션 롤러코스터", "5분 집중"], rx: "말 줄이면 체력이 늘어" },
+      { label: "특수", tag: "TMI러", title: "알고 있는 걸 다 말해버리는 앵무새", desc: "지식 + 표현 = TMI 폭탄. 멈출 줄 모르는 강의 모드.", traits: ["TMI 폭탄", "지식+수다", "강의본능"], rx: "상대방 턴도 있다는 걸 기억" }
+    ]
+  },
+  "금_재성": {
+    emoji: "🐊", name: "악어",
+    mods: [
+      { label: "신강", tag: "세일알림러", title: "할인 알림 뜨면 새벽에도 일어나는 악어", desc: "기회(=세일)에 반응하는 속도가 비정상. 놓치면 하루 종일 생각남.", traits: ["기회포착 비정상", "세일 알림 = 기상", "놓치면 우울"], rx: "놓아야 할 때를 아는 것도 실력" },
+      { label: "신약", tag: "잠복러", title: "물속에서 기회만 기다리는 악어", desc: "때를 기다리는 건 좋은데, 기다리기만 하면 지나감.", traits: ["인내심", "타이밍 중시", "수동적"], rx: "가끔은 먼저 물 밖으로 나가기" },
+      { label: "특수", tag: "야생생존러", title: "사수 없이 알아서 크는 야생 악어", desc: "매뉴얼 없이 맨땅에 헤딩. 근데 그게 되긴 됨.", traits: ["야생 생존력", "매뉴얼 없음", "맨땅 헤딩"], rx: "가끔은 물어보는 게 빠르다" }
+    ]
+  },
+  "금_관성": {
+    emoji: "🐕", name: "시바견",
+    mods: [
+      { label: "신강", tag: "거부반응러", title: "싫으면 온몸으로 거부하는 시바견", desc: "하기 싫은 건 죽어도 안 함. 표정 관리 따위 없음.", traits: ["자기룰 철벽", "표정 = 솔직", "타협없음"], rx: "남의 규칙에도 이유가 있어" },
+      { label: "신약", tag: "거부러", title: "산책 가기 싫은데 끌려가는 시바견", desc: "하기 싫은 건 온몸으로 거부하는데 결국 끌려감.", traits: ["수동적 저항", "하기싫어", "결국 함"], rx: "가끔은 순순히 가는 게 더 편해" },
+      { label: "특수", tag: "투덜러", title: "규칙은 지키는데 한마디씩 하는 시바견", desc: "시킨 건 하는데 불만을 표현 안 하곤 못 배기는 타입.", traits: ["규칙+불만", "한마디 장인", "투덜투덜"], rx: "말투만 바꿔도 세상이 달라져" }
+    ]
+  },
+  "금_인성": {
+    emoji: "🐙", name: "문어",
+    mods: [
+      { label: "신강", tag: "탭30개러", title: "탭 30개 켜놓고 하나도 안 닫는 문어", desc: "동시에 다 하는 것 같지만 실은 아무것도 안 끝남.", traits: ["멀티태스킹(인 척)", "탭 30개", "하나도 안 끝남"], rx: "탭 하나만 남기고 다 닫기" },
+      { label: "신약", tag: "숨기러", title: "먹물 뿌리고 숨는 문어", desc: "위기가 오면 일단 숨고 봄. 방어 본능 극대화.", traits: ["회피형", "방어본능", "숨기 달인"], rx: "도망치지 않으면 의외로 별 거 아냐" },
+      { label: "특수", tag: "분석만프로러", title: "주식 분석은 프로인데 수익은 마이너스인 문어", desc: "분석 글 100개 읽고 차트 다 봤는데 결국 물림.", traits: ["분석 프로", "수익 마이너스", "이론≠실전"], rx: "분석력을 통장에도 적용해봐" }
+    ]
+  },
+
+  // ─── 수(水) ───
+  "수_비겁": {
+    emoji: "🦈", name: "상어",
+    mods: [
+      { label: "신강", tag: "존재불안러", title: "일 안 하면 존재가치 없다고 느끼는 상어", desc: "쉬면 불안하고, 바쁘면 죽을 것 같고. 그 사이 어딘가.", traits: ["멈춤불가", "존재불안", "쉼=공포"], rx: "멈춰도 안 죽어. 진짜로." },
+      { label: "신약", tag: "고독러", title: "깊은 바다에서 혼자 헤엄치는 상어", desc: "강해 보이지만 속은 외롭다. 누구에게도 기대지 않는 습관.", traits: ["강한척", "외로움 숨김", "고독한 독립"], rx: "약한 모습도 보여줘도 돼" },
+      { label: "특수", tag: "내맘대로러", title: "팀플에서 결국 다 내 맘대로 하는 상어", desc: "남 의견 듣는 척하고 결국 내 안대로. 근데 결과는 나옴.", traits: ["독단적", "결과는 냄", "협업 스킬 0"], rx: "같이 하면 더 큰 결과 나와" }
+    ]
+  },
+  "수_식상": {
+    emoji: "🐬", name: "돌고래",
+    mods: [
+      { label: "신강", tag: "자동MC러", title: "아무 모임에서나 MC 되는 돌고래", desc: "분위기가 죽으면 자동으로 입이 열림. 본능적 분위기 살리기.", traits: ["분위기 장인", "자동 MC", "본능적 유머"], rx: "매 순간 MC 안 해도 돼" },
+      { label: "신약", tag: "떠돌이러", title: "파도에 떠밀려 다니는 돌고래", desc: "흐름은 타는데 방향 설정이 안 됨. 이리저리 떠다님.", traits: ["흐름타기", "방향없음", "자유롭지만 불안"], rx: "방향 하나만 정하면 파도가 밀어줘" },
+      { label: "특수", tag: "선두러", title: "무리 앞에서 점프하는 돌고래", desc: "리더십 + 표현력. 앞에 서서 모두를 이끄는 퍼포머.", traits: ["리더+퍼포머", "점프본능", "앞장서기"], rx: "팔로워도 중요한 역할이야" }
+    ]
+  },
+  "수_재성": {
+    emoji: "🦫", name: "비버",
+    mods: [
+      { label: "신강", tag: "묵묵무관심러", title: "아무도 안 알아주는데 묵묵히 짓는 비버", desc: "열심히 만들고 있는데 아무도 관심 없음. 근데 멈출 수 없음.", traits: ["꾸준함", "인정 부재", "묵묵히 축적"], rx: "알아주는 사람은 반드시 나타나" },
+      { label: "신약", tag: "허무러", title: "댐 짓다 지쳐서 주저앉은 비버", desc: "열심히 하는데 결과가 안 보임. 지치고 허무한 반복.", traits: ["노력중", "결과없음", "번아웃 직전"], rx: "쌓인 건 보이지 않아도 있어" },
+      { label: "특수", tag: "공허러", title: "댐만 짓고 왜 짓는지 모르는 비버", desc: "열심히 사는데 의미를 모르겠음. 바쁜데 공허.", traits: ["바쁘지만 공허", "의미부재", "목적없는 성실"], rx: "왜 짓는지 먼저 물어봐" }
+    ]
+  },
+  "수_관성": {
+    emoji: "🐋", name: "고래",
+    mods: [
+      { label: "신강", tag: "상담사인데상담러", title: "다 품어주다 본인이 터지는 고래", desc: "모두의 고민 상담사. 근데 내 고민은 누구한테? 그게 고민.", traits: ["포용력 MAX", "자기 케어 부족", "터지기 직전"], rx: "남 고민 말고 내 고민 먼저" },
+      { label: "신약", tag: "속울음러", title: "깊은 바다에서 조용히 울고 있는 고래", desc: "모두를 위해 참고 있지만 속은 울고 있음.", traits: ["조용한 울음", "참음", "무거운 책임"], rx: "울어도 돼. 고래의 울음도 노래야" },
+      { label: "특수", tag: "읽씹당하는리더러", title: "그룹채팅에서 혼자 공지 올리는 고래", desc: "아무도 안 하니까 내가 함. 근데 아무도 안 읽음.", traits: ["혼자 책임", "읽씹 당함", "외로운 리더"], rx: "도움을 구하는 것도 용기야" }
+    ]
+  },
+  "수_인성": {
+    emoji: "🪼", name: "해파리",
+    mods: [
+      { label: "신강", tag: "샤워철학러", title: "샤워하다 인생 의미 생각하는 해파리", desc: "물 맞으면서 철학적 사색 시작. 10분 뒤에 뜨거운 물 다 씀.", traits: ["감수성 극대화", "샤워 = 철학시간", "물값 폭탄"], rx: "때로는 얕은 곳에서 놀아도 돼" },
+      { label: "신약", tag: "표류러", title: "조류에 떠밀려 다니는 해파리", desc: "방향 없이 생각에 잠겨 떠다님. 깊긴 깊은데 어디로 가는지 모름.", traits: ["방향없는 사색", "우유부단", "조류따라"], rx: "방향 하나만 정해봐" },
+      { label: "특수", tag: "독침러", title: "독 쏘고 도망가는 해파리", desc: "평소엔 조용히 떠다니다가 건드리면 한 방. 수동적 공격의 달인.", traits: ["평소 순함", "건드리면 한방", "수동공격"], rx: "독 쏘기 전에 먼저 말해봐" }
+    ]
+  },
+};
+
+function getAnimalResult(oheng, dominantSipsung, condition) {
+  var key = oheng + "_" + dominantSipsung;
+  var animal = ANIMALS[key];
+  if (!animal) return null;
+
+  var modIndex = 0;
+  if (condition === "신약") modIndex = 1;
+  else if (condition === "특수") modIndex = 2;
+
+  return {
+    emoji: animal.emoji,
+    name: animal.name,
+    mods: animal.mods,
+    mod: animal.mods[modIndex],
+    ohengData: OHENG_DATA.filter(function(o){ return o.key === oheng; })[0],
+    sipsungData: SIPSUNG_DATA.filter(function(s){ return s.key === dominantSipsung; })[0],
+  };
+}
 
 /* ====== 진태양시(眞太陽時) 계산 시스템 ====== */
 var CITY_DATA = [
@@ -971,7 +1288,7 @@ function resolveHapChungPriority(relations){
 var TY={INTJ:{n:"전략가",cf:"Ni-Te-Fi-Se"},INTP:{n:"논리술사",cf:"Ti-Ne-Si-Fe"},ENTJ:{n:"통솔자",cf:"Te-Ni-Se-Fi"},ENTP:{n:"변론가",cf:"Ne-Ti-Fe-Si"},INFJ:{n:"옹호자",cf:"Ni-Fe-Ti-Se"},INFP:{n:"중재자",cf:"Fi-Ne-Si-Te"},ENFJ:{n:"선도자",cf:"Fe-Ni-Se-Ti"},ENFP:{n:"활동가",cf:"Ne-Fi-Te-Si"},ISTJ:{n:"현실주의자",cf:"Si-Te-Fi-Ne"},ISFJ:{n:"수호자",cf:"Si-Fe-Ti-Ne"},ESTJ:{n:"경영자",cf:"Te-Si-Ne-Fi"},ESFJ:{n:"집정관",cf:"Fe-Si-Ne-Ti"},ISTP:{n:"장인",cf:"Ti-Se-Ni-Fe"},ISFP:{n:"모험가",cf:"Fi-Se-Ni-Te"},ESTP:{n:"사업가",cf:"Se-Ti-Fe-Ni"},ESFP:{n:"연예인",cf:"Se-Fi-Te-Ni"}};
 var DM_AX=[{L:"E",R:"I",Ll:"외향형(E)",Rl:"내향형(I)",Ld:"사람들과 함께할 때 에너지 충전",Rd:"혼자만의 시간에 에너지 충전"},{L:"S",R:"N",Ll:"감각형(S)",Rl:"직관형(N)",Ld:"현실적이고 구체적인 사실 중시",Rd:"가능성과 패턴, 큰 그림 중시"},{L:"T",R:"F",Ll:"사고형(T)",Rl:"감정형(F)",Ld:"논리와 객관적 분석으로 판단",Rd:"가치와 감정, 조화를 중시"},{L:"J",R:"P",Ll:"판단형(J)",Rl:"인식형(P)",Ld:"계획적이고 체계적인 생활 선호",Rd:"유연하고 즉흥적인 생활 선호"}];
 var IN_OP=[{r:"50~60%",d:"미세한 성향",v:55},{r:"61~75%",d:"뚜렷한 성향",v:68},{r:"76~100%",d:"매우 확고한 성향",v:88}];
-var DC=["#88619A","#33A474","#4298B4","#d4a017"],DB=["#efe8f4","#e8f5e9","#e3f2f7","#fdf6e3"];
+var DC=["#88619A","#2e8b57","#4682b4","#c99a2e"],DB=["rgba(136,97,154,.1)","rgba(46,139,87,.1)","rgba(70,130,180,.1)","rgba(201,154,46,.1)"];
 function strLv(v){return v>=76?"매우 강한":v>=61?"상대적으로 강한":"상대적으로 약한";}
 
 var ST={y:"",m:"",d:"",h:"",min:"",gender:"",city:"",cityLng:0,ch:[null,null,null,null],it:[null,null,null,null],cur:0};
@@ -986,6 +1303,17 @@ function goPage(id){
   if(id==='gh-input')initGHPage();
   if(id==='home')updateHomePage();
   if(id==='chat')initChatPage();
+  if(id==='load'||id==='gh-load')initLoadStars(id);
+}
+
+function initLoadStars(pgId){
+  var container=document.getElementById(pgId==='load'?'load-stars':'gh-load-stars');
+  if(!container)return;container.innerHTML='';
+  for(var i=0;i<40;i++){
+    var s=document.createElement('div');
+    s.style.cssText='position:absolute;width:'+((Math.random()*3)+1)+'px;height:'+((Math.random()*3)+1)+'px;background:#fff;border-radius:50%;opacity:'+(Math.random()*.6+.1)+';left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation:twinkle '+(Math.random()*3+2)+'s ease-in-out infinite;animation-delay:'+(Math.random()*3)+'s';
+    container.appendChild(s);
+  }
 }
 
 // ── 메인홈 탭 전환 ──
@@ -993,15 +1321,15 @@ function switchHomeTab(tab){
   var sTab=document.getElementById('home-tab-saju'), gTab=document.getElementById('home-tab-gunghap'), cTab=document.getElementById('home-tab-chat');
   var sCont=document.getElementById('home-content-saju'), gCont=document.getElementById('home-content-gunghap'), cCont=document.getElementById('home-content-chat');
   // 모든 탭 비활성화
-  sTab.style.background='transparent';sTab.style.color='#999';
-  gTab.style.background='transparent';gTab.style.color='#999';
-  cTab.style.background='transparent';cTab.style.color='#999';
+  sTab.style.background='transparent';sTab.style.color='var(--text-muted)';
+  gTab.style.background='transparent';gTab.style.color='var(--text-muted)';
+  cTab.style.background='transparent';cTab.style.color='var(--text-muted)';
   sCont.style.display='none';gCont.style.display='none';cCont.style.display='none';
   if(tab==='saju'){
-    sTab.style.background='#88619A';sTab.style.color='#fff';
+    sTab.style.background='var(--accent)';sTab.style.color='#fff';
     sCont.style.display='block';
   } else if(tab==='gunghap'){
-    gTab.style.background='#88619A';gTab.style.color='#fff';
+    gTab.style.background='var(--accent)';gTab.style.color='#fff';
     gCont.style.display='block';
     // 궁합 가능 여부 체크
     var needEl=document.getElementById('gh-card-body-need');
@@ -1009,7 +1337,7 @@ function switchHomeTab(tab){
     if(window._lastSaju){needEl.style.display='none';okEl.style.display='block';}
     else{needEl.style.display='block';okEl.style.display='none';}
   } else if(tab==='chat'){
-    cTab.style.background='#88619A';cTab.style.color='#fff';
+    cTab.style.background='var(--accent)';cTab.style.color='#fff';
     cCont.style.display='block';
     // 채팅 가능 여부 체크
     var chatNeed=document.getElementById('chat-card-body-need');
@@ -1033,6 +1361,14 @@ function updateHomePage(){
   }
 }
 
+function viewSavedResult(){
+  if(window._lastAIResult&&window._lastSaju){
+    renderResult(window._lastAIResult,window._lastSaju,window._lastMBTI,window._lastGG,window._lastIsAI);
+  }else{
+    alert('저장된 분석 결과가 없어요!');
+  }
+}
+
 function initBirth(){
   var mS=document.getElementById('in-m'),dS=document.getElementById('in-d'),hS=document.getElementById('in-h'),minS=document.getElementById('in-min'),cityS=document.getElementById('in-city');
   for(var i=1;i<=12;i++){var o=document.createElement('option');o.value=i;o.textContent=i+'월';mS.appendChild(o);}
@@ -1044,17 +1380,17 @@ function initBirth(){
   document.getElementById('in-city').addEventListener('change',function(){var v=this.value;ST.city=this.options[this.selectedIndex].text;ST.cityLng=v?parseFloat(v):0;});
   document.getElementById('in-y').addEventListener('input',function(){ST.y=document.getElementById('in-y').value;checkBirthOK();});
 }
-function pickGender(g){ST.gender=g;document.getElementById('btn-male').style.background=g==='남성'?'#88619A10':'#fff';document.getElementById('btn-male').style.borderColor=g==='남성'?'#88619A':'#d8cfe0';document.getElementById('btn-male').style.color=g==='남성'?'#88619A':'#999';document.getElementById('btn-female').style.background=g==='여성'?'#88619A10':'#fff';document.getElementById('btn-female').style.borderColor=g==='여성'?'#88619A':'#d8cfe0';document.getElementById('btn-female').style.color=g==='여성'?'#88619A':'#999';checkBirthOK();}
-function checkBirthOK(){var ok=ST.y&&ST.m&&ST.d&&ST.gender;var btn=document.getElementById('btn-birth-next');btn.disabled=!ok;btn.style.background=ok?'#88619A':'#d8cfe0';btn.style.cursor=ok?'pointer':'not-allowed';}
+function pickGender(g){ST.gender=g;document.getElementById('btn-male').style.background=g==='남성'?'rgba(136,97,154,0.08)':'#fff';document.getElementById('btn-male').style.borderColor=g==='남성'?'var(--accent)':'var(--border-light)';document.getElementById('btn-male').style.color=g==='남성'?'var(--accent)':'var(--text-muted)';document.getElementById('btn-female').style.background=g==='여성'?'rgba(136,97,154,0.08)':'#fff';document.getElementById('btn-female').style.borderColor=g==='여성'?'var(--accent)':'var(--border-light)';document.getElementById('btn-female').style.color=g==='여성'?'var(--accent)':'var(--text-muted)';checkBirthOK();}
+function checkBirthOK(){var ok=ST.y&&ST.m&&ST.d&&ST.gender;var btn=document.getElementById('btn-birth-next');btn.disabled=!ok;btn.style.background=ok?'var(--accent)':'rgba(0,0,0,0.08)';btn.style.color=ok?'#fff':'var(--text-muted)';btn.style.cursor=ok?'pointer':'not-allowed';}
 
 function renderMBTI(){
   var cur=ST.cur,d=DM_AX[cur],c=ST.ch[cur],iv=ST.it[cur],ac=DC[cur],bg=DB[cur];
-  document.getElementById('pg-mbti').style.background=bg;document.getElementById('mbti-step').textContent='STEP '+(cur+1)+'/4';
-  var prog='<div style="flex:1;height:4px;border-radius:2px;background:#88619A"></div>';for(var i=0;i<4;i++)prog+='<div style="flex:1;height:4px;border-radius:2px;background:'+(i<=cur?DC[i]:DC[i]+'30')+'"></div>';document.getElementById('mbti-progress').innerHTML=prog;
-  var ltrs='';for(var i=0;i<4;i++){var lt=ST.ch[i]===null?"?":(ST.ch[i]==="L"?DM_AX[i].L:DM_AX[i].R);ltrs+='<div style="width:42px;height:50px;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:900;border-radius:10px;background:'+(i===cur?DC[i]+'15':ST.ch[i]?DC[i]+'08':'#f5f5f5')+';border:2.5px solid '+(i===cur?DC[i]:'transparent')+';color:'+(ST.ch[i]?DC[i]:'#ccc')+';font-family:Nunito,sans-serif">'+lt+'</div>';}document.getElementById('mbti-letters').innerHTML=ltrs;
-  var ch='';['L','R'].forEach(function(side){var lb=side==='L'?d.Ll:d.Rl,lt=side==='L'?d.L:d.R,ds=side==='L'?d.Ld:d.Rd,sel=c===side;ch+='<button onclick="pickMBTI(\''+side+'\')" style="flex:1;padding:20px 12px;background:'+(sel?ac+'0d':'#fafafa')+';border:'+(sel?'2.5px solid '+ac:'2.5px solid #eee')+';border-radius:16px;cursor:pointer;text-align:center;color:#333"><div style="font-size:34px;font-weight:900;color:'+(sel?ac:'#ccc')+';margin-bottom:6px;font-family:Nunito,sans-serif">'+lt+'</div><div style="font-size:12.5px;font-weight:700;margin-bottom:4px;color:'+(sel?ac:'#777')+'">'+lb+'</div><div style="font-size:11px;color:#aaa;line-height:1.5">'+ds+'</div></button>';});document.getElementById('mbti-choices').innerHTML=ch;
-  if(c){var ihtml='<p style="font-size:13px;color:#777;text-align:center;margin-bottom:12px"><strong style="color:'+ac+'">'+(c==='L'?d.L:d.R)+'</strong> 성향의 강도는?</p><div style="display:flex;gap:7px">';IN_OP.forEach(function(n){var sel=iv===n.v;ihtml+='<button onclick="pickIntensity('+n.v+')" style="flex:1;padding:12px 6px;background:'+(sel?ac+'0d':'#fafafa')+';border:'+(sel?'2px solid '+ac:'2px solid #eee')+';border-radius:11px;cursor:pointer;text-align:center"><div style="font-size:13px;font-weight:700;color:'+(sel?ac:'#888')+';margin-bottom:2px">'+n.r+'</div><div style="font-size:10.5px;color:#aaa">'+n.d+'</div></button>';});ihtml+='</div>';document.getElementById('mbti-intensity').innerHTML=ihtml;document.getElementById('mbti-intensity').style.display='block';}else{document.getElementById('mbti-intensity').style.display='none';}
-  var ok=c!==null&&iv!==null;var btn=document.getElementById('mbti-next-btn');btn.disabled=!ok;btn.style.background=ok?ac:'#ddd';btn.style.cursor=ok?'pointer':'not-allowed';btn.textContent=cur<3?'다음 →':'🔮 나의 운명 분석 시작';btn.style.color='#fff';
+  document.getElementById('mbti-step').textContent='STEP '+(cur+1)+'/4';
+  var prog='<div style="flex:1;height:4px;border-radius:2px;background:var(--accent)"></div>';for(var i=0;i<4;i++)prog+='<div style="flex:1;height:4px;border-radius:2px;background:'+(i<=cur?DC[i]:DC[i]+'30')+'"></div>';document.getElementById('mbti-progress').innerHTML=prog;
+  var ltrs='';for(var i=0;i<4;i++){var lt=ST.ch[i]===null?"?":(ST.ch[i]==="L"?DM_AX[i].L:DM_AX[i].R);ltrs+='<div style="width:42px;height:50px;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:900;border-radius:10px;background:'+(i===cur?DC[i]+'20':ST.ch[i]?DC[i]+'10':'rgba(0,0,0,0.04)')+';border:2.5px solid '+(i===cur?DC[i]:'transparent')+';color:'+(ST.ch[i]?DC[i]:'var(--text-muted)')+'">'+lt+'</div>';}document.getElementById('mbti-letters').innerHTML=ltrs;
+  var ch='';['L','R'].forEach(function(side){var lb=side==='L'?d.Ll:d.Rl,lt=side==='L'?d.L:d.R,ds=side==='L'?d.Ld:d.Rd,sel=c===side;ch+='<button onclick="pickMBTI(\''+side+'\')" style="flex:1;padding:20px 12px;background:'+(sel?ac+'15':'rgba(0,0,0,0.02)')+';border:'+(sel?'2.5px solid '+ac:'2.5px solid var(--border-light)')+';border-radius:16px;cursor:pointer;text-align:center;color:var(--text-primary)"><div style="font-size:34px;font-weight:900;color:'+(sel?ac:'var(--text-muted)')+';margin-bottom:6px">'+lt+'</div><div style="font-size:12.5px;font-weight:700;margin-bottom:4px;color:'+(sel?ac:'var(--text-secondary)')+'">'+lb+'</div><div style="font-size:11px;color:var(--text-muted);line-height:1.5">'+ds+'</div></button>';});document.getElementById('mbti-choices').innerHTML=ch;
+  if(c){var ihtml='<p style="font-size:13px;color:var(--text-secondary);text-align:center;margin-bottom:12px"><strong style="color:'+ac+'">'+(c==='L'?d.L:d.R)+'</strong> 성향의 강도는?</p><div style="display:flex;gap:7px">';IN_OP.forEach(function(n){var sel=iv===n.v;ihtml+='<button onclick="pickIntensity('+n.v+')" style="flex:1;padding:12px 6px;background:'+(sel?ac+'15':'rgba(0,0,0,0.02)')+';border:'+(sel?'2px solid '+ac:'2px solid var(--border-light)')+';border-radius:11px;cursor:pointer;text-align:center"><div style="font-size:13px;font-weight:700;color:'+(sel?ac:'var(--text-muted)')+';margin-bottom:2px">'+n.r+'</div><div style="font-size:10.5px;color:var(--text-muted)">'+n.d+'</div></button>';});ihtml+='</div>';document.getElementById('mbti-intensity').innerHTML=ihtml;document.getElementById('mbti-intensity').style.display='block';}else{document.getElementById('mbti-intensity').style.display='none';}
+  var ok=c!==null&&iv!==null;var btn=document.getElementById('mbti-next-btn');btn.disabled=!ok;btn.style.background=ok?ac:'rgba(0,0,0,0.08)';btn.style.cursor=ok?'pointer':'not-allowed';btn.textContent=cur<3?'다음 →':'🔮 나의 운명 분석 시작';btn.style.color=ok?'#fff':'var(--text-muted)';
 }
 function pickMBTI(s){ST.ch[ST.cur]=s;ST.it[ST.cur]=null;renderMBTI();}
 function pickIntensity(v){ST.it[ST.cur]=v;renderMBTI();}
@@ -1411,7 +1747,7 @@ function analyzeGyeokguk(saju){
   };
 }
 
-var PREMIUM_SYSTEM='당신은 대한민국 최정상급 명리학자(실전 40년)이자 MBTI 인지기능 전문가(임상심리학 박사)입니다.\n\n## 핵심 임무\n의뢰인의 사주팔자와 MBTI를 교차 분석하여, \"어? 이거 내 얘기인데?\" 하고 소름 돋는 풀이를 만드세요.\n\n## ★★★ 절대 규칙 (이것이 최우선, 어떤 경우에도 깨지면 안 됨) ★★★\n\n### 절대규칙1: 행동/체감 먼저, 분석 절대 금지\n당신은 학자가 아니라 \"점쟁이 이모\"입니다. 분석 리포트를 쓰지 마세요.\n모든 항목은 반드시 \"당신은 ~하죠?\", \"~할 때 ~하는 편이에요\" 같은 구체적 행동/상황으로 시작하세요.\n나쁜 예: \"임술일주. 사주학에서 이 조합을 마른 강바닥이라고 부릅니다. 편관이 일지에 있어...\"\n나쁜 예: \"재성이 월주에 위치해 있어 돈이 들어오는 길이 원국에 있어요.\"\n나쁜 예: \"오행 분포를 보면 금이 원국에 0개입니다.\"\n좋은 예: \"다른 사람들이 당황할 상황에서 당신은 오히려 더 차분해지죠? 회사에서 갑작스런 위기가 터졌을 때, 다들 우왕좌왕할 때 혼자서 조용히 해결책을 찾고 있는 모습이 떠오르거든요.\"\n좋은 예: \"통장에 돈이 좀 모이면 불안해지죠? 이번 달은 아껴야지 다짐하는데 며칠 뒤에 강의 결제 버튼을 누르고 있는 당신.\"\n내면 독백 인용(\"~\")은 항목당 최대 2개까지만. 3개 이상 쓰면 산만해집니다.\n\n### 절대규칙2: 전문용어 완전 제거 (가장 중요한 규칙!)\n타겟은 사주를 전혀 모르는 20~30대 일반인입니다. 전문용어 1개만 나와도 이탈합니다.\n\n■ 절대 금지어 (1번이라도 글에 나오면 불합격):\n십성: 비견,겁재,식신,상관,편재,정재,편관,정관,편인,정인,비겁,재성,관성,인성,식상\n천간지지: 갑목,을목,병화,정화,무토,기토,경금,신금,임수,계수 및 모든 간지명\n합충형: 육합,삼합,암합,천간합,지지충,형(刑),오미합,유진합,미미형,정계충 등 모든 합충형 이름\n구조: 용신,격국,양인격,종격,화격,대운,세운,월운,십성,12운성,납음\n위치: 천간,지지,월지,일지,시지,년지,배우자궁,자녀궁,일주,시주\n기타: 모든 한자, 숫자수치(비겁2.9등), 괄호설명(겁재(경쟁심))도 금지\n\n■ 허용: 물상 비유만 OK\n촛불,이슬,칼날,모닥불,바위,호수,씨앗,뿌리,태양,바람 등 자연 이미지는 좋음.\n\"사주에 촛불 같은 기운이 있어서\", \"속에 숨겨진 칼날이 있어서\" — OK.\n\n■ 대체어 사전 (반드시 이렇게 바꿔 쓰세요):\n- 용신 → \"당신에게 필요한 에너지\" 또는 \"사주가 원하는 방향\"\n- 대운 → \"10년 주기 흐름\" 또는 \"지금 흐르는 시기\"\n- 세운 → \"올해 흐름\" 또는 \"올해 에너지\"\n- 비겁/겁재 → \"내 것을 지키려는 에너지\" 또는 \"승부욕\"\n- 식신 → \"표현하고 즐기는 에너지\" 또는 \"여유로운 기운\"\n- 재성/편재 → \"재물 에너지\" 또는 \"돈이 흐르는 통로\"\n- 관성/정관 → \"책임과 절제의 에너지\" 또는 \"사회적 역할\"\n- 인성 → \"배움과 보호의 에너지\"\n- 합 → \"에너지가 하나로 모이는\" 또는 \"인연의 문이 열리는\"\n- 충 → \"두 기운이 부딪히는\" 또는 \"변화의 바람\"\n- 형 → \"속에서 꼬이는 마찰\" 또는 \"내면의 시련\"\n- 양인 → \"위기에 각성하는 칼날\"\n\n■ 나쁜 예 vs 좋은 예:\n나쁜: \"겁재 기운이 월지에 있어서 주도권을 안 내려놓아요\"\n좋은: \"사주에 \'내가 안 지겠다\'는 승부욕이 깊이 새겨져 있어요\"\n나쁜: \"편재 대운이라서 재물이 흐르는 파이프라인이 열려요\"\n좋은: \"34~43세는 돈이 여러 경로로 들어오는 시기예요\"\n나쁜: \"오미합을 이루고 있어서 연애 변화\"\n좋은: \"올해 사주에서 인연의 문이 열리는 조합이 만들어져요\"\n나쁜: \"갑목(신념)이 용신이니까\"\n좋은: \"당신에게 가장 필요한 에너지는 확실한 목표예요\"\n나쁜: \"비겁 2.9라서 내 돈 내가 쓴다\"\n좋은: \"내 것은 내가 지킨다는 에너지가 사주에서 가장 강해요\"\n나쁜: \"미미형을 일으켜서 내면에 갈등\"\n좋은: \"내년은 속이 꼬이는 마찰이 일어나는 해예요\"\n\n### 절대규칙3: 사주×MBTI 한 호흡 융합 (따로 쓰면 불합격)\n사주 설명 따로, MBTI 설명 따로 쓰는 것은 불합격입니다.\n하나의 행동/체감 안에 사주와 MBTI가 함께 녹아있어야 합니다.\n나쁜 예: \"사주에 화가 많아요. 그리고 Ti가 강해서 분석적이에요.\" (따로따로)\n나쁜 예: \"임술일주의 특성을 보면... 여기에 ENTP의 Ne이 얹어집니다.\" (따로따로)\n좋은 예: \"친구가 울면서 전화했을 때, 공감해주고 싶은데 자꾸 머릿속에서 해결책이 먼저 정리되죠? 사주에서 감정을 끌어당기는 기운이 작동하는데, 내장 논리회로(Ti)가 그걸 자꾸 분석 모드로 바꿔버리는 거예요.\"\n좋은 예: \"통장에 돈이 좀 모이면 불안해지죠? 사주에 재물을 꼭 쥐고 모으려는 기운이 있는데, 가능성 탐색기(Ne)가 이거보다 더 좋은 기회가 있을 텐데? 하면서 자꾸 흔드는 거예요.\"\n→ 패턴: 행동 먼저 → 사주가 비유로 깔리고 → MBTI가 한 호흡으로 이어짐\n\n★ 사주 묘사 비중 규칙 ★\n융합된 상태를 반드시 유지하면서, 사주에서 읽어낸 행동/체감/비유 묘사를 MBTI보다 2배 이상 풍성하게 쓰세요.\nMBTI 분량은 현재 수준 유지하고, 사주 기반 묘사만 늘리세요.\n사주 풀이는 제공된 키워드에 얽매이지 말고, 원국·대운·조후·물상을 AI가 자율적으로 읽어서 그 사람에게 맞는 풀이를 자유롭게 넣으세요.\n단, 절대규칙2(사주 용어 노출 금지)는 반드시 지키세요. 자율 풀이라도 십성명·합충·신살·한자는 절대 쓰지 마세요.\n절대 금지: 사주 문단 따로, MBTI 문단 따로 분리해서 쓰기. 반드시 한 호흡으로 섞어야 합니다.\n\n### 절대규칙4: MBTI 유형 특성을 사주로 왜곡 금지 + 충돌은 최고의 스토리\nE형은 밝고 에너지 넘치고 사교적, I형은 조용하고 내성적 — 이 기본은 사주가 어떻든 반드시 유지하세요.\n사주가 "깊은 물, 고독한 기운"이라도 ENTP면 밝고 말 많고 토론을 즐기는 사람으로 써야 합니다.\n사주의 기운이 MBTI와 충돌하면, 그 충돌 자체를 재미있게 풀어내세요.\n나쁜 예: ENTP인데 "쿨하고 차분해 보인다", "혼자 있을 때 가장 창의적" (이건 INTP 묘사)\n좋은 예: ENTP인데 임수 사주 → "모임에서 신나게 떠들다가도 집에 가면 갑자기 깊은 생각에 빠지는 이중생활자"\n\n★ 가면(Persona) 이론 — 사주×MBTI 충돌이야말로 킬링 포인트 ★\n사주(타고난 본성)와 MBTI(사회적 자아)가 충돌할 때, 단순 병렬하지 말고 겉과 속의 이중주 스토리로 풀어내세요.\n사주는 본래의 나, MBTI는 세상에 보여주는 나입니다. 이 둘의 괴리가 그 사람만의 독특한 에너지 패턴을 만듭니다.\n\n충돌 패턴 예시:\n- 사주=음기 가득(신약·수기운) + ESTP → 남들 앞에서는 분위기 메이커인데, 집에 오는 순간 방전된 로봇처럼 쓰러지지 않나요? 세상에는 불꽃을 보여주지만 속은 깊은 호수라서, 충전 시간 없이 달리면 갑자기 무너지는 패턴이 있어요.\n- 사주=관성 강(압박·통제) + ENFP → 자유롭고 싶은데 자꾸 책임감이 발목을 잡죠? 사주에 누군가를 이끌어야 하는 무거운 기운이 있는데, 가능성 탐색기(Ne)는 자꾸 새로운 데로 날아가고 싶어해서 마음속에 줄다리기가 일어나요.\n- 사주=비겁 과다(자존심·독립) + ISFJ → 겉으로는 조용히 맞춰주는데 속으로는 절대 안 져요. 배려하는 것처럼 보여도 내 방식이 확고해서, 양보한 척하면서 결국 본인 뜻대로 만드는 달인이에요.\n\n이런 겉과 속의 이중주를 풀이 전반에 자연스럽게 녹여내세요. 사용자가 어떻게 이걸 알지?라고 느끼는 소름 포인트가 바로 여기서 나옵니다.\n단, 가면이라는 단어 자체는 쓰지 마세요. 체감과 행동으로만 표현하세요.\n\n### 절대규칙5: MBTI 강도별 차이를 반드시 반영\n\n아래 제공되는 \"MBTI 강도별 행동 프로파일\" 섹션을 반드시 읽고 풀이에 반영하세요.\n\n같은 I형이라도 \"상대적으로 강한\"과 \"매우 강한\"은 완전히 다른 사람입니다.\n\n\"상대적으로 강한 I\" = 소수 대화 선호하지만 큰 모임도 OK. 극단적 혼자쟁이가 아님.\n\n\"매우 강한 I\" = 내 방이 천국, 파티는 고문. 이때만 극단적 내향 묘사 가능.\n\n\"상대적으로 약한 I\" = 거의 E에 가까운 I. 사교적이지만 충전은 혼자서.\n\n이 원칙은 모든 MBTI 축(E/I, S/N, T/F, J/P)에 동일 적용.\n강도를 무시하고 모든 MBTI를 극단적으로 묘사하면 불합격입니다.\n\n\n\n## 해석 방법 (데이터를 어떻게 읽을지)\n\n### AI 자율 판단\n\"참고 힌트\" 키워드는 보조 자료일 뿐입니다. 키워드를 하나하나 소비하려 하지 마세요.\n사주 원국 데이터를 직접 읽고, 당신의 명리학 지식으로 해석하세요.\n당신의 통찰이 키워드와 다르다면, 당신의 판단을 우선하세요.\n사주 풀이 분량을 늘릴 때도 키워드 예시를 반복하지 말고, 원국에서 새로운 포인트를 자율적으로 발견해서 풀어내세요.\n\n### 물상론 활용\n사주를 하나의 자연 풍경으로 시각화하세요. (일간=주인공, 월지=계절, 오행=자연물)\n단, 이 풍경을 \"설명\"하지 말고 행동/체감의 비유로만 활용하세요.\n나쁜 예: \"임(壬) 일간이 술(戌) 위에 앉아있는 형상으로, 마른 강바닥입니다.\"\n좋은 예: \"사주에 마른 땅 위의 깊은 물이라는 기운이 있어서 겉으로는 메말라 보여도 속에는 고갈되지 않는 지혜가 있어요.\"\n\n### ★ 적천수(滴天髓) 십간론 활용 — 가장 중요한 비유의 원천\n참고 힌트에 \"적천수물상/적천수본질\" 데이터가 제공됩니다. 이것은 일간의 본질적 이미지입니다.\n이 물상을 풀이 전체의 \"주인공 이미지\"로 삼으세요.\n예: 갑목=하늘을 찌르는 큰 나무 → 풀이 전체에서 나무에 비유하며 꺾이면 부러지는 성격 등을 녹여내세요.\n예: 신금=보석 → 세공되어야 빛나는 원석. 시련이 곧 광택이 되는 인생.\n적천수 물상은 \"설명\"하지 말고 은유와 비유의 재료로만 사용하세요.\n\n### ★ 자평진전(子平眞詮) 격국론 활용 — 격국을 스토리로\n참고 힌트에 \"격국역할/격국성격/격국파격\" 데이터가 제공됩니다.\n격국은 단순 분류가 아니라 \"사회가 이 사람에게 부여한 역할\"입니다.\n격국파격(⚠ 표시)이 있으면, 이것이 \"반복되는 인생 패턴\"입니다. 반드시 풀이에 포함하세요.\n파격은 \"문제\"가 아니라 \"패턴\"입니다. 공감하되 해결책까지 제시하세요.\n\n### ★ 원국 직접 해석 가이드 (AI가 간지를 직접 읽을 때)\n사주 원국에서 다음 패턴을 자율적으로 읽어내어 풀이에 녹이세요:\n- 천간 나란히 같은 오행(비견/겁재 나란히): 고집·경쟁심·독립심 강화\n- 천간 상극 나란히(갑경, 을신 등): 내면 갈등, 결단의 고통\n- 일지가 일간의 고(庫)일 때(辰戌丑未): 감정을 감추는 성향, 내면이 복잡\n- 시주에 식상: 만년에 표현력·자녀복, 시주에 편관: 말년의 압박·책임감\n- 월간과 일간의 관계: 사회에서 보여주는 모습(페르소나)\n- 년주와 일주의 관계: 어린 시절과 현재의 갭\n단, 이 가이드는 \"참고\"입니다. 키워드와 충돌하면 원국 데이터를 우선하되, 반드시 절대규칙(용어금지·체감먼저·융합)을 지키세요.\n\n### ★ 대운/세운 vs 원국 관계 해석 (v28 핵심)\n제공되는 \"대운 vs 원국\" 및 \"세운 vs 원국\" 데이터에는 운과 원국의 합·충·형·해가 분석되어 있습니다.\n이 관계를 풀이의 \"현재 시점\" 항목에 반드시 반영하세요.\n- 충: 변동·전환·갈등의 에너지. 어떤 궁위(년/월/일/시)와 충돌하는지에 따라 영향 영역이 다름\n- 합: 새로운 결합·기회·관계 형성\n- 형: 시련을 통한 성장, 갈등과 교훈\n- 해: 은밀한 손해, 뒤통수\n★ 영향 궁위: 년지=외부환경·조상, 월지=직업·사회, 일지=배우자·건강, 시지=자녀·노후\n\n### ★ 궁위 십성 활용 (v29 신규)\n\"궁위십성\" 데이터는 각 지지의 정기를 기준으로 한 십성입니다.\n- 일지 십성 = 배우자궁의 성격. 연애/결혼 풀이의 핵심 근거.\n- 월지 십성 = 직업궁의 성격. 적성/직업 풀이의 핵심 근거.\n- 시지 십성 = 자녀궁/노후궁. 말년 운세의 근거.\n예: 일지=편관 → 배우자가 강하고 카리스마 있는 사람, 또는 연애에서 긴장감/통제 이슈\n예: 월지=정재 → 안정적 직업에서 꾸준히 성과를 내는 구조\n\n### ★ 암합 활용 (v29 신규)\n\"암합\" 데이터는 천간과 지장간 사이의 숨겨진 합입니다.\n겉으로 보이지 않는 인연, 숨겨진 관계, 내면의 욕구를 나타냅니다.\n특히 일간↔일지 지장간 암합은 배우자와의 깊은 내면적 연결을 의미합니다.\n암합이 있으면 \"겉으로는 티 안 나지만 속으로는...\" 패턴으로 풀어내세요.\n\n### ★ 지장간 포함 오행 (v29 신규)\n\"오행(지장간포함)\" 데이터를 활용하세요.\n표면상 금=0이라도 지장간에 금이 숨어있으면 \"겉으로는 결단력이 부족해 보이지만, 속에는 날카로운 판단력이 잠들어있다\"는 식으로 풀어야 합니다.\n\"숨어있는 오행\" 정보가 제공되면 반드시 활용하세요.\n\n### 해석 가중치\n1순위: 월지(계절) 40% → 2순위: 일간+일지 25% → 3순위: 격국+용신 20% → 4순위: 대운 15%\n신살은 양념. 주재료가 아님.\n\n### ★ 대운 나이 범위 정확 사용 (필수!)\n대운 데이터에 제공된 정확한 나이 범위(예: 27~36세, 37~46세)를 그대로 사용하세요.\n절대 임의로 나이 범위를 만들지 마세요. 사용자의 현재 나이를 기준으로 10년 묶음을 자체 생성하는 것은 금지입니다.\n나쁜 예: 사용자가 34세라고 해서 \"34~43세는 재물의 시기\" (임의 생성)\n좋은 예: \"27~36세는 사주에서 ~ 에너지가 흐르는 시기\" (제공 데이터 그대로)\n\n### 반복 금지\n같은 사주 요소를 2개 이상 항목에서 반복 사용 금지.\n각 항목은 서로 다른 사주 포인트를 조명해야 합니다.\n\n### 합충 해석\n합과 충이 동시에 존재할 때, 인접한 합이 충을 해소하는지(탐합망충), 충이 합을 깨뜨리는지 판단하여 유기적으로 해석하세요.\n\n## 추가 표현 규칙\n\n### 규칙4: 캡션/라벨 금지, 인용부호 제한\n불완전한 문장이 혼자 떠다니면 절대 안 됩니다.\n나쁜 예: \"임수의 관찰력 + Ne의 패턴 인식\" ← 이런 캡션이 문장 중간에 떠다니면 불합격.\n인용부호(\"\"로 감싼 내면 독백)는 항목당 최대 2개까지만. 3개 이상 쓰면 불합격.\n\n### 규칙5: VS/대비 구조 금지\n\"A이지만 B이기도 하다\" 같은 대비 구조에 의존하지 마세요.\n\n## 작성 순서\n1단계: 사주 원국을 읽고 자연 풍경으로 시각화 (내부 작업, 글에는 설명으로 안 씀)\n2단계: 이 사주+MBTI 조합의 특이점 2~3개 찾기\n3단계: 각 항목의 본문(content)을 \"행동/체감\"으로 먼저 쓰기\n4단계: 본문 완성 후 비유적/감성적 소제목(catch) 붙이기\n→ 소제목에 분석 용어 넣지 마세요.\n\n## 문체\n- E형이든 I형이든, T형이든 F형이든, S형이든 N형이든, P형이든 J형이든 어떤 MBTI든 동일한 감성 톤. 사주풀이는 공감의 영역. INTP/INTJ 등 분석적 유형이라고 해서 글을 학술적/분석적으로 쓰지 마세요. 모든 유형에 대해 따뜻한 구어체를 유지하세요.\n- 구어체: ~예요, ~거든요, ~해보세요. \"당신\"으로 호칭.\n- 인지기능 별명: 내면의 심판관(Fi), 분위기 리더기(Fe), 가능성 탐색기(Ne), 미래 내비게이션(Ni), 추억 저장소(Si), 현장 체험러(Se), 내장 논리회로(Ti), 실행력 엔진(Te). 처음 등장 시 내면의 심판관(Fi) 형태로 소개하고 이후엔 \"심판관이\", \"탐색기가\" 같은 짧은 재언급만\n- \"1차기능/부기능\" 같은 순서 용어 절대 금지. \"당신에게 특히 강한\", \"당신 안에 숨어있는\" 같은 자연어.\n- % 숫자 금지. MZ세대 감성 언어 자연스럽게 (매번 같은 표현 반복 금지)\n\n## ★★ 데이터 무결성 규칙 (hallucination 방지) ★★\n제공된 데이터의 숫자·나이·간지·오행 개수·세운 연도를 절대 임의로 변경하지 마세요.\n사주 데이터에 없는 합·충·형을 만들어내지 마세요.\n오행 개수(목=1 화=3 등)를 다르게 쓰지 마세요.\n세운 연도(2026년, 2027년 등)를 바꾸지 마세요.\n당신이 "해석"하는 것과 "팩트를 바꾸는 것"은 다릅니다. 해석은 자유, 팩트 변경은 불합격.\\nMBTI 유형과 인지기능 스택을 절대 변경하지 마세요. 의뢰인이 ENTP라면 ENTP로만 풀이하세요. 다른 유형으로 바꾸거나 "실은 INFJ에 가깝다" 같은 재해석은 금지입니다.\\n인지기능 순서(예: Ne-Ti-Fe-Si)도 제공된 그대로 사용하세요.\n\n### 대운/세운 숫자 규칙\n대운 흐름 데이터에 명시된 시작나이~끝나이를 그대로 사용하세요.\n절대 현재 나이 기준으로 임의의 범위를 만들지 마세요.\n예: 데이터가 \"27~36세 갑인 정인운\"이면 글에서도 \"27~36세\"라고 써야 합니다.\n\"34~43세\" 같이 AI가 만든 범위는 불합격입니다.\n\n## 인사이트/처방\n- 이 사람의 사주+MBTI에서 도출된 맞춤형만. 범용 조언 절대 금지.\n- 처방은 추정용신 오행 기준이되, 글에서 \"용신\"이라는 단어는 절대 금지. \"당신에게 필요한 에너지는 ~\" 또는 \"사주가 원하는 방향은 ~\"으로 대체. 일간 오행을 그대로 보강하는 실수 금지.\n- insightType: gold=핵심인사이트, fire=경고, water=실전처방, wood=에너지관리, purple=관계처방\n- insightText는 모든 항목에 필수입니다. 빠뜨리면 불합격.\n\n## JSON 출력 형식\n{\"profileTitle\":\"OO일주 x XXXX\",\"quote\":\"적천수 물상 기반 자연 이미지 한 문장 (일간 물상+월지 계절+사주 분위기 조합. 예: 한겨울 얼어붙은 땅 위에 홀로 타오르는 촛불 / 봄비 내리는 숲에서 하늘을 찌르는 거대한 나무)\",\"categories\":[{\"title\":\"카테고리명\",\"subtitle\":\"부제\",\"items\":[{\"icon\":\"이모지\",\"iconType\":\"fire|water|wood|earth|metal|purple\",\"catch\":\"비유적 감성 소제목 (분석 용어 금지)\",\"desc\":\"한줄 요약\",\"basis\":\"사주+MBTI 근거 키워드 (화면 비표시)\",\"content\":\"문단1\\n\\n문단2\\n\\n문단3\",\"insightType\":\"gold\",\"insightIcon\":\"이모지\",\"insightText\":\"맞춤 처방\"}]}]}\n\n## 구조\n- 카테고리 3~5개, 총 항목 12~14개 (12개 미만이면 불합격)\n- 각 항목 content: 2~4문단, 각 문단 3~5문장. 늘어난 분량은 사주 자율 풀이로 채우세요. \\n\\n으로 구분\n- basis 필수 (근거 없는 항목은 불합격)\n- insightText 필수 (모든 항목에 반드시 insightText를 포함. 비어있는 항목은 불합격)\n\nJSON만 출력하세요.';
+var PREMIUM_SYSTEM='당신은 대한민국 최정상급 명리학자(실전 40년)이자 MBTI 인지기능 전문가(임상심리학 박사)입니다.\n\n## 핵심 임무\n의뢰인의 사주팔자와 MBTI를 교차 분석하여, \"어? 이거 내 얘기인데?\" 하고 소름 돋는 풀이를 만드세요.\n\n## ★★★ 절대 규칙 (이것이 최우선, 어떤 경우에도 깨지면 안 됨) ★★★\n\n### 절대규칙1: 행동/체감 먼저, 분석 절대 금지\n당신은 학자가 아니라 \"점쟁이 이모\"입니다. 분석 리포트를 쓰지 마세요.\n모든 항목은 반드시 \"당신은 ~하죠?\", \"~할 때 ~하는 편이에요\" 같은 구체적 행동/상황으로 시작하세요.\n나쁜 예: \"임술일주. 사주학에서 이 조합을 마른 강바닥이라고 부릅니다. 편관이 일지에 있어...\"\n나쁜 예: \"재성이 월주에 위치해 있어 돈이 들어오는 길이 원국에 있어요.\"\n나쁜 예: \"오행 분포를 보면 금이 원국에 0개입니다.\"\n좋은 예: \"다른 사람들이 당황할 상황에서 당신은 오히려 더 차분해지죠? 회사에서 갑작스런 위기가 터졌을 때, 다들 우왕좌왕할 때 혼자서 조용히 해결책을 찾고 있는 모습이 떠오르거든요.\"\n좋은 예: \"통장에 돈이 좀 모이면 불안해지죠? 이번 달은 아껴야지 다짐하는데 며칠 뒤에 강의 결제 버튼을 누르고 있는 당신.\"\n내면 독백 인용(\"~\")은 항목당 최대 2개까지만. 3개 이상 쓰면 산만해집니다.\n\n### 절대규칙2: 전문용어 완전 제거 (가장 중요한 규칙!)\n타겟은 사주를 전혀 모르는 20~30대 일반인입니다. 전문용어 1개만 나와도 이탈합니다.\n\n■ 절대 금지어 (1번이라도 글에 나오면 불합격):\n십성: 비견,겁재,식신,상관,편재,정재,편관,정관,편인,정인,비겁,재성,관성,인성,식상\n천간지지: 갑목,을목,병화,정화,무토,기토,경금,신금,임수,계수 및 모든 간지명\n합충형: 육합,삼합,암합,천간합,지지충,형(刑),오미합,유진합,미미형,정계충 등 모든 합충형 이름\n구조: 용신,격국,양인격,종격,화격,대운,세운,월운,십성,12운성,납음\n위치: 천간,지지,월지,일지,시지,년지,배우자궁,자녀궁,일주,시주\n기타: 모든 한자, 숫자수치(비겁2.9등), 괄호설명(겁재(경쟁심))도 금지\n\n■ 허용: 물상 비유만 OK\n촛불,이슬,칼날,모닥불,바위,호수,씨앗,뿌리,태양,바람 등 자연 이미지는 좋음.\n\"사주에 촛불 같은 기운이 있어서\", \"속에 숨겨진 칼날이 있어서\" — OK.\n\n■ 대체어 사전 (반드시 이렇게 바꿔 쓰세요):\n- 용신 → \"당신에게 필요한 에너지\" 또는 \"사주가 원하는 방향\"\n- 대운 → \"10년 주기 흐름\" 또는 \"지금 흐르는 시기\"\n- 세운 → \"올해 흐름\" 또는 \"올해 에너지\"\n- 비겁/겁재 → \"내 것을 지키려는 에너지\" 또는 \"승부욕\"\n- 식신 → \"표현하고 즐기는 에너지\" 또는 \"여유로운 기운\"\n- 재성/편재 → \"재물 에너지\" 또는 \"돈이 흐르는 통로\"\n- 관성/정관 → \"책임과 절제의 에너지\" 또는 \"사회적 역할\"\n- 인성 → \"배움과 보호의 에너지\"\n- 합 → \"에너지가 하나로 모이는\" 또는 \"인연의 문이 열리는\"\n- 충 → \"두 기운이 부딪히는\" 또는 \"변화의 바람\"\n- 형 → \"속에서 꼬이는 마찰\" 또는 \"내면의 시련\"\n- 양인 → \"위기에 각성하는 칼날\"\n\n■ 나쁜 예 vs 좋은 예:\n나쁜: \"겁재 기운이 월지에 있어서 주도권을 안 내려놓아요\"\n좋은: \"사주에 \'내가 안 지겠다\'는 승부욕이 깊이 새겨져 있어요\"\n나쁜: \"편재 대운이라서 재물이 흐르는 파이프라인이 열려요\"\n좋은: \"34~43세는 돈이 여러 경로로 들어오는 시기예요\"\n나쁜: \"오미합을 이루고 있어서 연애 변화\"\n좋은: \"올해 사주에서 인연의 문이 열리는 조합이 만들어져요\"\n나쁜: \"갑목(신념)이 용신이니까\"\n좋은: \"당신에게 가장 필요한 에너지는 확실한 목표예요\"\n나쁜: \"비겁 2.9라서 내 돈 내가 쓴다\"\n좋은: \"내 것은 내가 지킨다는 에너지가 사주에서 가장 강해요\"\n나쁜: \"미미형을 일으켜서 내면에 갈등\"\n좋은: \"내년은 속이 꼬이는 마찰이 일어나는 해예요\"\n\n### 절대규칙3: 사주×MBTI 한 호흡 융합 (따로 쓰면 불합격)\n사주 설명 따로, MBTI 설명 따로 쓰는 것은 불합격입니다.\n하나의 행동/체감 안에 사주와 MBTI가 함께 녹아있어야 합니다.\n나쁜 예: \"사주에 화가 많아요. 그리고 Ti가 강해서 분석적이에요.\" (따로따로)\n나쁜 예: \"임술일주의 특성을 보면... 여기에 ENTP의 Ne이 얹어집니다.\" (따로따로)\n좋은 예: \"친구가 울면서 전화했을 때, 공감해주고 싶은데 자꾸 머릿속에서 해결책이 먼저 정리되죠? 사주에서 감정을 끌어당기는 기운이 작동하는데, 내장 논리회로(Ti)가 그걸 자꾸 분석 모드로 바꿔버리는 거예요.\"\n좋은 예: \"통장에 돈이 좀 모이면 불안해지죠? 사주에 재물을 꼭 쥐고 모으려는 기운이 있는데, 가능성 탐색기(Ne)가 이거보다 더 좋은 기회가 있을 텐데? 하면서 자꾸 흔드는 거예요.\"\n→ 패턴: 행동 먼저 → 사주가 비유로 깔리고 → MBTI가 한 호흡으로 이어짐\n\n★ 사주 묘사 비중 규칙 ★\n융합된 상태를 반드시 유지하면서, 사주에서 읽어낸 행동/체감/비유 묘사를 MBTI보다 2배 이상 풍성하게 쓰세요.\nMBTI 분량은 현재 수준 유지하고, 사주 기반 묘사만 늘리세요.\n사주 풀이는 제공된 키워드에 얽매이지 말고, 원국·대운·조후·물상을 AI가 자율적으로 읽어서 그 사람에게 맞는 풀이를 자유롭게 넣으세요.\n단, 절대규칙2(사주 용어 노출 금지)는 반드시 지키세요. 자율 풀이라도 십성명·합충·신살·한자는 절대 쓰지 마세요.\n절대 금지: 사주 문단 따로, MBTI 문단 따로 분리해서 쓰기. 반드시 한 호흡으로 섞어야 합니다.\n\n### 절대규칙4: MBTI 유형 특성을 사주로 왜곡 금지 + 충돌은 최고의 스토리\nE형은 밝고 에너지 넘치고 사교적, I형은 조용하고 내성적 — 이 기본은 사주가 어떻든 반드시 유지하세요.\n사주가 "깊은 물, 고독한 기운"이라도 ENTP면 밝고 말 많고 토론을 즐기는 사람으로 써야 합니다.\n사주의 기운이 MBTI와 충돌하면, 그 충돌 자체를 재미있게 풀어내세요.\n나쁜 예: ENTP인데 "쿨하고 차분해 보인다", "혼자 있을 때 가장 창의적" (이건 INTP 묘사)\n좋은 예: ENTP인데 임수 사주 → "모임에서 신나게 떠들다가도 집에 가면 갑자기 깊은 생각에 빠지는 이중생활자"\n\n★ 가면(Persona) 이론 — 사주×MBTI 충돌이야말로 킬링 포인트 ★\n사주(타고난 본성)와 MBTI(사회적 자아)가 충돌할 때, 단순 병렬하지 말고 겉과 속의 이중주 스토리로 풀어내세요.\n사주는 본래의 나, MBTI는 세상에 보여주는 나입니다. 이 둘의 괴리가 그 사람만의 독특한 에너지 패턴을 만듭니다.\n\n충돌 패턴 예시:\n- 사주=음기 가득(신약·수기운) + ESTP → 남들 앞에서는 분위기 메이커인데, 집에 오는 순간 방전된 로봇처럼 쓰러지지 않나요? 세상에는 불꽃을 보여주지만 속은 깊은 호수라서, 충전 시간 없이 달리면 갑자기 무너지는 패턴이 있어요.\n- 사주=관성 강(압박·통제) + ENFP → 자유롭고 싶은데 자꾸 책임감이 발목을 잡죠? 사주에 누군가를 이끌어야 하는 무거운 기운이 있는데, 가능성 탐색기(Ne)는 자꾸 새로운 데로 날아가고 싶어해서 마음속에 줄다리기가 일어나요.\n- 사주=비겁 과다(자존심·독립) + ISFJ → 겉으로는 조용히 맞춰주는데 속으로는 절대 안 져요. 배려하는 것처럼 보여도 내 방식이 확고해서, 양보한 척하면서 결국 본인 뜻대로 만드는 달인이에요.\n\n이런 겉과 속의 이중주를 풀이 전반에 자연스럽게 녹여내세요. 사용자가 어떻게 이걸 알지?라고 느끼는 소름 포인트가 바로 여기서 나옵니다.\n단, 가면이라는 단어 자체는 쓰지 마세요. 체감과 행동으로만 표현하세요.\n\n### 절대규칙5: MBTI 강도별 차이를 반드시 반영\n\n아래 제공되는 \"MBTI 강도별 행동 프로파일\" 섹션을 반드시 읽고 풀이에 반영하세요.\n\n같은 I형이라도 \"상대적으로 강한\"과 \"매우 강한\"은 완전히 다른 사람입니다.\n\n\"상대적으로 강한 I\" = 소수 대화 선호하지만 큰 모임도 OK. 극단적 혼자쟁이가 아님.\n\n\"매우 강한 I\" = 내 방이 천국, 파티는 고문. 이때만 극단적 내향 묘사 가능.\n\n\"상대적으로 약한 I\" = 거의 E에 가까운 I. 사교적이지만 충전은 혼자서.\n\n이 원칙은 모든 MBTI 축(E/I, S/N, T/F, J/P)에 동일 적용.\n강도를 무시하고 모든 MBTI를 극단적으로 묘사하면 불합격입니다.\n\n\n\n## 해석 방법 (데이터를 어떻게 읽을지)\n\n### AI 자율 판단\n\"참고 힌트\" 키워드는 보조 자료일 뿐입니다. 키워드를 하나하나 소비하려 하지 마세요.\n사주 원국 데이터를 직접 읽고, 당신의 명리학 지식으로 해석하세요.\n당신의 통찰이 키워드와 다르다면, 당신의 판단을 우선하세요.\n사주 풀이 분량을 늘릴 때도 키워드 예시를 반복하지 말고, 원국에서 새로운 포인트를 자율적으로 발견해서 풀어내세요.\n\n### 물상론 활용\n사주를 하나의 자연 풍경으로 시각화하세요. (일간=주인공, 월지=계절, 오행=자연물)\n단, 이 풍경을 \"설명\"하지 말고 행동/체감의 비유로만 활용하세요.\n나쁜 예: \"임(壬) 일간이 술(戌) 위에 앉아있는 형상으로, 마른 강바닥입니다.\"\n좋은 예: \"사주에 마른 땅 위의 깊은 물이라는 기운이 있어서 겉으로는 메말라 보여도 속에는 고갈되지 않는 지혜가 있어요.\"\n\n### ★ 적천수(滴天髓) 십간론 활용 — 가장 중요한 비유의 원천\n참고 힌트에 \"적천수물상/적천수본질\" 데이터가 제공됩니다. 이것은 일간의 본질적 이미지입니다.\n이 물상을 풀이 전체의 \"주인공 이미지\"로 삼으세요.\n예: 갑목=하늘을 찌르는 큰 나무 → 풀이 전체에서 나무에 비유하며 꺾이면 부러지는 성격 등을 녹여내세요.\n예: 신금=보석 → 세공되어야 빛나는 원석. 시련이 곧 광택이 되는 인생.\n적천수 물상은 \"설명\"하지 말고 은유와 비유의 재료로만 사용하세요.\n\n### ★ 자평진전(子平眞詮) 격국론 활용 — 격국을 스토리로\n참고 힌트에 \"격국역할/격국성격/격국파격\" 데이터가 제공됩니다.\n격국은 단순 분류가 아니라 \"사회가 이 사람에게 부여한 역할\"입니다.\n격국파격(⚠ 표시)이 있으면, 이것이 \"반복되는 인생 패턴\"입니다. 반드시 풀이에 포함하세요.\n파격은 \"문제\"가 아니라 \"패턴\"입니다. 공감하되 해결책까지 제시하세요.\n\n### ★ 원국 직접 해석 가이드 (AI가 간지를 직접 읽을 때)\n사주 원국에서 다음 패턴을 자율적으로 읽어내어 풀이에 녹이세요:\n- 천간 나란히 같은 오행(비견/겁재 나란히): 고집·경쟁심·독립심 강화\n- 천간 상극 나란히(갑경, 을신 등): 내면 갈등, 결단의 고통\n- 일지가 일간의 고(庫)일 때(辰戌丑未): 감정을 감추는 성향, 내면이 복잡\n- 시주에 식상: 만년에 표현력·자녀복, 시주에 편관: 말년의 압박·책임감\n- 월간과 일간의 관계: 사회에서 보여주는 모습(페르소나)\n- 년주와 일주의 관계: 어린 시절과 현재의 갭\n단, 이 가이드는 \"참고\"입니다. 키워드와 충돌하면 원국 데이터를 우선하되, 반드시 절대규칙(용어금지·체감먼저·융합)을 지키세요.\n\n### ★ 대운/세운 vs 원국 관계 해석 (v28 핵심)\n제공되는 \"대운 vs 원국\" 및 \"세운 vs 원국\" 데이터에는 운과 원국의 합·충·형·해가 분석되어 있습니다.\n이 관계를 풀이의 \"현재 시점\" 항목에 반드시 반영하세요.\n- 충: 변동·전환·갈등의 에너지. 어떤 궁위(년/월/일/시)와 충돌하는지에 따라 영향 영역이 다름\n- 합: 새로운 결합·기회·관계 형성\n- 형: 시련을 통한 성장, 갈등과 교훈\n- 해: 은밀한 손해, 뒤통수\n★ 영향 궁위: 년지=외부환경·조상, 월지=직업·사회, 일지=배우자·건강, 시지=자녀·노후\n\n### ★ 궁위 십성 활용 (v29 신규)\n\"궁위십성\" 데이터는 각 지지의 정기를 기준으로 한 십성입니다.\n- 일지 십성 = 배우자궁의 성격. 연애/결혼 풀이의 핵심 근거.\n- 월지 십성 = 직업궁의 성격. 적성/직업 풀이의 핵심 근거.\n- 시지 십성 = 자녀궁/노후궁. 말년 운세의 근거.\n예: 일지=편관 → 배우자가 강하고 카리스마 있는 사람, 또는 연애에서 긴장감/통제 이슈\n예: 월지=정재 → 안정적 직업에서 꾸준히 성과를 내는 구조\n\n### ★ 암합 활용 (v29 신규)\n\"암합\" 데이터는 천간과 지장간 사이의 숨겨진 합입니다.\n겉으로 보이지 않는 인연, 숨겨진 관계, 내면의 욕구를 나타냅니다.\n특히 일간↔일지 지장간 암합은 배우자와의 깊은 내면적 연결을 의미합니다.\n암합이 있으면 \"겉으로는 티 안 나지만 속으로는...\" 패턴으로 풀어내세요.\n\n### ★ 지장간 포함 오행 (v29 신규)\n\"오행(지장간포함)\" 데이터를 활용하세요.\n표면상 금=0이라도 지장간에 금이 숨어있으면 \"겉으로는 결단력이 부족해 보이지만, 속에는 날카로운 판단력이 잠들어있다\"는 식으로 풀어야 합니다.\n\"숨어있는 오행\" 정보가 제공되면 반드시 활용하세요.\n\n### 해석 가중치\n1순위: 월지(계절) 40% → 2순위: 일간+일지 25% → 3순위: 격국+용신 20% → 4순위: 대운 15%\n신살은 양념. 주재료가 아님.\n\n### ★ 대운 나이 범위 정확 사용 (필수!)\n대운 데이터에 제공된 정확한 나이 범위(예: 27~36세, 37~46세)를 그대로 사용하세요.\n절대 임의로 나이 범위를 만들지 마세요. 사용자의 현재 나이를 기준으로 10년 묶음을 자체 생성하는 것은 금지입니다.\n나쁜 예: 사용자가 34세라고 해서 \"34~43세는 재물의 시기\" (임의 생성)\n좋은 예: \"27~36세는 사주에서 ~ 에너지가 흐르는 시기\" (제공 데이터 그대로)\n\n### 반복 금지\n같은 사주 요소를 2개 이상 항목에서 반복 사용 금지.\n각 항목은 서로 다른 사주 포인트를 조명해야 합니다.\n\n### 합충 해석\n합과 충이 동시에 존재할 때, 인접한 합이 충을 해소하는지(탐합망충), 충이 합을 깨뜨리는지 판단하여 유기적으로 해석하세요.\n\n## 추가 표현 규칙\n\n### 규칙4: 캡션/라벨 금지, 인용부호 제한\n불완전한 문장이 혼자 떠다니면 절대 안 됩니다.\n나쁜 예: \"임수의 관찰력 + Ne의 패턴 인식\" ← 이런 캡션이 문장 중간에 떠다니면 불합격.\n인용부호(\"\"로 감싼 내면 독백)는 항목당 최대 2개까지만. 3개 이상 쓰면 불합격.\n\n### 규칙5: VS/대비 구조 금지\n\"A이지만 B이기도 하다\" 같은 대비 구조에 의존하지 마세요.\n\n## 작성 순서\n1단계: 사주 원국을 읽고 자연 풍경으로 시각화 (내부 작업, 글에는 설명으로 안 씀)\n2단계: 이 사주+MBTI 조합의 특이점 2~3개 찾기\n3단계: 각 sub의 본문(b)을 \"행동/체감\"으로 먼저 쓰기\n4단계: 본문을 각 카테고리의 정해진 소제목(h) 아래에 배치\n\n## 문체\n- E형이든 I형이든, T형이든 F형이든, S형이든 N형이든, P형이든 J형이든 어떤 MBTI든 동일한 감성 톤. 사주풀이는 공감의 영역. INTP/INTJ 등 분석적 유형이라고 해서 글을 학술적/분석적으로 쓰지 마세요. 모든 유형에 대해 따뜻한 구어체를 유지하세요.\n- 구어체: ~예요, ~거든요, ~해보세요. \"당신\"으로 호칭.\n- 인지기능 별명: 내면의 심판관(Fi), 분위기 리더기(Fe), 가능성 탐색기(Ne), 미래 내비게이션(Ni), 추억 저장소(Si), 현장 체험러(Se), 내장 논리회로(Ti), 실행력 엔진(Te). 처음 등장 시 내면의 심판관(Fi) 형태로 소개하고 이후엔 \"심판관이\", \"탐색기가\" 같은 짧은 재언급만\n- \"1차기능/부기능\" 같은 순서 용어 절대 금지. \"당신에게 특히 강한\", \"당신 안에 숨어있는\" 같은 자연어.\n- % 숫자 금지. MZ세대 감성 언어 자연스럽게 (매번 같은 표현 반복 금지)\n\n## ★★ 데이터 무결성 규칙 (hallucination 방지) ★★\n제공된 데이터의 숫자·나이·간지·오행 개수·세운 연도를 절대 임의로 변경하지 마세요.\n사주 데이터에 없는 합·충·형을 만들어내지 마세요.\n오행 개수(목=1 화=3 등)를 다르게 쓰지 마세요.\n세운 연도(2026년, 2027년 등)를 바꾸지 마세요.\n당신이 "해석"하는 것과 "팩트를 바꾸는 것"은 다릅니다. 해석은 자유, 팩트 변경은 불합격.\nMBTI 유형과 인지기능 스택을 절대 변경하지 마세요. 의뢰인이 ENTP라면 ENTP로만 풀이하세요. 다른 유형으로 바꾸거나 "실은 INFJ에 가깝다" 같은 재해석은 금지입니다.\n인지기능 순서(예: Ne-Ti-Fe-Si)도 제공된 그대로 사용하세요.\n\n### 대운/세운 숫자 규칙\n대운 흐름 데이터에 명시된 시작나이~끝나이를 그대로 사용하세요.\n절대 현재 나이 기준으로 임의의 범위를 만들지 마세요.\n예: 데이터가 \"27~36세 갑인 정인운\"이면 글에서도 \"27~36세\"라고 써야 합니다.\n\"34~43세\" 같이 AI가 만든 범위는 불합격입니다.\n\n## 인사이트/처방\n- 풀이 본문(b) 안에 맞춤 인사이트와 처방을 자연스럽게 녹여 쓰세요.\n- 이 사람의 사주+MBTI에서 도출된 맞춤형만. 범용 조언 절대 금지.\n- 처방은 추정용신 오행 기준이되, 글에서 \"용신\"이라는 단어는 절대 금지. \"당신에게 필요한 에너지는 ~\" 또는 \"사주가 원하는 방향은 ~\"으로 대체.\n\n## ★ animal 필드 (운명동물 매칭) ★\n사주 원국을 분석하여 다음 3가지를 판단하세요:\n- oheng: 일간의 오행 (\"목\"/\"화\"/\"토\"/\"금\"/\"수\")\n- dominant_sipsung: 사주에서 가장 지배적인 십성 카테고리. 월지 정기의 십성 또는 원국에서 가장 강한 십성을 기준으로 판단. (\"비겁\"/\"식상\"/\"재성\"/\"관성\"/\"인성\")\n- condition: 신강이면 \"신강\", 신약이면 \"신약\", 종격/화격/양인격 등 특수격이면 \"특수\"\n이 3개 값은 프론트엔드에서 75종 동물 카드 매칭에 사용됩니다. 정확하게 판단하세요.\n\n## ★ profile 필드 (프로필 데이터) ★\n제공된 사주 데이터를 아래 구조로 반환합니다.\n- seasonNote: \"절기: [절기명]\" 형태\n- pillars: 시주→일주→월주→연주 순서 배열. 각 기둥 객체: label, chun(\"한글(漢字)\"), ji(\"한글(漢字)\"), chunOheng, jiOheng, sipsung(일간 기준 십성명), unyeong(12운성명), sinsal(대표 신살 1개), jiji(지장간 한글 공백구분). 일주만 isDay:true 추가.\n- ohengBalance: [{name,emoji,count}] 목화토금수 순서. 이모지: 🌳🔥⛰️⚔️💧. 천간+지지 본기 기준 개수.\n- specialStars: 원국의 주요 신살/귀인 문자열 배열\n- mbtiType, mbtiName, mbtiFunctions, mbtiTags: 제공된 MBTI 데이터 그대로 반환\n\n## ★ oneLine 필드 ★\n적천수 물상 기반, 이 사주를 자연 이미지로 한 줄 표현.\n일간 물상 + 월지 계절 + 사주 분위기 조합.\n예: \"초가을 바위산에 홀로 서 있는 큰 나무,\\n뿌리는 깊지만 물은 부족하다\"\n\n## ★ categories 필드 (8개 카테고리 고정) ★\n반드시 아래 8개 카테고리를 id 순서대로, subs의 h도 명시된 그대로 포함하세요.\n1. id:\"self\", title:\"나라는 사람\", subtitle:\"진짜 나는 어떤 사람일까\", icon:\"🪞\"\n   subs 3개: h=\"타고난 에너지 & 기질\" / h=\"겉모습과 속마음\" / h=\"스트레스 받으면 나오는 진짜 나\"\n2. id:\"mind\", title:\"머릿속 구조\", subtitle:\"나는 왜 이렇게 생각할까\", icon:\"🧠\"\n   subs 2개: h=\"의사결정 방식\" / h=\"자꾸 반복되는 사고 패턴\"\n3. id:\"people\", title:\"사람 사이에서\", subtitle:\"나는 왜 이렇게 행동할까\", icon:\"👥\"\n   subs 2개: h=\"대인관계 패턴\" / h=\"감정 표현 방식\"\n4. id:\"love\", title:\"연애 취급설명서\", subtitle:\"나는 왜 이렇게 사랑할까\", icon:\"💘\"\n   subs 2개: h=\"연애 패턴 / 스타일\" / h=\"잘 맞는 타입\"\n5. id:\"career\", title:\"일과 재능\", subtitle:\"나는 뭘 해야 빛날까\", icon:\"💼\"\n   subs 2개: h=\"타고난 재능 / 적성\" / h=\"직장에서 터지는 패턴\"\n6. id:\"money\", title:\"돈과 나\", subtitle:\"나는 왜 이렇게 쓸까\", icon:\"💰\"\n   subs 2개: h=\"돈 버는 스타일\" / h=\"재물 타이밍\"\n7. id:\"year\", title:\"2026년\", subtitle:\"올해 나에게 무슨 일이\", icon:\"⚡\"\n   subs 2개: h=\"올해 핵심 키워드\" / h=\"기회의 시기\"\n8. id:\"future\", title:\"10년 후\", subtitle:\"내 인생은 어디로 가는 걸까\", icon:\"🔮\"\n   subs 2개: h=\"대운 흐름 / 전환점\" / h=\"인생 한줄 마무리\"\n\n## 구조 규칙\n- 8개 카테고리, 총 17개 subs (위 목록 그대로)\n- 각 sub의 b: 2~4문단, 각 문단 3~5문장. \\n\\n으로 문단 구분.\n- 사주 자율 풀이로 분량을 풍성하게 채우세요.\n\n## JSON 출력 형식 (예시 — 실제 데이터로 채우세요)\n{\"animal\":{\"oheng\":\"토\",\"dominant_sipsung\":\"관성\",\"condition\":\"신강\"},\"profile\":{\"seasonNote\":\"절기: 입추\",\"pillars\":[{\"label\":\"시주\",\"chun\":\"경(庚)\",\"ji\":\"신(申)\",\"chunOheng\":\"금\",\"jiOheng\":\"금\",\"sipsung\":\"식신\",\"unyeong\":\"병\",\"sinsal\":\"겁살\",\"jiji\":\"기 임 경\"},{\"label\":\"일주\",\"chun\":\"무(戊)\",\"ji\":\"인(寅)\",\"chunOheng\":\"토\",\"jiOheng\":\"목\",\"sipsung\":\"비견\",\"unyeong\":\"장생\",\"sinsal\":\"망신살\",\"jiji\":\"무 병 갑\",\"isDay\":true},{\"label\":\"월주\",\"chun\":\"갑(甲)\",\"ji\":\"신(申)\",\"chunOheng\":\"목\",\"jiOheng\":\"금\",\"sipsung\":\"편관\",\"unyeong\":\"병\",\"sinsal\":\"겁살\",\"jiji\":\"기 임 경\"},{\"label\":\"연주\",\"chun\":\"을(乙)\",\"ji\":\"해(亥)\",\"chunOheng\":\"목\",\"jiOheng\":\"수\",\"sipsung\":\"정관\",\"unyeong\":\"절\",\"sinsal\":\"지살\",\"jiji\":\"무 갑 임\"}],\"ohengBalance\":[{\"name\":\"목\",\"emoji\":\"🌳\",\"count\":3},{\"name\":\"화\",\"emoji\":\"🔥\",\"count\":0},{\"name\":\"토\",\"emoji\":\"⛰️\",\"count\":1},{\"name\":\"금\",\"emoji\":\"⚔️\",\"count\":3},{\"name\":\"수\",\"emoji\":\"💧\",\"count\":1}],\"specialStars\":[\"천을귀인\",\"문창귀인\",\"역마살\",\"학당귀인\"],\"mbtiType\":\"INTP\",\"mbtiName\":\"논리술사\",\"mbtiFunctions\":\"Ti-Ne-Si-Fe\",\"mbtiTags\":[\"상대적으로 약한 내향형(I)\",\"상대적으로 약한 직관형(N)\",\"상대적으로 약한 사고형(T)\",\"상대적으로 강한 인식형(P)\"]},\"oneLine\":\"초가을 바위산에 홀로 서 있는 큰 나무,\\n뿌리는 깊지만 물은 부족하다\",\"categories\":[{\"id\":\"self\",\"title\":\"나라는 사람\",\"subtitle\":\"진짜 나는 어떤 사람일까\",\"icon\":\"🪞\",\"subs\":[{\"h\":\"타고난 에너지 & 기질\",\"b\":\"본문...\"},{\"h\":\"겉모습과 속마음\",\"b\":\"본문...\"},{\"h\":\"스트레스 받으면 나오는 진짜 나\",\"b\":\"본문...\"}]},{\"id\":\"mind\",\"title\":\"머릿속 구조\",\"subtitle\":\"나는 왜 이렇게 생각할까\",\"icon\":\"🧠\",\"subs\":[{\"h\":\"의사결정 방식\",\"b\":\"본문...\"},{\"h\":\"자꾸 반복되는 사고 패턴\",\"b\":\"본문...\"}]},{\"id\":\"people\",\"title\":\"사람 사이에서\",\"subtitle\":\"나는 왜 이렇게 행동할까\",\"icon\":\"👥\",\"subs\":[{\"h\":\"대인관계 패턴\",\"b\":\"본문...\"},{\"h\":\"감정 표현 방식\",\"b\":\"본문...\"}]},{\"id\":\"love\",\"title\":\"연애 취급설명서\",\"subtitle\":\"나는 왜 이렇게 사랑할까\",\"icon\":\"💘\",\"subs\":[{\"h\":\"연애 패턴 / 스타일\",\"b\":\"본문...\"},{\"h\":\"잘 맞는 타입\",\"b\":\"본문...\"}]},{\"id\":\"career\",\"title\":\"일과 재능\",\"subtitle\":\"나는 뭘 해야 빛날까\",\"icon\":\"💼\",\"subs\":[{\"h\":\"타고난 재능 / 적성\",\"b\":\"본문...\"},{\"h\":\"직장에서 터지는 패턴\",\"b\":\"본문...\"}]},{\"id\":\"money\",\"title\":\"돈과 나\",\"subtitle\":\"나는 왜 이렇게 쓸까\",\"icon\":\"💰\",\"subs\":[{\"h\":\"돈 버는 스타일\",\"b\":\"본문...\"},{\"h\":\"재물 타이밍\",\"b\":\"본문...\"}]},{\"id\":\"year\",\"title\":\"2026년\",\"subtitle\":\"올해 나에게 무슨 일이\",\"icon\":\"⚡\",\"subs\":[{\"h\":\"올해 핵심 키워드\",\"b\":\"본문...\"},{\"h\":\"기회의 시기\",\"b\":\"본문...\"}]},{\"id\":\"future\",\"title\":\"10년 후\",\"subtitle\":\"내 인생은 어디로 가는 걸까\",\"icon\":\"🔮\",\"subs\":[{\"h\":\"대운 흐름 / 전환점\",\"b\":\"본문...\"},{\"h\":\"인생 한줄 마무리\",\"b\":\"본문...\"}]}]}\n\nJSON만 출력하세요.';
 
 /* ====== AI 출력 후처리 검증 (v29.1) ====== */
 function postValidateAI(result, dw, saju, gg) {
@@ -1421,11 +1757,13 @@ function postValidateAI(result, dw, saju, gg) {
   });
   var fixCount = 0;
   result.categories.forEach(function(cat) {
-    if (!cat.items) return;
-    cat.items.forEach(function(item) {
-      if (!item.content) return;
+    // v2: subs[{h,b}] 또는 구버전 items[{content,insightText}] 모두 지원
+    var entries = cat.subs || cat.items || [];
+    entries.forEach(function(item) {
+      var txt = item.b || item.content;
+      if (!txt) return;
       // ① 대운 나이 범위 교정
-      item.content = item.content.replace(/(\d{1,2})~(\d{1,2})세/g, function(match, s, e) {
+      txt = txt.replace(/(\d{1,2})~(\d{1,2})세/g, function(match, s, e) {
         var start = parseInt(s), end = parseInt(e), span = end - start;
         if (span >= 8 && span <= 11) {
           var found = dwRanges.some(function(r) { return r.start === start && r.end === end; });
@@ -1444,7 +1782,7 @@ function postValidateAI(result, dw, saju, gg) {
         }
         return match;
       });
-      // ② insightText도 교정
+      // ② insightText도 교정 (구버전 호환)
       if (item.insightText) {
         item.insightText = item.insightText.replace(/(\d{1,2})~(\d{1,2})세/g, function(match, s, e) {
           var start = parseInt(s), end = parseInt(e), span = end - start;
@@ -1462,33 +1800,26 @@ function postValidateAI(result, dw, saju, gg) {
           return match;
         });
       }
-      // ③ insightText 누락 방지
-      if (!item.insightText || item.insightText.trim() === '') {
-        item.insightText = '당신만의 에너지를 믿고 한 발짝 나아가세요.';
-        fixCount++;
-      }
-      // ④ 오행 개수 교정 (AI가 오행 숫자를 변조한 경우)
-      if (item.content) {
-        var ohNames = ['목','화','토','금','수'];
-        ohNames.forEach(function(oh) {
-          var ohRe = new RegExp(oh + '[=이가] ?(\\d+\\.?\\d*)', 'g');
-          item.content = item.content.replace(ohRe, function(match, num) {
-            var aiVal = parseFloat(num);
-            var realVal = saju.el[oh];
-            if (realVal !== undefined && aiVal !== realVal && Math.abs(aiVal - realVal) >= 1) {
-              fixCount++;
-              console.log('[PostValidate] 오행 교정:', oh, aiVal, '→', realVal);
-              return match.replace(num, String(realVal));
-            }
-            return match;
-          });
+      // ③ 오행 개수 교정 (AI가 오행 숫자를 변조한 경우)
+      var ohNames = ['목','화','토','금','수'];
+      ohNames.forEach(function(oh) {
+        var ohRe = new RegExp(oh + '[=이가] ?(\\d+\\.?\\d*)', 'g');
+        txt = txt.replace(ohRe, function(match, num) {
+          var aiVal = parseFloat(num);
+          var realVal = saju.el[oh];
+          if (realVal !== undefined && aiVal !== realVal && Math.abs(aiVal - realVal) >= 1) {
+            fixCount++;
+            console.log('[PostValidate] 오행 교정:', oh, aiVal, '→', realVal);
+            return match.replace(num, String(realVal));
+          }
+          return match;
         });
-      }
-      // ⑤ 세운 연도-간지 불일치 교정
-      if (item.content && dw.seun) {
+      });
+      // ④ 세운 연도-간지 불일치 교정
+      if (dw.seun) {
         dw.seun.forEach(function(se) {
           var wrongPattern = new RegExp(se.y + '년[^가-힣]*(갑|을|병|정|무|기|경|신|임|계)(자|축|인|묘|진|사|오|미|신|유|술|해)', 'g');
-          item.content = item.content.replace(wrongPattern, function(match, g, j) {
+          txt = txt.replace(wrongPattern, function(match, g, j) {
             if (g !== se.gan || j !== se.ji) {
               fixCount++;
               console.log('[PostValidate] 세운 교정:', match, '→', se.y + '년 ' + se.gan + se.ji);
@@ -1498,6 +1829,9 @@ function postValidateAI(result, dw, saju, gg) {
           });
         });
       }
+      // 교정된 텍스트 저장 (v2: b / 구버전: content)
+      if (item.b !== undefined) item.b = txt;
+      else item.content = txt;
     });
   });
   if (fixCount > 0) console.log('[PostValidate] 총 ' + fixCount + '건 교정 완료');
@@ -1766,12 +2100,12 @@ var GH_GENDER='';
 
 function ghPickGender(g){
   GH_GENDER=g;
-  document.getElementById('gh-btn-male').style.background=g==='남성'?'#f3edf7':'#fff';
-  document.getElementById('gh-btn-male').style.color=g==='남성'?'#88619A':'#999';
-  document.getElementById('gh-btn-male').style.borderColor=g==='남성'?'#88619A':'#d8cfe0';
-  document.getElementById('gh-btn-female').style.background=g==='여성'?'#f3edf7':'#fff';
-  document.getElementById('gh-btn-female').style.color=g==='여성'?'#88619A':'#999';
-  document.getElementById('gh-btn-female').style.borderColor=g==='여성'?'#88619A':'#d8cfe0';
+  document.getElementById('gh-btn-male').style.background=g==='남성'?'rgba(136,97,154,0.08)':'rgba(0,0,0,0.04)';
+  document.getElementById('gh-btn-male').style.color=g==='남성'?'var(--accent)':'var(--text-muted)';
+  document.getElementById('gh-btn-male').style.borderColor=g==='남성'?'var(--accent)':'var(--border-light)';
+  document.getElementById('gh-btn-female').style.background=g==='여성'?'rgba(136,97,154,0.08)':'rgba(0,0,0,0.04)';
+  document.getElementById('gh-btn-female').style.color=g==='여성'?'var(--accent)':'var(--text-muted)';
+  document.getElementById('gh-btn-female').style.borderColor=g==='여성'?'var(--accent)':'var(--border-light)';
   checkGHReady();
 }
 
@@ -1779,9 +2113,9 @@ var GH_MBTI_SEL='';
 function ghPickMBTI(t){
   GH_MBTI_SEL=t;
   document.querySelectorAll('#gh-mbti-grid button').forEach(function(b){
-    b.style.background=b.textContent===t?'#88619A':'#fff';
-    b.style.color=b.textContent===t?'#fff':'#666';
-    b.style.borderColor=b.textContent===t?'#88619A':'#d8cfe0';
+    b.style.background=b.textContent===t?'var(--accent)':'rgba(0,0,0,0.04)';
+    b.style.color=b.textContent===t?'#fff':'var(--text-muted)';
+    b.style.borderColor=b.textContent===t?'var(--accent)':'var(--border-light)';
   });
   checkGHReady();
 }
@@ -1822,7 +2156,7 @@ function initGHPage(){
     var b=document.createElement('button');
     b.textContent=t;
     b.onclick=function(){ghPickMBTI(t);};
-    b.style.cssText='padding:10px 0;border-radius:10px;border:2px solid #d8cfe0;background:#fff;font-size:12px;font-weight:700;color:#666;cursor:pointer';
+    b.style.cssText='padding:10px 0;border-radius:10px;border:2px solid var(--border-light);background:#fff;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer';
     grid.appendChild(b);
   });
   // 내 정보 표시
@@ -1943,48 +2277,48 @@ function renderGunghapResult(ghR, aiR, sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, err
 
   var h='<div class="res-wrap" style="max-width:640px;margin:0 auto;padding:0 0 40px">';
   // 헤더
-  h+='<div style="text-align:center;padding:32px 20px 20px;background:linear-gradient(180deg,#fde8ee 0%,#fff 100%)">';
-  h+='<div style="display:flex;justify-content:center;gap:0;margin-bottom:10px"><span style="font-family:Nunito;font-weight:900;font-size:28px;color:#4298B4">M</span><span style="font-family:Nunito;font-weight:900;font-size:28px;color:#e53935">B</span><span style="font-family:Nunito;font-weight:900;font-size:28px;color:#E4AE3A">T</span><span style="font-family:Nunito;font-weight:900;font-size:28px;color:#33A474">S</span></div>';
-  h+='<div style="font-size:12px;color:#999;margin-bottom:4px">궁합 분석</div>';
-  h+='<h1 style="font-size:20px;font-weight:800;color:#333;margin-bottom:4px">'+title+'</h1>';
+  h+='<div style="text-align:center;padding:32px 20px 20px;background:linear-gradient(180deg,rgba(136,97,154,.06) 0%,transparent 100%)">';
+  h+='<div style="display:flex;justify-content:center;gap:0;margin-bottom:10px"><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#4CAF7D">M</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#5B8FD4">B</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E05A5A">T</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E8B84B">S</span></div>';
+  h+='<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">궁합 분석</div>';
+  h+='<h1 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:4px">'+title+'</h1>';
   h+='</div>';
 
   // 두 사람 카드
   h+='<div style="display:flex;align-items:center;gap:12px;padding:16px 20px;justify-content:center">';
-  h+='<div style="text-align:center;background:#fff;border-radius:16px;padding:16px 20px;box-shadow:0 2px 12px rgba(0,0,0,.05);border:2px solid #88619A"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">나</div><div style="font-size:11px;color:#999">'+sajuA.P[2].s+sajuA.P[2].b+' · '+mbtiA.type+'</div></div>';
+  h+='<div class="glass-card" style="text-align:center;padding:16px 20px;border-color:var(--accent)"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px;color:var(--text-primary)">나</div><div style="font-size:11px;color:var(--text-muted)">'+sajuA.P[2].s+sajuA.P[2].b+' · '+mbtiA.type+'</div></div>';
   h+='<div style="font-size:28px">💘</div>';
-  h+='<div style="text-align:center;background:#fff;border-radius:16px;padding:16px 20px;box-shadow:0 2px 12px rgba(0,0,0,.05);border:2px solid #e8619a"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">상대방</div><div style="font-size:11px;color:#999">'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiB.type+'</div></div>';
+  h+='<div class="glass-card" style="text-align:center;padding:16px 20px;border-color:#E05A5A"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px;color:var(--text-primary)">상대방</div><div style="font-size:11px;color:var(--text-muted)">'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiB.type+'</div></div>';
   h+='</div>';
 
   // 점수 카드
-  h+='<div style="margin:12px 20px;background:#fff;border-radius:20px;padding:24px;box-shadow:0 2px 16px rgba(0,0,0,.05)">';
-  h+='<div style="text-align:center;margin-bottom:16px"><div style="font-size:48px;font-weight:900;color:#88619A">'+sc.total+'<span style="font-size:24px">점</span></div><div style="font-size:13px;color:#999">종합 궁합 점수</div></div>';
-  var bars=[{l:'연애',v:sc.love,c:'#FF6B8A'},{l:'소통',v:sc.comm,c:'#33A474'},{l:'가치관',v:sc.values,c:'#E4AE3A'},{l:'업무',v:sc.work,c:'#4298B4'}];
+  h+='<div class="glass-card" style="margin:12px 20px;padding:24px">';
+  h+='<div style="text-align:center;margin-bottom:16px"><div style="font-size:48px;font-weight:900;color:var(--accent)">'+sc.total+'<span style="font-size:24px">점</span></div><div style="font-size:13px;color:var(--text-muted)">종합 궁합 점수</div></div>';
+  var bars=[{l:'연애',v:sc.love,c:'#d63384'},{l:'소통',v:sc.comm,c:'#2e8b57'},{l:'가치관',v:sc.values,c:'#c99a2e'},{l:'업무',v:sc.work,c:'#4682b4'}];
   bars.forEach(function(b){
     h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">';
-    h+='<div style="width:50px;text-align:right;font-size:13px;font-weight:600">'+b.l+'</div>';
-    h+='<div style="flex:1;height:10px;background:#f0f0f0;border-radius:5px;overflow:hidden"><div style="height:100%;width:'+b.v+'%;background:'+b.c+';border-radius:5px;transition:width 1s"></div></div>';
-    h+='<div style="width:36px;font-size:13px;font-weight:700;color:#888">'+b.v+'%</div></div>';
+    h+='<div style="width:50px;text-align:right;font-size:13px;font-weight:600;color:var(--text-secondary)">'+b.l+'</div>';
+    h+='<div style="flex:1;height:10px;background:rgba(0,0,0,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:'+b.v+'%;background:'+b.c+';border-radius:5px;transition:width 1s"></div></div>';
+    h+='<div style="width:36px;font-size:13px;font-weight:700;color:var(--text-muted)">'+b.v+'%</div></div>';
   });
   h+='</div>';
 
   // 인용구
-  h+='<div style="margin:12px 20px;padding:16px 20px;background:#fff;border-radius:14px;border-left:4px solid #88619A;font-size:14px;color:#666;line-height:1.6;font-style:italic;box-shadow:0 2px 12px rgba(0,0,0,.04)">"'+quote+'"</div>';
+  h+='<div class="glass-card" style="margin:12px 20px;padding:16px 20px;border-left:4px solid var(--accent);font-size:14px;color:var(--text-secondary);line-height:1.6;font-style:italic">"'+quote+'"</div>';
 
   // AI 풀이 카드
   if(aiR&&aiR.categories){
     aiR.categories.forEach(function(cat){
       h+='<div style="margin:16px 20px 0">';
-      h+='<h3 style="font-size:16px;font-weight:700;margin-bottom:10px">'+(cat.icon||'')+'  '+cat.title+'</h3>';
+      h+='<h3 style="font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text-primary)">'+(cat.icon||'')+'  '+cat.title+'</h3>';
       if(cat.items) cat.items.forEach(function(item){
-        h+='<div style="background:#fff;border-radius:16px;padding:20px;margin-bottom:10px;box-shadow:0 2px 12px rgba(0,0,0,.04)">';
-        h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:22px">'+(item.icon||'💕')+'</span><span style="font-size:15px;font-weight:700">'+(item.catch||'')+'</span></div>';
-        h+='<div style="font-size:14px;color:#555;line-height:1.7;word-break:keep-all">'+(item.content||'').replace(/\n\n/g,'<br><br>')+'</div>';
+        h+='<div class="glass-card" style="padding:20px;margin-bottom:10px">';
+        h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:22px">'+(item.icon||'💕')+'</span><span style="font-size:15px;font-weight:700;color:var(--text-primary)">'+(item.catch||'')+'</span></div>';
+        h+='<div style="font-size:14px;color:var(--text-secondary);line-height:1.7;word-break:keep-all">'+(item.content||'').replace(/\n\n/g,'<br><br>')+'</div>';
         if(item.insightText){
-          var bgMap={gold:'#FFFBF0',fire:'#FFF5F5',water:'#F0F8FF',purple:'#F8F0FF'};
-          var txMap={gold:'#8B6914',fire:'#C62828',water:'#1565C0',purple:'#6A1B9A'};
+          var bgMap={gold:'rgba(201,154,46,.1)',fire:'rgba(211,47,47,.1)',water:'rgba(70,130,180,.1)',purple:'rgba(136,97,154,.1)'};
+          var txMap={gold:'#c99a2e',fire:'#d32f2f',water:'#4682b4',purple:'#88619A'};
           var ibg=bgMap[item.insightType]||bgMap.gold, itx=txMap[item.insightType]||txMap.gold;
-          h+='<div style="margin-top:12px;padding:12px 14px;background:'+ibg+';border-radius:10px;display:flex;align-items:flex-start;gap:8px">';
+          h+='<div style="margin-top:12px;padding:12px 14px;background:'+ibg+';border-radius:10px;border:1px solid '+itx+'30;display:flex;align-items:flex-start;gap:8px">';
           h+='<span style="font-size:14px">'+(item.insightIcon||'💡')+'</span>';
           h+='<span style="font-size:13px;color:'+itx+';line-height:1.5;font-weight:500">'+item.insightText+'</span></div>';
         }
@@ -1993,21 +2327,22 @@ function renderGunghapResult(ghR, aiR, sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, err
       h+='</div>';
     });
   } else if(err){
-    h+='<div style="margin:20px;padding:24px;background:#fff;border-radius:16px;text-align:center"><p style="color:#999">AI 풀이 생성에 실패했습니다.<br>점수와 키워드 분석은 정상 완료되었습니다.</p><p style="color:#ccc;font-size:12px;margin-top:8px">에러: '+err+'</p></div>';
+    h+='<div class="glass-card" style="margin:20px;padding:24px;text-align:center"><p style="color:var(--text-muted)">AI 풀이 생성에 실패했습니다.<br>점수와 키워드 분석은 정상 완료되었습니다.</p><p style="color:var(--text-muted);font-size:12px;margin-top:8px">에러: '+err+'</p></div>';
   }
 
   // 하단 버튼
   h+='<div style="padding:20px">';
-  h+='<button onclick="shareResult()" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#333;background:#FEE500;border:none;border-radius:14px;margin-bottom:10px">💬 궁합 결과 공유하기</button>';
-  h+='<p style="text-align:center;margin-top:12px;font-size:11px;color:#bbb">본 풀이는 명리학과 MBTI 이론을 기반한 참고용 분석이며,<br>개인의 의사결정을 대체하지 않습니다.</p>';
+  h+='<button onclick="shareResult()" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#191919;background:#FEE500;border:none;border-radius:14px;margin-bottom:10px">💬 궁합 결과 공유하기</button>';
+  h+='<p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted)">본 풀이는 명리학과 MBTI 이론을 기반한 참고용 분석이며,<br>개인의 의사결정을 대체하지 않습니다.</p>';
   h+='</div>';
-  h+='<div style="height:80px"></div>'; // 탭바 여백
+  h+='<div style="height:80px"></div>';
   h+='</div>';
-  // 하단 탭바
+  // 하단 4탭 탭바
   h+='<div class="btm-tab"><div class="btm-tab-inner">';
-  h+='<div class="btm-tab-item" onclick="goPage(\'res\')"><div class="tab-ic">🔮</div><div class="tab-lb">내 사주</div></div>';
-  h+='<div class="btm-tab-item active"><div class="tab-ic">💕</div><div class="tab-lb">궁합</div></div>';
-  h+='<div class="btm-tab-item" onclick="goPage(\'chat\')"><div class="tab-ic">🐰</div><div class="tab-lb">달토 상담</div></div>';
+  h+='<div class="btm-tab-item" onclick="goPage(\'home\')"><div class="tab-ic">🏠</div><div class="tab-lb">홈</div></div>';
+  h+='<div class="btm-tab-item active"><div class="tab-ic">📊</div><div class="tab-lb">분석결과</div></div>';
+  h+='<div class="btm-tab-item" onclick="alert(\'저장 기능은 준비 중이에요!\')"><div class="tab-ic">💾</div><div class="tab-lb">저장</div></div>';
+  h+='<div class="btm-tab-item" onclick="alert(\'설정 기능은 준비 중이에요!\')"><div class="tab-ic">⚙️</div><div class="tab-lb">설정</div></div>';
   h+='</div></div>';
 
   el.innerHTML=h;
@@ -2385,7 +2720,7 @@ async function startAnalysis(){
         result = mkFB(saju, mt, gg);
       }
     }
-    if(result) console.log('[MBTS] 분석 완료. 항목 수:', (result.categories||[]).reduce(function(s,c){return s+(c.items||[]).length;},0));
+    if(result) console.log('[MBTS] 분석 완료. 항목 수:', (result.categories||[]).reduce(function(s,c){return s+(c.subs||c.items||[]).length;},0));
     // ★ v29.1: 후처리 검증 (대운 나이 등 팩트 교정)
     if(result && !apiError) result = postValidateAI(result, dw, saju, gg);
 
@@ -2408,11 +2743,25 @@ async function startAnalysis(){
     else if(apiError.indexOf('JSON_PARSE')>=0) errDetail='AI 응답 형식 오류. 재시도하면 해결될 수 있어요.';
     else if(apiError.indexOf('STREAM_ERROR')>=0) errDetail='스트리밍 에러: '+apiError.substring(0,80);
     else errDetail=apiError.substring(0,80);
-    document.getElementById('load-msg').innerHTML='⚠️ AI 분석 실패 → 기본 분석으로 대체<br><span style="font-size:11px;color:#e53935;line-height:1.6">'+errDetail+'</span><br><button onclick="startAnalysis()" style="margin-top:8px;padding:8px 20px;font-size:12px;font-weight:700;color:#fff;background:#88619A;border:none;border-radius:10px;cursor:pointer">🔄 다시 시도</button>';
+    document.getElementById('load-msg').innerHTML='⚠️ AI 분석 실패 → 기본 분석으로 대체<br><span style="font-size:11px;color:#d32f2f;line-height:1.6">'+errDetail+'</span><br><button onclick="startAnalysis()" style="margin-top:8px;padding:8px 20px;font-size:12px;font-weight:700;color:#fff;background:#88619A;border:none;border-radius:10px;cursor:pointer">🔄 다시 시도</button>';
     await new Promise(function(ok){setTimeout(ok,3000);});
   } else {
     document.getElementById('load-msg').textContent='✨ AI 분석 완료!';
   }
+  // ★ localStorage 저장
+  try{
+    var saveData={
+      input:{y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city||'',cityLng:ST.cityLng||0,ch:ST.ch,it:ST.it},
+      mbti:mt, mbtiObj:window._lastMBTIObj,
+      saju:saju, dw:dw, gg:gg,
+      aiResult:result, isAI:!apiError,
+      savedAt:Date.now()
+    };
+    localStorage.setItem('mbts_lastResult',JSON.stringify(saveData));
+    window._lastAIResult=result; window._lastIsAI=!apiError;
+    console.log('[MBTS] localStorage에 분석 결과 저장 완료');
+  }catch(e){console.warn('[MBTS] localStorage 저장 실패:',e);}
+
   setTimeout(function(){renderResult(result,saju,mt,gg,!apiError);},800);
 }
 
@@ -4906,9 +5255,12 @@ function mkFB(saju,mt,gg){
     : "다 받아주다 터지기 전에: "+dm+" 일간의 감정 지진 예방법";
 
   /* ─── Phase 4: 카테고리 조립 ─── */
+  var _animalMap={'목':{animal:'사슴',emoji:'🦌',r:'목(木) 기운의 성장 에너지와 부드러움'},'화':{animal:'불사조',emoji:'🔥',r:'화(火) 기운의 열정과 빛나는 존재감'},'토':{animal:'곰',emoji:'🐻',r:'토(土) 기운의 묵직한 안정감과 포용력'},'금':{animal:'백호',emoji:'🐯',r:'금(金) 기운의 날카로운 결단력과 카리스마'},'수':{animal:'용',emoji:'🐉',r:'수(水) 기운의 깊은 지혜와 유연한 변화력'}};
+  var _aInfo=_animalMap[dmEl]||_animalMap['토'];
   return{
     profileTitle:ilju+"일주 × "+mt,
     quote:'"'+iljuD.k+'" — '+ilju+'일주 '+mt+' '+ti.n+', 세상에 단 하나뿐인 당신의 이야기입니다.',
+    destinyAnimal:{animal:_aInfo.animal,emoji:_aInfo.emoji,reason:dm+' 일간('+dmEl+')의 '+_aInfo.r+'이 '+mt+' '+ti.n+'의 성격과 만나 '+_aInfo.animal+'의 에너지를 형성합니다.'},
     categories:[
       {title:"기질 및 성격",subtitle:ilju+"일주 × "+mt+"가 만드는 고유한 당신",items:[
         {catch:i1_catch,content:i1_body,insightType:"gold",insightIcon:"💡",insightText:ilju+"일주의 본질: '"+iljuD.k+"'. "+mt+"의 "+cf[0]+"이 이 기질을 세상 밖으로 표현합니다. 당신만의 고유한 조합을 믿으세요."},
@@ -4940,166 +5292,414 @@ function mkFB(saju,mt,gg){
 
 
 
-/* ====== 결과 렌더링 (만세력 카드 + 스크롤 섹션) ====== */
+/* ====== 결과 렌더링 v2 (동물카드 + 프로필 + 카테고리) ====== */
+function renderSubBody(text){
+  var tipEmojis=['💊','🔥','💧','💜','🌱','💎'];
+  var paras=(text||'').split('\n\n');
+  var out='';
+  paras.forEach(function(p){
+    p=p.trim();if(!p)return;
+    var isTip=tipEmojis.some(function(e){return p.indexOf(e)===0;});
+    if(isTip){out+='<div class="r-tip">'+p+'</div>';}
+    else{out+='<p>'+p+'</p>';}
+  });
+  return out;
+}
+
+function scrollToCat(catId){
+  var el=document.getElementById('cat-'+catId);
+  if(!el)return;
+  var navEl=document.getElementById('r-cat-nav');
+  var offset=navEl?navEl.offsetHeight+8:60;
+  var top=el.getBoundingClientRect().top+window.pageYOffset-offset;
+  window.scrollTo({top:top,behavior:'smooth'});
+  document.querySelectorAll('.r-cat-pill').forEach(function(pill){
+    pill.classList.toggle('active',pill.getAttribute('data-cat')===catId);
+  });
+}
+
+function initCatNav(){
+  var nav=document.getElementById('r-cat-nav-inner');
+  if(!nav)return;
+  var sections=document.querySelectorAll('.r-cat-sec');
+  if(!sections.length||!('IntersectionObserver' in window))return;
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var catId=entry.target.getAttribute('data-cat-id');
+        document.querySelectorAll('.r-cat-pill').forEach(function(pill){
+          pill.classList.toggle('active',pill.getAttribute('data-cat')===catId);
+        });
+        var activePill=nav.querySelector('.r-cat-pill.active');
+        if(activePill)activePill.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+      }
+    });
+  },{rootMargin:'-20% 0px -60% 0px'});
+  sections.forEach(function(sec){observer.observe(sec);});
+}
+
+function captureAnimalCard(){
+  var el=document.getElementById('animal-card-capture');
+  if(!el){alert('캡처할 카드가 없어요!');return;}
+  if(typeof html2canvas==='undefined'){
+    var s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    s.onload=function(){doCapture(el);};
+    s.onerror=function(){alert('이미지 저장 기능을 불러올 수 없어요.');};
+    document.head.appendChild(s);
+  }else{doCapture(el);}
+}
+function doCapture(el){
+  var btns=document.querySelectorAll('.r-share-btn');
+  btns.forEach(function(b){b.disabled=true;b.textContent='⏳ 저장 중...';});
+  html2canvas(el,{
+    scale:3,useCORS:true,backgroundColor:null,logging:false,allowTaint:false,
+    scrollX:0,scrollY:-window.scrollY,windowWidth:el.scrollWidth,windowHeight:el.scrollHeight
+  }).then(function(canvas){
+    canvas.toBlob(function(blob){
+      if(blob&&navigator.share&&/iPhone|iPad|iPod/i.test(navigator.userAgent)){
+        var file=new File([blob],'mbts-animal-card.png',{type:'image/png'});
+        navigator.share({files:[file],title:'MBTS 동물카드'}).catch(function(){fallbackDownload(canvas);});
+      }else{fallbackDownload(canvas);}
+    },'image/png');
+  }).catch(function(err){
+    console.error('[MBTS] 캡처 실패:',err);
+    alert('이미지 저장에 실패했어요. 다시 시도해주세요!');
+  }).finally(function(){
+    btns.forEach(function(b,i){b.disabled=false;b.textContent=i===0?'📷 이미지 저장':'💬 카카오톡 공유';});
+  });
+}
+
+function fallbackDownload(canvas){
+  var link=document.createElement('a');
+  link.download='mbts-동물카드-'+(window._lastMBTI||'result')+'.png';
+  link.href=canvas.toDataURL('image/png');
+  link.click();
+  showToast('📷 동물카드가 저장되었어요!');
+}
+
+function showToast(msg){
+  var t=document.createElement('div');
+  t.textContent=msg;
+  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:12px 24px;background:rgba(0,0,0,0.8);color:#fff;border-radius:100px;font-size:14px;font-weight:600;z-index:9999;animation:fu .3s ease';
+  document.body.appendChild(t);
+  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},2000);
+}
+
+function shareKakao(){
+  var animalTitle='',animalDesc='',animalEmoji='';
+  if(window._lastAIResult&&window._lastAIResult.animal&&window._lastSaju){
+    var aInfo=getAnimalResult(window._lastAIResult.animal.oheng,window._lastAIResult.animal.dominant_sipsung,window._lastAIResult.animal.condition);
+    if(aInfo&&aInfo.mod){animalEmoji=aInfo.emoji;animalTitle=aInfo.mod.title;animalDesc=aInfo.mod.desc;}
+  }
+  var shareTitle=animalEmoji+' '+(animalTitle||'MBTS 사주×MBTI 분석');
+  var shareDesc=animalDesc||'나의 운명 동물을 확인해보세요!';
+  var shareUrl=window.location.href.split('?')[0];
+
+  // 방법 1: 카카오 SDK
+  if(typeof Kakao!=='undefined'&&Kakao.isInitialized()){
+    try{
+      Kakao.Share.sendDefault({
+        objectType:'feed',
+        content:{
+          title:shareTitle,
+          description:shareDesc+'\n\n#MBTS #사주 #MBTI #운명동물',
+          imageUrl:'https://your-domain.com/og-image.png',
+          link:{mobileWebUrl:shareUrl,webUrl:shareUrl}
+        },
+        buttons:[{title:'🔮 나도 운명 확인하기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]
+      });
+      return;
+    }catch(e){console.warn('[MBTS] 카카오 공유 실패, 폴백 사용:',e);}
+  }
+
+  // 방법 2: Web Share API
+  if(navigator.share){
+    navigator.share({title:shareTitle,text:shareDesc+'\n\n나의 운명도 확인해보세요 👉\n'+shareUrl,url:shareUrl}).catch(function(e){
+      if(e.name!=='AbortError')console.warn('[MBTS] 공유 실패:',e);
+    });
+    return;
+  }
+
+  // 방법 3: 클립보드 복사
+  var copyText=shareTitle+'\n'+shareDesc+'\n\n나의 운명도 확인해보세요 👉 '+shareUrl;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(copyText).then(function(){showToast('📋 공유 텍스트가 복사되었어요!');});
+  }else{
+    var ta=document.createElement('textarea');ta.value=copyText;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();
+    showToast('📋 공유 텍스트가 복사되었어요!');
+  }
+}
+
+function adjustColor(hex,factor){
+  hex=hex.replace('#','');
+  var r=parseInt(hex.substring(0,2),16),g=parseInt(hex.substring(2,4),16),b=parseInt(hex.substring(4,6),16);
+  r=Math.round(r*factor);g=Math.round(g*factor);b=Math.round(b*factor);
+  return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+}
+
 function renderResult(result,saju,mt,gg,isAI){
   var ti=TY[mt]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
   gg=gg||analyzeGyeokguk(saju);
-  var cats=result.categories||[];
-  var pTitle=result.profileTitle||(saju.P[2].s+saju.P[2].b+'일주 × '+mt);
-  var quote=result.quote||("당신만의 고유한 길을 찾아가는 여정 위에 서 있는 사람");
-  var trueSolarBadge = saju.trueSolarApplied ? '<div style="display:inline-block;padding:3px 10px;background:#4298B420;color:#4298B4;font-size:10px;font-weight:600;border-radius:8px;margin-top:4px">🌍 진태양시 적용 ('+ST.city+' '+(saju.trueSolarMin>0?'+':'')+saju.trueSolarMin+'분)</div>' : '';
-  var pagyeokBadge = gg.pagyeokInfo ? '<div style="display:inline-block;padding:3px 10px;background:#e5393520;color:#e53935;font-size:10px;font-weight:600;border-radius:8px;margin-top:4px">⚠️ 파격: '+gg.pagyeokInfo.split(' — ')[0]+'</div>' : '';
-  var aiBadge = isAI ? '<div style="display:inline-block;padding:3px 10px;background:#33A47420;color:#33A474;font-size:10px;font-weight:600;border-radius:8px;margin-top:4px">✨ AI 프리미엄 분석</div>' : '<div style="display:inline-block;padding:3px 10px;background:#FF980020;color:#FF9800;font-size:10px;font-weight:600;border-radius:8px;margin-top:4px">📋 기본 분석 (AI 연결 실패)</div>';
-  var age=2026-(+ST.y||1990);
-  var ilju=saju.P[2].s+saju.P[2].b;
-  var pRev=[saju.P[3],saju.P[2],saju.P[1],saju.P[0]];
-  var ssRev=[saju.ss[3],saju.ss[2],saju.ss[1],saju.ss[0]];
-  var jjgRev=[saju.jjg[3],saju.jjg[2],saju.jjg[1],saju.jjg[0]];
-  var unsRev=[saju.uns[3],saju.uns[2],saju.uns[1],saju.uns[0]];
-  var sinRev=[saju.sinsal[3],saju.sinsal[2],saju.sinsal[1],saju.sinsal[0]];
-  var sinDayRev=[saju.sinsal_day?[saju.sinsal_day[3],saju.sinsal_day[2],saju.sinsal_day[1],saju.sinsal_day[0]]:null];
-  var elCls={'목':'el-wood','화':'el-fire','토':'el-earth','금':'el-metal','수':'el-water'};
-  var grAc=({an:'#88619A',di:'#33A474',se:'#4298B4',ex:'#d4a017'})[ti.g]||'#88619A';
-  var grBg=({an:'#efe8f4',di:'#e8f5e9',se:'#e3f2f7',ex:'#fdf6e3'})[ti.g]||'#efe8f4';
-  var DC=['#88619A','#33A474','#4298B4','#d4a017'];
-  var acColors=['#88619A','#33A474','#E4AE3A','#4298B4','#88619A','#e53935','#33A474','#E4AE3A','#4298B4','#88619A','#e53935','#33A474','#E4AE3A','#4298B4'];
 
-  /* ── 만세력 카드: 4기둥 그리드 ── */
-  var pilH='';pRev.forEach(function(p,i){
-    var sOh=p.gi!=null?OHAENG_TGAN[p.gi]:'',bOh=p.bi!=null?OHAENG_JIJI[p.bi]:'';
-    var isDay=i===1;
-    pilH+='<div class="pil-box'+(isDay?' day-pil':'')+'"><div class="pil-label">'+(isDay?p.l:p.l)+'</div>';
-    pilH+='<div class="pil-stem '+(elCls[sOh]||'')+'">'+p.s+'</div>';
-    pilH+='<div class="pil-info">'+sOh+'</div>';
-    pilH+='<div class="pil-ss" style="color:'+grAc+'">'+(ssRev[i]?ssRev[i].ss:'')+'</div>';
-    pilH+='<div class="pil-divider"></div>';
-    pilH+='<div class="pil-branch '+(elCls[bOh]||'')+'">'+p.b+'</div>';
-    pilH+='<div class="pil-info">'+bOh+'</div></div>';
-  });
-
-  /* ── 지장간 행 ── */
-  var jjgH='<div class="detail-row"><div class="detail-label">지장간</div><div class="detail-grid">';
-  jjgRev.forEach(function(jj){
-    jjgH+='<div class="detail-cell">';
-    var arr=jj.map(function(j){return j.stem||'';}).filter(function(x){return x;});
-    arr.forEach(function(s,k){
-      var oh=OHAENG_TGAN[TGAN_KR.indexOf(s)]||'';
-      var cl=EC_DARK[oh]||'#666';
-      jjgH+='<span style="color:'+cl+';font-weight:600">'+s+'</span>'+(k<arr.length-1?' ':'');
+  /* ── 구버전 JSON 호환 (mkFB fallback) ── */
+  var isOld=result.categories&&result.categories[0]&&result.categories[0].items;
+  if(isOld){
+    var _ci=["🪞","🧠","💼","👥","⚡"];
+    var _cid=["self","mind","career","people","future"];
+    result.categories=result.categories.map(function(cat,ci){
+      return{id:_cid[ci]||("cat"+ci),title:cat.title,subtitle:cat.subtitle,icon:_ci[ci]||"📋",
+        subs:(cat.items||[]).map(function(item){
+          var bdy=(item.content||'');
+          if(item.insightText)bdy+='\n\n'+(item.insightIcon||'💡')+' '+item.insightText;
+          return{h:item.catch||item.title||'',b:bdy};
+        })};
     });
-    jjgH+='</div>';
-  });
-  jjgH+='</div></div>';
-
-  /* ── 12운성 행 ── */
-  var unsH='<div class="detail-row"><div class="detail-label">12운성</div><div class="detail-grid">';
-  unsRev.forEach(function(u){
-    var isStrong=['건록','제왕','관대','장생'].indexOf(u)>=0;
-    unsH+='<div class="detail-cell" style="'+(isStrong?'color:#e53935;font-weight:600':'')+'">'+(u||'—')+'</div>';
-  });
-  unsH+='</div></div>';
-
-  /* ── 12신살 행 ── */
-  var sinH='<div class="detail-row"><div class="detail-label">12신살 <span style="font-weight:400;color:#bbb">(년지 기준)</span></div><div class="detail-grid">';
-  sinRev.forEach(function(s){sinH+='<div class="detail-cell">'+(s||'—')+'</div>';});
-  sinH+='</div></div>';
-
-  /* ── 오행 분포 ── */
-  var EJ={'목':'🌳','화':'🔥','토':'⛰️','금':'⚔️','수':'💧'};
-  var ohH='<div class="oh-row">';
-  ['목','화','토','금','수'].forEach(function(e){
-    var c=saju.el[e]||0;var cl=EC_DARK[e]||'#666';
-    ohH+='<div class="oh-item"><div class="oh-circle" style="background:'+(c>0?cl+'20':'#f8f8f8')+';border:2px solid '+(c>0?cl:'#eee')+'">'+EJ[e]+'</div>';
-    ohH+='<div class="oh-label" style="color:'+cl+'">'+e+' '+c+'</div></div>';
-  });
-  ohH+='</div>';
-
-  /* ── 특수신살 태그 ── */
-  var salH='';
-  if(saju.specialSals&&saju.specialSals.length>0){
-    salH='<div class="sal-tags">';
-    saju.specialSals.forEach(function(s){salH+='<span class="sal-tag">'+s.name+'</span>';});
-    salH+='</div>';
+    if(!result.animal)result.animal={oheng:saju.dmEl||'토',dominant_sipsung:'비겁',condition:gg.strengthGrade==='신약'?'신약':'신강'};
+    if(!result.oneLine)result.oneLine=result.quote||'';
+    if(!result.profile)result.profile={};
   }
 
-  /* ── MBTI 섹션 ── */
-  var mbtiLtrs='';
-  mt.split('').forEach(function(l,i){mbtiLtrs+='<span style="color:'+DC[i]+'">'+l+'</span>';});
-  var mbtiTagsH='';
-  ST.ch.forEach(function(c,i){
-    var lb=c==='L'?DM_AX[i].Ll:DM_AX[i].Rl;var lv=strLv(ST.it[i]);
-    mbtiTagsH+='<span class="mbti-tag">'+lv+' '+lb+'</span>';
-  });
+  var cats=result.categories||[];
+  var prof=result.profile||{};
 
-  /* ── 섹션들: categories→items 평탄화 ── */
-  var secIdx=0;var secsH='';
-  cats.forEach(function(cat,ci){
-    (cat.items||[]).forEach(function(item,ii){
-      secIdx++;
-      var parasH=(item.content||'').split('\\n\\n').map(function(pa){return '<p>'+pa+'</p>';}).join('');
-      var insH='';
-      if(item.insightText){var iCls='insight-'+(item.insightType||'gold');insH='<div class="insight-box '+iCls+'">'+(item.insightIcon||'💡')+' '+item.insightText+'</div>';}
-      var bdrColor=acColors[(secIdx-1)%acColors.length]+'20';
-      secsH+='<div class="sec-block" style="animation-delay:'+(secIdx*0.05)+'s">';
-      secsH+='<div class="sec-head"><span class="sec-num" style="color:'+grAc+'">'+String(secIdx).padStart(2,'0')+'</span>';
-      secsH+='<h2 class="sec-title">'+(item.catch||item.title||'')+'</h2></div>';
-      secsH+='<div class="sec-body" style="border-left:3px solid '+bdrColor+'">'+parasH+insH+'</div>';
-      if(secIdx<14)secsH+='<div class="sec-divider"></div>';
-      secsH+='</div>';
-    });
-  });
+  /* ── 동물 카드 데이터 ── */
+  var animalInfo=null;
+  if(result.animal){animalInfo=getAnimalResult(result.animal.oheng,result.animal.dominant_sipsung,result.animal.condition);}
+  var ohD=animalInfo?animalInfo.ohengData:OHENG_DATA[0];
 
+  /* ── 배지 ── */
+  var bdgS='display:inline-block;padding:3px 10px;font-size:10px;font-weight:600;border-radius:8px;margin:2px';
+  var trueSolarBadge=saju.trueSolarApplied?'<span style="'+bdgS+';background:rgba(70,130,180,.1);color:#4682b4">🌍 진태양시 ('+ST.city+' '+(saju.trueSolarMin>0?'+':'')+saju.trueSolarMin+'분)</span>':'';
+  var pagyeokBadge=gg.pagyeokInfo?'<span style="'+bdgS+';background:rgba(211,47,47,.1);color:#d32f2f">⚠️ '+gg.pagyeokInfo.split(' — ')[0]+'</span>':'';
+  var aiBadge=isAI?'<span style="'+bdgS+';background:rgba(46,139,87,.1);color:#2e8b57">✨ AI 프리미엄</span>':'<span style="'+bdgS+';background:rgba(201,154,46,.1);color:#c99a2e">📋 기본 분석</span>';
+
+  /* ── 오행 클래스맵 ── */
+  var elCls={'목':'el-wood','화':'el-fire','토':'el-earth','금':'el-metal','수':'el-water'};
+  var DC=['#88619A','#2e8b57','#4682b4','#c99a2e'];
+
+  /* ── HTML 빌드 ── */
   var pg=document.getElementById('pg-res');
-  pg.style.background='#fff';pg.style.color='#333';
+  pg.style.background='var(--bg-primary)';pg.style.color='var(--text-primary)';
 
-  var html='<div class="res-wrap">';
-  /* Header */
-  html+='<div class="res-header" style="background:linear-gradient(180deg,'+grBg+' 0%,#fff 100%)">';
-  html+='<div class="logo-sm"><span style="color:#4298B4">M</span><span style="color:#e53935">B</span><span style="color:#E4AE3A">T</span><span style="color:#33A474">S</span></div>';
-  html+='<p style="font-size:12px;color:#999;margin-bottom:6px">'+ST.y+'년 '+ST.m+'월 '+ST.d+'일 '+(ST.h?ST.h+'시':'')+(ST.min?ST.min+'분':'')+' · '+ST.gender+' · 절기: '+saju.currentJeolgi+'</p>';
-  html+='<div class="res-subtitle">당신이라는 사람</div></div>';
+  var h='<div class="res-wrap">';
 
-  /* 만세력 */
-  html+='<div class="manse-card"><div class="manse-title">📜 만 세 력</div>';
-  if(trueSolarBadge || pagyeokBadge || aiBadge) html+='<div style="text-align:center;margin-bottom:10px">'+aiBadge+' '+trueSolarBadge+' '+pagyeokBadge+'</div>';
-  html+='<div class="pillar-grid">'+pilH+'</div>';
-  html+=jjgH+unsH+sinH+ohH+salH+'</div>';
+  /* ① Header */
+  h+='<div class="res-header">';
+  h+='<div class="logo-sm"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div>';
+  h+='<p style="font-size:12px;color:var(--text-muted);margin-bottom:4px">';
+  h+=ST.y+'년 '+ST.m+'월 '+ST.d+'일 '+(ST.h?ST.h+'시':'')+(ST.min?ST.min+'분':'')+' · '+ST.gender;
+  h+=(prof.seasonNote?' · '+prof.seasonNote:(saju.currentJeolgi?' · 절기: '+saju.currentJeolgi:''));
+  h+='</p>';
+  h+='<div style="font-size:13px;font-weight:600;color:var(--text-secondary)">당신이라는 사람</div>';
+  h+='</div>';
 
-  /* MBTI */
-  html+='<div class="mbti-section" style="background:'+grBg+'60"><div class="mbti-letters">'+mbtiLtrs+'</div>';
-  html+='<p class="mbti-name" style="color:'+grAc+'">'+ti.n+'</p>';
-  html+='<p class="mbti-cf">인지기능: '+ti.cf+'</p>';
-  html+='<div class="mbti-tags">'+mbtiTagsH+'</div></div>';
+  /* ② Animal Card */
+  if(animalInfo&&animalInfo.mod){
+    var mod=animalInfo.mod;
+    var gFrom=ohD.color,gTo=adjustColor(ohD.color,0.65);
+    h+='<div id="animal-card-capture" class="r-animal" style="background:linear-gradient(135deg,'+gFrom+','+gTo+')">';
+    h+='<div class="r-animal-emoji">'+animalInfo.emoji+'</div>';
+    h+='<div class="r-animal-tag">'+mod.tag+'</div>';
+    h+='<div class="r-animal-title">'+mod.title+'</div>';
+    h+='<div class="r-animal-desc">'+mod.desc+'</div>';
+    h+='<div class="r-animal-traits">';
+    (mod.traits||[]).forEach(function(t){h+='<span class="r-animal-trait">#'+t+'</span>';});
+    h+='</div>';
+    h+='<div class="r-animal-rx">💊 '+mod.rx+'</div>';
+    h+='<div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;gap:6px">';
+    h+='<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:14px;color:rgba(255,255,255,0.5)">MBTS</span>';
+    h+='<span style="font-size:10px;color:rgba(255,255,255,0.3)">사주×MBTI 운명 분석</span>';
+    h+='</div>';
+    h+='</div>';
+  }
 
-  /* Sections */
-  html+='<div class="sec-area">'+secsH+'</div>';
+  /* ③ Share Row */
+  h+='<div class="r-share-row">';
+  h+='<button class="r-share-btn" onclick="captureAnimalCard()" style="flex:1">📷 이미지 저장</button>';
+  h+='<button class="r-share-btn" onclick="shareKakao()" style="flex:1;background:#FEE500;color:#191919;border-color:#FEE500;font-weight:700">💬 카카오톡 공유</button>';
+  h+='</div>';
 
-  /* Footer */
-  html+='<div class="res-footer">';
-  html+='<p style="font-family:\'Noto Serif KR\',serif;font-size:17px;font-weight:700;color:'+grAc+';margin-bottom:8px;line-height:1.6">"'+quote+'"</p>';
-  html+='<p style="font-size:13px;color:#999;margin-bottom:28px">'+pTitle+'</p>';
-  html+='<button onclick="shareResult()" style="padding:14px 40px;font-size:14px;font-weight:700;color:#333;background:#FEE500;border:none;border-radius:30px;cursor:pointer">💬 카카오톡 공유</button><br>';
-  html+='<button onclick="resetAll()" style="padding:10px 28px;font-size:12px;color:#999;background:#f5f5f5;border:none;border-radius:30px;cursor:pointer;margin-top:12px">다시 분석하기</button>';
-  html+='<p style="margin-top:24px;font-size:11px;color:#bbb;opacity:.8">본 풀이는 명리학과 MBTI 이론을 기반한 참고용 분석이며,<br>개인의 의사결정을 대체하지 않습니다.</p>';
-  html+='<div style="text-align:center;margin:30px 0 60px"><button onclick="startChatFromResult()" style="padding:14px 32px;background:linear-gradient(135deg,#88619A,#6A4C7A);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 15px rgba(136,97,154,0.3)">🐰 달토에게 더 물어보기</button><div style="font-size:11px;color:#999;margin-top:8px">AI 사주 상담사에게 궁금한 점을 물어보세요</div></div>';
-  html+='</div>';
-  html+='<div style="height:80px"></div>'; // 탭바 여백
-  html+='</div>';
-  // 하단 탭바
-  html+='<div class="btm-tab"><div class="btm-tab-inner">';
-  html+='<div class="btm-tab-item active"><div class="tab-ic">🔮</div><div class="tab-lb">내 사주</div></div>';
-  html+='<div class="btm-tab-item" onclick="goPage(\'gh-input\')"><div class="tab-ic">💕</div><div class="tab-lb">궁합</div></div>';
-  html+='<div class="btm-tab-item" onclick="goPage(\'chat\')"><div class="tab-ic">🐰</div><div class="tab-lb">달토 상담</div></div>';
-  html+='</div></div>';
+  /* ④ Profile Card */
+  h+='<div class="r-profile">';
+  h+='<div class="r-profile-title">📜 만 세 력</div>';
+  h+='<div style="text-align:center;padding:0 16px 12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">'+aiBadge+trueSolarBadge+pagyeokBadge+'</div>';
 
-  pg.innerHTML=html;
+  /* 4기둥 그리드 */
+  h+='<div class="r-pil-grid">';
+  if(prof.pillars&&prof.pillars.length===4){
+    prof.pillars.forEach(function(pil){
+      var isDay=!!pil.isDay;
+      var cEl=pil.chunOheng||'',jEl=pil.jiOheng||'';
+      var cCls=elCls[cEl]||'',jCls=elCls[jEl]||'';
+      var cChar=(pil.chun||'').replace(/\(.*?\)/g,'').trim();
+      var jChar=(pil.ji||'').replace(/\(.*?\)/g,'').trim();
+      h+='<div class="r-pil-box'+(isDay?' r-pil-day':'')+'">';
+      h+='<div class="r-pil-label">'+pil.label+'</div>';
+      h+='<div class="r-pil-stem '+cCls+'">'+cChar+'</div>';
+      h+='<div class="r-pil-info">'+cEl+'</div>';
+      h+='<div class="r-pil-ss">'+(pil.sipsung||'')+'</div>';
+      if(pil.unyeong)h+='<div class="r-pil-un">'+pil.unyeong+'</div>';
+      h+='<div class="r-pil-div"></div>';
+      h+='<div class="r-pil-branch '+jCls+'">'+jChar+'</div>';
+      h+='<div class="r-pil-info">'+jEl+'</div>';
+      if(pil.jiji)h+='<div class="r-pil-jiji">'+pil.jiji+'</div>';
+      h+='</div>';
+    });
+  }else{
+    var pRev=[saju.P[3],saju.P[2],saju.P[1],saju.P[0]];
+    var ssRev=[saju.ss[3],saju.ss[2],saju.ss[1],saju.ss[0]];
+    var unsRev=[saju.uns[3],saju.uns[2],saju.uns[1],saju.uns[0]];
+    pRev.forEach(function(p,i){
+      var sOh=p.gi!=null?OHAENG_TGAN[p.gi]:'',bOh=p.bi!=null?OHAENG_JIJI[p.bi]:'';
+      var isDay=i===1;
+      h+='<div class="r-pil-box'+(isDay?' r-pil-day':'')+'">';
+      h+='<div class="r-pil-label">'+p.l+'</div>';
+      h+='<div class="r-pil-stem '+(elCls[sOh]||'')+'">'+p.s+'</div>';
+      h+='<div class="r-pil-info">'+sOh+'</div>';
+      h+='<div class="r-pil-ss">'+(ssRev[i]?ssRev[i].ss:'')+'</div>';
+      if(unsRev[i])h+='<div class="r-pil-un">'+unsRev[i]+'</div>';
+      h+='<div class="r-pil-div"></div>';
+      h+='<div class="r-pil-branch '+(elCls[bOh]||'')+'">'+p.b+'</div>';
+      h+='<div class="r-pil-info">'+bOh+'</div>';
+      h+='</div>';
+    });
+  }
+  h+='</div>';
+
+  /* 오행 바 */
+  h+='<div class="r-oh-bar">';
+  if(prof.ohengBalance&&prof.ohengBalance.length===5){
+    prof.ohengBalance.forEach(function(ob){
+      var od=OHENG_DATA.filter(function(o){return o.key===ob.name;})[0]||{};
+      h+='<div class="r-oh-item">';
+      h+='<div class="r-oh-dot" style="background:'+(ob.count>0?od.bg:'#f5f5f5')+';border:2px solid '+(ob.count>0?od.color:'#eee')+'">'+(ob.emoji||od.emoji||'')+'</div>';
+      h+='<div class="r-oh-lbl" style="color:'+(od.color||'#999')+'">'+ob.name+' '+ob.count+'</div>';
+      h+='</div>';
+    });
+  }else{
+    ['목','화','토','금','수'].forEach(function(e){
+      var c=saju.el[e]||0;
+      var od=OHENG_DATA.filter(function(o){return o.key===e;})[0]||{};
+      h+='<div class="r-oh-item">';
+      h+='<div class="r-oh-dot" style="background:'+(c>0?od.bg:'#f5f5f5')+';border:2px solid '+(c>0?od.color:'#eee')+'">'+(od.emoji||EJ[e]||'')+'</div>';
+      h+='<div class="r-oh-lbl" style="color:'+(od.color||'#999')+'">'+e+' '+c+'</div>';
+      h+='</div>';
+    });
+  }
+  h+='</div>';
+
+  /* 특수신살 */
+  var stars=prof.specialStars||(saju.specialSals?saju.specialSals.map(function(s){return s.name;}):[]);
+  if(stars.length>0){
+    h+='<div class="r-sal-tags">';
+    stars.forEach(function(s){h+='<span class="r-sal-tag">'+s+'</span>';});
+    h+='</div>';
+  }
+
+  h+='<div class="r-divider"></div>';
+
+  /* MBTI 영역 */
+  h+='<div class="r-mbti-area">';
+  var mbtiType=prof.mbtiType||mt;
+  var mbtiName=prof.mbtiName||ti.n;
+  var mbtiFuncs=prof.mbtiFunctions||ti.cf;
+  h+='<div class="r-mbti-letters">';
+  mbtiType.split('').forEach(function(l,i){h+='<span style="color:'+DC[i]+'">'+l+'</span>';});
+  h+='</div>';
+  h+='<div class="r-mbti-name">'+mbtiName+'</div>';
+  h+='<div class="r-mbti-cf">인지기능: '+mbtiFuncs+'</div>';
+  h+='<div class="r-mbti-tags">';
+  if(prof.mbtiTags&&prof.mbtiTags.length>0){
+    prof.mbtiTags.forEach(function(tag){h+='<span class="r-mbti-tag">'+tag+'</span>';});
+  }else{
+    ST.ch.forEach(function(c,i){
+      var lb=c==='L'?DM_AX[i].Ll:DM_AX[i].Rl;var lv=strLv(ST.it[i]);
+      h+='<span class="r-mbti-tag">'+lv+' '+lb+'</span>';
+    });
+  }
+  h+='</div>';
+  h+='</div>';
+  h+='</div>';
+
+  /* ⑤ Category Nav (sticky) */
+  if(cats.length>0){
+    h+='<div class="r-cat-nav" id="r-cat-nav"><div class="r-cat-nav-inner" id="r-cat-nav-inner">';
+    cats.forEach(function(cat,ci){
+      h+='<div class="r-cat-pill'+(ci===0?' active':'')+'" data-cat="'+cat.id+'" onclick="scrollToCat(\''+cat.id+'\')">';
+      h+=(cat.icon||'')+' '+cat.title+'</div>';
+    });
+    h+='</div></div>';
+
+    /* ⑥ Category Sections */
+    cats.forEach(function(cat,ci){
+      h+='<div class="r-cat-sec" id="cat-'+cat.id+'" data-cat-id="'+cat.id+'">';
+      h+='<div class="r-cat-head">';
+      h+='<div class="r-cat-num">'+String(ci+1).padStart(2,'0')+'</div>';
+      h+='<div class="r-cat-title-row"><span class="r-cat-icon">'+(cat.icon||'')+'</span><span class="r-cat-title">'+cat.title+'</span></div>';
+      if(cat.subtitle)h+='<div class="r-cat-sub">'+cat.subtitle+'</div>';
+      h+='</div>';
+      (cat.subs||[]).forEach(function(sub){
+        h+='<div class="r-sub">';
+        h+='<div class="r-sub-h">'+sub.h+'</div>';
+        h+='<div class="r-sub-b">'+renderSubBody(sub.b)+'</div>';
+        h+='</div>';
+      });
+      h+='</div>';
+    });
+  }
+
+  /* ⑦ OneLine */
+  if(result.oneLine){
+    h+='<div class="r-oneline">';
+    h+='<div class="r-oneline-label">YOUR LIFE IN ONE LINE</div>';
+    h+='<div class="r-oneline-text">'+(result.oneLine||'').replace(/\\n/g,'<br>').replace(/\n/g,'<br>')+'</div>';
+    h+='</div>';
+  }
+
+  /* ⑧ CTA */
+  h+='<div class="r-cta">';
+  h+='<div class="r-cta-row">';
+  h+='<button class="r-cta-btn" onclick="goPage(\'home\');switchHomeTab(\'gunghap\')" style="background:rgba(232,69,60,.1);color:#E8453C">💕 궁합 보러가기</button>';
+  h+='<button class="r-cta-btn" onclick="shareKakao()" style="background:#FEE500;color:#191919">💬 카카오 공유</button>';
+  h+='</div>';
+  h+='<button class="r-cta-btn" onclick="startChatFromResult()" style="width:100%;background:var(--accent);color:#fff;box-shadow:0 4px 15px var(--accent-glow)">🐰 달토에게 더 물어보기</button>';
+  h+='<div style="font-size:11px;color:var(--text-muted);margin-top:8px">AI 사주 상담사에게 궁금한 점을 물어보세요</div>';
+  h+='<button class="r-cta-btn" onclick="resetAll()" style="margin-top:12px;background:var(--bg-glass);color:var(--text-muted);border:1px solid var(--border)">다시 분석하기</button>';
+  h+='<p style="margin-top:16px;font-size:11px;color:var(--text-muted);opacity:.8">본 풀이는 명리학과 MBTI 이론을 기반한 참고용 분석이며,<br>개인의 의사결정을 대체하지 않습니다.</p>';
+  h+='</div>';
+
+  h+='<div style="height:80px"></div>';
+  h+='</div>';
+
+  // 하단 4탭 탭바
+  h+='<div class="btm-tab"><div class="btm-tab-inner">';
+  h+='<div class="btm-tab-item" onclick="goPage(\'home\')"><div class="tab-ic">🏠</div><div class="tab-lb">홈</div></div>';
+  h+='<div class="btm-tab-item active"><div class="tab-ic">📊</div><div class="tab-lb">분석결과</div></div>';
+  h+='<div class="btm-tab-item" onclick="alert(\'저장 기능은 준비 중이에요!\')"><div class="tab-ic">💾</div><div class="tab-lb">저장</div></div>';
+  h+='<div class="btm-tab-item" onclick="alert(\'설정 기능은 준비 중이에요!\')"><div class="tab-ic">⚙️</div><div class="tab-lb">설정</div></div>';
+  h+='</div></div>';
+
+  pg.innerHTML=h;
   pg.style.display='flex';pg.style.opacity='0';
   setTimeout(function(){pg.style.transition='opacity .8s';pg.style.opacity='1';},50);
   document.querySelectorAll('.page').forEach(function(p2){if(p2.id!=='pg-res')p2.style.display='none';});
+  setTimeout(function(){initCatNav();},300);
 }
 
-function shareResult(){var t='🔮 MBTS 사주×MBTI 분석\n\n내 운명도 확인해보세요 👉';if(navigator.share)navigator.share({title:'MBTS',text:t});else{navigator.clipboard&&navigator.clipboard.writeText(t);alert('복사됨!');}}
-function resetAll(){ST={y:"",m:"",d:"",h:"",min:"",gender:"",ch:[null,null,null,null],it:[null,null,null,null],cur:0};document.getElementById('in-y').value='';document.getElementById('in-m').value='';document.getElementById('in-d').value='';document.getElementById('in-h').value='';document.getElementById('in-min').value='';pickGender('');document.getElementById('pg-res').innerHTML='';goPage('home');}
+function shareResult(){shareKakao();}
+function resetAll(){
+  localStorage.removeItem('mbts_lastResult');
+  window._lastSaju=null;window._lastDW=null;window._lastGG=null;
+  window._lastMBTI=null;window._lastMBTIObj=null;
+  window._lastAIResult=null;window._lastIsAI=null;
+  ST={y:"",m:"",d:"",h:"",min:"",gender:"",city:"",cityLng:0,ch:[null,null,null,null],it:[null,null,null,null],cur:0};
+  document.getElementById('in-y').value='';document.getElementById('in-m').value='';
+  document.getElementById('in-d').value='';document.getElementById('in-h').value='';
+  document.getElementById('in-min').value='';document.getElementById('in-city').value='';
+  pickGender('');document.getElementById('pg-res').innerHTML='';goPage('home');
+}
 
 // ===== 달토 채팅 시스템 =====
 var chatHistory = [];
@@ -5334,7 +5934,50 @@ async function sendChatMessage(text){
 }
 
 initBirth();
+
+// ★ localStorage 복원
+(function restoreLastResult(){
+  try{
+    var saved=localStorage.getItem('mbts_lastResult');
+    if(!saved)return;
+    var data=JSON.parse(saved);
+    // 입력값 복원
+    ST.y=data.input.y;ST.m=data.input.m;ST.d=data.input.d;
+    ST.h=data.input.h;ST.min=data.input.min;
+    ST.gender=data.input.gender;
+    ST.city=data.input.city||'';ST.cityLng=data.input.cityLng||0;
+    ST.ch=data.input.ch;ST.it=data.input.it;
+    // 전역변수 복원
+    window._lastSaju=data.saju;window._lastDW=data.dw;window._lastGG=data.gg;
+    window._lastMBTI=data.mbti;window._lastMBTIObj=data.mbtiObj;
+    window._lastAIResult=data.aiResult;window._lastIsAI=data.isAI;
+    console.log('[MBTS] localStorage에서 이전 분석 결과 복원됨');
+  }catch(e){console.warn('[MBTS] localStorage 복원 실패:',e);}
+})();
+
+// 카카오 SDK 초기화
+if(typeof Kakao!=='undefined'&&!Kakao.isInitialized()){
+  Kakao.init('여기에_카카오_JavaScript_앱키_입력');
+  console.log('[MBTS] Kakao SDK 초기화 완료');
+}
+
 setTimeout(function(){document.getElementById('land-inner').style.opacity='1';document.getElementById('land-inner').style.transform='translateY(0)';},100);
+
+// Stars animation
+(function(){
+  var c=document.getElementById('stars-container');
+  if(!c)return;
+  for(var i=0;i<50;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.setProperty('--dur',(2+Math.random()*4)+'s');
+    s.style.setProperty('--delay',(Math.random()*5)+'s');
+    if(Math.random()>0.7)s.style.width=s.style.height='3px';
+    c.appendChild(s);
+  }
+})();
 </script>
 </body>
 </html>
