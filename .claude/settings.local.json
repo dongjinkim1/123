@@ -5,7 +5,23 @@
       "Bash(git reflog:*)",
       "Bash(dir \"C:\\\\Users\\\\김쪨리\\\\.claude\\\\projects\\\\c--Users-----Desktop-mbts-app\"\" /B /A-D)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\n26.02.16.19시34분\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git commit -m \"$\\(cat <<''EOF''\n26.02.16.19시34분\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(npm install:*)",
+      "Bash(npx next build)",
+      "Bash(node check_premium.js:*)",
+      "Bash(node check_detail2.js:*)",
+      "Bash(node check_detail3.js:*)",
+      "Bash(node check_final.js:*)",
+      "Bash(node:*)",
+      "Bash(ls:*)",
+      "Bash(/tmp/search_claude2.ps1 << 'PSEOF'\n$userHome = [Environment]::GetFolderPath\\('UserProfile'\\)\n$claudeDir = Join-Path $userHome '.claude'\n\nWrite-Output \"=== SEARCHING FOR CATEGORY RENEWAL v4 ===\"\n\n$files = Get-ChildItem -Path $claudeDir -Filter '*.jsonl' -Recurse\nforeach \\($file in $files\\) {\n    $lines = Get-Content $file.FullName -Encoding UTF8\n    for \\($i = 0; $i -lt $lines.Count; $i++\\) {\n        if \\($lines[$i] -match '리뉴얼 v4|5개 카테고리|14개.*서브|me.*love.*career.*year.*future'\\) {\n            Write-Output \"FOUND in $\\($file.Name\\) at line $i\"\n        }\n    }\n}\nPSEOF)",
+      "Bash(printf:*)",
+      "Bash(python3:*)",
+      "Bash(curl:*)",
+      "Bash(xxd \"c:/Users/김쪨리/Desktop/mbts-app/app/globals.css\")",
+      "Bash(powershell.exe -Command \"[System.IO.File]::ReadAllBytes\\(''c:\\\\Users\\\\김쪨리\\\\Desktop\\\\mbts-app\\\\app\\\\globals.css''\\)[0..9] -join '' ''\")",
+      "Bash(powershell.exe -Command \"Stop-Process -Name ''node'' -Force -ErrorAction SilentlyContinue\")",
+      "Bash(powershell.exe -Command \"taskkill /F /IM node.exe\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\김쪨리\\Desktop\\mbts-app"

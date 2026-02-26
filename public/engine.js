@@ -1,489 +1,9 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>MBTS — 사주×MBTI 운명 분석</title>
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"/>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg-primary:#FDFBF7;
-  --bg-secondary:#F5F0E8;
-  --bg-card:#FFFFFF;
-  --bg-glass:#FFFFFF;
-  --text-primary:#2D2D2D;
-  --text-secondary:#555;
-  --text-muted:#999;
-  --accent:#88619A;
-  --accent-light:#A07AB2;
-  --accent-glow:rgba(136,97,154,0.2);
-  --accent-dim:rgba(136,97,154,0.08);
-  --border:rgba(0,0,0,0.08);
-  --border-light:rgba(0,0,0,0.12);
-  --radius-lg:20px;
-  --radius-md:14px;
-  --radius-sm:10px;
-  --font-main:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Roboto,'Helvetica Neue','Segoe UI',sans-serif;
-  --font-serif:'Noto Serif KR',serif;
-  --font-logo:'Nunito',sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-main);color:var(--text-primary);min-height:100vh;background:var(--bg-primary);overflow-x:hidden}
-/* Ambient Background — hidden in light theme */
-.ambient-bg{display:none}.stars-container{display:none}
-/* Animations */
-@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes hb{0%,100%{transform:scale(1)}14%{transform:scale(1.12)}28%{transform:scale(1)}42%{transform:scale(1.08)}56%{transform:scale(1)}}
-@keyframes dp{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
-@keyframes revUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
-@keyframes loadShimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@keyframes revDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-/* Global Inputs */
-input:focus,select:focus{border-color:var(--accent)!important;box-shadow:0 0 0 3px var(--accent-glow)!important}
-button{font-family:var(--font-main);cursor:pointer}
-select option{background:#fff;color:var(--text-primary)}
-/* Glass Card */
-.glass-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
-/* Pages */
-.page{display:none;min-height:100vh;position:relative;z-index:1}
-.page.active{display:flex;flex-direction:column}
-/* Bottom Tab Bar — 4 tabs */
-.btm-tab{position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(253,251,247,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:0;z-index:999;padding-bottom:env(safe-area-inset-bottom,0)}
-.btm-tab-inner{display:flex;align-items:center;justify-content:center;gap:32px;width:100%;max-width:640px}
-.btm-tab-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 20px;border-radius:12px;transition:all .2s;-webkit-tap-highlight-color:transparent}
-.btm-tab-item:active{transform:scale(.95)}
-.btm-tab-item .tab-ic{font-size:22px}
-.btm-tab-item .tab-lb{font-size:11px;font-weight:600;color:var(--text-muted)}
-.btm-tab-item.active .tab-lb{color:var(--accent)}
-.btm-tab-item.active{background:var(--accent-dim)}
-/* Logo */
-.logo{display:flex;align-items:center;justify-content:center}
-.logo span{font-family:var(--font-logo);font-weight:800;line-height:1}
-.serif{font-family:var(--font-serif)}
+// ============================================================
+// engine.js — MBTS 사주 엔진 (순수 계산 + 데이터 + AI)
+// 이 파일에는 document, getElementById 등 DOM 코드가 없어야 한다.
+// UI는 index.html이 담당한다.
+// ============================================================
 
-/* ===== MBTS Result Theme v2 ===== */
-.res-wrap{max-width:640px;margin:0 auto;padding:0 0 80px;position:relative}
-.res-header{text-align:center;padding:36px 20px 16px}
-.res-header .logo-sm{display:flex;justify-content:center;gap:0;margin-bottom:8px}
-.res-header .logo-sm span{font-family:var(--font-logo);font-weight:800;font-size:28px;line-height:1}
-.el-fire{color:#E8453C}.el-earth{color:#C49A2A}.el-wood{color:#22A469}.el-water{color:#2D7EB5}.el-metal{color:#6B7B8D}
-/* ── Animal Card ── */
-.r-animal{margin:0 16px 16px;border-radius:20px;padding:32px 24px;text-align:center;position:relative;overflow:hidden}
-.r-animal-emoji{font-size:72px;display:block;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15))}
-.r-animal-tag{display:inline-block;padding:4px 14px;border-radius:100px;font-size:12px;font-weight:700;margin-bottom:8px;background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
-.r-animal-title{font-size:17px;font-weight:800;color:#fff;line-height:1.5;margin-bottom:6px}
-.r-animal-desc{font-size:13px;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:14px;word-break:keep-all}
-.r-animal-traits{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.r-animal-trait{padding:4px 12px;border-radius:100px;font-size:11px;font-weight:600;background:rgba(255,255,255,.18);color:#fff}
-.r-animal-rx{font-size:12px;color:rgba(255,255,255,.7);font-style:italic}
-/* ── Share Row ── */
-.r-share-row{display:flex;gap:10px;justify-content:center;margin:0 16px 20px}
-.r-share-btn{padding:10px 20px;font-size:13px;font-weight:600;border:1.5px solid var(--border);border-radius:100px;background:#fff;color:var(--text-secondary);cursor:pointer}
-.r-share-btn:active{background:var(--bg-secondary)}
-/* ── Profile Card ── */
-.r-profile{margin:0 16px 20px;background:#fff;border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04)}
-.r-profile-title{font-size:12px;font-weight:700;color:var(--text-muted);text-align:center;padding:16px 16px 12px;letter-spacing:2px}
-.r-pil-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 14px 14px}
-.r-pil-box{text-align:center;background:rgba(0,0,0,.02);border-radius:14px;padding:10px 4px;border:1px solid var(--border)}
-.r-pil-box.r-pil-day{border-color:var(--accent);box-shadow:0 2px 10px var(--accent-glow)}
-.r-pil-label{font-size:10px;color:var(--text-muted);margin-bottom:5px;font-weight:600}
-.r-pil-stem{font-size:22px;font-weight:900;line-height:1.3}
-.r-pil-info{font-size:9px;color:var(--text-muted);margin-bottom:1px}
-.r-pil-ss{font-size:9px;font-weight:600;color:var(--accent);margin-bottom:2px}
-.r-pil-un{font-size:8px;color:var(--text-muted)}
-.r-pil-div{height:1px;background:var(--border);margin:4px 0}
-.r-pil-branch{font-size:22px;font-weight:900;line-height:1.3}
-.r-pil-jiji{font-size:9px;color:var(--text-muted);margin-top:3px}
-/* ── Oheng Bar ── */
-.r-oh-bar{display:flex;gap:12px;padding:12px 16px;justify-content:center;border-top:1px solid var(--border)}
-.r-oh-item{text-align:center}
-.r-oh-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;margin:0 auto 3px}
-.r-oh-lbl{font-size:9px;font-weight:600}
-/* ── Special Stars ── */
-.r-sal-tags{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;padding:8px 16px 14px}
-.r-sal-tag{font-size:10px;padding:3px 10px;border-radius:100px;border:1px solid rgba(136,97,154,.15);color:var(--accent);background:var(--accent-dim)}
-/* ── Profile Divider ── */
-.r-divider{height:1px;background:var(--border);margin:0 16px}
-/* ── MBTI Area ── */
-.r-mbti-area{padding:16px;text-align:center}
-.r-mbti-letters{display:flex;justify-content:center;gap:6px;margin-bottom:6px}
-.r-mbti-letters span{font-size:28px;font-weight:900;font-family:var(--font-main)}
-.r-mbti-name{font-size:14px;font-weight:700;color:var(--accent)}
-.r-mbti-cf{font-size:11px;color:var(--text-muted);margin-top:3px}
-.r-mbti-tags{display:flex;justify-content:center;gap:5px;margin-top:8px;flex-wrap:wrap}
-.r-mbti-tag{font-size:10px;color:var(--text-secondary);background:rgba(0,0,0,.03);padding:4px 10px;border-radius:20px;border:1px solid var(--border)}
-/* ── Category Nav (sticky) ── */
-.r-cat-nav{position:sticky;top:0;z-index:100;background:rgba(253,251,247,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:10px 0;margin-bottom:16px}
-.r-cat-nav-inner{display:flex;gap:8px;overflow-x:auto;padding:0 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.r-cat-nav-inner::-webkit-scrollbar{display:none}
-.r-cat-pill{flex-shrink:0;padding:8px 16px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);color:var(--text-muted);background:#fff;white-space:nowrap;transition:all .2s}
-.r-cat-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-/* ── Category Section ── */
-.r-cat-sec{padding:0 16px 24px}
-.r-cat-head{margin-bottom:16px}
-.r-cat-num{font-size:11px;font-weight:800;color:var(--text-muted);margin-bottom:4px}
-.r-cat-title-row{display:flex;align-items:center;gap:8px}
-.r-cat-icon{font-size:24px}
-.r-cat-title{font-size:20px;font-weight:800;color:var(--text-primary)}
-.r-cat-sub{font-size:13px;color:var(--text-muted);margin-top:2px}
-/* ── Sub Card ── */
-.r-sub{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px;box-shadow:0 1px 6px rgba(0,0,0,.03)}
-.r-sub-h{font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:12px;line-height:1.5}
-.r-sub-b{font-size:14px;line-height:2;color:var(--text-secondary);word-break:keep-all}
-.r-sub-b p{margin-bottom:14px}
-.r-sub-b p:last-child{margin-bottom:0}
-/* ── Tip Box (💊🔥💧💜🌱💎) ── */
-.r-tip{border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.85;background:rgba(136,97,154,.06);border-left:3px solid var(--accent);color:var(--text-secondary)}
-/* ── OneLine Card ── */
-.r-oneline{margin:8px 16px 24px;background:linear-gradient(135deg,#1E1B2E,#16132A);border-radius:20px;padding:32px 24px;text-align:center}
-.r-oneline-label{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.4);font-weight:700;margin-bottom:12px;text-transform:uppercase}
-.r-oneline-text{font-family:var(--font-serif);font-size:18px;line-height:1.8;color:rgba(255,255,255,.85);font-weight:500}
-/* ── CTA ── */
-.r-cta{text-align:center;padding:20px 16px 40px}
-.r-cta-row{display:flex;gap:10px;justify-content:center;margin-bottom:16px}
-.r-cta-btn{padding:14px 24px;font-size:14px;font-weight:700;border:none;border-radius:14px;cursor:pointer}
-/* ── Responsive ── */
-@media(max-width:600px){.r-pil-grid{padding:0 10px 10px}.r-pil-stem,.r-pil-branch{font-size:18px}.r-cat-sec{padding:0 12px 20px}.r-sub{padding:16px}.r-sub-b{font-size:13px}.r-animal{margin:0 10px 14px;padding:28px 18px}}
-/* ===== Chat (달토 상담) ===== */
-.chat-wrap{display:flex;flex-direction:column;height:100vh;max-width:640px;margin:0 auto;width:100%}
-.chat-header{background:rgba(253,251,247,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:16px 20px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
-.chat-header-top{display:flex;align-items:center;gap:12px;margin-bottom:4px}
-.chat-header-back{background:none;border:none;font-size:14px;color:var(--accent);font-weight:600;padding:4px 0;cursor:pointer}
-.chat-header-title{font-size:17px;font-weight:800;color:var(--text-primary)}
-.chat-header-sub{font-size:11px;color:var(--text-muted);padding-left:2px}
-.chat-messages{flex:1;overflow-y:auto;padding:16px 16px 8px;background:var(--bg-secondary);-webkit-overflow-scrolling:touch}
-.chat-bubble-row{display:flex;margin-bottom:14px;align-items:flex-end}
-.chat-bubble-row.chat-user{justify-content:flex-end}
-.chat-bubble-row.chat-ai{justify-content:flex-start;align-items:flex-start}
-.chat-avatar{width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-right:8px}
-.chat-bubble{max-width:75%;padding:12px 16px;font-size:14px;line-height:1.7;word-break:keep-all}
-.chat-bubble.chat-bubble-user{background:var(--accent);color:#fff;border-radius:18px 18px 4px 18px}
-.chat-bubble.chat-bubble-ai{background:#fff;color:var(--text-secondary);border-radius:18px 18px 18px 4px;border:1px solid var(--border)}
-.chat-time{font-size:11px;color:var(--text-muted);margin-top:4px;padding:0 4px}
-.chat-time-user{text-align:right}
-.chat-time-ai{text-align:left;padding-left:40px}
-.chat-quick-wrap{padding:8px 16px 4px;background:var(--bg-secondary);flex-shrink:0}
-.chat-quick-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.chat-quick-scroll::-webkit-scrollbar{display:none}
-.chat-quick-btn{flex-shrink:0;padding:8px 16px;font-size:13px;font-weight:600;color:var(--accent);background:#fff;border:1.5px solid var(--border-light);border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .2s}
-.chat-quick-btn:active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.chat-input-area{display:flex;align-items:flex-end;gap:8px;padding:10px 16px;background:rgba(253,251,247,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);flex-shrink:0;padding-bottom:calc(10px + env(safe-area-inset-bottom,0))}
-.chat-input{flex:1;padding:10px 14px;font-size:14px;border:1.5px solid var(--border-light);border-radius:20px;outline:none;resize:none;max-height:100px;min-height:40px;font-family:var(--font-main);line-height:1.5;overflow-y:auto;background:#fff;color:var(--text-primary)}
-.chat-input::placeholder{color:var(--text-muted)}
-.chat-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
-.chat-send-btn{width:40px;height:40px;border-radius:50%;border:none;background:rgba(0,0,0,0.05);color:var(--text-muted);font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.chat-send-btn.chat-send-active{background:var(--accent);color:#fff}
-@keyframes chatTyping{0%,60%,100%{opacity:.3}30%{opacity:1}}
-.chat-typing-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin:0 2px;animation:chatTyping 1.4s infinite}
-.chat-typing-dot:nth-child(2){animation-delay:.2s}
-.chat-typing-dot:nth-child(3){animation-delay:.4s}
-.chat-start-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 24px;margin:20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.04)}
-</style>
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
-</head>
-<body>
-<!-- Ambient Background -->
-<div class="ambient-bg">
-  <div class="ambient-orb orb-1"></div>
-  <div class="ambient-orb orb-2"></div>
-  <div class="ambient-orb orb-3"></div>
-</div>
-<div class="stars-container" id="stars-container"></div>
-
-<div id="pg-land" class="page active" style="align-items:center;justify-content:center;padding:20px;position:relative">
-  <div id="land-inner" style="z-index:1;text-align:center;opacity:0;transform:translateY(24px);transition:all .9s cubic-bezier(.16,1,.3,1)">
-    <div class="logo" style="margin-bottom:20px"><span style="font-size:68px;color:#4CAF7D">M</span><span style="font-size:68px;color:#5B8FD4">B</span><span style="font-size:68px;color:#E05A5A">T</span><span style="font-size:68px;color:#E8B84B">S</span></div>
-    <div style="margin-bottom:44px"><p style="font-size:clamp(15px,3.5vw,19px);color:var(--text-secondary);line-height:1.9">사주가 그린 지도 위,<br><strong style="font-weight:800;color:var(--text-primary)">당신의 성격이 길이 됩니다.</strong></p></div>
-    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:36px"><div style="width:10px;height:10px;border-radius:50%;background:#4CAF7D;animation:dp 1.4s ease-in-out 0s infinite"></div><div style="width:10px;height:10px;border-radius:50%;background:#5B8FD4;animation:dp 1.4s ease-in-out .2s infinite"></div><div style="width:10px;height:10px;border-radius:50%;background:#E05A5A;animation:dp 1.4s ease-in-out .4s infinite"></div><div style="width:10px;height:10px;border-radius:50%;background:#E8B84B;animation:dp 1.4s ease-in-out .6s infinite"></div></div>
-    <button onclick="goPage('dalto')" style="padding:16px 52px;font-size:16px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:30px;box-shadow:0 4px 24px var(--accent-glow)">나의 운명 지도 펼치기 →</button>
-    <p style="margin-top:18px;font-size:13px;color:var(--text-muted)">소요시간 약 2분 · 양력 생년월일시 + MBTI</p>
-  </div>
-</div>
-
-<!-- ===== [2] 달토 로그인 ===== -->
-<div id="pg-dalto" class="page" style="align-items:center;justify-content:center;padding:20px">
-  <div style="max-width:400px;width:100%;text-align:center;animation:fu .7s ease both">
-    <div style="font-size:100px;margin-bottom:16px;animation:hb 2s ease-in-out infinite">🐰</div>
-    <h2 style="font-size:22px;font-weight:800;color:var(--text-primary);margin-bottom:6px">안녕하세요! 달토예요</h2>
-    <p style="font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:8px">당신의 사주를 읽어드릴게요</p>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:36px">로그인하면 분석 결과를 저장할 수 있어요</p>
-    <button onclick="goPage('home')" style="width:100%;max-width:320px;padding:16px;font-size:16px;font-weight:700;color:#191919;background:#FEE500;border:none;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto 12px">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.03 2 1 5.13 1 8.97c0 2.48 1.66 4.66 4.15 5.87l-1.06 3.87c-.09.33.28.6.56.41l4.62-3.05c.24.02.48.03.73.03 4.97 0 9-3.13 9-6.97C19 5.13 14.97 2 10 2z" fill="#191919"/></svg>
-      카카오로 시작하기
-    </button>
-    <button onclick="goPage('home')" style="width:100%;max-width:320px;padding:14px;font-size:14px;font-weight:500;color:var(--text-muted);background:#fff;border:1px solid var(--border);border-radius:14px;margin:0 auto">로그인 없이 둘러보기</button>
-  </div>
-</div>
-
-<!-- ===== [3] 메인홈 ===== -->
-<div id="pg-home" class="page" style="align-items:stretch;justify-content:flex-start;padding:0">
-  <!-- 헤더 -->
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px">
-    <div class="logo"><span style="font-size:28px;color:#4CAF7D">M</span><span style="font-size:28px;color:#5B8FD4">B</span><span style="font-size:28px;color:#E05A5A">T</span><span style="font-size:28px;color:#E8B84B">S</span></div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <span style="font-size:32px">🐰</span>
-    </div>
-  </div>
-  <!-- 상단 탭바: 사주/궁합/달토 -->
-  <div style="display:flex;gap:0;margin:0 20px 20px;background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:14px;padding:4px">
-    <button id="home-tab-saju" onclick="switchHomeTab('saju')" style="flex:1;padding:12px;font-size:14px;font-weight:700;border:none;border-radius:11px;cursor:pointer;transition:all .25s;background:var(--accent);color:#fff">🔮 내 사주</button>
-    <button id="home-tab-gunghap" onclick="switchHomeTab('gunghap')" style="flex:1;padding:12px;font-size:14px;font-weight:700;border:none;border-radius:11px;cursor:pointer;transition:all .25s;background:transparent;color:var(--text-muted)">💕 궁합</button>
-    <button id="home-tab-chat" onclick="switchHomeTab('chat')" style="flex:1;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:11px;cursor:pointer;transition:all .25s;background:transparent;color:var(--text-muted)">상담사 달토🐰</button>
-  </div>
-  <!-- 사주 탭 컨텐츠 -->
-  <div id="home-content-saju" style="padding:0 20px 40px">
-    <div style="text-align:center;margin-bottom:24px">
-      <h2 style="font-size:20px;font-weight:800;color:var(--text-primary)">안녕하세요 👋</h2>
-      <p style="font-size:14px;color:var(--text-muted);margin-top:4px">사주 × MBTI로 운명 지도를 그려드려요</p>
-    </div>
-    <!-- 사주 시작 카드 -->
-    <div onclick="goPage('birth')" class="glass-card" style="padding:28px 24px;cursor:pointer;margin-bottom:16px;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='rgba(0,0,0,0.08)'">
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
-        <div style="width:56px;height:56px;border-radius:16px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:28px">🔮</div>
-        <div>
-          <div style="font-size:17px;font-weight:700;color:var(--text-primary)">MBTS 프리미엄 분석</div>
-          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">사주 × MBTI 교차 분석</div>
-        </div>
-      </div>
-      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:16px">생년월일시와 MBTI만 입력하면<br>AI가 당신만의 운명 지도를 그려드려요</p>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="display:flex;gap:6px"><span style="padding:4px 10px;font-size:11px;font-weight:600;background:var(--accent-dim);color:var(--accent-light);border-radius:8px">약 2분</span><span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(201,154,46,.1);color:#c99a2e;border-radius:8px">1,500원</span></div>
-        <span style="font-size:14px;font-weight:700;color:var(--accent)">시작하기 →</span>
-      </div>
-    </div>
-    <!-- 과거 기록 (있으면 표시) -->
-    <div id="home-past-saju" style="display:none">
-      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">내 분석 기록</div>
-      <div id="home-past-saju-card" onclick="viewSavedResult()" class="glass-card" style="padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer">
-        <div style="font-size:24px">🔮</div>
-        <div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--text-primary)" id="home-past-label">분석 결과</div><div style="font-size:12px;color:var(--text-muted)" id="home-past-sub">아직 없음</div></div>
-        <span style="font-size:18px;color:var(--text-muted)">›</span>
-      </div>
-    </div>
-  </div>
-  <!-- 궁합 탭 컨텐츠 -->
-  <div id="home-content-gunghap" style="padding:0 20px 40px;display:none">
-    <div style="text-align:center;margin-bottom:24px">
-      <h2 style="font-size:20px;font-weight:800;color:var(--text-primary)">궁합 분석 💕</h2>
-      <p style="font-size:14px;color:var(--text-muted);margin-top:4px">두 사람의 사주 × MBTI 케미를 분석해요</p>
-    </div>
-    <!-- 궁합 시작 카드 -->
-    <div id="gh-start-card" class="glass-card" style="padding:28px 24px;margin-bottom:16px">
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
-        <div style="width:56px;height:56px;border-radius:16px;background:rgba(214,51,132,.08);display:flex;align-items:center;justify-content:center;font-size:28px">💕</div>
-        <div>
-          <div style="font-size:17px;font-weight:700;color:var(--text-primary)">MBTS 궁합 분석</div>
-          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">두 사람의 케미 분석</div>
-        </div>
-      </div>
-      <div id="gh-card-body-need" style="display:none">
-        <p style="font-size:13px;color:#d32f2f;line-height:1.6;margin-bottom:14px">⚠️ 먼저 <strong>"내 사주"</strong> 분석을 완료해주세요!<br>내 데이터가 있어야 궁합 분석이 가능해요</p>
-        <button onclick="switchHomeTab('saju')" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px">🔮 내 사주 먼저 분석하기</button>
-      </div>
-      <div id="gh-card-body-ok" style="display:none">
-        <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:16px">내 분석 완료! ✅<br>상대방 정보를 입력하면 궁합을 분석해드려요</p>
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;gap:6px"><span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(211,47,47,.08);color:#d63384;border-radius:8px">약 2분</span><span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(201,154,46,.1);color:#c99a2e;border-radius:8px">1,500원</span></div>
-          <button onclick="goPage('gh-input')" style="padding:10px 20px;font-size:14px;font-weight:700;color:#fff;background:#d63384;border:none;border-radius:12px;box-shadow:0 4px 12px rgba(214,51,132,.2)">궁합 보기 →</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- 달토 상담 탭 컨텐츠 -->
-  <div id="home-content-chat" style="padding:0 20px 40px;display:none">
-    <div style="text-align:center;margin-bottom:24px">
-      <h2 style="font-size:20px;font-weight:800;color:var(--text-primary)">달토 상담 🐰</h2>
-      <p style="font-size:14px;color:var(--text-muted);margin-top:4px">사주 기반 AI 상담사에게 물어보세요</p>
-    </div>
-    <div class="glass-card" style="padding:28px 24px;margin-bottom:16px">
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
-        <div style="width:56px;height:56px;border-radius:16px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:28px">🐰</div>
-        <div>
-          <div style="font-size:17px;font-weight:700;color:var(--text-primary)">AI 사주 상담사 달토</div>
-          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">무엇이든 물어보세요</div>
-        </div>
-      </div>
-      <div id="chat-card-body-need" style="display:none">
-        <p style="font-size:13px;color:#d32f2f;line-height:1.6;margin-bottom:14px">⚠️ 먼저 <strong>"내 사주"</strong> 분석을 완료해주세요!<br>사주 정보가 있어야 정확한 상담이 가능해요</p>
-        <button onclick="switchHomeTab('saju')" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px">🔮 내 사주 먼저 분석하기</button>
-      </div>
-      <div id="chat-card-body-ok" style="display:none">
-        <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:6px">내 분석 완료! ✅</p>
-        <p id="chat-card-info" style="font-size:14px;font-weight:700;color:var(--accent);margin-bottom:16px"></p>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
-          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:var(--accent-dim);color:var(--accent-light);border-radius:8px">오늘의 운세</span>
-          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(211,47,47,.08);color:#d63384;border-radius:8px">연애운</span>
-          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(201,154,46,.1);color:#c99a2e;border-radius:8px">재물운</span>
-          <span style="padding:4px 10px;font-size:11px;font-weight:600;background:rgba(46,139,87,.08);color:#2e8b57;border-radius:8px">직장운</span>
-        </div>
-        <button onclick="goPage('chat')" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;box-shadow:0 4px 12px var(--accent-glow)">🐰 달토와 상담 시작하기</button>
-      </div>
-    </div>
-  </div>
-  <!-- 하단 탭바 (홈 페이지 고정) -->
-  <div class="btm-tab"><div class="btm-tab-inner">
-    <div class="btm-tab-item active"><div class="tab-ic">🏠</div><div class="tab-lb">홈</div></div>
-    <div class="btm-tab-item" onclick="if(window._lastSaju){viewSavedResult();}else{alert('먼저 사주 분석을 완료해주세요!')}"><div class="tab-ic">📊</div><div class="tab-lb">분석결과</div></div>
-    <div class="btm-tab-item" onclick="alert('저장 기능은 준비 중이에요!')"><div class="tab-ic">💾</div><div class="tab-lb">저장</div></div>
-    <div class="btm-tab-item" onclick="alert('설정 기능은 준비 중이에요!')"><div class="tab-ic">⚙️</div><div class="tab-lb">설정</div></div>
-  </div></div>
-</div>
-<div id="pg-birth" class="page" style="align-items:center;justify-content:center;padding:20px">
-  <div style="max-width:460px;width:100%;animation:fu .6s ease both">
-    <button onclick="goPage('home')" style="background:none;border:none;color:var(--accent);font-size:14px;margin-bottom:16px;font-weight:500">← 돌아가기</button>
-    <div style="display:flex;gap:8px;margin-bottom:28px"><div style="flex:1;height:4px;border-radius:2px;background:var(--accent)"></div><div style="flex:1;height:4px;border-radius:2px;background:var(--border-light)"></div></div>
-    <div class="glass-card" style="padding:32px 24px">
-      <h2 style="font-size:22px;font-weight:800;color:var(--accent-light);margin-bottom:4px">생년월일시를 알려주세요</h2>
-      <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px">양력 기준 · 시간과 분까지 입력하면 더 정확해요</p>
-      <div style="display:flex;gap:10px;margin-bottom:12px">
-        <div style="flex:2"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">태어난 해</label><input id="in-y" type="number" placeholder="예: 1990" style="width:100%;padding:13px 14px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;color:var(--text-primary)"></div>
-        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">월</label><select id="in-m" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">월</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">일</label><select id="in-d" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">일</option></select></div>
-      </div>
-      <div style="display:flex;gap:10px;margin-bottom:12px">
-        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">시 (선택)</label><select id="in-h" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">모름</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">분 (선택)</label><select id="in-min" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">모름</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">출생지</label><select id="in-city" style="width:100%;padding:13px 10px;font-size:15px;background:#fff;border:2px solid var(--border-light);border-radius:12px;outline:none;-webkit-appearance:none;color:var(--text-primary)"><option value="">모름</option></select></div>
-      </div>
-      <div style="margin-bottom:24px"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:5px">성별</label><div style="display:flex;gap:10px"><button id="btn-male" onclick="pickGender('남성')" style="flex:1;padding:13px;font-size:15px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:12px;color:var(--text-muted)">♂ 남성</button><button id="btn-female" onclick="pickGender('여성')" style="flex:1;padding:13px;font-size:15px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:12px;color:var(--text-muted)">♀ 여성</button></div></div>
-      <button id="btn-birth-next" onclick="goPage('mbti')" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:var(--text-muted);background:rgba(0,0,0,0.08);border:none;border-radius:14px;cursor:not-allowed" disabled>다음 단계 →</button>
-    </div>
-  </div>
-</div>
-<div id="pg-mbti" class="page" style="align-items:center;justify-content:center;padding:20px;transition:background .4s">
-  <div id="mbti-wrap" style="max-width:500px;width:100%;transition:all .35s cubic-bezier(.16,1,.3,1)">
-    <button id="mbti-back" onclick="mbtiBack()" style="background:none;border:none;color:var(--accent);font-size:14px;margin-bottom:14px;font-weight:500">← 돌아가기</button>
-    <div id="mbti-progress" style="display:flex;gap:4px;margin-bottom:20px"></div>
-    <div id="mbti-letters" style="display:flex;justify-content:center;gap:6px;margin-bottom:20px"></div>
-    <div class="glass-card" style="padding:28px 22px">
-      <p style="font-size:12px;color:var(--text-muted);letter-spacing:2px;text-align:center;margin-bottom:6px" id="mbti-step">STEP 1/4</p>
-      <h2 style="font-size:20px;font-weight:800;text-align:center;margin-bottom:22px;color:var(--text-primary)">당신은 어느 쪽에 가깝나요?</h2>
-      <div id="mbti-choices" style="display:flex;gap:10px;margin-bottom:18px"></div>
-      <div id="mbti-intensity" style="display:none;animation:fu .3s ease"></div>
-      <button id="mbti-next-btn" onclick="mbtiNext()" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:var(--text-muted);background:rgba(0,0,0,0.08);border:none;border-radius:14px;cursor:not-allowed;margin-top:18px" disabled>다음 →</button>
-    </div>
-  </div>
-</div>
-<div id="pg-load" class="page" style="align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden;background:linear-gradient(180deg,#0F0D1A 0%,#1A1730 50%,#0F0D1A 100%)">
-  <!-- Stars -->
-  <div id="load-stars" style="position:absolute;inset:0;pointer-events:none"></div>
-  <div style="text-align:center;max-width:400px;position:relative;z-index:1">
-    <div style="font-size:64px;margin-bottom:20px;animation:hb 1.5s ease-in-out infinite">🐰</div>
-    <h2 style="font-size:18px;font-weight:700;margin-bottom:8px;color:#fff">달토가 사주를 읽고 있어요...</h2>
-    <p id="load-msg" style="color:rgba(255,255,255,.5);font-size:14px;margin-bottom:28px">사주와 MBTI의 화학적 결합을 분석 중...</p>
-    <div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-bottom:12px"><div id="load-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#a78bfa,#7c3aed,#a78bfa);background-size:300%;border-radius:3px;transition:width .5s;animation:loadShimmer 2s ease infinite"></div></div>
-    <p id="load-pct" style="font-size:12px;color:rgba(255,255,255,.4)">0%</p>
-  </div>
-</div>
-<div id="pg-res" class="page" style="display:none;flex-direction:column"></div>
-
-<!-- ===== 궁합 입력 페이지 ===== -->
-<div id="pg-gh-input" class="page" style="align-items:center;justify-content:flex-start;padding:20px">
-  <div style="max-width:500px;width:100%;animation:fu .6s ease both;padding-top:20px">
-    <button onclick="goPage('home');switchHomeTab('gunghap')" style="background:none;border:none;color:var(--accent);font-size:14px;margin-bottom:16px;font-weight:500">← 돌아가기</button>
-    <div style="text-align:center;margin-bottom:24px">
-      <span style="font-size:36px">💕</span>
-      <h2 style="font-size:22px;font-weight:800;color:var(--accent-light);margin-top:8px">궁합 분석</h2>
-      <p style="color:var(--text-muted);font-size:13px;margin-top:4px">상대방의 정보를 입력하면<br>사주 × MBTI 궁합을 분석해드려요</p>
-    </div>
-    <div class="glass-card" style="padding:24px 20px;margin-bottom:16px">
-      <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--accent-dim);border-radius:14px;margin-bottom:18px">
-        <span style="font-size:28px">🙋</span>
-        <div>
-          <div style="font-size:14px;font-weight:700;color:var(--accent)" id="gh-my-info">나 · 로딩중...</div>
-          <div style="font-size:12px;color:var(--text-muted)" id="gh-my-detail">내 사주 정보</div>
-        </div>
-      </div>
-      <div style="text-align:center;font-size:28px;margin-bottom:14px">💘</div>
-      <h3 style="font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:16px">상대방 정보</h3>
-      <div style="display:flex;gap:8px;margin-bottom:10px">
-        <div style="flex:2"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">태어난 해</label><input id="gh-y" type="number" placeholder="1992" style="width:100%;padding:12px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;background:#fff;color:var(--text-primary)"></div>
-        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">월</label><select id="gh-m" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;-webkit-appearance:none;background:#fff;color:var(--text-primary)"><option value="">월</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">일</label><select id="gh-d" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;-webkit-appearance:none;background:#fff;color:var(--text-primary)"><option value="">일</option></select></div>
-      </div>
-      <div style="display:flex;gap:8px;margin-bottom:10px">
-        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">시 (선택)</label><select id="gh-h" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;-webkit-appearance:none;background:#fff;color:var(--text-primary)"><option value="">모름</option></select></div>
-        <div style="flex:1"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">분 (선택)</label><select id="gh-min" style="width:100%;padding:12px 8px;font-size:14px;border:2px solid var(--border-light);border-radius:10px;outline:none;-webkit-appearance:none;background:#fff;color:var(--text-primary)"><option value="">모름</option></select></div>
-      </div>
-      <div style="margin-bottom:14px"><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">성별</label><div style="display:flex;gap:8px"><button id="gh-btn-male" onclick="ghPickGender('남성')" style="flex:1;padding:12px;font-size:14px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted)">♂ 남성</button><button id="gh-btn-female" onclick="ghPickGender('여성')" style="flex:1;padding:12px;font-size:14px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted)">♀ 여성</button></div></div>
-      <div><label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:4px">상대방 MBTI</label>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px" id="gh-mbti-grid"></div>
-      </div>
-    </div>
-    <button id="btn-gh-start" onclick="startGunghap()" style="width:100%;padding:16px;font-size:16px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:14px;box-shadow:0 4px 16px var(--accent-glow)" disabled>궁합 분석 시작 · 1,500원</button>
-  </div>
-</div>
-
-<!-- ===== 궁합 로딩 페이지 ===== -->
-<div id="pg-gh-load" class="page" style="align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden;background:linear-gradient(180deg,#1A0D1F 0%,#2A1730 50%,#1A0D1F 100%)">
-  <div id="gh-load-stars" style="position:absolute;inset:0;pointer-events:none"></div>
-  <div style="text-align:center;max-width:400px;position:relative;z-index:1">
-    <div style="font-size:64px;animation:hb 1.5s ease-in-out infinite;margin-bottom:24px">💕</div>
-    <h2 style="font-size:18px;font-weight:700;margin-bottom:8px;color:#fff">두 사람의 인연을 읽고 있어요...</h2>
-    <p id="gh-load-msg" style="color:rgba(255,255,255,.5);font-size:14px;margin-bottom:28px">사주 교차 분석 중...</p>
-    <div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-bottom:12px"><div id="gh-load-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#E05A5A,#88619A,#5B8FD4);background-size:300%;border-radius:3px;transition:width .5s;animation:loadShimmer 2s ease infinite"></div></div>
-    <p id="gh-load-pct" style="font-size:12px;color:rgba(255,255,255,.4)">0%</p>
-  </div>
-</div>
-
-<!-- ===== 궁합 결과 페이지 ===== -->
-<div id="pg-gh-res" class="page" style="display:none;flex-direction:column"></div>
-
-<!-- ===== 채팅 페이지 (달토 상담) ===== -->
-<div id="pg-chat" class="page" style="display:none;flex-direction:column;padding:0;min-height:100vh">
-  <div id="chat-start-screen" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px">
-    <div id="chat-start-has-saju" style="display:none;width:100%;max-width:500px">
-      <div class="chat-start-card">
-        <div style="font-size:48px;margin-bottom:12px">🐰</div>
-        <h2 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:6px">달토 상담사</h2>
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">사주 기반 AI 상담 · 무엇이든 물어보세요</p>
-        <div style="background:var(--accent-dim);border-radius:14px;padding:16px;margin-bottom:20px">
-          <div style="font-size:13px;color:var(--accent);font-weight:700;margin-bottom:4px">현재 분석 정보</div>
-          <div id="chat-start-info" style="font-size:15px;font-weight:800;color:var(--text-primary)"></div>
-        </div>
-        <button onclick="enterChatRoom()" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:14px;cursor:pointer;box-shadow:0 4px 15px var(--accent-glow)">이 사주로 상담 시작하기</button>
-      </div>
-    </div>
-    <div id="chat-start-no-saju" style="display:none;width:100%;max-width:500px">
-      <div class="chat-start-card">
-        <div style="font-size:48px;margin-bottom:12px">🐰</div>
-        <h2 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:6px">달토 상담사</h2>
-        <p style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;line-height:1.6">먼저 사주 분석을 해주세요!</p>
-        <p style="font-size:12px;color:var(--text-muted);margin-bottom:24px">사주 정보가 있어야 정확한 상담이 가능해요</p>
-        <button onclick="goPage('birth')" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:14px;cursor:pointer">🔮 사주 분석하러 가기</button>
-      </div>
-    </div>
-  </div>
-  <div id="chat-room" style="display:none;flex:1;flex-direction:column;height:100vh">
-    <div class="chat-header">
-      <div class="chat-header-top">
-        <button class="chat-header-back" onclick="exitChatRoom()">← 뒤로</button>
-        <span class="chat-header-title">🐰 달토 상담사</span>
-      </div>
-      <div class="chat-header-sub">사주 기반 AI 상담 · 무엇이든 물어보세요</div>
-    </div>
-    <div id="chat-messages" class="chat-messages"></div>
-    <div id="chat-quick-area" class="chat-quick-wrap">
-      <div class="chat-quick-scroll">
-        <button class="chat-quick-btn" onclick="sendChatMessage('🔮 오늘의 운세')">🔮 오늘의 운세</button>
-        <button class="chat-quick-btn" onclick="sendChatMessage('💕 연애운 분석')">💕 연애운 분석</button>
-        <button class="chat-quick-btn" onclick="sendChatMessage('💼 직장/취업운')">💼 직장/취업운</button>
-        <button class="chat-quick-btn" onclick="sendChatMessage('💰 재물운 분석')">💰 재물운 분석</button>
-        <button class="chat-quick-btn" onclick="sendChatMessage('🏥 건강운 체크')">🏥 건강운 체크</button>
-        <button class="chat-quick-btn" onclick="sendChatMessage('🌙 이번 달 운세')">🌙 이번 달 운세</button>
-      </div>
-    </div>
-    <div class="chat-input-area">
-      <textarea id="chat-input" class="chat-input" placeholder="달토에게 물어보세요..." rows="1" oninput="autoResizeChatInput();updateSendBtn()" onkeydown="chatInputKeydown(event)"></textarea>
-      <button id="chat-send-btn" class="chat-send-btn" onclick="sendChatMessage()" disabled>➤</button>
-    </div>
-  </div>
-</div>
-
-<script>
 /* ==========================================
    * 만세력 엔진 (천문학적 태양황경 기반)
    ========================================== */
@@ -1288,114 +808,11 @@ function resolveHapChungPriority(relations){
 var TY={INTJ:{n:"전략가",cf:"Ni-Te-Fi-Se"},INTP:{n:"논리술사",cf:"Ti-Ne-Si-Fe"},ENTJ:{n:"통솔자",cf:"Te-Ni-Se-Fi"},ENTP:{n:"변론가",cf:"Ne-Ti-Fe-Si"},INFJ:{n:"옹호자",cf:"Ni-Fe-Ti-Se"},INFP:{n:"중재자",cf:"Fi-Ne-Si-Te"},ENFJ:{n:"선도자",cf:"Fe-Ni-Se-Ti"},ENFP:{n:"활동가",cf:"Ne-Fi-Te-Si"},ISTJ:{n:"현실주의자",cf:"Si-Te-Fi-Ne"},ISFJ:{n:"수호자",cf:"Si-Fe-Ti-Ne"},ESTJ:{n:"경영자",cf:"Te-Si-Ne-Fi"},ESFJ:{n:"집정관",cf:"Fe-Si-Ne-Ti"},ISTP:{n:"장인",cf:"Ti-Se-Ni-Fe"},ISFP:{n:"모험가",cf:"Fi-Se-Ni-Te"},ESTP:{n:"사업가",cf:"Se-Ti-Fe-Ni"},ESFP:{n:"연예인",cf:"Se-Fi-Te-Ni"}};
 var DM_AX=[{L:"E",R:"I",Ll:"외향형(E)",Rl:"내향형(I)",Ld:"사람들과 함께할 때 에너지 충전",Rd:"혼자만의 시간에 에너지 충전"},{L:"S",R:"N",Ll:"감각형(S)",Rl:"직관형(N)",Ld:"현실적이고 구체적인 사실 중시",Rd:"가능성과 패턴, 큰 그림 중시"},{L:"T",R:"F",Ll:"사고형(T)",Rl:"감정형(F)",Ld:"논리와 객관적 분석으로 판단",Rd:"가치와 감정, 조화를 중시"},{L:"J",R:"P",Ll:"판단형(J)",Rl:"인식형(P)",Ld:"계획적이고 체계적인 생활 선호",Rd:"유연하고 즉흥적인 생활 선호"}];
 var IN_OP=[{r:"50~60%",d:"미세한 성향",v:55},{r:"61~75%",d:"뚜렷한 성향",v:68},{r:"76~100%",d:"매우 확고한 성향",v:88}];
-var DC=["#88619A","#2e8b57","#4682b4","#c99a2e"],DB=["rgba(136,97,154,.1)","rgba(46,139,87,.1)","rgba(70,130,180,.1)","rgba(201,154,46,.1)"];
+var DC=["#5B8FD4","#2e8b57","#88619A","#c99a2e"],DB=["rgba(91,143,212,.1)","rgba(46,139,87,.1)","rgba(136,97,154,.1)","rgba(201,154,46,.1)"];
 function strLv(v){return v>=76?"매우 강한":v>=61?"상대적으로 강한":"상대적으로 약한";}
 
-var ST={y:"",m:"",d:"",h:"",min:"",gender:"",city:"",cityLng:0,ch:[null,null,null,null],it:[null,null,null,null],cur:0};
+
 function getMBTI(){return ST.ch.map(function(c,i){return c===null?"?":(c==="L"?DM_AX[i].L:DM_AX[i].R);}).join("");}
-
-function goPage(id){
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');p.style.display='none';});
-  var pg=document.getElementById('pg-'+id);pg.style.display='flex';pg.classList.add('active');
-  window.scrollTo(0,0);
-  if(id==='land')setTimeout(function(){document.getElementById('land-inner').style.opacity='1';document.getElementById('land-inner').style.transform='translateY(0)';},100);
-  if(id==='mbti')renderMBTI();if(id==='birth')checkBirthOK();
-  if(id==='gh-input')initGHPage();
-  if(id==='home')updateHomePage();
-  if(id==='chat')initChatPage();
-  if(id==='load'||id==='gh-load')initLoadStars(id);
-}
-
-function initLoadStars(pgId){
-  var container=document.getElementById(pgId==='load'?'load-stars':'gh-load-stars');
-  if(!container)return;container.innerHTML='';
-  for(var i=0;i<40;i++){
-    var s=document.createElement('div');
-    s.style.cssText='position:absolute;width:'+((Math.random()*3)+1)+'px;height:'+((Math.random()*3)+1)+'px;background:#fff;border-radius:50%;opacity:'+(Math.random()*.6+.1)+';left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation:twinkle '+(Math.random()*3+2)+'s ease-in-out infinite;animation-delay:'+(Math.random()*3)+'s';
-    container.appendChild(s);
-  }
-}
-
-// ── 메인홈 탭 전환 ──
-function switchHomeTab(tab){
-  var sTab=document.getElementById('home-tab-saju'), gTab=document.getElementById('home-tab-gunghap'), cTab=document.getElementById('home-tab-chat');
-  var sCont=document.getElementById('home-content-saju'), gCont=document.getElementById('home-content-gunghap'), cCont=document.getElementById('home-content-chat');
-  // 모든 탭 비활성화
-  sTab.style.background='transparent';sTab.style.color='var(--text-muted)';
-  gTab.style.background='transparent';gTab.style.color='var(--text-muted)';
-  cTab.style.background='transparent';cTab.style.color='var(--text-muted)';
-  sCont.style.display='none';gCont.style.display='none';cCont.style.display='none';
-  if(tab==='saju'){
-    sTab.style.background='var(--accent)';sTab.style.color='#fff';
-    sCont.style.display='block';
-  } else if(tab==='gunghap'){
-    gTab.style.background='var(--accent)';gTab.style.color='#fff';
-    gCont.style.display='block';
-    // 궁합 가능 여부 체크
-    var needEl=document.getElementById('gh-card-body-need');
-    var okEl=document.getElementById('gh-card-body-ok');
-    if(window._lastSaju){needEl.style.display='none';okEl.style.display='block';}
-    else{needEl.style.display='block';okEl.style.display='none';}
-  } else if(tab==='chat'){
-    cTab.style.background='var(--accent)';cTab.style.color='#fff';
-    cCont.style.display='block';
-    // 채팅 가능 여부 체크
-    var chatNeed=document.getElementById('chat-card-body-need');
-    var chatOk=document.getElementById('chat-card-body-ok');
-    if(window._lastSaju){
-      chatNeed.style.display='none';chatOk.style.display='block';
-      document.getElementById('chat-card-info').textContent=window._lastSaju.P[2].s+window._lastSaju.P[2].b+'일주 × '+window._lastMBTI;
-    } else {
-      chatNeed.style.display='block';chatOk.style.display='none';
-    }
-  }
-}
-
-// ── 메인홈 상태 업데이트 ──
-function updateHomePage(){
-  if(window._lastSaju){
-    var past=document.getElementById('home-past-saju');
-    past.style.display='block';
-    document.getElementById('home-past-label').textContent=window._lastSaju.P[2].s+window._lastSaju.P[2].b+'일주 × '+window._lastMBTI;
-    document.getElementById('home-past-sub').textContent='프리미엄 분석 완료 ✨';
-  }
-}
-
-function viewSavedResult(){
-  if(window._lastAIResult&&window._lastSaju){
-    renderResult(window._lastAIResult,window._lastSaju,window._lastMBTI,window._lastGG,window._lastIsAI);
-  }else{
-    alert('저장된 분석 결과가 없어요!');
-  }
-}
-
-function initBirth(){
-  var mS=document.getElementById('in-m'),dS=document.getElementById('in-d'),hS=document.getElementById('in-h'),minS=document.getElementById('in-min'),cityS=document.getElementById('in-city');
-  for(var i=1;i<=12;i++){var o=document.createElement('option');o.value=i;o.textContent=i+'월';mS.appendChild(o);}
-  for(var i=1;i<=31;i++){var o=document.createElement('option');o.value=i;o.textContent=i+'일';dS.appendChild(o);}
-  for(var i=0;i<24;i++){var o=document.createElement('option');o.value=i;o.textContent=String(i).padStart(2,'0')+'시';hS.appendChild(o);}
-  for(var mi=0;mi<60;mi++){var o=document.createElement('option');o.value=mi;o.textContent=String(mi).padStart(2,'0')+'분';minS.appendChild(o);}
-  CITY_DATA.forEach(function(c){var o=document.createElement('option');o.value=c.lng;o.textContent=c.name;cityS.appendChild(o);});
-  ['in-y','in-m','in-d','in-h','in-min'].forEach(function(id){document.getElementById(id).addEventListener('change',function(){ST.y=document.getElementById('in-y').value;ST.m=document.getElementById('in-m').value;ST.d=document.getElementById('in-d').value;ST.h=document.getElementById('in-h').value;ST.min=document.getElementById('in-min').value;checkBirthOK();});});
-  document.getElementById('in-city').addEventListener('change',function(){var v=this.value;ST.city=this.options[this.selectedIndex].text;ST.cityLng=v?parseFloat(v):0;});
-  document.getElementById('in-y').addEventListener('input',function(){ST.y=document.getElementById('in-y').value;checkBirthOK();});
-}
-function pickGender(g){ST.gender=g;document.getElementById('btn-male').style.background=g==='남성'?'rgba(136,97,154,0.08)':'#fff';document.getElementById('btn-male').style.borderColor=g==='남성'?'var(--accent)':'var(--border-light)';document.getElementById('btn-male').style.color=g==='남성'?'var(--accent)':'var(--text-muted)';document.getElementById('btn-female').style.background=g==='여성'?'rgba(136,97,154,0.08)':'#fff';document.getElementById('btn-female').style.borderColor=g==='여성'?'var(--accent)':'var(--border-light)';document.getElementById('btn-female').style.color=g==='여성'?'var(--accent)':'var(--text-muted)';checkBirthOK();}
-function checkBirthOK(){var ok=ST.y&&ST.m&&ST.d&&ST.gender;var btn=document.getElementById('btn-birth-next');btn.disabled=!ok;btn.style.background=ok?'var(--accent)':'rgba(0,0,0,0.08)';btn.style.color=ok?'#fff':'var(--text-muted)';btn.style.cursor=ok?'pointer':'not-allowed';}
-
-function renderMBTI(){
-  var cur=ST.cur,d=DM_AX[cur],c=ST.ch[cur],iv=ST.it[cur],ac=DC[cur],bg=DB[cur];
-  document.getElementById('mbti-step').textContent='STEP '+(cur+1)+'/4';
-  var prog='<div style="flex:1;height:4px;border-radius:2px;background:var(--accent)"></div>';for(var i=0;i<4;i++)prog+='<div style="flex:1;height:4px;border-radius:2px;background:'+(i<=cur?DC[i]:DC[i]+'30')+'"></div>';document.getElementById('mbti-progress').innerHTML=prog;
-  var ltrs='';for(var i=0;i<4;i++){var lt=ST.ch[i]===null?"?":(ST.ch[i]==="L"?DM_AX[i].L:DM_AX[i].R);ltrs+='<div style="width:42px;height:50px;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:900;border-radius:10px;background:'+(i===cur?DC[i]+'20':ST.ch[i]?DC[i]+'10':'rgba(0,0,0,0.04)')+';border:2.5px solid '+(i===cur?DC[i]:'transparent')+';color:'+(ST.ch[i]?DC[i]:'var(--text-muted)')+'">'+lt+'</div>';}document.getElementById('mbti-letters').innerHTML=ltrs;
-  var ch='';['L','R'].forEach(function(side){var lb=side==='L'?d.Ll:d.Rl,lt=side==='L'?d.L:d.R,ds=side==='L'?d.Ld:d.Rd,sel=c===side;ch+='<button onclick="pickMBTI(\''+side+'\')" style="flex:1;padding:20px 12px;background:'+(sel?ac+'15':'rgba(0,0,0,0.02)')+';border:'+(sel?'2.5px solid '+ac:'2.5px solid var(--border-light)')+';border-radius:16px;cursor:pointer;text-align:center;color:var(--text-primary)"><div style="font-size:34px;font-weight:900;color:'+(sel?ac:'var(--text-muted)')+';margin-bottom:6px">'+lt+'</div><div style="font-size:12.5px;font-weight:700;margin-bottom:4px;color:'+(sel?ac:'var(--text-secondary)')+'">'+lb+'</div><div style="font-size:11px;color:var(--text-muted);line-height:1.5">'+ds+'</div></button>';});document.getElementById('mbti-choices').innerHTML=ch;
-  if(c){var ihtml='<p style="font-size:13px;color:var(--text-secondary);text-align:center;margin-bottom:12px"><strong style="color:'+ac+'">'+(c==='L'?d.L:d.R)+'</strong> 성향의 강도는?</p><div style="display:flex;gap:7px">';IN_OP.forEach(function(n){var sel=iv===n.v;ihtml+='<button onclick="pickIntensity('+n.v+')" style="flex:1;padding:12px 6px;background:'+(sel?ac+'15':'rgba(0,0,0,0.02)')+';border:'+(sel?'2px solid '+ac:'2px solid var(--border-light)')+';border-radius:11px;cursor:pointer;text-align:center"><div style="font-size:13px;font-weight:700;color:'+(sel?ac:'var(--text-muted)')+';margin-bottom:2px">'+n.r+'</div><div style="font-size:10.5px;color:var(--text-muted)">'+n.d+'</div></button>';});ihtml+='</div>';document.getElementById('mbti-intensity').innerHTML=ihtml;document.getElementById('mbti-intensity').style.display='block';}else{document.getElementById('mbti-intensity').style.display='none';}
-  var ok=c!==null&&iv!==null;var btn=document.getElementById('mbti-next-btn');btn.disabled=!ok;btn.style.background=ok?ac:'rgba(0,0,0,0.08)';btn.style.cursor=ok?'pointer':'not-allowed';btn.textContent=cur<3?'다음 →':'🔮 나의 운명 분석 시작';btn.style.color=ok?'#fff':'var(--text-muted)';
-}
-function pickMBTI(s){ST.ch[ST.cur]=s;ST.it[ST.cur]=null;renderMBTI();}
-function pickIntensity(v){ST.it[ST.cur]=v;renderMBTI();}
-function mbtiNext(){if(ST.cur<3){ST.cur++;renderMBTI();}else{goPage('load');startAnalysis();}}
-function mbtiBack(){if(ST.cur>0){ST.cur--;renderMBTI();}else goPage('birth');}
 
 /* ==========================================
    * 분석 엔진 - 5카테고리 아코디언 서사
@@ -1747,7 +1164,489 @@ function analyzeGyeokguk(saju){
   };
 }
 
-var PREMIUM_SYSTEM='당신은 대한민국 최정상급 명리학자(실전 40년)이자 MBTI 인지기능 전문가(임상심리학 박사)입니다.\n\n## 핵심 임무\n의뢰인의 사주팔자와 MBTI를 교차 분석하여, \"어? 이거 내 얘기인데?\" 하고 소름 돋는 풀이를 만드세요.\n\n## ★★★ 절대 규칙 (이것이 최우선, 어떤 경우에도 깨지면 안 됨) ★★★\n\n### 절대규칙1: 행동/체감 먼저, 분석 절대 금지\n당신은 학자가 아니라 \"점쟁이 이모\"입니다. 분석 리포트를 쓰지 마세요.\n모든 항목은 반드시 \"당신은 ~하죠?\", \"~할 때 ~하는 편이에요\" 같은 구체적 행동/상황으로 시작하세요.\n나쁜 예: \"임술일주. 사주학에서 이 조합을 마른 강바닥이라고 부릅니다. 편관이 일지에 있어...\"\n나쁜 예: \"재성이 월주에 위치해 있어 돈이 들어오는 길이 원국에 있어요.\"\n나쁜 예: \"오행 분포를 보면 금이 원국에 0개입니다.\"\n좋은 예: \"다른 사람들이 당황할 상황에서 당신은 오히려 더 차분해지죠? 회사에서 갑작스런 위기가 터졌을 때, 다들 우왕좌왕할 때 혼자서 조용히 해결책을 찾고 있는 모습이 떠오르거든요.\"\n좋은 예: \"통장에 돈이 좀 모이면 불안해지죠? 이번 달은 아껴야지 다짐하는데 며칠 뒤에 강의 결제 버튼을 누르고 있는 당신.\"\n내면 독백 인용(\"~\")은 항목당 최대 2개까지만. 3개 이상 쓰면 산만해집니다.\n\n### 절대규칙2: 전문용어 완전 제거 (가장 중요한 규칙!)\n타겟은 사주를 전혀 모르는 20~30대 일반인입니다. 전문용어 1개만 나와도 이탈합니다.\n\n■ 절대 금지어 (1번이라도 글에 나오면 불합격):\n십성: 비견,겁재,식신,상관,편재,정재,편관,정관,편인,정인,비겁,재성,관성,인성,식상\n천간지지: 갑목,을목,병화,정화,무토,기토,경금,신금,임수,계수 및 모든 간지명\n합충형: 육합,삼합,암합,천간합,지지충,형(刑),오미합,유진합,미미형,정계충 등 모든 합충형 이름\n구조: 용신,격국,양인격,종격,화격,대운,세운,월운,십성,12운성,납음\n위치: 천간,지지,월지,일지,시지,년지,배우자궁,자녀궁,일주,시주\n기타: 모든 한자, 숫자수치(비겁2.9등), 괄호설명(겁재(경쟁심))도 금지\n\n■ 허용: 물상 비유만 OK\n촛불,이슬,칼날,모닥불,바위,호수,씨앗,뿌리,태양,바람 등 자연 이미지는 좋음.\n\"사주에 촛불 같은 기운이 있어서\", \"속에 숨겨진 칼날이 있어서\" — OK.\n\n■ 대체어 사전 (반드시 이렇게 바꿔 쓰세요):\n- 용신 → \"당신에게 필요한 에너지\" 또는 \"사주가 원하는 방향\"\n- 대운 → \"10년 주기 흐름\" 또는 \"지금 흐르는 시기\"\n- 세운 → \"올해 흐름\" 또는 \"올해 에너지\"\n- 비겁/겁재 → \"내 것을 지키려는 에너지\" 또는 \"승부욕\"\n- 식신 → \"표현하고 즐기는 에너지\" 또는 \"여유로운 기운\"\n- 재성/편재 → \"재물 에너지\" 또는 \"돈이 흐르는 통로\"\n- 관성/정관 → \"책임과 절제의 에너지\" 또는 \"사회적 역할\"\n- 인성 → \"배움과 보호의 에너지\"\n- 합 → \"에너지가 하나로 모이는\" 또는 \"인연의 문이 열리는\"\n- 충 → \"두 기운이 부딪히는\" 또는 \"변화의 바람\"\n- 형 → \"속에서 꼬이는 마찰\" 또는 \"내면의 시련\"\n- 양인 → \"위기에 각성하는 칼날\"\n\n■ 나쁜 예 vs 좋은 예:\n나쁜: \"겁재 기운이 월지에 있어서 주도권을 안 내려놓아요\"\n좋은: \"사주에 \'내가 안 지겠다\'는 승부욕이 깊이 새겨져 있어요\"\n나쁜: \"편재 대운이라서 재물이 흐르는 파이프라인이 열려요\"\n좋은: \"34~43세는 돈이 여러 경로로 들어오는 시기예요\"\n나쁜: \"오미합을 이루고 있어서 연애 변화\"\n좋은: \"올해 사주에서 인연의 문이 열리는 조합이 만들어져요\"\n나쁜: \"갑목(신념)이 용신이니까\"\n좋은: \"당신에게 가장 필요한 에너지는 확실한 목표예요\"\n나쁜: \"비겁 2.9라서 내 돈 내가 쓴다\"\n좋은: \"내 것은 내가 지킨다는 에너지가 사주에서 가장 강해요\"\n나쁜: \"미미형을 일으켜서 내면에 갈등\"\n좋은: \"내년은 속이 꼬이는 마찰이 일어나는 해예요\"\n\n### 절대규칙3: 사주×MBTI 한 호흡 융합 (따로 쓰면 불합격)\n사주 설명 따로, MBTI 설명 따로 쓰는 것은 불합격입니다.\n하나의 행동/체감 안에 사주와 MBTI가 함께 녹아있어야 합니다.\n나쁜 예: \"사주에 화가 많아요. 그리고 Ti가 강해서 분석적이에요.\" (따로따로)\n나쁜 예: \"임술일주의 특성을 보면... 여기에 ENTP의 Ne이 얹어집니다.\" (따로따로)\n좋은 예: \"친구가 울면서 전화했을 때, 공감해주고 싶은데 자꾸 머릿속에서 해결책이 먼저 정리되죠? 사주에서 감정을 끌어당기는 기운이 작동하는데, 내장 논리회로(Ti)가 그걸 자꾸 분석 모드로 바꿔버리는 거예요.\"\n좋은 예: \"통장에 돈이 좀 모이면 불안해지죠? 사주에 재물을 꼭 쥐고 모으려는 기운이 있는데, 가능성 탐색기(Ne)가 이거보다 더 좋은 기회가 있을 텐데? 하면서 자꾸 흔드는 거예요.\"\n→ 패턴: 행동 먼저 → 사주가 비유로 깔리고 → MBTI가 한 호흡으로 이어짐\n\n★ 사주 묘사 비중 규칙 ★\n융합된 상태를 반드시 유지하면서, 사주에서 읽어낸 행동/체감/비유 묘사를 MBTI보다 2배 이상 풍성하게 쓰세요.\nMBTI 분량은 현재 수준 유지하고, 사주 기반 묘사만 늘리세요.\n사주 풀이는 제공된 키워드에 얽매이지 말고, 원국·대운·조후·물상을 AI가 자율적으로 읽어서 그 사람에게 맞는 풀이를 자유롭게 넣으세요.\n단, 절대규칙2(사주 용어 노출 금지)는 반드시 지키세요. 자율 풀이라도 십성명·합충·신살·한자는 절대 쓰지 마세요.\n절대 금지: 사주 문단 따로, MBTI 문단 따로 분리해서 쓰기. 반드시 한 호흡으로 섞어야 합니다.\n\n### 절대규칙4: MBTI 유형 특성을 사주로 왜곡 금지 + 충돌은 최고의 스토리\nE형은 밝고 에너지 넘치고 사교적, I형은 조용하고 내성적 — 이 기본은 사주가 어떻든 반드시 유지하세요.\n사주가 "깊은 물, 고독한 기운"이라도 ENTP면 밝고 말 많고 토론을 즐기는 사람으로 써야 합니다.\n사주의 기운이 MBTI와 충돌하면, 그 충돌 자체를 재미있게 풀어내세요.\n나쁜 예: ENTP인데 "쿨하고 차분해 보인다", "혼자 있을 때 가장 창의적" (이건 INTP 묘사)\n좋은 예: ENTP인데 임수 사주 → "모임에서 신나게 떠들다가도 집에 가면 갑자기 깊은 생각에 빠지는 이중생활자"\n\n★ 가면(Persona) 이론 — 사주×MBTI 충돌이야말로 킬링 포인트 ★\n사주(타고난 본성)와 MBTI(사회적 자아)가 충돌할 때, 단순 병렬하지 말고 겉과 속의 이중주 스토리로 풀어내세요.\n사주는 본래의 나, MBTI는 세상에 보여주는 나입니다. 이 둘의 괴리가 그 사람만의 독특한 에너지 패턴을 만듭니다.\n\n충돌 패턴 예시:\n- 사주=음기 가득(신약·수기운) + ESTP → 남들 앞에서는 분위기 메이커인데, 집에 오는 순간 방전된 로봇처럼 쓰러지지 않나요? 세상에는 불꽃을 보여주지만 속은 깊은 호수라서, 충전 시간 없이 달리면 갑자기 무너지는 패턴이 있어요.\n- 사주=관성 강(압박·통제) + ENFP → 자유롭고 싶은데 자꾸 책임감이 발목을 잡죠? 사주에 누군가를 이끌어야 하는 무거운 기운이 있는데, 가능성 탐색기(Ne)는 자꾸 새로운 데로 날아가고 싶어해서 마음속에 줄다리기가 일어나요.\n- 사주=비겁 과다(자존심·독립) + ISFJ → 겉으로는 조용히 맞춰주는데 속으로는 절대 안 져요. 배려하는 것처럼 보여도 내 방식이 확고해서, 양보한 척하면서 결국 본인 뜻대로 만드는 달인이에요.\n\n이런 겉과 속의 이중주를 풀이 전반에 자연스럽게 녹여내세요. 사용자가 어떻게 이걸 알지?라고 느끼는 소름 포인트가 바로 여기서 나옵니다.\n단, 가면이라는 단어 자체는 쓰지 마세요. 체감과 행동으로만 표현하세요.\n\n### 절대규칙5: MBTI 강도별 차이를 반드시 반영\n\n아래 제공되는 \"MBTI 강도별 행동 프로파일\" 섹션을 반드시 읽고 풀이에 반영하세요.\n\n같은 I형이라도 \"상대적으로 강한\"과 \"매우 강한\"은 완전히 다른 사람입니다.\n\n\"상대적으로 강한 I\" = 소수 대화 선호하지만 큰 모임도 OK. 극단적 혼자쟁이가 아님.\n\n\"매우 강한 I\" = 내 방이 천국, 파티는 고문. 이때만 극단적 내향 묘사 가능.\n\n\"상대적으로 약한 I\" = 거의 E에 가까운 I. 사교적이지만 충전은 혼자서.\n\n이 원칙은 모든 MBTI 축(E/I, S/N, T/F, J/P)에 동일 적용.\n강도를 무시하고 모든 MBTI를 극단적으로 묘사하면 불합격입니다.\n\n\n\n## 해석 방법 (데이터를 어떻게 읽을지)\n\n### AI 자율 판단\n\"참고 힌트\" 키워드는 보조 자료일 뿐입니다. 키워드를 하나하나 소비하려 하지 마세요.\n사주 원국 데이터를 직접 읽고, 당신의 명리학 지식으로 해석하세요.\n당신의 통찰이 키워드와 다르다면, 당신의 판단을 우선하세요.\n사주 풀이 분량을 늘릴 때도 키워드 예시를 반복하지 말고, 원국에서 새로운 포인트를 자율적으로 발견해서 풀어내세요.\n\n### 물상론 활용\n사주를 하나의 자연 풍경으로 시각화하세요. (일간=주인공, 월지=계절, 오행=자연물)\n단, 이 풍경을 \"설명\"하지 말고 행동/체감의 비유로만 활용하세요.\n나쁜 예: \"임(壬) 일간이 술(戌) 위에 앉아있는 형상으로, 마른 강바닥입니다.\"\n좋은 예: \"사주에 마른 땅 위의 깊은 물이라는 기운이 있어서 겉으로는 메말라 보여도 속에는 고갈되지 않는 지혜가 있어요.\"\n\n### ★ 적천수(滴天髓) 십간론 활용 — 가장 중요한 비유의 원천\n참고 힌트에 \"적천수물상/적천수본질\" 데이터가 제공됩니다. 이것은 일간의 본질적 이미지입니다.\n이 물상을 풀이 전체의 \"주인공 이미지\"로 삼으세요.\n예: 갑목=하늘을 찌르는 큰 나무 → 풀이 전체에서 나무에 비유하며 꺾이면 부러지는 성격 등을 녹여내세요.\n예: 신금=보석 → 세공되어야 빛나는 원석. 시련이 곧 광택이 되는 인생.\n적천수 물상은 \"설명\"하지 말고 은유와 비유의 재료로만 사용하세요.\n\n### ★ 자평진전(子平眞詮) 격국론 활용 — 격국을 스토리로\n참고 힌트에 \"격국역할/격국성격/격국파격\" 데이터가 제공됩니다.\n격국은 단순 분류가 아니라 \"사회가 이 사람에게 부여한 역할\"입니다.\n격국파격(⚠ 표시)이 있으면, 이것이 \"반복되는 인생 패턴\"입니다. 반드시 풀이에 포함하세요.\n파격은 \"문제\"가 아니라 \"패턴\"입니다. 공감하되 해결책까지 제시하세요.\n\n### ★ 원국 직접 해석 가이드 (AI가 간지를 직접 읽을 때)\n사주 원국에서 다음 패턴을 자율적으로 읽어내어 풀이에 녹이세요:\n- 천간 나란히 같은 오행(비견/겁재 나란히): 고집·경쟁심·독립심 강화\n- 천간 상극 나란히(갑경, 을신 등): 내면 갈등, 결단의 고통\n- 일지가 일간의 고(庫)일 때(辰戌丑未): 감정을 감추는 성향, 내면이 복잡\n- 시주에 식상: 만년에 표현력·자녀복, 시주에 편관: 말년의 압박·책임감\n- 월간과 일간의 관계: 사회에서 보여주는 모습(페르소나)\n- 년주와 일주의 관계: 어린 시절과 현재의 갭\n단, 이 가이드는 \"참고\"입니다. 키워드와 충돌하면 원국 데이터를 우선하되, 반드시 절대규칙(용어금지·체감먼저·융합)을 지키세요.\n\n### ★ 대운/세운 vs 원국 관계 해석 (v28 핵심)\n제공되는 \"대운 vs 원국\" 및 \"세운 vs 원국\" 데이터에는 운과 원국의 합·충·형·해가 분석되어 있습니다.\n이 관계를 풀이의 \"현재 시점\" 항목에 반드시 반영하세요.\n- 충: 변동·전환·갈등의 에너지. 어떤 궁위(년/월/일/시)와 충돌하는지에 따라 영향 영역이 다름\n- 합: 새로운 결합·기회·관계 형성\n- 형: 시련을 통한 성장, 갈등과 교훈\n- 해: 은밀한 손해, 뒤통수\n★ 영향 궁위: 년지=외부환경·조상, 월지=직업·사회, 일지=배우자·건강, 시지=자녀·노후\n\n### ★ 궁위 십성 활용 (v29 신규)\n\"궁위십성\" 데이터는 각 지지의 정기를 기준으로 한 십성입니다.\n- 일지 십성 = 배우자궁의 성격. 연애/결혼 풀이의 핵심 근거.\n- 월지 십성 = 직업궁의 성격. 적성/직업 풀이의 핵심 근거.\n- 시지 십성 = 자녀궁/노후궁. 말년 운세의 근거.\n예: 일지=편관 → 배우자가 강하고 카리스마 있는 사람, 또는 연애에서 긴장감/통제 이슈\n예: 월지=정재 → 안정적 직업에서 꾸준히 성과를 내는 구조\n\n### ★ 암합 활용 (v29 신규)\n\"암합\" 데이터는 천간과 지장간 사이의 숨겨진 합입니다.\n겉으로 보이지 않는 인연, 숨겨진 관계, 내면의 욕구를 나타냅니다.\n특히 일간↔일지 지장간 암합은 배우자와의 깊은 내면적 연결을 의미합니다.\n암합이 있으면 \"겉으로는 티 안 나지만 속으로는...\" 패턴으로 풀어내세요.\n\n### ★ 지장간 포함 오행 (v29 신규)\n\"오행(지장간포함)\" 데이터를 활용하세요.\n표면상 금=0이라도 지장간에 금이 숨어있으면 \"겉으로는 결단력이 부족해 보이지만, 속에는 날카로운 판단력이 잠들어있다\"는 식으로 풀어야 합니다.\n\"숨어있는 오행\" 정보가 제공되면 반드시 활용하세요.\n\n### 해석 가중치\n1순위: 월지(계절) 40% → 2순위: 일간+일지 25% → 3순위: 격국+용신 20% → 4순위: 대운 15%\n신살은 양념. 주재료가 아님.\n\n### ★ 대운 나이 범위 정확 사용 (필수!)\n대운 데이터에 제공된 정확한 나이 범위(예: 27~36세, 37~46세)를 그대로 사용하세요.\n절대 임의로 나이 범위를 만들지 마세요. 사용자의 현재 나이를 기준으로 10년 묶음을 자체 생성하는 것은 금지입니다.\n나쁜 예: 사용자가 34세라고 해서 \"34~43세는 재물의 시기\" (임의 생성)\n좋은 예: \"27~36세는 사주에서 ~ 에너지가 흐르는 시기\" (제공 데이터 그대로)\n\n### 반복 금지\n같은 사주 요소를 2개 이상 항목에서 반복 사용 금지.\n각 항목은 서로 다른 사주 포인트를 조명해야 합니다.\n\n### 합충 해석\n합과 충이 동시에 존재할 때, 인접한 합이 충을 해소하는지(탐합망충), 충이 합을 깨뜨리는지 판단하여 유기적으로 해석하세요.\n\n## 추가 표현 규칙\n\n### 규칙4: 캡션/라벨 금지, 인용부호 제한\n불완전한 문장이 혼자 떠다니면 절대 안 됩니다.\n나쁜 예: \"임수의 관찰력 + Ne의 패턴 인식\" ← 이런 캡션이 문장 중간에 떠다니면 불합격.\n인용부호(\"\"로 감싼 내면 독백)는 항목당 최대 2개까지만. 3개 이상 쓰면 불합격.\n\n### 규칙5: VS/대비 구조 금지\n\"A이지만 B이기도 하다\" 같은 대비 구조에 의존하지 마세요.\n\n## 작성 순서\n1단계: 사주 원국을 읽고 자연 풍경으로 시각화 (내부 작업, 글에는 설명으로 안 씀)\n2단계: 이 사주+MBTI 조합의 특이점 2~3개 찾기\n3단계: 각 sub의 본문(b)을 \"행동/체감\"으로 먼저 쓰기\n4단계: 본문을 각 카테고리의 정해진 소제목(h) 아래에 배치\n\n## 문체\n- E형이든 I형이든, T형이든 F형이든, S형이든 N형이든, P형이든 J형이든 어떤 MBTI든 동일한 감성 톤. 사주풀이는 공감의 영역. INTP/INTJ 등 분석적 유형이라고 해서 글을 학술적/분석적으로 쓰지 마세요. 모든 유형에 대해 따뜻한 구어체를 유지하세요.\n- 구어체: ~예요, ~거든요, ~해보세요. \"당신\"으로 호칭.\n- 인지기능 별명: 내면의 심판관(Fi), 분위기 리더기(Fe), 가능성 탐색기(Ne), 미래 내비게이션(Ni), 추억 저장소(Si), 현장 체험러(Se), 내장 논리회로(Ti), 실행력 엔진(Te). 처음 등장 시 내면의 심판관(Fi) 형태로 소개하고 이후엔 \"심판관이\", \"탐색기가\" 같은 짧은 재언급만\n- \"1차기능/부기능\" 같은 순서 용어 절대 금지. \"당신에게 특히 강한\", \"당신 안에 숨어있는\" 같은 자연어.\n- % 숫자 금지. MZ세대 감성 언어 자연스럽게 (매번 같은 표현 반복 금지)\n\n## ★★ 데이터 무결성 규칙 (hallucination 방지) ★★\n제공된 데이터의 숫자·나이·간지·오행 개수·세운 연도를 절대 임의로 변경하지 마세요.\n사주 데이터에 없는 합·충·형을 만들어내지 마세요.\n오행 개수(목=1 화=3 등)를 다르게 쓰지 마세요.\n세운 연도(2026년, 2027년 등)를 바꾸지 마세요.\n당신이 "해석"하는 것과 "팩트를 바꾸는 것"은 다릅니다. 해석은 자유, 팩트 변경은 불합격.\nMBTI 유형과 인지기능 스택을 절대 변경하지 마세요. 의뢰인이 ENTP라면 ENTP로만 풀이하세요. 다른 유형으로 바꾸거나 "실은 INFJ에 가깝다" 같은 재해석은 금지입니다.\n인지기능 순서(예: Ne-Ti-Fe-Si)도 제공된 그대로 사용하세요.\n\n### 대운/세운 숫자 규칙\n대운 흐름 데이터에 명시된 시작나이~끝나이를 그대로 사용하세요.\n절대 현재 나이 기준으로 임의의 범위를 만들지 마세요.\n예: 데이터가 \"27~36세 갑인 정인운\"이면 글에서도 \"27~36세\"라고 써야 합니다.\n\"34~43세\" 같이 AI가 만든 범위는 불합격입니다.\n\n## 인사이트/처방\n- 풀이 본문(b) 안에 맞춤 인사이트와 처방을 자연스럽게 녹여 쓰세요.\n- 이 사람의 사주+MBTI에서 도출된 맞춤형만. 범용 조언 절대 금지.\n- 처방은 추정용신 오행 기준이되, 글에서 \"용신\"이라는 단어는 절대 금지. \"당신에게 필요한 에너지는 ~\" 또는 \"사주가 원하는 방향은 ~\"으로 대체.\n\n## ★ animal 필드 (운명동물 매칭) ★\n사주 원국을 분석하여 다음 3가지를 판단하세요:\n- oheng: 일간의 오행 (\"목\"/\"화\"/\"토\"/\"금\"/\"수\")\n- dominant_sipsung: 사주에서 가장 지배적인 십성 카테고리. 월지 정기의 십성 또는 원국에서 가장 강한 십성을 기준으로 판단. (\"비겁\"/\"식상\"/\"재성\"/\"관성\"/\"인성\")\n- condition: 신강이면 \"신강\", 신약이면 \"신약\", 종격/화격/양인격 등 특수격이면 \"특수\"\n이 3개 값은 프론트엔드에서 75종 동물 카드 매칭에 사용됩니다. 정확하게 판단하세요.\n\n## ★ profile 필드 (프로필 데이터) ★\n제공된 사주 데이터를 아래 구조로 반환합니다.\n- seasonNote: \"절기: [절기명]\" 형태\n- pillars: 시주→일주→월주→연주 순서 배열. 각 기둥 객체: label, chun(\"한글(漢字)\"), ji(\"한글(漢字)\"), chunOheng, jiOheng, sipsung(일간 기준 십성명), unyeong(12운성명), sinsal(대표 신살 1개), jiji(지장간 한글 공백구분). 일주만 isDay:true 추가.\n- ohengBalance: [{name,emoji,count}] 목화토금수 순서. 이모지: 🌳🔥⛰️⚔️💧. 천간+지지 본기 기준 개수.\n- specialStars: 원국의 주요 신살/귀인 문자열 배열\n- mbtiType, mbtiName, mbtiFunctions, mbtiTags: 제공된 MBTI 데이터 그대로 반환\n\n## ★ oneLine 필드 ★\n적천수 물상 기반, 이 사주를 자연 이미지로 한 줄 표현.\n일간 물상 + 월지 계절 + 사주 분위기 조합.\n예: \"초가을 바위산에 홀로 서 있는 큰 나무,\\n뿌리는 깊지만 물은 부족하다\"\n\n## ★ categories 필드 (8개 카테고리 고정) ★\n반드시 아래 8개 카테고리를 id 순서대로, subs의 h도 명시된 그대로 포함하세요.\n1. id:\"self\", title:\"나라는 사람\", subtitle:\"진짜 나는 어떤 사람일까\", icon:\"🪞\"\n   subs 3개: h=\"타고난 에너지 & 기질\" / h=\"겉모습과 속마음\" / h=\"스트레스 받으면 나오는 진짜 나\"\n2. id:\"mind\", title:\"머릿속 구조\", subtitle:\"나는 왜 이렇게 생각할까\", icon:\"🧠\"\n   subs 2개: h=\"의사결정 방식\" / h=\"자꾸 반복되는 사고 패턴\"\n3. id:\"people\", title:\"사람 사이에서\", subtitle:\"나는 왜 이렇게 행동할까\", icon:\"👥\"\n   subs 2개: h=\"대인관계 패턴\" / h=\"감정 표현 방식\"\n4. id:\"love\", title:\"연애 취급설명서\", subtitle:\"나는 왜 이렇게 사랑할까\", icon:\"💘\"\n   subs 2개: h=\"연애 패턴 / 스타일\" / h=\"잘 맞는 타입\"\n5. id:\"career\", title:\"일과 재능\", subtitle:\"나는 뭘 해야 빛날까\", icon:\"💼\"\n   subs 2개: h=\"타고난 재능 / 적성\" / h=\"직장에서 터지는 패턴\"\n6. id:\"money\", title:\"돈과 나\", subtitle:\"나는 왜 이렇게 쓸까\", icon:\"💰\"\n   subs 2개: h=\"돈 버는 스타일\" / h=\"재물 타이밍\"\n7. id:\"year\", title:\"2026년\", subtitle:\"올해 나에게 무슨 일이\", icon:\"⚡\"\n   subs 2개: h=\"올해 핵심 키워드\" / h=\"기회의 시기\"\n8. id:\"future\", title:\"10년 후\", subtitle:\"내 인생은 어디로 가는 걸까\", icon:\"🔮\"\n   subs 2개: h=\"대운 흐름 / 전환점\" / h=\"인생 한줄 마무리\"\n\n## 구조 규칙\n- 8개 카테고리, 총 17개 subs (위 목록 그대로)\n- 각 sub의 b: 2~4문단, 각 문단 3~5문장. \\n\\n으로 문단 구분.\n- 사주 자율 풀이로 분량을 풍성하게 채우세요.\n\n## JSON 출력 형식 (예시 — 실제 데이터로 채우세요)\n{\"animal\":{\"oheng\":\"토\",\"dominant_sipsung\":\"관성\",\"condition\":\"신강\"},\"profile\":{\"seasonNote\":\"절기: 입추\",\"pillars\":[{\"label\":\"시주\",\"chun\":\"경(庚)\",\"ji\":\"신(申)\",\"chunOheng\":\"금\",\"jiOheng\":\"금\",\"sipsung\":\"식신\",\"unyeong\":\"병\",\"sinsal\":\"겁살\",\"jiji\":\"기 임 경\"},{\"label\":\"일주\",\"chun\":\"무(戊)\",\"ji\":\"인(寅)\",\"chunOheng\":\"토\",\"jiOheng\":\"목\",\"sipsung\":\"비견\",\"unyeong\":\"장생\",\"sinsal\":\"망신살\",\"jiji\":\"무 병 갑\",\"isDay\":true},{\"label\":\"월주\",\"chun\":\"갑(甲)\",\"ji\":\"신(申)\",\"chunOheng\":\"목\",\"jiOheng\":\"금\",\"sipsung\":\"편관\",\"unyeong\":\"병\",\"sinsal\":\"겁살\",\"jiji\":\"기 임 경\"},{\"label\":\"연주\",\"chun\":\"을(乙)\",\"ji\":\"해(亥)\",\"chunOheng\":\"목\",\"jiOheng\":\"수\",\"sipsung\":\"정관\",\"unyeong\":\"절\",\"sinsal\":\"지살\",\"jiji\":\"무 갑 임\"}],\"ohengBalance\":[{\"name\":\"목\",\"emoji\":\"🌳\",\"count\":3},{\"name\":\"화\",\"emoji\":\"🔥\",\"count\":0},{\"name\":\"토\",\"emoji\":\"⛰️\",\"count\":1},{\"name\":\"금\",\"emoji\":\"⚔️\",\"count\":3},{\"name\":\"수\",\"emoji\":\"💧\",\"count\":1}],\"specialStars\":[\"천을귀인\",\"문창귀인\",\"역마살\",\"학당귀인\"],\"mbtiType\":\"INTP\",\"mbtiName\":\"논리술사\",\"mbtiFunctions\":\"Ti-Ne-Si-Fe\",\"mbtiTags\":[\"상대적으로 약한 내향형(I)\",\"상대적으로 약한 직관형(N)\",\"상대적으로 약한 사고형(T)\",\"상대적으로 강한 인식형(P)\"]},\"oneLine\":\"초가을 바위산에 홀로 서 있는 큰 나무,\\n뿌리는 깊지만 물은 부족하다\",\"categories\":[{\"id\":\"self\",\"title\":\"나라는 사람\",\"subtitle\":\"진짜 나는 어떤 사람일까\",\"icon\":\"🪞\",\"subs\":[{\"h\":\"타고난 에너지 & 기질\",\"b\":\"본문...\"},{\"h\":\"겉모습과 속마음\",\"b\":\"본문...\"},{\"h\":\"스트레스 받으면 나오는 진짜 나\",\"b\":\"본문...\"}]},{\"id\":\"mind\",\"title\":\"머릿속 구조\",\"subtitle\":\"나는 왜 이렇게 생각할까\",\"icon\":\"🧠\",\"subs\":[{\"h\":\"의사결정 방식\",\"b\":\"본문...\"},{\"h\":\"자꾸 반복되는 사고 패턴\",\"b\":\"본문...\"}]},{\"id\":\"people\",\"title\":\"사람 사이에서\",\"subtitle\":\"나는 왜 이렇게 행동할까\",\"icon\":\"👥\",\"subs\":[{\"h\":\"대인관계 패턴\",\"b\":\"본문...\"},{\"h\":\"감정 표현 방식\",\"b\":\"본문...\"}]},{\"id\":\"love\",\"title\":\"연애 취급설명서\",\"subtitle\":\"나는 왜 이렇게 사랑할까\",\"icon\":\"💘\",\"subs\":[{\"h\":\"연애 패턴 / 스타일\",\"b\":\"본문...\"},{\"h\":\"잘 맞는 타입\",\"b\":\"본문...\"}]},{\"id\":\"career\",\"title\":\"일과 재능\",\"subtitle\":\"나는 뭘 해야 빛날까\",\"icon\":\"💼\",\"subs\":[{\"h\":\"타고난 재능 / 적성\",\"b\":\"본문...\"},{\"h\":\"직장에서 터지는 패턴\",\"b\":\"본문...\"}]},{\"id\":\"money\",\"title\":\"돈과 나\",\"subtitle\":\"나는 왜 이렇게 쓸까\",\"icon\":\"💰\",\"subs\":[{\"h\":\"돈 버는 스타일\",\"b\":\"본문...\"},{\"h\":\"재물 타이밍\",\"b\":\"본문...\"}]},{\"id\":\"year\",\"title\":\"2026년\",\"subtitle\":\"올해 나에게 무슨 일이\",\"icon\":\"⚡\",\"subs\":[{\"h\":\"올해 핵심 키워드\",\"b\":\"본문...\"},{\"h\":\"기회의 시기\",\"b\":\"본문...\"}]},{\"id\":\"future\",\"title\":\"10년 후\",\"subtitle\":\"내 인생은 어디로 가는 걸까\",\"icon\":\"🔮\",\"subs\":[{\"h\":\"대운 흐름 / 전환점\",\"b\":\"본문...\"},{\"h\":\"인생 한줄 마무리\",\"b\":\"본문...\"}]}]}\n\nJSON만 출력하세요.';
+// ============================================================
+// Part B: 합충형 + 프롬프트 + ILJU_DATA + AI 스트리밍
+// ============================================================
+
+
+
+// ★★★ Level A: 십성을 "해석 맥락"으로 변환하는 사전 ★★★
+var SS_CONTEXT = {
+  '비견': {
+    general: '나와 같은 에너지. 승부욕, 자존심, 독립심',
+    spouse: '배우자가 친구 같은 관계. 동등한 파트너십을 원하지만 주도권 다툼 가능',
+    career: '경쟁 환경에서 빛남. 동업보다 독자 노선. 자기 방식을 고수',
+    child: '말년에 자기 에너지가 넘침. 독립적인 노후',
+    outer: '세상과 대등하게 부딪히려는 에너지'
+  },
+  '겁재': {
+    general: '내 것을 지키려는 강한 에너지. 경쟁심과 소유욕',
+    spouse: '연애에서 소유욕이 강해짐. 상대를 내 편으로 만들고 싶은 욕구. 질투의 근원',
+    career: '돈을 벌면 빼앗기거나 쓰게 되는 패턴. 동업 주의',
+    child: '말년에 재물이 흩어지기 쉬운 구조. 자녀에게 퍼주는 패턴',
+    outer: '세상에서 내 몫을 챙기려는 에너지'
+  },
+  '식신': {
+    general: '여유롭게 즐기고 표현하는 에너지. 먹고 놀고 창작',
+    spouse: '연애를 천천히 음미하는 스타일. 급하지 않고 여유로움. 상대를 편하게 해주는 매력',
+    career: '창의적 직업에 적합. 콘텐츠, 요리, 예술, 교육. 적성이 곧 직업',
+    child: '자녀운 좋음. 말년이 풍요로움',
+    outer: '세상에 자기를 자연스럽게 드러내는 에너지'
+  },
+  '상관': {
+    general: '강렬하게 표현하고 기존 틀을 부수는 에너지. 반골기질',
+    spouse: '연애에서 상대의 권위를 인정하지 않음. 자유로운 관계를 원함. 끊고 맺음이 확실',
+    career: '기존 규칙을 싫어함. 프리랜서, 예술, 창업. 조직 안에서는 마찰',
+    child: '자녀가 강한 개성을 가짐. 말년에 변화가 많음',
+    outer: '세상의 규칙에 도전하는 에너지'
+  },
+  '편재': {
+    general: '움직이는 돈, 사업적 감각. 돈을 쓸 줄 아는 에너지',
+    spouse: '여러 인연을 만나기 쉬운 구조. 활발한 연애. 한 사람에 정착이 늦을 수 있음',
+    career: '사업가 기질. 영업, 투자, 유통. 여러 수입원. 돈이 크게 들어오고 크게 나감',
+    child: '말년에 재물 변동. 자녀와의 관계에서 돈 이슈',
+    outer: '세상에서 돈과 기회를 포착하는 에너지'
+  },
+  '정재': {
+    general: '안정적인 돈, 꾸준한 수입. 저축과 관리의 에너지',
+    spouse: '한 사람에게 정하면 깊이 빠짐. 헌신적. 안정적 관계 추구',
+    career: '월급, 안정적 직장. 재무, 관리직. 꾸준히 쌓아가는 구조',
+    child: '말년 재물 안정. 자녀에게 물려줄 것이 있음',
+    outer: '세상에서 안정적 위치를 확보하려는 에너지'
+  },
+  '편관': {
+    general: '외부에서 오는 압박, 통제, 도전. 두려움과 각성의 에너지',
+    spouse: '강하고 카리스마 있는 상대에게 끌림. 연애에 긴장감. 밀당이 강렬',
+    career: '권위 있는 직업. 군인, 경찰, 법조, 의료. 위기에서 빛나는 리더십',
+    child: '말년에 책임과 압박. 편하지 않지만 성취감',
+    outer: '세상이 나에게 도전장을 던지는 느낌'
+  },
+  '정관': {
+    general: '질서, 규율, 사회적 인정. 명예와 책임의 에너지',
+    spouse: '예의 바르고 신뢰할 수 있는 상대. 안정적이지만 답답할 수 있음',
+    career: '공무원, 대기업, 전문직. 조직 안에서 인정받는 구조',
+    child: '자녀가 반듯함. 말년에 사회적 지위 유지',
+    outer: '세상이 부여한 역할을 성실히 수행'
+  },
+  '편인': {
+    general: '특이한 배움, 직관, 영감. 일반적이지 않은 지적 에너지',
+    spouse: '상대를 이해하기 어려운 깊이. 정신적 교감을 중시. 독특한 인연',
+    career: '특수 분야. 점술, 심리, 예술, IT, 연구. 남다른 시각으로 승부',
+    child: '말년에 영적/정신적 성장. 외로울 수 있지만 깊음',
+    outer: '세상을 남과 다른 시각으로 봄'
+  },
+  '정인': {
+    general: '배움, 보호, 어머니의 에너지. 지적 탐구와 안정',
+    spouse: '상대에게 보호받고 싶은 욕구. 또는 상대를 돌보는 관계',
+    career: '교육, 학문, 연구, 출판. 배운 것을 전달하는 직업',
+    child: '말년에 학문적 성취. 지적 활동이 노후의 기쁨',
+    outer: '세상에서 배움을 통해 성장하는 에너지'
+  }
+};
+
+// ★★★ Level A: 신살을 "이 사람의 이야기"로 변환 ★★★
+var SINSAL_STORY = {
+  '천을귀인': '인생의 결정적 순간에 도움의 손길이 옴. 멘토, 선배, 우연한 만남이 방향을 바꿔줌',
+  '문창귀인': '글과 말에 재능. 공부, 시험, 문서 작업에서 행운. 표현력이 무기',
+  '역마살': '한 곳에 머물기 힘든 에너지. 이동, 변화, 해외와 인연. 움직일 때 운이 열림',
+  '학당귀인': '타고난 학습 능력. 새로운 분야를 빠르게 흡수. 배움 자체가 즐거움',
+  '양인살': '평소엔 순하지만 위기에 칼날처럼 각성. 극한 집중력. 위험할 때 진가 발휘',
+  '홍염살': '타고난 성적 매력과 이성 흡인력. 연애에서 강렬한 끌림을 만듦. 양날의 검',
+  '음양차착': '겉으로 보이는 성별 에너지와 속이 반대. 남자인데 섬세하거나, 여자인데 강인. 이 괴리가 매력이자 혼란',
+  '괴강살': '극단적 결단력. 한번 결정하면 뒤돌아보지 않음. 올인 아니면 올아웃',
+  '화개살': '예술·종교·철학에 끌림. 정신세계가 깊음. 세속적 성공보다 의미를 찾음',
+  '도화살': '사람을 끌어당기는 매력. 연예, 서비스, 대인관계에서 빛남',
+  '겁살': '갑작스러운 변화에 노출되기 쉬움. 하지만 위기 대응력도 함께 있음',
+  '망신살': '체면이 무너지는 순간이 올 수 있음. 하지만 이것이 오히려 진짜 자기를 찾는 계기',
+  '천문성': '직관과 영감. 보이지 않는 것을 감지하는 능력. 상담, 심리, 예술에 재능'
+};
+
+// ★★★ Level A: 궁위별 해석 맥락 생성 ★★★
+function buildGungwiContext(saju, gg) {
+  var result = {};
+  var jiSSArr = saju.jiSS || [];
+
+  // 배우자궁 (일지)
+  var spouseSS = jiSSArr[2] ? jiSSArr[2].ss : null;
+  if (spouseSS && SS_CONTEXT[spouseSS]) {
+    result.spouse = '★배우자궁 읽기: ' + SS_CONTEXT[spouseSS].spouse;
+  }
+
+  // 직업궁 (월지)
+  var careerSS = jiSSArr[1] ? jiSSArr[1].ss : null;
+  if (careerSS && SS_CONTEXT[careerSS]) {
+    result.career = '★직업궁 읽기: ' + SS_CONTEXT[careerSS].career;
+  }
+
+  // 자녀궁/노후궁 (시지)
+  var childSS = jiSSArr[3] ? jiSSArr[3].ss : null;
+  if (childSS && SS_CONTEXT[childSS]) {
+    result.child = '★노후궁 읽기: ' + SS_CONTEXT[childSS].child;
+  }
+
+  // 외부환경 (년지)
+  var outerSS = jiSSArr[0] ? jiSSArr[0].ss : null;
+  if (outerSS && SS_CONTEXT[outerSS]) {
+    result.outer = '★외부환경 읽기: ' + SS_CONTEXT[outerSS].outer;
+  }
+
+  return result;
+}
+
+// ★★★ Level A: 신살 스토리 생성 ★★★
+function buildSinsalStory(saju) {
+  var stories = [];
+  if (saju.specialSals) {
+    saju.specialSals.forEach(function(s) {
+      var story = SINSAL_STORY[s.name];
+      if (story) {
+        stories.push('★' + s.name + '(' + s.desc + '): ' + story);
+      }
+    });
+  }
+  // 추가 신살도
+  if (typeof calcExtraSinsal === 'function') {
+    var extras = calcExtraSinsal(saju);
+    extras.forEach(function(es) {
+      var story = SINSAL_STORY[es.name];
+      if (story && stories.every(function(s){ return s.indexOf(es.name) < 0; })) {
+        stories.push('★' + es.name + '(' + es.desc + '): ' + story);
+      }
+    });
+  }
+  return stories.join('\n');
+}
+
+// ★★★ Level A: 올해 핵심 사건 요약 ★★★
+function buildYearHighlight(dwSeAnalysis, dw, wolunArr, wonJiArr) {
+  var highlights = [];
+
+  // 세운 합충 중 가장 강한 것
+  if (dwSeAnalysis.seun1.length > 0) {
+    dwSeAnalysis.seun1.forEach(function(d) {
+      var prefix = '';
+      if (d.type.indexOf('충') >= 0) prefix = '⚡변화: ';
+      else if (d.type.indexOf('합') >= 0) prefix = '💫기회: ';
+      else if (d.type.indexOf('형') >= 0) prefix = '🔥시련: ';
+      highlights.push(prefix + d.desc + (d.impact ? ' → ' + d.impact + ' 영역에 영향' : ''));
+    });
+  }
+
+  // 월운에서 합충이 겹치는 달 찾기
+  var hotMonths = [];
+  if (wolunArr) {
+    wolunArr.forEach(function(w) {
+      if (w.group === '관성') hotMonths.push(w.month + ': 책임·압박의 달, 직장에서 긴장 가능');
+      if (w.group === '재성') hotMonths.push(w.month + ': 재물 기회의 달, 돈이 움직임');
+    });
+  }
+
+  return {
+    main: highlights.length > 0 ? highlights.join('\n') : '올해 특별한 합충 없음',
+    hotMonths: hotMonths.length > 0 ? hotMonths.slice(0, 3).join('\n') : ''
+  };
+}
+
+// ★★★ Level A: 납음 스토리 변환 ★★★
+var NAPEUM_STORY = {
+  '해중금': '바다 속에 가라앉은 금. 겉으로 드러나지 않지만 발견되면 엄청난 가치',
+  '노중화': '화덕 안의 불. 통제된 열정. 한 곳에 집중하면 무엇이든 녹임',
+  '대림목': '큰 숲의 나무. 혼자 서도 장엄하지만 숲 속에서 더 빛남',
+  '노방토': '길가의 흙. 많은 사람이 밟고 지나가지만 모든 것의 기초',
+  '검봉금': '칼날 위의 금. 날카롭고 결단력 있지만 상처도 쉽게 줌',
+  '산두화': '산꼭대기의 불. 높은 이상을 품고 있지만 쉽게 꺼질 수 있음',
+  '간하수': '시냇물. 끊임없이 흐르며 장애물을 돌아가는 유연함',
+  '성두토': '성벽 위의 흙. 방어와 보호의 에너지. 안전한 공간을 만들어냄',
+  '백랍금': '백금. 세공되면 최고의 가치. 시련이 곧 광택',
+  '양류목': '버드나무. 유연하게 흔들리지만 뿌리는 깊음. 적응력의 상징',
+  '천하수': '하늘에서 내리는 비. 모든 것을 적시는 은혜',
+  '대역토': '큰 언덕의 흙. 포용력과 안정감. 많은 것을 품을 수 있는 그릇',
+  '사중금': '모래 속의 금. 인내하고 걸러내야 비로소 빛나는 가치',
+  '산하화': '산 아래의 불. 따뜻하고 생명력 있는 에너지',
+  '평지목': '평지의 나무. 누구에게나 그늘을 제공하는 존재',
+  '벽상토': '벽 위의 흙. 장식적이지만 기초가 필요함',
+  '금박금': '금박. 화려하지만 얇음. 겉모습과 실속의 괴리',
+  '복등화': '등불. 어둠을 밝히는 따뜻한 빛. 주변 사람에게 희망',
+  '천상수': '하늘 위의 물(구름). 비전이 크고 이상이 높음',
+  '대해수': '큰 바다. 모든 것을 받아들이는 포용력. 깊이를 알 수 없음',
+  '상자목': '뽕나무. 실용적이고 생산적. 누에를 먹여 비단을 만듦',
+  '대계수': '큰 시내물. 힘차게 흐르며 방향이 확실함',
+  '사중토': '모래 흙. 유동적이고 변화가 많음. 적응력',
+  '천상화': '하늘의 불(번개). 순간적으로 세상을 밝히는 강렬함',
+  '석류목': '석류나무. 겉은 딱딱하지만 안에 풍요로움을 품고 있음',
+  '벽력화': '벼락불. 갑작스럽고 강렬. 파괴와 창조를 동시에',
+  '송백목': '소나무와 잣나무. 사계절 변하지 않는 절개와 꿋꿋함',
+  '장류수': '길게 흐르는 물. 인내와 꾸준함. 결국 바다에 도달',
+  '옥상토': '지붕 위의 흙. 높은 곳에서 세상을 내려다보는 시야'
+};
+
+
+var PREMIUM_SYSTEM = `당신은 대한민국 최정상급 명리학자(실전 60년)이자 MBTI 인지기능 전문가입니다.
+
+## 핵심 임무
+의뢰인의 사주팔자와 MBTI를 교차 분석하여, "어? 이거 내 얘기인데?" 하고 소름 돋는 풀이를 만드세요.
+
+## ★★★ 절대 규칙 (6개만. 이것만 지키면 됩니다) ★★★
+
+### 규칙1: 전문용어 완전 제거
+사주/MBTI 전문용어는 단 한 개도 노출되면 불합격.
+십성 이름(비견, 겁재, 식신, 상관, 편재, 정재, 편관, 정관, 편인, 정인),
+신살 이름(양인살, 홍염살, 역마살, 화개살, 도화살, 천을귀인, 문창귀인, 학당귀인, 괴강살, 백호살, 원진살, 귀문관살, 음양차착 등),
+격국 이름(양인격, 편재격, 식신격 등),
+기타(비겁탈재, 살인상생, 식상생재, 재관쌍미, 납음, 천하수, 대해수 등),
+천간지지 이름(갑목, 임수, 정화 등),
+궁위 이름(배우자궁, 직업궁, 자녀궁, 재물궁 등),
+운 이름(편관운, 정인운, 겁재운, 세운, 대운 간지 등),
+12운성 이름(장생, 관대, 건록, 제왕, 태 등),
+오행 분석 용어(비겁 에너지, 재성이 빈약, 화기, 지장간 등)
+→ 이 모든 것을 자연어로 번역해서 써야 함
+
+★ 본문(b)에 단 하나라도 노출되면 불합격인 용어:
+납음, 대해수, 천하수, 괴강살, 천을귀인, 문창귀인, 학당귀인, 식신, 정재, 편관, 편재격, 겁재탈재,
+극신약, 정임합목, 축술형, 귀문관살, 병임천간충, 인성운, 비견운,
+정인운, 편인운, 상관운, 겁재운, 지장간, 배우자궁, 직업궁,
+임수, 임술일주, 음양차착, 진진형, 자형, 화개살, 백호살,
+원진살, 편재, 정재, 비견, 겁재, 관대, 세운, 대운간지,
+편관운, 정관운, 비견운, 식상생재, 살인상생, 비겁탈재, 재관쌍미,
+양인살, 홍염살, 역마살
+
+모든 사주 개념은 반드시 자연어/비유로 번역해서 쓰세요.
+예) '위기에 각성하는 에너지', '인생 결정적 순간에 도움이 오는 구조',
+'큰 판을 짜는 사업가 기질', '에너지가 부족한 구조', '배우자 자리'
+
+★ 단, profile.specialStars 배열에는 전문용어를 그대로 넣으세요. 금지는 본문(b)에만 적용.
+
+■ 물상 비유는 자유: 촛불, 이슬, 칼날, 바위, 호수, 씨앗, 모닥불 등
+
+### 규칙2: 행동/체감 먼저
+모든 소주제는 구체적 행동/상황/장면으로 시작. 분석 리포트 금지.
+
+### 규칙3: 사주×MBTI 한 호흡 융합
+사주 따로 MBTI 따로 쓰면 불합격. 사주 70% + MBTI 보조 30%. MBTI 인지기능은 소주제당 1~2회.
+
+### 규칙4: 사주가 주도
+같은 MBTI라도 사주가 다르면 완전히 다른 글. MBTI가 주인공이면 불합격.
+
+### 규칙5: MBTI 강도 반영 + 왜곡 금지
+"상대적으로 약한 I" ≠ "매우 강한 I". 강도별 행동 프로파일 반드시 반영.
+E/I, S/N, T/F, J/P 기본 특성은 사주가 어떻든 유지.
+사주와 MBTI가 충돌하면 → 겉과 속의 이중주로 풀어내세요 (소름 포인트).
+
+### 규칙6: 데이터 무결성
+제공된 숫자·나이·간지·오행개수·세운연도 변경 금지. 없는 합충형 만들기 금지.
+대운 나이 범위는 제공 데이터 그대로. MBTI 유형·인지기능 스택 변경 금지.
+
+### ★ 긍정 먼저 규칙
+각 sub의 b에서 첫 2문단은 반드시 이 사람의 강점, 매력, 타고난 좋은 점으로 시작하세요.
+약점이나 충돌 지점은 3문단 이후에 배치하세요.
+독자는 '나 괜찮은 사람이야?'를 확인하러 온 거예요. 첫인상이 결핍이면 이탈합니다.
+나쁜 예: '수원지가 없어서 증발하고 있는 강'으로 시작
+좋은 예: '깊고 맑은 강이에요. 보통 강은 수면만 반짝이는데, 당신은 바닥까지 투명한 깊이를 가진 사람이에요.'로 시작
+
+
+## ★★★ 풀이 설계도 — _blueprint (이것이 품질의 핵심) ★★★
+
+categories를 쓰기 전에, 반드시 _blueprint 필드를 먼저 채우세요.
+_blueprint는 사용자에게 표시되지 않는 당신의 메모장입니다.
+이 메모장을 먼저 완성한 후, 그것을 보면서 본문을 쓰세요.
+
+### _blueprint 구조
+
+"_blueprint": {
+  "landscape": "이 사주의 전체 풍경 (자연 이미지 한 줄)",
+  "tension": "가장 강한 긴장/갈등 구조 한 줄",
+  "hidden": "겉으로 안 보이지만 숨겨진 것 한 줄",
+  "subs": {
+    "나의 성격": {
+      "anchor": "선택한 앵커 재료와 구체적 내용",
+      "discovery": "원국에서 자율 발견한 포인트 (앵커보다 강렬하면 이것이 주인공)",
+      "killing": "이 사주+이 MBTI가 아니면 절대 못 쓰는 문장 1개"
+    },
+    "나의 장점": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "고쳐야 할 점": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "남들이 보는 나": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "연애 스타일": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "잘 맞는 타입": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "연애 지뢰": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "직장 적성": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "맞춤 재물 쌓는 법": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "올해 키워드": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "올해 조언": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "대운 흐름": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "기회의 시기": { "anchor":"...", "discovery":"...", "killing":"..." },
+    "인생 한줄 마무리": { "anchor":"...", "discovery":"...", "killing":"..." }
+  },
+  "repeat_check": "14개 sub에서 같은 재료가 3번 이상 반복되는지 확인. 겹치면 여기서 교체."
+}
+
+### _blueprint 작성 규칙
+
+1. landscape/tension/hidden: 사주 원국을 처음 펼쳤을 때 눈에 들어오는 것 3가지. 이것이 전체 풀이의 뼈대.
+
+2. anchor: 아래 "필수 앵커 목록"에서 해당 소주제의 앵커를 확인하고, 이 사주에서 그 앵커가 구체적으로 무엇인지 적으세요.
+   예) "나의 장점" → 앵커=신살 → "이 사주에 양인살+천을귀인. 양인살이 사화에 있어서 직업궁에서 위기 각성"
+
+3. discovery: 원국 전체를 보면서, 앵커 외에 이 소주제와 관련된 눈에 띄는 것. 없으면 "없음".
+   예) "연애 스타일" → 앵커=일지 십성 → 발견="시간↔일지 암합이 숨겨진 인연 구조를 만듦"
+
+4. killing: "다른 같은 일간 + 같은 MBTI한테는 절대 못 쓰는 문장"을 미리 구상. 이것이 소름 포인트.
+   예) "정미일주+INFP: 마른 여름 땅 위의 촛불이라 주변을 태울까 봐 자기가 먼저 불을 줄이는 패턴"
+
+5. repeat_check: 14개 anchor+discovery를 쭉 보면서, 같은 물상이나 같은 에너지가 3번 이상 등장하면 여기서 교체. 이 단계를 건너뛰면 불합격.
+
+★★ _blueprint를 완성한 후에만 categories 본문(b)을 쓰세요. ★★
+★★ 본문을 쓸 때 반드시 _blueprint의 killing을 해당 소주제에 포함하세요. ★★
+
+
+## 필수 앵커 목록
+
+앵커는 "최소한 이것은 포함"이지 "이것만 써라"가 아닙니다.
+AI가 원국에서 더 강렬한 것을 발견하면 주인공이 될 수 있습니다.
+단, 앵커도 최소 1문단은 포함하세요.
+
+1. 나의 성격 → 앵커: 일간 물상 + 월지 계절 (일간 물상이 주인공인 유일한 소주제)
+2. 나의 장점 → 앵커: 신살 중 가장 강렬한 것 1개
+3. 고쳐야 할 점 → 앵커: 충·형·파격 중 가장 강한 것 1개 (없으면 과잉오행의 부작용)
+4. 남들이 보는 나 → 앵커: 월간↔일간 관계 (사회적 페르소나)
+5. 연애 스타일 → 앵커: 배우자궁 에너지 성격 (사용자 데이터의 "배우자궁 읽기" 참조)
+6. 잘 맞는 타입 → 앵커: 사주가 원하는 에너지 방향
+7. 연애 지뢰 → 앵커: 배우자궁 관련 긴장 구조
+8. 직장 적성 → 앵커: 직업궁 에너지 성격 (사용자 데이터의 "직업궁 읽기" 참조)
+9. 재물 → 앵커: 돈 에너지의 위치와 강도
+10. 올해 키워드 → 앵커: 올해 가장 강한 합충 (사용자 데이터의 "올해 핵심 사건" 참조)
+11. 올해 조언 → 앵커: 사주가 원하는 에너지의 구체적 행동
+12. 대운 흐름 → 앵커: 각 대운 나이 범위와 에너지 변화
+13. 기회의 시기 → 앵커: 대운 전환점
+14. 인생 마무리 → 앵커: 납음의 의미
+
+
+## 소주제별 시작 패턴 다양화 (필수!)
+
+14개 소주제에서 같은 시작 패턴을 3번 이상 쓰면 불합격.
+A) 일상 장면  B) 사주 풍경  C) 역설/반전  D) 시간(과거↔현재)
+E) 타인 시선  F) 질문  G) 데이터 발견
+
+## 깊이 규칙
+각 소주제에서 핵심 포인트 1~2개를 5~7문단으로 깊이. 3개 이상 나열 금지.
+
+## 문체
+- 구어체: ~예요, ~거든요. "당신"으로 호칭.
+- 인지기능 별명: 내면의 심판관(Fi), 분위기 리더기(Fe), 가능성 탐색기(Ne), 미래 내비게이션(Ni), 추억 저장소(Si), 현장 체험러(Se), 내장 논리회로(Ti), 실행력 엔진(Te). 처음에 별명(약어) 형태, 이후 짧게.
+- 내면 독백("~") 항목당 최대 2개. 모든 MBTI에 따뜻한 감성 톤.
+- 동네 언니/오빠처럼 카페에서 1:1로 이야기하는 느낌으로 쓰세요.
+- 의사가 환자에게 소견서 읽어주는 톤 금지.
+- 나쁜 예: '이 사주에서 가장 독특한 건 스스로를 항상 부족하다고 느낀다는 거예요'
+- 좋은 예: '사람들은 당신을 보면 깊다고 느껴요. 근데 정작 당신은 늘 부족한 것 같다고 생각하죠?'
+
+## 인사이트/처방
+- 본문(b): 풀이만. 처방은 tip에만.
+- 추상적 조언 금지. 오늘 당장 할 수 있는 구체적 행동.
+
+## animal 필드
+- oheng: 일간 오행. dominant_sipsung: 가장 지배적 십성 카테고리. condition: "신강"/"신약"/"특수"
+
+## profile 필드
+- seasonNote, pillars(시→일→월→연), ohengBalance, specialStars, mbtiType, mbtiName, mbtiFunctions, mbtiTags: 제공 데이터 그대로
+
+## oneLine 필드
+적천수 물상 + 월지 계절 + 사주 분위기. 자연 이미지 한 줄.
+
+## categories (5개 고정, 14개 subs)
+1. id:"me" 나란 사람: 나의 성격 / 나의 장점 / 고쳐야 할 점 / 남들이 보는 나
+2. id:"love" 나의 연애: 연애 스타일 / 잘 맞는 타입 / 연애 지뢰
+3. id:"career" 일과 돈: 직장 적성 / 맞춤 재물 쌓는 법
+4. id:"year" 2026년 나의 운: 올해 키워드 / 올해 조언
+5. id:"future" 인생 로드맵: 대운 흐름 / 기회의 시기 / 인생 한줄 마무리
+
+★★★ 반드시 각 카테고리 안에 subs 배열을 만들고, 각 sub는 독립된 {"h":"소제목","b":"본문"} 객체로 작성하세요. 카테고리를 통째로 하나의 글로 쓰면 불합격. ★★★
+
+각 sub의 b: 3~5문단, 문단당 3~5문장. \\n\\n으로 구분.
+각 sub의 b 마지막에 반드시 💊로 시작하는 실천 팁 1~2줄을 포함하세요. 💊는 너가 주는 내용에 따라 다양한 이모티콘을 써도 돼
+
+## JSON 출력 형식 (정확히 이 구조를 따르세요)
+
+{
+  "_blueprint": {...},
+  "animal": {"oheng":"화","dominant_sipsung":"비겁","condition":"신강"},
+  "profile": {
+    "seasonNote": "입하 (초여름 화왕절)",
+    "pillars": [
+      {"label":"시주","chun":"갑","chunOheng":"목","ji":"진","jiOheng":"토","sipsung":"식신","unyeong":"","isDay":false},
+      {"label":"일주","chun":"임","chunOheng":"수","ji":"술","jiOheng":"토","sipsung":"비견","unyeong":"관대","isDay":true},
+      {"label":"월주","chun":"정","chunOheng":"화","ji":"사","jiOheng":"화","sipsung":"정재","unyeong":"절","isDay":false},
+      {"label":"연주","chun":"무","chunOheng":"토","ji":"진","jiOheng":"토","sipsung":"편관","unyeong":"묘","isDay":false}
+    ],
+    "ohengBalance": [
+      {"name":"목","count":1,"emoji":"🌿"},
+      {"name":"화","count":2,"emoji":"🔥"},
+      {"name":"토","count":4,"emoji":"🪨"},
+      {"name":"금","count":0,"emoji":"⚔️"},
+      {"name":"수","count":1,"emoji":"🌊"}
+    ],
+    "specialStars": ["천을귀인","화개살","백호살","괴강살","음양차착","원진살","귀문관살"],
+    "mbtiType": "INTP",
+    "mbtiName": "논리술사",
+    "mbtiFunctions": "내장 논리회로(Ti),가능성 탐색기(Ne),추억 저장소(Si),분위기 리더기(Fe)",
+    "mbtiTags": ["#조용한분석가","#겉은평온속은폭풍","#논리로세상을해부","#감정은숨김"]
+  },
+  "oneLine": "초여름 뙤약볕 아래 깊고 맑은 강 — 바닥은 보이는데 수원지가 없어 조용히 증발 중인 물",
+  "categories": [
+    {
+      "id": "me",
+      "title": "나란 사람",
+      "subs": [
+        {"h": "나의 성격", "b": "첫 문단 (강점/매력부터)\\n\\n두번째 문단\\n\\n세번째 문단\\n\\n💊 오늘 당장 할 수 있는 실천 팁"},
+        {"h": "나의 장점", "b": "문단1\\n\\n문단2\\n\\n문단3\\n\\n💊 실천 팁"},
+        {"h": "고쳐야 할 점", "b": "문단1\\n\\n문단2\\n\\n문단3\\n\\n💊 실천 팁"},
+        {"h": "남들이 보는 나", "b": "문단1\\n\\n문단2\\n\\n문단3\\n\\n💊 실천 팁"}
+      ]
+    },
+    {
+      "id": "love",
+      "title": "나의 연애",
+      "subs": [
+        {"h": "연애 스타일", "b": "...\\n\\n💊 팁"},
+        {"h": "잘 맞는 타입", "b": "...\\n\\n💊 팁"},
+        {"h": "연애 지뢰", "b": "...\\n\\n💊 팁"}
+      ]
+    },
+    {
+      "id": "career",
+      "title": "일과 돈",
+      "subs": [
+        {"h": "직장 적성", "b": "...\\n\\n💊 팁"},
+        {"h": "맞춤 재물 쌓는 법", "b": "...\\n\\n💊 팁"}
+      ]
+    },
+    {
+      "id": "year",
+      "title": "2026년 나의 운",
+      "subs": [
+        {"h": "올해 키워드", "b": "...\\n\\n💊 팁"},
+        {"h": "올해 조언", "b": "...\\n\\n💊 팁"}
+      ]
+    },
+    {
+      "id": "future",
+      "title": "인생 로드맵",
+      "subs": [
+        {"h": "대운 흐름", "b": "...\\n\\n💊 팁"},
+        {"h": "기회의 시기", "b": "...\\n\\n💊 팁"},
+        {"h": "인생 한줄 마무리", "b": "...\\n\\n💊 팁"}
+      ]
+    }
+  ]
+}
+
+★ 위 JSON 구조를 정확히 따르세요. 특히:
+- categories 안에 subs 배열 필수
+- 각 sub는 {"h":"소제목", "b":"본문"} 형태
+- h는 위에 정의된 소제목 그대로 사용
+- b의 마지막에 💊 실천 팁 필수
+- profile.pillars와 ohengBalance도 위 구조대로 채워주세요
+
+★ _blueprint를 먼저 완성하고, 그것을 참조하면서 categories를 쓰세요.
+JSON만 출력하세요.`;
 
 /* ====== AI 출력 후처리 검증 (v29.1) ====== */
 function postValidateAI(result, dw, saju, gg) {
@@ -1837,10 +1736,6 @@ function postValidateAI(result, dw, saju, gg) {
   if (fixCount > 0) console.log('[PostValidate] 총 ' + fixCount + '건 교정 완료');
   return result;
 }
-
-/* ==========================================================
- * ★★★ 궁합 분석 엔진 v1.0 ★★★
- * ========================================================== */
 
 // ── 궁합 전용 관계 테이블 ──
 var GH_GANHAP=[[0,5,'토'],[1,6,'금'],[2,7,'수'],[3,8,'목'],[4,9,'화']];
@@ -2092,677 +1987,6 @@ function buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbti
 
   p+='\n위 데이터를 기반으로 궁합 풀이를 JSON으로 작성하세요. 점수를 그대로 사용하세요.\n';
   return p;
-}
-
-// ── 궁합 상대방 정보 저장 ──
-var GH_ST={y:'',m:'',d:'',h:'',min:'',gender:'',mbti:'',mbtiCf:'',mbtiAxes:[]};
-var GH_GENDER='';
-
-function ghPickGender(g){
-  GH_GENDER=g;
-  document.getElementById('gh-btn-male').style.background=g==='남성'?'rgba(136,97,154,0.08)':'rgba(0,0,0,0.04)';
-  document.getElementById('gh-btn-male').style.color=g==='남성'?'var(--accent)':'var(--text-muted)';
-  document.getElementById('gh-btn-male').style.borderColor=g==='남성'?'var(--accent)':'var(--border-light)';
-  document.getElementById('gh-btn-female').style.background=g==='여성'?'rgba(136,97,154,0.08)':'rgba(0,0,0,0.04)';
-  document.getElementById('gh-btn-female').style.color=g==='여성'?'var(--accent)':'var(--text-muted)';
-  document.getElementById('gh-btn-female').style.borderColor=g==='여성'?'var(--accent)':'var(--border-light)';
-  checkGHReady();
-}
-
-var GH_MBTI_SEL='';
-function ghPickMBTI(t){
-  GH_MBTI_SEL=t;
-  document.querySelectorAll('#gh-mbti-grid button').forEach(function(b){
-    b.style.background=b.textContent===t?'var(--accent)':'rgba(0,0,0,0.04)';
-    b.style.color=b.textContent===t?'#fff':'var(--text-muted)';
-    b.style.borderColor=b.textContent===t?'var(--accent)':'var(--border-light)';
-  });
-  checkGHReady();
-}
-
-function checkGHReady(){
-  var y=document.getElementById('gh-y').value;
-  var m=document.getElementById('gh-m').value;
-  var d=document.getElementById('gh-d').value;
-  var ok=y&&m&&d&&GH_GENDER&&GH_MBTI_SEL;
-  var btn=document.getElementById('btn-gh-start');
-  btn.disabled=!ok;
-  btn.style.opacity=ok?'1':'0.5';
-  btn.style.cursor=ok?'pointer':'not-allowed';
-}
-
-var GH_INITED=false;
-function initGHPage(){
-  if(GH_INITED){
-    // 이미 초기화됐으면 내 정보만 업데이트
-    if(window._lastSaju){
-      document.getElementById('gh-my-info').textContent='나 · '+window._lastSaju.P[2].s+window._lastSaju.P[2].b+' · '+window._lastMBTI;
-      document.getElementById('gh-my-detail').textContent=window._lastSaju.dm+'('+window._lastSaju.dmEl+') · '+window._lastGG.gyeokgukName;
-    }
-    return;
-  }
-  GH_INITED=true;
-  // 월/일/시/분 셀렉트 채우기
-  var mSel=document.getElementById('gh-m'),dSel=document.getElementById('gh-d');
-  var hSel=document.getElementById('gh-h'),minSel=document.getElementById('gh-min');
-  for(var i=1;i<=12;i++){var o=document.createElement('option');o.value=i;o.textContent=i+'월';mSel.appendChild(o);}
-  for(var i=1;i<=31;i++){var o=document.createElement('option');o.value=i;o.textContent=i+'일';dSel.appendChild(o);}
-  for(var i=0;i<=23;i++){var o=document.createElement('option');o.value=i;o.textContent=i+'시';hSel.appendChild(o);}
-  for(var i=0;i<60;i+=5){var o=document.createElement('option');o.value=i;o.textContent=i+'분';minSel.appendChild(o);}
-  // MBTI 그리드
-  var types=['INTJ','INTP','ENTJ','ENTP','INFJ','INFP','ENFJ','ENFP','ISTJ','ISFJ','ESTJ','ESFJ','ISTP','ISFP','ESTP','ESFP'];
-  var grid=document.getElementById('gh-mbti-grid');
-  types.forEach(function(t){
-    var b=document.createElement('button');
-    b.textContent=t;
-    b.onclick=function(){ghPickMBTI(t);};
-    b.style.cssText='padding:10px 0;border-radius:10px;border:2px solid var(--border-light);background:#fff;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer';
-    grid.appendChild(b);
-  });
-  // 내 정보 표시
-  if(window._lastSaju){
-    document.getElementById('gh-my-info').textContent='나 · '+window._lastSaju.P[2].s+window._lastSaju.P[2].b+' · '+window._lastMBTI;
-    document.getElementById('gh-my-detail').textContent=window._lastSaju.dm+'('+window._lastSaju.dmEl+') · '+window._lastGG.gyeokgukName;
-  }
-  // 입력 변경 감지
-  ['gh-y','gh-m','gh-d','gh-h','gh-min'].forEach(function(id){
-    document.getElementById(id).addEventListener('change',checkGHReady);
-    document.getElementById(id).addEventListener('input',checkGHReady);
-  });
-}
-
-// ── 궁합 분석 실행 ──
-async function startGunghap(){
-  var apiKey=getApiKey();
-  if(!apiKey){apiKey=await promptApiKey();if(!apiKey)return;}
-
-  // 상대방 사주 계산
-  var bY=+document.getElementById('gh-y').value;
-  var bM=+document.getElementById('gh-m').value;
-  var bD=+document.getElementById('gh-d').value;
-  var bH=document.getElementById('gh-h').value?+document.getElementById('gh-h').value:null;
-  var bMin=document.getElementById('gh-min').value?+document.getElementById('gh-min').value:null;
-
-  var sajuB=calcSajuForApp(bY,bM,bD,bH,bMin,null);
-  var ggB=analyzeGyeokguk(sajuB);
-  var genderB=GH_GENDER==='남성'?'남':'여';
-  var dwB=calcDaewoon(sajuB,bY,bM,bD,bH||12,bMin||0,genderB);
-
-  // MBTI B 객체 구성 (강도 없이 기본값)
-  var tiB=TY[GH_MBTI_SEL]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
-  var mbtiB={type:GH_MBTI_SEL, cf:tiB.cf,
-    axes:[
-      {side:GH_MBTI_SEL[0],pct:60},
-      {side:GH_MBTI_SEL[1],pct:60},
-      {side:GH_MBTI_SEL[2],pct:60},
-      {side:GH_MBTI_SEL[3],pct:60}
-    ], profile:''};
-
-  // 내 데이터
-  var sajuA=window._lastSaju, dwA=window._lastDW, ggA=window._lastGG;
-  var mbtiA=window._lastMBTIObj;
-  if(!sajuA){alert('먼저 내 사주를 분석해주세요!');goPage('birth');return;}
-
-  // 궁합 엔진 실행
-  var ghResult=analyzeGunghap(sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiA, mbtiB);
-
-  // 로딩 화면
-  goPage('gh-load');
-  var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...','오행 보완 관계를 읽습니다...','인지기능 궁합 탐색...','연애 케미를 계산합니다...','갈등 패턴을 분석합니다...','장기 전망을 그립니다...','두 사람의 이야기를 쓰고 있습니다...'];
-  var p=0,iv=setInterval(function(){p+=Math.random()*1.5+.4;if(p>95)p=95;document.getElementById('gh-load-bar').style.width=p+'%';document.getElementById('gh-load-pct').textContent=Math.round(p)+'%';document.getElementById('gh-load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);
-
-  // AI 프롬프트 생성 + 호출
-  var userPrompt=buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiA, mbtiB);
-  var aiResult=null, apiError='';
-
-  try{
-    var aiText=await streamSonnet(apiKey, GUNGHAP_SYSTEM, userPrompt, '💕 궁합 분석', 'gh-load-msg', 'gh-load-bar', 'gh-load-pct', '/api/gunghap-analyze');
-    try {
-      aiResult = JSON.parse(aiText);
-    } catch(e) {
-      console.warn('[MBTS] 궁합 1차 JSON 파싱 실패, 추출 시도...');
-      // 2차: { ~ } 추출
-      var fb = aiText.indexOf('{'), lb = aiText.lastIndexOf('}');
-      if (fb >= 0 && lb > fb) {
-        try { aiResult = JSON.parse(aiText.substring(fb, lb + 1)); } catch(e2) {}
-      }
-      // 3차: 줄 단위 추출
-      if (!aiResult) {
-        var lines = aiText.split('\n');
-        var si = -1, ei = -1;
-        for (var li = 0; li < lines.length; li++) {
-          if (si < 0 && lines[li].trim().charAt(0) === '{') si = li;
-          if (lines[li].trim().charAt(0) === '}' || lines[li].trim().slice(-1) === '}') ei = li;
-        }
-        if (si >= 0 && ei >= si) {
-          try { aiResult = JSON.parse(lines.slice(si, ei + 1).join('\n')); } catch(e3) {}
-        }
-      }
-      // 4차: 제어문자 제거 후 재시도
-      if (!aiResult) {
-        var sanitized = aiText.substring(fb >= 0 ? fb : 0, (lb > 0 ? lb + 1 : aiText.length));
-        sanitized = sanitized.replace(/[\x00-\x1F\x7F]/g, function(c) { return c === '\n' || c === '\r' || c === '\t' ? c : ''; });
-        try { aiResult = JSON.parse(sanitized); } catch(e4) {}
-      }
-      // 2~4차 성공 시 에러 초기화
-      if (aiResult) {
-        apiError = '';
-        console.log('[MBTS] JSON 추출 성공 (폴백 파서)');
-      } else {
-        apiError = 'JSON_PARSE';
-      }
-    }
-  }catch(e){
-    console.error('[MBTS] 궁합 에러:', e);
-    apiError=e.message||'UNKNOWN';
-  }
-
-  clearInterval(iv);
-  document.getElementById('gh-load-bar').style.width='100%';
-  document.getElementById('gh-load-pct').textContent='100%';
-
-  // 결과 렌더링
-  setTimeout(function(){
-    renderGunghapResult(ghResult, aiResult, sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, apiError);
-    goPage('gh-res');
-  }, 600);
-}
-
-// ── 궁합 결과 렌더링 ──
-function renderGunghapResult(ghR, aiR, sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, err){
-  var el=document.getElementById('pg-gh-res');
-  var sc=ghR.scores;
-  var title=aiR&&aiR.title?aiR.title:(sajuA.P[2].s+sajuA.P[2].b+'×'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiA.type+'×'+mbtiB.type);
-  var quote=aiR&&aiR.quote?aiR.quote:'두 사람만의 특별한 이야기';
-
-  var h='<div class="res-wrap" style="max-width:640px;margin:0 auto;padding:0 0 40px">';
-  // 헤더
-  h+='<div style="text-align:center;padding:32px 20px 20px;background:linear-gradient(180deg,rgba(136,97,154,.06) 0%,transparent 100%)">';
-  h+='<div style="display:flex;justify-content:center;gap:0;margin-bottom:10px"><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#4CAF7D">M</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#5B8FD4">B</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E05A5A">T</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E8B84B">S</span></div>';
-  h+='<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">궁합 분석</div>';
-  h+='<h1 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:4px">'+title+'</h1>';
-  h+='</div>';
-
-  // 두 사람 카드
-  h+='<div style="display:flex;align-items:center;gap:12px;padding:16px 20px;justify-content:center">';
-  h+='<div class="glass-card" style="text-align:center;padding:16px 20px;border-color:var(--accent)"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px;color:var(--text-primary)">나</div><div style="font-size:11px;color:var(--text-muted)">'+sajuA.P[2].s+sajuA.P[2].b+' · '+mbtiA.type+'</div></div>';
-  h+='<div style="font-size:28px">💘</div>';
-  h+='<div class="glass-card" style="text-align:center;padding:16px 20px;border-color:#E05A5A"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px;color:var(--text-primary)">상대방</div><div style="font-size:11px;color:var(--text-muted)">'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiB.type+'</div></div>';
-  h+='</div>';
-
-  // 점수 카드
-  h+='<div class="glass-card" style="margin:12px 20px;padding:24px">';
-  h+='<div style="text-align:center;margin-bottom:16px"><div style="font-size:48px;font-weight:900;color:var(--accent)">'+sc.total+'<span style="font-size:24px">점</span></div><div style="font-size:13px;color:var(--text-muted)">종합 궁합 점수</div></div>';
-  var bars=[{l:'연애',v:sc.love,c:'#d63384'},{l:'소통',v:sc.comm,c:'#2e8b57'},{l:'가치관',v:sc.values,c:'#c99a2e'},{l:'업무',v:sc.work,c:'#4682b4'}];
-  bars.forEach(function(b){
-    h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">';
-    h+='<div style="width:50px;text-align:right;font-size:13px;font-weight:600;color:var(--text-secondary)">'+b.l+'</div>';
-    h+='<div style="flex:1;height:10px;background:rgba(0,0,0,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:'+b.v+'%;background:'+b.c+';border-radius:5px;transition:width 1s"></div></div>';
-    h+='<div style="width:36px;font-size:13px;font-weight:700;color:var(--text-muted)">'+b.v+'%</div></div>';
-  });
-  h+='</div>';
-
-  // 인용구
-  h+='<div class="glass-card" style="margin:12px 20px;padding:16px 20px;border-left:4px solid var(--accent);font-size:14px;color:var(--text-secondary);line-height:1.6;font-style:italic">"'+quote+'"</div>';
-
-  // AI 풀이 카드
-  if(aiR&&aiR.categories){
-    aiR.categories.forEach(function(cat){
-      h+='<div style="margin:16px 20px 0">';
-      h+='<h3 style="font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text-primary)">'+(cat.icon||'')+'  '+cat.title+'</h3>';
-      if(cat.items) cat.items.forEach(function(item){
-        h+='<div class="glass-card" style="padding:20px;margin-bottom:10px">';
-        h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:22px">'+(item.icon||'💕')+'</span><span style="font-size:15px;font-weight:700;color:var(--text-primary)">'+(item.catch||'')+'</span></div>';
-        h+='<div style="font-size:14px;color:var(--text-secondary);line-height:1.7;word-break:keep-all">'+(item.content||'').replace(/\n\n/g,'<br><br>')+'</div>';
-        if(item.insightText){
-          var bgMap={gold:'rgba(201,154,46,.1)',fire:'rgba(211,47,47,.1)',water:'rgba(70,130,180,.1)',purple:'rgba(136,97,154,.1)'};
-          var txMap={gold:'#c99a2e',fire:'#d32f2f',water:'#4682b4',purple:'#88619A'};
-          var ibg=bgMap[item.insightType]||bgMap.gold, itx=txMap[item.insightType]||txMap.gold;
-          h+='<div style="margin-top:12px;padding:12px 14px;background:'+ibg+';border-radius:10px;border:1px solid '+itx+'30;display:flex;align-items:flex-start;gap:8px">';
-          h+='<span style="font-size:14px">'+(item.insightIcon||'💡')+'</span>';
-          h+='<span style="font-size:13px;color:'+itx+';line-height:1.5;font-weight:500">'+item.insightText+'</span></div>';
-        }
-        h+='</div>';
-      });
-      h+='</div>';
-    });
-  } else if(err){
-    h+='<div class="glass-card" style="margin:20px;padding:24px;text-align:center"><p style="color:var(--text-muted)">AI 풀이 생성에 실패했습니다.<br>점수와 키워드 분석은 정상 완료되었습니다.</p><p style="color:var(--text-muted);font-size:12px;margin-top:8px">에러: '+err+'</p></div>';
-  }
-
-  // 하단 버튼
-  h+='<div style="padding:20px">';
-  h+='<button onclick="shareResult()" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#191919;background:#FEE500;border:none;border-radius:14px;margin-bottom:10px">💬 궁합 결과 공유하기</button>';
-  h+='<p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted)">본 풀이는 명리학과 MBTI 이론을 기반한 참고용 분석이며,<br>개인의 의사결정을 대체하지 않습니다.</p>';
-  h+='</div>';
-  h+='<div style="height:80px"></div>';
-  h+='</div>';
-  // 하단 4탭 탭바
-  h+='<div class="btm-tab"><div class="btm-tab-inner">';
-  h+='<div class="btm-tab-item" onclick="goPage(\'home\')"><div class="tab-ic">🏠</div><div class="tab-lb">홈</div></div>';
-  h+='<div class="btm-tab-item active"><div class="tab-ic">📊</div><div class="tab-lb">분석결과</div></div>';
-  h+='<div class="btm-tab-item" onclick="alert(\'저장 기능은 준비 중이에요!\')"><div class="tab-ic">💾</div><div class="tab-lb">저장</div></div>';
-  h+='<div class="btm-tab-item" onclick="alert(\'설정 기능은 준비 중이에요!\')"><div class="tab-ic">⚙️</div><div class="tab-lb">설정</div></div>';
-  h+='</div></div>';
-
-  el.innerHTML=h;
-}
-
-// ★ 전역 AI 스트리밍 함수 (사주분석 + 궁합 공용)
-async function streamSonnet(apiKey, systemPrompt, userMsg, label, msgElId, barElId, pctElId, endpoint){
-  msgElId=msgElId||'load-msg'; barElId=barElId||'load-bar'; pctElId=pctElId||'load-pct';
-  endpoint=endpoint||'/api/analyze';
-  var ctrl=new AbortController();
-  var connectTid=setTimeout(function(){ctrl.abort();},60000);
-  var msgEl=document.getElementById(msgElId);
-  if(msgEl) msgEl.textContent=label+' 연결 중...';
-  var r=await fetch(endpoint,{
-    signal:ctrl.signal, method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({systemPrompt:systemPrompt,userPrompt:userMsg})
-  });
-  clearTimeout(connectTid);
-  if(!r.ok){
-    var errBody=await r.text();
-    console.error('[MBTS] API failed:', endpoint, 'Status:', r.status, errBody.substring(0,200));
-    throw new Error('HTTP_'+r.status+': '+errBody.substring(0,150));
-  }
-  var reader=r.body.getReader();
-  var decoder=new TextDecoder();
-  var fullText='', buffer='', chunkCount=0;
-  var streamStart=Date.now();
-  while(true){
-    if(Date.now()-streamStart>300000) break;
-    var chunk=await reader.read();
-    if(chunk.done) break;
-    buffer+=decoder.decode(chunk.value,{stream:true});
-    var lines=buffer.split('\n');
-    buffer=lines.pop()||'';
-    for(var li=0;li<lines.length;li++){
-      var line=lines[li].trim();
-      if(!line.startsWith('data: ')) continue;
-      var jsonStr=line.substring(6);
-      if(jsonStr==='[DONE]') continue;
-      try{
-        var evt=JSON.parse(jsonStr);
-        if(evt.type==='content_block_delta'&&evt.delta&&evt.delta.text){
-          fullText+=evt.delta.text;
-          chunkCount++;
-          var pct=Math.min(94, 5+Math.round((fullText.length/8000)*90));
-          var barEl=document.getElementById(barElId);if(barEl)barEl.style.width=pct+'%';
-          var pctEl=document.getElementById(pctElId);if(pctEl)pctEl.textContent=pct+'%';
-          if(chunkCount%15===0&&msgEl) msgEl.textContent=label+' '+fullText.length+'자 ✍️';
-        }
-        if(evt.type==='error') throw new Error('STREAM_ERROR: '+(evt.error&&evt.error.message||''));
-      }catch(pe){if(pe.message&&pe.message.indexOf('STREAM_ERROR')>=0) throw pe;}
-    }
-  }
-  console.log('[MBTS] '+label+' 완료: '+fullText.length+'자');
-  var cleaned = fullText.replace(/```json|```/g,"").trim();
-  // 1차: 그대로 파싱 시도
-  try { JSON.parse(cleaned); return cleaned; } catch(e1) {}
-  // 2차: 첫 번째 { 부터 마지막 } 까지 추출
-  var firstBrace = cleaned.indexOf('{');
-  var lastBrace = cleaned.lastIndexOf('}');
-  if (firstBrace >= 0 && lastBrace > firstBrace) {
-    var extracted = cleaned.substring(firstBrace, lastBrace + 1);
-    try { JSON.parse(extracted); return extracted; } catch(e2) {}
-  }
-  // 3차: 줄바꿈 기준으로 { 로 시작하는 줄부터 } 로 끝나는 줄까지
-  var lines = cleaned.split('\n');
-  var startIdx = -1, endIdx = -1;
-  for (var i = 0; i < lines.length; i++) {
-    if (startIdx < 0 && lines[i].trim().charAt(0) === '{') startIdx = i;
-    if (lines[i].trim().charAt(0) === '}' || lines[i].trim().slice(-1) === '}') endIdx = i;
-  }
-  if (startIdx >= 0 && endIdx >= startIdx) {
-    var jsonBlock = lines.slice(startIdx, endIdx + 1).join('\n');
-    try { JSON.parse(jsonBlock); return jsonBlock; } catch(e3) {}
-  }
-  // 4차: 모든 방법 실패시 원본 반환
-  console.warn('[MBTS] JSON 추출 실패, 원본 반환:', cleaned.substring(0, 100));
-  return cleaned;
-}
-
-async function startAnalysis(){
-  var apiKey = await promptApiKey();
-  if(!apiKey){ goPage('birth'); return; }
-  var mt=getMBTI(),saju=calcSajuForApp(+ST.y,+ST.m,+ST.d,ST.h?+ST.h:null,ST.min?+ST.min:null,ST.cityLng);
-  var ti=TY[mt]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
-  var gg=analyzeGyeokguk(saju);
-  var age=2026-(+ST.y||1990);
-  var msgs=["사주팔자를 펼칩니다...","천간지지 관계를 읽습니다...","십성과 격국을 분석합니다...","오행 균형을 살핍니다...","인지기능×사주 교차 탐색...","카테고리별 풀이 구성 중...","캐치프레이즈를 만듭니다...","당신만의 이야기를 쓰고 있습니다..."];
-  var p=0,iv=setInterval(function(){p+=Math.random()*1.5+.4;if(p>95)p=95;document.getElementById('load-bar').style.width=p+'%';document.getElementById('load-pct').textContent=Math.round(p)+'%';document.getElementById('load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);
-
-  var strArr=ST.ch.map(function(c,i){return strLv(ST.it[i])+' '+(c==='L'?DM_AX[i].Ll:DM_AX[i].Rl);});
-  var salTxt=saju.specialSals.map(function(s){return s.name+'('+s.desc+')';}).join(', ');
-  var jjgTxt=saju.jjg.map(function(jj,i){return saju.P[i].l+': '+jj.map(function(j){return j.stem+'('+j.oh+')';}).join(' ');}).join(' | ');
-  var ilju=saju.P[2].s+saju.P[2].b+'('+TGAN[saju.raw.dg]+JIJI[saju.raw.dj]+')';
-
-  // 대운 계산
-  var dw=calcDaewoon(saju,+ST.y,+ST.m,+ST.d,ST.h?+ST.h:null,ST.min?+ST.min:null,ST.gender);
-
-  // ★ 궁합용 데이터 저장
-  window._lastSaju=saju; window._lastDW=dw; window._lastGG=gg; window._lastMBTI=mt;
-  window._lastMBTIObj={type:mt, cf:ti.cf,
-    axes:[{side:ST.ch[0]==='L'?'E':'I',pct:ST.it[0]||60},{side:ST.ch[1]==='L'?'S':'N',pct:ST.it[1]||60},
-          {side:ST.ch[2]==='L'?'T':'F',pct:ST.it[2]||60},{side:ST.ch[3]==='L'?'J':'P',pct:ST.it[3]||60}],
-    profile:strArr.join(', ')};
-
-  // ★ 수정5: 대운 전반(천간5년)/후반(지지5년) 분리
-  var dwTxt=dw.daewoons.map(function(d,i){
-    var prefix=(dw.currentDWIdx===i?'\u2605현재 ':'  ');
-    var jiSS_dw_JJG=JIJANGGAN_DATA[JIJI_KR.indexOf(d.ji)];
-    var jiSS_dw=jiSS_dw_JJG?getSipsung(saju.raw.dg,jiSS_dw_JJG[jiSS_dw_JJG.length-1].g):'';
-    // 지지의 정기 기준 십성 (더 정확)
-    var jiJJG=JIJANGGAN_DATA[JIJI_KR.indexOf(d.ji)];
-    var jiJeonggiSS=jiJJG?getSipsung(saju.raw.dg,jiJJG[jiJJG.length-1].g):'';
-    return prefix+d.startAge+'~'+d.endAge+'세 '+d.gan+d.ji+'('+d.ganH+d.jiH+') — 전반('+d.startAge+'~'+(d.startAge+4)+'세): '+d.gan+'='+d.ss+'운 / 후반('+(d.startAge+5)+'~'+d.endAge+'세): '+d.ji+'='+(jiJeonggiSS||jiSS_dw)+'운';
-  }).join('\n');
-  var currentDW=dw.currentDWIdx>=0?dw.daewoons[dw.currentDWIdx]:null;
-  var seTxt=dw.seun.map(function(s){return s.y+'년 '+s.gan+s.ji+'('+s.ganH+s.jiH+') '+s.ss;}).join(', ');
-
-  // ★ 삼재(三災) 계산
-  var samjaeGroups = [
-    {group:[8,0,4], disaster:[2,3,4]},   // 신자진띠 → 인묘진년이 삼재
-    {group:[2,6,10], disaster:[5,6,7]},   // 인오술띠 → 사오미년이 삼재  
-    {group:[5,9,1], disaster:[11,0,1]},   // 사유축띠 → 해자축년이 삼재
-    {group:[11,3,7], disaster:[8,9,10]}   // 해묘미띠 → 신유술년이 삼재
-  ];
-  var birthJi = saju.raw.yj; // 태어난 해의 지지(띠)
-  var currentYear = new Date().getFullYear();
-  // 올해의 지지 구하기
-  var currentYearJi = ((currentYear + 8) % 12);
-  var samjaeTxt = '';
-  var samjaeStatus = '';
-  for (var si = 0; si < samjaeGroups.length; si++) {
-    var sg = samjaeGroups[si];
-    if (sg.group.indexOf(birthJi) >= 0) {
-      var disasterJis = sg.disaster;
-      // 올해, 내년, 내후년 체크
-      for (var syr = 0; syr < 3; syr++) {
-        var checkYearJi = ((currentYear + syr + 8) % 12);
-        var disIdx = disasterJis.indexOf(checkYearJi);
-        if (disIdx >= 0) {
-          var samjaeNames = ['들삼재(시작)','눌삼재(절정)','날삼재(마무리)'];
-          if (syr === 0) { // 올해가 삼재
-            samjaeStatus = samjaeNames[disIdx];
-            samjaeTxt = currentYear + '년 ' + samjaeStatus + ' — ' + JIJI_KR[disasterJis[0]]+JIJI_KR[disasterJis[1]]+JIJI_KR[disasterJis[2]]+'년 삼재 구간';
-          } else if (syr === 1 && !samjaeTxt) { // 내년이 삼재 시작
-            samjaeTxt = (currentYear+1) + '년부터 삼재 시작 예정 ('+JIJI_KR[disasterJis[0]]+JIJI_KR[disasterJis[1]]+JIJI_KR[disasterJis[2]]+'년)';
-          }
-        }
-      }
-      // 올해가 삼재가 아니면 다음 삼재 시기 계산
-      if (!samjaeTxt) {
-        var nextSamjaeStart = disasterJis[0];
-        var yearsUntil = ((nextSamjaeStart - currentYearJi) + 12) % 12;
-        if (yearsUntil === 0) yearsUntil = 12;
-        samjaeTxt = '현재 삼재 아님. 다음 삼재: ' + (currentYear + yearsUntil) + '년 시작';
-      }
-      break;
-    }
-  }
-
-  // ★ 월운(月運) 계산 — 올해 12개월 운세
-  var wolunArr = [];
-  var wolunYear = currentYear;
-  // 올해의 연간 인덱스 구하기
-  var wolunYearGan = ((wolunYear + 6) % 10);
-  // 월간 시작 공식: (연간%5)*2+2 → 1월(인월)의 천간
-  var monthStartStem = ((wolunYearGan % 5) * 2 + 2) % 10;
-  var monthNames = ['1월(인월)','2월(묘월)','3월(진월)','4월(사월)','5월(오월)','6월(미월)','7월(신월)','8월(유월)','9월(술월)','10월(해월)','11월(자월)','12월(축월)'];
-  var monthBranches = [2,3,4,5,6,7,8,9,10,11,0,1]; // 인~축
-  var dg = saju.raw.dg; // 일간 인덱스
-  for (var wi = 0; wi < 12; wi++) {
-    var wGan = (monthStartStem + wi) % 10;
-    var wJi = monthBranches[wi];
-    var wGanSS = getSipsung(dg, wGan);
-    var wJiJJG = JIJANGGAN_DATA[wJi];
-    var wJiJeonggi = wJiJJG[wJiJJG.length - 1].g;
-    var wJiSS = getSipsung(dg, wJiJeonggi);
-    // 십성 그룹 분류
-    var ssGroup = {'비견':'비겁','겁재':'비겁','식신':'식상','상관':'식상','편재':'재성','정재':'재성','편관':'관성','정관':'관성','편인':'인성','정인':'인성'};
-    var wGroup = ssGroup[wGanSS] || wGanSS;
-    // 월운 간단 해석
-    var wolunHint = {
-      '비겁':'자기에너지강화, 독립·경쟁의달, 주변과힘겨루기',
-      '식상':'표현·창작의달, 말과글이잘풀림, 새아이디어',
-      '재성':'재물·실리의달, 수입기회, 현실적성과',
-      '관성':'책임·압박의달, 직장변화, 자기관리필요',
-      '인성':'학습·휴식의달, 귀인등장, 내면성장'
-    };
-    wolunArr.push({
-      month: monthNames[wi],
-      gan: TGAN_KR[wGan], ji: JIJI_KR[wJi],
-      ganSS: wGanSS, jiSS: wJiSS,
-      group: wGroup,
-      hint: wolunHint[wGroup] || ''
-    });
-  }
-  // ★ 수정6: 월운에 원국 합충 분석 추가
-  var WOLUN_CHUNG=[[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]];
-  var WOLUN_YUKHAP=[[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
-  var wonJiArr=[{v:saju.raw.yj,l:'년지'},{v:saju.raw.mj,l:'월지'},{v:saju.raw.dj,l:'일지'}];
-  if(saju.raw.hj!=null)wonJiArr.push({v:saju.raw.hj,l:'시지'});
-  var wGungwi={'년지':'외부환경','월지':'직업','일지':'배우자·건강','시지':'자녀'};
-  var wolunTxt = wolunArr.map(function(w){
-    var wJiIdx=JIJI_KR.indexOf(w.ji);
-    var rels=[];
-    wonJiArr.forEach(function(wj){
-      WOLUN_CHUNG.forEach(function(cp){if((wJiIdx===cp[0]&&wj.v===cp[1])||(wJiIdx===cp[1]&&wj.v===cp[0]))rels.push(w.ji+wj.l.charAt(0)+JIJI_KR[wj.v]+'충('+wGungwi[wj.l]+')');});
-      WOLUN_YUKHAP.forEach(function(yh){if((wJiIdx===yh[0]&&wj.v===yh[1])||(wJiIdx===yh[1]&&wj.v===yh[0]))rels.push(w.ji+JIJI_KR[wj.v]+'합('+wGungwi[wj.l]+')');});
-    });
-    var relStr=rels.length>0?' | '+rels.join(', '):'';
-    return w.month + ' ' + w.gan + w.ji + '(' + w.ganSS + '/' + w.jiSS + ') → ' + w.group + '운' + relStr;
-  }).join('\n');
-
-  // [방법2] 합충형 데이터
-  var rel=calcRelations(saju);
-  var chungTxt=rel.jijiChung.map(function(c){return c.desc;}).join(', ')||'없음';
-  var hapTxt=rel.cheonganHap.map(function(h){return h.desc;}).concat(rel.jijiHap.map(function(h){return h.desc;})).join(', ')||'없음';
-  var samhapTxt=rel.jijiSamhap.map(function(h){return h.desc;}).join(', ')||'없음';
-  var hyungTxt=rel.jijiHyung.map(function(h){return h.desc;}).join(', ')||'없음';
-  var cheonganChungTxt=rel.cheonganChung.map(function(c){return c.desc;}).join(', ')||'없음';
-  var jijiHaeTxt=rel.jijiHae.map(function(h){return h.desc;}).join(', ')||'없음';
-
-  // [방법6] 일주론 키워드
-  var iljuKey2=saju.P[2].s+saju.P[2].b;
-  var iljuD=ILJU_DATA[iljuKey2]||{k:'독특한 기질',t:'',love:'',job:''};
-
-  // [방법7] MBTI 인지기능 스택
-  var cfArr=ti.cf.split('-');
-  var cfN={Fi:'내면의 심판관(Fi)',Fe:'분위기 리더기(Fe)',Ne:'가능성 탐색기(Ne)',Ni:'미래 내비게이션(Ni)',Si:'추억 저장소(Si)',Se:'현장 체험러(Se)',Ti:'내장 논리회로(Ti)',Te:'실행력 엔진(Te)'};
-  var strongCF=cfN[cfArr[0]]||cfArr[0];
-  var weakCF=cfN[cfArr[3]]||cfArr[3];
-  // [방법9,10] 대운 전환기 + 과거 대운
-  var nextDI=dw.currentDWIdx>=0?dw.currentDWIdx+1:-1;
-  var nextDW=nextDI>=0&&nextDI<dw.daewoons.length?dw.daewoons[nextDI]:null;
-  var transitionTxt='';
-  if(nextDW){var transAge=nextDW.startAge;var transYr=(+ST.y)+transAge-1;transitionTxt='\n다음 대운 전환: '+transAge+'세('+transYr+'년경) '+nextDW.gan+nextDW.ji+' '+nextDW.ss+'운으로 전환';}
-  var pastDWTxt='';
-  if(dw.currentDWIdx>=1){pastDWTxt='\n과거 대운: ';for(var pi=0;pi<dw.currentDWIdx;pi++){var pd=dw.daewoons[pi];pastDWTxt+=pd.startAge+'~'+pd.endAge+'세 '+pd.gan+pd.ji+'('+pd.ss+'), ';}pastDWTxt=pastDWTxt.replace(/, $/,'');}
-
-
-  // 공망 계산
-  var gm=calcGongmang(saju);
-  var gmTxt=gm.desc||'없음';
-
-  // 지장간 힘 비율
-  var jjgRatio=calcJijangganRatio(saju);
-  var jjgRatioTxt=jjgRatio.filter(function(r){return r;}).map(function(r){
-    return r.pillar+' '+r.ji+'('+r.items.map(function(it){return it.role+'='+it.gan+it.oh+' '+it.ss+' '+it.pct+'%';}).join(', ')+')';
-  }).join(' | ');
-
-  // 신살 풍부화
-  var salEnriched=enrichSinsal(saju);
-
-  // 동적 키워드 생성
-  var dynKW = generateDynamicKeywords(saju, gg, dw, gm, jjgRatio);
-  var dynKWText = formatKeywordsForAI(dynKW);
-
-  // 신살 간결화 (이름+위치만)
-  var salSimple = '';
-  if (saju.specialSals && saju.specialSals.length > 0) {
-    salSimple = saju.specialSals.map(function(s){ return s.name+'('+s.desc+')'; }).join(', ');
-  }
-  var extraSals = calcExtraSinsal(saju);
-  if (extraSals.length > 0) {
-    var existNames = salSimple.split(', ').map(function(s){return s.split('(')[0];});
-    extraSals.forEach(function(es){
-      if (existNames.indexOf(es.name) < 0) {
-        salSimple += (salSimple ? ', ' : '') + es.name+'('+es.desc+')';
-      }
-    });
-  }
-
-  // 조후/용신 텍스트
-  var johuTxt = '';
-  if(gg.johuDesc) johuTxt = '\n- 조후: '+gg.seasonName+' · '+gg.johuDesc;
-  else if(gg.seasonName) johuTxt = '\n- 계절: '+gg.seasonName+(gg.deukryeong?' · 일간이 월지에서 힘을 얻음(득령)':' · 일간이 월지에서 힘을 잃음(실령)');
-
-  // ★ v28: 대운/세운 vs 원국 합충 분석
-  var dwSeAnalysis = analyzeDWSEvsWonkuk(saju, dw);
-  var dwWonTxt = '';
-  if(dwSeAnalysis.daewoon.length > 0){
-    dwWonTxt = '\n\n## ★ 현재 대운 vs 원국 관계 (핵심!)\n';
-    dwSeAnalysis.daewoon.forEach(function(d){
-      dwWonTxt += '- '+d.type+': '+d.desc+' (영향: '+d.impact+')\n';
-    });
-  }
-  var seWonTxt = '';
-  if(dwSeAnalysis.seun1.length > 0){
-    seWonTxt = '\n## ★ '+dw.seun[0].y+'년 세운 vs 원국 관계 (올해 핵심!)\n';
-    dwSeAnalysis.seun1.forEach(function(d){
-      seWonTxt += '- '+d.type+': '+d.desc+' (영향: '+(d.impact||'전반적')+')\n';
-    });
-  }
-  if(dwSeAnalysis.seun2.length > 0){
-    seWonTxt += '\n## '+dw.seun[1].y+'년 세운 vs 원국 관계 (내년)\n';
-    dwSeAnalysis.seun2.forEach(function(d){
-      seWonTxt += '- '+d.type+': '+d.desc+' (영향: '+(d.impact||'전반적')+')\n';
-    });
-  }
-  if(dwSeAnalysis.dwSeConflict.length > 0){
-    seWonTxt += '\n⚠️ '+dwSeAnalysis.dwSeConflict.join(', ')+'\n';
-  }
-
-  // ★ v28: 합충 우선순위 분석
-  var hapChungResolved = resolveHapChungPriority(rel);
-  var hapChungTxt = '';
-  if(hapChungResolved.summary){
-    hapChungTxt = '\n- ★합충우선순위: '+hapChungResolved.summary;
-  }
-
-  // ★ v28: 파격 정보
-  var pagyeokTxt = '';
-  if(gg.pagyeokInfo){
-    pagyeokTxt = '\n- ⚠️ 파격: '+gg.pagyeokInfo;
-  }
-
-  // ★ v28: 진태양시 정보
-  var trueSolarTxt = '';
-  if(saju.trueSolarApplied){
-    trueSolarTxt = ' (진태양시 보정: '+(saju.trueSolarMin>0?'+':'')+saju.trueSolarMin+'분, 출생지: '+ST.city+')';
-  }
-
-  var usr='## 의뢰인\n- 생년월일시: '+ST.y+'년 '+ST.m+'월 '+ST.d+'일 '+(ST.h?ST.h+'시':'시간미상')+trueSolarTxt+'\n- 성별: '+ST.gender+' · 한국나이 '+dw.currentAge+'세\n- MBTI: '+mt+' ('+ti.n+')'+(ST.h?'':'\n\n⚠️ 시간 미상 사주입니다. 시주(時柱) 기반 해석(자녀운, 말년운, 시지 궁위, 시지 합충)은 절대 하지 마세요. 년·월·일주만으로 풀이하세요. 항목 수는 10~12개로 조정하세요.')+'\n- 인지기능 스택: '+ti.cf+' (가장 강한: '+strongCF+' / 가장 약한: '+weakCF+')\n- 각 축: '+strArr.join(', ')+'\n\n## MBTI 강도별 행동 프로파일 (풀이에 반드시 반영할 것!)\n'+(function(){var m=miAll();var axes=['E/I','S/N','T/F','J/P'];var labels=[strArr[0],strArr[1],strArr[2],strArr[3]];return axes.map(function(a,i){return '- '+labels[i]+': '+m[i].trait+'\n  연애: '+m[i].love+'\n  직업: '+m[i].work+'\n  번아웃: '+m[i].burn;}).join('\n');})()+'\n\n## 사주 원국 (절기: '+saju.currentJeolgi+')\n- 사주: '+saju.P.map(function(p){return p.l+' '+p.s+p.b;}).join(' | ')+'\n- 일주: '+ilju+' · 일간: '+saju.dm+'('+saju.dmEl+')\n- 천간십성: '+saju.ss.map(function(s){return s.pillar+' '+s.stem+'('+s.ss+')';}).join(', ')+'\n- ★궁위십성(지지정기 기준): '+saju.jiSS.map(function(j){return j.pillar+' '+j.branch+'='+j.ss+'('+j.gungwi+')';}).join(' | ')+'\n- 오행(표면 8자): 목='+saju.el['목']+' 화='+saju.el['화']+' 토='+saju.el['토']+' 금='+saju.el['금']+' 수='+saju.el['수']+'\n- ★오행(지장간포함): 목='+saju.elFull['목']+' 화='+saju.elFull['화']+' 토='+saju.elFull['토']+' 금='+saju.elFull['금']+' 수='+saju.elFull['수']+(saju.hiddenOh.length>0?'\n  → 표면상 없지만 지장간에 숨어있는 오행: '+saju.hiddenOh.join(',')+' (겉으로 안 보이지만 속에 잠재력으로 존재)':'')+'\n- 12운성: '+saju.P.map(function(p,i){return p.l+'='+saju.uns[i];}).join(', ')+'\n- 합: '+hapTxt+' | 삼합: '+samhapTxt+'\n- 충: '+chungTxt+' | 천간충: '+cheonganChungTxt+'\n- 형: '+hyungTxt+' | 해: '+jijiHaeTxt+hapChungTxt+'\n'+(saju.amhap.length>0?'- ★암합(숨겨진 합): '+saju.amhap.map(function(a){return a.from+'↔'+a.to+'=합화'+a.hapOh+' ['+a.gungwi+'궁 숨겨진 인연]';}).join(', ')+'\n':'')+'\n※ 합과 충이 동시에 존재할 때: 인접한 합이 충을 해소하는지(탐합망충), 충이 합을 깨뜨리는지 판단하여 유기적으로 해석할 것\n\n## 격국 분석\n- ★격국: '+gg.gyeokgukName+' ('+gg.gyeokgukBasis+')\n  → '+gg.gyeokgukDesc+'\n'+(gg.isJonggyeok?'  ⚠️ 종격(從格) 사주! 용신 방향이 일반 사주와 정반대입니다. 강한 쪽을 따라가야 합니다.\n':'')+(gg.isHwakyeok?'  ⚠️ 화격(化格) 사주! 일간이 본래 오행을 버리고 합화 오행으로 변함.\n':'')+pagyeokTxt+'\n- ★납음: '+(gg.napeumText||'정보없음')+'\n- 십성비중: 비겁='+gg.cnt['비겁'].toFixed(1)+' 식상='+gg.cnt['식상'].toFixed(1)+' 재성='+gg.cnt['재성'].toFixed(1)+' 관성='+gg.cnt['관성'].toFixed(1)+' 인성='+gg.cnt['인성'].toFixed(1)+'\n- ★일간 강도: '+gg.strengthGrade+' '+gg.strengthScore+'점 (자기편='+gg.selfStr.toFixed(1)+' vs 상대편='+gg.otherStr.toFixed(1)+')'+(gg.deukryeong?' [득령]':' [실령]')+johuTxt+'\n- 강한: '+gg.dominant[0]+'('+gg.dominant[1].toFixed(1)+') 약한: '+gg.weak[0]+'('+gg.weak[1].toFixed(1)+')\n- 부족오행: '+(saju.lackFull.length>0?saju.lackFull.join(','):'없음')+'\n- 용신: '+gg.yongshin+' ['+gg.yongshinType+'용신]'+(gg.johuYongshin&&gg.yongshinType!=='조후'?' · 조후참고: '+gg.johuYongshin:'')+'\n- ★오행흐름: '+gg.flowSummary+'\n\n## 참고 힌트 (AI 자율 판단 우선, 반드시 사용할 필요 없음)\n'+dynKWText+'\n\n## 대운 흐름 ('+dw.direction+', '+dw.daewoonAge+'세 시작)\n'+dwTxt+'\n현재 대운: '+(currentDW?currentDW.gan+currentDW.ji+'('+currentDW.ganH+currentDW.jiH+') '+currentDW.ss+'운 ('+currentDW.startAge+'~'+currentDW.endAge+'세)':'대운 전')+pastDWTxt+transitionTxt+'\n세운: '+seTxt+'\n- ★삼재: '+(samjaeTxt||'계산불가')+dwWonTxt+seWonTxt+'\n\n## '+wolunYear+'년 월운 (월별 운세)\n'+wolunTxt+'\n\n## 신살 (참고)\n'+(salSimple||'없음')+'\n- 공망: '+gmTxt+'\n\nJSON으로 출력하세요.';
-
-
-  /* ====== 1-Pass AI System (v29 복귀) ====== */
-  var result;
-  var apiError = null;
-
-  // 스트리밍 함수
-  // streamSonnet은 전역 함수로 이동됨 (아래 참고)
-
-  try{
-    var apiKey=getApiKey();
-    if(!apiKey) throw new Error('API_KEY_MISSING');
-
-    console.log('[MBTS] === 1-Pass 분석 시작 ===');
-
-    var aiText = await streamSonnet(apiKey, PREMIUM_SYSTEM, usr, '✨ AI 분석 중');
-
-    try {
-      result = JSON.parse(aiText);
-    } catch(e) {
-      console.warn('[MBTS] 1차 JSON 파싱 실패, 추출 시도...');
-      // 2차: { ~ } 추출
-      var fb = aiText.indexOf('{'), lb = aiText.lastIndexOf('}');
-      if (fb >= 0 && lb > fb) {
-        try { result = JSON.parse(aiText.substring(fb, lb + 1)); } catch(e2) {}
-      }
-      // 3차: 줄 단위 추출
-      if (!result) {
-        var lines = aiText.split('\n');
-        var si = -1, ei = -1;
-        for (var li = 0; li < lines.length; li++) {
-          if (si < 0 && lines[li].trim().charAt(0) === '{') si = li;
-          if (lines[li].trim().charAt(0) === '}' || lines[li].trim().slice(-1) === '}') ei = li;
-        }
-        if (si >= 0 && ei >= si) {
-          try { result = JSON.parse(lines.slice(si, ei + 1).join('\n')); } catch(e3) {}
-        }
-      }
-      // 4차: 제어문자 제거 후 재시도
-      if (!result) {
-        var sanitized = aiText.substring(fb >= 0 ? fb : 0, (lb > 0 ? lb + 1 : aiText.length));
-        sanitized = sanitized.replace(/[\x00-\x1F\x7F]/g, function(c) { return c === '\n' || c === '\r' || c === '\t' ? c : ''; });
-        try { result = JSON.parse(sanitized); } catch(e4) {}
-      }
-      // 2~4차 성공 시 에러 초기화
-      if (result) {
-        apiError = '';
-        console.log('[MBTS] JSON 추출 성공 (폴백 파서)');
-      } else {
-        apiError = 'JSON_PARSE';
-        result = mkFB(saju, mt, gg);
-      }
-    }
-    if(result) console.log('[MBTS] 분석 완료. 항목 수:', (result.categories||[]).reduce(function(s,c){return s+(c.subs||c.items||[]).length;},0));
-    // ★ v29.1: 후처리 검증 (대운 나이 등 팩트 교정)
-    if(result && !apiError) result = postValidateAI(result, dw, saju, gg);
-
-  }catch(e){
-    console.error('[MBTS] 에러:', e);
-    apiError=e.message||'UNKNOWN';
-    result=mkFB(saju,mt,gg);
-  }
-
-  clearInterval(iv);document.getElementById('load-bar').style.width='100%';document.getElementById('load-pct').textContent='100%';
-  if(apiError){
-    var errDetail='';
-    if(apiError.indexOf('API_KEY_MISSING')>=0) errDetail='API 키가 없습니다.';
-    else if(apiError.indexOf('HTTP_401')>=0) errDetail='API 키가 만료되었거나 유효하지 않습니다.';
-    else if(apiError.indexOf('HTTP_429')>=0) errDetail='API 사용량 한도 초과. 1~2분 후 다시 시도해주세요.';
-    else if(apiError.indexOf('HTTP_400')>=0||apiError.indexOf('HTTP_404')>=0) errDetail='모델 연결 실패. 콘솔(F12)에서 상세 오류 확인.';
-    else if(apiError.indexOf('HTTP_529')>=0||apiError.indexOf('overloaded')>=0) errDetail='AI 서버 과부하. 1~2분 후 재시도.';
-    else if(apiError.indexOf('abort')>=0||apiError.indexOf('Abort')>=0) errDetail='연결 타임아웃. 인터넷 확인 후 재시도.';
-    else if(apiError.indexOf('Failed to fetch')>=0||apiError.indexOf('NetworkError')>=0||apiError.indexOf('TypeError')>=0) errDetail='네트워크 오류. file:// CORS 차단 → 로컬서버 필요.';
-    else if(apiError.indexOf('JSON_PARSE')>=0) errDetail='AI 응답 형식 오류. 재시도하면 해결될 수 있어요.';
-    else if(apiError.indexOf('STREAM_ERROR')>=0) errDetail='스트리밍 에러: '+apiError.substring(0,80);
-    else errDetail=apiError.substring(0,80);
-    document.getElementById('load-msg').innerHTML='⚠️ AI 분석 실패 → 기본 분석으로 대체<br><span style="font-size:11px;color:#d32f2f;line-height:1.6">'+errDetail+'</span><br><button onclick="startAnalysis()" style="margin-top:8px;padding:8px 20px;font-size:12px;font-weight:700;color:#fff;background:#88619A;border:none;border-radius:10px;cursor:pointer">🔄 다시 시도</button>';
-    await new Promise(function(ok){setTimeout(ok,3000);});
-  } else {
-    document.getElementById('load-msg').textContent='✨ AI 분석 완료!';
-  }
-  // ★ localStorage 저장
-  try{
-    var saveData={
-      input:{y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city||'',cityLng:ST.cityLng||0,ch:ST.ch,it:ST.it},
-      mbti:mt, mbtiObj:window._lastMBTIObj,
-      saju:saju, dw:dw, gg:gg,
-      aiResult:result, isAI:!apiError,
-      savedAt:Date.now()
-    };
-    localStorage.setItem('mbts_lastResult',JSON.stringify(saveData));
-    window._lastAIResult=result; window._lastIsAI=!apiError;
-    console.log('[MBTS] localStorage에 분석 결과 저장 완료');
-  }catch(e){console.warn('[MBTS] localStorage 저장 실패:',e);}
-
-  setTimeout(function(){renderResult(result,saju,mt,gg,!apiError);},800);
 }
 
 /* ====== 합충형 엔진 + 60갑자 + 폴백 ====== */
@@ -3142,7 +2366,6 @@ var ILJU_DATA={
 '계해':{k:'끝없는 대양',t:'비견(比肩)이 일지에 있어 자기 세계가 넓고 깊습니다. 제왕(帝旺)에 앉아 에너지가 넘칩니다.',love:'배우자궁에 비견이라 대등하고 독립적인 관계.',job:'무역, 해운, 연구, IT, 국제업무'}
 };
 
-
 /* ====== 프로파일 분석기 + 새로운 폴백 v2 ====== */
 
 /* ==========================================
@@ -3227,11 +2450,6 @@ function profileAnalysis(saju,gg,rel){
   };
 }
 
-
-
-/* ==========================================
-   * MBTI 강도별 프로파일 데이터 (4축 × 2방향 × 3강도 = 24종)
-   ========================================== */
 var MI={
   // E/I축
   E:{
@@ -3375,14 +2593,604 @@ var MI={
   }
 };
 
-/* ── 강도값을 키로 변환하는 헬퍼 ── */
-function miKey(axisIdx){
-  var side=ST.ch[axisIdx]==='L'?DM_AX[axisIdx].L:DM_AX[axisIdx].R;
-  var rawIt=ST.it[axisIdx];
-  var lv=(rawIt&&rawIt>=76)?88:(rawIt&&rawIt>=61)?68:55;
+// ============================================================
+// 파라미터 기반 헬퍼 함수 (ST 의존 제거)
+// ============================================================
+
+function getMBTIFromChoices(mbtiChoices) {
+  return mbtiChoices.map(function(c, i) {
+    return c === null ? "?" : (c === "L" ? DM_AX[i].L : DM_AX[i].R);
+  }).join("");
+}
+
+function miKeyParam(axisIdx, mbtiChoices, mbtiIntensities) {
+  var side = mbtiChoices[axisIdx] === 'L' ? DM_AX[axisIdx].L : DM_AX[axisIdx].R;
+  var rawIt = mbtiIntensities[axisIdx];
+  var lv = (rawIt && rawIt >= 76) ? 88 : (rawIt && rawIt >= 61) ? 68 : 55;
   return MI[side][lv];
 }
-function miAll(){return [miKey(0),miKey(1),miKey(2),miKey(3)];}
+
+function miAllParam(mbtiChoices, mbtiIntensities) {
+  return [miKeyParam(0, mbtiChoices, mbtiIntensities), miKeyParam(1, mbtiChoices, mbtiIntensities), miKeyParam(2, mbtiChoices, mbtiIntensities), miKeyParam(3, mbtiChoices, mbtiIntensities)];
+}
+
+// 원본 miKey/miAll (UI에서 ST 사용 — TODO: UI 전용으로 이동)
+function miKey(axisIdx) {
+  // TODO: ST 참조 — UI(index.html)에서만 사용할 것
+  if (typeof ST === 'undefined') return miKeyParam(axisIdx, [null,null,null,null], [55,55,55,55]);
+  var side = ST.ch[axisIdx] === 'L' ? DM_AX[axisIdx].L : DM_AX[axisIdx].R;
+  var rawIt = ST.it[axisIdx];
+  var lv = (rawIt && rawIt >= 76) ? 88 : (rawIt && rawIt >= 61) ? 68 : 55;
+  return MI[side][lv];
+}
+function miAll() {
+  if (typeof ST === 'undefined') return miAllParam([null,null,null,null], [55,55,55,55]);
+  return [miKey(0), miKey(1), miKey(2), miKey(3)];
+}
+
+// ============================================================
+// streamSonnet — 콜백 기반 AI 스트리밍 (DOM 의존 제거)
+// callbacks = { onMessage(text), onProgress(pct), onPercent(pct) }
+// ============================================================
+async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, endpoint) {
+  callbacks = callbacks || {};
+  var onMessage = callbacks.onMessage || function(){};
+  var onProgress = callbacks.onProgress || function(){};
+  var onPercent = callbacks.onPercent || function(){};
+  endpoint = endpoint || '/api/analyze';
+  var currentModel = 'claude-sonnet-4-6';
+  var overloadRetries = 0;
+  var MAX_RETRIES = 2;
+  var r;
+  while(true) {
+    var ctrl = new AbortController();
+    var connectTid = setTimeout(function(){ ctrl.abort(); }, 60000);
+    onMessage(label + ' 연결 중...');
+    r = await fetch(endpoint, {
+      signal: ctrl.signal, method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({systemPrompt: systemPrompt, userPrompt: userMsg, model: currentModel})
+    });
+    clearTimeout(connectTid);
+    if(!r.ok) {
+      var errBody = await r.text();
+      console.error('[MBTS] API failed:', endpoint, 'Status:', r.status, errBody.substring(0, 200));
+      if(r.status === 529 || errBody.indexOf('overloaded') >= 0) {
+        if(overloadRetries < MAX_RETRIES) {
+          overloadRetries++;
+          console.log('[MBTS] 서버 과부하 (' + currentModel + '), 30초 후 재시도 (' + overloadRetries + '/' + MAX_RETRIES + ')');
+          onMessage('서버가 바쁩니다. 잠시만 기다려주세요... (' + overloadRetries + '/' + MAX_RETRIES + ')');
+          onProgress(3);
+          await new Promise(function(res){ setTimeout(res, 30000); });
+          continue;
+        }
+        if(currentModel !== 'claude-sonnet-4-6') {
+          currentModel = 'claude-sonnet-4-6';
+          overloadRetries = 0;
+          console.log('[MBTS] Opus 과부하 ' + MAX_RETRIES + '회 실패, Sonnet으로 전환');
+          onMessage('서버가 바쁩니다. 대체 모델로 시도합니다...');
+          continue;
+        }
+      }
+      throw new Error('HTTP_' + r.status + ': ' + errBody.substring(0, 150));
+    }
+    break;
+  }
+  var reader = r.body.getReader();
+  var decoder = new TextDecoder();
+  var fullText = '', buffer = '', chunkCount = 0;
+  var streamStart = Date.now();
+  while(true) {
+    if(Date.now() - streamStart > 300000) break;
+    var chunk = await reader.read();
+    if(chunk.done) break;
+    buffer += decoder.decode(chunk.value, {stream: true});
+    var lines = buffer.split('\n');
+    buffer = lines.pop() || '';
+    for(var li = 0; li < lines.length; li++) {
+      var line = lines[li].trim();
+      if(!line.startsWith('data: ')) continue;
+      var jsonStr = line.substring(6);
+      if(jsonStr === '[DONE]') continue;
+      try {
+        var evt = JSON.parse(jsonStr);
+        if(evt.type === 'content_block_delta' && evt.delta && evt.delta.text) {
+          fullText += evt.delta.text;
+          chunkCount++;
+          var pct = Math.min(94, 5 + Math.round((fullText.length / 8000) * 90));
+          onProgress(pct);
+          onPercent(pct);
+          if(chunkCount % 15 === 0) onMessage(label + ' ' + fullText.length + '자 ✍️');
+        }
+        if(evt.type === 'error') throw new Error('STREAM_ERROR: ' + (evt.error && evt.error.message || ''));
+      } catch(pe) { if(pe.message && pe.message.indexOf('STREAM_ERROR') >= 0) throw pe; }
+    }
+  }
+  console.log('[MBTS] ' + label + ' 완료: ' + fullText.length + '자');
+  var cleaned = fullText.replace(/```json|```/g, "").trim();
+  try { JSON.parse(cleaned); return cleaned; } catch(e1) {}
+  var firstBrace = cleaned.indexOf('{');
+  var lastBrace = cleaned.lastIndexOf('}');
+  if(firstBrace >= 0 && lastBrace > firstBrace) {
+    var extracted = cleaned.substring(firstBrace, lastBrace + 1);
+    try { JSON.parse(extracted); return extracted; } catch(e2) {}
+  }
+  var lines2 = cleaned.split('\n');
+  var startIdx = -1, endIdx = -1;
+  for(var i = 0; i < lines2.length; i++) {
+    if(startIdx < 0 && lines2[i].trim().charAt(0) === '{') startIdx = i;
+    if(lines2[i].trim().charAt(0) === '}' || lines2[i].trim().slice(-1) === '}') endIdx = i;
+  }
+  if(startIdx >= 0 && endIdx >= startIdx) {
+    var jsonBlock = lines2.slice(startIdx, endIdx + 1).join('\n');
+    try { JSON.parse(jsonBlock); return jsonBlock; } catch(e3) {}
+  }
+  console.warn('[MBTS] JSON 추출 실패, 원본 반환:', cleaned.substring(0, 100));
+  return cleaned;
+}
+
+// --- runSajuAnalysis (startAnalysis 변환: ST→params, DOM→callbacks) ---
+async function runSajuAnalysis(params, callbacks){
+  var apiKey = params.apiKey;
+  if(!apiKey){ if(callbacks.onError) callbacks.onError("API_KEY_MISSING"); return; }
+  var mt=getMBTIFromChoices(params.mbtiChoices),saju=calcSajuForApp(+params.y,+params.m,+params.d,params.h?+params.h:null,params.min?+params.min:null,params.cityLng);
+  var ti=TY[mt]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
+  var gg=analyzeGyeokguk(saju);
+  var age=2026-(+params.y||1990);
+  var msgs=["사주팔자를 펼칩니다...","천간지지 관계를 읽습니다...","십성과 격국을 분석합니다...","오행 균형을 살핍니다...","인지기능×사주 교차 탐색...","카테고리별 풀이 구성 중...","캐치프레이즈를 만듭니다...","당신만의 이야기를 쓰고 있습니다..."];
+  var p=0,iv=setInterval(function(){p+=Math.random()*1.5+.4;if(p>95)p=95;if(callbacks.onProgress)callbacks.onProgress(p);if(callbacks.onPercent)callbacks.onPercent(Math.round(p));if(callbacks.onMessage)callbacks.onMessage(msgs[Math.min(Math.floor(p/12),7)]);},900);
+
+  var strArr=params.mbtiChoices.map(function(c,i){return strLv(params.mbtiIntensities[i])+' '+(c==='L'?DM_AX[i].Ll:DM_AX[i].Rl);});
+  var salTxt=saju.specialSals.map(function(s){return s.name+'('+s.desc+')';}).join(', ');
+  var jjgTxt=saju.jjg.map(function(jj,i){return saju.P[i].l+': '+jj.map(function(j){return j.stem+'('+j.oh+')';}).join(' ');}).join(' | ');
+  var ilju=saju.P[2].s+saju.P[2].b+'('+TGAN[saju.raw.dg]+JIJI[saju.raw.dj]+')';
+
+  // 대운 계산
+  var dw=calcDaewoon(saju,+params.y,+params.m,+params.d,params.h?+params.h:null,params.min?+params.min:null,params.gender);
+  // 궁합용 데이터 (로컬 변수로 구성)
+  var mbtiObj={type:mt, cf:ti.cf,
+    axes:[{side:params.mbtiChoices[0]==='L'?'E':'I',pct:params.mbtiIntensities[0]||60},{side:params.mbtiChoices[1]==='L'?'S':'N',pct:params.mbtiIntensities[1]||60},
+          {side:params.mbtiChoices[2]==='L'?'T':'F',pct:params.mbtiIntensities[2]||60},{side:params.mbtiChoices[3]==='L'?'J':'P',pct:params.mbtiIntensities[3]||60}],
+    profile:strArr.join(', ')};
+
+  // ★ 수정5: 대운 전반(천간5년)/후반(지지5년) 분리
+  var dwTxt=dw.daewoons.map(function(d,i){
+    var prefix=(dw.currentDWIdx===i?'\u2605현재 ':'  ');
+    var jiSS_dw_JJG=JIJANGGAN_DATA[JIJI_KR.indexOf(d.ji)];
+    var jiSS_dw=jiSS_dw_JJG?getSipsung(saju.raw.dg,jiSS_dw_JJG[jiSS_dw_JJG.length-1].g):'';
+    // 지지의 정기 기준 십성 (더 정확)
+    var jiJJG=JIJANGGAN_DATA[JIJI_KR.indexOf(d.ji)];
+    var jiJeonggiSS=jiJJG?getSipsung(saju.raw.dg,jiJJG[jiJJG.length-1].g):'';
+    return prefix+d.startAge+'~'+d.endAge+'세 '+d.gan+d.ji+'('+d.ganH+d.jiH+') — 전반('+d.startAge+'~'+(d.startAge+4)+'세): '+d.gan+'='+d.ss+'운 / 후반('+(d.startAge+5)+'~'+d.endAge+'세): '+d.ji+'='+(jiJeonggiSS||jiSS_dw)+'운';
+  }).join('\n');
+  var currentDW=dw.currentDWIdx>=0?dw.daewoons[dw.currentDWIdx]:null;
+  var seTxt=dw.seun.map(function(s){return s.y+'년 '+s.gan+s.ji+'('+s.ganH+s.jiH+') '+s.ss;}).join(', ');
+
+  // ★ 삼재(三災) 계산
+  var samjaeGroups = [
+    {group:[8,0,4], disaster:[2,3,4]},   // 신자진띠 → 인묘진년이 삼재
+    {group:[2,6,10], disaster:[5,6,7]},   // 인오술띠 → 사오미년이 삼재  
+    {group:[5,9,1], disaster:[11,0,1]},   // 사유축띠 → 해자축년이 삼재
+    {group:[11,3,7], disaster:[8,9,10]}   // 해묘미띠 → 신유술년이 삼재
+  ];
+  var birthJi = saju.raw.yj; // 태어난 해의 지지(띠)
+  var currentYear = new Date().getFullYear();
+  // 올해의 지지 구하기
+  var currentYearJi = ((currentYear + 8) % 12);
+  var samjaeTxt = '';
+  var samjaeStatus = '';
+  for (var si = 0; si < samjaeGroups.length; si++) {
+    var sg = samjaeGroups[si];
+    if (sg.group.indexOf(birthJi) >= 0) {
+      var disasterJis = sg.disaster;
+      // 올해, 내년, 내후년 체크
+      for (var syr = 0; syr < 3; syr++) {
+        var checkYearJi = ((currentYear + syr + 8) % 12);
+        var disIdx = disasterJis.indexOf(checkYearJi);
+        if (disIdx >= 0) {
+          var samjaeNames = ['들삼재(시작)','눌삼재(절정)','날삼재(마무리)'];
+          if (syr === 0) { // 올해가 삼재
+            samjaeStatus = samjaeNames[disIdx];
+            samjaeTxt = currentYear + '년 ' + samjaeStatus + ' — ' + JIJI_KR[disasterJis[0]]+JIJI_KR[disasterJis[1]]+JIJI_KR[disasterJis[2]]+'년 삼재 구간';
+          } else if (syr === 1 && !samjaeTxt) { // 내년이 삼재 시작
+            samjaeTxt = (currentYear+1) + '년부터 삼재 시작 예정 ('+JIJI_KR[disasterJis[0]]+JIJI_KR[disasterJis[1]]+JIJI_KR[disasterJis[2]]+'년)';
+          }
+        }
+      }
+      // 올해가 삼재가 아니면 다음 삼재 시기 계산
+      if (!samjaeTxt) {
+        var nextSamjaeStart = disasterJis[0];
+        var yearsUntil = ((nextSamjaeStart - currentYearJi) + 12) % 12;
+        if (yearsUntil === 0) yearsUntil = 12;
+        samjaeTxt = '현재 삼재 아님. 다음 삼재: ' + (currentYear + yearsUntil) + '년 시작';
+      }
+      break;
+    }
+  }
+
+  // ★ 월운(月運) 계산 — 올해 12개월 운세
+  var wolunArr = [];
+  var wolunYear = currentYear;
+  // 올해의 연간 인덱스 구하기
+  var wolunYearGan = ((wolunYear + 6) % 10);
+  // 월간 시작 공식: (연간%5)*2+2 → 1월(인월)의 천간
+  var monthStartStem = ((wolunYearGan % 5) * 2 + 2) % 10;
+  var monthNames = ['1월(인월)','2월(묘월)','3월(진월)','4월(사월)','5월(오월)','6월(미월)','7월(신월)','8월(유월)','9월(술월)','10월(해월)','11월(자월)','12월(축월)'];
+  var monthBranches = [2,3,4,5,6,7,8,9,10,11,0,1]; // 인~축
+  var dg = saju.raw.dg; // 일간 인덱스
+  for (var wi = 0; wi < 12; wi++) {
+    var wGan = (monthStartStem + wi) % 10;
+    var wJi = monthBranches[wi];
+    var wGanSS = getSipsung(dg, wGan);
+    var wJiJJG = JIJANGGAN_DATA[wJi];
+    var wJiJeonggi = wJiJJG[wJiJJG.length - 1].g;
+    var wJiSS = getSipsung(dg, wJiJeonggi);
+    // 십성 그룹 분류
+    var ssGroup = {'비견':'비겁','겁재':'비겁','식신':'식상','상관':'식상','편재':'재성','정재':'재성','편관':'관성','정관':'관성','편인':'인성','정인':'인성'};
+    var wGroup = ssGroup[wGanSS] || wGanSS;
+    // 월운 간단 해석
+    var wolunHint = {
+      '비겁':'자기에너지강화, 독립·경쟁의달, 주변과힘겨루기',
+      '식상':'표현·창작의달, 말과글이잘풀림, 새아이디어',
+      '재성':'재물·실리의달, 수입기회, 현실적성과',
+      '관성':'책임·압박의달, 직장변화, 자기관리필요',
+      '인성':'학습·휴식의달, 귀인등장, 내면성장'
+    };
+    wolunArr.push({
+      month: monthNames[wi],
+      gan: TGAN_KR[wGan], ji: JIJI_KR[wJi],
+      ganSS: wGanSS, jiSS: wJiSS,
+      group: wGroup,
+      hint: wolunHint[wGroup] || ''
+    });
+  }
+  // ★ 수정6: 월운에 원국 합충 분석 추가
+  var WOLUN_CHUNG=[[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]];
+  var WOLUN_YUKHAP=[[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
+  var wonJiArr=[{v:saju.raw.yj,l:'년지'},{v:saju.raw.mj,l:'월지'},{v:saju.raw.dj,l:'일지'}];
+  if(saju.raw.hj!=null)wonJiArr.push({v:saju.raw.hj,l:'시지'});
+  var wGungwi={'년지':'외부환경','월지':'직업','일지':'배우자·건강','시지':'자녀'};
+  var wolunTxt = wolunArr.map(function(w){
+    var wJiIdx=JIJI_KR.indexOf(w.ji);
+    var rels=[];
+    wonJiArr.forEach(function(wj){
+      WOLUN_CHUNG.forEach(function(cp){if((wJiIdx===cp[0]&&wj.v===cp[1])||(wJiIdx===cp[1]&&wj.v===cp[0]))rels.push(w.ji+wj.l.charAt(0)+JIJI_KR[wj.v]+'충('+wGungwi[wj.l]+')');});
+      WOLUN_YUKHAP.forEach(function(yh){if((wJiIdx===yh[0]&&wj.v===yh[1])||(wJiIdx===yh[1]&&wj.v===yh[0]))rels.push(w.ji+JIJI_KR[wj.v]+'합('+wGungwi[wj.l]+')');});
+    });
+    var relStr=rels.length>0?' | '+rels.join(', '):'';
+    return w.month + ' ' + w.gan + w.ji + '(' + w.ganSS + '/' + w.jiSS + ') → ' + w.group + '운' + relStr;
+  }).join('\n');
+
+  // [방법2] 합충형 데이터
+  var rel=calcRelations(saju);
+  var chungTxt=rel.jijiChung.map(function(c){return c.desc;}).join(', ')||'없음';
+  var hapTxt=rel.cheonganHap.map(function(h){return h.desc;}).concat(rel.jijiHap.map(function(h){return h.desc;})).join(', ')||'없음';
+  var samhapTxt=rel.jijiSamhap.map(function(h){return h.desc;}).join(', ')||'없음';
+  var hyungTxt=rel.jijiHyung.map(function(h){return h.desc;}).join(', ')||'없음';
+  var cheonganChungTxt=rel.cheonganChung.map(function(c){return c.desc;}).join(', ')||'없음';
+  var jijiHaeTxt=rel.jijiHae.map(function(h){return h.desc;}).join(', ')||'없음';
+
+  // [방법6] 일주론 키워드
+  var iljuKey2=saju.P[2].s+saju.P[2].b;
+  var iljuD=ILJU_DATA[iljuKey2]||{k:'독특한 기질',t:'',love:'',job:''};
+
+  // [방법7] MBTI 인지기능 스택
+  var cfArr=ti.cf.split('-');
+  var cfN={Fi:'내면의 심판관(Fi)',Fe:'분위기 리더기(Fe)',Ne:'가능성 탐색기(Ne)',Ni:'미래 내비게이션(Ni)',Si:'추억 저장소(Si)',Se:'현장 체험러(Se)',Ti:'내장 논리회로(Ti)',Te:'실행력 엔진(Te)'};
+  var strongCF=cfN[cfArr[0]]||cfArr[0];
+  var weakCF=cfN[cfArr[3]]||cfArr[3];
+  // [방법9,10] 대운 전환기 + 과거 대운
+  var nextDI=dw.currentDWIdx>=0?dw.currentDWIdx+1:-1;
+  var nextDW=nextDI>=0&&nextDI<dw.daewoons.length?dw.daewoons[nextDI]:null;
+  var transitionTxt='';
+  if(nextDW){var transAge=nextDW.startAge;var transYr=(+params.y)+transAge-1;transitionTxt='\n다음 대운 전환: '+transAge+'세('+transYr+'년경) '+nextDW.gan+nextDW.ji+' '+nextDW.ss+'운으로 전환';}
+  var pastDWTxt='';
+  if(dw.currentDWIdx>=1){pastDWTxt='\n과거 대운: ';for(var pi=0;pi<dw.currentDWIdx;pi++){var pd=dw.daewoons[pi];pastDWTxt+=pd.startAge+'~'+pd.endAge+'세 '+pd.gan+pd.ji+'('+pd.ss+'), ';}pastDWTxt=pastDWTxt.replace(/, $/,'');}
+  // 공망 계산
+  var gm=calcGongmang(saju);
+  var gmTxt=gm.desc||'없음';
+
+  // 지장간 힘 비율
+  var jjgRatio=calcJijangganRatio(saju);
+  var jjgRatioTxt=jjgRatio.filter(function(r){return r;}).map(function(r){
+    return r.pillar+' '+r.ji+'('+r.items.map(function(it){return it.role+'='+it.gan+it.oh+' '+it.ss+' '+it.pct+'%';}).join(', ')+')';
+  }).join(' | ');
+
+  // 신살 풍부화
+  var salEnriched=enrichSinsal(saju);
+
+  // 동적 키워드 생성
+  var dynKW = generateDynamicKeywords(saju, gg, dw, gm, jjgRatio);
+  var dynKWText = formatKeywordsForAI(dynKW);
+
+  // 신살 간결화 (이름+위치만)
+  var salSimple = '';
+  if (saju.specialSals && saju.specialSals.length > 0) {
+    salSimple = saju.specialSals.map(function(s){ return s.name+'('+s.desc+')'; }).join(', ');
+  }
+  var extraSals = calcExtraSinsal(saju);
+  if (extraSals.length > 0) {
+    var existNames = salSimple.split(', ').map(function(s){return s.split('(')[0];});
+    extraSals.forEach(function(es){
+      if (existNames.indexOf(es.name) < 0) {
+        salSimple += (salSimple ? ', ' : '') + es.name+'('+es.desc+')';
+      }
+    });
+  }
+
+  // 조후/용신 텍스트
+  var johuTxt = '';
+  if(gg.johuDesc) johuTxt = '\n- 조후: '+gg.seasonName+' · '+gg.johuDesc;
+  else if(gg.seasonName) johuTxt = '\n- 계절: '+gg.seasonName+(gg.deukryeong?' · 일간이 월지에서 힘을 얻음(득령)':' · 일간이 월지에서 힘을 잃음(실령)');
+
+  // ★ v28: 대운/세운 vs 원국 합충 분석
+  var dwSeAnalysis = analyzeDWSEvsWonkuk(saju, dw);
+  var dwWonTxt = '';
+  if(dwSeAnalysis.daewoon.length > 0){
+    dwWonTxt = '\n\n## ★ 현재 대운 vs 원국 관계 (핵심!)\n';
+    dwSeAnalysis.daewoon.forEach(function(d){
+      dwWonTxt += '- '+d.type+': '+d.desc+' (영향: '+d.impact+')\n';
+    });
+  }
+  var seWonTxt = '';
+  if(dwSeAnalysis.seun1.length > 0){
+    seWonTxt = '\n## ★ '+dw.seun[0].y+'년 세운 vs 원국 관계 (올해 핵심!)\n';
+    dwSeAnalysis.seun1.forEach(function(d){
+      seWonTxt += '- '+d.type+': '+d.desc+' (영향: '+(d.impact||'전반적')+')\n';
+    });
+  }
+  if(dwSeAnalysis.seun2.length > 0){
+    seWonTxt += '\n## '+dw.seun[1].y+'년 세운 vs 원국 관계 (내년)\n';
+    dwSeAnalysis.seun2.forEach(function(d){
+      seWonTxt += '- '+d.type+': '+d.desc+' (영향: '+(d.impact||'전반적')+')\n';
+    });
+  }
+  if(dwSeAnalysis.dwSeConflict.length > 0){
+    seWonTxt += '\n⚠️ '+dwSeAnalysis.dwSeConflict.join(', ')+'\n';
+  }
+
+  // ★ v28: 합충 우선순위 분석
+  var hapChungResolved = resolveHapChungPriority(rel);
+  var hapChungTxt = '';
+  if(hapChungResolved.summary){
+    hapChungTxt = '\n- ★합충우선순위: '+hapChungResolved.summary;
+  }
+
+  // ★ v28: 파격 정보
+  var pagyeokTxt = '';
+  if(gg.pagyeokInfo){
+    pagyeokTxt = '\n- ⚠️ 파격: '+gg.pagyeokInfo;
+  }
+
+  // ★ v28: 진태양시 정보
+  var trueSolarTxt = '';
+  if(saju.trueSolarApplied){
+    trueSolarTxt = ' (진태양시 보정: '+(saju.trueSolarMin>0?'+':'')+saju.trueSolarMin+'분, 출생지: '+params.city+')';
+  }
+
+  // ★★★ Level A: 해석 맥락 데이터 생성 ★★★
+  var gungwiCtx = buildGungwiContext(saju, gg);
+  var sinsalStory = buildSinsalStory(saju);
+  var yearHL = buildYearHighlight(dwSeAnalysis, dw, wolunArr, wonJiArr);
+
+  // 납음 스토리
+  var napeumStory = '';
+  if (gg.napeumText) {
+    var napeumName = gg.napeumText.split('(')[0].trim();
+    if (NAPEUM_STORY[napeumName]) {
+      napeumStory = '\n★납음 스토리: ' + gg.napeumText + ' → ' + NAPEUM_STORY[napeumName];
+    }
+  }
+
+  // 월간↔일간 관계 (페르소나)
+  var personaTxt = '';
+  var monthGanSS = saju.ss[1] ? saju.ss[1].ss : '';
+  if (monthGanSS && SS_CONTEXT[monthGanSS]) {
+    personaTxt = '\n★사회적 페르소나(월간↔일간): 월간=' + saju.ss[1].stem +
+      '(' + monthGanSS + ') → 세상에 보여주는 모습: ' + SS_CONTEXT[monthGanSS].general;
+    if (monthGanSS === saju.ss[2].ss) {
+      personaTxt += '\n  ⚡ 월간=일간 동일! 가면을 안 쓰는 사람. 겉과 속이 같음. 진정성이 강점이자 약점.';
+    }
+  }
+
+  // ★★★ Level A: 해석 맥락 섹션 조립 ★★★
+  var contextSection = '\n\n## ★★ AI를 위한 해석 맥락 (이것을 참고하여 풀이하세요) ★★\n';
+
+  if (gungwiCtx.spouse) contextSection += gungwiCtx.spouse + '\n';
+  if (gungwiCtx.career) contextSection += gungwiCtx.career + '\n';
+  if (gungwiCtx.child) contextSection += gungwiCtx.child + '\n';
+  if (gungwiCtx.outer) contextSection += gungwiCtx.outer + '\n';
+  if (personaTxt) contextSection += personaTxt + '\n';
+  if (napeumStory) contextSection += napeumStory + '\n';
+
+  contextSection += '\n### 신살 스토리 (각 카테고리의 킬링 포인트로 활용)\n';
+  contextSection += sinsalStory || '특별한 신살 없음';
+
+  contextSection += '\n\n### 올해 핵심 사건\n';
+  contextSection += yearHL.main;
+  if (yearHL.hotMonths) contextSection += '\n핵심 달:\n' + yearHL.hotMonths;
+
+  var usr='## 의뢰인\n- 생년월일시: '+params.y+'년 '+params.m+'월 '+params.d+'일 '+(params.h?params.h+'시':'시간미상')+trueSolarTxt+'\n- 성별: '+params.gender+' · 한국나이 '+dw.currentAge+'세\n- MBTI: '+mt+' ('+ti.n+')'+(params.h?'':'\n\n⚠️ 시간 미상 사주입니다. 시주(時柱) 기반 해석(자녀운, 말년운, 시지 궁위, 시지 합충)은 절대 하지 마세요. 년·월·일주만으로 풀이하세요. 항목 수는 10~12개로 조정하세요.')+'\n- 인지기능 스택: '+ti.cf+' (가장 강한: '+strongCF+' / 가장 약한: '+weakCF+')\n- 각 축: '+strArr.join(', ')+'\n\n## MBTI 강도별 행동 프로파일 (풀이에 반드시 반영할 것!)\n'+(function(){var m=miAllParam(params.mbtiChoices, params.mbtiIntensities);var axes=['E/I','S/N','T/F','J/P'];var labels=[strArr[0],strArr[1],strArr[2],strArr[3]];return axes.map(function(a,i){return '- '+labels[i]+': '+m[i].trait+'\n  연애: '+m[i].love+'\n  직업: '+m[i].work+'\n  번아웃: '+m[i].burn;}).join('\n');})()+'\n\n## 사주 원국 (절기: '+saju.currentJeolgi+')\n- 사주: '+saju.P.map(function(p){return p.l+' '+p.s+p.b;}).join(' | ')+'\n- 일주: '+ilju+' · 일간: '+saju.dm+'('+saju.dmEl+')\n- 천간십성: '+saju.ss.map(function(s){return s.pillar+' '+s.stem+'('+s.ss+')';}).join(', ')+'\n- ★궁위십성(지지정기 기준): '+saju.jiSS.map(function(j){return j.pillar+' '+j.branch+'='+j.ss+'('+j.gungwi+')';}).join(' | ')+'\n- 오행(표면 8자): 목='+saju.el['목']+' 화='+saju.el['화']+' 토='+saju.el['토']+' 금='+saju.el['금']+' 수='+saju.el['수']+'\n- ★오행(지장간포함): 목='+saju.elFull['목']+' 화='+saju.elFull['화']+' 토='+saju.elFull['토']+' 금='+saju.elFull['금']+' 수='+saju.elFull['수']+(saju.hiddenOh.length>0?'\n  → 표면상 없지만 지장간에 숨어있는 오행: '+saju.hiddenOh.join(',')+' (겉으로 안 보이지만 속에 잠재력으로 존재)':'')+'\n- 12운성: '+saju.P.map(function(p,i){return p.l+'='+saju.uns[i];}).join(', ')+'\n- 합: '+hapTxt+' | 삼합: '+samhapTxt+'\n- 충: '+chungTxt+' | 천간충: '+cheonganChungTxt+'\n- 형: '+hyungTxt+' | 해: '+jijiHaeTxt+hapChungTxt+'\n'+(saju.amhap.length>0?'- ★암합(숨겨진 합): '+saju.amhap.map(function(a){return a.from+'↔'+a.to+'=합화'+a.hapOh+' ['+a.gungwi+'궁 숨겨진 인연]';}).join(', ')+'\n':'')+'\n※ 합과 충이 동시에 존재할 때: 인접한 합이 충을 해소하는지(탐합망충), 충이 합을 깨뜨리는지 판단하여 유기적으로 해석할 것\n\n## 격국 분석\n- ★격국: '+gg.gyeokgukName+' ('+gg.gyeokgukBasis+')\n  → '+gg.gyeokgukDesc+'\n'+(gg.isJonggyeok?'  ⚠️ 종격(從格) 사주! 용신 방향이 일반 사주와 정반대입니다. 강한 쪽을 따라가야 합니다.\n':'')+(gg.isHwakyeok?'  ⚠️ 화격(化格) 사주! 일간이 본래 오행을 버리고 합화 오행으로 변함.\n':'')+pagyeokTxt+'\n- ★납음: '+(gg.napeumText||'정보없음')+'\n- 십성비중: 비겁='+gg.cnt['비겁'].toFixed(1)+' 식상='+gg.cnt['식상'].toFixed(1)+' 재성='+gg.cnt['재성'].toFixed(1)+' 관성='+gg.cnt['관성'].toFixed(1)+' 인성='+gg.cnt['인성'].toFixed(1)+'\n- ★일간 강도: '+gg.strengthGrade+' '+gg.strengthScore+'점 (자기편='+gg.selfStr.toFixed(1)+' vs 상대편='+gg.otherStr.toFixed(1)+')'+(gg.deukryeong?' [득령]':' [실령]')+johuTxt+'\n- 강한: '+gg.dominant[0]+'('+gg.dominant[1].toFixed(1)+') 약한: '+gg.weak[0]+'('+gg.weak[1].toFixed(1)+')\n- 부족오행: '+(saju.lackFull.length>0?saju.lackFull.join(','):'없음')+'\n- 용신: '+gg.yongshin+' ['+gg.yongshinType+'용신]'+(gg.johuYongshin&&gg.yongshinType!=='조후'?' · 조후참고: '+gg.johuYongshin:'')+'\n- ★오행흐름: '+gg.flowSummary+'\n\n## 참고 힌트 (AI 자율 판단 우선, 반드시 사용할 필요 없음)\n'+dynKWText+'\n\n## 대운 흐름 ('+dw.direction+', '+dw.daewoonAge+'세 시작)\n'+dwTxt+'\n현재 대운: '+(currentDW?currentDW.gan+currentDW.ji+'('+currentDW.ganH+currentDW.jiH+') '+currentDW.ss+'운 ('+currentDW.startAge+'~'+currentDW.endAge+'세)':'대운 전')+pastDWTxt+transitionTxt+'\n세운: '+seTxt+'\n- ★삼재: '+(samjaeTxt||'계산불가')+dwWonTxt+seWonTxt+'\n\n## '+wolunYear+'년 월운 (월별 운세)\n'+wolunTxt+'\n\n## 신살 (참고)\n'+(salSimple||'없음')+'\n- 공망: '+gmTxt+contextSection+'\n\nJSON으로 출력하세요.';
+  /* ====== 1-Pass AI System (v29 복귀) ====== */
+  var result;
+  var apiError = null;
+
+  // 스트리밍 함수
+  // streamSonnet은 전역 함수로 이동됨 (아래 참고)
+
+  try{
+    // apiKey already from params
+    console.log('[MBTS] === 1-Pass 분석 시작 ===');
+
+    var aiText = await streamSonnet(apiKey, PREMIUM_SYSTEM, usr, "✨ AI 분석 중", callbacks);
+
+    try {
+      result = JSON.parse(aiText);
+    } catch(e) {
+      console.warn('[MBTS] 1차 JSON 파싱 실패, 추출 시도...');
+      // 2차: { ~ } 추출
+      var fb = aiText.indexOf('{'), lb = aiText.lastIndexOf('}');
+      if (fb >= 0 && lb > fb) {
+        try { result = JSON.parse(aiText.substring(fb, lb + 1)); } catch(e2) {}
+      }
+      // 3차: 줄 단위 추출
+      if (!result) {
+        var lines = aiText.split('\n');
+        var si = -1, ei = -1;
+        for (var li = 0; li < lines.length; li++) {
+          if (si < 0 && lines[li].trim().charAt(0) === '{') si = li;
+          if (lines[li].trim().charAt(0) === '}' || lines[li].trim().slice(-1) === '}') ei = li;
+        }
+        if (si >= 0 && ei >= si) {
+          try { result = JSON.parse(lines.slice(si, ei + 1).join('\n')); } catch(e3) {}
+        }
+      }
+      // 4차: 제어문자 제거 후 재시도
+      if (!result) {
+        var sanitized = aiText.substring(fb >= 0 ? fb : 0, (lb > 0 ? lb + 1 : aiText.length));
+        sanitized = sanitized.replace(/[\x00-\x1F\x7F]/g, function(c) { return c === '\n' || c === '\r' || c === '\t' ? c : ''; });
+        try { result = JSON.parse(sanitized); } catch(e4) {}
+      }
+      // 2~4차 성공 시 에러 초기화
+      if (result) {
+        apiError = '';
+        console.log('[MBTS] JSON 추출 성공 (폴백 파서)');
+      } else {
+        apiError = 'JSON_PARSE';
+        result = mkFB(saju, mt, gg);
+      }
+    }
+    if(result) console.log('[MBTS] 분석 완료. 항목 수:', (result.categories||[]).reduce(function(s,c){return s+(c.subs||c.items||[]).length;},0));
+    // ★ v29.1: 후처리 검증 (대운 나이 등 팩트 교정)
+    if(result && !apiError) result = postValidateAI(result, dw, saju, gg);
+
+  }catch(e){
+    console.error('[MBTS] 에러:', e);
+    apiError=e.message||'UNKNOWN';
+    result=mkFB(saju,mt,gg);
+  }
+
+  clearInterval(iv);if(callbacks.onProgress)callbacks.onProgress(100);if(callbacks.onPercent)callbacks.onPercent(100);
+  if(apiError){
+    var errDetail='';
+    if(apiError.indexOf('API_KEY_MISSING')>=0) errDetail='API 키가 없습니다.';
+    else if(apiError.indexOf('HTTP_401')>=0) errDetail='API 키가 만료되었거나 유효하지 않습니다.';
+    else if(apiError.indexOf('HTTP_429')>=0) errDetail='API 사용량 한도 초과. 1~2분 후 다시 시도해주세요.';
+    else if(apiError.indexOf('HTTP_400')>=0||apiError.indexOf('HTTP_404')>=0) errDetail='모델 연결 실패. 콘솔(F12)에서 상세 오류 확인.';
+    else if(apiError.indexOf('HTTP_529')>=0||apiError.indexOf('overloaded')>=0) errDetail='AI 서버 과부하. 1~2분 후 재시도.';
+    else if(apiError.indexOf('abort')>=0||apiError.indexOf('Abort')>=0) errDetail='연결 타임아웃. 인터넷 확인 후 재시도.';
+    else if(apiError.indexOf('Failed to fetch')>=0||apiError.indexOf('NetworkError')>=0||apiError.indexOf('TypeError')>=0) errDetail='네트워크 오류. file:// CORS 차단 → 로컬서버 필요.';
+    else if(apiError.indexOf('JSON_PARSE')>=0) errDetail='AI 응답 형식 오류. 재시도하면 해결될 수 있어요.';
+    else if(apiError.indexOf('STREAM_ERROR')>=0) errDetail='스트리밍 에러: '+apiError.substring(0,80);
+    else errDetail=apiError.substring(0,80);
+    if(callbacks.onError) callbacks.onError(errDetail);
+
+  } else {
+    if(callbacks.onMessage) callbacks.onMessage("✨ AI 분석 완료!");
+  }
+  if(callbacks.onComplete) callbacks.onComplete({result:result, saju:saju, mt:mt, gg:gg, dw:dw, isAI:!apiError, mbtiObj:mbtiObj});
+}
+
+// --- runGunghapAnalysis (startGunghap 변환: DOM→callbacks) ---
+// paramsA = { saju, dw, gg, mbtiObj, apiKey }
+// paramsB = { y, m, d, h, min, gender, mbtiType }
+// relType = 관계 유형 문자열 (예: '연인', '부부', '친구' 등)
+// callbacks = { onMessage, onProgress, onPercent, onComplete, onError }
+async function runGunghapAnalysis(paramsA, paramsB, relType, callbacks){
+  var apiKey = paramsA.apiKey;
+  if(!apiKey){ if(callbacks.onError) callbacks.onError('API_KEY_MISSING'); return; }
+
+  // 상대방 사주 계산
+  var bY=+paramsB.y;
+  var bM=+paramsB.m;
+  var bD=+paramsB.d;
+  var bH=paramsB.h?+paramsB.h:null;
+  var bMin=paramsB.min?+paramsB.min:null;
+
+  var sajuB=calcSajuForApp(bY,bM,bD,bH,bMin,null);
+  var ggB=analyzeGyeokguk(sajuB);
+  var genderB=paramsB.gender==='남성'?'남':'여';
+  var dwB=calcDaewoon(sajuB,bY,bM,bD,bH||12,bMin||0,genderB);
+
+  // MBTI B 객체 구성 (강도 없이 기본값)
+  var tiB=TY[paramsB.mbtiType]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
+  var mbtiB={type:paramsB.mbtiType, cf:tiB.cf,
+    axes:[
+      {side:paramsB.mbtiType[0],pct:60},
+      {side:paramsB.mbtiType[1],pct:60},
+      {side:paramsB.mbtiType[2],pct:60},
+      {side:paramsB.mbtiType[3],pct:60}
+    ], profile:''};
+
+  // 내 데이터
+  var sajuA=paramsA.saju, dwA=paramsA.dw, ggA=paramsA.gg;
+  var mbtiA=paramsA.mbtiObj;
+  if(!sajuA){ if(callbacks.onError) callbacks.onError('NO_SAJU_DATA'); return; }
+
+  // 궁합 엔진 실행
+  var ghResult=analyzeGunghap(sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiA, mbtiB);
+
+  // 로딩
+  var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...','오행 보완 관계를 읽습니다...','인지기능 궁합 탐색...','연애 케미를 계산합니다...','갈등 패턴을 분석합니다...','장기 전망을 그립니다...','두 사람의 이야기를 쓰고 있습니다...'];
+  var p=0,iv=setInterval(function(){p+=Math.random()*1.5+.4;if(p>95)p=95;if(callbacks.onProgress)callbacks.onProgress(p);if(callbacks.onPercent)callbacks.onPercent(Math.round(p));if(callbacks.onMessage)callbacks.onMessage(msgs[Math.min(Math.floor(p/12),7)]);},900);
+
+  // AI 프롬프트 생성 + 호출
+  var userPrompt=buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiA, mbtiB);
+  var aiResult=null, apiError='';
+
+  try{
+    var aiText=await streamSonnet(apiKey, GUNGHAP_SYSTEM, userPrompt, '💕 궁합 분석', callbacks, '/api/gunghap-analyze');
+    try {
+      aiResult = JSON.parse(aiText);
+    } catch(e) {
+      console.warn('[MBTS] 궁합 1차 JSON 파싱 실패, 추출 시도...');
+      // 2차: { ~ } 추출
+      var fb = aiText.indexOf('{'), lb = aiText.lastIndexOf('}');
+      if (fb >= 0 && lb > fb) {
+        try { aiResult = JSON.parse(aiText.substring(fb, lb + 1)); } catch(e2) {}
+      }
+      // 3차: 줄 단위 추출
+      if (!aiResult) {
+        var lines = aiText.split('\n');
+        var si = -1, ei = -1;
+        for (var li = 0; li < lines.length; li++) {
+          if (si < 0 && lines[li].trim().charAt(0) === '{') si = li;
+          if (lines[li].trim().charAt(0) === '}' || lines[li].trim().slice(-1) === '}') ei = li;
+        }
+        if (si >= 0 && ei >= si) {
+          try { aiResult = JSON.parse(lines.slice(si, ei + 1).join('\n')); } catch(e3) {}
+        }
+      }
+      // 4차: 제어문자 제거 후 재시도
+      if (!aiResult) {
+        var sanitized = aiText.substring(fb >= 0 ? fb : 0, (lb > 0 ? lb + 1 : aiText.length));
+        sanitized = sanitized.replace(/[\x00-\x1F\x7F]/g, function(c) { return c === '\n' || c === '\r' || c === '\t' ? c : ''; });
+        try { aiResult = JSON.parse(sanitized); } catch(e4) {}
+      }
+      // 2~4차 성공 시 에러 초기화
+      if (aiResult) {
+        apiError = '';
+        console.log('[MBTS] JSON 추출 성공 (폴백 파서)');
+      } else {
+        apiError = 'JSON_PARSE';
+      }
+    }
+  }catch(e){
+    console.error('[MBTS] 궁합 에러:', e);
+    apiError=e.message||'UNKNOWN';
+  }
+
+  clearInterval(iv);
+  if(callbacks.onProgress) callbacks.onProgress(100);
+  if(callbacks.onPercent) callbacks.onPercent(100);
+
+  // 결과 전달
+  if(callbacks.onComplete) callbacks.onComplete({ghResult:ghResult, aiResult:aiResult, sajuA:sajuA, sajuB:sajuB, mbtiA:mbtiA, mbtiB:mbtiB, ggA:ggA, ggB:ggB, apiError:apiError});
+}
+
+// ============================================================
+// Part C — 키워드 데이터 + 물상 + 폴백 (mbts.html 3929~5834)
+// ============================================================
 
 /* ==========================================
    * 십성 × 기둥위치 해석 데이터 (10종 × 4기둥 = 40종)
@@ -5290,694 +5098,115 @@ function mkFB(saju,mt,gg){
   };
 }
 
+// --- 채팅 엔진 (sendChatMessage에서 프롬프트 + API 호출 추출) ---
 
+function buildChatPrompt(saju, mbti, gg, dw, chatHistory, mode) {
+  // mode = 'sweet' (상냥한 달토, 기본값) or 'fire' (팩폭 달토)
+  mode = mode || 'sweet';
 
-/* ====== 결과 렌더링 v2 (동물카드 + 프로필 + 카테고리) ====== */
-function renderSubBody(text){
-  var tipEmojis=['💊','🔥','💧','💜','🌱','💎'];
-  var paras=(text||'').split('\n\n');
-  var out='';
-  paras.forEach(function(p){
-    p=p.trim();if(!p)return;
-    var isTip=tipEmojis.some(function(e){return p.indexOf(e)===0;});
-    if(isTip){out+='<div class="r-tip">'+p+'</div>';}
-    else{out+='<p>'+p+'</p>';}
-  });
-  return out;
-}
-
-function scrollToCat(catId){
-  var el=document.getElementById('cat-'+catId);
-  if(!el)return;
-  var navEl=document.getElementById('r-cat-nav');
-  var offset=navEl?navEl.offsetHeight+8:60;
-  var top=el.getBoundingClientRect().top+window.pageYOffset-offset;
-  window.scrollTo({top:top,behavior:'smooth'});
-  document.querySelectorAll('.r-cat-pill').forEach(function(pill){
-    pill.classList.toggle('active',pill.getAttribute('data-cat')===catId);
-  });
-}
-
-function initCatNav(){
-  var nav=document.getElementById('r-cat-nav-inner');
-  if(!nav)return;
-  var sections=document.querySelectorAll('.r-cat-sec');
-  if(!sections.length||!('IntersectionObserver' in window))return;
-  var observer=new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        var catId=entry.target.getAttribute('data-cat-id');
-        document.querySelectorAll('.r-cat-pill').forEach(function(pill){
-          pill.classList.toggle('active',pill.getAttribute('data-cat')===catId);
-        });
-        var activePill=nav.querySelector('.r-cat-pill.active');
-        if(activePill)activePill.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
-      }
-    });
-  },{rootMargin:'-20% 0px -60% 0px'});
-  sections.forEach(function(sec){observer.observe(sec);});
-}
-
-function captureAnimalCard(){
-  var el=document.getElementById('animal-card-capture');
-  if(!el){alert('캡처할 카드가 없어요!');return;}
-  if(typeof html2canvas==='undefined'){
-    var s=document.createElement('script');
-    s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-    s.onload=function(){doCapture(el);};
-    s.onerror=function(){alert('이미지 저장 기능을 불러올 수 없어요.');};
-    document.head.appendChild(s);
-  }else{doCapture(el);}
-}
-function doCapture(el){
-  var btns=document.querySelectorAll('.r-share-btn');
-  btns.forEach(function(b){b.disabled=true;b.textContent='⏳ 저장 중...';});
-  html2canvas(el,{
-    scale:3,useCORS:true,backgroundColor:null,logging:false,allowTaint:false,
-    scrollX:0,scrollY:-window.scrollY,windowWidth:el.scrollWidth,windowHeight:el.scrollHeight
-  }).then(function(canvas){
-    canvas.toBlob(function(blob){
-      if(blob&&navigator.share&&/iPhone|iPad|iPod/i.test(navigator.userAgent)){
-        var file=new File([blob],'mbts-animal-card.png',{type:'image/png'});
-        navigator.share({files:[file],title:'MBTS 동물카드'}).catch(function(){fallbackDownload(canvas);});
-      }else{fallbackDownload(canvas);}
-    },'image/png');
-  }).catch(function(err){
-    console.error('[MBTS] 캡처 실패:',err);
-    alert('이미지 저장에 실패했어요. 다시 시도해주세요!');
-  }).finally(function(){
-    btns.forEach(function(b,i){b.disabled=false;b.textContent=i===0?'📷 이미지 저장':'💬 카카오톡 공유';});
-  });
-}
-
-function fallbackDownload(canvas){
-  var link=document.createElement('a');
-  link.download='mbts-동물카드-'+(window._lastMBTI||'result')+'.png';
-  link.href=canvas.toDataURL('image/png');
-  link.click();
-  showToast('📷 동물카드가 저장되었어요!');
-}
-
-function showToast(msg){
-  var t=document.createElement('div');
-  t.textContent=msg;
-  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:12px 24px;background:rgba(0,0,0,0.8);color:#fff;border-radius:100px;font-size:14px;font-weight:600;z-index:9999;animation:fu .3s ease';
-  document.body.appendChild(t);
-  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},2000);
-}
-
-function shareKakao(){
-  var animalTitle='',animalDesc='',animalEmoji='';
-  if(window._lastAIResult&&window._lastAIResult.animal&&window._lastSaju){
-    var aInfo=getAnimalResult(window._lastAIResult.animal.oheng,window._lastAIResult.animal.dominant_sipsung,window._lastAIResult.animal.condition);
-    if(aInfo&&aInfo.mod){animalEmoji=aInfo.emoji;animalTitle=aInfo.mod.title;animalDesc=aInfo.mod.desc;}
-  }
-  var shareTitle=animalEmoji+' '+(animalTitle||'MBTS 사주×MBTI 분석');
-  var shareDesc=animalDesc||'나의 운명 동물을 확인해보세요!';
-  var shareUrl=window.location.href.split('?')[0];
-
-  // 방법 1: 카카오 SDK
-  if(typeof Kakao!=='undefined'&&Kakao.isInitialized()){
-    try{
-      Kakao.Share.sendDefault({
-        objectType:'feed',
-        content:{
-          title:shareTitle,
-          description:shareDesc+'\n\n#MBTS #사주 #MBTI #운명동물',
-          imageUrl:'https://your-domain.com/og-image.png',
-          link:{mobileWebUrl:shareUrl,webUrl:shareUrl}
-        },
-        buttons:[{title:'🔮 나도 운명 확인하기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]
-      });
-      return;
-    }catch(e){console.warn('[MBTS] 카카오 공유 실패, 폴백 사용:',e);}
-  }
-
-  // 방법 2: Web Share API
-  if(navigator.share){
-    navigator.share({title:shareTitle,text:shareDesc+'\n\n나의 운명도 확인해보세요 👉\n'+shareUrl,url:shareUrl}).catch(function(e){
-      if(e.name!=='AbortError')console.warn('[MBTS] 공유 실패:',e);
-    });
-    return;
-  }
-
-  // 방법 3: 클립보드 복사
-  var copyText=shareTitle+'\n'+shareDesc+'\n\n나의 운명도 확인해보세요 👉 '+shareUrl;
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(copyText).then(function(){showToast('📋 공유 텍스트가 복사되었어요!');});
-  }else{
-    var ta=document.createElement('textarea');ta.value=copyText;
-    document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();
-    showToast('📋 공유 텍스트가 복사되었어요!');
-  }
-}
-
-function adjustColor(hex,factor){
-  hex=hex.replace('#','');
-  var r=parseInt(hex.substring(0,2),16),g=parseInt(hex.substring(2,4),16),b=parseInt(hex.substring(4,6),16);
-  r=Math.round(r*factor);g=Math.round(g*factor);b=Math.round(b*factor);
-  return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
-}
-
-function renderResult(result,saju,mt,gg,isAI){
-  var ti=TY[mt]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
-  gg=gg||analyzeGyeokguk(saju);
-
-  /* ── 구버전 JSON 호환 (mkFB fallback) ── */
-  var isOld=result.categories&&result.categories[0]&&result.categories[0].items;
-  if(isOld){
-    var _ci=["🪞","🧠","💼","👥","⚡"];
-    var _cid=["self","mind","career","people","future"];
-    result.categories=result.categories.map(function(cat,ci){
-      return{id:_cid[ci]||("cat"+ci),title:cat.title,subtitle:cat.subtitle,icon:_ci[ci]||"📋",
-        subs:(cat.items||[]).map(function(item){
-          var bdy=(item.content||'');
-          if(item.insightText)bdy+='\n\n'+(item.insightIcon||'💡')+' '+item.insightText;
-          return{h:item.catch||item.title||'',b:bdy};
-        })};
-    });
-    if(!result.animal)result.animal={oheng:saju.dmEl||'토',dominant_sipsung:'비겁',condition:gg.strengthGrade==='신약'?'신약':'신강'};
-    if(!result.oneLine)result.oneLine=result.quote||'';
-    if(!result.profile)result.profile={};
-  }
-
-  var cats=result.categories||[];
-  var prof=result.profile||{};
-
-  /* ── 동물 카드 데이터 ── */
-  var animalInfo=null;
-  if(result.animal){animalInfo=getAnimalResult(result.animal.oheng,result.animal.dominant_sipsung,result.animal.condition);}
-  var ohD=animalInfo?animalInfo.ohengData:OHENG_DATA[0];
-
-  /* ── 배지 ── */
-  var bdgS='display:inline-block;padding:3px 10px;font-size:10px;font-weight:600;border-radius:8px;margin:2px';
-  var trueSolarBadge=saju.trueSolarApplied?'<span style="'+bdgS+';background:rgba(70,130,180,.1);color:#4682b4">🌍 진태양시 ('+ST.city+' '+(saju.trueSolarMin>0?'+':'')+saju.trueSolarMin+'분)</span>':'';
-  var pagyeokBadge=gg.pagyeokInfo?'<span style="'+bdgS+';background:rgba(211,47,47,.1);color:#d32f2f">⚠️ '+gg.pagyeokInfo.split(' — ')[0]+'</span>':'';
-  var aiBadge=isAI?'<span style="'+bdgS+';background:rgba(46,139,87,.1);color:#2e8b57">✨ AI 프리미엄</span>':'<span style="'+bdgS+';background:rgba(201,154,46,.1);color:#c99a2e">📋 기본 분석</span>';
-
-  /* ── 오행 클래스맵 ── */
-  var elCls={'목':'el-wood','화':'el-fire','토':'el-earth','금':'el-metal','수':'el-water'};
-  var DC=['#88619A','#2e8b57','#4682b4','#c99a2e'];
-
-  /* ── HTML 빌드 ── */
-  var pg=document.getElementById('pg-res');
-  pg.style.background='var(--bg-primary)';pg.style.color='var(--text-primary)';
-
-  var h='<div class="res-wrap">';
-
-  /* ① Header */
-  h+='<div class="res-header">';
-  h+='<div class="logo-sm"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div>';
-  h+='<p style="font-size:12px;color:var(--text-muted);margin-bottom:4px">';
-  h+=ST.y+'년 '+ST.m+'월 '+ST.d+'일 '+(ST.h?ST.h+'시':'')+(ST.min?ST.min+'분':'')+' · '+ST.gender;
-  h+=(prof.seasonNote?' · '+prof.seasonNote:(saju.currentJeolgi?' · 절기: '+saju.currentJeolgi:''));
-  h+='</p>';
-  h+='<div style="font-size:13px;font-weight:600;color:var(--text-secondary)">당신이라는 사람</div>';
-  h+='</div>';
-
-  /* ② Animal Card */
-  if(animalInfo&&animalInfo.mod){
-    var mod=animalInfo.mod;
-    var gFrom=ohD.color,gTo=adjustColor(ohD.color,0.65);
-    h+='<div id="animal-card-capture" class="r-animal" style="background:linear-gradient(135deg,'+gFrom+','+gTo+')">';
-    h+='<div class="r-animal-emoji">'+animalInfo.emoji+'</div>';
-    h+='<div class="r-animal-tag">'+mod.tag+'</div>';
-    h+='<div class="r-animal-title">'+mod.title+'</div>';
-    h+='<div class="r-animal-desc">'+mod.desc+'</div>';
-    h+='<div class="r-animal-traits">';
-    (mod.traits||[]).forEach(function(t){h+='<span class="r-animal-trait">#'+t+'</span>';});
-    h+='</div>';
-    h+='<div class="r-animal-rx">💊 '+mod.rx+'</div>';
-    h+='<div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;gap:6px">';
-    h+='<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:14px;color:rgba(255,255,255,0.5)">MBTS</span>';
-    h+='<span style="font-size:10px;color:rgba(255,255,255,0.3)">사주×MBTI 운명 분석</span>';
-    h+='</div>';
-    h+='</div>';
-  }
-
-  /* ③ Share Row */
-  h+='<div class="r-share-row">';
-  h+='<button class="r-share-btn" onclick="captureAnimalCard()" style="flex:1">📷 이미지 저장</button>';
-  h+='<button class="r-share-btn" onclick="shareKakao()" style="flex:1;background:#FEE500;color:#191919;border-color:#FEE500;font-weight:700">💬 카카오톡 공유</button>';
-  h+='</div>';
-
-  /* ④ Profile Card */
-  h+='<div class="r-profile">';
-  h+='<div class="r-profile-title">📜 만 세 력</div>';
-  h+='<div style="text-align:center;padding:0 16px 12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">'+aiBadge+trueSolarBadge+pagyeokBadge+'</div>';
-
-  /* 4기둥 그리드 */
-  h+='<div class="r-pil-grid">';
-  if(prof.pillars&&prof.pillars.length===4){
-    prof.pillars.forEach(function(pil){
-      var isDay=!!pil.isDay;
-      var cEl=pil.chunOheng||'',jEl=pil.jiOheng||'';
-      var cCls=elCls[cEl]||'',jCls=elCls[jEl]||'';
-      var cChar=(pil.chun||'').replace(/\(.*?\)/g,'').trim();
-      var jChar=(pil.ji||'').replace(/\(.*?\)/g,'').trim();
-      h+='<div class="r-pil-box'+(isDay?' r-pil-day':'')+'">';
-      h+='<div class="r-pil-label">'+pil.label+'</div>';
-      h+='<div class="r-pil-stem '+cCls+'">'+cChar+'</div>';
-      h+='<div class="r-pil-info">'+cEl+'</div>';
-      h+='<div class="r-pil-ss">'+(pil.sipsung||'')+'</div>';
-      if(pil.unyeong)h+='<div class="r-pil-un">'+pil.unyeong+'</div>';
-      h+='<div class="r-pil-div"></div>';
-      h+='<div class="r-pil-branch '+jCls+'">'+jChar+'</div>';
-      h+='<div class="r-pil-info">'+jEl+'</div>';
-      if(pil.jiji)h+='<div class="r-pil-jiji">'+pil.jiji+'</div>';
-      h+='</div>';
-    });
-  }else{
-    var pRev=[saju.P[3],saju.P[2],saju.P[1],saju.P[0]];
-    var ssRev=[saju.ss[3],saju.ss[2],saju.ss[1],saju.ss[0]];
-    var unsRev=[saju.uns[3],saju.uns[2],saju.uns[1],saju.uns[0]];
-    pRev.forEach(function(p,i){
-      var sOh=p.gi!=null?OHAENG_TGAN[p.gi]:'',bOh=p.bi!=null?OHAENG_JIJI[p.bi]:'';
-      var isDay=i===1;
-      h+='<div class="r-pil-box'+(isDay?' r-pil-day':'')+'">';
-      h+='<div class="r-pil-label">'+p.l+'</div>';
-      h+='<div class="r-pil-stem '+(elCls[sOh]||'')+'">'+p.s+'</div>';
-      h+='<div class="r-pil-info">'+sOh+'</div>';
-      h+='<div class="r-pil-ss">'+(ssRev[i]?ssRev[i].ss:'')+'</div>';
-      if(unsRev[i])h+='<div class="r-pil-un">'+unsRev[i]+'</div>';
-      h+='<div class="r-pil-div"></div>';
-      h+='<div class="r-pil-branch '+(elCls[bOh]||'')+'">'+p.b+'</div>';
-      h+='<div class="r-pil-info">'+bOh+'</div>';
-      h+='</div>';
-    });
-  }
-  h+='</div>';
-
-  /* 오행 바 */
-  h+='<div class="r-oh-bar">';
-  if(prof.ohengBalance&&prof.ohengBalance.length===5){
-    prof.ohengBalance.forEach(function(ob){
-      var od=OHENG_DATA.filter(function(o){return o.key===ob.name;})[0]||{};
-      h+='<div class="r-oh-item">';
-      h+='<div class="r-oh-dot" style="background:'+(ob.count>0?od.bg:'#f5f5f5')+';border:2px solid '+(ob.count>0?od.color:'#eee')+'">'+(ob.emoji||od.emoji||'')+'</div>';
-      h+='<div class="r-oh-lbl" style="color:'+(od.color||'#999')+'">'+ob.name+' '+ob.count+'</div>';
-      h+='</div>';
-    });
-  }else{
-    ['목','화','토','금','수'].forEach(function(e){
-      var c=saju.el[e]||0;
-      var od=OHENG_DATA.filter(function(o){return o.key===e;})[0]||{};
-      h+='<div class="r-oh-item">';
-      h+='<div class="r-oh-dot" style="background:'+(c>0?od.bg:'#f5f5f5')+';border:2px solid '+(c>0?od.color:'#eee')+'">'+(od.emoji||EJ[e]||'')+'</div>';
-      h+='<div class="r-oh-lbl" style="color:'+(od.color||'#999')+'">'+e+' '+c+'</div>';
-      h+='</div>';
-    });
-  }
-  h+='</div>';
-
-  /* 특수신살 */
-  var stars=prof.specialStars||(saju.specialSals?saju.specialSals.map(function(s){return s.name;}):[]);
-  if(stars.length>0){
-    h+='<div class="r-sal-tags">';
-    stars.forEach(function(s){h+='<span class="r-sal-tag">'+s+'</span>';});
-    h+='</div>';
-  }
-
-  h+='<div class="r-divider"></div>';
-
-  /* MBTI 영역 */
-  h+='<div class="r-mbti-area">';
-  var mbtiType=prof.mbtiType||mt;
-  var mbtiName=prof.mbtiName||ti.n;
-  var mbtiFuncs=prof.mbtiFunctions||ti.cf;
-  h+='<div class="r-mbti-letters">';
-  mbtiType.split('').forEach(function(l,i){h+='<span style="color:'+DC[i]+'">'+l+'</span>';});
-  h+='</div>';
-  h+='<div class="r-mbti-name">'+mbtiName+'</div>';
-  h+='<div class="r-mbti-cf">인지기능: '+mbtiFuncs+'</div>';
-  h+='<div class="r-mbti-tags">';
-  if(prof.mbtiTags&&prof.mbtiTags.length>0){
-    prof.mbtiTags.forEach(function(tag){h+='<span class="r-mbti-tag">'+tag+'</span>';});
-  }else{
-    ST.ch.forEach(function(c,i){
-      var lb=c==='L'?DM_AX[i].Ll:DM_AX[i].Rl;var lv=strLv(ST.it[i]);
-      h+='<span class="r-mbti-tag">'+lv+' '+lb+'</span>';
-    });
-  }
-  h+='</div>';
-  h+='</div>';
-  h+='</div>';
-
-  /* ⑤ Category Nav (sticky) */
-  if(cats.length>0){
-    h+='<div class="r-cat-nav" id="r-cat-nav"><div class="r-cat-nav-inner" id="r-cat-nav-inner">';
-    cats.forEach(function(cat,ci){
-      h+='<div class="r-cat-pill'+(ci===0?' active':'')+'" data-cat="'+cat.id+'" onclick="scrollToCat(\''+cat.id+'\')">';
-      h+=(cat.icon||'')+' '+cat.title+'</div>';
-    });
-    h+='</div></div>';
-
-    /* ⑥ Category Sections */
-    cats.forEach(function(cat,ci){
-      h+='<div class="r-cat-sec" id="cat-'+cat.id+'" data-cat-id="'+cat.id+'">';
-      h+='<div class="r-cat-head">';
-      h+='<div class="r-cat-num">'+String(ci+1).padStart(2,'0')+'</div>';
-      h+='<div class="r-cat-title-row"><span class="r-cat-icon">'+(cat.icon||'')+'</span><span class="r-cat-title">'+cat.title+'</span></div>';
-      if(cat.subtitle)h+='<div class="r-cat-sub">'+cat.subtitle+'</div>';
-      h+='</div>';
-      (cat.subs||[]).forEach(function(sub){
-        h+='<div class="r-sub">';
-        h+='<div class="r-sub-h">'+sub.h+'</div>';
-        h+='<div class="r-sub-b">'+renderSubBody(sub.b)+'</div>';
-        h+='</div>';
-      });
-      h+='</div>';
-    });
-  }
-
-  /* ⑦ OneLine */
-  if(result.oneLine){
-    h+='<div class="r-oneline">';
-    h+='<div class="r-oneline-label">YOUR LIFE IN ONE LINE</div>';
-    h+='<div class="r-oneline-text">'+(result.oneLine||'').replace(/\\n/g,'<br>').replace(/\n/g,'<br>')+'</div>';
-    h+='</div>';
-  }
-
-  /* ⑧ CTA */
-  h+='<div class="r-cta">';
-  h+='<div class="r-cta-row">';
-  h+='<button class="r-cta-btn" onclick="goPage(\'home\');switchHomeTab(\'gunghap\')" style="background:rgba(232,69,60,.1);color:#E8453C">💕 궁합 보러가기</button>';
-  h+='<button class="r-cta-btn" onclick="shareKakao()" style="background:#FEE500;color:#191919">💬 카카오 공유</button>';
-  h+='</div>';
-  h+='<button class="r-cta-btn" onclick="startChatFromResult()" style="width:100%;background:var(--accent);color:#fff;box-shadow:0 4px 15px var(--accent-glow)">🐰 달토에게 더 물어보기</button>';
-  h+='<div style="font-size:11px;color:var(--text-muted);margin-top:8px">AI 사주 상담사에게 궁금한 점을 물어보세요</div>';
-  h+='<button class="r-cta-btn" onclick="resetAll()" style="margin-top:12px;background:var(--bg-glass);color:var(--text-muted);border:1px solid var(--border)">다시 분석하기</button>';
-  h+='<p style="margin-top:16px;font-size:11px;color:var(--text-muted);opacity:.8">본 풀이는 명리학과 MBTI 이론을 기반한 참고용 분석이며,<br>개인의 의사결정을 대체하지 않습니다.</p>';
-  h+='</div>';
-
-  h+='<div style="height:80px"></div>';
-  h+='</div>';
-
-  // 하단 4탭 탭바
-  h+='<div class="btm-tab"><div class="btm-tab-inner">';
-  h+='<div class="btm-tab-item" onclick="goPage(\'home\')"><div class="tab-ic">🏠</div><div class="tab-lb">홈</div></div>';
-  h+='<div class="btm-tab-item active"><div class="tab-ic">📊</div><div class="tab-lb">분석결과</div></div>';
-  h+='<div class="btm-tab-item" onclick="alert(\'저장 기능은 준비 중이에요!\')"><div class="tab-ic">💾</div><div class="tab-lb">저장</div></div>';
-  h+='<div class="btm-tab-item" onclick="alert(\'설정 기능은 준비 중이에요!\')"><div class="tab-ic">⚙️</div><div class="tab-lb">설정</div></div>';
-  h+='</div></div>';
-
-  pg.innerHTML=h;
-  pg.style.display='flex';pg.style.opacity='0';
-  setTimeout(function(){pg.style.transition='opacity .8s';pg.style.opacity='1';},50);
-  document.querySelectorAll('.page').forEach(function(p2){if(p2.id!=='pg-res')p2.style.display='none';});
-  setTimeout(function(){initCatNav();},300);
-}
-
-function shareResult(){shareKakao();}
-function resetAll(){
-  localStorage.removeItem('mbts_lastResult');
-  window._lastSaju=null;window._lastDW=null;window._lastGG=null;
-  window._lastMBTI=null;window._lastMBTIObj=null;
-  window._lastAIResult=null;window._lastIsAI=null;
-  ST={y:"",m:"",d:"",h:"",min:"",gender:"",city:"",cityLng:0,ch:[null,null,null,null],it:[null,null,null,null],cur:0};
-  document.getElementById('in-y').value='';document.getElementById('in-m').value='';
-  document.getElementById('in-d').value='';document.getElementById('in-h').value='';
-  document.getElementById('in-min').value='';document.getElementById('in-city').value='';
-  pickGender('');document.getElementById('pg-res').innerHTML='';goPage('home');
-}
-
-// ===== 달토 채팅 시스템 =====
-var chatHistory = [];
-var chatSaju = null;
-var chatMbti = null;
-var isChatLoading = false;
-var chatRoomActive = false;
-
-function initChatPage(){
-  if(window._lastSaju){
-    chatSaju = window._lastSaju;
-    chatMbti = window._lastMBTI;
-    document.getElementById('chat-start-has-saju').style.display='block';
-    document.getElementById('chat-start-no-saju').style.display='none';
-    document.getElementById('chat-start-info').textContent=window._lastSaju.P[2].s+window._lastSaju.P[2].b+'일주 × '+window._lastMBTI;
-    if(chatRoomActive){
-      document.getElementById('chat-start-screen').style.display='none';
-      document.getElementById('chat-room').style.display='flex';
-    } else {
-      document.getElementById('chat-start-screen').style.display='flex';
-      document.getElementById('chat-room').style.display='none';
-    }
+  var sys = '';
+  if (mode === 'fire') {
+    sys = '당신은 "달토"라는 이름의 사주 전문 AI 상담사입니다. 달토는 귀여운 토끼 캐릭터이지만 팩폭(팩트 폭격) 모드입니다.\n\n';
+    sys += '## 달토의 성격 (팩폭 모드)\n';
+    sys += '- 직설적이고 냉정한 팩트 전달\n';
+    sys += '- 위로보다 현실 직시를 유도\n';
+    sys += '- 사주 용어를 정확히 사용하되 핵심만 콕콕 찔러줌\n';
+    sys += '- 이모지를 적절히 사용하되 냉소적으로\n';
+    sys += '- 답변은 상세하게, 최소 5문장 이상으로\n';
+    sys += '- "그래서 어쩌라고?"식 반응 금지. 팩트 지적 후 반드시 실질적 대안 제시\n';
+    sys += '- 마크다운 문법 절대 사용하지 마. **볼드**, # 헤더 같은거 쓰지마. 일반 텍스트로만.\n\n';
   } else {
-    document.getElementById('chat-start-has-saju').style.display='none';
-    document.getElementById('chat-start-no-saju').style.display='block';
-    document.getElementById('chat-start-screen').style.display='flex';
-    document.getElementById('chat-room').style.display='none';
+    sys = '당신은 "달토"라는 이름의 사주 전문 AI 상담사입니다. 달토는 귀여운 토끼 캐릭터이지만 사주 분석은 매우 전문적입니다.\n\n';
+    sys += '## 달토의 성격\n';
+    sys += '- 따뜻하고 공감을 잘 하는 전문 상담사\n';
+    sys += '- 사주 용어를 쉽게 풀어서 설명\n';
+    sys += '- 긍정적이면서도 현실적인 조언\n';
+    sys += '- 이모지를 적절히 사용해서 친근하게\n';
+    sys += '- 답변은 상세하게, 최소 5문장 이상으로\n';
+    sys += '- 사주학 원리를 근거로 설명하되 쉬운 비유를 곁들여줘\n';
+    sys += '- 마크다운 문법 절대 사용하지 마. **볼드**, # 헤더 같은거 쓰지마. 일반 텍스트로만.\n\n';
   }
-}
 
-function enterChatRoom(){
-  chatRoomActive = true;
-  document.getElementById('chat-start-screen').style.display='none';
-  document.getElementById('chat-room').style.display='flex';
-  if(document.getElementById('chat-messages').children.length===0){
-    var ilju = chatSaju ? chatSaju.P[2].s+chatSaju.P[2].b : '';
-    var greeting = '안녕하세요! 저는 사주 상담사 달토예요 🐰✨\n'+ilju+'님의 사주를 보고 있어요. 궁금한 게 있으시면 편하게 물어보세요!\n아래 버튼을 눌러 빠르게 시작할 수도 있어요 👇';
-    appendChatBubble('ai', greeting);
-  }
-  scrollChatToBottom();
-}
-
-function exitChatRoom(){
-  chatRoomActive = false;
-  document.getElementById('chat-start-screen').style.display='flex';
-  document.getElementById('chat-room').style.display='none';
-}
-
-function startChatFromResult(){
-  if(window._lastSaju){
-    chatSaju = window._lastSaju;
-    chatMbti = window._lastMBTI;
-  }
-  goPage('chat');
-  setTimeout(function(){ enterChatRoom(); }, 50);
-}
-
-function appendChatBubble(type, text, id){
-  var area = document.getElementById('chat-messages');
-  var row = document.createElement('div');
-  row.className = 'chat-bubble-row ' + (type==='user' ? 'chat-user' : 'chat-ai');
-  var html = '';
-  if(type==='ai'){
-    html += '<div class="chat-avatar">🐰</div>';
-  }
-  var bubbleClass = type==='user' ? 'chat-bubble-user' : 'chat-bubble-ai';
-  html += '<div class="chat-bubble '+bubbleClass+'"'+(id?' id="'+id+'"':'')+'>';
-  html += text ? textToHtml(text) : '';
-  html += '</div>';
-  row.innerHTML = html;
-  // 시간 표시
-  var timeRow = document.createElement('div');
-  var now = new Date();
-  var h = now.getHours(), m = now.getMinutes();
-  var ampm = h < 12 ? '오전' : '오후';
-  var hh = h % 12; if(hh===0) hh=12;
-  timeRow.className = type==='user' ? 'chat-time chat-time-user' : 'chat-time chat-time-ai';
-  timeRow.textContent = ampm + ' ' + hh + ':' + String(m).padStart(2,'0');
-  area.appendChild(row);
-  area.appendChild(timeRow);
-  scrollChatToBottom();
-}
-
-function textToHtml(text){
-  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-}
-
-function updateChatBubble(id, text){
-  var el = document.getElementById(id);
-  if(el) el.innerHTML = textToHtml(text);
-}
-
-function showTypingIndicator(){
-  var area = document.getElementById('chat-messages');
-  var row = document.createElement('div');
-  row.className = 'chat-bubble-row chat-ai';
-  row.id = 'chat-typing-row';
-  row.innerHTML = '<div class="chat-avatar">🐰</div><div class="chat-bubble chat-bubble-ai"><span class="chat-typing-dot"></span><span class="chat-typing-dot"></span><span class="chat-typing-dot"></span></div>';
-  area.appendChild(row);
-  scrollChatToBottom();
-}
-
-function hideTypingIndicator(){
-  var el = document.getElementById('chat-typing-row');
-  if(el) el.remove();
-}
-
-function scrollChatToBottom(){
-  var area = document.getElementById('chat-messages');
-  if(area) setTimeout(function(){ area.scrollTop = area.scrollHeight; }, 50);
-}
-
-function showQuickButtons(){
-  var el = document.getElementById('chat-quick-area');
-  if(el) el.style.display = 'block';
-}
-
-function hideQuickButtons(){
-  var el = document.getElementById('chat-quick-area');
-  if(el) el.style.display = 'none';
-}
-
-function autoResizeChatInput(){
-  var el = document.getElementById('chat-input');
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
-}
-
-function updateSendBtn(){
-  var input = document.getElementById('chat-input');
-  var btn = document.getElementById('chat-send-btn');
-  var hasText = input.value.trim().length > 0;
-  btn.disabled = !hasText;
-  btn.className = 'chat-send-btn' + (hasText ? ' chat-send-active' : '');
-}
-
-function chatInputKeydown(e){
-  if(e.key==='Enter' && !e.shiftKey){
-    e.preventDefault();
-    sendChatMessage();
-  }
-}
-
-async function sendChatMessage(text){
-  var input = document.getElementById('chat-input');
-  if(!text) text = input.value;
-  if(!text || !text.trim() || isChatLoading) return;
-  text = text.trim();
-  isChatLoading = true;
-
-  appendChatBubble('user', text);
-  chatHistory.push({role: 'user', content: text});
-
-  input.value = '';
-  input.style.height = 'auto';
-  updateSendBtn();
-  hideQuickButtons();
-  showTypingIndicator();
-
-  var sys = '당신은 "달토"라는 이름의 사주 전문 AI 상담사입니다. 달토는 귀여운 토끼 캐릭터이지만 사주 분석은 매우 전문적입니다.\n\n';
-  sys += '## 달토의 성격\n';
-  sys += '- 따뜻하고 공감을 잘 하는 전문 상담사\n';
-  sys += '- 사주 용어를 쉽게 풀어서 설명\n';
-  sys += '- 긍정적이면서도 현실적인 조언\n';
-  sys += '- 이모지를 적절히 사용해서 친근하게\n';
-  sys += '- 답변은 상세하게, 최소 5문장 이상으로\n';
-  sys += '- 사주학 원리를 근거로 설명하되 쉬운 비유를 곁들여줘\n';
-  sys += '- 마크다운 문법 절대 사용하지 마. **볼드**, # 헤더 같은거 쓰지마. 일반 텍스트로만.\n\n';
-
-  if(chatSaju){
+  if (saju) {
     sys += '## 상담자 사주 정보\n';
-    sys += JSON.stringify(chatSaju) + '\n\n';
+    sys += JSON.stringify(saju) + '\n\n';
   }
-  if(chatMbti){
-    sys += '## 상담자 MBTI: ' + chatMbti + '\n\n';
+  if (mbti) {
+    sys += '## 상담자 MBTI: ' + mbti + '\n\n';
   }
   sys += '한국어로만 답변하세요.';
   sys += '\n\n[CRITICAL INSTRUCTION] You MUST respond with plain text only. No JSON, no markdown. Just natural conversational Korean text.';
 
-  var bubbleId = 'chat-ai-' + Date.now();
-  appendChatBubble('ai', '', bubbleId);
-  hideTypingIndicator();
+  return { systemPrompt: sys, messages: chatHistory || [] };
+}
+
+async function sendChatToAI(params, callbacks) {
+  // params = { apiKey, systemPrompt, messages, endpoint }
+  // callbacks = { onChunk(text), onComplete(fullText), onError(err) }
+  var endpoint = params.endpoint || '/api/chat';
 
   try {
-    var r = await fetch('/api/chat', {
+    var r = await fetch(endpoint, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({systemPrompt: sys, messages: chatHistory})
+      body: JSON.stringify({systemPrompt: params.systemPrompt, messages: params.messages})
     });
 
-    if(!r.ok) throw new Error('HTTP_' + r.status);
+    if (!r.ok) throw new Error('HTTP_' + r.status);
 
     var reader = r.body.getReader();
     var decoder = new TextDecoder();
     var fullText = '', buffer = '';
 
-    while(true){
+    while (true) {
       var chunk = await reader.read();
-      if(chunk.done) break;
+      if (chunk.done) break;
       buffer += decoder.decode(chunk.value, {stream: true});
       var lines = buffer.split('\n');
       buffer = lines.pop() || '';
-      for(var i = 0; i < lines.length; i++){
+      for (var i = 0; i < lines.length; i++) {
         var line = lines[i].trim();
-        if(!line.startsWith('data: ')) continue;
+        if (!line.startsWith('data: ')) continue;
         var jsonStr = line.substring(6);
-        if(jsonStr === '[DONE]') continue;
+        if (jsonStr === '[DONE]') continue;
         try {
           var evt = JSON.parse(jsonStr);
-          if(evt.type === 'content_block_delta' && evt.delta && evt.delta.text){
+          if (evt.type === 'content_block_delta' && evt.delta && evt.delta.text) {
             fullText += evt.delta.text;
-            updateChatBubble(bubbleId, fullText);
-            scrollChatToBottom();
+            if (callbacks.onChunk) callbacks.onChunk(fullText);
           }
         } catch(pe) {}
       }
     }
 
-    chatHistory.push({role: 'assistant', content: fullText});
-    if(chatHistory.length > 20){
-      chatHistory = chatHistory.slice(-20);
-    }
-
+    if (callbacks.onComplete) callbacks.onComplete(fullText);
+    return fullText;
   } catch(err) {
-    updateChatBubble(bubbleId, '앗, 연결에 문제가 생겼어요 🥺 다시 한번 물어봐 주시겠어요?');
     console.error('[MBTS Chat]', err);
+    if (callbacks.onError) callbacks.onError(err.message || 'UNKNOWN');
+    return '';
   }
-
-  isChatLoading = false;
-  scrollChatToBottom();
-  showQuickButtons();
 }
 
-initBirth();
-
-// ★ localStorage 복원
-(function restoreLastResult(){
-  try{
-    var saved=localStorage.getItem('mbts_lastResult');
-    if(!saved)return;
-    var data=JSON.parse(saved);
-    // 입력값 복원
-    ST.y=data.input.y;ST.m=data.input.m;ST.d=data.input.d;
-    ST.h=data.input.h;ST.min=data.input.min;
-    ST.gender=data.input.gender;
-    ST.city=data.input.city||'';ST.cityLng=data.input.cityLng||0;
-    ST.ch=data.input.ch;ST.it=data.input.it;
-    // 전역변수 복원
-    window._lastSaju=data.saju;window._lastDW=data.dw;window._lastGG=data.gg;
-    window._lastMBTI=data.mbti;window._lastMBTIObj=data.mbtiObj;
-    window._lastAIResult=data.aiResult;window._lastIsAI=data.isAI;
-    console.log('[MBTS] localStorage에서 이전 분석 결과 복원됨');
-  }catch(e){console.warn('[MBTS] localStorage 복원 실패:',e);}
-})();
-
-// 카카오 SDK 초기화
-if(typeof Kakao!=='undefined'&&!Kakao.isInitialized()){
-  Kakao.init('여기에_카카오_JavaScript_앱키_입력');
-  console.log('[MBTS] Kakao SDK 초기화 완료');
-}
-
-setTimeout(function(){document.getElementById('land-inner').style.opacity='1';document.getElementById('land-inner').style.transform='translateY(0)';},100);
-
-// Stars animation
-(function(){
-  var c=document.getElementById('stars-container');
-  if(!c)return;
-  for(var i=0;i<50;i++){
-    var s=document.createElement('div');
-    s.className='star';
-    s.style.left=Math.random()*100+'%';
-    s.style.top=Math.random()*100+'%';
-    s.style.setProperty('--dur',(2+Math.random()*4)+'s');
-    s.style.setProperty('--delay',(Math.random()*5)+'s');
-    if(Math.random()>0.7)s.style.width=s.style.height='3px';
-    c.appendChild(s);
-  }
-})();
-</script>
-</body>
-</html>
+/* ====== engine.js 외부 인터페이스 ======
+ * 
+ * [사주 계산]
+ * calcSajuForApp(y, m, d, h, min, cityLng) → 사주 객체
+ * analyzeGyeokguk(saju) → 격국 분석 객체
+ * calcDaewoon(saju, y, m, d, h, min, gender) → 대운 객체
+ * calcRelations(saju) → 합충형 관계
+ * calcGongmang(saju) → 공망
+ * getAnimalResult(oheng, dominantSipsung, condition) → 운명동물
+ *
+ * [AI 분석]
+ * runSajuAnalysis(params, callbacks) → AI 사주 풀이
+ * runGunghapAnalysis(paramsA, paramsB, relType, callbacks) → AI 궁합 풀이
+ * buildChatPrompt(saju, mbti, gg, dw, history, mode) → 채팅 프롬프트
+ * sendChatToAI(params, callbacks) → 달토 채팅
+ * mkFB(saju, mt, gg) → AI 실패 시 폴백
+ *
+ * [데이터]
+ * CITY_DATA, ANIMALS, TY, DM_AX, IN_OP, MI
+ * EC_DARK, EJ, TGAN_KR, JIJI_KR
+ * ILJU_DATA, ILJU_KW, SSP, GUNGHAP_SYSTEM
+ * ======================================= */

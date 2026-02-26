@@ -1,4 +1,14 @@
 @import "tailwindcss";
+@source not "../public";
+@source not "../v4_patch_full_message.txt";
+@source not "../v4_patch_message.txt";
+@source not "../*.txt";
+@source not "../_*.js";
+@source not "../test-*";
+@source not "../extract*";
+@source not "../search*";
+@source not "../*.ps1";
+@source not "../nul";
 
 :root {
   --background: #ffffff;

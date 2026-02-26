@@ -1,32 +1,15 @@
-const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages'
-const PRIMARY_MODEL = 'claude-sonnet-4-5-20250929'
-const FALLBACK_MODEL = 'claude-sonnet-4-20250514'
+import Anthropic from '@anthropic-ai/sdk'
 
-async function callAnthropic(model, systemPrompt, userPrompt) {
-  const response = await fetch(ANTHROPIC_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model,
-      max_tokens: 16000,
-      stream: true,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: userPrompt }],
-    }),
-  })
+export const maxDuration = 300
 
-  return response
-}
+const client = new Anthropic()
+const MODEL = 'claude-sonnet-4-6'
 
 export async function POST(request) {
   console.log('[analyze] 요청 시작')
 
   try {
-    const { systemPrompt, userPrompt } = await request.json()
+    const { systemPrompt, userPrompt, model } = await request.json()
 
     if (!systemPrompt || !userPrompt) {
       return Response.json(
@@ -36,32 +19,48 @@ export async function POST(request) {
     }
 
     // JSON 응답 강제 지시 추가
-    const finalSystemPrompt = systemPrompt + '\n\n[CRITICAL INSTRUCTION] You MUST respond with ONLY a valid JSON object. Do NOT include any text before or after the JSON. No greetings, no explanations, no markdown code fences. Start your response with { and end with }. This is absolutely mandatory.';
+    const finalSystemPrompt = systemPrompt +
+      '\n\n[CRITICAL MACHINE-TO-MACHINE INSTRUCTION]\n' +
+      'This is an API endpoint, NOT a chat. Your output is fed directly into JSON.parse().\n' +
+      'Rules:\n' +
+      '1. First character of your response MUST be {\n' +
+      '2. Last character MUST be }\n' +
+      '3. ZERO text before { or after }\n' +
+      '4. NO markdown (```), NO comments, NO apologies, NO preamble\n' +
+      '5. All string values must use proper JSON escaping (\\n for newlines, \\\\ for backslash, \\" for quotes)\n' +
+      '6. Violation = system crash. Comply exactly.'
 
-    // 1차 시도: Primary 모델
-    console.log(`[analyze] 1차 시도: ${PRIMARY_MODEL}`)
-    let response = await callAnthropic(PRIMARY_MODEL, finalSystemPrompt, userPrompt)
+    const useModel = model || MODEL
+    console.log(`[analyze] 모델: ${useModel}`)
 
-    // 400 또는 404일 때만 폴백
-    if (response.status === 400 || response.status === 404) {
-      console.log(`[analyze] 1차 실패 (${response.status}), 폴백: ${FALLBACK_MODEL}`)
-      response = await callAnthropic(FALLBACK_MODEL, finalSystemPrompt, userPrompt)
-    }
+    const stream = await client.messages.create({
+      model: useModel,
+      max_tokens: 24000,
+      temperature: 0.8,
+      stream: true,
+      system: finalSystemPrompt,
+      messages: [{ role: 'user', content: userPrompt }],
+    })
 
-    // 폴백 후에도 실패하면 에러 반환
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error(`[analyze] API 에러 (${response.status}):`, errorText)
-      return Response.json(
-        { error: `Anthropic API 에러: ${response.status}` },
-        { status: response.status }
-      )
-    }
+    const encoder = new TextEncoder()
+    const readableStream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const event of stream) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(event)}\n\n`))
+          }
+          controller.enqueue(encoder.encode('data: [DONE]\n\n'))
+          controller.close()
+        } catch (err) {
+          console.error('[analyze] 스트림 에러:', err.message)
+          const errEvent = { type: 'error', error: { message: err.message } }
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(errEvent)}\n\n`))
+          controller.close()
+        }
+      },
+    })
 
-    console.log('[analyze] 스트리밍 응답 전달 시작')
-
-    // SSE 스트림을 그대로 클라이언트에 전달
-    return new Response(response.body, {
+    return new Response(readableStream, {
       headers: {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
@@ -70,6 +69,12 @@ export async function POST(request) {
     })
   } catch (error) {
     console.error('[analyze] 서버 에러:', error)
+    if (error.status === 529 || (error.error && error.error.type === 'overloaded_error')) {
+      return Response.json(
+        { error: 'overloaded_error' },
+        { status: 529 }
+      )
+    }
     return Response.json(
       { error: '서버 내부 에러가 발생했습니다.' },
       { status: 500 }
