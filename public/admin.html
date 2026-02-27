@@ -292,6 +292,22 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .pw-modal-confirm{flex:1;padding:12px;background:#8B6CC1;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
 .pw-modal-confirm:hover{opacity:0.9}
 .pw-modal-confirm:disabled{opacity:0.5;cursor:not-allowed}
+
+/* ===== Charts ===== */
+.chart-section{margin-top:20px}
+.chart-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.chart-section-title{font-size:16px;font-weight:800;color:#1C1C1E}
+.chart-copy-btn{padding:6px 14px;background:rgba(139,108,193,0.1);color:#8B6CC1;border:none;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+.chart-copy-btn:hover{background:rgba(139,108,193,0.2)}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+@media(max-width:768px){.chart-grid{grid-template-columns:1fr}}
+.chart-card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.chart-card-title{font-size:13px;font-weight:700;color:#636366;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.chart-card canvas{width:100%!important;max-height:200px}
+.chart-loading{text-align:center;padding:40px 0;color:#AEAEB2;font-size:13px}
+.chart-tab-bar{display:flex;gap:4px;margin-bottom:12px}
+.chart-tab{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #E5E5EA;background:#fff;color:#636366;font-family:inherit;transition:all .2s}
+.chart-tab.active{background:#8B6CC1;color:#fff;border-color:#8B6CC1}
 </style>
 </head>
 <body>
@@ -385,6 +401,47 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 
     <button class="report-btn" onclick="copyReport()">📋 상태 리포트 복사</button>
     <button class="seed-btn" onclick="runSeed()">🔧 테스트 데이터 생성</button>
+
+    <!-- Charts Section -->
+    <div class="chart-section">
+      <div class="chart-section-header">
+        <div class="chart-section-title">📊 서비스 분석</div>
+        <button class="chart-copy-btn" onclick="copyChartReport()">📋 차트 데이터 복사</button>
+      </div>
+
+      <div class="chart-tab-bar" id="chartTabBar">
+        <button class="chart-tab active" onclick="setChartPeriod('today')">오늘</button>
+        <button class="chart-tab" onclick="setChartPeriod('7days')">최근 7일</button>
+      </div>
+
+      <!-- 오늘 차트 (24시간) -->
+      <div id="chartToday">
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-card-title">📊 시간대별 분석 요청</div>
+            <canvas id="chartHourlyActivity"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">🍀 시간대별 클로버 흐름</div>
+            <canvas id="chartHourlyClover"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7일 차트 -->
+      <div id="chart7days" style="display:none">
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-card-title">📈 일별 활동 트렌드</div>
+            <canvas id="chartDailyTrend"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">💰 일별 API 비용 추정</div>
+            <canvas id="chartDailyCost"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="section-title">최근 관리자 활동</div>
     <div id="logArea" class="log-card">
@@ -574,6 +631,7 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 var adminToken='';
 var dashData=null;
@@ -669,6 +727,7 @@ function loadDashboard(){
   }).then(function(d){
     dashData=d;
     renderDashboard(d);
+    loadCharts();
   }).catch(function(e){
     console.error('[admin] dashboard error:',e);
     renderDashboard({
@@ -1645,6 +1704,271 @@ function runSeed(){
     showToast('서버 연결 실패');
     console.error('[seed] fetch 에러:', e);
   });
+}
+
+// ===== Charts =====
+var chartInstances={};
+var chartData=null;
+var chartPeriod='today';
+
+function setChartPeriod(period){
+  chartPeriod=period;
+  var tabs=document.querySelectorAll('.chart-tab');
+  for(var i=0;i<tabs.length;i++){
+    var p=tabs[i].getAttribute('onclick').match(/'([^']+)'/);
+    if(p) tabs[i].classList.toggle('active',p[1]===period);
+  }
+  document.getElementById('chartToday').style.display=(period==='today')?'block':'none';
+  document.getElementById('chart7days').style.display=(period==='7days')?'block':'none';
+}
+
+function loadCharts(){
+  fetch('/api/admin/analytics',{
+    headers:{'Authorization':'Bearer '+adminToken}
+  }).then(function(r){return r.json();})
+  .then(function(d){
+    chartData=d;
+    renderHourlyActivity(d.hourly||[]);
+    renderHourlyClover(d.hourly_clover||[]);
+    renderDailyTrend(d.daily||[]);
+    renderDailyCost(d.daily||[]);
+  }).catch(function(e){
+    console.error('[charts] load error:',e);
+  });
+}
+
+function destroyChart(id){
+  if(chartInstances[id]){
+    chartInstances[id].destroy();
+    delete chartInstances[id];
+  }
+}
+
+function renderHourlyActivity(data){
+  destroyChart('hourlyActivity');
+  var labels=[];
+  var sajuData=[];
+  var gunghapData=[];
+  var chatData=[];
+  for(var h=0;h<24;h++){
+    labels.push(h+'시');
+    var found=null;
+    for(var j=0;j<data.length;j++){
+      if(data[j].hour===h){found=data[j];break;}
+    }
+    sajuData.push(found?found.saju:0);
+    gunghapData.push(found?found.gunghap:0);
+    chatData.push(found?found.chat:0);
+  }
+  var ctx=document.getElementById('chartHourlyActivity');
+  if(!ctx) return;
+  chartInstances['hourlyActivity']=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:labels,
+      datasets:[
+        {label:'사주',data:sajuData,backgroundColor:'rgba(139,108,193,0.7)',borderRadius:4,barPercentage:0.8},
+        {label:'궁합',data:gunghapData,backgroundColor:'rgba(212,115,139,0.7)',borderRadius:4,barPercentage:0.8},
+        {label:'채팅',data:chatData,backgroundColor:'rgba(70,130,180,0.7)',borderRadius:4,barPercentage:0.8}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:12,font:{size:10,family:'Pretendard Variable'}}}},
+      scales:{
+        x:{stacked:true,grid:{display:false},ticks:{font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:12}},
+        y:{stacked:true,beginAtZero:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},stepSize:1}}
+      }
+    }
+  });
+}
+
+function renderHourlyClover(data){
+  destroyChart('hourlyClover');
+  var labels=[];
+  var givenData=[];
+  var usedData=[];
+  for(var h=0;h<24;h++){
+    labels.push(h+'시');
+    var found=null;
+    for(var j=0;j<data.length;j++){
+      if(data[j].hour===h){found=data[j];break;}
+    }
+    givenData.push(found?found.given:0);
+    usedData.push(found?-(found.used):0);
+  }
+  var ctx=document.getElementById('chartHourlyClover');
+  if(!ctx) return;
+  chartInstances['hourlyClover']=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:labels,
+      datasets:[
+        {label:'지급',data:givenData,backgroundColor:'rgba(76,175,125,0.7)',borderRadius:4},
+        {label:'사용',data:usedData,backgroundColor:'rgba(224,90,90,0.7)',borderRadius:4}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:12,font:{size:10,family:'Pretendard Variable'}}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:12}},
+        y:{beginAtZero:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10}}}
+      }
+    }
+  });
+}
+
+function renderDailyTrend(data){
+  destroyChart('dailyTrend');
+  var labels=[];
+  var signupData=[];
+  var sajuData=[];
+  var gunghapData=[];
+  var chatData=[];
+  for(var i=0;i<data.length;i++){
+    var d=data[i];
+    labels.push(d.date?d.date.slice(5):'');
+    signupData.push(d.signups||0);
+    sajuData.push(d.saju||0);
+    gunghapData.push(d.gunghap||0);
+    chatData.push(d.chat||0);
+  }
+  var ctx=document.getElementById('chartDailyTrend');
+  if(!ctx) return;
+  chartInstances['dailyTrend']=new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:labels,
+      datasets:[
+        {label:'신규가입',data:signupData,borderColor:'#8B6CC1',backgroundColor:'rgba(139,108,193,0.1)',fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:'#8B6CC1',borderWidth:2},
+        {label:'사주',data:sajuData,borderColor:'#4CAF7D',backgroundColor:'transparent',tension:0.3,pointRadius:3,pointBackgroundColor:'#4CAF7D',borderWidth:2},
+        {label:'궁합',data:gunghapData,borderColor:'#D4738B',backgroundColor:'transparent',tension:0.3,pointRadius:3,pointBackgroundColor:'#D4738B',borderWidth:2},
+        {label:'채팅',data:chatData,borderColor:'#4682B4',backgroundColor:'transparent',tension:0.3,pointRadius:3,pointBackgroundColor:'#4682B4',borderWidth:2,borderDash:[4,4]}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:12,font:{size:10,family:'Pretendard Variable'}}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:10}}},
+        y:{beginAtZero:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},stepSize:1}}
+      }
+    }
+  });
+}
+
+function renderDailyCost(data){
+  destroyChart('dailyCost');
+  var labels=[];
+  var costData=[];
+  var countData=[];
+  for(var i=0;i<data.length;i++){
+    var d=data[i];
+    labels.push(d.date?d.date.slice(5):'');
+    var totalAnalysis=(d.saju||0)+(d.gunghap||0);
+    var cost=Math.round(totalAnalysis*0.05*100)/100;
+    costData.push(cost);
+    countData.push(totalAnalysis);
+  }
+  var ctx=document.getElementById('chartDailyCost');
+  if(!ctx) return;
+  chartInstances['dailyCost']=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:labels,
+      datasets:[
+        {label:'API 비용 ($)',data:costData,backgroundColor:'rgba(201,154,46,0.6)',borderRadius:6,yAxisID:'y'},
+        {label:'분석 건수',data:countData,type:'line',borderColor:'#636366',backgroundColor:'transparent',tension:0.3,pointRadius:3,pointBackgroundColor:'#636366',borderWidth:2,yAxisID:'y1'}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:12,font:{size:10,family:'Pretendard Variable'}}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:10}}},
+        y:{beginAtZero:true,position:'left',grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},callback:function(v){return '$'+v}}},
+        y1:{beginAtZero:true,position:'right',grid:{display:false},ticks:{font:{size:10},stepSize:1}}
+      }
+    }
+  });
+}
+
+// ===== Chart Report Copy =====
+function copyChartReport(){
+  if(!chartData){showToast('차트 데이터가 없습니다');return;}
+
+  var now=new Date();
+  var dateStr=now.getFullYear()+'.'+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+'.'+(now.getDate()<10?'0':'')+now.getDate();
+  var text='MBTS 서비스 분석 리포트 ('+dateStr+')\n';
+  text+='========================================\n\n';
+
+  // 오늘 시간대별 분석
+  text+='[오늘 시간대별 분석 요청]\n';
+  var hourly=chartData.hourly||[];
+  var totalSaju=0;var totalGunghap=0;var totalChat=0;
+  var peakHour=0;var peakCount=0;
+  for(var h=0;h<24;h++){
+    var found=null;
+    for(var j=0;j<hourly.length;j++){
+      if(hourly[j].hour===h){found=hourly[j];break;}
+    }
+    var s=found?found.saju:0;
+    var g=found?found.gunghap:0;
+    var c=found?found.chat:0;
+    var total=s+g+c;
+    totalSaju+=s;totalGunghap+=g;totalChat+=c;
+    if(total>peakCount){peakCount=total;peakHour=h;}
+    if(total>0) text+='  '+h+'시: 사주 '+s+' / 궁합 '+g+' / 채팅 '+c+' (합계 '+total+')\n';
+  }
+  text+='  → 합계: 사주 '+totalSaju+' / 궁합 '+totalGunghap+' / 채팅 '+totalChat+'\n';
+  text+='  → 피크 시간: '+peakHour+'시 ('+peakCount+'건)\n\n';
+
+  // 오늘 클로버 흐름
+  text+='[오늘 클로버 흐름]\n';
+  var hClover=chartData.hourly_clover||[];
+  var totalGiven=0;var totalUsed=0;
+  for(var h2=0;h2<hClover.length;h2++){
+    totalGiven+=(hClover[h2].given||0);
+    totalUsed+=(hClover[h2].used||0);
+  }
+  text+='  지급: +'+totalGiven+' / 사용: -'+totalUsed+' / 순증감: '+(totalGiven-totalUsed)+'\n\n';
+
+  // 7일 트렌드
+  text+='[최근 7일 트렌드]\n';
+  var daily=chartData.daily||[];
+  var weekSaju=0;var weekGh=0;var weekChat=0;var weekSignups=0;
+  for(var i=0;i<daily.length;i++){
+    var dd=daily[i];
+    var dSaju=dd.saju||0;var dGh=dd.gunghap||0;var dChat=dd.chat||0;var dSign=dd.signups||0;
+    weekSaju+=dSaju;weekGh+=dGh;weekChat+=dChat;weekSignups+=dSign;
+    text+='  '+dd.date+': 가입 '+dSign+' / 사주 '+dSaju+' / 궁합 '+dGh+' / 채팅 '+dChat+'\n';
+  }
+  text+='  → 7일 합계: 가입 '+weekSignups+' / 사주 '+weekSaju+' / 궁합 '+weekGh+' / 채팅 '+weekChat+'\n\n';
+
+  // 7일 API 비용
+  text+='[최근 7일 API 비용 추정]\n';
+  var weekCost=0;
+  for(var k=0;k<daily.length;k++){
+    var dAnalysis=(daily[k].saju||0)+(daily[k].gunghap||0);
+    var dCost=Math.round(dAnalysis*0.05*100)/100;
+    weekCost+=dCost;
+    text+='  '+daily[k].date+': $'+dCost.toFixed(2)+' ('+dAnalysis+'건)\n';
+  }
+  text+='  → 7일 합계: $'+weekCost.toFixed(2)+'\n';
+  text+='  → 월 예상: $'+(Math.round(weekCost/7*30*100)/100).toFixed(2)+'\n';
+
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      showToast('차트 리포트 복사 완료!');
+    }).catch(function(){fallbackCopy(text);});
+  }else{
+    fallbackCopy(text);
+  }
 }
 
 // ===== Init =====
