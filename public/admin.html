@@ -252,6 +252,23 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .dash-card-sm .dash-card-label{font-size:11px}
 .dash-card-sm .dash-card-value{font-size:22px}
 .dash-card-sm .dash-card-sub{font-size:10px}
+
+/* ===== Clover Bulk ===== */
+.clover-bulk-card{background:linear-gradient(135deg,rgba(76,175,125,0.06),rgba(139,108,193,0.06));border:1.5px dashed #8B6CC1;border-radius:16px;padding:20px;margin-bottom:20px}
+.clover-bulk-title{font-size:14px;font-weight:700;color:#8B6CC1;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.clover-bulk-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.clover-bulk-amount{width:90px;padding:10px 12px;border:1.5px solid #E5E5EA;border-radius:10px;font-size:14px;font-weight:700;text-align:center;outline:none;font-family:inherit}
+.clover-bulk-amount:focus{border-color:#8B6CC1}
+.clover-bulk-reason{flex:1;min-width:140px;padding:10px 12px;border:1.5px solid #E5E5EA;border-radius:10px;font-size:13px;outline:none;font-family:inherit}
+.clover-bulk-reason:focus{border-color:#8B6CC1}
+.clover-bulk-target{padding:10px 14px;border:1.5px solid #E5E5EA;border-radius:10px;font-size:13px;outline:none;font-family:inherit;background:#fff;-webkit-appearance:auto}
+.clover-bulk-btn{padding:10px 20px;background:linear-gradient(135deg,#4CAF7D,#3D9E6E);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.clover-bulk-btn:hover{opacity:0.9}
+.clover-bulk-btn:disabled{opacity:0.5;cursor:not-allowed}
+.clover-bulk-info{font-size:11px;color:#AEAEB2;margin-top:8px}
+
+/* ===== Popup Notice Badge ===== */
+.notice-popup-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;background:rgba(212,115,139,0.1);color:#D4738B}
 </style>
 </head>
 <body>
@@ -371,6 +388,21 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 
   <!-- Tab 2: Clover -->
   <div class="tab-content" id="tabClover">
+    <!-- Bulk Give -->
+    <div class="clover-bulk-card">
+      <div class="clover-bulk-title">🎁 클로버 일괄 지급</div>
+      <div class="clover-bulk-row">
+        <select class="clover-bulk-target" id="bulkTarget">
+          <option value="all">전체 유저</option>
+          <option value="active">활성 유저만 (비차단)</option>
+        </select>
+        <input class="clover-bulk-amount" id="bulkAmount" type="number" placeholder="수량" min="1" value="10">
+        <input class="clover-bulk-reason" id="bulkReason" type="text" placeholder="사유 (예: 오픈 기념 이벤트)">
+        <button class="clover-bulk-btn" id="bulkGiveBtn" onclick="bulkGiveClover()">🍀 일괄 지급</button>
+      </div>
+      <div class="clover-bulk-info" id="bulkInfo">전체 유저에게 동시 지급됩니다. 신중하게 사용하세요.</div>
+    </div>
+
     <div class="clover-search">
       <input class="clover-search-input" id="cloverUserSearch" type="text" placeholder="유저 닉네임, 이메일 또는 ID 검색" onkeydown="if(event.key==='Enter')searchCloverUser()">
       <button class="clover-search-btn" onclick="searchCloverUser()">검색</button>
@@ -474,6 +506,9 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
       </label>
       <label class="notice-toggle-item">
         <input type="checkbox" id="noticeInputPublished" checked> 👁️ 공개
+      </label>
+      <label class="notice-toggle-item">
+        <input type="checkbox" id="noticeInputPopup"> 🔔 팝업 표시
       </label>
     </div>
     <div class="notice-modal-actions">
@@ -1031,6 +1066,46 @@ function adjustClover(type){
   });
 }
 
+// ===== Clover Bulk =====
+function bulkGiveClover(){
+  var target=document.getElementById('bulkTarget').value;
+  var amount=parseInt(document.getElementById('bulkAmount').value);
+  var reason=document.getElementById('bulkReason').value.trim();
+
+  if(!amount||amount<=0){showToast('수량을 입력하세요');return;}
+  if(amount>1000){showToast('안전을 위해 최대 1,000개까지만 일괄 지급 가능합니다');return;}
+  if(!reason){showToast('사유를 입력하세요');return;}
+
+  var targetLabel=(target==='all')?'전체 유저':'활성 유저';
+  var msg='⚠️ '+targetLabel+'에게 '+amount+'🍀 일괄 지급합니다.\n\n사유: '+reason+'\n\n정말 진행하시겠습니까?';
+  if(!confirm(msg)) return;
+  if(!confirm('한번 더 확인: '+targetLabel+' 전원에게 '+amount+'🍀 지급. 되돌릴 수 없습니다.')) return;
+
+  var btn=document.getElementById('bulkGiveBtn');
+  btn.disabled=true;
+  btn.textContent='지급 중...';
+
+  fetch('/api/admin/clover',{
+    method:'PUT',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},
+    body:JSON.stringify({target:target,amount:amount,reason:reason})
+  }).then(function(r){return r.json();})
+  .then(function(d){
+    btn.disabled=false;
+    btn.textContent='🍀 일괄 지급';
+    if(d.success){
+      showToast('✅ '+d.count+'명에게 '+amount+'🍀 지급 완료!');
+      document.getElementById('bulkReason').value='';
+    }else{
+      showToast('실패: '+(d.error||'알 수 없는 오류'));
+    }
+  }).catch(function(){
+    btn.disabled=false;
+    btn.textContent='🍀 일괄 지급';
+    showToast('서버 연결 실패');
+  });
+}
+
 // ===== Errors =====
 var errFilter='all';
 var errPage=1;
@@ -1214,6 +1289,7 @@ function renderNotices(notices){
     html+='<span class="notice-cat-badge ncat-'+n.category+'">'+catLabel+'</span>';
     html+=(n.title||'제목 없음');
     if(!n.is_published) html+=' <span style="font-size:11px;color:#AEAEB2">(비공개)</span>';
+    if(n.is_popup) html+=' <span class="notice-popup-badge">🔔 팝업</span>';
     html+='</div>';
     html+='<div class="notice-content-preview">'+preview+'</div>';
     html+='<div class="notice-meta">작성: '+date+(updated!==date?' · 수정: '+updated:'')+'</div>';
@@ -1236,6 +1312,7 @@ function openNoticeModal(editData){
   document.getElementById('noticeInputCategory').value='general';
   document.getElementById('noticeInputPinned').checked=false;
   document.getElementById('noticeInputPublished').checked=true;
+  document.getElementById('noticeInputPopup').checked=false;
   document.getElementById('noticeModalTitle').textContent='새 공지 작성';
 
   if(editData){
@@ -1245,6 +1322,7 @@ function openNoticeModal(editData){
     document.getElementById('noticeInputCategory').value=editData.category||'general';
     document.getElementById('noticeInputPinned').checked=!!editData.is_pinned;
     document.getElementById('noticeInputPublished').checked=editData.is_published!==false;
+    document.getElementById('noticeInputPopup').checked=!!editData.is_popup;
     document.getElementById('noticeModalTitle').textContent='공지 수정';
   }
   document.getElementById('noticeModalOverlay').classList.add('open');
@@ -1265,11 +1343,12 @@ function saveNotice(){
   var category=document.getElementById('noticeInputCategory').value;
   var isPinned=document.getElementById('noticeInputPinned').checked;
   var isPublished=document.getElementById('noticeInputPublished').checked;
+  var isPopup=document.getElementById('noticeInputPopup').checked;
 
   if(!title){showToast('제목을 입력하세요');return;}
   if(!content){showToast('내용을 입력하세요');return;}
 
-  var payload={title:title,content:content,category:category,is_pinned:isPinned,is_published:isPublished};
+  var payload={title:title,content:content,category:category,is_pinned:isPinned,is_published:isPublished,is_popup:isPopup};
 
   if(editId){
     payload.noticeId=editId;

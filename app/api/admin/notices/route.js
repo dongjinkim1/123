@@ -72,6 +72,8 @@ export async function POST(request) {
       return Response.json({ error: '제목과 내용 필요' }, { status: 400 })
     }
 
+    var isPopup = body.is_popup || false
+
     var { data: newNotice, error: insertErr } = await supabase
       .from('notices')
       .insert({
@@ -79,7 +81,8 @@ export async function POST(request) {
         content: content,
         category: category,
         is_pinned: isPinned,
-        is_published: isPublished
+        is_published: isPublished,
+        is_popup: isPopup
       })
       .select()
       .single()
@@ -127,6 +130,7 @@ export async function PATCH(request) {
     if (body.category !== undefined) updateData.category = body.category
     if (body.is_pinned !== undefined) updateData.is_pinned = body.is_pinned
     if (body.is_published !== undefined) updateData.is_published = body.is_published
+    if (body.is_popup !== undefined) updateData.is_popup = body.is_popup
 
     var { error: updateErr } = await supabase
       .from('notices')

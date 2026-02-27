@@ -137,3 +137,80 @@ export async function POST(request) {
     return Response.json({ error: error.message }, { status: 500 })
   }
 }
+
+// PUT: 클로버 일괄 지급
+export async function PUT(request) {
+  if (!authCheck(request)) {
+    return Response.json({ error: '인증 필요' }, { status: 401 })
+  }
+
+  try {
+    var supabase = getServiceSupabase()
+    var body = await request.json()
+    var target = body.target || 'all'
+    var amount = body.amount
+    var reason = body.reason || ''
+
+    if (!amount || amount <= 0) {
+      return Response.json({ error: 'amount 필요' }, { status: 400 })
+    }
+    if (amount > 1000) {
+      return Response.json({ error: '최대 1,000개까지 가능' }, { status: 400 })
+    }
+
+    // 대상 유저 조회
+    var query = supabase.from('users').select('id, clover_balance')
+    if (target === 'active') {
+      query = query.eq('is_blocked', false)
+    }
+    var { data: users, error: usersErr } = await query
+
+    if (usersErr) {
+      console.error('[admin/clover] 유저 조회 에러:', usersErr)
+      return Response.json({ error: '유저 조회 실패: ' + usersErr.message }, { status: 500 })
+    }
+
+    if (!users || users.length === 0) {
+      return Response.json({ error: '대상 유저가 없습니다' }, { status: 400 })
+    }
+
+    // 각 유저별 잔액 업데이트 + 내역 기록
+    var count = 0
+    for (var i = 0; i < users.length; i++) {
+      var u = users[i]
+      var newBalance = (u.clover_balance || 0) + amount
+
+      await supabase
+        .from('users')
+        .update({ clover_balance: newBalance })
+        .eq('id', u.id)
+
+      await supabase
+        .from('clover_history')
+        .insert({
+          user_id: u.id,
+          amount: amount,
+          balance_after: newBalance,
+          type: 'admin',
+          description: '[일괄지급] ' + reason
+        })
+
+      count++
+    }
+
+    // 관리자 로그
+    try {
+      await supabase.from('admin_logs').insert({
+        admin_id: null,
+        action: '클로버 일괄 지급: ' + count + '명 × ' + amount + '🍀 (' + reason + ')'
+      })
+    } catch (logErr) {
+      console.warn('[admin/clover] 로그 기록 실패:', logErr)
+    }
+
+    return Response.json({ success: true, count: count })
+  } catch (error) {
+    console.error('[admin/clover] PUT 에러:', error)
+    return Response.json({ error: error.message }, { status: 500 })
+  }
+}
