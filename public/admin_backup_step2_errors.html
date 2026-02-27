@@ -153,41 +153,6 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .clover-row-amount.plus{color:#4CAF7D}
 .clover-row-amount.minus{color:#E05A5A}
 .clover-row-balance{width:50px;text-align:right;color:#AEAEB2;font-size:11px;flex-shrink:0}
-
-/* ===== Errors Tab ===== */
-.err-filters{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-.err-filter-btn{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #E5E5EA;background:#fff;color:#636366;font-family:inherit;transition:all .2s}
-.err-filter-btn.active{background:#8B6CC1;color:#fff;border-color:#8B6CC1}
-.err-filter-btn .err-badge{display:inline-block;background:rgba(224,90,90,0.15);color:#E05A5A;font-size:10px;font-weight:700;padding:1px 6px;border-radius:8px;margin-left:4px}
-.err-filter-btn.active .err-badge{background:rgba(255,255,255,0.3);color:#fff}
-
-.err-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:10px;transition:all .2s;border-left:4px solid transparent}
-.err-card.unresolved{border-left-color:#E05A5A}
-.err-card.resolved{border-left-color:#4CAF7D;opacity:0.7}
-.err-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
-.err-card-left{flex:1;min-width:0}
-.err-type-badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;margin-right:6px}
-.etype-analysis{background:rgba(139,108,193,0.1);color:#8B6CC1}
-.etype-gunghap{background:rgba(212,115,139,0.1);color:#D4738B}
-.etype-chat{background:rgba(70,130,180,0.1);color:#4682B4}
-.etype-payment{background:rgba(201,154,46,0.1);color:#C99A2E}
-.etype-other{background:rgba(99,99,102,0.1);color:#636366}
-.err-status-badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700}
-.estatus-unresolved{background:rgba(224,90,90,0.1);color:#E05A5A}
-.estatus-resolved{background:rgba(76,175,125,0.1);color:#4CAF7D}
-.err-message{font-size:13px;color:#1C1C1E;font-weight:600;margin:6px 0 4px;word-break:break-all}
-.err-meta{font-size:11px;color:#AEAEB2}
-.err-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid #F0F0F0}
-.err-detail.open{display:block}
-.err-detail-label{font-size:11px;font-weight:600;color:#8B6CC1;margin-bottom:4px}
-.err-detail-json{background:#F8F7F4;border-radius:8px;padding:10px;font-size:11px;color:#636366;max-height:150px;overflow-y:auto;word-break:break-all;font-family:monospace;white-space:pre-wrap}
-.err-resolve-area{margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.err-resolve-input{flex:1;min-width:120px;padding:8px 10px;border:1.5px solid #E5E5EA;border-radius:8px;font-size:12px;outline:none;font-family:inherit}
-.err-resolve-input:focus{border-color:#8B6CC1}
-.err-resolve-clover{width:70px;padding:8px 10px;border:1.5px solid #E5E5EA;border-radius:8px;font-size:12px;outline:none;text-align:center;font-family:inherit}
-.err-resolve-btn{padding:8px 14px;background:#4CAF7D;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
-.err-toggle-btn{background:none;border:none;color:#8B6CC1;font-size:12px;font-weight:600;cursor:pointer;padding:4px 0;font-family:inherit}
-.err-resolved-info{margin-top:8px;padding:8px 12px;background:rgba(76,175,125,0.06);border-radius:8px;font-size:11px;color:#636366}
 </style>
 </head>
 <body>
@@ -312,25 +277,10 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 
   <!-- Tab 3: Errors -->
   <div class="tab-content" id="tabErrors">
-    <div class="err-filters" id="errFilters">
-      <button class="err-filter-btn active" onclick="filterErrors('all')">전체</button>
-      <button class="err-filter-btn" onclick="filterErrors('unresolved')">미해결<span class="err-badge" id="errUnresolvedBadge">0</span></button>
-      <button class="err-filter-btn" onclick="filterErrors('resolved')">해결됨</button>
-      <button class="err-filter-btn" onclick="filterErrors('analysis')">분석</button>
-      <button class="err-filter-btn" onclick="filterErrors('gunghap')">궁합</button>
-      <button class="err-filter-btn" onclick="filterErrors('chat')">채팅</button>
-      <button class="err-filter-btn" onclick="filterErrors('payment')">결제</button>
-      <button class="err-filter-btn" onclick="filterErrors('other')">기타</button>
-    </div>
-
-    <div id="errList">
-      <div class="loading"><div class="spinner"></div><div>에러 목록 로딩 중...</div></div>
-    </div>
-
-    <div class="pager" id="errPager" style="display:none">
-      <button class="pager-btn" onclick="changeErrPage(-1)" id="errPrevBtn">← 이전</button>
-      <span class="pager-info" id="errPageInfo"></span>
-      <button class="pager-btn" onclick="changeErrPage(1)" id="errNextBtn">다음 →</button>
+    <div class="placeholder">
+      <div class="placeholder-icon">🚨</div>
+      <div class="placeholder-text">에러 관리</div>
+      <div class="placeholder-sub">4단계에서 구현 예정</div>
     </div>
   </div>
 
@@ -427,7 +377,6 @@ function setAdminTab(i){
   }
   if(i===1) loadUsers();
   if(i===2 && cloverSelectedUser) loadCloverHistory();
-  if(i===3) loadErrors();
 }
 
 // ===== Dashboard =====
@@ -829,143 +778,6 @@ function adjustClover(type){
   }).catch(function(){
     showToast('서버 연결 실패');
   });
-}
-
-// ===== Errors =====
-var errFilter='all';
-var errPage=1;
-var errTotal=0;
-var errLimit=20;
-
-function loadErrors(){
-  var list=document.getElementById('errList');
-  list.innerHTML='<div class="loading"><div class="spinner"></div><div>에러 목록 로딩 중...</div></div>';
-
-  var qs='?page='+errPage+'&limit='+errLimit;
-  if(errFilter==='unresolved') qs+='&resolved=false';
-  else if(errFilter==='resolved') qs+='&resolved=true';
-  else if(['analysis','gunghap','chat','payment','other'].indexOf(errFilter)>=0) qs+='&type='+errFilter;
-
-  fetch('/api/admin/errors'+qs,{
-    headers:{'Authorization':'Bearer '+adminToken}
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    errTotal=d.total||0;
-    var unresolved=d.unresolved||0;
-    document.getElementById('errUnresolvedBadge').textContent=unresolved;
-    renderErrors(d.errors||[]);
-    renderErrPager();
-  }).catch(function(){
-    list.innerHTML='<div class="log-empty">에러 목록을 불러올 수 없습니다</div>';
-  });
-}
-
-function filterErrors(filter){
-  errFilter=filter;
-  errPage=1;
-  var btns=document.querySelectorAll('.err-filter-btn');
-  for(var i=0;i<btns.length;i++){
-    var btnFilter=btns[i].getAttribute('onclick').match(/'([^']+)'/);
-    if(btnFilter) btns[i].classList.toggle('active',btnFilter[1]===filter);
-  }
-  loadErrors();
-}
-
-function renderErrors(errors){
-  var list=document.getElementById('errList');
-  if(!errors||errors.length===0){
-    list.innerHTML='<div class="log-empty">에러가 없습니다 👍</div>';
-    return;
-  }
-  var typeLabels={analysis:'분석',gunghap:'궁합',chat:'채팅',payment:'결제',other:'기타'};
-  var html='';
-  for(var i=0;i<errors.length;i++){
-    var e=errors[i];
-    var isResolved=e.is_resolved;
-    var date=e.created_at?e.created_at.slice(0,16).replace('T',' '):'';
-    var typeLabel=typeLabels[e.error_type]||e.error_type;
-    var userId=e.user_id?e.user_id.slice(0,8)+'...':'비회원';
-
-    html+='<div class="err-card '+(isResolved?'resolved':'unresolved')+'" id="errCard'+e.id+'">';
-    html+='<div class="err-card-top">';
-    html+='<div class="err-card-left">';
-    html+='<span class="err-type-badge etype-'+e.error_type+'">'+typeLabel+'</span>';
-    html+='<span class="err-status-badge estatus-'+(isResolved?'resolved':'unresolved')+'">'+(isResolved?'해결':'미해결')+'</span>';
-    html+='<div class="err-message">'+(e.error_message||'메시지 없음')+'</div>';
-    html+='<div class="err-meta">'+date+' · 유저: '+userId+'</div>';
-    html+='</div></div>';
-
-    // 토글 버튼
-    html+='<button class="err-toggle-btn" onclick="toggleErrDetail(\''+e.id+'\')">상세 보기 ▼</button>';
-
-    // 상세 영역
-    html+='<div class="err-detail" id="errDetail'+e.id+'">';
-    if(e.request_data){
-      html+='<div class="err-detail-label">요청 데이터</div>';
-      html+='<div class="err-detail-json">'+JSON.stringify(e.request_data,null,2)+'</div>';
-    }
-
-    if(isResolved){
-      html+='<div class="err-resolved-info">';
-      html+='✅ 해결: '+(e.resolved_memo||'-');
-      if(e.compensated_clover>0) html+=' · 🍀 '+e.compensated_clover+' 보상';
-      if(e.resolved_at) html+=' · '+e.resolved_at.slice(0,16).replace('T',' ');
-      html+='</div>';
-    }else{
-      html+='<div class="err-resolve-area">';
-      html+='<input class="err-resolve-input" id="errMemo'+e.id+'" type="text" placeholder="해결 메모">';
-      html+='<input class="err-resolve-clover" id="errClover'+e.id+'" type="number" placeholder="🍀" min="0" value="0">';
-      html+='<button class="err-resolve-btn" onclick="resolveError(\''+e.id+'\')">해결 처리</button>';
-      html+='</div>';
-    }
-    html+='</div>';
-    html+='</div>';
-  }
-  list.innerHTML=html;
-}
-
-function toggleErrDetail(errId){
-  var detail=document.getElementById('errDetail'+errId);
-  if(detail) detail.classList.toggle('open');
-}
-
-function resolveError(errId){
-  var memo=document.getElementById('errMemo'+errId).value.trim();
-  var clover=parseInt(document.getElementById('errClover'+errId).value)||0;
-  if(!memo){showToast('해결 메모를 입력하세요');return;}
-  if(!confirm('이 에러를 해결 처리하시겠습니까?'+(clover>0?'\n보상 클로버: '+clover+'🍀':''))) return;
-
-  fetch('/api/admin/errors',{
-    method:'PATCH',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},
-    body:JSON.stringify({errorId:errId,memo:memo,compensateClover:clover})
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    if(d.success){
-      showToast('해결 처리 완료'+(clover>0?' (🍀 '+clover+' 보상)':''));
-      loadErrors();
-    }else{
-      showToast('실패: '+(d.error||'알 수 없는 오류'));
-    }
-  }).catch(function(){
-    showToast('서버 연결 실패');
-  });
-}
-
-function renderErrPager(){
-  var totalPages=Math.ceil(errTotal/errLimit)||1;
-  var pager=document.getElementById('errPager');
-  if(errTotal<=errLimit){pager.style.display='none';return;}
-  pager.style.display='flex';
-  document.getElementById('errPageInfo').textContent=errPage+' / '+totalPages;
-  document.getElementById('errPrevBtn').disabled=(errPage<=1);
-  document.getElementById('errNextBtn').disabled=(errPage>=totalPages);
-}
-
-function changeErrPage(dir){
-  errPage+=dir;
-  if(errPage<1) errPage=1;
-  loadErrors();
 }
 
 // ===== Seed =====
