@@ -355,6 +355,26 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .stats-table th{text-align:left;padding:8px 10px;border-bottom:2px solid #E5E5EA;font-weight:700;color:#636366;white-space:nowrap}
 .stats-table td{padding:8px 10px;border-bottom:1px solid #F0F0F0;color:#1C1C1E;white-space:nowrap}
 .stats-table tr:hover td{background:rgba(139,108,193,0.03)}
+
+/* ===== Custom Date Picker (period bar) ===== */
+.stats-custom-dates{display:none;align-items:center;gap:6px;margin-left:4px;flex-wrap:wrap}
+.stats-custom-dates.open{display:inline-flex}
+.stats-custom-input{padding:6px 10px;border:1.5px solid #E5E5EA;border-radius:8px;font-size:12px;outline:none;font-family:inherit}
+.stats-custom-input:focus{border-color:#8B6CC1}
+.stats-custom-go{padding:6px 14px;background:#8B6CC1;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.stats-custom-go:hover{opacity:0.9}
+
+/* ===== Chart Date Picker (inside chart area) ===== */
+.stats-chart-dates{display:flex;align-items:center;gap:6px;margin-top:10px;margin-bottom:6px;flex-wrap:wrap}
+.stats-chart-date-input{padding:6px 10px;border:1.5px solid #E5E5EA;border-radius:8px;font-size:12px;outline:none;font-family:inherit}
+.stats-chart-date-input:focus{border-color:#8B6CC1}
+.stats-chart-date-go{padding:6px 14px;background:#8B6CC1;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+
+/* ===== Extra Card Clickable ===== */
+.stats-extra-card{cursor:pointer;transition:all .2s;position:relative}
+.stats-extra-card:hover{box-shadow:0 4px 16px rgba(139,108,193,0.15)}
+.stats-extra-card.selected{border:2px solid #8B6CC1}
+.stats-extra-expand{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:6px;background:rgba(139,108,193,0.08);display:flex;align-items:center;justify-content:center;font-size:12px}
 </style>
 </head>
 <body>
@@ -627,6 +647,13 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
       <button class="stats-period-btn" onclick="setStatsPeriod('week')">이번주</button>
       <button class="stats-period-btn" onclick="setStatsPeriod('month')">이번달</button>
       <button class="stats-period-btn" onclick="setStatsPeriod('year')">올해</button>
+      <button class="stats-period-btn" onclick="toggleCustomDatePicker()">📅 직접선택</button>
+      <div class="stats-custom-dates" id="statsCustomDates">
+        <input type="date" class="stats-custom-input" id="statsCustomFrom">
+        <span style="color:#AEAEB2;font-size:12px">~</span>
+        <input type="date" class="stats-custom-input" id="statsCustomTo">
+        <button class="stats-custom-go" onclick="applyCustomDate()">조회</button>
+      </div>
     </div>
 
     <div class="stats-grid" id="statsGrid">
@@ -711,22 +738,31 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
           <button class="stats-chart-close" onclick="closeStatChart()">&times;</button>
         </div>
       </div>
+      <div class="stats-chart-dates">
+        <input type="date" class="stats-chart-date-input" id="chartDateFrom">
+        <span style="color:#AEAEB2;font-size:12px">~</span>
+        <input type="date" class="stats-chart-date-input" id="chartDateTo">
+        <button class="stats-chart-date-go" onclick="reloadStatChartWithDates()">조회</button>
+      </div>
       <canvas id="statsChartCanvas" class="stats-chart-canvas"></canvas>
     </div>
 
     <!-- Conversion & Retention Cards -->
     <div class="stats-extra-grid" id="statsExtraGrid">
-      <div class="stats-extra-card">
+      <div class="stats-extra-card" onclick="openStatChart('convSignup')">
+        <div class="stats-extra-expand">📊</div>
         <div class="stats-extra-label">가입→분석 전환율</div>
         <div class="stats-extra-value" id="stConvSignup">-</div>
         <div class="stats-extra-sub" id="stConvSignupSub">가입 후 분석 이용률</div>
       </div>
-      <div class="stats-extra-card">
+      <div class="stats-extra-card" onclick="openStatChart('convGunghap')">
+        <div class="stats-extra-expand">📊</div>
         <div class="stats-extra-label">사주→궁합 전환율</div>
         <div class="stats-extra-value" id="stConvGunghap">-</div>
         <div class="stats-extra-sub" id="stConvGunghapSub">사주 후 궁합 이용률</div>
       </div>
-      <div class="stats-extra-card">
+      <div class="stats-extra-card" onclick="openStatChart('convRetention')">
+        <div class="stats-extra-expand">📊</div>
         <div class="stats-extra-label">재방문율</div>
         <div class="stats-extra-value" id="stRetention">-</div>
         <div class="stats-extra-sub" id="stRetentionSub">기간 내 재방문</div>
@@ -2168,14 +2204,56 @@ var statsPeriod='today';
 var statsData=null;
 var statsChartInstance=null;
 var statsCurrentMetric=null;
+var statsCustomFrom='';
+var statsCustomTo='';
+
+function toggleCustomDatePicker(){
+  var el=document.getElementById('statsCustomDates');
+  var isOpen=el.classList.contains('open');
+  if(isOpen){
+    el.classList.remove('open');
+  }else{
+    el.classList.add('open');
+    var now=new Date();
+    var weekAgo=new Date(now);weekAgo.setDate(weekAgo.getDate()-6);
+    document.getElementById('statsCustomTo').value=now.toISOString().slice(0,10);
+    document.getElementById('statsCustomFrom').value=weekAgo.toISOString().slice(0,10);
+  }
+}
+
+function applyCustomDate(){
+  var from=document.getElementById('statsCustomFrom').value;
+  var to=document.getElementById('statsCustomTo').value;
+  if(!from||!to){showToast('시작일과 종료일을 선택하세요');return;}
+  if(from>to){showToast('시작일이 종료일보다 뒤입니다');return;}
+
+  var btns=document.querySelectorAll('.stats-period-btn');
+  for(var i=0;i<btns.length;i++){
+    btns[i].classList.remove('active');
+    if(btns[i].textContent.indexOf('직접선택')>=0) btns[i].classList.add('active');
+  }
+
+  statsPeriod='custom';
+  statsCustomFrom=from;
+  statsCustomTo=to;
+  loadStats();
+}
 
 function setStatsPeriod(period){
   statsPeriod=period;
+  statsCustomFrom='';
+  statsCustomTo='';
   var btns=document.querySelectorAll('.stats-period-btn');
   for(var i=0;i<btns.length;i++){
-    var p=btns[i].getAttribute('onclick').match(/'([^']+)'/);
-    if(p) btns[i].classList.toggle('active',p[1]===period);
+    var onclick=btns[i].getAttribute('onclick')||'';
+    if(onclick.indexOf("'"+period+"'")>=0){
+      btns[i].classList.add('active');
+    }else{
+      btns[i].classList.remove('active');
+    }
   }
+  document.getElementById('statsCustomDates').classList.remove('open');
+  closeStatChart();
   loadStats();
 }
 
@@ -2187,7 +2265,11 @@ function loadStats(){
   }
   document.getElementById('statsTableBody').innerHTML='<tr><td colspan="9" style="text-align:center;color:#AEAEB2;padding:20px">데이터 로딩 중...</td></tr>';
 
-  fetch('/api/admin/stats?period='+statsPeriod,{
+  var statsUrl='/api/admin/stats?period='+statsPeriod;
+  if(statsPeriod==='custom'&&statsCustomFrom&&statsCustomTo){
+    statsUrl+='&from='+statsCustomFrom+'&to='+statsCustomTo;
+  }
+  fetch(statsUrl,{
     headers:{'Authorization':'Bearer '+adminToken}
   }).then(function(r){
     if(!r.ok) throw new Error('HTTP_'+r.status);
@@ -2313,10 +2395,41 @@ function openStatChart(metric){
   var labels={
     users:'👥 유저 추이',signups:'🆕 신규 가입',saju:'🔮 사주 분석',gunghap:'💕 궁합 분석',
     chat:'💬 채팅 세션',totalAnalysis:'📊 총 분석',cloverGiven:'🍀 클로버 발행',
-    cloverUsed:'🍀 클로버 사용',errors:'🚨 에러 발생',errorsUnresolved:'⚠️ 미해결 에러'
+    cloverUsed:'🍀 클로버 사용',errors:'🚨 에러 발생',errorsUnresolved:'⚠️ 미해결 에러',
+    convSignup:'🔄 가입→분석 전환율',convGunghap:'🔄 사주→궁합 전환율',convRetention:'📌 재방문율'
   };
   document.getElementById('statsChartTitle').textContent=(labels[metric]||metric)+' 차트';
   document.getElementById('statsChartArea').classList.add('open');
+
+  // extra 카드 selected 처리
+  var extraCards=document.querySelectorAll('.stats-extra-card');
+  for(var i=0;i<extraCards.length;i++) extraCards[i].classList.remove('selected');
+  if(metric==='convSignup'||metric==='convGunghap'||metric==='convRetention'){
+    var idx={convSignup:0,convGunghap:1,convRetention:2};
+    if(extraCards[idx[metric]]) extraCards[idx[metric]].classList.add('selected');
+  }
+
+  // 차트 날짜 기본 세팅
+  var now=new Date();
+  var todayStr=now.toISOString().slice(0,10);
+  var fromStr=todayStr;
+
+  if(statsPeriod==='custom'&&statsCustomFrom&&statsCustomTo){
+    fromStr=statsCustomFrom;
+    todayStr=statsCustomTo;
+  }else if(statsPeriod==='today'){
+    fromStr=todayStr;
+  }else if(statsPeriod==='week'){
+    var wa=new Date(now);wa.setDate(wa.getDate()-6);
+    fromStr=wa.toISOString().slice(0,10);
+  }else if(statsPeriod==='month'){
+    fromStr=now.getFullYear()+'-'+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+'-01';
+  }else{
+    fromStr=now.getFullYear()+'-01-01';
+  }
+
+  document.getElementById('chartDateFrom').value=fromStr;
+  document.getElementById('chartDateTo').value=todayStr;
   loadStatChartData(metric);
 }
 
@@ -2327,26 +2440,58 @@ function closeStatChart(){
     statsChartInstance=null;
   }
   statsCurrentMetric=null;
+  var extraCards=document.querySelectorAll('.stats-extra-card');
+  for(var i=0;i<extraCards.length;i++) extraCards[i].classList.remove('selected');
 }
 
 function reloadStatChart(){
   if(statsCurrentMetric) loadStatChartData(statsCurrentMetric);
 }
 
+function reloadStatChartWithDates(){
+  if(!statsCurrentMetric){showToast('차트를 먼저 열어주세요');return;}
+  var from=document.getElementById('chartDateFrom').value;
+  var to=document.getElementById('chartDateTo').value;
+  if(!from||!to){showToast('날짜를 선택하세요');return;}
+  if(from>to){showToast('시작일이 종료일보다 뒤입니다');return;}
+  loadStatChartDataWithRange(statsCurrentMetric,from,to);
+}
+
+function loadStatChartDataWithRange(metric,from,to){
+  fetch('/api/admin/stats/chart?metric='+metric+'&from='+from+'&to='+to,{
+    headers:{'Authorization':'Bearer '+adminToken}
+  }).then(function(r){
+    if(!r.ok) throw new Error('HTTP_'+r.status);
+    return r.json();
+  }).then(function(d){
+    var labels=d.labels||[];
+    var values=d.values||[];
+    if(labels.length===0){
+      labels=['데이터 없음'];
+      values=[0];
+    }
+    renderStatBarChart(labels,values,metric);
+  }).catch(function(e){
+    console.error('[stats/chart] date range error:',e);
+    showToast('차트 데이터 로드 실패');
+  });
+}
+
 function loadStatChartData(metric){
-  // 기간에 따른 from/to 계산
   var now=new Date();
-  var todayStr=now.getFullYear()+'-'+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+'-'+(now.getDate()<10?'0':'')+now.getDate();
+  var todayStr=now.toISOString().slice(0,10);
   var fromStr=todayStr;
   var toStr=todayStr;
 
-  if(statsPeriod==='today'){
+  if(statsPeriod==='custom'&&statsCustomFrom&&statsCustomTo){
+    fromStr=statsCustomFrom;
+    toStr=statsCustomTo;
+  }else if(statsPeriod==='today'){
     fromStr=todayStr;
     toStr=todayStr;
   }else if(statsPeriod==='week'){
-    var weekAgo=new Date(now);
-    weekAgo.setDate(weekAgo.getDate()-6);
-    fromStr=weekAgo.getFullYear()+'-'+(weekAgo.getMonth()+1<10?'0':'')+(weekAgo.getMonth()+1)+'-'+(weekAgo.getDate()<10?'0':'')+weekAgo.getDate();
+    var weekAgo=new Date(now);weekAgo.setDate(weekAgo.getDate()-6);
+    fromStr=weekAgo.toISOString().slice(0,10);
     toStr=todayStr;
   }else if(statsPeriod==='month'){
     fromStr=now.getFullYear()+'-'+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+'-01';
@@ -2355,6 +2500,11 @@ function loadStatChartData(metric){
     fromStr=now.getFullYear()+'-01-01';
     toStr=todayStr;
   }
+
+  var cfEl=document.getElementById('chartDateFrom');
+  var ctEl=document.getElementById('chartDateTo');
+  if(cfEl) cfEl.value=fromStr;
+  if(ctEl) ctEl.value=toStr;
 
   fetch('/api/admin/stats/chart?metric='+metric+'&from='+fromStr+'&to='+toStr,{
     headers:{'Authorization':'Bearer '+adminToken}
@@ -2371,25 +2521,13 @@ function loadStatChartData(metric){
     renderStatBarChart(labels,values,metric);
   }).catch(function(e){
     console.error('[stats/chart] load error:',e);
-    // 폴백: 테이블 데이터로 차트 렌더
     var rows=(statsData&&statsData.table)?statsData.table:[];
-    var labels=[];
-    var values=[];
-    var keyMap={
-      users:'signups',signups:'signups',saju:'saju',gunghap:'gunghap',
-      chat:'chat',totalAnalysis:'total',cloverGiven:'clover_given',
-      cloverUsed:'clover_used',errors:'errors',errorsUnresolved:'errors'
-    };
-    var key=keyMap[metric]||'total';
+    var labels2=[];var values2=[];
     for(var i=0;i<rows.length;i++){
-      labels.push(rows[i].date||'');
-      values.push(rows[i][key]||0);
+      labels2.push(rows[i].date||'');
+      values2.push(0);
     }
-    if(labels.length===0){
-      labels=['데이터 없음'];
-      values=[0];
-    }
-    renderStatBarChart(labels,values,metric);
+    if(labels2.length>0) renderStatBarChart(labels2,values2,metric);
   });
 }
 
@@ -2403,7 +2541,8 @@ function renderStatBarChart(labels,values,metric){
     users:'rgba(139,108,193,0.7)',signups:'rgba(139,108,193,0.7)',saju:'rgba(139,108,193,0.7)',
     gunghap:'rgba(212,115,139,0.7)',chat:'rgba(70,130,180,0.7)',totalAnalysis:'rgba(99,99,102,0.7)',
     cloverGiven:'rgba(76,175,125,0.7)',cloverUsed:'rgba(224,90,90,0.7)',
-    errors:'rgba(224,90,90,0.7)',errorsUnresolved:'rgba(201,154,46,0.7)'
+    errors:'rgba(224,90,90,0.7)',errorsUnresolved:'rgba(201,154,46,0.7)',
+    convSignup:'rgba(139,108,193,0.7)',convGunghap:'rgba(212,115,139,0.7)',convRetention:'rgba(70,130,180,0.7)'
   };
   var color=colorMap[metric]||'rgba(139,108,193,0.7)';
 
@@ -2425,10 +2564,10 @@ function renderStatBarChart(labels,values,metric){
     options:{
       responsive:true,
       maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){var v=ctx.parsed.y;if(metric.indexOf('conv')===0||metric==='convRetention') return v+'%';return v+'건';}}}},
       scales:{
         x:{grid:{display:false},ticks:{font:{size:10,family:'Pretendard Variable'},maxRotation:0,autoSkip:true}},
-        y:{beginAtZero:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},stepSize:1}}
+        y:{beginAtZero:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},stepSize:(metric.indexOf('conv')===0||metric==='convRetention')?10:1,callback:function(v){return (metric.indexOf('conv')===0||metric==='convRetention')?v+'%':v;}}}
       }
     }
   });

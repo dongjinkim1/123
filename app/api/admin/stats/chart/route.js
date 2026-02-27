@@ -195,6 +195,110 @@ export async function GET(request) {
         values.push(errCount2)
       }
 
+    } else if (metric === 'convSignup') {
+      // 가입→분석 전환율 (일별)
+      var csResults = await Promise.all([
+        safeQuery('users', 'created_at, id', function(q) { return q.gte('created_at', fromISO).lt('created_at', toISO) }),
+        safeQuery('saju_results', 'created_at, user_id', function(q) { return q.gte('created_at', fromISO).lt('created_at', toISO) }),
+        safeQuery('gunghap_results', 'created_at, user_id', function(q) { return q.gte('created_at', fromISO).lt('created_at', toISO) })
+      ])
+      var csSignups = csResults[0]
+      var csSaju = csResults[1]
+      var csGunghap = csResults[2]
+
+      for (var ic1 = 0; ic1 < dayList.length; ic1++) {
+        var dc1 = dayList[ic1]
+        var daySignupCount = 0
+        for (var cs1 = 0; cs1 < csSignups.length; cs1++) {
+          if (csSignups[cs1].created_at && csSignups[cs1].created_at.slice(0, 10) === dc1) daySignupCount++
+        }
+        var dayAnalyzed = {}
+        for (var cs2 = 0; cs2 < csSaju.length; cs2++) {
+          if (csSaju[cs2].created_at && csSaju[cs2].created_at.slice(0, 10) === dc1 && csSaju[cs2].user_id) dayAnalyzed[csSaju[cs2].user_id] = true
+        }
+        for (var cs3 = 0; cs3 < csGunghap.length; cs3++) {
+          if (csGunghap[cs3].created_at && csGunghap[cs3].created_at.slice(0, 10) === dc1 && csGunghap[cs3].user_id) dayAnalyzed[csGunghap[cs3].user_id] = true
+        }
+        var csRate = daySignupCount > 0 ? Math.round(Object.keys(dayAnalyzed).length / daySignupCount * 100) : 0
+        labels.push(dc1.slice(5))
+        values.push(csRate)
+      }
+
+    } else if (metric === 'convGunghap') {
+      // 사주→궁합 전환율 (일별)
+      var cgResults = await Promise.all([
+        safeQuery('saju_results', 'created_at, user_id', function(q) { return q.gte('created_at', fromISO).lt('created_at', toISO) }),
+        safeQuery('gunghap_results', 'created_at, user_id', function(q) { return q.gte('created_at', fromISO).lt('created_at', toISO) })
+      ])
+      var cgSaju = cgResults[0]
+      var cgGunghap = cgResults[1]
+
+      for (var ic2 = 0; ic2 < dayList.length; ic2++) {
+        var dc2 = dayList[ic2]
+        var daySajuUsers = {}
+        for (var cg1 = 0; cg1 < cgSaju.length; cg1++) {
+          if (cgSaju[cg1].created_at && cgSaju[cg1].created_at.slice(0, 10) === dc2 && cgSaju[cg1].user_id) daySajuUsers[cgSaju[cg1].user_id] = true
+        }
+        var dayGhUsers = {}
+        for (var cg2 = 0; cg2 < cgGunghap.length; cg2++) {
+          if (cgGunghap[cg2].created_at && cgGunghap[cg2].created_at.slice(0, 10) === dc2 && cgGunghap[cg2].user_id) dayGhUsers[cgGunghap[cg2].user_id] = true
+        }
+        var sajuCt = Object.keys(daySajuUsers).length
+        var cgRate = sajuCt > 0 ? Math.round(Object.keys(dayGhUsers).length / sajuCt * 100) : 0
+        labels.push(dc2.slice(5))
+        values.push(cgRate)
+      }
+
+    } else if (metric === 'convRetention') {
+      // 재방문율 (일별) — 해당 날짜에 활동한 유저 중 전날에도 활동한 유저 비율
+      var crResults = await Promise.all([
+        safeQuery('saju_results', 'created_at, user_id', function(q) { return q.gte('created_at', fromISO).lt('created_at', toISO) }),
+        safeQuery('gunghap_results', 'created_at, user_id', function(q) { return q.gte('created_at', fromISO).lt('created_at', toISO) }),
+        safeQuery('chat_sessions', 'created_at, user_id', function(q) { return q.gte('created_at', fromISO).lt('created_at', toISO) })
+      ])
+      var crSaju = crResults[0]
+      var crGunghap = crResults[1]
+      var crChat = crResults[2]
+
+      // 날짜별 유저 셋
+      var dailyUsers = {}
+      for (var ir0 = 0; ir0 < dayList.length; ir0++) dailyUsers[dayList[ir0]] = {}
+      for (var ir1 = 0; ir1 < crSaju.length; ir1++) {
+        if (crSaju[ir1].created_at && crSaju[ir1].user_id) {
+          var dd1 = crSaju[ir1].created_at.slice(0, 10)
+          if (dailyUsers[dd1]) dailyUsers[dd1][crSaju[ir1].user_id] = true
+        }
+      }
+      for (var ir2 = 0; ir2 < crGunghap.length; ir2++) {
+        if (crGunghap[ir2].created_at && crGunghap[ir2].user_id) {
+          var dd2 = crGunghap[ir2].created_at.slice(0, 10)
+          if (dailyUsers[dd2]) dailyUsers[dd2][crGunghap[ir2].user_id] = true
+        }
+      }
+      for (var ir3 = 0; ir3 < crChat.length; ir3++) {
+        if (crChat[ir3].created_at && crChat[ir3].user_id) {
+          var dd3 = crChat[ir3].created_at.slice(0, 10)
+          if (dailyUsers[dd3]) dailyUsers[dd3][crChat[ir3].user_id] = true
+        }
+      }
+
+      for (var ir4 = 0; ir4 < dayList.length; ir4++) {
+        var curDay = dayList[ir4]
+        var prevDay = new Date(curDay)
+        prevDay.setDate(prevDay.getDate() - 1)
+        var prevDayStr = prevDay.toISOString().slice(0, 10)
+
+        var todayUserList = Object.keys(dailyUsers[curDay] || {})
+        var prevDayUsers = dailyUsers[prevDayStr] || {}
+        var returning = 0
+        for (var ir5 = 0; ir5 < todayUserList.length; ir5++) {
+          if (prevDayUsers[todayUserList[ir5]]) returning++
+        }
+        var retRate = todayUserList.length > 0 ? Math.round(returning / todayUserList.length * 100) : 0
+        labels.push(curDay.slice(5))
+        values.push(retRate)
+      }
+
     } else {
       return Response.json({ error: '알 수 없는 metric: ' + metric }, { status: 400 })
     }

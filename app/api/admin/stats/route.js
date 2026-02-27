@@ -22,7 +22,22 @@ export async function GET(request) {
     var startDate, prevStartDate, prevEndDate
 
     // 기간 계산
-    if (period === 'today') {
+    if (period === 'custom') {
+      var customFrom = url.searchParams.get('from')
+      var customTo = url.searchParams.get('to')
+      if (customFrom && customTo) {
+        startDate = new Date(customFrom + 'T00:00:00')
+        var customToDate = new Date(customTo + 'T23:59:59.999')
+        var diffMs = customToDate.getTime() - startDate.getTime() + 1
+        prevEndDate = new Date(startDate.getTime() - 1)
+        prevStartDate = new Date(prevEndDate.getTime() - diffMs + 1)
+      } else {
+        startDate = todayStart
+        prevStartDate = new Date(todayStart)
+        prevStartDate.setDate(prevStartDate.getDate() - 1)
+        prevEndDate = todayStart
+      }
+    } else if (period === 'today') {
       startDate = todayStart
       var yesterday = new Date(todayStart)
       yesterday.setDate(yesterday.getDate() - 1)
