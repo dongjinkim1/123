@@ -2761,13 +2761,23 @@ button{font-family:inherit;cursor:pointer}
 
 <script>
 // Page navigation
-function go(id){
-  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.style.display='none'});
+var pageStack=['pgLanding'];
+function go(id,skipPush){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');p.style.display='none'});
   var pg=document.getElementById(id);
   var flexPages=['pgChat','pgMBTI','pgLoad','pgRes'];
   pg.style.display=flexPages.indexOf(id)>=0?'flex':'block';
   pg.classList.add('active');
   window.scrollTo({top:0,behavior:'instant'});
+  if(!skipPush){
+    var noHistoryPages=['pgLoad','pgGhLoad'];
+    if(noHistoryPages.indexOf(id)===-1){
+      if(pageStack[pageStack.length-1]!==id){
+        pageStack.push(id);
+      }
+      history.pushState({page:id},'','');
+    }
+  }
 }
 function goPage(id){
   var map={'gh-load':'pgGhLoad','gh-res':'pgGhRes',
@@ -2791,7 +2801,7 @@ window.goPage=goPage;
 })();
 
 function goNav(el,id){
-  document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.bnav').forEach(function(b){b.classList.remove('active')});
   el.classList.add('active');
   go(id);
   if(id==='pgDash') setTab(0);
@@ -2801,6 +2811,31 @@ function goNav(el,id){
     renderGhHistoryCards();
   }
 }
+
+// ===== 브라우저 뒤로가기 처리 =====
+window.addEventListener('popstate',function(e){
+  if(pageStack.length>1){
+    pageStack.pop();
+  }
+  var prevPage=pageStack[pageStack.length-1]||'pgDash';
+
+  // pgLanding에서 뒤로가기 시 앱 이탈 방지
+  if(pageStack.length<=1){
+    history.pushState({page:prevPage},'','');
+  }
+
+  // 궁합 플로우에서 뒤로가기 시 선택 상태 초기화
+  var currentPages=document.querySelectorAll('.page.active');
+  var currentId=currentPages.length>0?currentPages[0].id:'';
+  if(currentId==='pgGunghap'||currentId==='pgGhRes'){
+    clearGH();
+  }
+
+  go(prevPage,true);
+
+  if(prevPage==='pgDash'){setTab(0);}
+  if(prevPage==='pgSave'){renderSaveCards();renderGhHistoryCards();}
+});
 
 // Dashboard tabs
 function setTab(i){
@@ -4751,8 +4786,8 @@ function initGhScrollObserver(){
 
 // ── go() 확장: 페이지별 초기화 훅 ──
 var _originalGo=go;
-go=function(id){
-  _originalGo(id);
+go=function(id,skipPush){
+  _originalGo(id,skipPush);
   if(id==='pgChat')initChatPage();
 };
 
@@ -5688,6 +5723,9 @@ async function sendChatMessage(text){
     console.log('[MBTS] localStorage에서 이전 분석 결과 복원됨');
   }catch(e){console.warn('[MBTS] localStorage 복원 실패:',e);}
 })();
+
+// 초기 히스토리 상태 설정
+history.replaceState({page:'pgLanding'},'','');
 
 // 카카오 SDK 초기화
 if(typeof Kakao!=='undefined'&&!Kakao.isInitialized()){
