@@ -74,40 +74,6 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .loading{text-align:center;padding:40px;color:#AEAEB2;font-size:13px}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .spinner{display:inline-block;width:24px;height:24px;border:2.5px solid #E5E5EA;border-top-color:#8B6CC1;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:8px}
-
-/* ===== Users Tab ===== */
-.users-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
-.users-count{font-size:13px;color:#636366;font-weight:600}
-.search-bar{display:flex;gap:8px;margin-bottom:16px}
-.search-input{flex:1;padding:10px 14px;border:1.5px solid #E5E5EA;border-radius:10px;font-size:13px;outline:none;font-family:inherit}
-.search-input:focus{border-color:#8B6CC1}
-.search-btn{padding:10px 18px;background:#8B6CC1;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;flex-shrink:0}
-.user-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:10px;transition:all .2s}
-.user-card.blocked{border:1.5px solid #E05A5A}
-.user-card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.user-avatar{width:40px;height:40px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden}
-.user-avatar img{width:100%;height:100%;object-fit:cover}
-.user-info{flex:1;min-width:0}
-.user-name{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
-.user-badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;flex-shrink:0}
-.badge-blocked{background:rgba(224,90,90,0.1);color:#E05A5A}
-.badge-admin{background:rgba(139,108,193,0.1);color:#8B6CC1}
-.user-meta{font-size:11px;color:#AEAEB2;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.user-details{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.user-detail{font-size:11px;color:#636366;background:#F5F5F5;padding:3px 8px;border-radius:6px}
-.user-actions{display:flex;gap:6px;flex-wrap:wrap}
-.act-btn{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:opacity .2s}
-.act-btn:hover{opacity:0.8}
-.act-block{background:rgba(224,90,90,0.1);color:#E05A5A}
-.act-unblock{background:rgba(76,175,125,0.1);color:#4CAF7D}
-.act-admin{background:rgba(139,108,193,0.1);color:#8B6CC1}
-.act-user{background:rgba(99,99,102,0.1);color:#636366}
-.pager{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px}
-.pager-btn{padding:8px 16px;border:1.5px solid #E5E5EA;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#fff;color:#636366;font-family:inherit}
-.pager-btn:disabled{opacity:0.4;cursor:not-allowed}
-.pager-info{font-size:12px;color:#AEAEB2}
-.seed-btn{width:100%;padding:14px;background:#fff;border:1.5px solid #AEAEB2;border-radius:12px;font-size:14px;font-weight:700;color:#636366;cursor:pointer;transition:all .2s;font-family:inherit;margin-bottom:16px}
-.seed-btn:hover{border-color:#8B6CC1;color:#8B6CC1}
 </style>
 </head>
 <body>
@@ -171,7 +137,6 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
     </div>
 
     <button class="report-btn" onclick="copyReport()">📋 상태 리포트 복사</button>
-    <button class="seed-btn" onclick="runSeed()">🔧 테스트 데이터 생성</button>
 
     <div class="section-title">최근 관리자 활동</div>
     <div id="logArea" class="log-card">
@@ -181,18 +146,10 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 
   <!-- Tab 1: Users -->
   <div class="tab-content" id="tabUsers">
-    <div class="users-header">
-      <div class="users-count" id="usersCount">총 유저: -</div>
-    </div>
-    <div class="search-bar">
-      <input class="search-input" id="userSearch" type="text" placeholder="닉네임 또는 이메일 검색" onkeydown="if(event.key==='Enter')searchUsers()">
-      <button class="search-btn" onclick="searchUsers()">검색</button>
-    </div>
-    <div id="userList"></div>
-    <div class="pager" id="userPager" style="display:none">
-      <button class="pager-btn" id="prevBtn" onclick="changePage(-1)">← 이전</button>
-      <span class="pager-info" id="pageInfo"></span>
-      <button class="pager-btn" id="nextBtn" onclick="changePage(1)">다음 →</button>
+    <div class="placeholder">
+      <div class="placeholder-icon">👥</div>
+      <div class="placeholder-text">유저 관리</div>
+      <div class="placeholder-sub">2단계에서 구현 예정</div>
     </div>
   </div>
 
@@ -305,7 +262,6 @@ function setAdminTab(i){
     tabs[n].classList.toggle('active',n===i);
     contents[n].classList.toggle('active',n===i);
   }
-  if(i===1) loadUsers();
 }
 
 // ===== Dashboard =====
@@ -434,142 +390,6 @@ function showToast(msg){
   t.textContent=msg;
   t.classList.add('show');
   setTimeout(function(){t.classList.remove('show');},2000);
-}
-
-// ===== Users =====
-var usersPage=1;
-var usersSearch='';
-var usersTotal=0;
-var usersLimit=20;
-
-function loadUsers(){
-  var list=document.getElementById('userList');
-  list.innerHTML='<div class="loading"><div class="spinner"></div><div>유저 목록 로딩 중...</div></div>';
-  var qs='?page='+usersPage+'&limit='+usersLimit;
-  if(usersSearch) qs+='&search='+encodeURIComponent(usersSearch);
-
-  fetch('/api/admin/users'+qs,{
-    headers:{'Authorization':'Bearer '+adminToken}
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    usersTotal=d.total||0;
-    document.getElementById('usersCount').textContent='총 유저: '+usersTotal+'명';
-    renderUsers(d.users||[]);
-    renderPager();
-  }).catch(function(e){
-    list.innerHTML='<div class="log-empty">유저 목록을 불러올 수 없습니다</div>';
-  });
-}
-
-function renderUsers(users){
-  var list=document.getElementById('userList');
-  if(!users||users.length===0){
-    list.innerHTML='<div class="log-empty">등록된 유저가 없습니다</div>';
-    return;
-  }
-  var html='';
-  for(var i=0;i<users.length;i++){
-    var u=users[i];
-    var isBlocked=u.is_blocked;
-    var isAdmin=u.role==='admin';
-    var avatar=u.profile_image?'<img src="'+u.profile_image+'" alt="">':'👤';
-    var date=u.created_at?u.created_at.slice(0,10).replace(/-/g,'.'):'';
-
-    html+='<div class="user-card'+(isBlocked?' blocked':'')+'">';
-    html+='<div class="user-card-top">';
-    html+='<div class="user-avatar">'+avatar+'</div>';
-    html+='<div class="user-info">';
-    html+='<div class="user-name">'+(u.nickname||'이름없음');
-    if(isBlocked) html+=' <span class="user-badge badge-blocked">차단됨</span>';
-    if(isAdmin) html+=' <span class="user-badge badge-admin">관리자</span>';
-    html+='</div>';
-    html+='<div class="user-meta">'+(u.email||'-')+'</div>';
-    html+='</div></div>';
-    html+='<div class="user-details">';
-    html+='<span class="user-detail">ID: '+(u.id?u.id.slice(0,8)+'...':'-')+'</span>';
-    if(u.kakao_id) html+='<span class="user-detail">카카오: '+u.kakao_id+'</span>';
-    html+='<span class="user-detail">🍀 '+(u.clover_balance||0)+'</span>';
-    html+='<span class="user-detail">가입: '+date+'</span>';
-    html+='</div>';
-    html+='<div class="user-actions">';
-    if(isBlocked){
-      html+='<button class="act-btn act-unblock" onclick="userAction(\''+u.id+'\',\'unblock\',\''+(u.nickname||'')+'\')">차단 해제</button>';
-    }else{
-      html+='<button class="act-btn act-block" onclick="userAction(\''+u.id+'\',\'block\',\''+(u.nickname||'')+'\')">차단</button>';
-    }
-    if(isAdmin){
-      html+='<button class="act-btn act-user" onclick="userAction(\''+u.id+'\',\'make_user\',\''+(u.nickname||'')+'\')">일반 유저로</button>';
-    }else{
-      html+='<button class="act-btn act-admin" onclick="userAction(\''+u.id+'\',\'make_admin\',\''+(u.nickname||'')+'\')">관리자 부여</button>';
-    }
-    html+='</div>';
-    html+='</div>';
-  }
-  list.innerHTML=html;
-}
-
-function renderPager(){
-  var totalPages=Math.ceil(usersTotal/usersLimit)||1;
-  var pager=document.getElementById('userPager');
-  if(usersTotal<=usersLimit){pager.style.display='none';return;}
-  pager.style.display='flex';
-  document.getElementById('pageInfo').textContent=usersPage+' / '+totalPages;
-  document.getElementById('prevBtn').disabled=(usersPage<=1);
-  document.getElementById('nextBtn').disabled=(usersPage>=totalPages);
-}
-
-function changePage(dir){
-  usersPage+=dir;
-  if(usersPage<1) usersPage=1;
-  loadUsers();
-}
-
-function searchUsers(){
-  usersSearch=document.getElementById('userSearch').value.trim();
-  usersPage=1;
-  loadUsers();
-}
-
-function userAction(userId,action,nickname){
-  var labels={block:'차단',unblock:'차단 해제',make_admin:'관리자 권한 부여',make_user:'일반 유저로 변경'};
-  var msg='"'+(nickname||userId)+'" 유저를 '+labels[action]+'하시겠습니까?';
-  if(!confirm(msg)) return;
-
-  fetch('/api/admin/users',{
-    method:'PATCH',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},
-    body:JSON.stringify({userId:userId,action:action,memo:''})
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    if(d.success){
-      showToast(labels[action]+' 완료');
-      loadUsers();
-    }else{
-      showToast('실패: '+(d.error||'알 수 없는 오류'));
-    }
-  }).catch(function(e){
-    showToast('서버 연결 실패');
-  });
-}
-
-// ===== Seed =====
-function runSeed(){
-  if(!confirm('테스트 유저 3명을 생성합니다. 계속하시겠습니까?')) return;
-
-  fetch('/api/admin/seed',{
-    method:'POST',
-    headers:{'Authorization':'Bearer '+adminToken}
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    if(d.success){
-      showToast('생성: '+d.created+'명, 스킵: '+d.skipped+'명');
-      loadDashboard();
-    }else{
-      showToast('실패: '+(d.error||'알 수 없는 오류'));
-    }
-  }).catch(function(e){
-    showToast('서버 연결 실패');
-  });
 }
 
 // ===== Init =====
