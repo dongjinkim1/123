@@ -2958,7 +2958,7 @@ function renderSaveCards(){
     var glowB=parseInt(clr.slice(5,7),16);
     var glow='rgba('+glowR+','+glowG+','+glowB+',0.15)';
     var isMe=(name==='나');
-    var meBadge=isMe?' <span style="font-size:12px;color:var(--purple);font-weight:600;margin-left:4px">ME</span>':'';
+    var meBadge='';
     /* personMap에 등록 (궁합 선택용) */
     personMap[rec.id]={name:name,emoji:emoji,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
     html+='<div class="animal-card" data-record-id="'+rec.id+'" onclick="openHistoryRecord(\''+rec.id+'\')" style="--card-glow:'+glow+'">';
@@ -4858,6 +4858,15 @@ function startLoadAnim(){
 // ====================================================================
 // UI 렌더링 함수 (mbts.html 5839-6239 기반)
 // ====================================================================
+var tipColorIndex=0;
+var tipPalette=[
+  {bg:'rgba(136,97,154,0.08)',border:'#886199'},
+  {bg:'rgba(100,149,237,0.08)',border:'#6495ED'},
+  {bg:'rgba(72,191,145,0.08)',border:'#48BF91'},
+  {bg:'rgba(219,112,147,0.08)',border:'#DB7093'},
+  {bg:'rgba(210,150,100,0.08)',border:'#D29664'},
+  {bg:'rgba(147,130,210,0.08)',border:'#9382D2'}
+];
 function renderSubBody(text){
   var tipEmojis=['💊','🔥','💧','💜','🌱','💎'];
   var paras=(text||'').split('\n\n');
@@ -4865,7 +4874,11 @@ function renderSubBody(text){
   paras.forEach(function(p){
     p=p.trim();if(!p)return;
     var isTip=tipEmojis.some(function(e){return p.indexOf(e)===0;});
-    if(isTip){out+='<div class="r-tip">'+p+'</div>';}
+    if(isTip){
+      var tc=tipPalette[tipColorIndex%tipPalette.length];
+      tipColorIndex++;
+      out+='<div style="border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.85;background:'+tc.bg+';border-left:3px solid '+tc.border+';color:var(--text-2)">'+p+'</div>';
+    }
     else{out+='<p>'+p+'</p>';}
   });
   return out;
@@ -5005,6 +5018,7 @@ function adjustColor(hex,factor){
 // renderResult — 분석 결과 렌더링 (mbts.html 5985-6239 기반)
 // ====================================================================
 function renderResult(result,saju,mt,gg,isAI){
+  tipColorIndex=0;
   if(result._blueprint) delete result._blueprint;
   var ti=TY[mt]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
   gg=gg||analyzeGyeokguk(saju);
@@ -5050,7 +5064,6 @@ function renderResult(result,saju,mt,gg,isAI){
   pg.style.background='var(--bg)';pg.style.color='var(--text-1)';
 
   var h='<div class="res-wrap">';
-  h+='<button class="birth-back" onclick="go(\'pgDash\')" style="margin-bottom:8px">← 돌아가기</button>';
 
   /* ① Header */
   h+='<div class="res-header">';
@@ -5059,7 +5072,11 @@ function renderResult(result,saju,mt,gg,isAI){
   h+=ST.y+'년 '+ST.m+'월 '+ST.d+'일 '+(ST.h?ST.h+'시':'')+(ST.min?ST.min+'분':'')+' · '+ST.gender;
   h+=(prof.seasonNote?' · '+prof.seasonNote:(saju.currentJeolgi?' · 절기: '+saju.currentJeolgi:''));
   h+='</p>';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between">';
+  h+='<button onclick="go(\'pgDash\')" style="font-size:14px;font-weight:600;color:var(--purple);cursor:pointer;background:none;border:none;padding:0">← 돌아가기</button>';
   h+='<div style="font-size:13px;font-weight:600;color:var(--text-2)">당신이라는 사람</div>';
+  h+='<div style="width:80px"></div>';
+  h+='</div>';
   h+='</div>';
 
   /* ② Animal Card */
@@ -5280,9 +5297,10 @@ function renderResult(result,saju,mt,gg,isAI){
         h+='<div class="r-sub-h">'+(sub.h||'')+'</div>';
         h+='<div class="r-sub-b">'+renderSubBody(sub.b)+'</div>';
         if(sub.tip){
-          h+='<div style="background:linear-gradient(135deg,#f0f4ff,#e8f0fe);border-radius:12px;padding:12px 16px;margin:12px 0 20px 0;display:flex;align-items:flex-start;gap:8px;border-left:3px solid #6C63FF;">'
-            +'<span style="font-size:1.2em;">💊</span>'
-            +'<span style="font-size:0.95em;color:#333;line-height:1.5;">'+sub.tip+'</span>'
+          var _tc=tipPalette[tipColorIndex%tipPalette.length];
+          tipColorIndex++;
+          h+='<div style="border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.85;background:'+_tc.bg+';border-left:3px solid '+_tc.border+';color:var(--text-2)">'
+            +sub.tip
             +'</div>';
         }
         h+='</div>';
