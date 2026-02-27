@@ -2833,53 +2833,13 @@ function toggleEditMode(){
       c.dataset.origClick=c.getAttribute('onclick')||'';
       c.removeAttribute('onclick');
     });
-    /* 이름 편집 input 삽입 */
-    cardList.querySelectorAll('.animal-name').forEach(function(n){
-      var textNode=n.firstChild;
-      var origText=(textNode&&textNode.nodeType===3)?textNode.textContent.trim():'';
-      n.dataset.original=origText;
-      var inp=document.createElement('input');
-      inp.type='text';
-      inp.className='name-edit-input';
-      inp.value=origText;
-      inp.onclick=function(e){e.stopPropagation();};
-      n.insertBefore(inp,n.firstChild);
-      if(textNode&&textNode.nodeType===3) textNode.textContent='';
-    });
   }else{
-    /* 이름 편집 완료 — localStorage 업데이트 */
-    var hist=[];
-    try{hist=JSON.parse(localStorage.getItem('mbts_history'))||[];}catch(e){}
-    cardList.querySelectorAll('.animal-card').forEach(function(c){
-      var nameEl=c.querySelector('.animal-name');
-      if(!nameEl)return;
-      var inp=nameEl.querySelector('.name-edit-input');
-      var newName=inp?inp.value.trim():(nameEl.dataset.original||'');
-      if(!newName) newName=nameEl.dataset.original||'나';
-      if(inp) inp.remove();
-      var textNode=nameEl.firstChild;
-      if(textNode&&textNode.nodeType===3){
-        textNode.textContent=newName+' ';
-      }else{
-        nameEl.insertBefore(document.createTextNode(newName+' '),nameEl.firstChild);
-      }
-      /* localStorage 히스토리에서 해당 레코드 name 업데이트 */
-      var rid=c.dataset.recordId;
-      if(rid){
-        for(var i=0;i<hist.length;i++){
-          if(hist[i].id===rid){hist[i].name=newName;break;}
-        }
-      }
-    });
-    localStorage.setItem('mbts_history',JSON.stringify(hist));
     cardList.classList.remove('edit-mode');
     btn.textContent='수정';
     btn.style.color='';
     cardList.querySelectorAll('.animal-card').forEach(function(c){
       if(c.dataset.origClick) c.setAttribute('onclick',c.dataset.origClick);
     });
-    /* 카드 다시 렌더링하여 ME 뱃지 등 반영 */
-    renderSaveCards();
   }
 }
 
@@ -2961,7 +2921,7 @@ function renderSaveCards(){
     var meBadge=isMe?' <span style="font-size:12px;color:var(--purple);font-weight:600;margin-left:4px">ME</span>':'';
     /* personMap에 등록 (궁합 선택용) */
     personMap[rec.id]={name:name,emoji:emoji,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
-    html+='<div class="animal-card" data-record-id="'+rec.id+'" onclick="openHistoryRecord(\''+rec.id+'\')" style="--card-glow:'+glow+'">';
+    html+='<div class="animal-card" onclick="openHistoryRecord(\''+rec.id+'\')" style="--card-glow:'+glow+'">';
     html+='<div class="animal-card-top">';
     html+='<div class="animal-emoji-box" style="background:linear-gradient(135deg,'+bg1+')">'+emoji+'</div>';
     html+='<div class="animal-info">';
@@ -5050,7 +5010,6 @@ function renderResult(result,saju,mt,gg,isAI){
   pg.style.background='var(--bg)';pg.style.color='var(--text-1)';
 
   var h='<div class="res-wrap">';
-  h+='<button class="birth-back" onclick="go(\'pgDash\')" style="margin-bottom:8px">← 돌아가기</button>';
 
   /* ① Header */
   h+='<div class="res-header">';
