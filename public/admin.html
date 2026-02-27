@@ -269,6 +269,29 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 
 /* ===== Popup Notice Badge ===== */
 .notice-popup-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;background:rgba(212,115,139,0.1);color:#D4738B}
+
+/* ===== Clover Revoke ===== */
+.clover-revoke-card{background:linear-gradient(135deg,rgba(224,90,90,0.04),rgba(224,90,90,0.08));border:1.5px dashed #E05A5A;border-radius:16px;padding:20px;margin-bottom:20px}
+.clover-revoke-title{font-size:14px;font-weight:700;color:#E05A5A;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.clover-revoke-btn{padding:10px 20px;background:linear-gradient(135deg,#E05A5A,#C94444);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.clover-revoke-btn:hover{opacity:0.9}
+.clover-revoke-btn:disabled{opacity:0.5;cursor:not-allowed}
+
+/* ===== Password Confirm Modal ===== */
+.pw-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:20px}
+.pw-modal-overlay.open{display:flex}
+.pw-modal{background:#fff;border-radius:20px;padding:32px 28px;width:100%;max-width:360px;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,0.15)}
+.pw-modal-icon{font-size:36px;margin-bottom:12px}
+.pw-modal-title{font-size:16px;font-weight:800;color:#1C1C1E;margin-bottom:6px}
+.pw-modal-desc{font-size:13px;color:#636366;margin-bottom:20px;line-height:1.5}
+.pw-modal-input{width:100%;padding:12px 16px;border:1.5px solid #E5E5EA;border-radius:12px;font-size:14px;outline:none;text-align:center;font-family:inherit;letter-spacing:2px}
+.pw-modal-input:focus{border-color:#8B6CC1}
+.pw-modal-err{font-size:12px;color:#E05A5A;margin-top:8px;min-height:18px}
+.pw-modal-actions{display:flex;gap:8px;margin-top:20px}
+.pw-modal-cancel{flex:1;padding:12px;background:#F5F5F5;color:#636366;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.pw-modal-confirm{flex:1;padding:12px;background:#8B6CC1;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.pw-modal-confirm:hover{opacity:0.9}
+.pw-modal-confirm:disabled{opacity:0.5;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -403,6 +426,21 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
       <div class="clover-bulk-info" id="bulkInfo">전체 유저에게 동시 지급됩니다. 신중하게 사용하세요.</div>
     </div>
 
+    <!-- Bulk Revoke -->
+    <div class="clover-revoke-card">
+      <div class="clover-revoke-title">🔄 클로버 일괄 회수</div>
+      <div class="clover-bulk-row">
+        <select class="clover-bulk-target" id="revokeTarget">
+          <option value="all">전체 유저</option>
+          <option value="active">활성 유저만 (비차단)</option>
+        </select>
+        <input class="clover-bulk-amount" id="revokeAmount" type="number" placeholder="수량" min="1" value="10">
+        <input class="clover-bulk-reason" id="revokeReason" type="text" placeholder="사유 (예: 이벤트 종료, 오지급 회수)">
+        <button class="clover-revoke-btn" id="bulkRevokeBtn" onclick="bulkRevokeClover()">🔄 일괄 회수</button>
+      </div>
+      <div class="clover-bulk-info">회수 시 잔액이 0 미만이 되는 유저는 0으로 처리됩니다.</div>
+    </div>
+
     <div class="clover-search">
       <input class="clover-search-input" id="cloverUserSearch" type="text" placeholder="유저 닉네임, 이메일 또는 ID 검색" onkeydown="if(event.key==='Enter')searchCloverUser()">
       <button class="clover-search-btn" onclick="searchCloverUser()">검색</button>
@@ -514,6 +552,21 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
     <div class="notice-modal-actions">
       <button class="notice-modal-cancel" onclick="closeNoticeModal()">취소</button>
       <button class="notice-modal-save" onclick="saveNotice()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- Password Confirm Modal -->
+<div class="pw-modal-overlay" id="pwModalOverlay" onclick="if(event.target===this)closePwModal()">
+  <div class="pw-modal">
+    <div class="pw-modal-icon" id="pwModalIcon">🔐</div>
+    <div class="pw-modal-title" id="pwModalTitle">비밀번호 확인</div>
+    <div class="pw-modal-desc" id="pwModalDesc">클로버 지급/회수는 관리자 비밀번호 확인이 필요합니다.</div>
+    <input class="pw-modal-input" id="pwModalInput" type="password" placeholder="관리자 비밀번호" onkeydown="if(event.key==='Enter')confirmPwModal()">
+    <div class="pw-modal-err" id="pwModalErr"></div>
+    <div class="pw-modal-actions">
+      <button class="pw-modal-cancel" onclick="closePwModal()">취소</button>
+      <button class="pw-modal-confirm" id="pwModalConfirmBtn" onclick="confirmPwModal()">확인</button>
     </div>
   </div>
 </div>
@@ -909,6 +962,57 @@ function userAction(userId,action,nickname){
   });
 }
 
+// ===== Password Confirm =====
+var pwModalCallback=null;
+
+function openPwModal(title,desc,icon,callback){
+  document.getElementById('pwModalTitle').textContent=title||'비밀번호 확인';
+  document.getElementById('pwModalDesc').textContent=desc||'관리자 비밀번호를 입력하세요.';
+  document.getElementById('pwModalIcon').textContent=icon||'🔐';
+  document.getElementById('pwModalInput').value='';
+  document.getElementById('pwModalErr').textContent='';
+  pwModalCallback=callback;
+  document.getElementById('pwModalOverlay').classList.add('open');
+  setTimeout(function(){document.getElementById('pwModalInput').focus();},100);
+}
+
+function closePwModal(){
+  document.getElementById('pwModalOverlay').classList.remove('open');
+  pwModalCallback=null;
+}
+
+function confirmPwModal(){
+  var pw=document.getElementById('pwModalInput').value;
+  var errEl=document.getElementById('pwModalErr');
+  var btn=document.getElementById('pwModalConfirmBtn');
+  if(!pw){errEl.textContent='비밀번호를 입력하세요';return;}
+  errEl.textContent='';
+  btn.disabled=true;
+  btn.textContent='확인 중...';
+
+  fetch('/api/admin/auth',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({password:pw})
+  }).then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d}});})
+  .then(function(res){
+    btn.disabled=false;
+    btn.textContent='확인';
+    if(res.ok&&res.data.success){
+      closePwModal();
+      if(pwModalCallback) pwModalCallback();
+    }else{
+      errEl.textContent='비밀번호가 틀렸습니다';
+      document.getElementById('pwModalInput').value='';
+      document.getElementById('pwModalInput').focus();
+    }
+  }).catch(function(){
+    btn.disabled=false;
+    btn.textContent='확인';
+    errEl.textContent='서버 연결 실패';
+  });
+}
+
 // ===== Clover =====
 var cloverSelectedUser=null;
 var cloverPage=1;
@@ -1044,26 +1148,35 @@ function adjustClover(type){
 
   var actionLabel=(type==='charge')?'지급':'차감';
   var displayAmount=(type==='charge')?amount:-amount;
-  if(!confirm((cloverSelectedUser.nickname||'유저')+'에게 '+amount+'🍀 '+actionLabel+'하시겠습니까?\n사유: '+reason)) return;
+  var userName=cloverSelectedUser.nickname||'유저';
 
-  fetch('/api/admin/clover',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},
-    body:JSON.stringify({userId:cloverSelectedUser.id,amount:displayAmount,type:type==='charge'?'admin':'use',description:reason})
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    if(d.success){
-      showToast(actionLabel+' 완료! 잔액: '+d.newBalance+'🍀');
-      cloverSelectedUser.clover_balance=d.newBalance;
-      document.getElementById('cloverBalanceNum').textContent='🍀 '+d.newBalance;
-      document.getElementById('cloverReason').value='';
-      loadCloverHistory();
-    }else{
-      showToast('실패: '+(d.error||'알 수 없는 오류'));
+  if(!confirm(userName+'에게 '+amount+'🍀 '+actionLabel+'하시겠습니까?\n사유: '+reason)) return;
+
+  openPwModal(
+    (type==='charge'?'🍀':'🔄')+' '+actionLabel+' 확인',
+    userName+'에게 '+amount+'🍀 '+actionLabel+'. 비밀번호를 입력하세요.',
+    type==='charge'?'🍀':'🔄',
+    function(){
+      fetch('/api/admin/clover',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},
+        body:JSON.stringify({userId:cloverSelectedUser.id,amount:displayAmount,type:type==='charge'?'admin':'use',description:reason})
+      }).then(function(r){return r.json();})
+      .then(function(d){
+        if(d.success){
+          showToast(actionLabel+' 완료! 잔액: '+d.newBalance+'🍀');
+          cloverSelectedUser.clover_balance=d.newBalance;
+          document.getElementById('cloverBalanceNum').textContent='🍀 '+d.newBalance;
+          document.getElementById('cloverReason').value='';
+          loadCloverHistory();
+        }else{
+          showToast('실패: '+(d.error||'알 수 없는 오류'));
+        }
+      }).catch(function(){
+        showToast('서버 연결 실패');
+      });
     }
-  }).catch(function(){
-    showToast('서버 연결 실패');
-  });
+  );
 }
 
 // ===== Clover Bulk =====
@@ -1077,33 +1190,82 @@ function bulkGiveClover(){
   if(!reason){showToast('사유를 입력하세요');return;}
 
   var targetLabel=(target==='all')?'전체 유저':'활성 유저';
-  var msg='⚠️ '+targetLabel+'에게 '+amount+'🍀 일괄 지급합니다.\n\n사유: '+reason+'\n\n정말 진행하시겠습니까?';
-  if(!confirm(msg)) return;
-  if(!confirm('한번 더 확인: '+targetLabel+' 전원에게 '+amount+'🍀 지급. 되돌릴 수 없습니다.')) return;
+  if(!confirm('⚠️ '+targetLabel+'에게 '+amount+'🍀 일괄 지급합니다.\n사유: '+reason+'\n\n진행하시겠습니까?')) return;
 
-  var btn=document.getElementById('bulkGiveBtn');
-  btn.disabled=true;
-  btn.textContent='지급 중...';
+  openPwModal(
+    '🍀 일괄 지급 확인',
+    targetLabel+'에게 '+amount+'🍀 지급. 관리자 비밀번호를 입력하세요.',
+    '🍀',
+    function(){
+      var btn=document.getElementById('bulkGiveBtn');
+      btn.disabled=true;
+      btn.textContent='지급 중...';
 
-  fetch('/api/admin/clover',{
-    method:'PUT',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},
-    body:JSON.stringify({target:target,amount:amount,reason:reason})
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    btn.disabled=false;
-    btn.textContent='🍀 일괄 지급';
-    if(d.success){
-      showToast('✅ '+d.count+'명에게 '+amount+'🍀 지급 완료!');
-      document.getElementById('bulkReason').value='';
-    }else{
-      showToast('실패: '+(d.error||'알 수 없는 오류'));
+      fetch('/api/admin/clover',{
+        method:'PUT',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},
+        body:JSON.stringify({target:target,amount:amount,reason:reason})
+      }).then(function(r){return r.json();})
+      .then(function(d){
+        btn.disabled=false;
+        btn.textContent='🍀 일괄 지급';
+        if(d.success){
+          showToast('✅ '+d.count+'명에게 '+amount+'🍀 지급 완료!');
+          document.getElementById('bulkReason').value='';
+        }else{
+          showToast('실패: '+(d.error||'알 수 없는 오류'));
+        }
+      }).catch(function(){
+        btn.disabled=false;
+        btn.textContent='🍀 일괄 지급';
+        showToast('서버 연결 실패');
+      });
     }
-  }).catch(function(){
-    btn.disabled=false;
-    btn.textContent='🍀 일괄 지급';
-    showToast('서버 연결 실패');
-  });
+  );
+}
+
+function bulkRevokeClover(){
+  var target=document.getElementById('revokeTarget').value;
+  var amount=parseInt(document.getElementById('revokeAmount').value);
+  var reason=document.getElementById('revokeReason').value.trim();
+
+  if(!amount||amount<=0){showToast('수량을 입력하세요');return;}
+  if(amount>1000){showToast('안전을 위해 최대 1,000개까지만 일괄 회수 가능합니다');return;}
+  if(!reason){showToast('사유를 입력하세요');return;}
+
+  var targetLabel=(target==='all')?'전체 유저':'활성 유저';
+  if(!confirm('⚠️ '+targetLabel+'에게서 '+amount+'🍀 일괄 회수합니다.\n사유: '+reason+'\n\n잔액 부족 유저는 0으로 처리됩니다.\n\n진행하시겠습니까?')) return;
+
+  openPwModal(
+    '🔄 일괄 회수 확인',
+    targetLabel+'에게서 '+amount+'🍀 회수. 관리자 비밀번호를 입력하세요.',
+    '🔄',
+    function(){
+      var btn=document.getElementById('bulkRevokeBtn');
+      btn.disabled=true;
+      btn.textContent='회수 중...';
+
+      fetch('/api/admin/clover',{
+        method:'DELETE',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},
+        body:JSON.stringify({target:target,amount:amount,reason:reason})
+      }).then(function(r){return r.json();})
+      .then(function(d){
+        btn.disabled=false;
+        btn.textContent='🔄 일괄 회수';
+        if(d.success){
+          showToast('✅ '+d.count+'명에게서 '+amount+'🍀 회수 완료!');
+          document.getElementById('revokeReason').value='';
+        }else{
+          showToast('실패: '+(d.error||'알 수 없는 오류'));
+        }
+      }).catch(function(){
+        btn.disabled=false;
+        btn.textContent='🔄 일괄 회수';
+        showToast('서버 연결 실패');
+      });
+    }
+  );
 }
 
 // ===== Errors =====
