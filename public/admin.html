@@ -2334,28 +2334,63 @@ function reloadStatChart(){
 }
 
 function loadStatChartData(metric){
-  // API 연결은 Step 10에서. 지금은 table 데이터로 차트 렌더
-  var rows=(statsData&&statsData.table)?statsData.table:[];
-  var labels=[];
-  var values=[];
-  var keyMap={
-    users:'signups',signups:'signups',saju:'saju',gunghap:'gunghap',
-    chat:'chat',totalAnalysis:'total',cloverGiven:'clover_given',
-    cloverUsed:'clover_used',errors:'errors',errorsUnresolved:'errors'
-  };
-  var key=keyMap[metric]||'total';
+  // 기간에 따른 from/to 계산
+  var now=new Date();
+  var todayStr=now.getFullYear()+'-'+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+'-'+(now.getDate()<10?'0':'')+now.getDate();
+  var fromStr=todayStr;
+  var toStr=todayStr;
 
-  for(var i=0;i<rows.length;i++){
-    labels.push(rows[i].date||'');
-    values.push(rows[i][key]||0);
+  if(statsPeriod==='today'){
+    fromStr=todayStr;
+    toStr=todayStr;
+  }else if(statsPeriod==='week'){
+    var weekAgo=new Date(now);
+    weekAgo.setDate(weekAgo.getDate()-6);
+    fromStr=weekAgo.getFullYear()+'-'+(weekAgo.getMonth()+1<10?'0':'')+(weekAgo.getMonth()+1)+'-'+(weekAgo.getDate()<10?'0':'')+weekAgo.getDate();
+    toStr=todayStr;
+  }else if(statsPeriod==='month'){
+    fromStr=now.getFullYear()+'-'+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+'-01';
+    toStr=todayStr;
+  }else{
+    fromStr=now.getFullYear()+'-01-01';
+    toStr=todayStr;
   }
 
-  if(labels.length===0){
-    labels=['데이터 없음'];
-    values=[0];
-  }
-
-  renderStatBarChart(labels,values,metric);
+  fetch('/api/admin/stats/chart?metric='+metric+'&from='+fromStr+'&to='+toStr,{
+    headers:{'Authorization':'Bearer '+adminToken}
+  }).then(function(r){
+    if(!r.ok) throw new Error('HTTP_'+r.status);
+    return r.json();
+  }).then(function(d){
+    var labels=d.labels||[];
+    var values=d.values||[];
+    if(labels.length===0){
+      labels=['데이터 없음'];
+      values=[0];
+    }
+    renderStatBarChart(labels,values,metric);
+  }).catch(function(e){
+    console.error('[stats/chart] load error:',e);
+    // 폴백: 테이블 데이터로 차트 렌더
+    var rows=(statsData&&statsData.table)?statsData.table:[];
+    var labels=[];
+    var values=[];
+    var keyMap={
+      users:'signups',signups:'signups',saju:'saju',gunghap:'gunghap',
+      chat:'chat',totalAnalysis:'total',cloverGiven:'clover_given',
+      cloverUsed:'clover_used',errors:'errors',errorsUnresolved:'errors'
+    };
+    var key=keyMap[metric]||'total';
+    for(var i=0;i<rows.length;i++){
+      labels.push(rows[i].date||'');
+      values.push(rows[i][key]||0);
+    }
+    if(labels.length===0){
+      labels=['데이터 없음'];
+      values=[0];
+    }
+    renderStatBarChart(labels,values,metric);
+  });
 }
 
 function renderStatBarChart(labels,values,metric){
