@@ -3387,6 +3387,8 @@ function goGunghapWithSelected(){
   if(ghSelected.length!==2) return;
   var pA=Object.assign({},personMap[ghSelected[0]]);
   var pB=Object.assign({},personMap[ghSelected[1]]);
+  pA._id=ghSelected[0];
+  pB._id=ghSelected[1];
   // '나'면 saju 데이터 연결
   if(pA.name==='나'&&window._lastSaju){pA.saju=window._lastSaju;pA.dw=window._lastDW;pA.gg=window._lastGG;pA.mbtiObj=window._lastMBTIObj;}
   if(pB.name==='나'&&window._lastSaju){pB.saju=window._lastSaju;pB.dw=window._lastDW;pB.gg=window._lastGG;pB.mbtiObj=window._lastMBTIObj;}
@@ -3400,7 +3402,7 @@ function goGunghapWithSelected(){
   fillSlot('slotA',pA,'filled');
   fillSlot('slotB',pB,'filled-b');
   // Highlight in person list
-  updatePersonHighlight();
+  updatePersonHighlightById();
   // Scroll to relationship section
   setTimeout(function(){
     document.querySelector('.gh-rel-title').scrollIntoView({behavior:'smooth',block:'center'});
