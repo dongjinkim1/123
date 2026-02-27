@@ -3239,6 +3239,7 @@ function resetGunghap(){
 }
 
 function goBackFromGH(){
+  clearGH();
   if(ghPrevPage==='pgSave'){
     go('pgSave');
   } else {
@@ -3487,6 +3488,7 @@ document.querySelectorAll('.topic').forEach(t=>t.addEventListener('click',functi
 
 // ===== 분석결과: Sub tabs =====
 function setSaveTab(i){
+  clearGH();
   document.querySelectorAll('.sub-tab').forEach(function(t,n){
     t.classList.remove('active','active-rose');
     if(n===i) t.classList.add(n===1?'active-rose':'active');
