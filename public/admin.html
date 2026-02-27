@@ -234,6 +234,24 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .notice-modal-cancel{padding:10px 20px;background:#F5F5F5;color:#636366;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
 .notice-modal-save{padding:10px 20px;background:#8B6CC1;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
 .notice-modal-save:hover{opacity:0.9}
+
+/* ===== Status Bar ===== */
+.status-bar{display:flex;align-items:center;gap:12px;background:#fff;border-radius:12px;padding:12px 16px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);flex-wrap:wrap}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.on{background:#4CAF7D}
+.status-dot.off{background:#E05A5A}
+.status-label{font-size:12px;font-weight:600;color:#636366}
+.status-sep{width:1px;height:16px;background:#E5E5EA}
+.status-time{font-size:11px;color:#AEAEB2;margin-left:auto}
+
+/* ===== Dashboard Small Cards ===== */
+.dash-grid-sm{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+@media(max-width:480px){.dash-grid-sm{grid-template-columns:1fr}}
+.dash-card-sm{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);text-align:center}
+.dash-card-sm .dash-card-icon{font-size:20px;margin-bottom:4px}
+.dash-card-sm .dash-card-label{font-size:11px}
+.dash-card-sm .dash-card-value{font-size:22px}
+.dash-card-sm .dash-card-sub{font-size:10px}
 </style>
 </head>
 <body>
@@ -269,6 +287,14 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 
   <!-- Tab 0: Dashboard -->
   <div class="tab-content active" id="tabDash">
+    <div class="status-bar" id="statusBar">
+      <div class="status-dot on" id="statusDot"></div>
+      <span class="status-label" id="statusLabel">서버 정상</span>
+      <div class="status-sep"></div>
+      <span class="status-label" id="statusDb">DB 연결 확인 중...</span>
+      <span class="status-time" id="statusTime">-</span>
+    </div>
+
     <div class="dash-grid" id="dashGrid">
       <div class="dash-card">
         <div class="dash-card-icon">👥</div>
@@ -293,6 +319,27 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
         <div class="dash-card-label">분석 건수</div>
         <div class="dash-card-value" id="dAnalysis">-</div>
         <div class="dash-card-sub" id="dAnalysisSub">사주 -건 + 궁합 -건</div>
+      </div>
+    </div>
+
+    <div class="dash-grid-sm" id="dashGridSm">
+      <div class="dash-card-sm">
+        <div class="dash-card-icon">📅</div>
+        <div class="dash-card-label">오늘 분석</div>
+        <div class="dash-card-value" id="dTodayAnalysis">-</div>
+        <div class="dash-card-sub" id="dTodayAnalysisSub">사주 - / 궁합 -</div>
+      </div>
+      <div class="dash-card-sm">
+        <div class="dash-card-icon">🤖</div>
+        <div class="dash-card-label">AI 성공률</div>
+        <div class="dash-card-value" id="dAiRate">-</div>
+        <div class="dash-card-sub" id="dAiRateSub">AI 에러 -건</div>
+      </div>
+      <div class="dash-card-sm">
+        <div class="dash-card-icon">💰</div>
+        <div class="dash-card-label">예상 API 비용</div>
+        <div class="dash-card-value" id="dApiCost">-</div>
+        <div class="dash-card-sub" id="dApiCostSub">Claude API 추정</div>
       </div>
     </div>
 
@@ -559,6 +606,52 @@ function renderDashboard(d){
   document.getElementById('dAnalysis').textContent=sajuN+ghN;
   document.getElementById('dAnalysisSub').textContent='사주 '+sajuN+'건 + 궁합 '+ghN+'건';
 
+  // Status bar
+  var dbOk=d.users.total>=0;
+  var dotEl=document.getElementById('statusDot');
+  var labelEl=document.getElementById('statusLabel');
+  var dbEl=document.getElementById('statusDb');
+  var timeEl=document.getElementById('statusTime');
+  if(dbOk){
+    dotEl.className='status-dot on';
+    labelEl.textContent='서버 정상';
+    dbEl.textContent='DB 연결 정상';
+  }else{
+    dotEl.className='status-dot off';
+    labelEl.textContent='서버 이상';
+    dbEl.textContent='DB 연결 실패';
+  }
+  var now=new Date();
+  var hh=now.getHours()<10?'0'+now.getHours():''+now.getHours();
+  var mm=now.getMinutes()<10?'0'+now.getMinutes():''+now.getMinutes();
+  timeEl.textContent='마지막 갱신: '+hh+':'+mm;
+
+  // Today analysis cards
+  var todaySaju=d.today_saju||0;
+  var todayGunghap=d.today_gunghap||0;
+  var todayChat=d.today_chat||0;
+  var todayTotal=todaySaju+todayGunghap+todayChat;
+  document.getElementById('dTodayAnalysis').textContent=todayTotal;
+  document.getElementById('dTodayAnalysisSub').textContent='사주 '+todaySaju+' / 궁합 '+todayGunghap+(todayChat>0?' / 채팅 '+todayChat:'');
+
+  // AI success rate
+  var aiFail=d.errors.ai_fail||0;
+  var totalAnalysis=sajuN+ghN;
+  var aiRate='100%';
+  if(totalAnalysis>0){
+    var successRate=totalAnalysis>0?Math.round(((totalAnalysis-aiFail)/totalAnalysis)*1000)/10:100;
+    if(successRate<0) successRate=0;
+    aiRate=successRate+'%';
+  }
+  document.getElementById('dAiRate').textContent=aiRate;
+  document.getElementById('dAiRateSub').textContent='AI 에러 '+aiFail+'건';
+
+  // Estimated API cost (~$0.01 per analysis)
+  var costPerCall=0.01;
+  var estCost=Math.round(totalAnalysis*costPerCall*100)/100;
+  document.getElementById('dApiCost').textContent='$'+estCost;
+  document.getElementById('dApiCostSub').textContent='총 '+totalAnalysis+'건 x $'+costPerCall;
+
   // Render logs
   var logs=d.admin_logs||[];
   var logArea=document.getElementById('logArea');
@@ -617,6 +710,20 @@ function copyReport(){
       text+='- '+mm+'.'+dd+' '+hh+': '+(log.action||log.message||'활동')+'\n';
     });
   }
+
+  var todaySaju=d.today_saju||0;
+  var todayGunghap=d.today_gunghap||0;
+  var todayChat=d.today_chat||0;
+  var aiFail=d.errors.ai_fail||0;
+  var totalAn=d.saju_results.total+d.gunghap_results.total;
+  var aiRate=totalAn>0?Math.round(((totalAn-aiFail)/totalAn)*1000)/10:100;
+  if(aiRate<0) aiRate=0;
+  var estCost=Math.round(totalAn*0.01*100)/100;
+
+  text+='\n[오늘 분석]\n';
+  text+='- 오늘 사주: '+todaySaju+'건 / 궁합: '+todayGunghap+'건 / 채팅: '+todayChat+'건\n';
+  text+='- AI 성공률: '+aiRate+'% (에러 '+aiFail+'건)\n';
+  text+='- 예상 API 비용: $'+estCost+' ('+totalAn+'건)\n';
 
   text+='\n[시스템]\n';
   text+='- Supabase 연결: '+(d.users.total>=0?'정상':'에러')+'\n';

@@ -59,12 +59,16 @@ export async function GET(request) {
       errorsTotal,
       errorsUnresolved,
       errorsToday,
+      errorsAiFail,
       cloverTotal,
       noticesTotal,
       noticesPinned,
       adminLogs,
       sajuTotal,
-      gunghapTotal
+      gunghapTotal,
+      todaySaju,
+      todayGunghap,
+      todayChat
     ] = await Promise.all([
       safeCount('users'),
       safeCount('users', q => q.eq('is_blocked', true)),
@@ -72,22 +76,29 @@ export async function GET(request) {
       safeCount('error_logs'),
       safeCount('error_logs', q => q.eq('resolved', false)),
       safeCount('error_logs', q => q.gte('created_at', today)),
+      safeCount('error_logs', q => q.in('error_type', ['ai_fail', 'analysis', 'gunghap'])),
       safeSum('clover_history', 'amount', q => q.in('type', ['charge', 'signup_bonus'])),
       safeCount('notices'),
       safeCount('notices', q => q.eq('is_pinned', true)),
       safeSelect('admin_logs', '*', { order: 'created_at', limit: 20 }),
       safeCount('saju_results'),
-      safeCount('gunghap_results')
+      safeCount('gunghap_results'),
+      safeCount('saju_results', q => q.gte('created_at', today)),
+      safeCount('gunghap_results', q => q.gte('created_at', today)),
+      safeCount('chat_sessions', q => q.gte('created_at', today))
     ])
 
     return Response.json({
       users: { total: usersTotal, banned: usersBanned, today: usersToday },
-      errors: { total: errorsTotal, unresolved: errorsUnresolved, today: errorsToday },
+      errors: { total: errorsTotal, unresolved: errorsUnresolved, today: errorsToday, ai_fail: errorsAiFail },
       clover: { total: cloverTotal },
       notices: { total: noticesTotal, pinned: noticesPinned },
       admin_logs: adminLogs,
       saju_results: { total: sajuTotal },
-      gunghap_results: { total: gunghapTotal }
+      gunghap_results: { total: gunghapTotal },
+      today_saju: todaySaju,
+      today_gunghap: todayGunghap,
+      today_chat: todayChat
     })
   } catch (error) {
     console.error('[admin/dashboard] 에러:', error)
