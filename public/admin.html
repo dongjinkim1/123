@@ -561,14 +561,34 @@ function runSeed(){
     headers:{'Authorization':'Bearer '+adminToken}
   }).then(function(r){return r.json();})
   .then(function(d){
+    console.log('[seed 응답]', JSON.stringify(d, null, 2));
     if(d.success){
-      showToast('생성: '+d.created+'명, 스킵: '+d.skipped+'명');
+      var msg = '생성: '+d.created+'명, 스킵: '+d.skipped+'명';
+      if(d.errors && d.errors.length > 0){
+        msg += '\n⚠ 경고 '+d.errors.length+'건:';
+        for(var i=0;i<d.errors.length;i++){
+          msg += '\n- ['+d.errors[i].step+'] '+d.errors[i].message;
+        }
+        alert(msg);
+      }else{
+        showToast(msg);
+      }
+      if(d.debug){
+        console.log('[seed debug] 컬럼:', d.debug.columns);
+      }
       loadDashboard();
     }else{
-      showToast('실패: '+(d.error||'알 수 없는 오류'));
+      var errMsg = '실패: '+(d.error||'알 수 없는 오류');
+      if(d.errors && d.errors.length > 0){
+        for(var i=0;i<d.errors.length;i++){
+          errMsg += '\n- ['+d.errors[i].step+'] '+d.errors[i].message;
+        }
+      }
+      alert(errMsg);
     }
   }).catch(function(e){
     showToast('서버 연결 실패');
+    console.error('[seed] fetch 에러:', e);
   });
 }
 

@@ -67,7 +67,7 @@ export async function GET(request) {
       gunghapTotal
     ] = await Promise.all([
       safeCount('users'),
-      safeCount('users', q => q.eq('is_banned', true)),
+      safeCount('users', q => q.eq('is_blocked', true)),
       safeCount('users', q => q.gte('created_at', today)),
       safeCount('error_logs'),
       safeCount('error_logs', q => q.eq('resolved', false)),
