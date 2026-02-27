@@ -1,0 +1,139 @@
+import { validateToken } from '@/lib/adminAuth'
+import { getServiceSupabase } from '@/lib/supabase'
+
+function authCheck(request) {
+  var authHeader = request.headers.get('Authorization')
+  if (!authHeader || !authHeader.startsWith('Bearer ')) return false
+  return validateToken(authHeader.replace('Bearer ', ''))
+}
+
+// GET: 클로버 내역 조회
+export async function GET(request) {
+  if (!authCheck(request)) {
+    return Response.json({ error: '인증 필요' }, { status: 401 })
+  }
+
+  try {
+    var supabase = getServiceSupabase()
+    var url = new URL(request.url)
+    var userId = url.searchParams.get('userId')
+    var page = parseInt(url.searchParams.get('page') || '1', 10)
+    var limit = parseInt(url.searchParams.get('limit') || '20', 10)
+    var offset = (page - 1) * limit
+
+    if (!userId) {
+      return Response.json({ error: 'userId 필요' }, { status: 400 })
+    }
+
+    // 총 수 조회
+    var { count: total, error: countErr } = await supabase
+      .from('clover_history')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+
+    if (countErr) {
+      console.error('[admin/clover] count 에러:', countErr)
+    }
+
+    // 데이터 조회
+    var { data: history, error: dataErr } = await supabase
+      .from('clover_history')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1)
+
+    if (dataErr) {
+      console.error('[admin/clover] data 에러:', dataErr)
+      return Response.json({ history: [], total: 0, page: page })
+    }
+
+    return Response.json({
+      history: history || [],
+      total: total || 0,
+      page: page
+    })
+  } catch (error) {
+    console.error('[admin/clover] GET 에러:', error)
+    return Response.json({ error: error.message }, { status: 500 })
+  }
+}
+
+// POST: 클로버 지급/차감
+export async function POST(request) {
+  if (!authCheck(request)) {
+    return Response.json({ error: '인증 필요' }, { status: 401 })
+  }
+
+  try {
+    var supabase = getServiceSupabase()
+    var body = await request.json()
+    var userId = body.userId
+    var amount = body.amount // 양수=지급, 음수=차감
+    var type = body.type || 'admin'
+    var description = body.description || ''
+
+    if (!userId || !amount) {
+      return Response.json({ error: 'userId와 amount 필요' }, { status: 400 })
+    }
+
+    // 현재 잔액 조회
+    var { data: userData, error: userErr } = await supabase
+      .from('users')
+      .select('clover_balance')
+      .eq('id', userId)
+      .single()
+
+    if (userErr || !userData) {
+      return Response.json({ error: '유저를 찾을 수 없습니다' }, { status: 404 })
+    }
+
+    var currentBalance = userData.clover_balance || 0
+    var newBalance = currentBalance + amount
+    if (newBalance < 0) {
+      return Response.json({ error: '잔액이 부족합니다 (현재: ' + currentBalance + ')' }, { status: 400 })
+    }
+
+    // 잔액 업데이트
+    var { error: updateErr } = await supabase
+      .from('users')
+      .update({ clover_balance: newBalance })
+      .eq('id', userId)
+
+    if (updateErr) {
+      console.error('[admin/clover] 잔액 업데이트 에러:', updateErr)
+      return Response.json({ error: '잔액 업데이트 실패: ' + updateErr.message }, { status: 500 })
+    }
+
+    // 내역 기록
+    var { error: historyErr } = await supabase
+      .from('clover_history')
+      .insert({
+        user_id: userId,
+        amount: amount,
+        balance_after: newBalance,
+        type: type,
+        description: description,
+        admin_memo: '관리자 수동 ' + (amount > 0 ? '지급' : '차감')
+      })
+
+    if (historyErr) {
+      console.error('[admin/clover] 내역 기록 에러:', historyErr)
+    }
+
+    // 관리자 로그
+    try {
+      await supabase.from('admin_logs').insert({
+        admin_id: null,
+        action: '클로버 ' + (amount > 0 ? '지급' : '차감') + ' ' + Math.abs(amount) + '개 → ' + userId.slice(0, 8) + '... (' + description + ')'
+      })
+    } catch (logErr) {
+      console.warn('[admin/clover] 로그 기록 실패:', logErr)
+    }
+
+    return Response.json({ success: true, newBalance: newBalance })
+  } catch (error) {
+    console.error('[admin/clover] POST 에러:', error)
+    return Response.json({ error: error.message }, { status: 500 })
+  }
+}

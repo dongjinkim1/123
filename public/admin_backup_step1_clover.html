@@ -108,51 +108,6 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .pager-info{font-size:12px;color:#AEAEB2}
 .seed-btn{width:100%;padding:14px;background:#fff;border:1.5px solid #AEAEB2;border-radius:12px;font-size:14px;font-weight:700;color:#636366;cursor:pointer;transition:all .2s;font-family:inherit;margin-bottom:16px}
 .seed-btn:hover{border-color:#8B6CC1;color:#8B6CC1}
-
-/* ===== Clover Tab ===== */
-.clover-search{display:flex;gap:8px;margin-bottom:16px}
-.clover-search-input{flex:1;padding:10px 14px;border:1.5px solid #E5E5EA;border-radius:10px;font-size:13px;outline:none;font-family:inherit}
-.clover-search-input:focus{border-color:#8B6CC1}
-.clover-search-btn{padding:10px 18px;background:#8B6CC1;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;flex-shrink:0}
-
-.clover-user-card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:16px}
-.clover-user-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.clover-user-info{display:flex;align-items:center;gap:12px}
-.clover-user-avatar{width:44px;height:44px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden;flex-shrink:0}
-.clover-user-avatar img{width:100%;height:100%;object-fit:cover}
-.clover-user-name{font-size:15px;font-weight:700}
-.clover-user-meta{font-size:11px;color:#AEAEB2;margin-top:2px}
-.clover-balance{text-align:right}
-.clover-balance-num{font-size:28px;font-weight:900;color:#4CAF7D}
-.clover-balance-label{font-size:11px;color:#AEAEB2}
-
-.clover-adjust{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-.clover-amount-input{width:100px;padding:10px 12px;border:1.5px solid #E5E5EA;border-radius:10px;font-size:14px;font-weight:700;text-align:center;outline:none;font-family:inherit}
-.clover-amount-input:focus{border-color:#8B6CC1}
-.clover-reason-input{flex:1;min-width:120px;padding:10px 12px;border:1.5px solid #E5E5EA;border-radius:10px;font-size:13px;outline:none;font-family:inherit}
-.clover-reason-input:focus{border-color:#8B6CC1}
-.clover-give-btn{padding:10px 16px;background:#4CAF7D;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
-.clover-give-btn:hover{opacity:0.9}
-.clover-take-btn{padding:10px 16px;background:#E05A5A;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
-.clover-take-btn:hover{opacity:0.9}
-
-.clover-history-title{font-size:14px;font-weight:700;color:#1C1C1E;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
-.clover-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid #F0F0F0;font-size:13px}
-.clover-row:last-child{border-bottom:none}
-.clover-row-date{width:70px;color:#AEAEB2;font-size:11px;flex-shrink:0}
-.clover-row-type{width:60px;flex-shrink:0}
-.clover-type-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700}
-.type-charge{background:rgba(76,175,125,0.1);color:#4CAF7D}
-.type-use{background:rgba(224,90,90,0.1);color:#E05A5A}
-.type-reward{background:rgba(139,108,193,0.1);color:#8B6CC1}
-.type-admin{background:rgba(99,99,102,0.1);color:#636366}
-.type-refund{background:rgba(70,130,180,0.1);color:#4682B4}
-.type-signup_bonus{background:rgba(201,154,46,0.1);color:#C99A2E}
-.clover-row-desc{flex:1;color:#636366;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.clover-row-amount{width:60px;text-align:right;font-weight:700;flex-shrink:0}
-.clover-row-amount.plus{color:#4CAF7D}
-.clover-row-amount.minus{color:#E05A5A}
-.clover-row-balance{width:50px;text-align:right;color:#AEAEB2;font-size:11px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -243,35 +198,10 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 
   <!-- Tab 2: Clover -->
   <div class="tab-content" id="tabClover">
-    <div class="clover-search">
-      <input class="clover-search-input" id="cloverUserSearch" type="text" placeholder="유저 닉네임, 이메일 또는 ID 검색" onkeydown="if(event.key==='Enter')searchCloverUser()">
-      <button class="clover-search-btn" onclick="searchCloverUser()">검색</button>
-    </div>
-
-    <div id="cloverUserArea">
-      <div class="log-empty">유저를 검색하면 클로버 내역을 볼 수 있습니다</div>
-    </div>
-
-    <div id="cloverAdjustArea" style="display:none">
-      <div class="clover-user-card" id="cloverUserCard"></div>
-      <div class="clover-adjust">
-        <input class="clover-amount-input" id="cloverAmount" type="number" placeholder="수량" min="1" value="10">
-        <input class="clover-reason-input" id="cloverReason" type="text" placeholder="사유 (예: 이벤트 보상, 오류 보상)">
-        <button class="clover-give-btn" onclick="adjustClover('charge')">🍀 지급</button>
-        <button class="clover-take-btn" onclick="adjustClover('use')">차감</button>
-      </div>
-      <div class="clover-history-title">
-        <span>클로버 내역</span>
-        <span id="cloverHistoryCount" style="font-size:11px;color:#AEAEB2;font-weight:400"></span>
-      </div>
-      <div class="log-card" id="cloverHistoryList">
-        <div class="loading"><div class="spinner"></div><div>내역 로딩 중...</div></div>
-      </div>
-      <div class="pager" id="cloverPager" style="display:none">
-        <button class="pager-btn" onclick="changeCloverPage(-1)" id="cloverPrevBtn">← 이전</button>
-        <span class="pager-info" id="cloverPageInfo"></span>
-        <button class="pager-btn" onclick="changeCloverPage(1)" id="cloverNextBtn">다음 →</button>
-      </div>
+    <div class="placeholder">
+      <div class="placeholder-icon">🍀</div>
+      <div class="placeholder-text">클로버 관리</div>
+      <div class="placeholder-sub">3단계에서 구현 예정</div>
     </div>
   </div>
 
@@ -376,7 +306,6 @@ function setAdminTab(i){
     contents[n].classList.toggle('active',n===i);
   }
   if(i===1) loadUsers();
-  if(i===2 && cloverSelectedUser) loadCloverHistory();
 }
 
 // ===== Dashboard =====
@@ -619,163 +548,6 @@ function userAction(userId,action,nickname){
       showToast('실패: '+(d.error||'알 수 없는 오류'));
     }
   }).catch(function(e){
-    showToast('서버 연결 실패');
-  });
-}
-
-// ===== Clover =====
-var cloverSelectedUser=null;
-var cloverPage=1;
-var cloverTotal=0;
-var cloverLimit=20;
-
-function searchCloverUser(){
-  var q=document.getElementById('cloverUserSearch').value.trim();
-  if(!q){showToast('검색어를 입력하세요');return;}
-  var area=document.getElementById('cloverUserArea');
-  area.innerHTML='<div class="loading"><div class="spinner"></div><div>유저 검색 중...</div></div>';
-  document.getElementById('cloverAdjustArea').style.display='none';
-
-  fetch('/api/admin/users?search='+encodeURIComponent(q)+'&limit=5',{
-    headers:{'Authorization':'Bearer '+adminToken}
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    var users=d.users||[];
-    if(users.length===0){
-      area.innerHTML='<div class="log-empty">검색 결과가 없습니다</div>';
-      return;
-    }
-    if(users.length===1){
-      selectCloverUser(users[0]);
-      area.innerHTML='';
-      return;
-    }
-    var html='<div style="margin-bottom:8px;font-size:12px;color:#AEAEB2">'+users.length+'명 검색됨 — 클릭하여 선택</div>';
-    for(var i=0;i<users.length;i++){
-      var u=users[i];
-      html+='<div class="user-card" style="cursor:pointer;margin-bottom:8px" onclick=\'selectCloverUser('+JSON.stringify(u).replace(/'/g,"&#39;")+')\'>';
-      html+='<div class="user-card-top" style="margin-bottom:0">';
-      html+='<div class="user-avatar">'+(u.profile_image?'<img src="'+u.profile_image+'" alt="">':'👤')+'</div>';
-      html+='<div class="user-info">';
-      html+='<div class="user-name">'+(u.nickname||'이름없음')+'</div>';
-      html+='<div class="user-meta">'+(u.email||'-')+' · 🍀 '+(u.clover_balance||0)+'</div>';
-      html+='</div></div></div>';
-    }
-    area.innerHTML=html;
-  }).catch(function(){
-    area.innerHTML='<div class="log-empty">검색 실패</div>';
-  });
-}
-
-function selectCloverUser(user){
-  cloverSelectedUser=user;
-  cloverPage=1;
-  document.getElementById('cloverUserArea').innerHTML='';
-  document.getElementById('cloverAdjustArea').style.display='block';
-
-  var card=document.getElementById('cloverUserCard');
-  var avatar=user.profile_image?'<img src="'+user.profile_image+'" alt="">':'👤';
-  card.innerHTML='<div class="clover-user-top">'
-    +'<div class="clover-user-info">'
-    +'<div class="clover-user-avatar">'+avatar+'</div>'
-    +'<div><div class="clover-user-name">'+(user.nickname||'이름없음')+'</div>'
-    +'<div class="clover-user-meta">'+(user.email||'-')+' · ID: '+(user.id?user.id.slice(0,8)+'...':'-')+'</div></div>'
-    +'</div>'
-    +'<div class="clover-balance">'
-    +'<div class="clover-balance-num" id="cloverBalanceNum">🍀 '+(user.clover_balance||0)+'</div>'
-    +'<div class="clover-balance-label">현재 잔액</div>'
-    +'</div></div>';
-
-  document.getElementById('cloverAmount').value='10';
-  document.getElementById('cloverReason').value='';
-  loadCloverHistory();
-}
-
-function loadCloverHistory(){
-  if(!cloverSelectedUser) return;
-  var list=document.getElementById('cloverHistoryList');
-  list.innerHTML='<div class="loading"><div class="spinner"></div><div>내역 로딩 중...</div></div>';
-
-  fetch('/api/admin/clover?userId='+cloverSelectedUser.id+'&page='+cloverPage+'&limit='+cloverLimit,{
-    headers:{'Authorization':'Bearer '+adminToken}
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    cloverTotal=d.total||0;
-    document.getElementById('cloverHistoryCount').textContent='총 '+cloverTotal+'건';
-    renderCloverHistory(d.history||[]);
-    renderCloverPager();
-  }).catch(function(){
-    list.innerHTML='<div class="log-empty">내역을 불러올 수 없습니다</div>';
-  });
-}
-
-function renderCloverHistory(history){
-  var list=document.getElementById('cloverHistoryList');
-  if(!history||history.length===0){
-    list.innerHTML='<div class="log-empty">클로버 내역이 없습니다</div>';
-    return;
-  }
-  var typeLabels={charge:'충전',use:'사용',reward:'보상',admin:'관리자',refund:'환불',signup_bonus:'가입'};
-  var html='';
-  for(var i=0;i<history.length;i++){
-    var h=history[i];
-    var date=h.created_at?h.created_at.slice(5,16).replace('T',' '):'';
-    var typeLabel=typeLabels[h.type]||h.type;
-    var isPlus=(h.amount>0);
-    html+='<div class="clover-row">';
-    html+='<div class="clover-row-date">'+date+'</div>';
-    html+='<div class="clover-row-type"><span class="clover-type-badge type-'+h.type+'">'+typeLabel+'</span></div>';
-    html+='<div class="clover-row-desc">'+(h.description||h.admin_memo||'-')+'</div>';
-    html+='<div class="clover-row-amount '+(isPlus?'plus':'minus')+'">'+(isPlus?'+':'')+h.amount+'</div>';
-    html+='<div class="clover-row-balance">'+(h.balance_after!=null?h.balance_after:'-')+'</div>';
-    html+='</div>';
-  }
-  list.innerHTML=html;
-}
-
-function renderCloverPager(){
-  var totalPages=Math.ceil(cloverTotal/cloverLimit)||1;
-  var pager=document.getElementById('cloverPager');
-  if(cloverTotal<=cloverLimit){pager.style.display='none';return;}
-  pager.style.display='flex';
-  document.getElementById('cloverPageInfo').textContent=cloverPage+' / '+totalPages;
-  document.getElementById('cloverPrevBtn').disabled=(cloverPage<=1);
-  document.getElementById('cloverNextBtn').disabled=(cloverPage>=totalPages);
-}
-
-function changeCloverPage(dir){
-  cloverPage+=dir;
-  if(cloverPage<1) cloverPage=1;
-  loadCloverHistory();
-}
-
-function adjustClover(type){
-  if(!cloverSelectedUser){showToast('유저를 먼저 선택하세요');return;}
-  var amount=parseInt(document.getElementById('cloverAmount').value);
-  var reason=document.getElementById('cloverReason').value.trim();
-  if(!amount||amount<=0){showToast('수량을 입력하세요');return;}
-  if(!reason){showToast('사유를 입력하세요');return;}
-
-  var actionLabel=(type==='charge')?'지급':'차감';
-  var displayAmount=(type==='charge')?amount:-amount;
-  if(!confirm((cloverSelectedUser.nickname||'유저')+'에게 '+amount+'🍀 '+actionLabel+'하시겠습니까?\n사유: '+reason)) return;
-
-  fetch('/api/admin/clover',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},
-    body:JSON.stringify({userId:cloverSelectedUser.id,amount:displayAmount,type:type==='charge'?'admin':'use',description:reason})
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    if(d.success){
-      showToast(actionLabel+' 완료! 잔액: '+d.newBalance+'🍀');
-      cloverSelectedUser.clover_balance=d.newBalance;
-      document.getElementById('cloverBalanceNum').textContent='🍀 '+d.newBalance;
-      document.getElementById('cloverReason').value='';
-      loadCloverHistory();
-    }else{
-      showToast('실패: '+(d.error||'알 수 없는 오류'));
-    }
-  }).catch(function(){
     showToast('서버 연결 실패');
   });
 }
