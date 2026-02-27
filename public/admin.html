@@ -308,6 +308,53 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .chart-tab-bar{display:flex;gap:4px;margin-bottom:12px}
 .chart-tab{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #E5E5EA;background:#fff;color:#636366;font-family:inherit;transition:all .2s}
 .chart-tab.active{background:#8B6CC1;color:#fff;border-color:#8B6CC1}
+
+/* ===== Stats Tab ===== */
+.stats-period-bar{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.stats-period-btn{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #E5E5EA;background:#fff;color:#636366;font-family:inherit;transition:all .2s}
+.stats-period-btn.active{background:#8B6CC1;color:#fff;border-color:#8B6CC1}
+
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+@media(max-width:768px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+
+.stat-card{background:#fff;border-radius:14px;padding:16px 14px;box-shadow:0 2px 12px rgba(0,0,0,0.06);cursor:pointer;transition:all .2s;border:1.5px solid transparent;position:relative}
+.stat-card:hover{border-color:#8B6CC1;box-shadow:0 4px 16px rgba(139,108,193,0.15)}
+.stat-card-icon{font-size:20px;margin-bottom:6px}
+.stat-card-label{font-size:11px;color:#AEAEB2;font-weight:600;margin-bottom:4px}
+.stat-card-value{font-size:24px;font-weight:900;color:#1C1C1E}
+.stat-card-diff{font-size:11px;font-weight:600;margin-top:4px;display:flex;align-items:center;gap:4px}
+.stat-card-diff.up{color:#4CAF7D}
+.stat-card-diff.down{color:#E05A5A}
+.stat-card-diff.same{color:#AEAEB2}
+.stat-card-expand{position:absolute;top:8px;right:10px;font-size:10px;color:#AEAEB2}
+
+.stats-chart-area{display:none;background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:20px;position:relative}
+.stats-chart-area.open{display:block}
+.stats-chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.stats-chart-title{font-size:14px;font-weight:700;color:#1C1C1E;display:flex;align-items:center;gap:6px}
+.stats-chart-close{background:none;border:none;font-size:18px;cursor:pointer;color:#AEAEB2;padding:4px 8px}
+.stats-chart-close:hover{color:#1C1C1E}
+.stats-chart-canvas{width:100%!important;max-height:240px}
+.stats-chart-reload{padding:6px 14px;background:rgba(139,108,193,0.1);color:#8B6CC1;border:none;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;margin-right:8px}
+
+.stats-extra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+@media(max-width:480px){.stats-extra-grid{grid-template-columns:1fr}}
+.stats-extra-card{background:#fff;border-radius:14px;padding:18px 16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);text-align:center}
+.stats-extra-label{font-size:12px;color:#AEAEB2;font-weight:600;margin-bottom:6px}
+.stats-extra-value{font-size:22px;font-weight:900;color:#8B6CC1}
+.stats-extra-sub{font-size:11px;color:#636366;margin-top:4px}
+
+.stats-table-wrap{background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:20px;overflow-x:auto}
+.stats-table-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.stats-table-title{font-size:14px;font-weight:700;color:#1C1C1E}
+.stats-table-actions{display:flex;gap:6px}
+.stats-table-btn{padding:6px 14px;background:rgba(139,108,193,0.1);color:#8B6CC1;border:none;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+.stats-table-btn:hover{background:rgba(139,108,193,0.2)}
+.stats-table{width:100%;border-collapse:collapse;font-size:12px}
+.stats-table th{text-align:left;padding:8px 10px;border-bottom:2px solid #E5E5EA;font-weight:700;color:#636366;white-space:nowrap}
+.stats-table td{padding:8px 10px;border-bottom:1px solid #F0F0F0;color:#1C1C1E;white-space:nowrap}
+.stats-table tr:hover td{background:rgba(139,108,193,0.03)}
 </style>
 </head>
 <body>
@@ -339,6 +386,7 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
     <div class="tab-item" onclick="setAdminTab(2)">🍀 클로버</div>
     <div class="tab-item" onclick="setAdminTab(3)">🚨 에러</div>
     <div class="tab-item" onclick="setAdminTab(4)">📢 공지</div>
+    <div class="tab-item" onclick="setAdminTab(5)">📈 통계</div>
   </div>
 
   <!-- Tab 0: Dashboard -->
@@ -571,6 +619,149 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
       <button class="pager-btn" onclick="changeNoticePage(1)" id="noticeNextBtn">다음 →</button>
     </div>
   </div>
+
+  <!-- Tab 5: Stats -->
+  <div class="tab-content" id="tabStats">
+    <div class="stats-period-bar" id="statsPeriodBar">
+      <button class="stats-period-btn active" onclick="setStatsPeriod('today')">오늘</button>
+      <button class="stats-period-btn" onclick="setStatsPeriod('week')">이번주</button>
+      <button class="stats-period-btn" onclick="setStatsPeriod('month')">이번달</button>
+      <button class="stats-period-btn" onclick="setStatsPeriod('year')">올해</button>
+    </div>
+
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card" onclick="openStatChart('users')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">👥</div>
+        <div class="stat-card-label">총 유저</div>
+        <div class="stat-card-value" id="stUsersTotal">-</div>
+        <div class="stat-card-diff same" id="stUsersDiff">-</div>
+      </div>
+      <div class="stat-card" onclick="openStatChart('signups')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">🆕</div>
+        <div class="stat-card-label">신규 가입</div>
+        <div class="stat-card-value" id="stSignups">-</div>
+        <div class="stat-card-diff same" id="stSignupsDiff">-</div>
+      </div>
+      <div class="stat-card" onclick="openStatChart('saju')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">🔮</div>
+        <div class="stat-card-label">사주 분석</div>
+        <div class="stat-card-value" id="stSaju">-</div>
+        <div class="stat-card-diff same" id="stSajuDiff">-</div>
+      </div>
+      <div class="stat-card" onclick="openStatChart('gunghap')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">💕</div>
+        <div class="stat-card-label">궁합 분석</div>
+        <div class="stat-card-value" id="stGunghap">-</div>
+        <div class="stat-card-diff same" id="stGunghapDiff">-</div>
+      </div>
+      <div class="stat-card" onclick="openStatChart('chat')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">💬</div>
+        <div class="stat-card-label">채팅 세션</div>
+        <div class="stat-card-value" id="stChat">-</div>
+        <div class="stat-card-diff same" id="stChatDiff">-</div>
+      </div>
+      <div class="stat-card" onclick="openStatChart('totalAnalysis')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">📊</div>
+        <div class="stat-card-label">총 분석</div>
+        <div class="stat-card-value" id="stTotalAnalysis">-</div>
+        <div class="stat-card-diff same" id="stTotalAnalysisDiff">-</div>
+      </div>
+      <div class="stat-card" onclick="openStatChart('cloverGiven')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">🍀</div>
+        <div class="stat-card-label">클로버 발행</div>
+        <div class="stat-card-value" id="stCloverGiven">-</div>
+        <div class="stat-card-diff same" id="stCloverGivenDiff">-</div>
+      </div>
+      <div class="stat-card" onclick="openStatChart('cloverUsed')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">🍀</div>
+        <div class="stat-card-label">클로버 사용</div>
+        <div class="stat-card-value" id="stCloverUsed">-</div>
+        <div class="stat-card-diff same" id="stCloverUsedDiff">-</div>
+      </div>
+      <div class="stat-card" onclick="openStatChart('errors')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">🚨</div>
+        <div class="stat-card-label">에러 발생</div>
+        <div class="stat-card-value" id="stErrors">-</div>
+        <div class="stat-card-diff same" id="stErrorsDiff">-</div>
+      </div>
+      <div class="stat-card" onclick="openStatChart('errorsUnresolved')">
+        <div class="stat-card-expand">📊</div>
+        <div class="stat-card-icon">⚠️</div>
+        <div class="stat-card-label">미해결 에러</div>
+        <div class="stat-card-value" id="stErrorsUnresolved">-</div>
+        <div class="stat-card-diff same" id="stErrorsUnresolvedDiff">-</div>
+      </div>
+    </div>
+
+    <!-- Expandable Chart Area -->
+    <div class="stats-chart-area" id="statsChartArea">
+      <div class="stats-chart-header">
+        <div class="stats-chart-title" id="statsChartTitle">📊 차트</div>
+        <div>
+          <button class="stats-chart-reload" onclick="reloadStatChart()">🔄 새로고침</button>
+          <button class="stats-chart-close" onclick="closeStatChart()">&times;</button>
+        </div>
+      </div>
+      <canvas id="statsChartCanvas" class="stats-chart-canvas"></canvas>
+    </div>
+
+    <!-- Conversion & Retention Cards -->
+    <div class="stats-extra-grid" id="statsExtraGrid">
+      <div class="stats-extra-card">
+        <div class="stats-extra-label">가입→분석 전환율</div>
+        <div class="stats-extra-value" id="stConvSignup">-</div>
+        <div class="stats-extra-sub" id="stConvSignupSub">가입 후 분석 이용률</div>
+      </div>
+      <div class="stats-extra-card">
+        <div class="stats-extra-label">사주→궁합 전환율</div>
+        <div class="stats-extra-value" id="stConvGunghap">-</div>
+        <div class="stats-extra-sub" id="stConvGunghapSub">사주 후 궁합 이용률</div>
+      </div>
+      <div class="stats-extra-card">
+        <div class="stats-extra-label">재방문율</div>
+        <div class="stats-extra-value" id="stRetention">-</div>
+        <div class="stats-extra-sub" id="stRetentionSub">기간 내 재방문</div>
+      </div>
+    </div>
+
+    <!-- Detail Table -->
+    <div class="stats-table-wrap">
+      <div class="stats-table-header">
+        <div class="stats-table-title">📋 상세 데이터</div>
+        <div class="stats-table-actions">
+          <button class="stats-table-btn" onclick="copyStatsReport()">📋 복사</button>
+          <button class="stats-table-btn" onclick="downloadStatsReport()">💾 다운로드</button>
+        </div>
+      </div>
+      <table class="stats-table" id="statsTable">
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>가입</th>
+            <th>사주</th>
+            <th>궁합</th>
+            <th>채팅</th>
+            <th>총분석</th>
+            <th>클로버+</th>
+            <th>클로버-</th>
+            <th>에러</th>
+          </tr>
+        </thead>
+        <tbody id="statsTableBody">
+          <tr><td colspan="9" style="text-align:center;color:#AEAEB2;padding:20px">데이터 로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <!-- Notice Modal -->
@@ -714,6 +905,7 @@ function setAdminTab(i){
   if(i===2 && cloverSelectedUser) loadCloverHistory();
   if(i===3) loadErrors();
   if(i===4) loadNotices();
+  if(i===5) loadStats();
 }
 
 // ===== Dashboard =====
@@ -1969,6 +2161,316 @@ function copyChartReport(){
   }else{
     fallbackCopy(text);
   }
+}
+
+// ===== Stats Tab =====
+var statsPeriod='today';
+var statsData=null;
+var statsChartInstance=null;
+var statsCurrentMetric=null;
+
+function setStatsPeriod(period){
+  statsPeriod=period;
+  var btns=document.querySelectorAll('.stats-period-btn');
+  for(var i=0;i<btns.length;i++){
+    var p=btns[i].getAttribute('onclick').match(/'([^']+)'/);
+    if(p) btns[i].classList.toggle('active',p[1]===period);
+  }
+  loadStats();
+}
+
+function loadStats(){
+  // 카드 초기화
+  var cardIds=['stUsersTotal','stSignups','stSaju','stGunghap','stChat','stTotalAnalysis','stCloverGiven','stCloverUsed','stErrors','stErrorsUnresolved'];
+  for(var i=0;i<cardIds.length;i++){
+    document.getElementById(cardIds[i]).textContent='-';
+  }
+  document.getElementById('statsTableBody').innerHTML='<tr><td colspan="9" style="text-align:center;color:#AEAEB2;padding:20px">데이터 로딩 중...</td></tr>';
+
+  fetch('/api/admin/stats?period='+statsPeriod,{
+    headers:{'Authorization':'Bearer '+adminToken}
+  }).then(function(r){
+    if(!r.ok) throw new Error('HTTP_'+r.status);
+    return r.json();
+  }).then(function(d){
+    statsData=d;
+    renderStatsCards(d);
+    renderStatsConversion(d);
+    renderStatsTable(d);
+  }).catch(function(e){
+    console.error('[stats] load error:',e);
+    // API가 아직 없으므로 빈 데이터로 렌더
+    var emptyData={
+      cards:{
+        users_total:{value:0,prev:0},
+        signups:{value:0,prev:0},
+        saju:{value:0,prev:0},
+        gunghap:{value:0,prev:0},
+        chat:{value:0,prev:0},
+        total_analysis:{value:0,prev:0},
+        clover_given:{value:0,prev:0},
+        clover_used:{value:0,prev:0},
+        errors:{value:0,prev:0},
+        errors_unresolved:{value:0,prev:0}
+      },
+      conversion:{
+        signup_to_analysis:0,
+        saju_to_gunghap:0,
+        retention:0
+      },
+      table:[]
+    };
+    statsData=emptyData;
+    renderStatsCards(emptyData);
+    renderStatsConversion(emptyData);
+    renderStatsTable(emptyData);
+  });
+}
+
+function renderStatsCards(d){
+  var cards=d.cards||{};
+  var mapping=[
+    {id:'stUsersTotal',diffId:'stUsersDiff',key:'users_total'},
+    {id:'stSignups',diffId:'stSignupsDiff',key:'signups'},
+    {id:'stSaju',diffId:'stSajuDiff',key:'saju'},
+    {id:'stGunghap',diffId:'stGunghapDiff',key:'gunghap'},
+    {id:'stChat',diffId:'stChatDiff',key:'chat'},
+    {id:'stTotalAnalysis',diffId:'stTotalAnalysisDiff',key:'total_analysis'},
+    {id:'stCloverGiven',diffId:'stCloverGivenDiff',key:'clover_given'},
+    {id:'stCloverUsed',diffId:'stCloverUsedDiff',key:'clover_used'},
+    {id:'stErrors',diffId:'stErrorsDiff',key:'errors'},
+    {id:'stErrorsUnresolved',diffId:'stErrorsUnresolvedDiff',key:'errors_unresolved'}
+  ];
+
+  for(var i=0;i<mapping.length;i++){
+    var m=mapping[i];
+    var card=cards[m.key]||{value:0,prev:0};
+    var val=card.value||0;
+    var prev=card.prev||0;
+    var diff=val-prev;
+
+    document.getElementById(m.id).textContent=val.toLocaleString?val.toLocaleString():val;
+
+    var diffEl=document.getElementById(m.diffId);
+    if(diff>0){
+      diffEl.className='stat-card-diff up';
+      diffEl.textContent='▲ +'+diff+' vs 전기간';
+    }else if(diff<0){
+      diffEl.className='stat-card-diff down';
+      diffEl.textContent='▼ '+diff+' vs 전기간';
+    }else{
+      diffEl.className='stat-card-diff same';
+      diffEl.textContent='— 변동 없음';
+    }
+  }
+}
+
+function renderStatsConversion(d){
+  var conv=d.conversion||{};
+  var signupRate=conv.signup_to_analysis||0;
+  var gunghapRate=conv.saju_to_gunghap||0;
+  var retention=conv.retention||0;
+
+  document.getElementById('stConvSignup').textContent=signupRate+'%';
+  document.getElementById('stConvSignupSub').textContent='가입 후 분석 이용률';
+
+  document.getElementById('stConvGunghap').textContent=gunghapRate+'%';
+  document.getElementById('stConvGunghapSub').textContent='사주 후 궁합 이용률';
+
+  document.getElementById('stRetention').textContent=retention+'%';
+  document.getElementById('stRetentionSub').textContent='기간 내 재방문';
+}
+
+function renderStatsTable(d){
+  var rows=d.table||[];
+  var tbody=document.getElementById('statsTableBody');
+
+  if(rows.length===0){
+    tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:#AEAEB2;padding:20px">데이터가 없습니다</td></tr>';
+    return;
+  }
+
+  var html='';
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];
+    html+='<tr>';
+    html+='<td>'+(r.date||'-')+'</td>';
+    html+='<td>'+(r.signups||0)+'</td>';
+    html+='<td>'+(r.saju||0)+'</td>';
+    html+='<td>'+(r.gunghap||0)+'</td>';
+    html+='<td>'+(r.chat||0)+'</td>';
+    html+='<td>'+(r.total||0)+'</td>';
+    html+='<td style="color:#4CAF7D">+'+(r.clover_given||0)+'</td>';
+    html+='<td style="color:#E05A5A">-'+(r.clover_used||0)+'</td>';
+    html+='<td>'+(r.errors||0)+'</td>';
+    html+='</tr>';
+  }
+  tbody.innerHTML=html;
+}
+
+function openStatChart(metric){
+  statsCurrentMetric=metric;
+  var labels={
+    users:'👥 유저 추이',signups:'🆕 신규 가입',saju:'🔮 사주 분석',gunghap:'💕 궁합 분석',
+    chat:'💬 채팅 세션',totalAnalysis:'📊 총 분석',cloverGiven:'🍀 클로버 발행',
+    cloverUsed:'🍀 클로버 사용',errors:'🚨 에러 발생',errorsUnresolved:'⚠️ 미해결 에러'
+  };
+  document.getElementById('statsChartTitle').textContent=(labels[metric]||metric)+' 차트';
+  document.getElementById('statsChartArea').classList.add('open');
+  loadStatChartData(metric);
+}
+
+function closeStatChart(){
+  document.getElementById('statsChartArea').classList.remove('open');
+  if(statsChartInstance){
+    statsChartInstance.destroy();
+    statsChartInstance=null;
+  }
+  statsCurrentMetric=null;
+}
+
+function reloadStatChart(){
+  if(statsCurrentMetric) loadStatChartData(statsCurrentMetric);
+}
+
+function loadStatChartData(metric){
+  // API 연결은 Step 10에서. 지금은 table 데이터로 차트 렌더
+  var rows=(statsData&&statsData.table)?statsData.table:[];
+  var labels=[];
+  var values=[];
+  var keyMap={
+    users:'signups',signups:'signups',saju:'saju',gunghap:'gunghap',
+    chat:'chat',totalAnalysis:'total',cloverGiven:'clover_given',
+    cloverUsed:'clover_used',errors:'errors',errorsUnresolved:'errors'
+  };
+  var key=keyMap[metric]||'total';
+
+  for(var i=0;i<rows.length;i++){
+    labels.push(rows[i].date||'');
+    values.push(rows[i][key]||0);
+  }
+
+  if(labels.length===0){
+    labels=['데이터 없음'];
+    values=[0];
+  }
+
+  renderStatBarChart(labels,values,metric);
+}
+
+function renderStatBarChart(labels,values,metric){
+  if(statsChartInstance){
+    statsChartInstance.destroy();
+    statsChartInstance=null;
+  }
+
+  var colorMap={
+    users:'rgba(139,108,193,0.7)',signups:'rgba(139,108,193,0.7)',saju:'rgba(139,108,193,0.7)',
+    gunghap:'rgba(212,115,139,0.7)',chat:'rgba(70,130,180,0.7)',totalAnalysis:'rgba(99,99,102,0.7)',
+    cloverGiven:'rgba(76,175,125,0.7)',cloverUsed:'rgba(224,90,90,0.7)',
+    errors:'rgba(224,90,90,0.7)',errorsUnresolved:'rgba(201,154,46,0.7)'
+  };
+  var color=colorMap[metric]||'rgba(139,108,193,0.7)';
+
+  var ctx=document.getElementById('statsChartCanvas');
+  if(!ctx) return;
+
+  statsChartInstance=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:labels,
+      datasets:[{
+        label:metric,
+        data:values,
+        backgroundColor:color,
+        borderRadius:6,
+        barPercentage:0.7
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:10,family:'Pretendard Variable'},maxRotation:0,autoSkip:true}},
+        y:{beginAtZero:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},stepSize:1}}
+      }
+    }
+  });
+}
+
+function buildStatsReportText(){
+  var now=new Date();
+  var dateStr=now.getFullYear()+'.'+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+'.'+(now.getDate()<10?'0':'')+now.getDate();
+  var periodLabel={today:'오늘',week:'이번주',month:'이번달',year:'올해'};
+  var text='MBTS 통계 리포트 ('+dateStr+' / '+(periodLabel[statsPeriod]||statsPeriod)+')\n';
+  text+='========================================\n\n';
+
+  if(statsData&&statsData.cards){
+    var cards=statsData.cards;
+    text+='[주요 지표]\n';
+    var cardLabels={
+      users_total:'총 유저',signups:'신규 가입',saju:'사주 분석',gunghap:'궁합 분석',
+      chat:'채팅 세션',total_analysis:'총 분석',clover_given:'클로버 발행',
+      clover_used:'클로버 사용',errors:'에러 발생',errors_unresolved:'미해결 에러'
+    };
+    var keys=Object.keys(cardLabels);
+    for(var i=0;i<keys.length;i++){
+      var k=keys[i];
+      var c=cards[k]||{value:0,prev:0};
+      var diff=c.value-c.prev;
+      var diffStr=diff>0?('+'+diff):(diff<0?(''+diff):'±0');
+      text+='  '+cardLabels[k]+': '+c.value+' ('+diffStr+' vs 전기간)\n';
+    }
+  }
+
+  if(statsData&&statsData.conversion){
+    var conv=statsData.conversion;
+    text+='\n[전환율]\n';
+    text+='  가입→분석: '+(conv.signup_to_analysis||0)+'%\n';
+    text+='  사주→궁합: '+(conv.saju_to_gunghap||0)+'%\n';
+    text+='  재방문율: '+(conv.retention||0)+'%\n';
+  }
+
+  if(statsData&&statsData.table&&statsData.table.length>0){
+    var rows=statsData.table;
+    text+='\n[상세 데이터]\n';
+    text+='  날짜\t가입\t사주\t궁합\t채팅\t총분석\t클로버+\t클로버-\t에러\n';
+    for(var j=0;j<rows.length;j++){
+      var r=rows[j];
+      text+='  '+(r.date||'-')+'\t'+(r.signups||0)+'\t'+(r.saju||0)+'\t'+(r.gunghap||0)+'\t'+(r.chat||0)+'\t'+(r.total||0)+'\t'+(r.clover_given||0)+'\t'+(r.clover_used||0)+'\t'+(r.errors||0)+'\n';
+    }
+  }
+
+  return text;
+}
+
+function copyStatsReport(){
+  var text=buildStatsReportText();
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      showToast('통계 리포트 복사 완료!');
+    }).catch(function(){fallbackCopy(text);});
+  }else{
+    fallbackCopy(text);
+  }
+}
+
+function downloadStatsReport(){
+  var text=buildStatsReportText();
+  var now=new Date();
+  var filename='mbts_stats_'+now.getFullYear()+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+(now.getDate()<10?'0':'')+now.getDate()+'_'+statsPeriod+'.txt';
+
+  var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('리포트 다운로드 완료!');
 }
 
 // ===== Init =====
