@@ -894,7 +894,7 @@ button{font-family:inherit;cursor:pointer}
 /* Gunghap history card */
 .gh-history{margin:0 16px 12px;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;cursor:pointer;transition:all .25s}
 .gh-history:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
-.gh-pair{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.gh-pair{display:flex;align-items:flex-start;gap:8px;margin-bottom:12px}
 .gh-pair-animal{
   width:42px;height:42px;border-radius:14px;
   display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;
@@ -903,6 +903,10 @@ button{font-family:inherit;cursor:pointer}
 .gh-pair-info{flex:1;min-width:0}
 .gh-pair-names{font-size:15px;font-weight:700}
 .gh-pair-rel{font-size:12px;color:var(--text-3);margin-top:1px}
+.gh-pair-unit{display:flex;flex-direction:column;align-items:center;gap:4px}
+.gh-pair-name{font-size:11px;font-weight:600;color:var(--text-2);text-align:center;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gh-pair-heart{font-size:14px;display:flex;align-items:center;padding-bottom:16px}
+.gh-pair-rel-badge{font-size:12px;color:var(--text-3);margin-left:auto;align-self:center;padding-bottom:16px}
 .gh-score-bar{display:flex;align-items:center;gap:10px}
 .gh-score-num{font-size:24px;font-weight:900;color:#D4738B;flex-shrink:0}
 .gh-score-track{flex:1;height:6px;background:rgba(0,0,0,0.04);border-radius:100px;overflow:hidden}
@@ -969,6 +973,13 @@ button{font-family:inherit;cursor:pointer}
 .del-btn:hover{background:rgba(232,69,60,1);transform:scale(1.05)}
 .edit-mode .del-btn{display:block}
 .edit-mode .animal-card{cursor:default}
+
+/* GH edit mode */
+.gh-edit-btn{background:none;border:none;font-size:13px;font-weight:600;color:var(--rose);cursor:pointer}
+.gh-del-btn{display:none;position:absolute;top:8px;right:8px;background:rgba(212,115,139,0.9);color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;z-index:2}
+.gh-edit-mode .gh-del-btn{display:block}
+.gh-edit-mode .gh-history{cursor:default;position:relative}
+.gh-name-edit-input{width:60px;padding:2px 6px;border:1.5px solid var(--rose);border-radius:6px;font-size:11px;font-weight:600;text-align:center;outline:none;background:rgba(212,115,139,0.05)}
 
 /* Name edit inline */
 .name-edit-input{
@@ -1664,7 +1675,7 @@ button{font-family:inherit;cursor:pointer}
       </div>
     </div>
     <div class="sub-content" id="saveTab1">
-      <div style="padding:0 16px 12px"><div style="font-size:12px;color:var(--text-3)">궁합 풀이한 기록이에요</div></div>
+      <div style="padding:0 16px 12px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:12px;color:var(--text-3)">궁합 풀이한 기록이에요</div><button class="gh-edit-btn" id="ghEditBtn" onclick="toggleGhEditMode()">수정</button></div>
       <div id="ghCardList">
         <div style="text-align:center;padding:48px 20px;color:var(--text-3)">
           <div style="font-size:40px;margin-bottom:12px">💕</div>
@@ -2991,6 +3002,9 @@ function renderSaveCards(){
 function renderGhHistoryCards(){
   var cardList=document.getElementById('ghCardList');
   if(!cardList) return;
+  ghEditMode=false;
+  var ghBtn=document.getElementById('ghEditBtn');
+  if(ghBtn){ghBtn.textContent='수정';}
   var hist=[];
   try{hist=JSON.parse(localStorage.getItem('mbts_gh_history'))||[];}catch(e){}
 
@@ -3012,15 +3026,13 @@ function renderGhHistoryCards(){
     var relLabel=rec.relLabel||'궁합';
     var date=rec.date||'';
 
-    html+='<div class="gh-history" onclick="openGhHistoryRecord(\''+rec.id+'\')" style="cursor:pointer">';
+    html+='<div class="gh-history" data-record-id="'+rec.id+'" onclick="openGhHistoryRecord(\''+rec.id+'\')" style="cursor:pointer">';
+    html+='<button class="gh-del-btn" onclick="event.stopPropagation();confirmDelGhHistory(this,\''+rec.id+'\')">지우기</button>';
     html+='<div class="gh-pair">';
-    html+='<div class="gh-pair-animal" style="background:linear-gradient(135deg,#E8DEFF,#F0E6FF)">'+(pA.emoji||'👤')+'</div>';
-    html+='<div class="gh-pair-vs">VS</div>';
-    html+='<div class="gh-pair-animal" style="background:linear-gradient(135deg,#FFE4E8,#FFF0F3)">'+(pB.emoji||'👤')+'</div>';
-    html+='<div class="gh-pair-info">';
-    html+='<div class="gh-pair-names">'+(pA.name||'?')+' × '+(pB.name||'?')+'</div>';
-    html+='<div class="gh-pair-rel">'+relLabel+' 궁합</div>';
-    html+='</div>';
+    html+='<div class="gh-pair-unit"><div class="gh-pair-animal" style="background:linear-gradient(135deg,#E8DEFF,#F0E6FF)">'+(pA.emoji||'👤')+'</div><div class="gh-pair-name" data-side="a">'+(pA.name||'?')+'</div></div>';
+    html+='<div class="gh-pair-heart">💕</div>';
+    html+='<div class="gh-pair-unit"><div class="gh-pair-animal" style="background:linear-gradient(135deg,#FFE4E8,#FFF0F3)">'+(pB.emoji||'👤')+'</div><div class="gh-pair-name" data-side="b">'+(pB.name||'?')+'</div></div>';
+    html+='<div class="gh-pair-rel-badge">'+relLabel+' 궁합</div>';
     html+='</div>';
     html+='<div class="gh-score-bar">';
     html+='<div class="gh-score-num">'+total+'</div>';
@@ -3064,6 +3076,61 @@ function deleteGhHistory(recordId){
   hist=hist.filter(function(r){return r.id!==recordId;});
   localStorage.setItem('mbts_gh_history',JSON.stringify(hist));
   renderGhHistoryCards();
+}
+
+// ===== 궁합 히스토리 편집 모드 =====
+var ghEditMode=false;
+function toggleGhEditMode(){
+  ghEditMode=!ghEditMode;
+  var cardList=document.getElementById('ghCardList');
+  var btn=document.getElementById('ghEditBtn');
+  if(ghEditMode){
+    cardList.classList.add('gh-edit-mode');
+    btn.textContent='완료';
+    cardList.querySelectorAll('.gh-history').forEach(function(c){
+      c.dataset.origClick=c.getAttribute('onclick')||'';
+      c.removeAttribute('onclick');
+    });
+    cardList.querySelectorAll('.gh-pair-name').forEach(function(n){
+      var origText=n.textContent.trim();
+      n.dataset.original=origText;
+      var inp=document.createElement('input');
+      inp.type='text';
+      inp.className='gh-name-edit-input';
+      inp.value=origText;
+      inp.onclick=function(e){e.stopPropagation();};
+      n.textContent='';
+      n.appendChild(inp);
+    });
+  }else{
+    var hist=[];
+    try{hist=JSON.parse(localStorage.getItem('mbts_gh_history'))||[];}catch(e){}
+    cardList.querySelectorAll('.gh-history').forEach(function(c){
+      var rid=c.dataset.recordId;
+      if(!rid) return;
+      var names=c.querySelectorAll('.gh-pair-name');
+      var nameA=names[0]?((names[0].querySelector('input')?names[0].querySelector('input').value.trim():'')||names[0].dataset.original||'?'):'?';
+      var nameB=names[1]?((names[1].querySelector('input')?names[1].querySelector('input').value.trim():'')||names[1].dataset.original||'?'):'?';
+      for(var i=0;i<hist.length;i++){
+        if(hist[i].id===rid){
+          if(hist[i].personA) hist[i].personA.name=nameA;
+          if(hist[i].personB) hist[i].personB.name=nameB;
+          break;
+        }
+      }
+    });
+    localStorage.setItem('mbts_gh_history',JSON.stringify(hist));
+    cardList.classList.remove('gh-edit-mode');
+    btn.textContent='수정';
+    ghEditMode=false;
+    renderGhHistoryCards();
+  }
+}
+
+function confirmDelGhHistory(btn,recordId){
+  showDelDialog('궁합 기록',function(){
+    deleteGhHistory(recordId);
+  });
 }
 
 // ===== 히스토리 기록 클릭 → 결과 다시 보기 =====
@@ -3403,6 +3470,7 @@ function goGunghapWithSelected(){
   fillSlot('slotB',pB,'filled-b');
   // Highlight in person list
   updatePersonHighlightById();
+  updatePickingState();
   // Scroll to relationship section
   setTimeout(function(){
     document.querySelector('.gh-rel-title').scrollIntoView({behavior:'smooth',block:'center'});
