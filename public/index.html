@@ -5870,6 +5870,20 @@ console.log('[MBTS] index.html bridge loaded — engine.js + UI connected');
 // 세션 초기화
 initLogin();
 
+// ===== Visitor Tracking =====
+(function(){
+  try{
+    var pg='/';
+    var hash=location.hash.replace('#','');
+    if(hash) pg='/'+hash;
+    fetch('/api/visitor/track',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ page:pg, referrer:document.referrer||'' })
+    }).catch(function(){});
+  }catch(e){}
+})();
+
 // ===== Popup Notice =====
 function checkPopupNotice(){
   var today=new Date().toISOString().slice(0,10);
