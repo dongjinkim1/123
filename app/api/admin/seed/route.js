@@ -222,3 +222,72 @@ export async function POST(request) {
     }, { status: 500 })
   }
 }
+
+export async function DELETE(request) {
+  var authHeader = request.headers.get('Authorization')
+  if (!authHeader || !authHeader.startsWith('Bearer ') || !validateToken(authHeader.replace('Bearer ', ''))) {
+    return Response.json({ error: '인증 필요' }, { status: 401 })
+  }
+
+  try {
+    var supabase = getServiceSupabase()
+
+    // @test.mbts.kr 이메일 유저 ID 조회
+    var { data: testUsers } = await supabase
+      .from('users')
+      .select('id')
+      .like('email', '%@test.mbts.kr')
+
+    var deleted = 0
+
+    if (testUsers && testUsers.length > 0) {
+      var testIds = []
+      for (var i = 0; i < testUsers.length; i++) {
+        testIds.push(testUsers[i].id)
+      }
+
+      // 관련 데이터 삭제 (FK 참조 먼저)
+      await supabase.from('clover_history').delete().in('user_id', testIds)
+      await supabase.from('saju_results').delete().in('user_id', testIds)
+      await supabase.from('gunghap_results').delete().in('user_id', testIds)
+
+      // 유저 삭제
+      var { error: delErr } = await supabase.from('users').delete().in('id', testIds)
+      if (delErr) {
+        return Response.json({ success: false, error: delErr.message }, { status: 500 })
+      }
+      deleted += testUsers.length
+    }
+
+    // 시드로 만든 에러로그 삭제
+    var { data: delErrors } = await supabase
+      .from('error_logs')
+      .delete()
+      .like('message', '%(시드)%')
+      .select('id')
+    if (delErrors) deleted += delErrors.length
+
+    // 시드로 만든 공지 삭제
+    var { data: delNotices } = await supabase
+      .from('notices')
+      .delete()
+      .like('title', '%[시드]%')
+      .select('id')
+    if (delNotices) deleted += delNotices.length
+
+    return Response.json({
+      success: true,
+      deleted: deleted,
+      detail: {
+        users: testUsers ? testUsers.length : 0,
+        errors: delErrors ? delErrors.length : 0,
+        notices: delNotices ? delNotices.length : 0
+      }
+    })
+
+  } catch (err) {
+    logError('admin', err.message, { endpoint: '/api/admin/seed DELETE' })
+    console.error('[seed DELETE]', err)
+    return Response.json({ success: false, error: err.message }, { status: 500 })
+  }
+}
