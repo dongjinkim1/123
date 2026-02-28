@@ -195,6 +195,12 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .err-resolve-btn{padding:8px 14px;background:#4CAF7D;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
 .err-toggle-btn{background:none;border:none;color:#8B6CC1;font-size:12px;font-weight:600;cursor:pointer;padding:4px 0;font-family:inherit}
 .err-resolved-info{margin-top:8px;padding:8px 12px;background:rgba(76,175,125,0.06);border-radius:8px;font-size:11px;color:#636366}
+.err-copy-btn{padding:4px 10px;background:#F8F7F4;border:1.5px solid #E5E5EA;border-radius:8px;font-size:11px;color:#636366;cursor:pointer;font-family:inherit;margin-left:auto;flex-shrink:0;transition:all .2s}
+.err-copy-btn:hover{border-color:#8B6CC1;color:#8B6CC1;background:#fff}
+.err-copy-btn.copied{background:#4CAF7D;color:#fff;border-color:#4CAF7D}
+.err-detail-row{display:flex;gap:8px;margin-bottom:6px;font-size:12px}
+.err-detail-key{font-weight:700;color:#8B6CC1;min-width:60px;flex-shrink:0}
+.err-detail-val{color:#1C1C1E;word-break:break-all}
 
 /* ===== Notices Tab ===== */
 .notice-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
@@ -618,6 +624,8 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
       <button class="err-filter-btn" onclick="filterErrors('payment')">결제</button>
       <button class="err-filter-btn" onclick="filterErrors('other')">기타</button>
     </div>
+
+    <button class="err-copy-btn" style="margin-bottom:12px;padding:8px 16px;font-size:13px;font-weight:600" onclick="copyAllErrors()">📋 에러 전체 복사</button>
 
     <div id="errList">
       <div class="loading"><div class="spinner"></div><div>에러 목록 로딩 중...</div></div>
@@ -1651,32 +1659,46 @@ function renderErrors(errors){
     list.innerHTML='<div class="log-empty">에러가 없습니다 👍</div>';
     return;
   }
-  var typeLabels={analysis:'분석',gunghap:'궁합',chat:'채팅',payment:'결제',other:'기타'};
+  var typeLabels={analysis:'분석',gunghap:'궁합',chat:'채팅',payment:'결제',auth:'인증',other:'기타',system:'시스템'};
+  window._errData={};
   var html='';
   for(var i=0;i<errors.length;i++){
     var e=errors[i];
     var isResolved=e.is_resolved;
     var date=e.created_at?e.created_at.slice(0,16).replace('T',' '):'';
-    var typeLabel=typeLabels[e.error_type]||e.error_type;
+    var errType=e.error_type||e.category||'other';
+    var errMsg=e.error_message||e.message||'메시지 없음';
+    var typeLabel=typeLabels[errType]||errType||'기타';
     var userId=e.user_id?e.user_id.slice(0,8)+'...':'비회원';
+    var details=e.details||e.request_data||null;
+
+    window._errData[e.id]={id:e.id,type:errType,message:errMsg,user:e.user_id||'비회원',date:date,resolved:isResolved,resolved_memo:e.resolved_memo||'',details:details};
 
     html+='<div class="err-card '+(isResolved?'resolved':'unresolved')+'" id="errCard'+e.id+'">';
     html+='<div class="err-card-top">';
     html+='<div class="err-card-left">';
-    html+='<span class="err-type-badge etype-'+e.error_type+'">'+typeLabel+'</span>';
+    html+='<span class="err-type-badge etype-'+errType+'">'+typeLabel+'</span>';
     html+='<span class="err-status-badge estatus-'+(isResolved?'resolved':'unresolved')+'">'+(isResolved?'해결':'미해결')+'</span>';
-    html+='<div class="err-message">'+(e.error_message||'메시지 없음')+'</div>';
-    html+='<div class="err-meta">'+date+' · 유저: '+userId+'</div>';
-    html+='</div></div>';
+    html+='</div>';
+    html+='<button class="err-copy-btn" onclick="copyError(\''+e.id+'\')">📋 복사</button>';
+    html+='</div>';
 
-    // 토글 버튼
+    html+='<div class="err-message">'+errMsg+'</div>';
+    html+='<div class="err-meta">'+date+' · 유저: '+userId+' · 분류: '+typeLabel+'</div>';
+
     html+='<button class="err-toggle-btn" onclick="toggleErrDetail(\''+e.id+'\')">상세 보기 ▼</button>';
 
-    // 상세 영역
     html+='<div class="err-detail" id="errDetail'+e.id+'">';
-    if(e.request_data){
-      html+='<div class="err-detail-label">요청 데이터</div>';
-      html+='<div class="err-detail-json">'+JSON.stringify(e.request_data,null,2)+'</div>';
+    html+='<div class="err-detail-row"><span class="err-detail-key">ID</span><span class="err-detail-val">'+(e.id||'-')+'</span></div>';
+    html+='<div class="err-detail-row"><span class="err-detail-key">분류</span><span class="err-detail-val">'+typeLabel+'</span></div>';
+    html+='<div class="err-detail-row"><span class="err-detail-key">유저</span><span class="err-detail-val">'+(e.user_id||'비회원')+'</span></div>';
+    html+='<div class="err-detail-row"><span class="err-detail-key">시간</span><span class="err-detail-val">'+date+'</span></div>';
+    html+='<div class="err-detail-row"><span class="err-detail-key">상태</span><span class="err-detail-val">'+(isResolved?'✅ 해결':'❌ 미해결')+'</span></div>';
+
+    if(details){
+      html+='<div class="err-detail-label" style="margin-top:10px">상세 데이터</div>';
+      var detailStr=(typeof details==='string')?details:JSON.stringify(details,null,2);
+      html+='<div class="err-detail-json">'+detailStr+'</div>';
     }
 
     if(isResolved){
@@ -1696,6 +1718,86 @@ function renderErrors(errors){
     html+='</div>';
   }
   list.innerHTML=html;
+}
+
+function copyError(errId){
+  var data=window._errData&&window._errData[errId];
+  if(!data){showToast('에러 정보를 찾을 수 없습니다');return;}
+
+  var text='=== MBTS 에러 리포트 ===\n';
+  text+='ID: '+data.id+'\n';
+  text+='분류: '+data.type+'\n';
+  text+='상태: '+(data.resolved?'해결':'미해결')+'\n';
+  text+='메시지: '+data.message+'\n';
+  text+='유저: '+data.user+'\n';
+  text+='시간: '+data.date+'\n';
+  if(data.resolved_memo) text+='해결메모: '+data.resolved_memo+'\n';
+  if(data.details){
+    text+='상세:\n';
+    text+=(typeof data.details==='string')?data.details:JSON.stringify(data.details,null,2);
+    text+='\n';
+  }
+  text+='========================';
+
+  navigator.clipboard.writeText(text).then(function(){
+    var btn=document.querySelector('#errCard'+errId+' .err-copy-btn');
+    if(btn){
+      btn.textContent='✅ 복사됨!';
+      btn.classList.add('copied');
+      setTimeout(function(){
+        btn.textContent='📋 복사';
+        btn.classList.remove('copied');
+      },2000);
+    }
+    showToast('📋 에러 리포트 복사됨! Claude에 붙여넣기 하세요');
+  }).catch(function(){
+    var ta=document.createElement('textarea');
+    ta.value=text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('📋 복사됨!');
+  });
+}
+
+function copyAllErrors(){
+  if(!window._errData){showToast('복사할 에러가 없습니다');return;}
+  var ids=Object.keys(window._errData);
+  if(ids.length===0){showToast('복사할 에러가 없습니다');return;}
+
+  var text='=== MBTS 에러 전체 리포트 ('+ids.length+'건) ===\n';
+  text+='복사 시간: '+new Date().toLocaleString('ko-KR')+'\n';
+  text+='========================================\n\n';
+
+  for(var i=0;i<ids.length;i++){
+    var d=window._errData[ids[i]];
+    text+='--- 에러 '+(i+1)+'/'+ids.length+' ---\n';
+    text+='ID: '+d.id+'\n';
+    text+='분류: '+d.type+'\n';
+    text+='상태: '+(d.resolved?'해결':'미해결')+'\n';
+    text+='메시지: '+d.message+'\n';
+    text+='유저: '+d.user+'\n';
+    text+='시간: '+d.date+'\n';
+    if(d.resolved_memo) text+='해결메모: '+d.resolved_memo+'\n';
+    if(d.details){
+      text+='상세: '+((typeof d.details==='string')?d.details:JSON.stringify(d.details))+'\n';
+    }
+    text+='\n';
+  }
+  text+='=== 리포트 끝 ===';
+
+  navigator.clipboard.writeText(text).then(function(){
+    showToast('📋 에러 '+ids.length+'건 전체 복사됨! Claude에 붙여넣기 하세요');
+  }).catch(function(){
+    var ta=document.createElement('textarea');
+    ta.value=text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('📋 전체 복사됨!');
+  });
 }
 
 function toggleErrDetail(errId){

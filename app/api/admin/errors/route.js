@@ -37,7 +37,7 @@ export async function GET(request) {
     var countQuery = supabase.from('error_logs').select('*', { count: 'exact', head: true })
     if (resolved === 'true') countQuery = countQuery.eq('is_resolved', true)
     else if (resolved === 'false') countQuery = countQuery.eq('is_resolved', false)
-    if (type) countQuery = countQuery.eq('error_type', type)
+    if (type) countQuery = countQuery.eq('category', type)
     var { count: total, error: countErr } = await countQuery
 
     if (countErr) {
@@ -48,7 +48,7 @@ export async function GET(request) {
     var dataQuery = supabase.from('error_logs').select('*')
     if (resolved === 'true') dataQuery = dataQuery.eq('is_resolved', true)
     else if (resolved === 'false') dataQuery = dataQuery.eq('is_resolved', false)
-    if (type) dataQuery = dataQuery.eq('error_type', type)
+    if (type) dataQuery = dataQuery.eq('category', type)
     dataQuery = dataQuery.order('created_at', { ascending: false }).range(offset, offset + limit - 1)
 
     var { data: errors, error: dataErr } = await dataQuery
