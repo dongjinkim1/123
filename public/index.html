@@ -1815,21 +1815,8 @@ button{font-family:inherit;cursor:pointer}
         <span>클로버 내역</span><span class="chev" style="font-size:10px;color:var(--text-3)">▼</span>
       </div>
       <div id="cloverHistory" style="display:none;background:#fff;border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden">
-        <div style="display:flex;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)">
-          <div><div style="font-size:14px;font-weight:600">MBTS 프리미엄 분석</div><div style="font-size:11px;color:var(--text-3);margin-top:2px">2025.02.20</div></div>
-          <div style="font-size:14px;font-weight:700;color:#2D9D78">-15잎</div>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)">
-          <div><div style="font-size:14px;font-weight:600">달토 상담 (3회)</div><div style="font-size:11px;color:var(--text-3);margin-top:2px">2025.02.20</div></div>
-          <div style="font-size:14px;font-weight:700;color:#2D9D78">-3잎</div>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)">
-          <div><div style="font-size:14px;font-weight:600">클로버 충전</div><div style="font-size:11px;color:var(--text-3);margin-top:2px">2025.02.19</div></div>
-          <div style="font-size:14px;font-weight:700;color:#2D9D78">+50잎</div>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:14px 16px">
-          <div><div style="font-size:14px;font-weight:600">친구 초대 보너스</div><div style="font-size:11px;color:var(--text-3);margin-top:2px">2025.02.18</div></div>
-          <div style="font-size:14px;font-weight:700;color:#2D9D78">+3잎</div>
+        <div id="cloverHistoryList">
+          <div style="text-align:center;color:var(--text-3);padding:20px;font-size:13px">내역 로딩 중...</div>
         </div>
       </div>
     </div>
@@ -2814,6 +2801,7 @@ function goNav(el,id){
   el.classList.add('active');
   go(id);
   if(id==='pgDash') setTab(0);
+  if(id==='pgClover'&&typeof loadCloverHistory==='function') loadCloverHistory();
   if(id==='pgSave'){
     setSaveTab(0);
     renderSaveCards();
@@ -3915,8 +3903,8 @@ function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
         </div>
       </div>
       <div style="text-align:right">
-        <div style="font-size:16px;font-weight:800;color:#2D9D78">10잎</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:1px">₩1,000</div>
+        <div data-clover-amount="10" style="font-size:16px;font-weight:800;color:#2D9D78">10잎</div>
+        <div data-clover-price="1000" style="font-size:11px;color:var(--text-3);margin-top:1px">₩1,000</div>
       </div>
     </div>
 
@@ -3930,8 +3918,8 @@ function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
         </div>
       </div>
       <div style="text-align:right">
-        <div style="font-size:16px;font-weight:800;color:#2D9D78">50잎</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:1px">₩4,500</div>
+        <div data-clover-amount="50" style="font-size:16px;font-weight:800;color:#2D9D78">50잎</div>
+        <div data-clover-price="4500" style="font-size:11px;color:var(--text-3);margin-top:1px">₩4,500</div>
       </div>
     </div>
 
@@ -3944,12 +3932,12 @@ function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
         </div>
       </div>
       <div style="text-align:right">
-        <div style="font-size:16px;font-weight:800;color:#2D9D78">100잎</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:1px"><span style="text-decoration:line-through;color:var(--text-3)">₩10,000</span> ₩9,000</div>
+        <div data-clover-amount="100" style="font-size:16px;font-weight:800;color:#2D9D78">100잎</div>
+        <div data-clover-price="9000" style="font-size:11px;color:var(--text-3);margin-top:1px"><span style="text-decoration:line-through;color:var(--text-3)">₩10,000</span> ₩9,000</div>
       </div>
     </div>
 
-    <button onclick="document.getElementById('chargeModal').style.display='none'" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#3DB88A,#2D9D78,#238C6A);border:none;border-radius:var(--r-sm);box-shadow:0 4px 12px rgba(45,157,120,0.25);cursor:pointer">충전하기</button>
+    <button onclick="doCharge()" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#3DB88A,#2D9D78,#238C6A);border:none;border-radius:var(--r-sm);box-shadow:0 4px 12px rgba(45,157,120,0.25);cursor:pointer">충전하기</button>
   </div>
 </div>
 <style>
@@ -3964,15 +3952,6 @@ function toggleExtraGh(){
 function toggleExtraCards(){
   /* 더미 카드 제거됨 — 호환성 유지용 빈 함수 */
 }
-function selectChargePkg(el){
-  document.querySelectorAll('.charge-pkg').forEach(p=>{
-    p.style.border='1.5px solid var(--border)';
-    p.style.background='#fff';
-  });
-  el.style.border='1.5px solid #2D9D78';
-  el.style.background='rgba(200,235,210,0.3)';
-}
-
 // ===== 궁합 로딩 (pgGhLoad) =====
 var ghLoadTimer=null;
 // ===== 개인 분석 로딩 (pgLoad) =====
@@ -4533,6 +4512,7 @@ function finishAddPerson(mbtiStr){
 }
 </script>
 <script src="login.js"></script>
+<script src="payment.js"></script>
 <script src="engine.js"></script>
 <script src="gunghap.js"></script>
 <script>
