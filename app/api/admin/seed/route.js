@@ -211,10 +211,32 @@ export async function POST(request) {
       action: '풍부한 시드 데이터 생성: users=' + result.users + ', saju=' + result.saju + ', gunghap=' + result.gunghap + ', clover=' + result.clover + ', errors=' + result.errors + ', notices=' + result.notices + ', visitors=' + result.visitors
     })
 
-    return Response.json({ success: true, result: result, errors: seedErrors })
+    var totalCreated = result.users + result.saju + result.gunghap + result.clover + result.errors + result.notices + result.visitors
+    var skipped = testUsers.length - result.users
+
+    return Response.json({
+      success: true,
+      created: result.users,
+      skipped: skipped,
+      errors: seedErrors,
+      detail: {
+        users: result.users,
+        saju_results: result.saju,
+        gunghap_results: result.gunghap,
+        clover_history: result.clover,
+        error_logs: result.errors,
+        notices: result.notices,
+        visitor_logs: result.visitors,
+        total: totalCreated
+      }
+    })
   } catch (e) {
     logError('admin', e.message, { endpoint: '/api/admin/seed' })
     console.error('[admin/seed] 에러:', e)
-    return Response.json({ success: false, result: result, errors: seedErrors.concat([{ fatal: e.message }]) }, { status: 500 })
+    return Response.json({
+      success: false,
+      error: e.message,
+      errors: [{ step: 'seed', message: e.message }]
+    }, { status: 500 })
   }
 }
