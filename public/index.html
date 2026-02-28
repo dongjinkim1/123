@@ -4100,9 +4100,21 @@ function goChatFromGh(el){
 }
 
 // ===== 궁합 시작 버튼에 실제 AI 분석 연결 =====
-document.getElementById('ghStart')?.addEventListener('click', async function(){
+document.getElementById('ghStart')?.addEventListener('click', function(){
   if(!ghA || !ghB || !ghRel) return;
 
+  // 클로버 차감 (로그인 시 1잎)
+  if(typeof isLoggedIn==='function' && isLoggedIn() && typeof useClover==='function'){
+    useClover(1,'gunghap',function(ok){
+      if(!ok) return;
+      _runGunghapAnalysis();
+    });
+  } else {
+    _runGunghapAnalysis();
+  }
+});
+
+async function _runGunghapAnalysis(){
   _isAnalyzing=true;
   go('pgGhLoad');
   var bar=document.getElementById('ghLoadBar');
@@ -4255,7 +4267,7 @@ document.getElementById('ghStart')?.addEventListener('click', async function(){
     msg.textContent='분석 중 오류: '+err.message;
     console.error('[MBTS] 궁합 AI 분석 오류:',err);
   }
-});
+}
 
 // ===== 새 사람 직접 입력 (블러+카드 모달) =====
 var addedPersonCount=0;
@@ -4513,6 +4525,38 @@ function finishAddPerson(mbtiStr){
 </script>
 <script src="login.js"></script>
 <script src="payment.js"></script>
+<script>
+// ===== login.js ↔ payment.js 호환 브릿지 =====
+// payment.js가 getUser()와 mbtsUser를 참조하는데
+// login.js는 mbtsSession을 사용 → 여기서 연결
+var mbtsUser = null;
+
+function getUser(){
+  if(typeof mbtsSession!=='undefined' && mbtsSession && mbtsSession.userId){
+    mbtsUser = {
+      id: mbtsSession.userId,
+      nickname: mbtsSession.nickname,
+      clover_balance: mbtsSession.cloverBalance,
+      provider: mbtsSession.provider
+    };
+    return mbtsUser;
+  }
+  return null;
+}
+
+function applyLoginState(){
+  if(typeof updateLoginUI==='function') updateLoginUI();
+  var user=getUser();
+  if(user){
+    // save-clover 표시
+    var saveClover=document.querySelector('.save-clover');
+    if(saveClover) saveClover.textContent='🍀 '+user.clover_balance+'잎';
+    // 채팅 클로버 배너
+    var banner=document.querySelector('.clover-banner');
+    if(banner) banner.textContent='🍀 질문 1잎 = 클로버 1잎 · 보유 '+user.clover_balance+'잎';
+  }
+}
+</script>
 <script src="engine.js"></script>
 <script src="gunghap.js"></script>
 <script>
@@ -4838,15 +4882,26 @@ function mbtiGoNext(){
   // API 키
   var apiKey='server-managed';
 
-  go('pgLoad');
-  startRealAnalysis({
+  var _analysisParams={
     y:parseInt(y),m:parseInt(m),d:parseInt(d),
     h:h?parseInt(h):'',min:min?parseInt(min):'',
     cityLng:cityLng,gender:birthGender,city:city,
     mbtiChoices:mbtiCh.slice(),
     mbtiIntensities:mbtiIt.slice(),
     apiKey:apiKey
-  });
+  };
+
+  // 클로버 차감 (로그인 시 1잎)
+  if(typeof isLoggedIn==='function' && isLoggedIn() && typeof useClover==='function'){
+    useClover(1,'saju',function(ok){
+      if(!ok) return;
+      go('pgLoad');
+      startRealAnalysis(_analysisParams);
+    });
+  } else {
+    go('pgLoad');
+    startRealAnalysis(_analysisParams);
+  }
 }
 
 // ====================================================================
@@ -5704,11 +5759,25 @@ function restoreChatBubbles(){
 
 // sendChatMessage — engine.js의 buildChatPrompt + sendChatToAI 사용
 // ====================================================================
-async function sendChatMessage(text){
+function sendChatMessage(text){
   var input=document.getElementById('chat-input');
   if(!text&&input)text=input.value;
   if(!text||!text.trim()||isChatLoading)return;
   text=text.trim();
+
+  // 클로버 차감 (로그인 시 1잎)
+  if(typeof isLoggedIn==='function' && isLoggedIn() && typeof useClover==='function'){
+    useClover(1,'chat',function(ok){
+      if(!ok) return;
+      _doSendChat(text);
+    });
+  } else {
+    _doSendChat(text);
+  }
+}
+
+async function _doSendChat(text){
+  var input=document.getElementById('chat-input');
   isChatLoading=true;
 
   appendChatBubble('user',text);
