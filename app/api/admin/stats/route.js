@@ -191,6 +191,39 @@ export async function GET(request) {
     var sajuToGunghap = sajuUserCount > 0
       ? Math.round(gunghapFromSaju / sajuUserCount * 1000) / 10 : 0
 
+    // 사주→대화, 궁합→대화 전환율
+    var sajuToChatRate = 0
+    var gunghapToChatRate = 0
+    try {
+      var chatUserSet = {}
+      for (var ci2 = 0; ci2 < chat.length; ci2++) {
+        if (chat[ci2].user_id) chatUserSet[chat[ci2].user_id] = true
+      }
+      var chatUserIds = Object.keys(chatUserSet)
+
+      // 사주→대화 전환율
+      var sajuKeys = Object.keys(sajuUserSet)
+      if (sajuKeys.length > 0) {
+        var sajuThenChat = 0
+        for (var sc = 0; sc < sajuKeys.length; sc++) {
+          if (chatUserSet[sajuKeys[sc]]) sajuThenChat++
+        }
+        sajuToChatRate = Math.round((sajuThenChat / sajuKeys.length) * 100)
+      }
+
+      // 궁합→대화 전환율
+      var ghKeys2 = Object.keys(gunghapUserSet)
+      if (ghKeys2.length > 0) {
+        var ghThenChat = 0
+        for (var gc = 0; gc < ghKeys2.length; gc++) {
+          if (chatUserSet[ghKeys2[gc]]) ghThenChat++
+        }
+        gunghapToChatRate = Math.round((ghThenChat / ghKeys2.length) * 100)
+      }
+    } catch (e) {
+      // chat_sessions 없으면 무시
+    }
+
     // 재방문율: 2일 이상 활동한 유저 비율
     var userDays = {}
     for (var ri = 0; ri < saju.length; ri++) {
@@ -229,6 +262,8 @@ export async function GET(request) {
     var conversion = {
       signup_to_analysis: signupToAnalysis,
       saju_to_gunghap: sajuToGunghap,
+      saju_to_chat: sajuToChatRate,
+      gunghap_to_chat: gunghapToChatRate,
       retention: retention
     }
 

@@ -399,6 +399,43 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .stats-extra-card:hover{box-shadow:0 4px 16px rgba(139,108,193,0.15)}
 .stats-extra-card.selected{border:2px solid #8B6CC1}
 .stats-extra-expand{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:6px;background:rgba(139,108,193,0.08);display:flex;align-items:center;justify-content:center;font-size:12px}
+
+/* 통계 서브탭 */
+.stats-subtab-bar{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid #E5E5EA}
+.stats-subtab{padding:10px 20px;font-size:14px;font-weight:700;color:#AEAEB2;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit}
+.stats-subtab.active{color:#8B6CC1;border-bottom-color:#8B6CC1}
+.stats-subtab:hover{color:#8B6CC1}
+.stats-sub-content{display:none}
+.stats-sub-content.active{display:block}
+
+/* B 스타일: 숫자 크게, 라벨 아래 */
+.stats-mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:600px){.stats-mini-grid{grid-template-columns:repeat(2,1fr)}}
+.stats-mini-card{background:#fff;border-radius:14px;padding:20px 16px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);cursor:pointer;transition:all .2s}
+.stats-mini-card:hover{box-shadow:0 4px 16px rgba(139,108,193,0.15)}
+.stats-mini-value{font-size:32px;font-weight:900;color:#1C1C1E;margin-bottom:4px}
+.stats-mini-label{font-size:12px;color:#AEAEB2;font-weight:600}
+
+/* 전환율 프로그레스 바 */
+.conv-list{display:flex;flex-direction:column;gap:16px;max-width:600px}
+.conv-item{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.conv-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.conv-label{font-size:14px;font-weight:700;color:#1C1C1E}
+.conv-percent{font-size:24px;font-weight:900;color:#8B6CC1}
+.conv-bar-bg{width:100%;height:12px;background:#F0F0F0;border-radius:6px;overflow:hidden}
+.conv-bar-fill{height:100%;border-radius:6px;transition:width .5s ease}
+.conv-bar-fill.purple{background:linear-gradient(90deg,#8B6CC1,#B89AE0)}
+.conv-bar-fill.green{background:linear-gradient(90deg,#4CAF7D,#7DD4A5)}
+.conv-bar-fill.pink{background:linear-gradient(90deg,#E05A5A,#F0A0A0)}
+.conv-bar-fill.blue{background:linear-gradient(90deg,#5B9BD5,#8FCAF9)}
+.conv-sub{font-size:11px;color:#AEAEB2;margin-top:6px}
+
+/* 순이익 상세 드롭다운 */
+.profit-detail{display:none;margin-top:12px;padding:12px;background:#F8F7F4;border-radius:10px;text-align:left}
+.profit-detail.open{display:block}
+.profit-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;color:#636366}
+.profit-row.profit-total{font-weight:900;color:#8B6CC1;font-size:13px}
+.profit-divider{height:1px;background:#E5E5EA;margin:6px 0}
 </style>
 </head>
 <body>
@@ -501,6 +538,29 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
         <div class="dash-card-icon">🚨</div>
         <div class="dash-card-label">에러</div>
         <div class="dash-card-value" id="dErrors">0</div>
+      </div>
+      <!-- Row 6: 매출 -->
+      <div class="dash-card-today">
+        <div class="dash-card-icon">💰</div>
+        <div class="dash-card-label">매출</div>
+        <div class="dash-card-value" id="dRevenue" style="color:#4CAF7D">₩0</div>
+      </div>
+      <div class="dash-card-today">
+        <div class="dash-card-icon">🤖</div>
+        <div class="dash-card-label">API 비용</div>
+        <div class="dash-card-value" id="dApiCost" style="color:#E05A5A">₩0</div>
+      </div>
+      <div class="dash-card-today" onclick="toggleProfitDetail('d')" style="cursor:pointer;grid-column:span 2">
+        <div class="dash-card-icon">💵</div>
+        <div class="dash-card-label">순이익 ▼</div>
+        <div class="dash-card-value" id="dProfit" style="color:#8B6CC1">₩0</div>
+        <div class="profit-detail" id="dProfitDetail">
+          <div class="profit-row"><span>💰 매출</span><span id="dPdRevenue">₩0</span></div>
+          <div class="profit-row"><span>💳 PG수수료 (3.3%)</span><span id="dPdPg" style="color:#E05A5A">-₩0</span></div>
+          <div class="profit-row"><span>🤖 API비용</span><span id="dPdApi" style="color:#E05A5A">-₩0</span></div>
+          <div class="profit-divider"></div>
+          <div class="profit-row profit-total"><span>💵 순이익</span><span id="dPdTotal">₩0</span></div>
+        </div>
       </div>
     </div>
 
@@ -699,80 +759,158 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
       </div>
     </div>
 
-    <div class="stats-grid" id="statsGrid">
-      <div class="stat-card" onclick="openStatChart('users')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">👥</div>
-        <div class="stat-card-label">총 유저</div>
-        <div class="stat-card-value" id="stUsersTotal">-</div>
-        <div class="stat-card-diff same" id="stUsersDiff">-</div>
+    <!-- 서브탭 -->
+    <div class="stats-subtab-bar">
+      <button class="stats-subtab active" onclick="setStatsSubTab('summary')">📊 요약</button>
+      <button class="stats-subtab" onclick="setStatsSubTab('conversion')">🔄 전환율</button>
+      <button class="stats-subtab" onclick="setStatsSubTab('detail')">📋 상세</button>
+    </div>
+
+    <!-- 서브탭 1: 요약 -->
+    <div class="stats-sub-content active" id="statsSubSummary">
+      <div class="stats-mini-grid">
+        <div class="stats-mini-card" onclick="openStatChart('users')">
+          <div class="stats-mini-value" id="stUsersTotal">-</div>
+          <div class="stats-mini-label">👥 총 유저</div>
+        </div>
+        <div class="stats-mini-card" onclick="openStatChart('signups')">
+          <div class="stats-mini-value" id="stSignups">-</div>
+          <div class="stats-mini-label">🆕 신규 가입</div>
+        </div>
+        <div class="stats-mini-card" onclick="openStatChart('saju')">
+          <div class="stats-mini-value" id="stSaju">-</div>
+          <div class="stats-mini-label">🔮 사주 분석</div>
+        </div>
+        <div class="stats-mini-card" onclick="openStatChart('gunghap')">
+          <div class="stats-mini-value" id="stGunghap">-</div>
+          <div class="stats-mini-label">💕 궁합 분석</div>
+        </div>
       </div>
-      <div class="stat-card" onclick="openStatChart('signups')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">🆕</div>
-        <div class="stat-card-label">신규 가입</div>
-        <div class="stat-card-value" id="stSignups">-</div>
-        <div class="stat-card-diff same" id="stSignupsDiff">-</div>
+
+      <div class="stats-mini-grid">
+        <div class="stats-mini-card" onclick="openStatChart('chat')">
+          <div class="stats-mini-value" id="stChat">-</div>
+          <div class="stats-mini-label">🌙 달토 상담</div>
+        </div>
+        <div class="stats-mini-card" onclick="openStatChart('totalAnalysis')">
+          <div class="stats-mini-value" id="stTotalAnalysis">-</div>
+          <div class="stats-mini-label">📊 총 분석</div>
+        </div>
+        <div class="stats-mini-card" onclick="openStatChart('cloverGiven')">
+          <div class="stats-mini-value" id="stCloverGiven">-</div>
+          <div class="stats-mini-label">🍀 클로버 충전</div>
+        </div>
+        <div class="stats-mini-card" onclick="openStatChart('cloverUsed')">
+          <div class="stats-mini-value" id="stCloverUsed">-</div>
+          <div class="stats-mini-label">🔥 클로버 사용</div>
+        </div>
       </div>
-      <div class="stat-card" onclick="openStatChart('saju')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">🔮</div>
-        <div class="stat-card-label">사주 분석</div>
-        <div class="stat-card-value" id="stSaju">-</div>
-        <div class="stat-card-diff same" id="stSajuDiff">-</div>
+
+      <div class="stats-mini-grid" style="grid-template-columns:repeat(2,1fr)">
+        <div class="stats-mini-card" onclick="openStatChart('errors')">
+          <div class="stats-mini-value" id="stErrors">-</div>
+          <div class="stats-mini-label">🚨 에러 발생</div>
+        </div>
+        <div class="stats-mini-card" onclick="openStatChart('errorsUnresolved')">
+          <div class="stats-mini-value" id="stErrorsUnresolved">-</div>
+          <div class="stats-mini-label">⚠️ 미해결 에러</div>
+        </div>
       </div>
-      <div class="stat-card" onclick="openStatChart('gunghap')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">💕</div>
-        <div class="stat-card-label">궁합 분석</div>
-        <div class="stat-card-value" id="stGunghap">-</div>
-        <div class="stat-card-diff same" id="stGunghapDiff">-</div>
-      </div>
-      <div class="stat-card" onclick="openStatChart('chat')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">💬</div>
-        <div class="stat-card-label">채팅 세션</div>
-        <div class="stat-card-value" id="stChat">-</div>
-        <div class="stat-card-diff same" id="stChatDiff">-</div>
-      </div>
-      <div class="stat-card" onclick="openStatChart('totalAnalysis')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">📊</div>
-        <div class="stat-card-label">총 분석</div>
-        <div class="stat-card-value" id="stTotalAnalysis">-</div>
-        <div class="stat-card-diff same" id="stTotalAnalysisDiff">-</div>
-      </div>
-      <div class="stat-card" onclick="openStatChart('cloverGiven')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">🍀</div>
-        <div class="stat-card-label">클로버 발행</div>
-        <div class="stat-card-value" id="stCloverGiven">-</div>
-        <div class="stat-card-diff same" id="stCloverGivenDiff">-</div>
-      </div>
-      <div class="stat-card" onclick="openStatChart('cloverUsed')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">🍀</div>
-        <div class="stat-card-label">클로버 사용</div>
-        <div class="stat-card-value" id="stCloverUsed">-</div>
-        <div class="stat-card-diff same" id="stCloverUsedDiff">-</div>
-      </div>
-      <div class="stat-card" onclick="openStatChart('errors')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">🚨</div>
-        <div class="stat-card-label">에러 발생</div>
-        <div class="stat-card-value" id="stErrors">-</div>
-        <div class="stat-card-diff same" id="stErrorsDiff">-</div>
-      </div>
-      <div class="stat-card" onclick="openStatChart('errorsUnresolved')">
-        <div class="stat-card-expand">📊</div>
-        <div class="stat-card-icon">⚠️</div>
-        <div class="stat-card-label">미해결 에러</div>
-        <div class="stat-card-value" id="stErrorsUnresolved">-</div>
-        <div class="stat-card-diff same" id="stErrorsUnresolvedDiff">-</div>
+
+      <!-- 매출/비용/순이익 -->
+      <div class="stats-mini-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stats-mini-card">
+          <div class="stats-mini-value" id="stRevenue" style="color:#4CAF7D">₩0</div>
+          <div class="stats-mini-label">💰 매출</div>
+        </div>
+        <div class="stats-mini-card">
+          <div class="stats-mini-value" id="stApiCost" style="color:#E05A5A">₩0</div>
+          <div class="stats-mini-label">🤖 API 비용</div>
+        </div>
+        <div class="stats-mini-card" onclick="toggleProfitDetail('st')" style="cursor:pointer">
+          <div class="stats-mini-value" id="stProfit" style="color:#8B6CC1">₩0</div>
+          <div class="stats-mini-label">💵 순이익 ▼</div>
+          <div class="profit-detail" id="stProfitDetail">
+            <div class="profit-row"><span>💰 매출</span><span id="stPdRevenue">₩0</span></div>
+            <div class="profit-row"><span>💳 PG수수료 (3.3%)</span><span id="stPdPg" style="color:#E05A5A">-₩0</span></div>
+            <div class="profit-row"><span>🤖 API비용</span><span id="stPdApi" style="color:#E05A5A">-₩0</span></div>
+            <div class="profit-divider"></div>
+            <div class="profit-row profit-total"><span>💵 순이익</span><span id="stPdTotal">₩0</span></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Expandable Chart Area -->
+    <!-- 서브탭 2: 전환율 -->
+    <div class="stats-sub-content" id="statsSubConversion">
+      <div class="conv-list">
+        <div class="conv-item" onclick="openStatChart('convSignup')">
+          <div class="conv-header">
+            <div class="conv-label">가입 → 분석</div>
+            <div class="conv-percent" id="stConvSignup">0%</div>
+          </div>
+          <div class="conv-bar-bg"><div class="conv-bar-fill purple" id="stConvSignupBar" style="width:0%"></div></div>
+          <div class="conv-sub" id="stConvSignupSub">가입 후 분석 이용률</div>
+        </div>
+        <div class="conv-item" onclick="openStatChart('convGunghap')">
+          <div class="conv-header">
+            <div class="conv-label">사주 → 궁합</div>
+            <div class="conv-percent" id="stConvGunghap">0%</div>
+          </div>
+          <div class="conv-bar-bg"><div class="conv-bar-fill green" id="stConvGunghapBar" style="width:0%"></div></div>
+          <div class="conv-sub" id="stConvGunghapSub">사주 후 궁합 이용률</div>
+        </div>
+        <div class="conv-item">
+          <div class="conv-header">
+            <div class="conv-label">사주 → 대화</div>
+            <div class="conv-percent" id="stConvSajuChat">0%</div>
+          </div>
+          <div class="conv-bar-bg"><div class="conv-bar-fill blue" id="stConvSajuChatBar" style="width:0%"></div></div>
+          <div class="conv-sub" id="stConvSajuChatSub">사주 후 달토 상담 이용률</div>
+        </div>
+        <div class="conv-item">
+          <div class="conv-header">
+            <div class="conv-label">궁합 → 대화</div>
+            <div class="conv-percent" id="stConvGunghapChat">0%</div>
+          </div>
+          <div class="conv-bar-bg"><div class="conv-bar-fill pink" id="stConvGunghapChatBar" style="width:0%"></div></div>
+          <div class="conv-sub" id="stConvGunghapChatSub">궁합 후 달토 상담 이용률</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 서브탭 3: 상세 -->
+    <div class="stats-sub-content" id="statsSubDetail">
+      <div class="stats-table-wrap">
+        <div class="stats-table-header">
+          <div class="stats-table-title">📋 상세 데이터</div>
+          <div class="stats-table-actions">
+            <button class="stats-table-btn" onclick="copyStatsReport()">📋 복사</button>
+            <button class="stats-table-btn" onclick="downloadStatsReport()">💾 다운로드</button>
+          </div>
+        </div>
+        <table class="stats-table" id="statsTable">
+          <thead>
+            <tr>
+              <th>날짜</th>
+              <th>가입</th>
+              <th>사주</th>
+              <th>궁합</th>
+              <th>채팅</th>
+              <th>총분석</th>
+              <th>클로버+</th>
+              <th>클로버-</th>
+              <th>에러</th>
+            </tr>
+          </thead>
+          <tbody id="statsTableBody">
+            <tr><td colspan="9" style="text-align:center;color:#AEAEB2;padding:20px">데이터 로딩 중...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Expandable Chart Area (기존 유지) -->
     <div class="stats-chart-area" id="statsChartArea">
       <div class="stats-chart-header">
         <div class="stats-chart-title" id="statsChartTitle">📊 차트</div>
@@ -788,57 +926,6 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
         <button class="stats-chart-date-go" onclick="reloadStatChartWithDates()">조회</button>
       </div>
       <canvas id="statsChartCanvas" class="stats-chart-canvas"></canvas>
-    </div>
-
-    <!-- Conversion & Retention Cards -->
-    <div class="stats-extra-grid" id="statsExtraGrid">
-      <div class="stats-extra-card" onclick="openStatChart('convSignup')">
-        <div class="stats-extra-expand">📊</div>
-        <div class="stats-extra-label">가입→분석 전환율</div>
-        <div class="stats-extra-value" id="stConvSignup">-</div>
-        <div class="stats-extra-sub" id="stConvSignupSub">가입 후 분석 이용률</div>
-      </div>
-      <div class="stats-extra-card" onclick="openStatChart('convGunghap')">
-        <div class="stats-extra-expand">📊</div>
-        <div class="stats-extra-label">사주→궁합 전환율</div>
-        <div class="stats-extra-value" id="stConvGunghap">-</div>
-        <div class="stats-extra-sub" id="stConvGunghapSub">사주 후 궁합 이용률</div>
-      </div>
-      <div class="stats-extra-card" onclick="openStatChart('convRetention')">
-        <div class="stats-extra-expand">📊</div>
-        <div class="stats-extra-label">재방문율</div>
-        <div class="stats-extra-value" id="stRetention">-</div>
-        <div class="stats-extra-sub" id="stRetentionSub">기간 내 재방문</div>
-      </div>
-    </div>
-
-    <!-- Detail Table -->
-    <div class="stats-table-wrap">
-      <div class="stats-table-header">
-        <div class="stats-table-title">📋 상세 데이터</div>
-        <div class="stats-table-actions">
-          <button class="stats-table-btn" onclick="copyStatsReport()">📋 복사</button>
-          <button class="stats-table-btn" onclick="downloadStatsReport()">💾 다운로드</button>
-        </div>
-      </div>
-      <table class="stats-table" id="statsTable">
-        <thead>
-          <tr>
-            <th>날짜</th>
-            <th>가입</th>
-            <th>사주</th>
-            <th>궁합</th>
-            <th>채팅</th>
-            <th>총분석</th>
-            <th>클로버+</th>
-            <th>클로버-</th>
-            <th>에러</th>
-          </tr>
-        </thead>
-        <tbody id="statsTableBody">
-          <tr><td colspan="9" style="text-align:center;color:#AEAEB2;padding:20px">데이터 로딩 중...</td></tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>
@@ -1032,6 +1119,9 @@ function renderDashboard(d){
   document.getElementById('dCloverOut').textContent=Math.abs(td.clover_out||0);
   document.getElementById('dApiCalls').textContent=td.api_calls||0;
   document.getElementById('dErrors').textContent=td.errors||0;
+
+  // 매출/비용/순이익
+  renderProfit('d',td.clover_in||0,td.api_calls||0);
 
   // Status bar
   var dbOk=d.users&&d.users.total>=0;
@@ -2441,6 +2531,62 @@ function setStatsPeriod(period){
   loadStats();
 }
 
+function setStatsSubTab(tab){
+  var tabs=document.querySelectorAll('.stats-subtab');
+  var contents=document.querySelectorAll('.stats-sub-content');
+  for(var i=0;i<tabs.length;i++){
+    tabs[i].classList.remove('active');
+    contents[i].classList.remove('active');
+  }
+  var tabMap={summary:0,conversion:1,detail:2};
+  var idx=tabMap[tab]||0;
+  tabs[idx].classList.add('active');
+  contents[idx].classList.add('active');
+}
+
+// 클로버 1개 = 100원, API 1건 = $0.01, 환율 1350원, PG 수수료 3.3%
+var CLOVER_PRICE=100;
+var API_COST_USD=0.01;
+var USD_TO_KRW=1350;
+var PG_FEE_RATE=0.033;
+
+function toggleProfitDetail(prefix){
+  var el=document.getElementById(prefix+'ProfitDetail');
+  if(el) el.classList.toggle('open');
+}
+
+function renderProfit(prefix,cloverIn,apiCalls){
+  var revenue=cloverIn*CLOVER_PRICE;
+  var pgFee=Math.round(revenue*PG_FEE_RATE);
+  var apiCostKrw=Math.round(apiCalls*API_COST_USD*USD_TO_KRW);
+  var profit=revenue-pgFee-apiCostKrw;
+
+  var fmt=function(n){return '\u20A9'+(n<0?'-':'')+Math.abs(n).toLocaleString();};
+
+  var revEl=document.getElementById(prefix+'Revenue');
+  var costEl=document.getElementById(prefix+'ApiCost');
+  var profitEl=document.getElementById(prefix+'Profit');
+  if(revEl) revEl.textContent=fmt(revenue);
+  if(costEl) costEl.textContent=fmt(apiCostKrw);
+  if(profitEl){
+    profitEl.textContent=fmt(profit);
+    profitEl.style.color=profit>=0?'#4CAF7D':'#E05A5A';
+  }
+
+  // 상세 내역
+  var pdRev=document.getElementById(prefix+'PdRevenue');
+  var pdPg=document.getElementById(prefix+'PdPg');
+  var pdApi=document.getElementById(prefix+'PdApi');
+  var pdTotal=document.getElementById(prefix+'PdTotal');
+  if(pdRev) pdRev.textContent=fmt(revenue);
+  if(pdPg) pdPg.textContent='-'+fmt(pgFee)+' (3.3%)';
+  if(pdApi) pdApi.textContent='-'+fmt(apiCostKrw);
+  if(pdTotal){
+    pdTotal.textContent=fmt(profit);
+    pdTotal.style.color=profit>=0?'#4CAF7D':'#E05A5A';
+  }
+}
+
 function loadStats(){
   // 카드 초기화
   var cardIds=['stUsersTotal','stSignups','stSaju','stGunghap','stChat','stTotalAnalysis','stCloverGiven','stCloverUsed','stErrors','stErrorsUnresolved'];
@@ -2482,6 +2628,8 @@ function loadStats(){
       conversion:{
         signup_to_analysis:0,
         saju_to_gunghap:0,
+        saju_to_chat:0,
+        gunghap_to_chat:0,
         retention:0
       },
       table:[]
@@ -2496,55 +2644,54 @@ function loadStats(){
 function renderStatsCards(d){
   var cards=d.cards||{};
   var mapping=[
-    {id:'stUsersTotal',diffId:'stUsersDiff',key:'users_total'},
-    {id:'stSignups',diffId:'stSignupsDiff',key:'signups'},
-    {id:'stSaju',diffId:'stSajuDiff',key:'saju'},
-    {id:'stGunghap',diffId:'stGunghapDiff',key:'gunghap'},
-    {id:'stChat',diffId:'stChatDiff',key:'chat'},
-    {id:'stTotalAnalysis',diffId:'stTotalAnalysisDiff',key:'total_analysis'},
-    {id:'stCloverGiven',diffId:'stCloverGivenDiff',key:'clover_given'},
-    {id:'stCloverUsed',diffId:'stCloverUsedDiff',key:'clover_used'},
-    {id:'stErrors',diffId:'stErrorsDiff',key:'errors'},
-    {id:'stErrorsUnresolved',diffId:'stErrorsUnresolvedDiff',key:'errors_unresolved'}
+    {id:'stUsersTotal',key:'users_total'},
+    {id:'stSignups',key:'signups'},
+    {id:'stSaju',key:'saju'},
+    {id:'stGunghap',key:'gunghap'},
+    {id:'stChat',key:'chat'},
+    {id:'stTotalAnalysis',key:'total_analysis'},
+    {id:'stCloverGiven',key:'clover_given'},
+    {id:'stCloverUsed',key:'clover_used'},
+    {id:'stErrors',key:'errors'},
+    {id:'stErrorsUnresolved',key:'errors_unresolved'}
   ];
 
   for(var i=0;i<mapping.length;i++){
     var m=mapping[i];
-    var card=cards[m.key]||{value:0,prev:0};
+    var card=cards[m.key]||{value:0};
     var val=card.value||0;
-    var prev=card.prev||0;
-    var diff=val-prev;
-
-    document.getElementById(m.id).textContent=val.toLocaleString?val.toLocaleString():val;
-
-    var diffEl=document.getElementById(m.diffId);
-    if(diff>0){
-      diffEl.className='stat-card-diff up';
-      diffEl.textContent='▲ +'+diff+' vs 전기간';
-    }else if(diff<0){
-      diffEl.className='stat-card-diff down';
-      diffEl.textContent='▼ '+diff+' vs 전기간';
-    }else{
-      diffEl.className='stat-card-diff same';
-      diffEl.textContent='— 변동 없음';
-    }
+    var el=document.getElementById(m.id);
+    if(el) el.textContent=val.toLocaleString?val.toLocaleString():val;
   }
+
+  // 매출/비용/순이익 계산
+  var cloverIn=(cards.clover_given||{}).value||0;
+  var totalApiCalls=((cards.saju||{}).value||0)+((cards.gunghap||{}).value||0)+((cards.chat||{}).value||0);
+  renderProfit('st',cloverIn,totalApiCalls);
 }
 
 function renderStatsConversion(d){
   var conv=d.conversion||{};
   var signupRate=conv.signup_to_analysis||0;
   var gunghapRate=conv.saju_to_gunghap||0;
-  var retention=conv.retention||0;
+  var sajuChatRate=conv.saju_to_chat||0;
+  var gunghapChatRate=conv.gunghap_to_chat||0;
 
+  // 가입→분석
   document.getElementById('stConvSignup').textContent=signupRate+'%';
-  document.getElementById('stConvSignupSub').textContent='가입 후 분석 이용률';
+  document.getElementById('stConvSignupBar').style.width=Math.min(signupRate,100)+'%';
 
+  // 사주→궁합
   document.getElementById('stConvGunghap').textContent=gunghapRate+'%';
-  document.getElementById('stConvGunghapSub').textContent='사주 후 궁합 이용률';
+  document.getElementById('stConvGunghapBar').style.width=Math.min(gunghapRate,100)+'%';
 
-  document.getElementById('stRetention').textContent=retention+'%';
-  document.getElementById('stRetentionSub').textContent='기간 내 재방문';
+  // 사주→대화
+  document.getElementById('stConvSajuChat').textContent=sajuChatRate+'%';
+  document.getElementById('stConvSajuChatBar').style.width=Math.min(sajuChatRate,100)+'%';
+
+  // 궁합→대화
+  document.getElementById('stConvGunghapChat').textContent=gunghapChatRate+'%';
+  document.getElementById('stConvGunghapChatBar').style.width=Math.min(gunghapChatRate,100)+'%';
 }
 
 function renderStatsTable(d){
@@ -2585,14 +2732,6 @@ function openStatChart(metric){
   document.getElementById('statsChartTitle').textContent=(labels[metric]||metric)+' 차트';
   document.getElementById('statsChartArea').classList.add('open');
 
-  // extra 카드 selected 처리
-  var extraCards=document.querySelectorAll('.stats-extra-card');
-  for(var i=0;i<extraCards.length;i++) extraCards[i].classList.remove('selected');
-  if(metric==='convSignup'||metric==='convGunghap'||metric==='convRetention'){
-    var idx={convSignup:0,convGunghap:1,convRetention:2};
-    if(extraCards[idx[metric]]) extraCards[idx[metric]].classList.add('selected');
-  }
-
   // 차트 날짜 기본 세팅
   var now=new Date();
   var todayStr=now.toISOString().slice(0,10);
@@ -2624,8 +2763,6 @@ function closeStatChart(){
     statsChartInstance=null;
   }
   statsCurrentMetric=null;
-  var extraCards=document.querySelectorAll('.stats-extra-card');
-  for(var i=0;i<extraCards.length;i++) extraCards[i].classList.remove('selected');
 }
 
 function reloadStatChart(){
