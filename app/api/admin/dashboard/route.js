@@ -15,9 +15,15 @@ export async function GET(request) {
     }
 
     const supabase = getServiceSupabase()
-    const today = new Date().toISOString().slice(0, 10)
 
-    // 각 쿼리를 병렬로 실행, 테이블 없어도 에러 안 나게 처리
+    // 날짜 파라미터 (기본: 오늘)
+    const url = new URL(request.url)
+    const dateParam = url.searchParams.get('date')
+    const targetDate = dateParam || new Date().toISOString().slice(0, 10)
+    const dayStart = targetDate + 'T00:00:00.000Z'
+    const dayEnd = targetDate + 'T23:59:59.999Z'
+
+    // 안전 카운트 헬퍼
     const safeCount = async (table, filter) => {
       try {
         let q = supabase.from(table).select('*', { count: 'exact', head: true })
@@ -54,52 +60,77 @@ export async function GET(request) {
 
     // 병렬 쿼리
     const [
+      // 누적
       usersTotal,
       usersBanned,
-      usersToday,
       errorsTotal,
       errorsUnresolved,
-      errorsToday,
-      errorsAiFail,
       cloverTotal,
       noticesTotal,
       noticesPinned,
       adminLogs,
       sajuTotal,
       gunghapTotal,
+      // 당일 (today)
+      todayVisitors,
+      todaySignups,
       todaySaju,
       todayGunghap,
-      todayChat
+      todayChat,
+      todayChatUsers,
+      todayCloverIn,
+      todayCloverOut,
+      todayApiCalls,
+      todayErrors
     ] = await Promise.all([
+      // 누적
       safeCount('users'),
       safeCount('users', q => q.eq('is_blocked', true)),
-      safeCount('users', q => q.gte('created_at', today)),
       safeCount('error_logs'),
-      safeCount('error_logs', q => q.eq('resolved', false)),
-      safeCount('error_logs', q => q.gte('created_at', today)),
-      safeCount('error_logs', q => q.in('error_type', ['ai_fail', 'analysis', 'gunghap'])),
+      safeCount('error_logs', q => q.eq('is_resolved', false)),
       safeSum('clover_history', 'amount', q => q.in('type', ['charge', 'signup_bonus'])),
       safeCount('notices'),
       safeCount('notices', q => q.eq('is_pinned', true)),
       safeSelect('admin_logs', '*', { order: 'created_at', limit: 20 }),
       safeCount('saju_results'),
       safeCount('gunghap_results'),
-      safeCount('saju_results', q => q.gte('created_at', today)),
-      safeCount('gunghap_results', q => q.gte('created_at', today)),
-      safeCount('chat_sessions', q => q.gte('created_at', today))
+      // 당일
+      safeCount('visitor_logs', q => q.gte('created_at', dayStart).lte('created_at', dayEnd)),
+      safeCount('users', q => q.gte('created_at', dayStart).lte('created_at', dayEnd)),
+      safeCount('saju_results', q => q.gte('created_at', dayStart).lte('created_at', dayEnd)),
+      safeCount('gunghap_results', q => q.gte('created_at', dayStart).lte('created_at', dayEnd)),
+      safeCount('chat_sessions', q => q.gte('created_at', dayStart).lte('created_at', dayEnd)),
+      safeCount('chat_sessions', q => q.gte('created_at', dayStart).lte('created_at', dayEnd)),
+      safeSum('clover_history', 'amount', q => q.gte('created_at', dayStart).lte('created_at', dayEnd).gt('amount', 0)),
+      safeSum('clover_history', 'amount', q => q.gte('created_at', dayStart).lte('created_at', dayEnd).lt('amount', 0)),
+      safeCount('saju_results', q => q.gte('created_at', dayStart).lte('created_at', dayEnd)),
+      safeCount('error_logs', q => q.gte('created_at', dayStart).lte('created_at', dayEnd))
     ])
 
+    // api_calls = 당일 사주 + 궁합 + 채팅 (AI API 호출 총합)
+    const apiCalls = todaySaju + todayGunghap + todayChat
+
     return Response.json({
-      users: { total: usersTotal, banned: usersBanned, today: usersToday },
-      errors: { total: errorsTotal, unresolved: errorsUnresolved, today: errorsToday, ai_fail: errorsAiFail },
+      date: targetDate,
+      today: {
+        visitors: todayVisitors,
+        signups: todaySignups,
+        saju: todaySaju,
+        gunghap: todayGunghap,
+        chat: todayChat,
+        chat_users: todayChatUsers,
+        clover_in: todayCloverIn,
+        clover_out: todayCloverOut,
+        api_calls: apiCalls,
+        errors: todayErrors
+      },
+      users: { total: usersTotal, banned: usersBanned },
+      errors: { total: errorsTotal, unresolved: errorsUnresolved },
       clover: { total: cloverTotal },
       notices: { total: noticesTotal, pinned: noticesPinned },
       admin_logs: adminLogs,
       saju_results: { total: sajuTotal },
-      gunghap_results: { total: gunghapTotal },
-      today_saju: todaySaju,
-      today_gunghap: todayGunghap,
-      today_chat: todayChat
+      gunghap_results: { total: gunghapTotal }
     })
   } catch (error) {
     logError('admin', error.message, { endpoint: '/api/admin/dashboard' })

@@ -43,6 +43,17 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
 @media(max-width:480px){.dash-grid{grid-template-columns:1fr}}
 .dash-card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.dash-grid-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+@media(max-width:480px){.dash-grid-2col{grid-template-columns:1fr}}
+.dash-card-today{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.05);text-align:center;transition:all .2s}
+.dash-card-today:hover{box-shadow:0 4px 16px rgba(139,108,193,0.12)}
+.dash-card-today .dash-card-icon{font-size:24px;margin-bottom:4px}
+.dash-card-today .dash-card-label{font-size:12px;color:#AEAEB2;font-weight:600}
+.dash-card-today .dash-card-value{font-size:28px;font-weight:900;color:#1C1C1E;margin:4px 0}
+.dash-date-picker{padding:8px 12px;border:1.5px solid #E5E5EA;border-radius:10px;font-size:13px;font-weight:600;font-family:inherit;outline:none;cursor:pointer;color:#1C1C1E;background:#fff}
+.dash-date-picker:focus{border-color:#8B6CC1}
+.dash-refresh-btn{width:36px;height:36px;border-radius:10px;border:1.5px solid #E5E5EA;background:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.dash-refresh-btn:hover{border-color:#8B6CC1;background:#F8F7F4}
 .dash-card-icon{font-size:24px;margin-bottom:8px}
 .dash-card-label{font-size:12px;color:#AEAEB2;font-weight:600;margin-bottom:4px}
 .dash-card-value{font-size:28px;font-weight:900;color:#1C1C1E}
@@ -424,65 +435,81 @@ body{font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-ser
 
   <!-- Tab 0: Dashboard -->
   <div class="tab-content active" id="tabDash">
-    <div class="status-bar" id="statusBar">
-      <div class="status-dot on" id="statusDot"></div>
-      <span class="status-label" id="statusLabel">서버 정상</span>
-      <div class="status-sep"></div>
-      <span class="status-label" id="statusDb">DB 연결 확인 중...</span>
-      <span class="status-time" id="statusTime">-</span>
+    <!-- 상단: 상태 + 날짜 선택 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+      <div class="status-bar" id="statusBar" style="margin-bottom:0;flex:1">
+        <div class="status-dot on" id="statusDot"></div>
+        <span class="status-label" id="statusLabel">서버 정상</span>
+        <div class="status-sep"></div>
+        <span class="status-label" id="statusDb">DB 연결 확인 중...</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input type="date" id="dashDate" class="dash-date-picker" onchange="onDashDateChange()">
+        <button class="dash-refresh-btn" onclick="loadDashboard()" title="새로고침">🔄</button>
+        <span class="status-time" id="statusTime">-</span>
+      </div>
     </div>
 
-    <div class="dash-grid" id="dashGrid">
-      <div class="dash-card">
-        <div class="dash-card-icon">👥</div>
-        <div class="dash-card-label">총 유저</div>
-        <div class="dash-card-value" id="dUsersTotal">-</div>
-        <div class="dash-card-sub" id="dUsersSub">차단: - / 오늘: -</div>
+    <!-- 오늘 기준 카드 5x2 -->
+    <div class="dash-grid-2col" id="dashGrid">
+      <div class="dash-card-today">
+        <div class="dash-card-icon">👁</div>
+        <div class="dash-card-label">방문자 수</div>
+        <div class="dash-card-value" id="dVisitors">0</div>
       </div>
-      <div class="dash-card">
+      <div class="dash-card-today">
+        <div class="dash-card-icon">👤</div>
+        <div class="dash-card-label">가입자 수</div>
+        <div class="dash-card-value" id="dSignups">0</div>
+      </div>
+      <div class="dash-card-today">
+        <div class="dash-card-icon">🔮</div>
+        <div class="dash-card-label">MBTS 분석</div>
+        <div class="dash-card-value" id="dSaju">0</div>
+      </div>
+      <div class="dash-card-today">
+        <div class="dash-card-icon">💕</div>
+        <div class="dash-card-label">궁합 분석</div>
+        <div class="dash-card-value" id="dGunghap">0</div>
+      </div>
+      <div class="dash-card-today">
+        <div class="dash-card-icon">🌙</div>
+        <div class="dash-card-label">달토 상담</div>
+        <div class="dash-card-value" id="dChat">0</div>
+      </div>
+      <div class="dash-card-today">
+        <div class="dash-card-icon">🧑‍🤝‍🧑</div>
+        <div class="dash-card-label">달토 이용 유저</div>
+        <div class="dash-card-value" id="dChatUsers">0</div>
+      </div>
+      <div class="dash-card-today">
+        <div class="dash-card-icon">🍀</div>
+        <div class="dash-card-label">클로버 충전</div>
+        <div class="dash-card-value" id="dCloverIn">0</div>
+      </div>
+      <div class="dash-card-today">
+        <div class="dash-card-icon">🔥</div>
+        <div class="dash-card-label">클로버 사용</div>
+        <div class="dash-card-value" id="dCloverOut">0</div>
+      </div>
+      <div class="dash-card-today">
+        <div class="dash-card-icon">🤖</div>
+        <div class="dash-card-label">API 사용량</div>
+        <div class="dash-card-value" id="dApiCalls">0</div>
+      </div>
+      <div class="dash-card-today">
         <div class="dash-card-icon">🚨</div>
         <div class="dash-card-label">에러</div>
-        <div class="dash-card-value" id="dErrorsUnresolved">-</div>
-        <div class="dash-card-sub" id="dErrorsSub">미해결 / 전체: -</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-icon">🍀</div>
-        <div class="dash-card-label">클로버 총 발행</div>
-        <div class="dash-card-value" id="dClover">-</div>
-        <div class="dash-card-sub">누적 발행량</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-icon">📊</div>
-        <div class="dash-card-label">분석 건수</div>
-        <div class="dash-card-value" id="dAnalysis">-</div>
-        <div class="dash-card-sub" id="dAnalysisSub">사주 -건 + 궁합 -건</div>
+        <div class="dash-card-value" id="dErrors">0</div>
       </div>
     </div>
 
-    <div class="dash-grid-sm" id="dashGridSm">
-      <div class="dash-card-sm">
-        <div class="dash-card-icon">📅</div>
-        <div class="dash-card-label">오늘 분석</div>
-        <div class="dash-card-value" id="dTodayAnalysis">-</div>
-        <div class="dash-card-sub" id="dTodayAnalysisSub">사주 - / 궁합 -</div>
-      </div>
-      <div class="dash-card-sm">
-        <div class="dash-card-icon">🤖</div>
-        <div class="dash-card-label">AI 성공률</div>
-        <div class="dash-card-value" id="dAiRate">-</div>
-        <div class="dash-card-sub" id="dAiRateSub">AI 에러 -건</div>
-      </div>
-      <div class="dash-card-sm">
-        <div class="dash-card-icon">💰</div>
-        <div class="dash-card-label">예상 API 비용</div>
-        <div class="dash-card-value" id="dApiCost">-</div>
-        <div class="dash-card-sub" id="dApiCostSub">Claude API 추정</div>
-      </div>
+    <!-- 버튼 영역 -->
+    <div style="display:flex;gap:8px;margin:16px 0;flex-wrap:wrap">
+      <button class="report-btn" style="flex:1;min-width:120px" onclick="copyReport()">📋 상태 리포트 복사</button>
+      <button class="seed-btn" style="flex:1;min-width:120px" onclick="runSeed()">🔧 테스트 데이터 생성</button>
+      <button class="seed-btn" style="flex:1;min-width:120px;border-color:#E05A5A;color:#E05A5A" onclick="deleteSeed()">🗑 테스트 데이터 삭제</button>
     </div>
-
-    <button class="report-btn" onclick="copyReport()">📋 상태 리포트 복사</button>
-    <button class="seed-btn" onclick="runSeed()">🔧 테스트 데이터 생성</button>
-    <button class="seed-btn" style="border-color:#E05A5A;color:#E05A5A" onclick="deleteSeed()">🗑 테스트 데이터 삭제</button>
 
     <!-- Charts Section -->
     <div class="chart-section">
@@ -961,9 +988,17 @@ function setAdminTab(i){
 }
 
 // ===== Dashboard =====
-function loadDashboard(){
-  var grid=document.getElementById('dashGrid');
-  fetch('/api/admin/dashboard',{
+function loadDashboard(dateStr){
+  var dateInput=document.getElementById('dashDate');
+  if(!dateStr){
+    dateStr=dateInput.value;
+  }
+  if(!dateStr){
+    var t=new Date();
+    dateStr=t.getFullYear()+'-'+(t.getMonth()+1<10?'0':'')+(t.getMonth()+1)+'-'+(t.getDate()<10?'0':'')+t.getDate();
+    dateInput.value=dateStr;
+  }
+  fetch('/api/admin/dashboard?date='+dateStr,{
     headers:{'Authorization':'Bearer '+adminToken}
   }).then(function(r){
     if(!r.ok) throw new Error('HTTP_'+r.status);
@@ -974,31 +1009,32 @@ function loadDashboard(){
     loadCharts();
   }).catch(function(e){
     console.error('[admin] dashboard error:',e);
-    renderDashboard({
-      users:{total:0,banned:0,today:0},
-      errors:{total:0,unresolved:0,today:0},
-      clover:{total:0},
-      notices:{total:0,pinned:0},
-      admin_logs:[],
-      saju_results:{total:0},
-      gunghap_results:{total:0}
-    });
+    renderDashboard({today:{visitors:0,signups:0,saju:0,gunghap:0,chat:0,chat_users:0,clover_in:0,clover_out:0,api_calls:0,errors:0},users:{total:0,banned:0},errors:{total:0,unresolved:0},clover:{total:0},notices:{total:0,pinned:0},admin_logs:[],saju_results:{total:0},gunghap_results:{total:0}});
   });
 }
 
+function onDashDateChange(){
+  var v=document.getElementById('dashDate').value;
+  if(v) loadDashboard(v);
+}
+
 function renderDashboard(d){
-  document.getElementById('dUsersTotal').textContent=d.users.total;
-  document.getElementById('dUsersSub').textContent='차단: '+d.users.banned+' / 오늘: '+d.users.today;
-  document.getElementById('dErrorsUnresolved').textContent=d.errors.unresolved;
-  document.getElementById('dErrorsSub').textContent='미해결 / 전체: '+d.errors.total;
-  document.getElementById('dClover').textContent=d.clover.total;
-  var sajuN=d.saju_results.total;
-  var ghN=d.gunghap_results.total;
-  document.getElementById('dAnalysis').textContent=sajuN+ghN;
-  document.getElementById('dAnalysisSub').textContent='사주 '+sajuN+'건 + 궁합 '+ghN+'건';
+  var td=d.today||{};
+
+  // 10개 카드 채우기
+  document.getElementById('dVisitors').textContent=td.visitors||0;
+  document.getElementById('dSignups').textContent=td.signups||0;
+  document.getElementById('dSaju').textContent=td.saju||0;
+  document.getElementById('dGunghap').textContent=td.gunghap||0;
+  document.getElementById('dChat').textContent=td.chat||0;
+  document.getElementById('dChatUsers').textContent=td.chat_users||0;
+  document.getElementById('dCloverIn').textContent=td.clover_in||0;
+  document.getElementById('dCloverOut').textContent=Math.abs(td.clover_out||0);
+  document.getElementById('dApiCalls').textContent=td.api_calls||0;
+  document.getElementById('dErrors').textContent=td.errors||0;
 
   // Status bar
-  var dbOk=d.users.total>=0;
+  var dbOk=d.users&&d.users.total>=0;
   var dotEl=document.getElementById('statusDot');
   var labelEl=document.getElementById('statusLabel');
   var dbEl=document.getElementById('statusDb');
@@ -1016,32 +1052,6 @@ function renderDashboard(d){
   var hh=now.getHours()<10?'0'+now.getHours():''+now.getHours();
   var mm=now.getMinutes()<10?'0'+now.getMinutes():''+now.getMinutes();
   timeEl.textContent='마지막 갱신: '+hh+':'+mm;
-
-  // Today analysis cards
-  var todaySaju=d.today_saju||0;
-  var todayGunghap=d.today_gunghap||0;
-  var todayChat=d.today_chat||0;
-  var todayTotal=todaySaju+todayGunghap+todayChat;
-  document.getElementById('dTodayAnalysis').textContent=todayTotal;
-  document.getElementById('dTodayAnalysisSub').textContent='사주 '+todaySaju+' / 궁합 '+todayGunghap+(todayChat>0?' / 채팅 '+todayChat:'');
-
-  // AI success rate
-  var aiFail=d.errors.ai_fail||0;
-  var totalAnalysis=sajuN+ghN;
-  var aiRate='100%';
-  if(totalAnalysis>0){
-    var successRate=totalAnalysis>0?Math.round(((totalAnalysis-aiFail)/totalAnalysis)*1000)/10:100;
-    if(successRate<0) successRate=0;
-    aiRate=successRate+'%';
-  }
-  document.getElementById('dAiRate').textContent=aiRate;
-  document.getElementById('dAiRateSub').textContent='AI 에러 '+aiFail+'건';
-
-  // Estimated API cost (~$0.01 per analysis)
-  var costPerCall=0.01;
-  var estCost=Math.round(totalAnalysis*costPerCall*100)/100;
-  document.getElementById('dApiCost').textContent='$'+estCost;
-  document.getElementById('dApiCostSub').textContent='총 '+totalAnalysis+'건 x $'+costPerCall;
 
   // Render logs
   var logs=d.admin_logs||[];
@@ -1075,16 +1085,26 @@ function renderDashboard(d){
 function copyReport(){
   var d=dashData;
   if(!d){showToast('데이터를 먼저 로드하세요');return;}
-  var now=new Date();
-  var dateStr=now.getFullYear()+'.'+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+'.'+(now.getDate()<10?'0':'')+now.getDate();
+  var selDate=document.getElementById('dashDate').value||'';
+  var dateLabel=selDate.replace(/-/g,'.')||'today';
+  var td=d.today||{};
 
-  var text='MBTS 프로젝트 현황 ('+dateStr+')\n\n';
-  text+='[DB 현황]\n';
-  text+='- 유저: '+d.users.total+'명 (차단: '+d.users.banned+'명, 오늘 가입: '+d.users.today+'명)\n';
-  text+='- 사주 분석: '+d.saju_results.total+'건 / 궁합 분석: '+d.gunghap_results.total+'건\n';
-  text+='- 미해결 에러: '+d.errors.unresolved+'건 / 전체 에러: '+d.errors.total+'건\n';
-  text+='- 클로버 총 발행: '+d.clover.total+'개\n';
-  text+='- 공지사항: '+d.notices.total+'개 (핀: '+d.notices.pinned+'개)\n';
+  var text='MBTS 리포트 ('+dateLabel+')\n\n';
+  text+='[당일 현황]\n';
+  text+='- 방문자: '+(td.visitors||0)+'명\n';
+  text+='- 가입자: '+(td.signups||0)+'명\n';
+  text+='- MBTS 분석: '+(td.saju||0)+'건\n';
+  text+='- 궁합 분석: '+(td.gunghap||0)+'건\n';
+  text+='- 달토 상담: '+(td.chat||0)+'건 (이용자 '+(td.chat_users||0)+'명)\n';
+  text+='- 클로버 충전: '+(td.clover_in||0)+'개 / 사용: '+Math.abs(td.clover_out||0)+'개\n';
+  text+='- API 호출: '+(td.api_calls||0)+'건\n';
+  text+='- 에러: '+(td.errors||0)+'건\n';
+
+  text+='\n[누적 현황]\n';
+  text+='- 전체 유저: '+(d.users?d.users.total:0)+'명 (차단: '+(d.users?d.users.banned:0)+'명)\n';
+  text+='- 전체 사주: '+(d.saju_results?d.saju_results.total:0)+'건 / 궁합: '+(d.gunghap_results?d.gunghap_results.total:0)+'건\n';
+  text+='- 미해결 에러: '+(d.errors?d.errors.unresolved:0)+'건\n';
+  text+='- 클로버 총 발행: '+(d.clover?d.clover.total:0)+'개\n';
 
   // 최근 관리자 활동
   var logs=d.admin_logs||[];
@@ -1102,23 +1122,8 @@ function copyReport(){
     });
   }
 
-  var todaySaju=d.today_saju||0;
-  var todayGunghap=d.today_gunghap||0;
-  var todayChat=d.today_chat||0;
-  var aiFail=d.errors.ai_fail||0;
-  var totalAn=d.saju_results.total+d.gunghap_results.total;
-  var aiRate=totalAn>0?Math.round(((totalAn-aiFail)/totalAn)*1000)/10:100;
-  if(aiRate<0) aiRate=0;
-  var estCost=Math.round(totalAn*0.01*100)/100;
-
-  text+='\n[오늘 분석]\n';
-  text+='- 오늘 사주: '+todaySaju+'건 / 궁합: '+todayGunghap+'건 / 채팅: '+todayChat+'건\n';
-  text+='- AI 성공률: '+aiRate+'% (에러 '+aiFail+'건)\n';
-  text+='- 예상 API 비용: $'+estCost+' ('+totalAn+'건)\n';
-
   text+='\n[시스템]\n';
-  text+='- Supabase 연결: '+(d.users.total>=0?'정상':'에러')+'\n';
-  text+='- 테이블: users, clover_history, error_logs, notices, admin_logs, saju_results, gunghap_results, profiles, chat_sessions, payments\n';
+  text+='- Supabase 연결: '+(d.users&&d.users.total>=0?'정상':'에러')+'\n';
 
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(text).then(function(){
