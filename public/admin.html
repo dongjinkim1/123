@@ -1286,8 +1286,9 @@ function confirmPwModal(){
     btn.disabled=false;
     btn.textContent='확인';
     if(res.ok&&res.data.success){
+      var cb=pwModalCallback;
       closePwModal();
-      if(pwModalCallback) pwModalCallback();
+      if(cb) cb();
     }else{
       errEl.textContent='비밀번호가 틀렸습니다';
       document.getElementById('pwModalInput').value='';
