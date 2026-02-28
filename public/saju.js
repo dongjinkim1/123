@@ -727,6 +727,486 @@ function SJ_countIndividualSS(saju) {
 
 
 // ======================================================================
+// 헬퍼: 육합/충/도화/역마/화개
+// ======================================================================
+
+function SJ_isYukhap(ji1, ji2) {
+  var pairs = [[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
+  for (var i = 0; i < pairs.length; i++) {
+    if ((ji1 === pairs[i][0] && ji2 === pairs[i][1]) ||
+        (ji1 === pairs[i][1] && ji2 === pairs[i][0])) return true;
+  }
+  return false;
+}
+
+function SJ_isChung(ji1, ji2) {
+  return ji1 >= 0 && ji2 >= 0 && Math.abs(ji1 - ji2) === 6;
+}
+
+function SJ_getDohwa(ilji) {
+  var m = {2:3,6:3,10:3, 5:6,9:6,1:6, 8:9,0:9,4:9, 11:0,3:0,7:0};
+  return m[ilji] != null ? m[ilji] : -1;
+}
+
+function SJ_getYeokma(ilji) {
+  var m = {2:8,6:8,10:8, 5:11,9:11,1:11, 8:2,0:2,4:2, 11:5,3:5,7:5};
+  return m[ilji] != null ? m[ilji] : -1;
+}
+
+function SJ_getHwagae(ilji) {
+  var m = {2:10,6:10,10:10, 5:1,9:1,1:1, 8:4,0:4,4:4, 11:7,3:7,7:7};
+  return m[ilji] != null ? m[ilji] : -1;
+}
+
+
+// ======================================================================
+// ⑮ 직업 적성 매칭
+// ======================================================================
+
+var SJ_JOB_APTITUDE = [
+  {d:'식상',s:'재성',t:'SS',jobs:'프리랜서, 크리에이터, 자영업, 콘텐츠, 유튜버, 디자이너',reason:'재능을 돈으로 바꾸는 구조. 자기 이름으로 벌 때 극대화'},
+  {d:'관성',s:'인성',t:'SS',jobs:'공무원, 교수, 연구원, 법조인, 의사, 컨설턴트',reason:'체계와 학문을 동시에 다루는 구조. 전문직에 최적화'},
+  {d:'비겁',s:'식상',t:'SS',jobs:'운동선수, 영업, 강사, 방송인, 인플루언서, 리더',reason:'자기 에너지를 표현하는 구조. 몸과 입으로 벌 때 빛남'},
+  {d:'재성',s:'관성',t:'SS',jobs:'경영인, 금융, 부동산, 무역, CEO',reason:'돈과 권력을 동시에 다루는 구조. 조직의 정상 지향'},
+  {d:'인성',s:'비겁',t:'SS',jobs:'학자, 교사, 작가, 종교인, 상담사, 코치',reason:'배운 것을 자기 것으로 만드는 구조. 가르치고 이끌 때 빛남'},
+  {d:'식상',s:'인성',t:'SS',jobs:'예술가, 발명가, 연구개발, 철학자, 크리에이티브 디렉터',reason:'깊이 있는 사고 + 독특한 표현. 창의적 전문가'},
+  {d:'비겁',s:'재성',t:'SS',jobs:'영업, 체육, 건설, 군인/경찰',reason:'경쟁하면서 돈을 버는 구조. 단, 동업은 금지'},
+  {d:'관성',w:'식상',t:'SW',jobs:'관리자, 행정, 감사, 심사역, 품질관리',reason:'규율은 강한데 표현은 약함. 시스템 관리에 최적'},
+  {d:'재성',w:'인성',t:'SW',jobs:'장사, 트레이딩, 중개, 실전 투자',reason:'돈 감각은 좋은데 이론보다 실전파. 현장에서 빛남'},
+  {d:'식상',w:'관성',t:'SW',jobs:'예술, 자유직, 프리랜서, 1인기업',reason:'표현욕 강한데 규율 싫음. 조직보다 자유로운 환경'},
+  {d:'인성',w:'식상',t:'SW',jobs:'연구직, 데이터분석, 아카이브, 도서관사서',reason:'깊이는 있지만 표현이 약함. 뒤에서 깊이 파는 일'},
+  {d:'관성',w:'비겁',t:'SW',jobs:'비서, 보좌관, 참모, 전문 어시스턴트',reason:'규율에 순응하지만 자기 주장이 약함. 보좌역에 적합'}
+];
+
+function SJ_buildJobText(gg) {
+  if (!gg || !gg.cnt) return '';
+  var groups = ['비겁','식상','재성','관성','인성'];
+  var sorted = groups.slice().sort(function(a, b) { return (gg.cnt[b] || 0) - (gg.cnt[a] || 0); });
+  var dominant = sorted[0];
+  var subdominant = sorted[1];
+  var weakest = sorted[sorted.length - 1];
+  var lines = ['★직업 적성:'];
+  var found = 0;
+  var i, apt;
+  for (i = 0; i < SJ_JOB_APTITUDE.length; i++) {
+    apt = SJ_JOB_APTITUDE[i];
+    if (apt.t === 'SS' && ((apt.d === dominant && apt.s === subdominant) || (apt.d === subdominant && apt.s === dominant))) {
+      lines.push('  주력: ' + apt.d + '+' + apt.s + ' → ' + apt.jobs);
+      lines.push('    (' + apt.reason + ')');
+      found++;
+      break;
+    }
+  }
+  for (i = 0; i < SJ_JOB_APTITUDE.length; i++) {
+    apt = SJ_JOB_APTITUDE[i];
+    if (apt.t === 'SW' && apt.d === dominant && apt.w === weakest) {
+      lines.push('  부력: ' + apt.d + '+' + apt.w + '약 → ' + apt.jobs);
+      lines.push('    (' + apt.reason + ')');
+      found++;
+      break;
+    }
+  }
+  if (found === 0) {
+    var def = {'비겁':'독립사업, 영업, 체육, 리더십 분야','식상':'크리에이터, 예술, 교육, 표현 분야','재성':'금융, 부동산, 무역, 영업 분야','관성':'공무원, 관리직, 법조, 조직 분야','인성':'학자, 교사, 연구, 상담 분야'};
+    lines.push('  주력: ' + dominant + ' 강세 → ' + (def[dominant] || ''));
+  }
+  return lines.join('\n');
+}
+
+
+// ======================================================================
+// ⑯ 연애/결혼 타이밍
+// ======================================================================
+
+function SJ_findLoveTiming(saju, gg, dw, gender) {
+  if (!dw || !dw.seun || dw.seun.length === 0) return '';
+  var r = saju.raw;
+  var ilji = r.dj;
+  var gKey = (gender === '여성' || gender === '여') ? '여' : '남';
+  var dohwa = SJ_getDohwa(ilji);
+  var hongMap = {0:6,1:7,2:8,3:9,4:6,5:7,6:8,7:9,8:6,9:7};
+  var hong = hongMap[r.dg] != null ? hongMap[r.dg] : -1;
+  var dwSS = '';
+  if (dw.currentDWIdx >= 0 && dw.daewoons && dw.daewoons[dw.currentDWIdx]) {
+    dwSS = SJ_SS_GROUP[dw.daewoons[dw.currentDWIdx].ss] || '';
+  }
+  var lines = ['★연애/결혼 타이밍 (향후 5년):'];
+  var found = 0;
+  var count = Math.min(dw.seun.length, 5);
+  for (var i = 0; i < count; i++) {
+    var se = dw.seun[i];
+    var score = 0;
+    var reasons = [];
+    var seGanIdx = TGAN_KR.indexOf(se.gan);
+    var seJiIdx = JIJI_KR.indexOf(se.ji);
+    var seSS = (typeof getSipsung === 'function' && seGanIdx >= 0) ? getSipsung(r.dg, seGanIdx) : '';
+    var seSSGroup = SJ_SS_GROUP[seSS] || '';
+    if (gKey === '남' && seSSGroup === '재성') { score += 3; reasons.push(seSS + '운'); }
+    if (gKey === '여' && seSSGroup === '관성') { score += 3; reasons.push(seSS + '운'); }
+    if (seJiIdx >= 0 && SJ_isYukhap(ilji, seJiIdx)) { score += 4; reasons.push('일지합'); }
+    if (dohwa >= 0 && seJiIdx === dohwa) { score += 2; reasons.push('도화발동'); }
+    if (hong >= 0 && seJiIdx === hong) { score += 1; reasons.push('홍염살'); }
+    if (gKey === '남' && dwSS === '재성') { score += 2; reasons.push('대운재성'); }
+    if (gKey === '여' && dwSS === '관성') { score += 2; reasons.push('대운관성'); }
+    if (score >= 2) {
+      var label = '';
+      if (score >= 6) label = '★★★ — 결혼/중대한 인연의 해';
+      else if (score >= 4) label = '★★ — 새 인연 가능성 높은 해';
+      else label = '★ — 이성 관심 증가';
+      lines.push('  ' + se.y + '년(' + reasons.join(', ') + ') ' + label);
+      found++;
+    }
+  }
+  return found > 0 ? lines.join('\n') : '';
+}
+
+
+// ======================================================================
+// ⑰ 도화살/역마살/화개살 심화
+// ======================================================================
+
+var SJ_DOHWA_GUNGWI = [
+  '태어날 때부터 인기쟁이. 어릴 때부터 이성에게 관심받음',
+  '직장/사회에서 매력 발산. 서비스업·연예계 적성',
+  '배우자가 매력적. 본인도 이성 매력 강함. 외도 주의',
+  '말년에 이성 인연 활발. 나이 들어도 매력적'
+];
+var SJ_YEOKMA_GUNGWI = [
+  '어린 시절 이사 잦음. 타향에서 성공하는 구조',
+  '직업이 이동성. 출장/무역/운송/여행업 적성',
+  '배우자와 먼 곳에서 만남. 또는 배우자가 바쁜 사람',
+  '말년에 여행/이동 많음. 한 곳에 정착 어려움'
+];
+var SJ_HWAGAE_GUNGWI = [
+  '집안에 종교/예술 배경. 영적 감수성 타고남',
+  '직업이 예술/종교/학문 쪽. 고독한 전문가',
+  '배우자가 예술적/철학적. 또는 고독한 결혼생활',
+  '말년에 종교/명상/예술에 빠짐. 고독한 노년'
+];
+
+function SJ_analyzeSpecialSals(saju) {
+  var r = saju.raw;
+  var ilji = r.dj;
+  var jis = [r.yj, r.mj, r.dj];
+  if (r.hj != null) jis.push(r.hj);
+  var gungNames = ['년지','월지','일지','시지'];
+  var dohwa = SJ_getDohwa(ilji);
+  var yeokma = SJ_getYeokma(ilji);
+  var hwagae = SJ_getHwagae(ilji);
+  var lines = ['★특수 신살 심화:'];
+  var found = 0;
+  var i, arr;
+
+  arr = [];
+  if (dohwa >= 0) { for (i = 0; i < jis.length; i++) { if (jis[i] === dohwa) arr.push(gungNames[i] + '(' + SJ_DOHWA_GUNGWI[i] + ')'); } }
+  lines.push('  도화살: ' + (arr.length > 0 ? arr.join(' / ') : '해당 없음'));
+  if (arr.length > 0) found++;
+
+  arr = [];
+  if (yeokma >= 0) { for (i = 0; i < jis.length; i++) { if (jis[i] === yeokma) arr.push(gungNames[i] + '(' + SJ_YEOKMA_GUNGWI[i] + ')'); } }
+  lines.push('  역마살: ' + (arr.length > 0 ? arr.join(' / ') : '해당 없음'));
+  if (arr.length > 0) found++;
+
+  arr = [];
+  if (hwagae >= 0) { for (i = 0; i < jis.length; i++) { if (jis[i] === hwagae) arr.push(gungNames[i] + '(' + SJ_HWAGAE_GUNGWI[i] + ')'); } }
+  lines.push('  화개살: ' + (arr.length > 0 ? arr.join(' / ') : '해당 없음'));
+  if (arr.length > 0) found++;
+
+  return found > 0 ? lines.join('\n') : '';
+}
+
+
+// ======================================================================
+// ⑱ 세운 월운 하이라이트
+// ======================================================================
+
+function SJ_buildMonthlyHighlight(saju, gg, osin) {
+  if (!osin) return '';
+  var r = saju.raw;
+  var curYear = new Date().getFullYear();
+  var yearGanIdx = (curYear - 4) % 10;
+  var startGanMap = [2, 4, 6, 8, 0]; // 갑/기→병, 을/경→무, 병/신→경, 정/임→임, 무/계→갑
+  var monthStartGan = startGanMap[yearGanIdx % 5];
+  var lines = ['★월운 하이라이트 (' + curYear + '년):'];
+  var found = 0;
+  for (var m = 0; m < 12; m++) {
+    var mGanIdx = (monthStartGan + m) % 10;
+    var mJiIdx = (2 + m) % 12; // 1월=인(2)~12월=축(1)
+    var mGanOh = OHAENG_TGAN[mGanIdx];
+    var label = SJ_getOsinLabel(osin, mGanOh);
+    var extra = [];
+    if (SJ_isChung(mJiIdx, r.dj)) extra.push('일지충 주의');
+    if (SJ_isYukhap(mJiIdx, r.dj)) extra.push('배우자궁합');
+    if (SJ_isChung(mJiIdx, r.mj)) extra.push('직업변동 주의');
+    var isGood = label.indexOf('용신') >= 0 || label.indexOf('희신') >= 0;
+    var isBad = label.indexOf('기신') >= 0 || label.indexOf('구신') >= 0;
+    if (isGood || isBad || extra.length > 0) {
+      var mStr = (m + 1) + '월(' + TGAN_KR[mGanIdx] + JIJI_KR[mJiIdx] + ')';
+      var goodBad = isGood ? (label.indexOf('용신') >= 0 ? ' 최고의 달' : ' 좋은 달') : (isBad ? ' 조심' : '');
+      var extraStr = extra.length > 0 ? ' + ' + extra.join(', ') : '';
+      lines.push('  ' + mStr + ' ' + mGanOh + '=' + label + goodBad + extraStr);
+      found++;
+    }
+  }
+  return found > 0 ? lines.join('\n') : '';
+}
+
+
+// ======================================================================
+// ⑲ 신강/신약 체감 텍스트
+// ======================================================================
+
+function SJ_buildStrengthText(gg) {
+  if (!gg || gg.selfStr == null || gg.otherStr == null) return '';
+  var total = gg.selfStr + gg.otherStr;
+  if (total === 0) return '';
+  var ratio = gg.selfStr / total;
+  var pct = Math.round(ratio * 100);
+  var label, desc, rx;
+  if (ratio > 0.70) {
+    label = '극신강'; desc = '자기 에너지가 압도적. 왕처럼 밀어붙이는 스타일. 독재적 경향 주의';
+    rx = '재성(재물활동)·관성(사회활동)으로 에너지를 빼줘야 균형';
+  } else if (ratio > 0.55) {
+    label = '신강'; desc = '자기 힘이 넘치는 구조. 리더십/독립심 강함. 양보와 협업이 과제';
+    rx = '사회활동(관성)이나 재물활동(재성)으로 에너지 분출이 건강한 방향';
+  } else if (ratio >= 0.45) {
+    label = '중화'; desc = '음양 균형. 어디서든 적응하는 유연함. 단, 뚜렷한 강점이 없어 보일 수 있음';
+    rx = '용신 오행을 키우는 게 돌파구';
+  } else if (ratio >= 0.30) {
+    label = '신약'; desc = '환경에 맞추는 능력이 뛰어남. 유연하지만 자기 색깔 지키기가 과제';
+    rx = '공부(인성)로 자신감 보충, 동료(비겁)의 도움이 필요';
+  } else {
+    label = '극신약'; desc = '주변 환경에 압도당하기 쉬운 구조. 자기를 지키는 것 자체가 과제';
+    rx = '인성(학습/멘토)과 비겁(동료/자기주장)이 생명줄';
+  }
+  var lines = ['★신강/신약 체감:'];
+  lines.push('  ' + label + '(자기편 비율 ' + pct + '%) — ' + desc);
+  lines.push('  처방: ' + rx);
+  return lines.join('\n');
+}
+
+
+// ======================================================================
+// ⑳ 합 트리거 예보
+// ======================================================================
+
+function SJ_findHapTrigger(saju, dw, osin) {
+  if (!dw || !dw.seun || dw.seun.length === 0) return '';
+  var r = saju.raw;
+  var jis = [r.yj, r.mj, r.dj];
+  if (r.hj != null) jis.push(r.hj);
+  var samhap = [
+    {name:'해묘미', jis:[11,3,7], oh:'목'},
+    {name:'인오술', jis:[2,6,10], oh:'화'},
+    {name:'사유축', jis:[5,9,1], oh:'금'},
+    {name:'신자진', jis:[8,0,4], oh:'수'}
+  ];
+  var lines = ['★합 트리거 예보:'];
+  var found = 0;
+  for (var s = 0; s < samhap.length; s++) {
+    var sh = samhap[s];
+    var have = [];
+    var missing = [];
+    for (var j = 0; j < sh.jis.length; j++) {
+      if (jis.indexOf(sh.jis[j]) >= 0) { have.push(JIJI_KR[sh.jis[j]]); }
+      else { missing.push(sh.jis[j]); }
+    }
+    if (have.length === 2 && missing.length === 1) {
+      var misJi = missing[0];
+      var misName = JIJI_KR[misJi];
+      lines.push('  사주에 ' + have.join('+') + ' 보유 → ' + misName + '이 오면 ' + sh.name + ' ' + sh.oh + '국 삼합 완성');
+      found++;
+      var cnt = Math.min(dw.seun.length, 5);
+      for (var k = 0; k < cnt; k++) {
+        var se = dw.seun[k];
+        var seJiIdx = JIJI_KR.indexOf(se.ji);
+        if (seJiIdx === misJi) {
+          var oLabel = osin ? SJ_getOsinLabel(osin, sh.oh) : '';
+          var oStr = oLabel ? ' = ' + oLabel : '';
+          lines.push('  ' + se.y + '년(' + se.gan + se.ji + ') ' + misName + '이 옴! → ' + sh.oh + ' 에너지 폭발' + oStr);
+        }
+      }
+    }
+  }
+  return found > 0 ? lines.join('\n') : '';
+}
+
+
+// ======================================================================
+// ㉑ 납음 궁합 활용
+// ======================================================================
+
+var SJ_NAPEUM_TABLE = [
+  {name:'해중금',oh:'금',desc:'바다 속 금'}, {name:'노중화',oh:'화',desc:'화로 속 불'},
+  {name:'대림목',oh:'목',desc:'큰 숲 나무'}, {name:'노방토',oh:'토',desc:'길가의 흙'},
+  {name:'검봉금',oh:'금',desc:'칼날의 금'}, {name:'산두화',oh:'화',desc:'산꼭대기 불'},
+  {name:'간하수',oh:'수',desc:'계곡물'},     {name:'성두토',oh:'토',desc:'성벽의 흙'},
+  {name:'백랍금',oh:'금',desc:'백랍의 금'}, {name:'양류목',oh:'목',desc:'버드나무'},
+  {name:'천중수',oh:'수',desc:'샘물'},       {name:'옥상토',oh:'토',desc:'지붕의 흙'},
+  {name:'벽력화',oh:'화',desc:'번개불'},     {name:'송백목',oh:'목',desc:'소나무'},
+  {name:'장류수',oh:'수',desc:'긴 강물'},    {name:'사중금',oh:'금',desc:'모래 속 금'},
+  {name:'산하화',oh:'화',desc:'산 아래 불'}, {name:'평지목',oh:'목',desc:'평야의 나무'},
+  {name:'벽상토',oh:'토',desc:'벽의 흙'},    {name:'금박금',oh:'금',desc:'금박'},
+  {name:'복등화',oh:'화',desc:'등불'},       {name:'천하수',oh:'수',desc:'은하수'},
+  {name:'대역토',oh:'토',desc:'역참의 흙'}, {name:'차천금',oh:'금',desc:'비녀 금'},
+  {name:'상자목',oh:'목',desc:'뽕나무'},     {name:'대계수',oh:'수',desc:'큰 시내'},
+  {name:'사중토',oh:'토',desc:'모래 속 흙'}, {name:'천상화',oh:'화',desc:'하늘의 불'},
+  {name:'석류목',oh:'목',desc:'석류나무'},   {name:'대해수',oh:'수',desc:'큰 바다'}
+];
+
+function SJ_getNapeum(ganIdx, jiIdx) {
+  if (ganIdx % 2 !== jiIdx % 2) return null; // 홀짝 불일치=유효하지 않은 간지
+  var n = (ganIdx * 36 + jiIdx * 25) % 60;
+  return SJ_NAPEUM_TABLE[Math.floor(n / 2)] || null;
+}
+
+function SJ_buildNapeumGunghap(sajuA, sajuB) {
+  if (!sajuA || !sajuB || !sajuA.raw || !sajuB.raw) return '';
+  var nA = SJ_getNapeum(sajuA.raw.dg, sajuA.raw.dj);
+  var nB = SJ_getNapeum(sajuB.raw.dg, sajuB.raw.dj);
+  if (!nA || !nB) return '';
+  var ohA = nA.oh, ohB = nB.oh;
+  var sangMap = {'목':{s:'화',g:'토'},'화':{s:'토',g:'금'},'토':{s:'금',g:'수'},'금':{s:'수',g:'목'},'수':{s:'목',g:'화'}};
+  var relation, comment;
+  if (ohA === ohB) {
+    relation = '동오행(비화)'; comment = '같은 기운. 편안하지만 변화가 적은 관계';
+  } else if (sangMap[ohA] && sangMap[ohA].s === ohB) {
+    relation = ohA + '생' + ohB; comment = nA.desc + '이(가) ' + nB.desc + '에게 에너지를 주는 관계';
+  } else if (sangMap[ohB] && sangMap[ohB].s === ohA) {
+    relation = ohB + '생' + ohA; comment = nB.desc + '이(가) ' + nA.desc + '에게 에너지를 주는 관계';
+  } else if (sangMap[ohA] && sangMap[ohA].g === ohB) {
+    relation = ohA + '극' + ohB; comment = nA.desc + '이(가) ' + nB.desc + '을(를) 압도하는 관계. 갈등 소지';
+  } else if (sangMap[ohB] && sangMap[ohB].g === ohA) {
+    relation = ohB + '극' + ohA; comment = nB.desc + '이(가) ' + nA.desc + '을(를) 압도하는 관계';
+  } else {
+    relation = '특수'; comment = '특이한 기운 조합';
+  }
+  var lines = ['★납음 궁합:'];
+  lines.push('  A 일주 납음: ' + nA.name + '(' + nA.desc + ', ' + ohA + ')');
+  lines.push('  B 일주 납음: ' + nB.name + '(' + nB.desc + ', ' + ohB + ')');
+  lines.push('  관계: ' + relation + ' — ' + comment);
+  return lines.join('\n');
+}
+
+
+// ======================================================================
+// ㉒ 킬링 포인트 자동 생성
+// ======================================================================
+
+function SJ_generateKillingPoints(saju, gg, sjData) {
+  if (!sjData) return '';
+  var points = [];
+  var r = saju.raw;
+
+  // 1. 통변 모순: 식상생재 + 비겁탈재 동시
+  if (sjData.tongbyeons) {
+    var hasSSJR = false, hasBGTR = false;
+    for (var t = 0; t < sjData.tongbyeons.length; t++) {
+      if (sjData.tongbyeons[t].name === '식상생재') hasSSJR = true;
+      if (sjData.tongbyeons[t].name === '비겁탈재') hasBGTR = true;
+    }
+    if (hasSSJR && hasBGTR) {
+      points.push('"혼자 벌면 대박, 동업하면 쪽박. 파트너 선택이 인생을 가름" (식상생재+비겁탈재)');
+    }
+  }
+
+  // 2. 음양×MBTI 반전
+  if (sjData.yinYangText) {
+    if (sjData.yinYangText.indexOf('극양') >= 0 && sjData.yinYangText.indexOf('MBTI(I)') >= 0) {
+      points.push('"겉과 속이 정반대인 사람. 오해를 자주 받지만, 그게 매력" (극양+I)');
+    } else if (sjData.yinYangText.indexOf('극음') >= 0 && sjData.yinYangText.indexOf('MBTI(E)') >= 0) {
+      points.push('"사교적이지만 에너지 소모 극심. 겉과 속의 갭이 매력" (극음+E)');
+    }
+  }
+
+  // 3. 교운기 임박
+  if (sjData.gyowoongiText && sjData.gyowoongiText.indexOf('지금!') >= 0) {
+    points.push('"지금이 인생 최대 전환점. 삶의 방향이 바뀌는 중" (교운기 임박)');
+  }
+
+  // 4. 12운성 반전: 일지 사/절/묘 + 배우자 정재/정관
+  if (saju.uns && saju.uns[2]) {
+    var iljiUns = saju.uns[2];
+    if ((iljiUns === '사' || iljiUns === '절' || iljiUns === '묘') && saju.jiSS && saju.jiSS[2]) {
+      var spSS = saju.jiSS[2].ss;
+      if (spSS === '정재' || spSS === '정관') {
+        points.push('"배우자궁은 약한데 배우자 에너지는 좋음. 만남이 늦지만 만나면 깊음" (12운성 반전)');
+      }
+    }
+  }
+
+  // 5. 5신 충돌: 세운 기신 + 대운 희신 (or 반대)
+  if (sjData.osinText) {
+    var oLines = sjData.osinText.split('\n');
+    var dwLine = '', seLine = '';
+    for (var ol = 0; ol < oLines.length; ol++) {
+      if (oLines[ol].indexOf('대운') >= 0) dwLine = oLines[ol];
+      if (oLines[ol].indexOf('세운') >= 0) seLine = oLines[ol];
+    }
+    if (seLine.indexOf('기신') >= 0 && dwLine.indexOf('희신') >= 0) {
+      points.push('"큰 흐름은 좋은데 올해만 조심. 인내가 답" (세운기신+대운희신)');
+    } else if (seLine.indexOf('희신') >= 0 && dwLine.indexOf('기신') >= 0) {
+      points.push('"큰 흐름은 나쁜데 올해는 기회. 올해 안에 움직여라" (세운희신+대운기신)');
+    }
+  }
+
+  // 6. 공망 반전: 월지 공망 + 식상생재
+  if (sjData.gongmangText && sjData.gongmangText.indexOf('월지') >= 0 && sjData.tongbyeons) {
+    for (var t2 = 0; t2 < sjData.tongbyeons.length; t2++) {
+      if (sjData.tongbyeons[t2].name === '식상생재') {
+        points.push('"직장은 안 맞는데 자기 사업하면 대박나는 구조" (월지공망+식상생재)');
+        break;
+      }
+    }
+  }
+
+  // 7. 삼합 트리거 + 용신
+  if (sjData.hapTriggerText) {
+    var curY = new Date().getFullYear();
+    if (sjData.hapTriggerText.indexOf(curY + '년') >= 0 && sjData.hapTriggerText.indexOf('용신') >= 0) {
+      points.push('"올해 에너지가 폭발. 인생 최고의 기회" (삼합 트리거+용신)');
+    }
+  }
+
+  // 8. 도화+건록 조합
+  if (saju.uns && saju.uns[2] === '건록') {
+    var dohwa8 = SJ_getDohwa(r.dj);
+    if (dohwa8 >= 0 && r.dj === dohwa8) {
+      points.push('"매력적이면서 독립적. 쉽게 안 넘어가는 매력" (도화+건록)');
+    }
+  }
+
+  // 9. 건강 경고: 부족오행이 기신/구신
+  if (saju.lackFull && saju.lackFull.length > 0 && sjData.osin) {
+    for (var l = 0; l < saju.lackFull.length; l++) {
+      var lackOh = saju.lackFull[l];
+      var olbl = SJ_getOsinLabel(sjData.osin, lackOh);
+      if (olbl.indexOf('기신') >= 0 || olbl.indexOf('구신') >= 0) {
+        var hd = SJ_HEALTH_OH[lackOh];
+        if (hd) {
+          points.push('"' + hd.organ + ' 건강 특별히 주의. 부족오행이 흉신" (건강 경고)');
+          break;
+        }
+      }
+    }
+  }
+
+  // 10. 연애 타이밍 집중: ★★★
+  if (sjData.loveTimingText && sjData.loveTimingText.indexOf('★★★') >= 0) {
+    points.push('"가까운 시일 내 인생 최대 연애/결혼 타이밍" (연애 타이밍 집중)');
+  }
+
+  if (points.length > 5) points = points.slice(0, 5);
+  if (points.length === 0) return '';
+  var lines = ['★AI 킬링 포인트 후보 (풀이에 자연스럽게 녹여서 사용):'];
+  for (var p = 0; p < points.length; p++) {
+    lines.push('  ' + (p + 1) + '. ' + points[p]);
+  }
+  return lines.join('\n');
+}
+
+
+// ======================================================================
 // 통합 함수: SJ_enrichSajuData
 // ======================================================================
 
@@ -755,7 +1235,15 @@ function SJ_enrichSajuData(saju, gg, dw, gender, mbtiType) {
   var wolryulText = SJ_getWolryulText(saju);
   var gaeunText = SJ_buildGaeunText(yoh);
 
-  return {
+  // ⑮~⑳ 추가 8개 항목
+  var jobText = SJ_buildJobText(gg);
+  var strengthText = SJ_buildStrengthText(gg);
+  var loveTimingText = SJ_findLoveTiming(saju, gg, dw, gender);
+  var specialSalsText = SJ_analyzeSpecialSals(saju);
+  var monthlyText = SJ_buildMonthlyHighlight(saju, gg, osin);
+  var hapTriggerText = SJ_findHapTrigger(saju, dw, osin);
+
+  var result = {
     osinText: osinText,
     yukchinText: yukchinText,
     unsungText: unsungText,
@@ -768,12 +1256,22 @@ function SJ_enrichSajuData(saju, gg, dw, gender, mbtiType) {
     tuchulText: tuchulText,
     wolryulText: wolryulText,
     gaeunText: gaeunText,
+    jobText: jobText,
+    strengthText: strengthText,
+    loveTimingText: loveTimingText,
+    specialSalsText: specialSalsText,
+    monthlyText: monthlyText,
+    hapTriggerText: hapTriggerText,
     // 메타
     osin: osin,
     tongbyeons: tongbyeons,
     hyungs: hyungs,
     yongshinOh: yoh
   };
+
+  // ㉒ 킬링 포인트 (모든 데이터 종합 필요하므로 마지막)
+  result.killingPointsText = SJ_generateKillingPoints(saju, gg, result);
+  return result;
 }
 
 
@@ -807,6 +1305,8 @@ function SJ_injectIntoPrompt(userMsg, sjData) {
     if (sjData.healthText)    insertBlock += sjData.healthText + '\n\n';
     if (sjData.yinYangText)   insertBlock += sjData.yinYangText + '\n\n';
     if (sjData.tongbyeonText) insertBlock += sjData.tongbyeonText + '\n\n';
+    if (sjData.jobText)       insertBlock += sjData.jobText + '\n\n';
+    if (sjData.strengthText)  insertBlock += sjData.strengthText + '\n\n';
     if (insertBlock) {
       msg = msg.substring(0, sinsalIdx) + insertBlock + msg.substring(sinsalIdx);
     }
@@ -818,20 +1318,26 @@ function SJ_injectIntoPrompt(userMsg, sjData) {
   if (yearIdx >= 0) {
     var yearBlock = '';
     if (sjData.gongmangText) yearBlock += sjData.gongmangText + '\n\n';
-    if (sjData.hyungText)    yearBlock += sjData.hyungText + '\n\n';
+    if (sjData.hyungText)        yearBlock += sjData.hyungText + '\n\n';
+    if (sjData.specialSalsText) yearBlock += sjData.specialSalsText + '\n\n';
     if (yearBlock) {
       msg = msg.substring(0, yearIdx) + yearBlock + msg.substring(yearIdx);
     }
   }
 
-  // ⑦ → "세운: " 뒤에 교운기 삽입
-  if (sjData.gyowoongiText) {
+  // ⑦ ⑯ ⑱ ⑳ → "세운: " 뒤에 삽입
+  var seunBlock = '';
+  if (sjData.gyowoongiText)  seunBlock += sjData.gyowoongiText + '\n';
+  if (sjData.loveTimingText) seunBlock += sjData.loveTimingText + '\n';
+  if (sjData.monthlyText)    seunBlock += sjData.monthlyText + '\n';
+  if (sjData.hapTriggerText) seunBlock += sjData.hapTriggerText + '\n';
+  if (seunBlock) {
     var seunMarker = '세운: ';
     var seunIdx = msg.indexOf(seunMarker);
     if (seunIdx >= 0) {
       var seunLineEnd = msg.indexOf('\n', seunIdx);
       if (seunLineEnd >= 0) {
-        msg = msg.substring(0, seunLineEnd) + '\n' + sjData.gyowoongiText + msg.substring(seunLineEnd);
+        msg = msg.substring(0, seunLineEnd) + '\n' + seunBlock + msg.substring(seunLineEnd);
       }
     }
   }
@@ -851,7 +1357,8 @@ function SJ_injectIntoPrompt(userMsg, sjData) {
     var hintBlock = '\n';
     if (sjData.tuchulText)  hintBlock += '\n' + sjData.tuchulText;
     if (sjData.wolryulText) hintBlock += '\n' + sjData.wolryulText;
-    if (sjData.gaeunText)   hintBlock += '\n' + sjData.gaeunText;
+    if (sjData.gaeunText)           hintBlock += '\n' + sjData.gaeunText;
+    if (sjData.killingPointsText)  hintBlock += '\n\n' + sjData.killingPointsText;
     if (hintBlock.length > 1) {
       msg = msg.substring(0, insertPos) + hintBlock + msg.substring(insertPos);
     }
@@ -949,7 +1456,21 @@ window.SJ_buildHealthText      = SJ_buildHealthText;
 window.SJ_checkTuchul          = SJ_checkTuchul;
 window.SJ_getWolryulText       = SJ_getWolryulText;
 window.SJ_injectIntoPrompt     = SJ_injectIntoPrompt;
+window.SJ_findLoveTiming       = SJ_findLoveTiming;
+window.SJ_analyzeSpecialSals   = SJ_analyzeSpecialSals;
+window.SJ_buildMonthlyHighlight= SJ_buildMonthlyHighlight;
+window.SJ_buildNapeumGunghap   = SJ_buildNapeumGunghap;
+window.SJ_NAPEUM_TABLE         = SJ_NAPEUM_TABLE;
+window.SJ_isYukhap             = SJ_isYukhap;
+window.SJ_getDohwa             = SJ_getDohwa;
+window.SJ_getYeokma            = SJ_getYeokma;
+window.SJ_getHwagae            = SJ_getHwagae;
+window.SJ_buildJobText         = SJ_buildJobText;
+window.SJ_buildStrengthText    = SJ_buildStrengthText;
+window.SJ_findHapTrigger       = SJ_findHapTrigger;
+window.SJ_generateKillingPoints= SJ_generateKillingPoints;
+window.SJ_getNapeum            = SJ_getNapeum;
 
-console.log('[saju.js] v1.0 로드 완료 — 14개 보강 모듈 활성화');
+console.log('[saju.js] v2.0 로드 완료 — 22개 보강 모듈 활성화');
 
 })();
