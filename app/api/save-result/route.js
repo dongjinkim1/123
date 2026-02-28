@@ -1,4 +1,5 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 export async function POST(request) {
   console.log('[save-result] 요청 시작')
@@ -45,6 +46,7 @@ export async function POST(request) {
     console.log('[save-result] 저장 완료, id:', data.id)
     return Response.json({ success: true, id: data.id })
   } catch (error) {
+    logError('other', error.message, { endpoint: '/api/save-result' })
     console.error('[save-result] 서버 에러:', error)
     return Response.json(
       { error: '서버 내부 에러가 발생했습니다.' },

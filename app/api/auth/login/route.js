@@ -1,4 +1,5 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 export async function POST(request) {
   try {
@@ -144,6 +145,7 @@ export async function POST(request) {
     }
 
   } catch (error) {
+    logError('auth', error.message, { endpoint: '/api/auth/login' })
     console.error('[auth/login] 에러:', error)
     return Response.json({ error: error.message }, { status: 500 })
   }

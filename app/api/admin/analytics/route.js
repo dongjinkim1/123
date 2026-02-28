@@ -1,5 +1,6 @@
 import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 function authCheck(request) {
   var authHeader = request.headers.get('Authorization')
@@ -124,6 +125,7 @@ export async function GET(request) {
       daily: daily
     })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/analytics' })
     console.error('[admin/analytics] 에러:', error)
     return Response.json({ error: error.message }, { status: 500 })
   }

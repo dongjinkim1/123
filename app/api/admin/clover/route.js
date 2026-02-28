@@ -1,5 +1,6 @@
 import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 function authCheck(request) {
   var authHeader = request.headers.get('Authorization')
@@ -54,6 +55,7 @@ export async function GET(request) {
       page: page
     })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/clover GET' })
     console.error('[admin/clover] GET 에러:', error)
     return Response.json({ error: error.message }, { status: 500 })
   }
@@ -133,6 +135,7 @@ export async function POST(request) {
 
     return Response.json({ success: true, newBalance: newBalance })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/clover POST' })
     console.error('[admin/clover] POST 에러:', error)
     return Response.json({ error: error.message }, { status: 500 })
   }
@@ -210,6 +213,7 @@ export async function PUT(request) {
 
     return Response.json({ success: true, count: count })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/clover PUT' })
     console.error('[admin/clover] PUT 에러:', error)
     return Response.json({ error: error.message }, { status: 500 })
   }
@@ -292,6 +296,7 @@ export async function DELETE(request) {
 
     return Response.json({ success: true, count: count })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/clover DELETE' })
     console.error('[admin/clover] DELETE 에러:', error)
     return Response.json({ error: error.message }, { status: 500 })
   }

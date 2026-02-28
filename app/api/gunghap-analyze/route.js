@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { logError } from '@/lib/errorLog'
 
 export const maxDuration = 300
 
@@ -67,6 +68,7 @@ export async function POST(request) {
       },
     })
   } catch (error) {
+    logError('gunghap', error.message, { endpoint: '/api/gunghap-analyze' })
     console.error('[gunghap-analyze] 서버 에러:', error)
     if (error.status === 529 || (error.error && error.error.type === 'overloaded_error')) {
       return Response.json(

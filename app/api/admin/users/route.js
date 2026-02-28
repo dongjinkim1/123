@@ -1,5 +1,6 @@
 import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 function authCheck(request) {
   const authHeader = request.headers.get('Authorization')
@@ -43,6 +44,7 @@ export async function GET(request) {
 
     return Response.json({ users: users || [], total: total || 0, page, limit })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/users GET' })
     console.error('[admin/users] GET 서버 에러:', error)
     return Response.json({ error: '서버 에러' }, { status: 500 })
   }
@@ -108,6 +110,7 @@ export async function PATCH(request) {
 
     return Response.json({ success: true })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/users PATCH' })
     console.error('[admin/users] PATCH 서버 에러:', error)
     return Response.json({ error: '서버 에러' }, { status: 500 })
   }

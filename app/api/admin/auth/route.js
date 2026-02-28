@@ -1,4 +1,5 @@
 import { generateToken, validateToken } from '@/lib/adminAuth'
+import { logError } from '@/lib/errorLog'
 
 export async function POST(request) {
   try {
@@ -14,6 +15,7 @@ export async function POST(request) {
     const token = generateToken()
     return Response.json({ success: true, token: token })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/auth POST' })
     console.error('[admin/auth] 에러:', error)
     return Response.json(
       { error: '서버 에러' },
@@ -42,6 +44,7 @@ export async function GET(request) {
 
     return Response.json({ valid: true })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/auth GET' })
     console.error('[admin/auth] GET 에러:', error)
     return Response.json(
       { error: '서버 에러' },

@@ -1,4 +1,5 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 export async function GET(request) {
   try {
@@ -23,6 +24,7 @@ export async function GET(request) {
       history: res.data || []
     })
   } catch (e) {
+    logError('payment', e.message, { endpoint: '/api/clover/history' })
     return Response.json({ error: e.message }, { status: 500 })
   }
 }

@@ -1,4 +1,5 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 export async function POST(request) {
   try {
@@ -51,6 +52,7 @@ export async function POST(request) {
 
     return Response.json({ success: true, newBalance: newBalance })
   } catch (e) {
+    logError('payment', e.message, { endpoint: '/api/clover/use' })
     console.error('[clover/use] error:', e)
     return Response.json({ error: e.message }, { status: 500 })
   }

@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { logError } from '@/lib/errorLog'
 
 export async function GET(request) {
   console.log('[my-results] 요청 시작')
@@ -70,6 +71,7 @@ export async function GET(request) {
       gunghap: gunghapResults || [],
     })
   } catch (error) {
+    logError('other', error.message, { endpoint: '/api/my-results' })
     console.error('[my-results] 서버 에러:', error)
     return Response.json(
       { error: '서버 내부 에러가 발생했습니다.' },

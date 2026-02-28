@@ -1,4 +1,5 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 export async function GET() {
   try {
@@ -27,6 +28,7 @@ export async function GET() {
       return Response.json({ success: false, notice: null })
     }
   } catch (e) {
+    logError('other', e.message, { endpoint: '/api/notice/popup' })
     return Response.json({ success: false, notice: null })
   }
 }

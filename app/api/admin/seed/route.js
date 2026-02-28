@@ -1,5 +1,6 @@
 import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 export async function POST(request) {
   var authHeader = request.headers.get('Authorization')
@@ -157,6 +158,7 @@ export async function POST(request) {
       }
     })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/seed' })
     console.error('[admin/seed] 치명적 에러:', error)
     return Response.json({
       success: false,

@@ -1,5 +1,6 @@
 import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
+import { logError } from '@/lib/errorLog'
 
 export async function GET(request) {
   try {
@@ -101,6 +102,7 @@ export async function GET(request) {
       today_chat: todayChat
     })
   } catch (error) {
+    logError('admin', error.message, { endpoint: '/api/admin/dashboard' })
     console.error('[admin/dashboard] 에러:', error)
     return Response.json({ error: '서버 에러' }, { status: 500 })
   }
