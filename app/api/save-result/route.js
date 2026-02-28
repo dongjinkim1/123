@@ -2,55 +2,60 @@ import { getServiceSupabase } from '@/lib/supabase'
 import { logError } from '@/lib/errorLog'
 
 export async function POST(request) {
-  console.log('[save-result] 요청 시작')
-
   try {
-    const { userId, birthData, mbti, mbtiIntensity, resultJson, sajuSummary } = await request.json()
+    var supabase = getServiceSupabase()
+    var body = await request.json()
+    var userId = body.userId || null
+    var type = body.type
+    var data = body.data || {}
 
-    if (!userId || !birthData || !mbti || !resultJson) {
-      return Response.json(
-        { error: '필수 데이터가 누락되었습니다.' },
-        { status: 400 }
-      )
+    if (type === 'saju') {
+      var { data: result, error: insertErr } = await supabase
+        .from('saju_results')
+        .insert({
+          user_id: userId,
+          name: data.name || null,
+          input_data: data.input || null,
+          saju_data: data.saju || null,
+          mbti_data: data.mbtiObj || null,
+          ai_result: data.aiResult || null
+        })
+        .select('id')
+        .single()
+
+      if (insertErr) {
+        return Response.json({ success: false, error: insertErr.message }, { status: 500 })
+      }
+
+      return Response.json({ success: true, id: result.id })
+
+    } else if (type === 'gunghap') {
+      var { data: ghResult, error: ghErr } = await supabase
+        .from('gunghap_results')
+        .insert({
+          user_id: userId,
+          person_a: data.personA || null,
+          person_b: data.personB || null,
+          rel_type: data.relType || null,
+          scores: data.scores || null,
+          ai_result: data.aiResult || null
+        })
+        .select('id')
+        .single()
+
+      if (ghErr) {
+        return Response.json({ success: false, error: ghErr.message }, { status: 500 })
+      }
+
+      return Response.json({ success: true, id: ghResult.id })
+
+    } else {
+      return Response.json({ success: false, error: '지원하지 않는 type' }, { status: 400 })
     }
 
-    const supabase = getServiceSupabase()
-
-    const { data, error } = await supabase
-      .from('saju_results')
-      .insert({
-        user_id: userId,
-        birth_year: birthData.year,
-        birth_month: birthData.month,
-        birth_day: birthData.day,
-        birth_hour: birthData.hour,
-        birth_minute: birthData.minute,
-        gender: birthData.gender,
-        mbti: mbti,
-        mbti_intensity: mbtiIntensity,
-        result_json: resultJson,
-        saju_summary: sajuSummary,
-        is_paid: true,
-      })
-      .select('id')
-      .single()
-
-    if (error) {
-      console.error('[save-result] Supabase 에러:', error)
-      return Response.json(
-        { error: error.message },
-        { status: 500 }
-      )
-    }
-
-    console.log('[save-result] 저장 완료, id:', data.id)
-    return Response.json({ success: true, id: data.id })
   } catch (error) {
-    logError('other', error.message, { endpoint: '/api/save-result' })
-    console.error('[save-result] 서버 에러:', error)
-    return Response.json(
-      { error: '서버 내부 에러가 발생했습니다.' },
-      { status: 500 }
-    )
+    logError('save-result', error.message, { endpoint: '/api/save-result' })
+    console.error('[save-result] 에러:', error)
+    return Response.json({ success: false, error: error.message }, { status: 500 })
   }
 }

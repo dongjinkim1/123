@@ -1,34 +1,25 @@
 import { getServiceSupabase } from '@/lib/supabase'
-import { logError } from '@/lib/errorLog'
 
 export async function GET() {
   try {
     var supabase = getServiceSupabase()
 
-    // is_popup=true, is_published=true인 가장 최근 공지 1개
-    var res = await supabase
+    var { data: notice, error } = await supabase
       .from('notices')
-      .select('id, title, content, created_at')
-      .eq('is_popup', true)
+      .select('title, content')
       .eq('is_published', true)
+      .eq('is_pinned', true)
       .order('created_at', { ascending: false })
       .limit(1)
-      .single()
+      .maybeSingle()
 
-    if (res.data) {
-      return Response.json({
-        success: true,
-        notice: {
-          id: res.data.id,
-          title: res.data.title,
-          content: res.data.content
-        }
-      })
-    } else {
-      return Response.json({ success: false, notice: null })
+    if (error || !notice) {
+      return Response.json({ success: true, notice: null })
     }
+
+    return Response.json({ success: true, notice: notice })
+
   } catch (e) {
-    logError('other', e.message, { endpoint: '/api/notice/popup' })
-    return Response.json({ success: false, notice: null })
+    return Response.json({ success: true, notice: null })
   }
 }

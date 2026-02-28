@@ -1,31 +1,31 @@
 import { getServiceSupabase } from '@/lib/supabase'
-import { logError } from '@/lib/errorLog'
 
 export async function POST(request) {
   try {
+    var supabase = getServiceSupabase()
     var body = await request.json()
     var page = body.page || '/'
-    var referrer = body.referrer || ''
+    var referrer = body.referrer || 'direct'
 
-    var supabase = getServiceSupabase()
-
-    // user-agent, ip 추출
-    var userAgent = request.headers.get('user-agent') || ''
-    var ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || ''
-    if (ip.indexOf(',') !== -1) {
-      ip = ip.split(',')[0].trim()
+    // UA에서 디바이스 판별
+    var ua = request.headers.get('user-agent') || ''
+    var device = 'desktop'
+    if (/mobile|android|iphone/i.test(ua)) {
+      device = 'mobile'
+    } else if (/tablet|ipad/i.test(ua)) {
+      device = 'tablet'
     }
 
     await supabase.from('visitor_logs').insert({
       page: page,
       referrer: referrer,
-      user_agent: userAgent,
-      ip_address: ip
+      device: device
     })
 
     return Response.json({ success: true })
+
   } catch (e) {
-    logError('other', e.message, { endpoint: '/api/visitor/track' })
-    return Response.json({ success: false }, { status: 500 })
+    // 추적 실패가 앱을 막으면 안 됨
+    return Response.json({ success: true })
   }
 }

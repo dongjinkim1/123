@@ -3,57 +3,60 @@ import { logError } from '@/lib/errorLog'
 
 export async function POST(request) {
   try {
+    var supabase = getServiceSupabase()
     var body = await request.json()
     var userId = body.userId
-    var amount = body.amount || 1
-    var type = body.type || 'saju'
-    var description = body.description || '서비스 이용'
+    var amount = body.amount
+    var type = body.type || 'use'
+    var description = body.description || ''
 
-    if (!userId) {
-      return Response.json({ error: 'userId 필요' }, { status: 400 })
+    if (!userId || !amount || amount <= 0) {
+      return Response.json({ success: false, error: 'userId, amount 필요' }, { status: 400 })
     }
 
-    var supabase = getServiceSupabase()
-
-    // 현재 잔액 확인
-    var userRes = await supabase
+    // 현재 잔액 조회
+    var { data: user, error: fetchErr } = await supabase
       .from('users')
       .select('clover_balance')
       .eq('id', userId)
       .single()
 
-    if (!userRes.data) {
-      return Response.json({ error: '유저 없음' }, { status: 404 })
+    if (fetchErr || !user) {
+      return Response.json({ success: false, error: '유저를 찾을 수 없습니다' }, { status: 404 })
     }
 
-    var currentBalance = userRes.data.clover_balance || 0
-    if (currentBalance < amount) {
-      return Response.json({ error: '잔액 부족', insufficient: true, balance: currentBalance }, { status: 400 })
+    var balance = user.clover_balance || 0
+
+    if (balance < amount) {
+      return Response.json({ success: false, insufficient: true, balance: balance })
     }
 
-    var newBalance = currentBalance - amount
+    var newBalance = balance - amount
 
     // 잔액 업데이트
-    await supabase
+    var { error: updateErr } = await supabase
       .from('users')
-      .update({ clover_balance: newBalance, updated_at: new Date().toISOString() })
+      .update({ clover_balance: newBalance })
       .eq('id', userId)
 
-    // 내역 기록
-    await supabase
-      .from('clover_history')
-      .insert({
-        user_id: userId,
-        amount: -amount,
-        balance_after: newBalance,
-        type: type,
-        description: description
-      })
+    if (updateErr) {
+      return Response.json({ success: false, error: updateErr.message }, { status: 500 })
+    }
+
+    // 히스토리 기록
+    await supabase.from('clover_history').insert({
+      user_id: userId,
+      amount: -amount,
+      balance_after: newBalance,
+      type: type,
+      description: description
+    })
 
     return Response.json({ success: true, newBalance: newBalance })
-  } catch (e) {
-    logError('payment', e.message, { endpoint: '/api/clover/use' })
-    console.error('[clover/use] error:', e)
-    return Response.json({ error: e.message }, { status: 500 })
+
+  } catch (error) {
+    logError('clover', error.message, { endpoint: '/api/clover/use' })
+    console.error('[clover/use] 에러:', error)
+    return Response.json({ success: false, error: error.message }, { status: 500 })
   }
 }
