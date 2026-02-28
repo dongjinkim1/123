@@ -271,6 +271,14 @@
       }
     }
 
+    // ── 부부 시너지 리포트 (saju.js 연동) ──
+    if (window.SJ_buildCoupleSynergy) {
+      var synergy = window.SJ_buildCoupleSynergy(sajuA, ggA, sajuB, ggB);
+      if (synergy) {
+        R.coupleSynergy = synergy;
+      }
+    }
+
     // ★ 최종 클램핑 (딱 1번!)
     love=Math.max(20,Math.min(95,love));comm=Math.max(20,Math.min(95,comm));val=Math.max(20,Math.min(95,val));work=Math.max(20,Math.min(95,work));
     R.scores={love:love,comm:comm,values:val,work:work,total:Math.round(love*0.35+comm*0.25+val*0.25+work*0.15)};
@@ -289,7 +297,7 @@
 
   // buildGunghapUserPrompt 래핑
   var _origBP=window.buildGunghapUserPrompt;
-  window.buildGunghapUserPrompt=function(){var p=_origBP.apply(this,arguments);var gh=arguments[0];if(gh.details.sipsung){p+='\n### 십성\n- A→B:'+gh.details.sipsung.AtoB+' B→A:'+gh.details.sipsung.BtoA+'\n';var gc=gh.details.sipsung.genderContext||{};if(gc.A)p+='- A에게 B는:'+gc.A+'\n';if(gc.B)p+='- B에게 A는:'+gc.B+'\n';}if(gh.details.yongshin)p+='\n### 용신\n- '+gh.details.yongshin.grade+'\n';if(gh.details.ilju)p+='\n### 일주 통합\n- '+gh.details.ilju.combo+'\n';if(gh.details.strength)p+='\n### 강약\n- '+gh.details.strength.combo+':'+gh.details.strength.desc+'\n';if(gh.details.spouseGung){var sg=gh.details.spouseGung;p+='\n### 배우자궁\n- A→B:'+sg.A.toPartner+' B→A:'+sg.B.toPartner+' → '+sg.desc+'\n';}if(gh.details.timing){var tm=gh.details.timing;p+='\n### 5년 타이밍\n';tm.years.forEach(function(t){p+='- '+t.year+'년:'+t.grade+'\n';});p+='→ 최고:'+tm.bestYear.year+'년 조심:'+tm.worstYear.year+'년\n이 타이밍을 장기 전망에 반영하세요.\n';}if(gh.details.starsCross){var sc=gh.details.starsCross;if(sc.dowhaSal.both)p+='\n- ★도화살 교차\n';if(sc.hwagaeSal.both)p+='- ★화개살 교차\n';if(sc.chuneul.both)p+='- ★천을귀인 교차\n';}if(gh.yukchinCross){p+='\n### 육친 교차 분석\n- 나→상대: '+gh.yukchinCross.aToB+'\n- 상대→나: '+gh.yukchinCross.bToA+'\n';}if(gh.osinCross){p+='\n### 5신 교차 분석\n- '+gh.osinCross.aToB+'\n- '+gh.osinCross.bToA+'\n';}if(gh.napeumGunghap){p+='\n### 납음 궁합\n'+gh.napeumGunghap+'\n';}return p;};
+  window.buildGunghapUserPrompt=function(){var p=_origBP.apply(this,arguments);var gh=arguments[0];if(gh.details.sipsung){p+='\n### 십성\n- A→B:'+gh.details.sipsung.AtoB+' B→A:'+gh.details.sipsung.BtoA+'\n';var gc=gh.details.sipsung.genderContext||{};if(gc.A)p+='- A에게 B는:'+gc.A+'\n';if(gc.B)p+='- B에게 A는:'+gc.B+'\n';}if(gh.details.yongshin)p+='\n### 용신\n- '+gh.details.yongshin.grade+'\n';if(gh.details.ilju)p+='\n### 일주 통합\n- '+gh.details.ilju.combo+'\n';if(gh.details.strength)p+='\n### 강약\n- '+gh.details.strength.combo+':'+gh.details.strength.desc+'\n';if(gh.details.spouseGung){var sg=gh.details.spouseGung;p+='\n### 배우자궁\n- A→B:'+sg.A.toPartner+' B→A:'+sg.B.toPartner+' → '+sg.desc+'\n';}if(gh.details.timing){var tm=gh.details.timing;p+='\n### 5년 타이밍\n';tm.years.forEach(function(t){p+='- '+t.year+'년:'+t.grade+'\n';});p+='→ 최고:'+tm.bestYear.year+'년 조심:'+tm.worstYear.year+'년\n이 타이밍을 장기 전망에 반영하세요.\n';}if(gh.details.starsCross){var sc=gh.details.starsCross;if(sc.dowhaSal.both)p+='\n- ★도화살 교차\n';if(sc.hwagaeSal.both)p+='- ★화개살 교차\n';if(sc.chuneul.both)p+='- ★천을귀인 교차\n';}if(gh.yukchinCross){p+='\n### 육친 교차 분석\n- 나→상대: '+gh.yukchinCross.aToB+'\n- 상대→나: '+gh.yukchinCross.bToA+'\n';}if(gh.osinCross){p+='\n### 5신 교차 분석\n- '+gh.osinCross.aToB+'\n- '+gh.osinCross.bToA+'\n';}if(gh.napeumGunghap){p+='\n### 납음 궁합\n'+gh.napeumGunghap+'\n';}if(gh.coupleSynergy){p+='\n### 부부 시너지\n'+gh.coupleSynergy+'\n';}return p;};
 
 
   // ╔══════════════════════════════════════╗

@@ -1207,6 +1207,497 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
 
 
 // ======================================================================
+// ㉓ 재물운 타이밍
+// ======================================================================
+
+function SJ_findMoneyTiming(saju, gg, dw, osin) {
+  if (!saju || !dw || !dw.seun || dw.seun.length === 0) return '';
+  var r = saju.raw;
+  // 일간 오행 → 재성 오행 (내가 극하는 오행)
+  var OI = [0,0,1,1,2,2,3,3,4,4], ON = ['목','화','토','금','수'];
+  var GEUK_MAP = {'목':'토','화':'금','토':'수','금':'목','수':'화'};
+  var myOh = ON[OI[r.dg]];
+  var jaeOh = GEUK_MAP[myOh];
+
+  // 통변에서 식상생재 여부
+  var hasSSGJ = false;
+  if (gg && gg.cnt) {
+    hasSSGJ = (gg.cnt['식상'] >= 1.5 && gg.cnt['재성'] >= 1.5);
+  }
+
+  // 현재 대운 십성
+  var curDWSS = '';
+  if (dw.currentDWIdx >= 0 && dw.daewoons && dw.daewoons[dw.currentDWIdx]) {
+    curDWSS = dw.daewoons[dw.currentDWIdx].ss || '';
+  }
+  var dwIsJae = (curDWSS === '편재' || curDWSS === '정재');
+
+  var years = [];
+  var limit = Math.min(dw.seun.length, 5);
+  for (var i = 0; i < limit; i++) {
+    var se = dw.seun[i];
+    if (!se) continue;
+    var pts = 0;
+    var tags = [];
+
+    // 조건 1: 세운 천간 십성이 재성
+    var seGanIdx = ((se.y - 4) % 10 + 10) % 10;
+    var seJiIdx = ((se.y - 4) % 12 + 12) % 12;
+    var seSS = (typeof getSipsung === 'function') ? getSipsung(r.dg, seGanIdx) : (se.ss || '');
+    if (seSS === '편재' || seSS === '정재') {
+      pts += 3;
+      tags.push(seSS + '운');
+    }
+
+    // 조건 2: 세운 지지 오행이 재성 오행
+    var seJiOh = OHAENG_JIJI[seJiIdx];
+    if (seJiOh === jaeOh) {
+      pts += 2;
+      tags.push('재성지지');
+    }
+
+    // 조건 3: 대운 재성
+    if (dwIsJae) {
+      pts += 2;
+      tags.push('대운재성');
+    }
+
+    // 조건 4: 식상생재 시너지
+    if (hasSSGJ && (seSS === '편재' || seSS === '정재')) {
+      pts += 3;
+      tags.push('식상생재시너지');
+    }
+
+    // 조건 5: 용신/희신 세운
+    if (osin) {
+      var seGanOh = OHAENG_TGAN[seGanIdx];
+      var osinLabel = SJ_getOsinLabel(osin, seGanOh);
+      if (osinLabel.indexOf('용신') >= 0) { pts += 1; tags.push('용신'); }
+      else if (osinLabel.indexOf('희신') >= 0) { pts += 1; tags.push('희신'); }
+      // 조건 6: 기신/구신 감점
+      else if (osinLabel.indexOf('기신') >= 0) { pts -= 2; tags.push('기신주의'); }
+      else if (osinLabel.indexOf('구신') >= 0) { pts -= 2; tags.push('구신주의'); }
+    }
+
+    if (pts >= 2) {
+      var grade, desc;
+      if (pts >= 6) { grade = '★★★'; desc = '재물 대박의 해. 투자/사업 확장/이직 적기'; }
+      else if (pts >= 4) { grade = '★★'; desc = '재물운 상승. 부업/투자 수익 가능성. 적극적으로'; }
+      else { grade = '★'; desc = '소소한 재물 기회. 작은 행운. 과욕 금지'; }
+      years.push('  ' + se.y + '년(' + tags.join('+') + ') ' + grade + ' — ' + desc);
+    }
+  }
+
+  // 재물 성향 텍스트
+  var styleText = '';
+  if (gg && gg._ssArr) {
+    var ssArr = gg._ssArr;
+    var jj = (ssArr['정재'] || 0), pj = (ssArr['편재'] || 0);
+    var hasJae = jj + pj > 0;
+    if (hasSSGJ) styleText = '  재물성향: 재능→수익 전환형. 프리랜서·크리에이터 스타일';
+    else if (gg.cnt && gg.cnt['비겁'] >= 2.0 && hasJae) styleText = '  재물성향: 돈은 버는데 나가는 것도 많음. 절약·단독행동이 답';
+    else if (jj > pj && hasJae) styleText = '  재물성향: 꾸준한 월급/안정 수입형. 직장인·공무원 스타일';
+    else if (pj > jj && hasJae) styleText = '  재물성향: 한방/투자/사업형. 큰 돈을 노리는 스타일';
+    else if (!hasJae) styleText = '  재물성향: 돈에 관심 적거나 가치 추구형. 전문직으로 우회';
+  }
+
+  if (years.length === 0 && !styleText) return '';
+  var lines = ['★재물운 타이밍 (향후 5년):'];
+  for (var y = 0; y < years.length; y++) lines.push(years[y]);
+  if (styleText) lines.push(styleText);
+  return lines.join('\n');
+}
+
+
+// ======================================================================
+// ㉔ 택일 가이드
+// ======================================================================
+
+function SJ_buildTaekil(saju, gg, osin) {
+  if (!saju || !saju.raw) return '';
+  var r = saju.raw;
+  var curYear = new Date().getFullYear();
+  // 년간 인덱스로 1월(인월) 천간 결정
+  var yearGanIdx = ((curYear - 4) % 10 + 10) % 10;
+  var baseMonthGan = (yearGanIdx % 5) * 2 + 2; // 1월 인월 천간
+
+  var OI = [0,0,1,1,2,2,3,3,4,4], ON = ['목','화','토','금','수'];
+  var GEUK_MAP = {'목':'토','화':'금','토':'수','금':'목','수':'화'};
+  var myOh = ON[OI[r.dg]];
+  var jaeOh = GEUK_MAP[myOh];
+
+  // 성별 판단 (ST 전역)
+  var genderStr = (typeof ST !== 'undefined' && ST.gender) ? ST.gender : '';
+  var isMale = (genderStr === '남성' || genderStr === '남');
+
+  var months = [];
+  for (var mi = 0; mi < 12; mi++) {
+    var mGanIdx = (baseMonthGan + mi) % 10;
+    var mJiIdx = (mi + 2) % 12; // 1월=인(2), 2월=묘(3), ...
+    var mSS = (typeof getSipsung === 'function') ? getSipsung(r.dg, mGanIdx) : '';
+    var mGanOh = OHAENG_TGAN[mGanIdx];
+    var mJiOh = OHAENG_JIJI[mJiIdx];
+
+    // 5신 판별
+    var osinTag = '';
+    if (osin) {
+      var oLabel = SJ_getOsinLabel(osin, mGanOh);
+      if (oLabel.indexOf('용신') >= 0) osinTag = '용신';
+      else if (oLabel.indexOf('희신') >= 0) osinTag = '희신';
+      else if (oLabel.indexOf('기신') >= 0) osinTag = '기신';
+      else if (oLabel.indexOf('구신') >= 0) osinTag = '구신';
+    }
+
+    // 충/합 판별
+    var isChungDJ = SJ_isChung(mJiIdx, r.dj);
+    var isYukhapDJ = SJ_isYukhap(mJiIdx, r.dj);
+    var isChungYJ = SJ_isChung(mJiIdx, r.yj);
+    var isDohwa = (SJ_getDohwa(r.dj) === mJiIdx);
+    var isYeokma = (SJ_getYeokma(r.dj) === mJiIdx);
+    var isHwagae = (SJ_getHwagae(r.dj) === mJiIdx);
+
+    // 결혼 점수
+    var wedding = 0;
+    var wTags = [];
+    if (isMale && (mSS === '정재' || mSS === '편재')) { wedding += 3; wTags.push('배우자성'); }
+    if (!isMale && (mSS === '정관' || mSS === '편관')) { wedding += 3; wTags.push('배우자성'); }
+    if (isYukhapDJ) { wedding += 4; wTags.push('육합'); }
+    if (isDohwa) { wedding += 2; wTags.push('도화'); }
+    if (osinTag === '용신' || osinTag === '희신') { wedding += 1; wTags.push(osinTag); }
+    if (isChungDJ) { wedding -= 5; wTags.push('일지충'); }
+
+    // 이사 점수
+    var moving = 0;
+    var mvTags = [];
+    if (isYeokma) { moving += 3; mvTags.push('역마'); }
+    if (osinTag === '용신' || osinTag === '희신') { moving += 2; mvTags.push(osinTag); }
+    if (isYukhapDJ) { moving += 2; mvTags.push('합'); }
+    if (isChungYJ) { moving -= 3; mvTags.push('년지충'); }
+
+    // 개업 점수
+    var biz = 0;
+    var bzTags = [];
+    if (mSS === '편재' || mSS === '정재') { biz += 3; bzTags.push('재성'); }
+    if (osinTag === '용신' || osinTag === '희신') { biz += 2; bzTags.push(osinTag); }
+    if (mJiOh === jaeOh) { biz += 2; bzTags.push('재성지지'); }
+    if (osinTag === '기신' || osinTag === '구신') { biz -= 3; bzTags.push(osinTag); }
+
+    // 시험 점수
+    var exam = 0;
+    var exTags = [];
+    if (mSS === '편인' || mSS === '정인') { exam += 3; exTags.push('인성'); }
+    if (osinTag === '용신' || osinTag === '희신') { exam += 2; exTags.push(osinTag); }
+    if (isHwagae) { exam += 1; exTags.push('화개'); }
+    if (mSS === '식신' || mSS === '상관') { exam -= 1; exTags.push('식상분산'); }
+
+    // 위험 달 판별
+    var isDanger = isChungDJ && (osinTag === '기신' || osinTag === '구신');
+
+    months.push({
+      month: mi + 1,
+      ganJi: TGAN_KR[mGanIdx] + JIJI_KR[mJiIdx],
+      wedding: wedding, wTags: wTags,
+      moving: moving, mvTags: mvTags,
+      biz: biz, bzTags: bzTags,
+      exam: exam, exTags: exTags,
+      isDanger: isDanger,
+      dangerTags: isDanger ? [osinTag, '일지충'] : []
+    });
+  }
+
+  // 각 목적별 상위 2~3개월
+  function topN(arr, key, tKey, n) {
+    var sorted = arr.slice().sort(function(a, b) { return b[key] - a[key]; });
+    var res = [];
+    for (var i = 0; i < sorted.length && res.length < n; i++) {
+      if (sorted[i][key] >= 2) {
+        res.push(sorted[i].month + '월(' + sorted[i].ganJi + ', ' + sorted[i][tKey].join('+') + ')');
+      }
+    }
+    return res;
+  }
+
+  var wTop = topN(months, 'wedding', 'wTags', 3);
+  var mTop = topN(months, 'moving', 'mvTags', 3);
+  var bTop = topN(months, 'biz', 'bzTags', 3);
+  var eTop = topN(months, 'exam', 'exTags', 3);
+
+  // 위험 달
+  var dangers = [];
+  for (var d = 0; d < months.length; d++) {
+    if (months[d].isDanger) dangers.push(months[d].month + '월(' + months[d].ganJi + ', ' + months[d].dangerTags.join('+') + ')');
+  }
+
+  if (wTop.length === 0 && mTop.length === 0 && bTop.length === 0 && eTop.length === 0) return '';
+  var lines = ['★택일 가이드 (' + curYear + '년):'];
+  if (wTop.length > 0) lines.push('  💍 결혼 적기: ' + wTop.join(', '));
+  if (mTop.length > 0) lines.push('  🏠 이사 적기: ' + mTop.join(', '));
+  if (bTop.length > 0) lines.push('  💰 개업 적기: ' + bTop.join(', '));
+  if (eTop.length > 0) lines.push('  📚 시험 적기: ' + eTop.join(', '));
+  if (dangers.length > 0) lines.push('  ⛔ 피해야 할 달: ' + dangers.join(', '));
+  return lines.join('\n');
+}
+
+
+// ======================================================================
+// ㉕ 인생 로드맵
+// ======================================================================
+
+function SJ_buildLifeRoadmap(dw, saju, gg, gender) {
+  if (!dw || !dw.daewoons || dw.daewoons.length === 0) return '';
+  var r = saju ? saju.raw : null;
+
+  // 5신 계산
+  var osin = null;
+  if (gg) {
+    var yoh = SJ_extractYongshinOh(gg.yongshin || '');
+    if (yoh) osin = SJ_calcOsinChegye(yoh);
+  }
+
+  // 십성별 시기 해석
+  var SS_PERIOD = {
+    '비견': '독립기. 자기 힘으로 개척. 경쟁이 많지만 성장도 빠름',
+    '겁재': '경쟁기. 라이벌 출현. 승부사 기질 발동. 도박/모험 주의',
+    '식신': '표현기. 재능 발현. 먹고 즐기는 여유. 건강 좋음',
+    '상관': '반항기/창의기. 기존 틀을 깨뜨림. 파격적 행보. 구설수 주의',
+    '편재': '도전기. 큰 돈/사업/투자. 리스크와 기회 공존',
+    '정재': '안정기. 꾸준한 수입. 결혼/가정',
+    '편관': '시련기. 직장 압박/사회적 도전. 하지만 성장통',
+    '정관': '인정기. 사회적 지위 상승. 명예',
+    '편인': '전환기. 특수 학문/영적 관심. 새로운 관점',
+    '정인': '학습기. 공부/자격증/멘토. 안정과 보호'
+  };
+
+  // 성별별 육친 인연 추가
+  var SS_REL_MALE = {
+    '편재': '아버지 인연', '정재': '아내 인연', '편관': '아들 인연', '정관': '딸 인연', '정인': '어머니 인연', '편인': '의모 인연'
+  };
+  var SS_REL_FEMALE = {
+    '편재': '시모 인연', '정재': '아버지 인연', '편관': '애인 인연', '정관': '남편 인연', '상관': '아들 인연', '식신': '딸 인연', '정인': '어머니 인연', '편인': '의모 인연'
+  };
+  var isMale = (gender === '남성' || gender === '남' || gender === 'male');
+  var relMap = isMale ? SS_REL_MALE : SS_REL_FEMALE;
+
+  // 5신 태그
+  var OSIN_TAG = {
+    '용신': '[최길🔥]',
+    '희신': '[길✅]',
+    '한신': '[보통➖]',
+    '구신': '[주의⚠️]',
+    '기신': '[흉🚫]'
+  };
+
+  var lines = ['★인생 로드맵:'];
+  for (var i = 0; i < dw.daewoons.length; i++) {
+    var d = dw.daewoons[i];
+    var ss = d.ss || '';
+    var desc = SS_PERIOD[ss] || ss;
+    var relExtra = relMap[ss] ? '. ' + relMap[ss] : '';
+
+    // 5신 태그
+    var tag = '';
+    if (osin && d.gan) {
+      var dGanIdx = TGAN_KR.indexOf(d.gan);
+      if (dGanIdx >= 0) {
+        var dOh = OHAENG_TGAN[dGanIdx];
+        var oLabel = SJ_getOsinLabel(osin, dOh);
+        for (var k in OSIN_TAG) {
+          if (OSIN_TAG.hasOwnProperty(k) && oLabel.indexOf(k) >= 0) { tag = ' ' + OSIN_TAG[k]; break; }
+        }
+      }
+    }
+
+    var cur = (i === dw.currentDWIdx) ? ' ★현재' : '';
+    var ageRange = d.startAge + '~' + d.endAge + '세';
+    lines.push('  ' + ageRange + '  ' + d.gan + d.ji + '(' + ss + '운)' + tag + ' — ' + desc + relExtra + cur);
+  }
+  return lines.join('\n');
+}
+
+
+// ======================================================================
+// ㉖ 자녀운 분석
+// ======================================================================
+
+function SJ_buildChildAnalysis(saju, gg, gender) {
+  if (!saju || !saju.raw) return '';
+  var r = saju.raw;
+  var isMale = (gender === '남성' || gender === '남' || gender === 'male');
+
+  // 시간 십성
+  var hgSS = '';
+  if (r.hg != null && typeof getSipsung === 'function') {
+    hgSS = getSipsung(r.dg, r.hg);
+  }
+
+  // 십성별 자녀 성격
+  var CHILD_SS = {
+    '비견': '자녀가 독립적. 부모와 대등한 관계. 자기주장 강함',
+    '겁재': '자녀가 경쟁적. 형제간 라이벌 구도. 활발하지만 충돌도',
+    '식신': '자녀가 순한 편. 재능 있고 먹는 거 좋아함. 건강함',
+    '상관': '자녀가 반항적이지만 창의적. 틀에 안 맞는 아이. 재능 특출',
+    '편재': '자녀가 돈에 밝음. 사업 감각. 일찍부터 경제관념',
+    '정재': '자녀가 안정적이고 성실. 꾸준한 노력파',
+    '편관': '자녀가 규율적. 리더십 있지만 반항기 강할 수 있음',
+    '정관': '자녀가 모범적. 사회성 좋고 예의 바름',
+    '편인': '자녀가 독특한 관심사. 특수 분야 재능. 영재 가능성',
+    '정인': '자녀가 학문적. 공부 잘함. 효자/효녀 타입'
+  };
+
+  var lines = ['★자녀운 분석:'];
+
+  // 1. 시간 십성 → 자녀 성격
+  if (hgSS && CHILD_SS[hgSS]) {
+    lines.push('  시간 = ' + hgSS + ' → ' + CHILD_SS[hgSS]);
+  } else if (r.hg == null) {
+    lines.push('  시간 미입력 — 자녀운 분석 제한적');
+  }
+
+  // 2. 시지 12운성 → 자녀 인연
+  if (r.hj != null) {
+    // 12운성 계산: engine.js의 calcUnsung이 있으면 사용, 없으면 SJ_UNSUNG_MEANING 키 매칭
+    var unsNames = ['장생','목욕','관대','건록','제왕','쇠','병','사','묘','절','태','양'];
+    // 12운성 시작 인덱스 (일간 오행별): 甲→亥, 乙→午, 丙→寅, 丁→酉, ...
+    var UNS_START = [11,6,2,9,2,9,5,0,8,3]; // 갑을병정무기경신임계
+    var unsIdx = ((r.hj - UNS_START[r.dg]) % 12 + 12) % 12;
+    var unsName = unsNames[unsIdx];
+    var unsMeaning = SJ_UNSUNG_MEANING[unsName];
+    if (unsMeaning && unsMeaning.child) {
+      lines.push('  시지 12운성 = ' + unsName + ' → ' + unsMeaning.child);
+    }
+  }
+
+  // 3. 시지 특수 신살
+  if (r.hj != null) {
+    if (SJ_getDohwa(r.dj) === r.hj) lines.push('  시지 신살: 도화 → 자녀가 매력적. 인기 많은 아이');
+    if (SJ_getYeokma(r.dj) === r.hj) lines.push('  시지 신살: 역마 → 자녀가 활동적. 유학/해외 가능성');
+    if (SJ_getHwagae(r.dj) === r.hj) lines.push('  시지 신살: 화개 → 자녀가 예술적/철학적. 종교/명상 관심');
+    // 공망 확인
+    if (typeof calcGongmang === 'function') {
+      try {
+        var gm = calcGongmang(r.dg, r.dj);
+        if (gm && gm.indexOf(r.hj) >= 0) lines.push('  시지 신살: 공망 → 자녀 인연이 늦거나 특이한 형태. 채우면 오히려 더 강해짐');
+      } catch (e) {}
+    }
+  }
+
+  // 4. 자녀 성별 경향
+  if (hgSS) {
+    var genderHint = '';
+    if (isMale) {
+      if (hgSS === '편관') genderHint = '아들 경향 (편관=아들, 참고용)';
+      else if (hgSS === '정관') genderHint = '딸 경향 (정관=딸, 참고용)';
+    } else {
+      if (hgSS === '상관') genderHint = '아들 경향 (상관=아들, 참고용)';
+      else if (hgSS === '식신') genderHint = '딸 경향 (식신=딸, 참고용)';
+    }
+    if (genderHint) lines.push('  자녀 성향: ' + genderHint);
+  }
+
+  // 5. 식상 수로 자녀 시기 힌트
+  if (gg && gg._ssArr) {
+    var ssArr = gg._ssArr;
+    var sikCnt = (ssArr['식신'] || 0) + (ssArr['상관'] || 0);
+    if (sikCnt >= 3) lines.push('  자녀 시기: 식상 ' + sikCnt + '개 → 자녀 복 좋음. 자녀 인연 빠를 가능성');
+    else if (sikCnt >= 1) lines.push('  자녀 시기: 식상 ' + sikCnt + '개 → 자녀 인연 보통');
+    else lines.push('  자녀 시기: 식상 없음 → 자녀 인연이 늦을 수 있음 (대운에서 보충 가능)');
+  }
+
+  return lines.length <= 1 ? '' : lines.join('\n');
+}
+
+
+// ======================================================================
+// ㉗ 부부 시너지 리포트 (gunghap.js용)
+// ======================================================================
+
+function SJ_buildCoupleSynergy(sajuA, ggA, sajuB, ggB) {
+  if (!sajuA || !sajuB || !ggA || !ggB) return '';
+  var lines = ['★부부 시너지 리포트:'];
+
+  // 1. 교차 통변 시너지
+  var cntA = ggA.cnt || {}, cntB = ggB.cnt || {};
+  var merged = {};
+  var groups = ['비겁','식상','재성','관성','인성'];
+  for (var gi = 0; gi < groups.length; gi++) {
+    merged[groups[gi]] = ((cntA[groups[gi]] || 0) + (cntB[groups[gi]] || 0)) / 2;
+  }
+
+  var synergies = [];
+  if (merged['식상'] >= 1.5 && merged['재성'] >= 1.5)
+    synergies.push({name:'합산 식상생재', desc:'둘이 같이 콘텐츠/교육 사업하면 시너지', act:'공동 창작, 유튜브, 부부 가게, 요리/여행 블로그'});
+  if (merged['관성'] >= 1.5 && merged['인성'] >= 1.5)
+    synergies.push({name:'합산 살인상생', desc:'둘이 같이 공부/연구하면 시너지', act:'함께 공부, 독서 모임, 자격증 도전, 세미나'});
+  if (merged['재성'] >= 1.5 && merged['관성'] >= 1.5)
+    synergies.push({name:'합산 재관쌍미', desc:'둘이 같이 사업하면 돈+명예 동시', act:'부부 공동 사업, 투자, 부동산'});
+  if (merged['인성'] >= 1.5 && merged['비겁'] >= 1.5)
+    synergies.push({name:'합산 인수생비', desc:'서로에게 배우는 관계. 함께 성장', act:'명상, 종교활동, 문화생활, 전시회'});
+  if (merged['비겁'] >= 2.0 && merged['재성'] >= 1.0)
+    synergies.push({name:'합산 비겁탈재', desc:'돈 관리 따로 해야. 공동 재산 주의', act:'운동, 등산, 경쟁적 취미 (보드게임, 스포츠)'});
+
+  if (synergies.length > 0) {
+    lines.push('  교차 통변: ' + synergies[0].name + ' → ' + synergies[0].desc);
+  }
+
+  // 2. 부족오행 보완
+  var OH_EFFECT = {
+    '목': '성장, 계획력, 인내심, 새로운 시작의 에너지',
+    '화': '열정, 활력, 결단력, 표현력, 사교성',
+    '토': '안정감, 중재력, 신뢰, 포용력',
+    '금': '결단력, 실행력, 마무리 능력, 원칙',
+    '수': '지혜, 유연성, 소통능력, 적응력'
+  };
+  var lackA = sajuA.lackFull || [];
+  var lackB = sajuB.lackFull || [];
+  var ohB = sajuB.elFull || sajuB.el || {};
+  var ohA = sajuA.elFull || sajuA.el || {};
+  var bowanLines = [];
+  for (var li = 0; li < lackA.length; li++) {
+    if (ohB[lackA[li]] && ohB[lackA[li]] >= 2) {
+      bowanLines.push('B가 A의 부족한 ' + lackA[li] + '(' + (OH_EFFECT[lackA[li]] || '') + ')를 채워줌');
+    }
+  }
+  for (var lj = 0; lj < lackB.length; lj++) {
+    if (ohA[lackB[lj]] && ohA[lackB[lj]] >= 2) {
+      bowanLines.push('A가 B의 부족한 ' + lackB[lj] + '(' + (OH_EFFECT[lackB[lj]] || '') + ')를 채워줌');
+    }
+  }
+  if (bowanLines.length > 0) {
+    lines.push('  오행 보완: ' + bowanLines[0]);
+    for (var bi = 1; bi < bowanLines.length; bi++) {
+      lines.push('             ' + bowanLines[bi]);
+    }
+  }
+
+  // 3. 음양 궁합
+  var yyA = SJ_calcYinYang(sajuA);
+  var yyB = SJ_calcYinYang(sajuB);
+  if (yyA && yyB) {
+    var aRatio = yyA.yang / ((yyA.yang + yyA.yin) || 1);
+    var bRatio = yyB.yang / ((yyB.yang + yyB.yin) || 1);
+    var yyDesc = '';
+    if (aRatio >= 0.7 && bRatio >= 0.7) yyDesc = '둘 다 극양 → 불꽃 커플. 열정적이지만 충돌도 격렬. 양보가 과제';
+    else if (aRatio <= 0.3 && bRatio <= 0.3) yyDesc = '둘 다 극음 → 고요한 커플. 깊은 이해. 하지만 추진력 부족';
+    else if ((aRatio >= 0.7 && bRatio <= 0.3) || (aRatio <= 0.3 && bRatio >= 0.7)) yyDesc = '극양+극음 → 끌림이 강한 조합. 서로 없는 것을 채워줌. 이상적이지만 소통이 과제';
+    else if (aRatio >= 0.4 && aRatio <= 0.6 && bRatio >= 0.4 && bRatio <= 0.6) yyDesc = '둘 다 균형 → 안정적인 커플. 큰 파도 없이 잔잔한 관계';
+    else yyDesc = '양우세+음우세 → 자연스러운 균형. 한쪽이 이끌고 한쪽이 받쳐주는 구조';
+    lines.push('  음양 궁합: ' + yyDesc);
+  }
+
+  // 4. 함께하면 좋은 활동
+  if (synergies.length > 0) {
+    var acts = [];
+    for (var si = 0; si < synergies.length; si++) {
+      if (synergies[si].act) acts.push(synergies[si].act);
+    }
+    if (acts.length > 0) lines.push('  추천 활동: ' + acts[0]);
+  }
+
+  return lines.length <= 1 ? '' : lines.join('\n');
+}
+
+
+// ======================================================================
 // 통합 함수: SJ_enrichSajuData
 // ======================================================================
 
@@ -1243,6 +1734,12 @@ function SJ_enrichSajuData(saju, gg, dw, gender, mbtiType) {
   var monthlyText = SJ_buildMonthlyHighlight(saju, gg, osin);
   var hapTriggerText = SJ_findHapTrigger(saju, dw, osin);
 
+  // ㉓~㉖ 추가 항목
+  var moneyTimingText = SJ_findMoneyTiming(saju, gg, dw, osin);
+  var taekilText = SJ_buildTaekil(saju, gg, osin);
+  var roadmapText = SJ_buildLifeRoadmap(dw, saju, gg, gender);
+  var childText = SJ_buildChildAnalysis(saju, gg, gender);
+
   var result = {
     osinText: osinText,
     yukchinText: yukchinText,
@@ -1262,6 +1759,10 @@ function SJ_enrichSajuData(saju, gg, dw, gender, mbtiType) {
     specialSalsText: specialSalsText,
     monthlyText: monthlyText,
     hapTriggerText: hapTriggerText,
+    moneyTimingText: moneyTimingText,
+    taekilText: taekilText,
+    roadmapText: roadmapText,
+    childText: childText,
     // 메타
     osin: osin,
     tongbyeons: tongbyeons,
@@ -1307,6 +1808,8 @@ function SJ_injectIntoPrompt(userMsg, sjData) {
     if (sjData.tongbyeonText) insertBlock += sjData.tongbyeonText + '\n\n';
     if (sjData.jobText)       insertBlock += sjData.jobText + '\n\n';
     if (sjData.strengthText)  insertBlock += sjData.strengthText + '\n\n';
+    if (sjData.roadmapText)   insertBlock += sjData.roadmapText + '\n\n';
+    if (sjData.childText)     insertBlock += sjData.childText + '\n\n';
     if (insertBlock) {
       msg = msg.substring(0, sinsalIdx) + insertBlock + msg.substring(sinsalIdx);
     }
@@ -1330,7 +1833,8 @@ function SJ_injectIntoPrompt(userMsg, sjData) {
   if (sjData.gyowoongiText)  seunBlock += sjData.gyowoongiText + '\n';
   if (sjData.loveTimingText) seunBlock += sjData.loveTimingText + '\n';
   if (sjData.monthlyText)    seunBlock += sjData.monthlyText + '\n';
-  if (sjData.hapTriggerText) seunBlock += sjData.hapTriggerText + '\n';
+  if (sjData.hapTriggerText)  seunBlock += sjData.hapTriggerText + '\n';
+  if (sjData.moneyTimingText) seunBlock += sjData.moneyTimingText + '\n';
   if (seunBlock) {
     var seunMarker = '세운: ';
     var seunIdx = msg.indexOf(seunMarker);
@@ -1359,6 +1863,7 @@ function SJ_injectIntoPrompt(userMsg, sjData) {
     if (sjData.wolryulText) hintBlock += '\n' + sjData.wolryulText;
     if (sjData.gaeunText)           hintBlock += '\n' + sjData.gaeunText;
     if (sjData.killingPointsText)  hintBlock += '\n\n' + sjData.killingPointsText;
+    if (sjData.taekilText)         hintBlock += '\n\n' + sjData.taekilText;
     if (hintBlock.length > 1) {
       msg = msg.substring(0, insertPos) + hintBlock + msg.substring(insertPos);
     }
@@ -1470,7 +1975,12 @@ window.SJ_buildStrengthText    = SJ_buildStrengthText;
 window.SJ_findHapTrigger       = SJ_findHapTrigger;
 window.SJ_generateKillingPoints= SJ_generateKillingPoints;
 window.SJ_getNapeum            = SJ_getNapeum;
+window.SJ_findMoneyTiming      = SJ_findMoneyTiming;
+window.SJ_buildTaekil          = SJ_buildTaekil;
+window.SJ_buildLifeRoadmap     = SJ_buildLifeRoadmap;
+window.SJ_buildChildAnalysis   = SJ_buildChildAnalysis;
+window.SJ_buildCoupleSynergy   = SJ_buildCoupleSynergy;
 
-console.log('[saju.js] v2.0 로드 완료 — 22개 보강 모듈 활성화');
+console.log('[saju.js] v3.0 로드 완료 — 27개 보강 모듈 활성화');
 
 })();
