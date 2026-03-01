@@ -205,79 +205,154 @@
     // L18 타이밍
     if(timing5[0].score>=4)love+=5;if(timing5[0].score<0)love-=3;
 
-    // ── 육친 교차 분석 (saju.js 연동) ──
-    if (window.SJ_YUKCHIN_MAP) {
-      var gKeyA = (genderA === '여성' || genderA === '여') ? '여' : '남';
-      var gKeyB = (genderB === '여성' || genderB === '여') ? '여' : '남';
-      var mapA = window.SJ_YUKCHIN_MAP[gKeyA];
-      var mapB = window.SJ_YUKCHIN_MAP[gKeyB];
-      var bSipsungByA = getSipsung(rA.dg, rB.dg);
-      var aSipsungByB = getSipsung(rB.dg, rA.dg);
-      var yukchinA = mapA ? (mapA[bSipsungByA] || '') : '';
-      var yukchinB = mapB ? (mapB[aSipsungByB] || '') : '';
-      if (yukchinA || yukchinB) {
-        R.yukchinCross = { aToB: bSipsungByA + '(' + yukchinA + ')', bToA: aSipsungByB + '(' + yukchinB + ')' };
-      }
-      var bonusYukchin = 0;
-      if (gKeyA === '남' && bSipsungByA === '정재') bonusYukchin += 3;
-      if (gKeyA === '남' && bSipsungByA === '편재') bonusYukchin += 1;
-      if (gKeyA === '여' && bSipsungByA === '정관') bonusYukchin += 3;
-      if (gKeyA === '여' && bSipsungByA === '편관') bonusYukchin += 1;
-      if (gKeyB === '남' && aSipsungByB === '정재') bonusYukchin += 3;
-      if (gKeyB === '남' && aSipsungByB === '편재') bonusYukchin += 1;
-      if (gKeyB === '여' && aSipsungByB === '정관') bonusYukchin += 3;
-      if (gKeyB === '여' && aSipsungByB === '편관') bonusYukchin += 1;
-      if (gKeyA === '여' && bSipsungByA === '상관') bonusYukchin -= 2;
-      if (gKeyB === '여' && aSipsungByB === '상관') bonusYukchin -= 2;
-      love += bonusYukchin;
-      if (bonusYukchin !== 0) R.keywords.push('★육친: A→B=' + bSipsungByA + '(' + yukchinA + ') B→A=' + aSipsungByB + '(' + yukchinB + ')');
-    }
+    // ══════════════════════════════════════════════════
+    // ★ saju.js 연동 블록 — window.SJ_* 함수 안전 호출
+    // saju.js가 없어도 기존 18레이어 100% 정상 동작
+    // ══════════════════════════════════════════════════
 
-    // ── 5신 교차 분석 (saju.js 연동) ──
-    if (window.SJ_calcOsinChegye && window.SJ_extractYongshinOh) {
-      var ohA5 = window.SJ_extractYongshinOh(ggA.yongshin);
-      var ohB5 = window.SJ_extractYongshinOh(ggB.yongshin);
-      var osinA = window.SJ_calcOsinChegye(ohA5);
-      var osinB = window.SJ_calcOsinChegye(ohB5);
-      if (osinA && osinB) {
-        var bDmEl = sajuB.dmEl;
-        var aDmEl = sajuA.dmEl;
-        var bInAOsin = window.SJ_getOsinLabel(osinA, bDmEl);
-        var aInBOsin = window.SJ_getOsinLabel(osinB, aDmEl);
-        R.osinCross = { aToB: '상대(' + bDmEl + ')는 나에게 ' + bInAOsin, bToA: '나(' + aDmEl + ')는 상대에게 ' + aInBOsin };
-        var osinBonus = 0;
-        if (bInAOsin.indexOf('용신') >= 0) osinBonus += 5;
-        if (bInAOsin.indexOf('희신') >= 0) osinBonus += 3;
-        if (bInAOsin.indexOf('기신') >= 0) osinBonus -= 3;
-        if (bInAOsin.indexOf('구신') >= 0) osinBonus -= 2;
-        if (aInBOsin.indexOf('용신') >= 0) osinBonus += 5;
-        if (aInBOsin.indexOf('희신') >= 0) osinBonus += 3;
-        if (aInBOsin.indexOf('기신') >= 0) osinBonus -= 3;
-        if (aInBOsin.indexOf('구신') >= 0) osinBonus -= 2;
-        love += osinBonus;
-        if (osinBonus !== 0) R.keywords.push('★5신: ' + R.osinCross.aToB + ' / ' + R.osinCross.bToA);
-      }
-    }
+    // --- 육친 교차 분석 ---
+    try {
+      if (window.SJ_YUKCHIN_MAP && sajuA.dm && sajuB.dm && sajuA.ss && sajuB.ss) {
+        var gA = (window._lastGender === '남성' || (typeof ST !== 'undefined' && ST.gender === '남성')) ? '남' : '여';
+        var gB = (typeof GH_GENDER !== 'undefined' && GH_GENDER === '남성') ? '남' : '여';
+        var mapA = SJ_YUKCHIN_MAP[gA] || {};
+        var mapB = SJ_YUKCHIN_MAP[gB] || {};
 
-    // ── 납음 궁합 심화 (saju.js SJ_buildNapeumGunghap 연동) ──
-    if (window.SJ_buildNapeumGunghap) {
-      var napeumText = window.SJ_buildNapeumGunghap(sajuA, sajuB);
-      if (napeumText) {
-        R.napeumGunghap = napeumText;
-        if (napeumText.indexOf('생') >= 0 && napeumText.indexOf('극') < 0) love += 2;
-        else if (napeumText.indexOf('동오행') >= 0 || napeumText.indexOf('비화') >= 0) love += 1;
-        else if (napeumText.indexOf('극') >= 0) love -= 1;
-        R.keywords.push(napeumText.split('\n')[0]);
-      }
-    }
+        // A→B: A의 일간 기준으로 B의 일간이 어떤 십성인지
+        var ssAtoB_yuk = '';
+        if (sajuA.ss) {
+          // sajuB.dm을 sajuA 기준에서 찾기
+          ssAtoB_yuk = ssAtoB || '';
+        }
 
-    // ── 부부 시너지 리포트 (saju.js 연동) ──
-    if (window.SJ_buildCoupleSynergy) {
-      var synergy = window.SJ_buildCoupleSynergy(sajuA, ggA, sajuB, ggB);
-      if (synergy) {
-        R.coupleSynergy = synergy;
+        var ycA = mapA[ssAtoB_yuk] || ssAtoB_yuk;
+        var ycB = mapB[ssBtoA] || ssBtoA;
+
+        R.yukchinCross = {
+          aToB: '나에게 상대방은 ' + ycA + ' (' + ssAtoB_yuk + ')',
+          bToA: '상대방에게 나는 ' + ycB + ' (' + ssBtoA + ')'
+        };
+        R.keywords.push('육친: A→B=' + ycA + ' / B→A=' + ycB);
       }
+    } catch (e) { console.warn('[gunghap] 육친 교차 실패:', e); }
+
+    // --- 5신 교차 분석 ---
+    try {
+      if (window.SJ_calcOsinChegye && window.SJ_extractYongshinOh && window.SJ_getOsinLabel) {
+        var yohA = SJ_extractYongshinOh(ggA.yongshin || '');
+        var yohB = SJ_extractYongshinOh(ggB.yongshin || '');
+
+        if (yohA) {
+          var osinA = SJ_calcOsinChegye(yohA);
+          var bDmEl = sajuB.dmEl || '';
+          var labelBforA = SJ_getOsinLabel(osinA, bDmEl);
+
+          R.osinCross = R.osinCross || {};
+          R.osinCross.bToA = '상대방의 일간(' + bDmEl + ')은 나에게 ' + labelBforA;
+
+          // 용신이면 점수 보너스
+          if (labelBforA.indexOf('용신') >= 0 || labelBforA.indexOf('핵심') >= 0) {
+            love += 10; val += 8;
+            R.keywords.push('★5신: 상대방이 나의 핵심 에너지!');
+          } else if (labelBforA.indexOf('희신') >= 0 || labelBforA.indexOf('보조') >= 0) {
+            love += 5; val += 4;
+          } else if (labelBforA.indexOf('기신') >= 0 || labelBforA.indexOf('방해') >= 0) {
+            love -= 3;
+          }
+        }
+
+        if (yohB) {
+          var osinB = SJ_calcOsinChegye(yohB);
+          var aDmEl = sajuA.dmEl || '';
+          var labelAforB = SJ_getOsinLabel(osinB, aDmEl);
+
+          R.osinCross = R.osinCross || {};
+          R.osinCross.aToB = '나의 일간(' + aDmEl + ')은 상대방에게 ' + labelAforB;
+
+          if (labelAforB.indexOf('용신') >= 0 || labelAforB.indexOf('핵심') >= 0) {
+            love += 10; val += 8;
+            R.keywords.push('★5신: 내가 상대방의 핵심 에너지!');
+          } else if (labelAforB.indexOf('희신') >= 0 || labelAforB.indexOf('보조') >= 0) {
+            love += 5; val += 4;
+          } else if (labelAforB.indexOf('기신') >= 0 || labelAforB.indexOf('방해') >= 0) {
+            love -= 3;
+          }
+        }
+      }
+    } catch (e) { console.warn('[gunghap] 5신 교차 실패:', e); }
+
+    // --- 납음 궁합 스토리 (saju.js 버전) ---
+    try {
+      if (window.SJ_buildNapeumGunghap) {
+        var napeumStory = SJ_buildNapeumGunghap(sajuA, sajuB, ggA, ggB);
+        if (napeumStory) {
+          R.napeumGunghap = napeumStory;
+        }
+      }
+    } catch (e) { console.warn('[gunghap] 납음 궁합 실패:', e); }
+
+    // --- 부부 시너지 ---
+    try {
+      if (window.SJ_buildCoupleSynergy) {
+        var synergy = SJ_buildCoupleSynergy(sajuA, sajuB, ggA, ggB);
+        if (synergy) {
+          R.coupleSynergy = synergy;
+        }
+      }
+    } catch (e) { console.warn('[gunghap] 부부 시너지 실패:', e); }
+
+    // --- 교차 통변 ---
+    try {
+      if (window.SJ_detectCrossTongbyeon) {
+        var crossTB = SJ_detectCrossTongbyeon(sajuA, sajuB, ggA, ggB);
+        if (crossTB && crossTB.length > 0) {
+          R.crossTongbyeon = crossTB;
+          crossTB.forEach(function(tb) {
+            R.keywords.push('교차통변: ' + tb.name + ' (' + tb.label + ')');
+          });
+        }
+      }
+    } catch (e) { console.warn('[gunghap] 교차 통변 실패:', e); }
+
+    // --- 연동 로그 ---
+    console.log('[gunghap] saju.js 연동 완료 —',
+      'yukchin=' + (!!R.yukchinCross),
+      'osin=' + (!!R.osinCross),
+      'napeum=' + (!!R.napeumGunghap),
+      'synergy=' + (!!R.coupleSynergy),
+      'crossTB=' + (!!R.crossTongbyeon)
+    );
+
+    // R.details에 누락된 필드 보장 (Part 2의 buildGunghapUserPrompt에서 참조)
+    if (!R.details.dg) {
+      R.details.dg = {
+        dgA: sajuA.dm + '(' + sajuA.dmEl + ')',
+        dgB: sajuB.dm + '(' + sajuB.dmEl + ')',
+        ohRel: dmOhRel || '',
+        rels: dgRel ? dgRel.rels : []
+      };
     }
+    if (!R.details.wonjin) R.details.wonjin = wonjinList || [];
+    if (!R.details.samhap) R.details.samhap = samhapList || [];
+    if (!R.details.gongmang) R.details.gongmang = gmInfo || {};
+    if (!R.details.sipsung) {
+      R.details.sipsung = {
+        AtoB: ssAtoB, BtoA: ssBtoA,
+        genderContext: R.details.genderSS || {}
+      };
+    }
+    if (!R.details.ilju) {
+      R.details.ilju = { combo: iljuCombo || '', desc: '' };
+    }
+    if (!R.details.strength) {
+      R.details.strength = {
+        combo: (ggA.strengthGrade || '') + ' vs ' + (ggB.strengthGrade || ''),
+        desc: ''
+      };
+    }
+    if (!R.details.spouseGung) R.details.spouseGung = null;
+    if (!R.details.starsCross) R.details.starsCross = {};
+    if (!R.details.timing) R.details.timing = null;
 
     // ★ 최종 클램핑 (딱 1번!)
     love=Math.max(20,Math.min(95,love));comm=Math.max(20,Math.min(95,comm));val=Math.max(20,Math.min(95,val));work=Math.max(20,Math.min(95,work));
@@ -986,5 +1061,5 @@
   var _origSHT=window.switchHomeTab;if(typeof _origSHT==='function'){window.switchHomeTab=function(tab){_origSHT(tab);if(tab==='saju')setTimeout(function(){injectPeopleListUI();renderPeopleList();},100);if(tab==='gunghap')setTimeout(function(){injectGHSelectorUI();renderGHSelector();GH_SEL_A=null;GH_SEL_B=null;GP_REL='';},100);};}
   setTimeout(function(){if(window._lastSaju&&window._lastMBTI)saveMyData();injectPeopleListUI();renderPeopleList();},800);
 
-  console.log('[gunghap.js] v2 로드 완료 ✅ (1~18레이어 독립 + 사람목록 + 관계유형)');
+  console.log('[gunghap.js] v3.0 로드 완료 — V2 시스템프롬프트 + 18레이어 상세전달 + aiResult 연동 + saju.js 5개 연동');
 })();
