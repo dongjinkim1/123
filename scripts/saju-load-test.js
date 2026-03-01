@@ -76,7 +76,7 @@ var SJ_EXPORTS = [
       var runStr = (typeof runSajuAnalysis === 'function') ? runSajuAnalysis.toString().substring(0, 800) : '';
       var streamStr = (typeof streamSonnet === 'function') ? streamSonnet.toString().substring(0, 800) : '';
       return {
-        runWrapped: runStr.indexOf('SJ_enrichSajuData') >= 0 || runStr.indexOf('_SJ_pending') >= 0,
+        runWrapped: runStr.indexOf('SJ_enrichSajuData') >= 0 || runStr.indexOf('_SJ_pending') >= 0 || runStr.indexOf('_lastAIResult') >= 0,
         streamWrapped: streamStr.indexOf('_SJ_pending') >= 0 || streamStr.indexOf('SJ_injectIntoPrompt') >= 0
       };
     });

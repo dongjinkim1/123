@@ -311,7 +311,7 @@
   function genId(){return 'p_'+Date.now()+'_'+Math.random().toString(36).substr(2,5);}
   window.MBTS_People={get:getPeople,save:savePeople,add:addPerson,remove:removePerson,genId:genId};
 
-  function saveMyData(){if(!window._lastSaju||!window._lastMBTI)return;var s=window._lastSaju;addPerson({id:'me',name:'나',ilju:s.P[2].s+s.P[2].b,mbti:window._lastMBTI,gender:(typeof ST!=='undefined')?ST.gender:'',birthInfo:(typeof ST!=='undefined')?{y:ST.y,m:ST.m,d:ST.d,h:ST.h||'',min:ST.min||''}:{},hasFull:true,saju:s,dw:window._lastDW,gg:window._lastGG,mbtiObj:window._lastMBTIObj,savedAt:Date.now()});renderPeopleList();}
+  function saveMyData(){if(!window._lastSaju||!window._lastMBTI)return;var s=window._lastSaju;addPerson({id:'me',name:'나',ilju:s.P[2].s+s.P[2].b,mbti:window._lastMBTI,gender:(typeof ST!=='undefined')?ST.gender:'',birthInfo:(typeof ST!=='undefined')?{y:ST.y,m:ST.m,d:ST.d,h:ST.h||'',min:ST.min||''}:{},hasFull:true,saju:s,dw:window._lastDW,gg:window._lastGG,mbtiObj:window._lastMBTIObj,aiResult:window._lastAIResult||null,savedAt:Date.now()});renderPeopleList();}
   window.MBTS_People.saveMyData=saveMyData;
 
   function renderPeopleList(){var c=document.getElementById('people-list-container');if(!c)return;var pp=getPeople();if(pp.length===0){c.innerHTML='<p style="text-align:center;color:var(--text-muted);font-size:13px;padding:20px 0">아직 분석한 사람이 없어요</p>';return;}var h='';pp.forEach(function(p){var d=p.savedAt?new Date(p.savedAt).toLocaleDateString('ko-KR'):'';var badge=p.hasFull?'<span style="padding:2px 8px;font-size:10px;font-weight:600;background:rgba(76,175,125,.1);color:#4CAF7D;border-radius:6px">분석완료 ✨</span>':'<span style="padding:2px 8px;font-size:10px;font-weight:600;background:rgba(201,154,46,.1);color:#c99a2e;border-radius:6px">기본정보</span>';var isMe=p.id==='me';h+='<div class="glass-card" style="padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer" '+(isMe&&p.hasFull?'onclick="viewSavedResult()"':'')+'><div style="width:40px;height:40px;border-radius:12px;background:'+(isMe?'var(--accent-dim)':'rgba(214,51,132,.08)')+';display:flex;align-items:center;justify-content:center;font-size:20px">'+(isMe?'🙋':'👤')+'</div><div style="flex:1"><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:14px;font-weight:700;color:var(--text-primary)">'+(p.name||p.ilju)+'</span>'+badge+'</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px">'+p.ilju+'일주 · '+p.mbti+(d?' · '+d:'')+'</div></div>'+(isMe?'<span style="font-size:16px;color:var(--text-muted)">›</span>':'<button onclick="event.stopPropagation();MBTS_People.del(\''+p.id+'\')" style="background:none;border:none;font-size:16px;color:var(--text-muted);cursor:pointer;padding:4px 8px">✕</button>')+'</div>';});c.innerHTML=h;}
@@ -340,7 +340,218 @@
   function injectRelationUI(){var g=document.getElementById('gh-btn-male');if(!g||document.getElementById('gh-rel-grid'))return;var w=g.parentElement.parentElement;if(!w)return;var d=document.createElement('div');d.style.marginBottom='14px';d.innerHTML='<label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:6px">우리의 관계</label><div style="display:flex;flex-wrap:wrap;gap:6px" id="gh-rel-grid"><button id="gh-rel-ssom" onclick="ghPickRel(\'ssom\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💕 썸</button><button id="gh-rel-lover" onclick="ghPickRel(\'lover\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">❤️ 연인</button><button id="gh-rel-family" onclick="ghPickRel(\'family\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">👨‍👩‍👧 가족</button><button id="gh-rel-colleague" onclick="ghPickRel(\'colleague\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💼 동료</button><button id="gh-rel-friend" onclick="ghPickRel(\'friend\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">🍻 친구</button></div>';w.parentNode.insertBefore(d,w.nextSibling);}
   window.ghPickRel=function(type){GH_REL=type;['ssom','lover','family','colleague','friend'].forEach(function(t){var b=document.getElementById('gh-rel-'+t);if(b){b.style.background=(t===type)?'rgba(136,97,154,0.08)':'#fff';b.style.color=(t===type)?'var(--accent)':'var(--text-muted)';b.style.borderColor=(t===type)?'var(--accent)':'var(--border-light)';}});if(typeof checkGHReady==='function')checkGHReady();};
   var _origCGR=window.checkGHReady;window.checkGHReady=function(){if(typeof _origCGR==='function')_origCGR();if(!GH_REL){var b=document.getElementById('btn-gh-start');if(b){b.disabled=true;b.style.background='rgba(0,0,0,0.08)';b.style.color='var(--text-muted)';}}};
-  window.getGHSystemPrompt=function(rel){if(!rel||!GH_CATEGORIES[rel])return GUNGHAP_SYSTEM;var c=GH_CATEGORIES[rel],b=GUNGHAP_SYSTEM;var i=b.indexOf('## 구조');if(i<0)return b;var before=b.substring(0,i);return before+'## 관계: '+c.label+'\\n톤: '+c.tone+'\\n\\n## 구조\\n카테고리 '+c.categories.length+'개: '+c.categories.join(', ')+'\\n카테고리당 2~3개 항목, 총 7~9개\\ncontent: 2~3문단\\n\\nJSON만 출력하세요.';};
+  // ══════════════════════════════════════════════════
+  // ★ 궁합 시스템 프롬프트 V2 — PREMIUM_SYSTEM 수준으로 업그레이드
+  // ══════════════════════════════════════════════════
+
+  var GUNGHAP_SYSTEM_V2 = '당신은 대한민국 최정상급 명리학자(실전 60년)이자 MBTI 인지기능 전문가입니다.\n두 사람의 사주팔자와 MBTI를 교차 분석하여, "어? 우리 딱 이래!" 하고 소름 돋는 궁합 풀이를 만드세요.\n\n'
+
+  + '## ★★★ 절대 규칙 (6개. 개인 분석과 동일) ★★★\n\n'
+
+  + '### 규칙1: 전문용어 완전 제거\n'
+  + '사주/MBTI 전문용어는 단 한 개도 노출되면 불합격.\n'
+  + '십성 이름(비견, 겁재, 식신, 상관, 편재, 정재, 편관, 정관, 편인, 정인),\n'
+  + '신살 이름(양인살, 도화살, 역마살, 화개살, 천을귀인, 원진살 등),\n'
+  + '천간지지 이름(갑목, 임수, 정화 등), 궁위 이름(배우자궁, 직업궁 등),\n'
+  + '12운성 이름(장생, 건록, 제왕 등), 오행 분석 용어(비겁 에너지, 재성 빈약 등)\n'
+  + '→ 이 모든 것을 자연어/비유로 번역해서 써야 함\n'
+  + '★ 물상 비유는 자유: 촛불, 이슬, 칼날, 바위, 호수, 씨앗, 모닥불 등\n\n'
+
+  + '### 규칙2: 행동/장면 먼저\n'
+  + '모든 소주제는 두 사람이 실제로 겪을 구체적 장면으로 시작. 분석 리포트 금지.\n'
+  + '나쁜 예: "두 사람의 소통 방식이 다릅니다."\n'
+  + '좋은 예: "당신이 아이디어 5개를 쏟아내고 있을 때, 상대방은 조용히 그중 하나를 골라 \\"이거 해볼까?\\"라고 말해요. 그 순간 짜릿하죠?"\n'
+  + '나쁜 예: "두 사람은 갈등 시 냉전 경향이 있습니다."\n'
+  + '좋은 예: "싸우면 당신은 문을 쾅 닫고, 상대방은 그 문 앞에서 30분 서 있어요. 카톡은 안 읽지만 발소리는 듣고 있거든요."\n\n'
+
+  + '### 규칙3: 사주×MBTI 한 호흡 융합\n'
+  + '사주 따로 MBTI 따로 쓰면 불합격. 사주 70% + MBTI 보조 30%.\n'
+  + '사주가 "밀당 못하는 구조"인데 MBTI가 T라서 "겉으로는 쿨한 척"할 수 있음 → 이런 이중성이 소름 포인트.\n\n'
+
+  + '### 규칙4: 사주가 주도\n'
+  + '같은 MBTI 커플이라도 사주가 다르면 완전히 다른 궁합. MBTI가 주인공이면 불합격.\n\n'
+
+  + '### 규칙5: MBTI 강도 반영 + 왜곡 금지\n'
+  + '"약한 I" ≠ "강한 I". 강도별 행동 차이 반영. E/I, S/N, T/F, J/P 기본 특성 유지.\n\n'
+
+  + '### 규칙6: 데이터 무결성\n'
+  + '제공된 점수·나이·간지·연도 변경 금지. MBTI 유형·인지기능 변경 금지.\n\n'
+
+  + '## ★★★ 궁합 특별 규칙 ★★★\n\n'
+
+  + '### "나"와 "상대방"으로 호칭\n'
+  + '사람A, 사람B가 아니라 "당신(=나)"과 "상대방"으로.\n\n'
+
+  + '### 좋은 점만 쓰지 마라\n'
+  + '진짜 소름 돋는 궁합은 "이럴 때 싸워요"를 정확히 짚어주는 것.\n'
+  + '갈등 패턴 + 구체적 해결법을 반드시 포함.\n\n'
+
+  + '### 개인 분석 결과 활용 (가장 중요!)\n'
+  + '사용자 프롬프트에 A와 B의 개인 분석 AI 풀이 결과가 포함되어 있을 수 있습니다.\n'
+  + '이 결과는 이미 AI가 분석한 것이므로 신뢰하고, 궁합 맥락에서 재해석하세요.\n'
+  + '- A가 "올인형 연애"로 분석됨 + B가 "밀당 고수"로 분석됨\n'
+  + '  → "당신이 전부를 건 순간, 상대방은 한 발 빼요. 그 간격이 당신을 미치게 하죠?"\n'
+  + '- A가 "직장에서 혼자 일할 때 최고"로 분석됨 + B가 "팀플레이어"\n'
+  + '  → "동료라면 역할 분담이 핵심이에요. 당신이 혼자 기획하고, 상대방이 실행하면 무적."\n'
+  + '개인 분석의 문장을 복사하지 말고, 두 사람이 만나면 어떻게 되는지로 재구성하세요.\n\n'
+
+  + '### ★ 긍정 먼저 규칙\n'
+  + '각 항목의 첫 1~2문단은 반드시 두 사람의 강점, 케미, 끌림으로 시작하세요.\n'
+  + '갈등이나 약점은 그 뒤에. 독자는 "우리 잘 맞아?"를 확인하러 온 거예요.\n\n'
+
+  + '### 인지기능 별명 형식\n'
+  + '내면의 심판관(Fi), 분위기 리더기(Fe), 가능성 탐색기(Ne), 미래 내비게이션(Ni),\n'
+  + '추억 저장소(Si), 현장 체험러(Se), 내장 논리회로(Ti), 실행력 엔진(Te)\n'
+  + '처음 등장 시 별명(약어), 이후 짧은 별명만.\n\n'
+
+  + '## ★★★ 궁합 설계도 — _blueprint (품질의 핵심) ★★★\n\n'
+  + 'categories를 쓰기 전에, 반드시 _blueprint 필드를 먼저 채우세요.\n'
+  + '_blueprint는 사용자에게 표시되지 않는 당신의 메모장입니다.\n\n'
+
+  + '"_blueprint": {\n'
+  + '  "landscape": "두 사람의 관계를 자연 이미지 한 줄 (바다와 화산, 봄바람과 가을단풍 등)",\n'
+  + '  "chemistry": "가장 강한 케미 포인트 한 줄",\n'
+  + '  "tension": "가장 뜨거운 갈등 포인트 한 줄",\n'
+  + '  "a_core": "A의 개인 분석에서 가장 눈에 띄는 특성 한 줄",\n'
+  + '  "b_core": "B의 개인 분석에서 가장 눈에 띄는 특성 한 줄",\n'
+  + '  "collision": "A의 핵심 특성과 B의 핵심 특성이 만나면 생기는 현상 한 줄",\n'
+  + '  "subs": {\n'
+  + '    "항목1": { "anchor": "엔진 데이터에서 선택한 핵심 재료", "killing": "이 커플만의 소름 한마디" },\n'
+  + '    "항목2": { "anchor": "...", "killing": "..." },\n'
+  + '    ... 각 카테고리의 항목마다\n'
+  + '  },\n'
+  + '  "repeat_check": "같은 재료가 3번 이상 반복되는지 확인. 겹치면 여기서 교체."\n'
+  + '}\n\n'
+
+  + '★★ _blueprint를 완성한 후에만 categories를 쓰세요. ★★\n'
+  + '★★ 본문을 쓸 때 반드시 _blueprint의 killing을 해당 항목에 포함하세요. ★★\n\n'
+
+  + '## 소주제별 시작 패턴 다양화 (필수!)\n'
+  + '같은 시작 패턴을 3번 이상 쓰면 불합격.\n'
+  + 'A) 두 사람의 일상 장면  B) 자연 이미지  C) 역설/반전  D) 시간(처음 만났을 때 vs 지금)\n'
+  + 'E) 타인 시선("친구들은 두 사람을 보면...")  F) 질문  G) 갈등 장면에서 시작\n\n'
+
+  + '## 깊이 규칙\n'
+  + '각 항목에서 핵심 포인트 1~2개를 3~4문단으로 깊이. 3개 이상 나열 금지.\n\n'
+
+  + '## 문체\n'
+  + '- 구어체: ~예요, ~거든요. "당신", "상대방"으로 호칭.\n'
+  + '- 동네 언니/오빠처럼 카페에서 두 사람 이야기 해주는 느낌.\n'
+  + '- 내면 독백("~") 항목당 최대 2개.\n'
+  + '- 의사가 소견서 읽어주는 톤 금지.\n\n'
+
+  + '## 엔진 데이터 활용\n'
+  + '사용자 프롬프트에 18레이어 교차 분석 결과가 상세하게 포함되어 있습니다.\n'
+  + '- 천간/지지 교차, 용신 궁합, 배우자궁 교차, 신살 교차 등\n'
+  + '- 이 데이터의 문장을 그대로 복사하면 불합격. 반드시 장면과 비유로 풀어쓰세요.\n'
+  + '- ★ 표시가 많은 데이터일수록 중요도가 높습니다.\n\n'
+
+  + '## JSON 출력 형식\n\n'
+  + '{\n'
+  + '  "_blueprint": { ... },\n'
+  + '  "title": "OO일주×XX일주 · XXXX×YYYY 궁합",\n'
+  + '  "quote": "두 사람을 하나의 자연 이미지로 표현한 문장",\n'
+  + '  "totalScore": 87,\n'
+  + '  "categories": [\n'
+  + '    {\n'
+  + '      "title": "카테고리명",\n'
+  + '      "icon": "이모지",\n'
+  + '      "items": [\n'
+  + '        {\n'
+  + '          "icon": "이모지",\n'
+  + '          "catch": "감성 소제목 (7자 이내)",\n'
+  + '          "desc": "한줄 요약",\n'
+  + '          "basis": "분석 근거 (비표시)",\n'
+  + '          "content": "문단1\\n\\n문단2\\n\\n문단3",\n'
+  + '          "insightType": "gold|fire|water|purple",\n'
+  + '          "insightIcon": "이모지",\n'
+  + '          "insightText": "맞춤 처방 (오늘 당장 할 수 있는 구체적 행동)"\n'
+  + '        }\n'
+  + '      ]\n'
+  + '    }\n'
+  + '  ]\n'
+  + '}\n\n'
+
+  + 'content: 2~3문단, 각 3~5문장.\n'
+  + 'JSON만 출력하세요.';
+
+
+  // ── 관계 유형별 앵커 + 카테고리 ──
+  var GH_REL_CONFIG = {
+    ssom: {
+      categories: ['끌림의 정체', '밀당 공략법', '발전 가능성'],
+      tone: '설렘과 궁금함. 두근거리는 톤.',
+      anchors: {
+        '끌림의 정체': '일간 교차(합/생) + 일지 관계 + MBTI 주기능 교차',
+        '밀당 공략법': '배우자궁 십성 + A/B의 연애 스타일(개인 분석)',
+        '발전 가능성': '용신 궁합 + 대운 동기화 + 5년 타이밍'
+      }
+    },
+    lover: {
+      categories: ['우리의 케미', '싸움 패턴', '장기 전망'],
+      tone: '현실적이고 깊은 분석. 솔직한 톤.',
+      anchors: {
+        '우리의 케미': '일주 통합(합충) + 오행 보완 + MBTI 주기능 교차',
+        '싸움 패턴': '충/형/원진 + A/B의 연애 지뢰(개인 분석) + TF축',
+        '장기 전망': '대운 동기화 + 5년 타이밍 + 용신 궁합'
+      }
+    },
+    family: {
+      categories: ['관계의 본질', '갈등 포인트', '더 가까워지려면'],
+      tone: '따뜻하고 이해 중심. 공감 톤.',
+      anchors: {
+        '관계의 본질': '년주/월주 교차 + 육친 관계 + 오행 보완',
+        '갈등 포인트': '충/형/원진 + A/B의 고쳐야 할 점(개인 분석)',
+        '더 가까워지려면': '용신 교차 + MBTI 열등기능 케어'
+      }
+    },
+    colleague: {
+      categories: ['업무 케미', '주의사항', '같이 성공하려면'],
+      tone: '프로페셔널하지만 인간적.',
+      anchors: {
+        '업무 케미': '오행 보완 + 월주 교차 + MBTI JP축 + TeSi교차',
+        '주의사항': '충/형 + A/B의 직장 적성(개인 분석)',
+        '같이 성공하려면': '강약 궁합 + 용신 교차 + 대운 동기화'
+      }
+    },
+    friend: {
+      categories: ['우정의 본질', '조심할 것', '평생 친구 되려면'],
+      tone: '편안하고 솔직한 톤.',
+      anchors: {
+        '우정의 본질': '일간 비화/생 + 삼합 교차 + MBTI 주기능 시너지',
+        '조심할 것': '원진 + 충 + A/B의 고쳐야 할 점(개인 분석)',
+        '평생 친구 되려면': '용신 교차 + 대운 동기화 + 공망 교차'
+      }
+    }
+  };
+
+
+  // ── getGHSystemPrompt 오버라이드 ──
+  window.getGHSystemPrompt = function(rel) {
+    var base = GUNGHAP_SYSTEM_V2;
+    var cfg = GH_REL_CONFIG[rel];
+    if (!cfg) return base;
+
+    var catSection = '\n## 관계: ' + (GH_CATEGORIES[rel] ? GH_CATEGORIES[rel].label : rel)
+      + '\n톤: ' + cfg.tone
+      + '\n\n## 카테고리 (' + cfg.categories.length + '개)\n';
+
+    cfg.categories.forEach(function(c, i) {
+      catSection += (i + 1) + '. ' + c;
+      if (cfg.anchors[c]) {
+        catSection += ' → 앵커: ' + cfg.anchors[c];
+      }
+      catSection += '\n';
+    });
+
+    catSection += '\n카테고리당 2~3개 항목, 총 7~9개\n';
+    catSection += '★ 앵커는 "최소한 이것은 참고"이지 "이것만 써라"가 아닙니다.\n';
+    catSection += '더 강렬한 것을 발견하면 그것이 주인공이 될 수 있습니다.\n';
+
+    return base + catSection;
+  };
+
+  console.log('[gunghap] V2 시스템 프롬프트 + 관계별 앵커 로드 완료');
 
   // startGunghap 래핑 (수동 입력)
   var _origSG=window.startGunghap;
@@ -348,6 +559,58 @@
 
   // 결과 렌더 V2
   window.renderGunghapResultV2=function(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,err,relType){if(!relType||!GH_CATEGORIES[relType])return renderGunghapResult(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,err);var cat=GH_CATEGORIES[relType],sl=cat.scoreLabels,el=document.getElementById('pg-gh-res'),sc=ghR.scores;var title=aiR&&aiR.title?aiR.title:(sajuA.P[2].s+sajuA.P[2].b+'×'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiA.type+'×'+mbtiB.type);var quote=aiR&&aiR.quote?aiR.quote:'두 사람만의 특별한 이야기';var h='<div class="res-wrap" style="max-width:640px;margin:0 auto;padding:0 0 40px"><div style="text-align:center;padding:32px 20px 20px;background:linear-gradient(180deg,rgba(136,97,154,.06) 0%,transparent 100%)"><div style="display:flex;justify-content:center;gap:0;margin-bottom:10px"><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#4CAF7D">M</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#5B8FD4">B</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E05A5A">T</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E8B84B">S</span></div><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">'+cat.emoji+' '+cat.label+' 궁합</div><h1 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:4px">'+title+'</h1></div><div style="display:flex;align-items:center;gap:12px;padding:16px 20px;justify-content:center"><div class="glass-card" style="text-align:center;padding:16px 20px;border-color:var(--accent)"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">나</div><div style="font-size:11px;color:var(--text-muted)">'+sajuA.P[2].s+sajuA.P[2].b+' · '+mbtiA.type+'</div></div><div style="font-size:28px">'+cat.emoji+'</div><div class="glass-card" style="text-align:center;padding:16px 20px;border-color:#E05A5A"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">상대방</div><div style="font-size:11px;color:var(--text-muted)">'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiB.type+'</div></div></div><div class="glass-card" style="margin:12px 20px;padding:24px"><div style="text-align:center;margin-bottom:16px"><div style="font-size:48px;font-weight:900;color:var(--accent)">'+sc.total+'<span style="font-size:24px">점</span></div><div style="font-size:13px;color:var(--text-muted)">'+cat.label+' 종합</div></div>';[{l:sl.love,v:sc.love,c:'#d63384'},{l:sl.comm,v:sc.comm,c:'#2e8b57'},{l:sl.values,v:sc.values,c:'#c99a2e'},{l:sl.work,v:sc.work,c:'#4682b4'}].forEach(function(b){h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:50px;text-align:right;font-size:13px;font-weight:600;color:var(--text-secondary)">'+b.l+'</div><div style="flex:1;height:10px;background:rgba(0,0,0,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:'+b.v+'%;background:'+b.c+';border-radius:5px;transition:width 1s"></div></div><div style="width:36px;font-size:13px;font-weight:700;color:var(--text-muted)">'+b.v+'%</div></div>';});h+='</div><div class="glass-card" style="margin:12px 20px;padding:16px 20px;border-left:4px solid var(--accent);font-size:14px;color:var(--text-secondary);line-height:1.6;font-style:italic">"'+quote+'"</div>';if(aiR&&aiR.categories){aiR.categories.forEach(function(c){h+='<div style="margin:16px 20px 0"><h3 style="font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text-primary)">'+(c.icon||'')+' '+c.title+'</h3>';if(c.items)c.items.forEach(function(item){h+='<div class="glass-card" style="padding:20px;margin-bottom:10px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:22px">'+(item.icon||cat.emoji)+'</span><span style="font-size:15px;font-weight:700;color:var(--text-primary)">'+(item.catch||'')+'</span></div><div style="font-size:14px;color:var(--text-secondary);line-height:1.7;word-break:keep-all">'+(item.content||'').replace(/\n\n/g,'<br><br>')+'</div>';if(item.insightText){var bg={gold:'rgba(201,154,46,.1)',fire:'rgba(211,47,47,.1)',water:'rgba(70,130,180,.1)',purple:'rgba(136,97,154,.1)'},tx={gold:'#c99a2e',fire:'#d32f2f',water:'#4682b4',purple:'#88619A'};h+='<div style="margin-top:12px;padding:12px 14px;background:'+(bg[item.insightType]||bg.gold)+';border-radius:10px;border:1px solid '+(tx[item.insightType]||tx.gold)+'30;display:flex;align-items:flex-start;gap:8px"><span style="font-size:14px">'+(item.insightIcon||'💡')+'</span><span style="font-size:13px;color:'+(tx[item.insightType]||tx.gold)+';line-height:1.5;font-weight:500">'+item.insightText+'</span></div>';}h+='</div>';});h+='</div>';});}else if(err){h+='<div class="glass-card" style="margin:20px;padding:24px;text-align:center"><p style="color:var(--text-muted)">AI 풀이 생성 실패</p><p style="font-size:12px;margin-top:8px">'+err+'</p></div>';}h+='<div style="padding:20px"><button onclick="shareResult()" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#191919;background:#FEE500;border:none;border-radius:14px;margin-bottom:10px">💬 공유하기</button><p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted)">참고용 분석이며 의사결정을 대체하지 않습니다.</p></div><div style="height:80px"></div></div><div class="btm-tab"><div class="btm-tab-inner"><div class="btm-tab-item" onclick="goPage(\'home\')"><div class="tab-ic">🏠</div><div class="tab-lb">홈</div></div><div class="btm-tab-item active"><div class="tab-ic">📊</div><div class="tab-lb">결과</div></div><div class="btm-tab-item" onclick="alert(\'준비 중!\')"><div class="tab-ic">💾</div><div class="tab-lb">저장</div></div><div class="btm-tab-item" onclick="alert(\'준비 중!\')"><div class="tab-ic">⚙️</div><div class="tab-lb">설정</div></div></div></div>';el.innerHTML=h;};
+
+
+  // ══════════════════════════════════════════════════
+  // ★ aiResult 저장 시스템 — engine.js 안 건드림
+  // ══════════════════════════════════════════════════
+
+  // engine.js의 runSajuAnalysis가 onComplete 콜백을 호출할 때
+  // result를 가로채서 저장하는 래퍼
+  (function() {
+    var _origRunSaju = window.runSajuAnalysis;
+    if (!_origRunSaju) {
+      console.warn('[gunghap] runSajuAnalysis not found yet, will retry');
+      return;
+    }
+
+    window.runSajuAnalysis = function(params, callbacks) {
+      // 원본 onComplete를 래핑
+      var _origOnComplete = callbacks.onComplete;
+      callbacks.onComplete = function(data) {
+        // ★ AI 풀이 결과를 전역에 저장
+        if (data && data.result) {
+          window._lastAIResult = data.result;
+          console.log('[gunghap] AI 풀이 결과 저장 완료 (categories:',
+            (data.result.categories || []).reduce(function(s, c) {
+              return s + (c.subs || c.items || []).length;
+            }, 0), '개)');
+        }
+
+        // 원본 콜백 호출
+        if (_origOnComplete) _origOnComplete(data);
+
+        // ★ people 목록에도 aiResult 추가 저장
+        try {
+          if (data && data.result && window._lastSaju) {
+            var people = MBTS_People.get();
+            for (var i = 0; i < people.length; i++) {
+              if (people[i].id === 'me') {
+                people[i].aiResult = data.result;
+                MBTS_People.save(people);
+                console.log('[gunghap] people "me"에 aiResult 저장 완료');
+                break;
+              }
+            }
+          }
+        } catch (e) {
+          console.warn('[gunghap] aiResult people 저장 실패:', e);
+        }
+      };
+
+      return _origRunSaju.call(this, params, callbacks);
+    };
+  })();
 
 
   // ╔══════════════════════════════════════╗
