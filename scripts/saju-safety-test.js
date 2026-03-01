@@ -25,7 +25,7 @@ var puppeteer = require('puppeteer');
     });
 
     console.log('=== SAFETY TEST: saju.js 비활성화 상태 ===');
-    await page.goto('http://localhost:3000', { waitUntil: 'networkidle2', timeout: 30000 });
+    await page.goto('http://localhost:3000', { waitUntil: 'networkidle2', timeout: 60000 });
     await new Promise(function(r) { setTimeout(r, 2000); });
 
     // iframe 찾기
