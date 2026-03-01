@@ -114,9 +114,10 @@ var SJ_EXPORTS = [
         var yy = SJ_calcYinYang(fakeSaju);
         var hasYinYang = yy && typeof yy.yang === 'number' && typeof yy.yin === 'number';
 
-        // SJ_injectIntoPrompt 테스트
+        // SJ_injectIntoPrompt 테스트 (v4.0 카테고리 구조)
         var fakeMsg = [
           '★오행흐름: 테스트',
+          '',
           '### 신살 스토리',
           '내용',
           '### 올해 핵심 사건',
@@ -125,18 +126,20 @@ var SJ_EXPORTS = [
           '끝'
         ].join('\n');
         var sjData = {
-          osinText: '【5신】테스트5신',
-          unsungText: '【12운성】테스트운성',
-          yukchinText: '【육친】테스트육친',
-          healthText: '【건강】테스트건강',
-          yinYangText: '【음양】테스트음양',
-          tongbyeonText: '【통변】테스트통변',
-          gongmangText: '【공망】테스트공망',
-          hyungText: '【형살】테스트형살',
-          gyowoongiText: '【교운기】테스트교운기',
-          tuchulText: '【투출】테스트투출',
-          wolryulText: '【월률】테스트월률',
-          gaeunText: '【개운】테스트개운'
+          gyeokguk: {
+            osinText: '【5신】테스트5신'
+          },
+          context: {
+            yukchinText: '【육친】테스트육친',
+            gongmangText: '【공망】테스트공망'
+          },
+          daewoon: {
+            gyowoongiText: '【교운기】테스트교운기'
+          },
+          hints: {
+            healthText: '【건강】테스트건강',
+            gaeunText: '【개운】테스트개운'
+          }
         };
         var result = SJ_injectIntoPrompt(fakeMsg, sjData);
 
@@ -146,8 +149,8 @@ var SJ_EXPORTS = [
           has5sin: result.indexOf('【5신】') >= 0,
           hasYukchin: result.indexOf('【육친】') >= 0,
           hasGongmang: result.indexOf('【공망】') >= 0,
-          hasTuchul: result.indexOf('【투출】') >= 0,
           hasGyowoongi: result.indexOf('【교운기】') >= 0,
+          hasHealth: result.indexOf('【건강】') >= 0,
           hasGaeun: result.indexOf('【개운】') >= 0
         };
       } catch(e) {
@@ -160,12 +163,12 @@ var SJ_EXPORTS = [
     } else {
       log(promptTest.osinOk, 'SJ_calcOsinChegye 정상 동작');
       log(promptTest.yinYangOk, 'SJ_calcYinYang 정상 동작');
-      log(promptTest.has5sin, '주입 위치 1: ★오행흐름 뒤 5신');
-      log(promptTest.hasYukchin, '주입 위치 2: 신살 스토리 앞 육친');
-      log(promptTest.hasGongmang, '주입 위치 3: 올해 핵심 사건 앞 공망');
-      log(promptTest.hasGyowoongi, '주입 위치 4: 세운 뒤 교운기');
-      log(promptTest.hasTuchul, '주입 위치 5: 참고 힌트 끝 투출');
-      log(promptTest.hasGaeun, '주입 위치 5: 참고 힌트 끝 개운');
+      log(promptTest.has5sin, '주입 A: 격국 보강 — 5신');
+      log(promptTest.hasYukchin, '주입 B: 해석 맥락 — 육친');
+      log(promptTest.hasGongmang, '주입 B: 해석 맥락 — 공망');
+      log(promptTest.hasGyowoongi, '주입 C: 대운 흐름 — 교운기');
+      log(promptTest.hasHealth, '주입 D: 참고 힌트 — 건강');
+      log(promptTest.hasGaeun, '주입 D: 참고 힌트 — 개운');
     }
 
     console.log('\n=== TEST 3: 궁합 테스트 ===');

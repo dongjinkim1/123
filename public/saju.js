@@ -9,6 +9,61 @@
 // ── 오행 상수 ──
 var SJ_OH = ['목','화','토','금','수'];
 
+// ── 전문용어 → 자연어 변환기 ──
+// engine.js PREMIUM_SYSTEM이 본문에 전문용어 노출을 금지하므로
+// saju.js가 프롬프트에 넣는 텍스트에서도 제거해야 함
+var SJ_TERM_MAP = {
+  '식상생재': '표현→재물 연결',
+  '살인상생': '압박→지혜 전환',
+  '재관쌍미': '재물+명예 동시',
+  '인수생비': '배움→힘 전환',
+  '식신제살': '재능으로 위기 극복',
+  '비겁탈재': '에너지 유출 (동업/보증 위험)',
+  '재다신약': '기회 많으나 체력 부족',
+  '관살혼잡': '이중 압박 구조',
+  '인성태과': '생각 과잉 → 행동 부족',
+  '식상태과': '표현 과잉 → 구설수',
+  '비겁태과': '자존심 과잉',
+  '재성태과': '물질 집착',
+  '관성태과': '스트레스 과다',
+  '상관견관': '규칙 vs 자유 갈등',
+  '상관패인': '파격 창의력',
+  '재생관살': '돈이 압박을 부름',
+  '비견': '같은 에너지', '겁재': '경쟁 에너지',
+  '식신': '표현/여유 에너지', '상관': '반항/창의 에너지',
+  '편재': '도전적 재물', '정재': '안정적 재물',
+  '편관': '압박/도전', '정관': '안정적 명예',
+  '편인': '특수 학문', '정인': '정규 학문/보호',
+  '비겁': '자기편 에너지', '식상': '표현 에너지',
+  '재성': '재물 에너지', '관성': '사회/압박 에너지', '인성': '학습/보호 에너지',
+  '용신(최길)': '핵심 에너지(최길)', '희신(길)': '보조 에너지(길)',
+  '기신(흉)': '방해 에너지(흉)', '구신(소흉)': '소방해(소흉)', '한신(중립)': '중립 에너지',
+  '용신': '핵심에너지', '희신': '보조에너지', '기신': '방해에너지', '구신': '소방해', '한신': '중립',
+  '도화살': '매력 에너지', '역마살': '이동 에너지', '화개살': '영적/예술 에너지',
+  '천을귀인': '귀인 에너지', '양인살': '결단 에너지', '홍염살': '매혹 에너지',
+  '납음': '소리의 기운', '지장간': '숨겨진 에너지',
+  '배우자궁': '배우자 자리', '직업궁': '직업 자리',
+  '장생': '시작', '목욕': '변화', '관대': '화려', '건록': '독립',
+  '제왕': '정점', '쇠': '안정', '병': '쇠퇴', '사': '전환',
+  '묘': '잠재', '절': '단절후재시작', '태': '잉태', '양': '성장준비'
+};
+
+function SJ_stripTerms(text) {
+  if (!text) return '';
+  var result = text;
+  // 긴 용어부터 먼저 치환 (겹침 방지)
+  var keys = Object.keys(SJ_TERM_MAP).sort(function(a, b) { return b.length - a.length; });
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
+    while (result.indexOf(k) >= 0) {
+      result = result.replace(k, SJ_TERM_MAP[k]);
+    }
+  }
+  // ★ 표시 제거 (engine.js가 자체 ★ 체계를 가지고 있으므로)
+  result = result.replace(/^★/gm, '-');
+  return result;
+}
+
 // ======================================================================
 // ① 5신 체계 (五神 體系)
 // ======================================================================
@@ -1710,7 +1765,9 @@ function SJ_enrichSajuData(saju, gg, dw, gender, mbtiType) {
   var yoh = SJ_extractYongshinOh(gg.yongshin || '');
   var osin = yoh ? SJ_calcOsinChegye(yoh) : null;
 
-  // 각 항목 계산
+  // ========================================
+  // 전체 항목 계산 (함수 호출은 기존과 동일)
+  // ========================================
   var osinText = SJ_buildOsinText(gg, dw);
   var yukchinText = SJ_buildYukchinText(saju, gender);
   var unsungText = SJ_buildUnsungGungwiText(saju);
@@ -1725,53 +1782,89 @@ function SJ_enrichSajuData(saju, gg, dw, gender, mbtiType) {
   var tuchulText = SJ_checkTuchul(saju);
   var wolryulText = SJ_getWolryulText(saju);
   var gaeunText = SJ_buildGaeunText(yoh);
-
-  // ⑮~⑳ 추가 8개 항목
   var jobText = SJ_buildJobText(gg);
   var strengthText = SJ_buildStrengthText(gg);
   var loveTimingText = SJ_findLoveTiming(saju, gg, dw, gender);
   var specialSalsText = SJ_analyzeSpecialSals(saju);
   var monthlyText = SJ_buildMonthlyHighlight(saju, gg, osin);
   var hapTriggerText = SJ_findHapTrigger(saju, dw, osin);
-
-  // ㉓~㉖ 추가 항목
   var moneyTimingText = SJ_findMoneyTiming(saju, gg, dw, osin);
   var taekilText = SJ_buildTaekil(saju, gg, osin);
   var roadmapText = SJ_buildLifeRoadmap(dw, saju, gg, gender);
   var childText = SJ_buildChildAnalysis(saju, gg, gender);
 
+  // ========================================
+  // ★ 카테고리별 분류 (어디에 주입할지 결정)
+  // ========================================
+
   var result = {
-    osinText: osinText,
-    yukchinText: yukchinText,
-    unsungText: unsungText,
-    tongbyeonText: tongbyeonText,
-    gongmangText: gongmangText,
-    yinYangText: yinYangText,
-    gyowoongiText: gyowoongiText,
-    hyungText: hyungText,
-    healthText: healthText,
-    tuchulText: tuchulText,
-    wolryulText: wolryulText,
-    gaeunText: gaeunText,
-    jobText: jobText,
-    strengthText: strengthText,
-    loveTimingText: loveTimingText,
-    specialSalsText: specialSalsText,
-    monthlyText: monthlyText,
-    hapTriggerText: hapTriggerText,
-    moneyTimingText: moneyTimingText,
-    taekilText: taekilText,
-    roadmapText: roadmapText,
-    childText: childText,
-    // 메타
+    // ── A. 격국 분석 보강 (해석의 뼈대) ──
+    gyeokguk: {
+      osinText: osinText,
+      tongbyeonText: tongbyeonText,
+      yinYangText: yinYangText,
+      tuchulText: tuchulText,
+      strengthText: strengthText
+    },
+
+    // ── B. 해석 맥락 보강 (풀이 방향 가이드) ──
+    context: {
+      yukchinText: yukchinText,
+      unsungText: unsungText,
+      gongmangText: gongmangText,
+      specialSalsText: specialSalsText
+    },
+
+    // ── C. 대운 흐름 보강 (시간축) ──
+    daewoon: {
+      gyowoongiText: gyowoongiText,
+      roadmapText: roadmapText
+    },
+
+    // ── D. 참고 힌트 추가 (AI 자율 판단) ──
+    hints: {
+      healthText: healthText,
+      wolryulText: wolryulText,
+      gaeunText: gaeunText,
+      jobText: jobText,
+      hapTriggerText: hapTriggerText,
+      childText: childText
+    },
+
+    // ── E. 사주 원국 보강 (팩트) ──
+    wonkuk: {
+      hyungText: hyungText
+    },
+
+    // ── F. 프롬프트에 안 넣지만 함수는 유지 (gunghap.js용) ──
+    _gunghapOnly: {
+      loveTimingText: loveTimingText,
+      monthlyText: monthlyText,
+      moneyTimingText: moneyTimingText,
+      taekilText: taekilText
+    },
+
+    // ── 메타 (내부 참조용) ──
     osin: osin,
     tongbyeons: tongbyeons,
     hyungs: hyungs,
     yongshinOh: yoh
   };
 
-  // ㉒ 킬링 포인트 (모든 데이터 종합 필요하므로 마지막)
-  result.killingPointsText = SJ_generateKillingPoints(saju, gg, result);
+  // 킬링포인트는 프롬프트에 강제 주입하지 않음
+  // AI의 _blueprint 시스템이 자체 생성하도록 맡김
+  // 단, 함수 자체는 유지 (gunghap.js에서 활용 가능)
+  result._gunghapOnly.killingPointsText = SJ_generateKillingPoints(saju, gg, {
+    osinText: osinText,
+    yinYangText: yinYangText,
+    gyowoongiText: gyowoongiText,
+    tongbyeons: tongbyeons,
+    gongmangText: gongmangText,
+    hapTriggerText: hapTriggerText,
+    loveTimingText: loveTimingText,
+    osin: osin
+  });
+
   return result;
 }
 
@@ -1784,90 +1877,121 @@ function SJ_injectIntoPrompt(userMsg, sjData) {
   if (!sjData || !userMsg) return userMsg;
   var msg = userMsg;
 
-  // ① 오행흐름 뒤에 5신 체계 삽입
-  if (sjData.osinText) {
-    var ohFlowMarker = '★오행흐름:';
-    var ohIdx = msg.indexOf(ohFlowMarker);
-    if (ohIdx >= 0) {
-      var lineEnd = msg.indexOf('\n', ohIdx);
-      if (lineEnd >= 0) {
-        msg = msg.substring(0, lineEnd) + '\n' + sjData.osinText + msg.substring(lineEnd);
+  // 전문용어 제거 + 포맷 변환 헬퍼
+  function clean(text) {
+    if (!text) return '';
+    return SJ_stripTerms(text);
+  }
+
+  // ════════════════════════════════════════
+  // A. 격국 분석 보강 → "★오행흐름:" 줄 뒤에 삽입
+  // ════════════════════════════════════════
+  if (sjData.gyeokguk) {
+    var gk = sjData.gyeokguk;
+    var gkBlock = '';
+    if (gk.osinText) gkBlock += '\n' + clean(gk.osinText);
+    if (gk.tongbyeonText) gkBlock += '\n' + clean(gk.tongbyeonText);
+    if (gk.yinYangText) gkBlock += '\n' + clean(gk.yinYangText);
+    if (gk.tuchulText) gkBlock += '\n' + clean(gk.tuchulText);
+    if (gk.strengthText) gkBlock += '\n' + clean(gk.strengthText);
+
+    if (gkBlock) {
+      var ohMarker = '★오행흐름:';
+      var ohIdx = msg.indexOf(ohMarker);
+      if (ohIdx >= 0) {
+        var ohEnd = msg.indexOf('\n\n', ohIdx);
+        if (ohEnd < 0) ohEnd = msg.indexOf('\n##', ohIdx);
+        if (ohEnd < 0) ohEnd = msg.length;
+        msg = msg.substring(0, ohEnd) + '\n' + gkBlock + msg.substring(ohEnd);
       }
     }
   }
 
-  // ② ③ ⑨ ⑥ ④ → "### 신살 스토리" 앞에 삽입
-  var sinsalMarker = '### 신살 스토리';
-  var sinsalIdx = msg.indexOf(sinsalMarker);
-  if (sinsalIdx >= 0) {
-    var insertBlock = '';
-    if (sjData.unsungText)    insertBlock += sjData.unsungText + '\n\n';
-    if (sjData.yukchinText)   insertBlock += sjData.yukchinText + '\n\n';
-    if (sjData.healthText)    insertBlock += sjData.healthText + '\n\n';
-    if (sjData.yinYangText)   insertBlock += sjData.yinYangText + '\n\n';
-    if (sjData.tongbyeonText) insertBlock += sjData.tongbyeonText + '\n\n';
-    if (sjData.jobText)       insertBlock += sjData.jobText + '\n\n';
-    if (sjData.strengthText)  insertBlock += sjData.strengthText + '\n\n';
-    if (sjData.roadmapText)   insertBlock += sjData.roadmapText + '\n\n';
-    if (sjData.childText)     insertBlock += sjData.childText + '\n\n';
-    if (insertBlock) {
-      msg = msg.substring(0, sinsalIdx) + insertBlock + msg.substring(sinsalIdx);
-    }
-  }
+  // ════════════════════════════════════════
+  // B. 해석 맥락 보강 → "### 신살 스토리" 앞에 삽입
+  // ════════════════════════════════════════
+  if (sjData.context) {
+    var ctx = sjData.context;
+    var ctxBlock = '';
+    if (ctx.yukchinText) ctxBlock += '\n' + clean(ctx.yukchinText);
+    if (ctx.unsungText) ctxBlock += '\n' + clean(ctx.unsungText);
+    if (ctx.gongmangText) ctxBlock += '\n' + clean(ctx.gongmangText);
+    if (ctx.specialSalsText) ctxBlock += '\n' + clean(ctx.specialSalsText);
 
-  // ⑤ ⑧ → "### 올해 핵심 사건" 앞에 삽입
-  var yearMarker = '### 올해 핵심 사건';
-  var yearIdx = msg.indexOf(yearMarker);
-  if (yearIdx >= 0) {
-    var yearBlock = '';
-    if (sjData.gongmangText) yearBlock += sjData.gongmangText + '\n\n';
-    if (sjData.hyungText)        yearBlock += sjData.hyungText + '\n\n';
-    if (sjData.specialSalsText) yearBlock += sjData.specialSalsText + '\n\n';
-    if (yearBlock) {
-      msg = msg.substring(0, yearIdx) + yearBlock + msg.substring(yearIdx);
-    }
-  }
-
-  // ⑦ ⑯ ⑱ ⑳ → "세운: " 뒤에 삽입
-  var seunBlock = '';
-  if (sjData.gyowoongiText)  seunBlock += sjData.gyowoongiText + '\n';
-  if (sjData.loveTimingText) seunBlock += sjData.loveTimingText + '\n';
-  if (sjData.monthlyText)    seunBlock += sjData.monthlyText + '\n';
-  if (sjData.hapTriggerText)  seunBlock += sjData.hapTriggerText + '\n';
-  if (sjData.moneyTimingText) seunBlock += sjData.moneyTimingText + '\n';
-  if (seunBlock) {
-    var seunMarker = '세운: ';
-    var seunIdx = msg.indexOf(seunMarker);
-    if (seunIdx >= 0) {
-      var seunLineEnd = msg.indexOf('\n', seunIdx);
-      if (seunLineEnd >= 0) {
-        msg = msg.substring(0, seunLineEnd) + '\n' + seunBlock + msg.substring(seunLineEnd);
+    if (ctxBlock) {
+      var sinsalMarker = '### 신살 스토리';
+      var sinsalIdx = msg.indexOf(sinsalMarker);
+      if (sinsalIdx >= 0) {
+        msg = msg.substring(0, sinsalIdx) + ctxBlock + '\n\n' + msg.substring(sinsalIdx);
       }
     }
   }
 
-  // ⑩ ⑫ ⑬ → "## 참고 힌트" 섹션 끝에 삽입
-  var hintMarker = '## 참고 힌트';
-  var hintIdx = msg.indexOf(hintMarker);
-  if (hintIdx >= 0) {
-    // 다음 ## 섹션 찾기
-    var nextSection = msg.indexOf('\n## ', hintIdx + hintMarker.length);
-    var insertPos = nextSection >= 0 ? nextSection : msg.indexOf('\n\n## ', hintIdx + hintMarker.length);
-    if (insertPos < 0) {
-      // ## 참고 힌트 내용의 끝 찾기 (다음 빈 줄 2개)
-      var hintEnd = msg.indexOf('\n\n\n', hintIdx);
-      insertPos = hintEnd >= 0 ? hintEnd : msg.length;
-    }
-    var hintBlock = '\n';
-    if (sjData.tuchulText)  hintBlock += '\n' + sjData.tuchulText;
-    if (sjData.wolryulText) hintBlock += '\n' + sjData.wolryulText;
-    if (sjData.gaeunText)           hintBlock += '\n' + sjData.gaeunText;
-    if (sjData.killingPointsText)  hintBlock += '\n\n' + sjData.killingPointsText;
-    if (sjData.taekilText)         hintBlock += '\n\n' + sjData.taekilText;
-    if (hintBlock.length > 1) {
-      msg = msg.substring(0, insertPos) + hintBlock + msg.substring(insertPos);
+  // ════════════════════════════════════════
+  // C. 대운 흐름 보강 → "세운:" 줄 앞에 삽입
+  // ════════════════════════════════════════
+  if (sjData.daewoon) {
+    var dw = sjData.daewoon;
+    var dwBlock = '';
+    if (dw.gyowoongiText) dwBlock += '\n' + clean(dw.gyowoongiText);
+    if (dw.roadmapText) dwBlock += '\n' + clean(dw.roadmapText);
+
+    if (dwBlock) {
+      var seunMarker = '세운: ';
+      var seunIdx = msg.indexOf(seunMarker);
+      if (seunIdx < 0) { seunMarker = '세운:'; seunIdx = msg.indexOf(seunMarker); }
+      if (seunIdx >= 0) {
+        var lineStart = msg.lastIndexOf('\n', seunIdx);
+        if (lineStart < 0) lineStart = 0;
+        msg = msg.substring(0, lineStart) + dwBlock + msg.substring(lineStart);
+      }
     }
   }
+
+  // ════════════════════════════════════════
+  // D. 참고 힌트 추가 → "## 참고 힌트" 섹션 끝에 삽입
+  // ════════════════════════════════════════
+  if (sjData.hints) {
+    var ht = sjData.hints;
+    var htBlock = '';
+    if (ht.healthText) htBlock += '\n' + clean(ht.healthText);
+    if (ht.wolryulText) htBlock += '\n' + clean(ht.wolryulText);
+    if (ht.gaeunText) htBlock += '\n' + clean(ht.gaeunText);
+    if (ht.jobText) htBlock += '\n' + clean(ht.jobText);
+    if (ht.hapTriggerText) htBlock += '\n' + clean(ht.hapTriggerText);
+    if (ht.childText) htBlock += '\n' + clean(ht.childText);
+
+    if (htBlock) {
+      var hintMarker = '## 참고 힌트';
+      var hintIdx = msg.indexOf(hintMarker);
+      if (hintIdx >= 0) {
+        var nextSec = msg.indexOf('\n## ', hintIdx + hintMarker.length);
+        if (nextSec < 0) nextSec = msg.length;
+        msg = msg.substring(0, nextSec) + '\n' + htBlock + msg.substring(nextSec);
+      }
+    }
+  }
+
+  // ════════════════════════════════════════
+  // E. 사주 원국 보강 → "형:" 줄 뒤에 삽입
+  // ════════════════════════════════════════
+  if (sjData.wonkuk && sjData.wonkuk.hyungText) {
+    var hyungClean = clean(sjData.wonkuk.hyungText);
+    if (hyungClean) {
+      var hyungMarker = '- 형: ';
+      var hyungIdx = msg.indexOf(hyungMarker);
+      if (hyungIdx < 0) { hyungMarker = '형: '; hyungIdx = msg.indexOf(hyungMarker); }
+      if (hyungIdx >= 0) {
+        var hyungLineEnd = msg.indexOf('\n', hyungIdx);
+        if (hyungLineEnd >= 0) {
+          msg = msg.substring(0, hyungLineEnd) + '\n' + hyungClean + msg.substring(hyungLineEnd);
+        }
+      }
+    }
+  }
+
+  // _gunghapOnly 항목은 프롬프트에 주입하지 않음
+  // gunghap.js에서 window._SJ_pendingData._gunghapOnly로 접근
 
   return msg;
 }
@@ -1980,7 +2104,9 @@ window.SJ_buildTaekil          = SJ_buildTaekil;
 window.SJ_buildLifeRoadmap     = SJ_buildLifeRoadmap;
 window.SJ_buildChildAnalysis   = SJ_buildChildAnalysis;
 window.SJ_buildCoupleSynergy   = SJ_buildCoupleSynergy;
+window.SJ_stripTerms           = SJ_stripTerms;
+window.SJ_TERM_MAP             = SJ_TERM_MAP;
 
-console.log('[saju.js] v3.0 로드 완료 — 27개 보강 모듈 활성화');
+console.log('[saju.js] v4.0 로드 완료 — 경중 재분류 (격국5+맥락4+대운2+힌트6+원국1 = 18개 주입, 6개 gunghap전용)');
 
 })();
