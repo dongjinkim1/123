@@ -4118,15 +4118,8 @@ function goChatFromGh(el){
 document.getElementById('ghStart')?.addEventListener('click', function(){
   if(!ghA || !ghB || !ghRel) return;
 
-  // 클로버 차감 (로그인 시 1잎)
-  if(typeof isLoggedIn==='function' && isLoggedIn() && typeof useClover==='function'){
-    useClover(1,'gunghap',function(ok){
-      if(!ok) return;
-      _runGunghapAnalysis();
-    });
-  } else {
-    _runGunghapAnalysis();
-  }
+  // 클로버 체크 임시 비활성화 (테스트용)
+  _runGunghapAnalysis();
 });
 
 async function _runGunghapAnalysis(){
@@ -4908,17 +4901,9 @@ function mbtiGoNext(){
     apiKey:apiKey
   };
 
-  // 클로버 차감 (로그인 시 1잎)
-  if(typeof isLoggedIn==='function' && isLoggedIn() && typeof useClover==='function'){
-    useClover(1,'saju',function(ok){
-      if(!ok) return;
-      go('pgLoad');
-      startRealAnalysis(_analysisParams);
-    });
-  } else {
-    go('pgLoad');
-    startRealAnalysis(_analysisParams);
-  }
+  // 클로버 체크 임시 비활성화 (테스트용)
+  go('pgLoad');
+  startRealAnalysis(_analysisParams);
 }
 
 // ====================================================================
@@ -5782,15 +5767,8 @@ function sendChatMessage(text){
   if(!text||!text.trim()||isChatLoading)return;
   text=text.trim();
 
-  // 클로버 차감 (로그인 시 1잎)
-  if(typeof isLoggedIn==='function' && isLoggedIn() && typeof useClover==='function'){
-    useClover(1,'chat',function(ok){
-      if(!ok) return;
-      _doSendChat(text);
-    });
-  } else {
-    _doSendChat(text);
-  }
+  // 클로버 체크 임시 비활성화 (테스트용)
+  _doSendChat(text);
 }
 
 async function _doSendChat(text){
