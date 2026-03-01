@@ -295,9 +295,373 @@
     return R;
   };
 
-  // buildGunghapUserPrompt 래핑
-  var _origBP=window.buildGunghapUserPrompt;
-  window.buildGunghapUserPrompt=function(){var p=_origBP.apply(this,arguments);var gh=arguments[0];if(gh.details.sipsung){p+='\n### 십성\n- A→B:'+gh.details.sipsung.AtoB+' B→A:'+gh.details.sipsung.BtoA+'\n';var gc=gh.details.sipsung.genderContext||{};if(gc.A)p+='- A에게 B는:'+gc.A+'\n';if(gc.B)p+='- B에게 A는:'+gc.B+'\n';}if(gh.details.yongshin)p+='\n### 용신\n- '+gh.details.yongshin.grade+'\n';if(gh.details.ilju)p+='\n### 일주 통합\n- '+gh.details.ilju.combo+'\n';if(gh.details.strength)p+='\n### 강약\n- '+gh.details.strength.combo+':'+gh.details.strength.desc+'\n';if(gh.details.spouseGung){var sg=gh.details.spouseGung;p+='\n### 배우자궁\n- A→B:'+sg.A.toPartner+' B→A:'+sg.B.toPartner+' → '+sg.desc+'\n';}if(gh.details.timing){var tm=gh.details.timing;p+='\n### 5년 타이밍\n';tm.years.forEach(function(t){p+='- '+t.year+'년:'+t.grade+'\n';});p+='→ 최고:'+tm.bestYear.year+'년 조심:'+tm.worstYear.year+'년\n이 타이밍을 장기 전망에 반영하세요.\n';}if(gh.details.starsCross){var sc=gh.details.starsCross;if(sc.dowhaSal.both)p+='\n- ★도화살 교차\n';if(sc.hwagaeSal.both)p+='- ★화개살 교차\n';if(sc.chuneul.both)p+='- ★천을귀인 교차\n';}if(gh.yukchinCross){p+='\n### 육친 교차 분석\n- 나→상대: '+gh.yukchinCross.aToB+'\n- 상대→나: '+gh.yukchinCross.bToA+'\n';}if(gh.osinCross){p+='\n### 5신 교차 분석\n- '+gh.osinCross.aToB+'\n- '+gh.osinCross.bToA+'\n';}if(gh.napeumGunghap){p+='\n### 납음 궁합\n'+gh.napeumGunghap+'\n';}if(gh.coupleSynergy){p+='\n### 부부 시너지\n'+gh.coupleSynergy+'\n';}return p;};
+  // ══════════════════════════════════════════════════
+  // ★ buildGunghapUserPrompt V2 — 완전 교체
+  // engine.js의 원본을 호출하지 않고 직접 조립
+  // ══════════════════════════════════════════════════
+
+  var _origBP = window.buildGunghapUserPrompt;
+
+  window.buildGunghapUserPrompt = function(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiA, mbtiB) {
+
+    // ── 인지기능 별명 ──
+    var cfN = {
+      Fi: '내면의 심판관(Fi)', Fe: '분위기 리더기(Fe)',
+      Ne: '가능성 탐색기(Ne)', Ni: '미래 내비게이션(Ni)',
+      Si: '추억 저장소(Si)', Se: '현장 체험러(Se)',
+      Ti: '내장 논리회로(Ti)', Te: '실행력 엔진(Te)'
+    };
+    var cfAArr = mbtiA.cf ? mbtiA.cf.split('-') : [];
+    var cfBArr = mbtiB.cf ? mbtiB.cf.split('-') : [];
+
+    var p = '## 궁합 분석 의뢰\n\n';
+
+    // ════════════════════════════════════════
+    // 섹션 1: A(나)의 정보 — 풍부하게
+    // ════════════════════════════════════════
+    p += '### ═══ A (나) ═══\n';
+    p += '- 사주: ' + sajuA.P.map(function(x) { return x.l + ' ' + x.s + x.b; }).join(' | ') + '\n';
+    p += '- 일주: ' + sajuA.P[2].s + sajuA.P[2].b + ' · 일간: ' + sajuA.dm + '(' + sajuA.dmEl + ')\n';
+    p += '- 격국: ' + ggA.gyeokgukName + ' · 강도: ' + ggA.strengthGrade + ' ' + (ggA.strengthScore || '') + '점\n';
+    p += '- MBTI: ' + mbtiA.type + ' (' + (mbtiA.cf || '') + ', 주기능: ' + (cfN[cfAArr[0]] || cfAArr[0] || '') + ')\n';
+    p += '- 오행: 목=' + sajuA.el['목'] + ' 화=' + sajuA.el['화'] + ' 토=' + sajuA.el['토'] + ' 금=' + sajuA.el['금'] + ' 수=' + sajuA.el['수'] + '\n';
+
+    // 12운성
+    if (sajuA.uns) {
+      p += '- 12운성: ' + sajuA.P.map(function(pi, i) { return pi.l + '=' + (sajuA.uns[i] || '?'); }).join(', ') + '\n';
+    }
+
+    // 십성
+    if (sajuA.ss && sajuA.ss.length > 0) {
+      p += '- 천간십성: ' + sajuA.ss.map(function(s) { return s.pillar + ' ' + s.stem + '(' + s.ss + ')'; }).join(', ') + '\n';
+    }
+
+    // 용신
+    if (ggA.yongshin) {
+      p += '- 용신: ' + ggA.yongshin + '\n';
+    }
+
+    // 납음
+    if (ggA.napeumText) {
+      p += '- 납음: ' + ggA.napeumText + '\n';
+    }
+
+    // 신살 (간략)
+    if (sajuA.specialSals && sajuA.specialSals.length > 0) {
+      p += '- 신살: ' + sajuA.specialSals.map(function(s) { return s.name; }).join(', ') + '\n';
+    }
+
+    // MBTI 강도
+    if (mbtiA.profile) p += '- MBTI 강도: ' + mbtiA.profile + '\n';
+
+    // ★ A의 개인 분석 AI 풀이 결과 (있으면 전체 전달)
+    var aiA = null;
+    try {
+      // 1순위: people에서 가져오기
+      var people = window.MBTS_People ? window.MBTS_People.get() : [];
+      for (var pi = 0; pi < people.length; pi++) {
+        if (people[pi].aiResult && people[pi].saju &&
+            people[pi].saju.P && sajuA.P &&
+            people[pi].saju.P[2].s === sajuA.P[2].s &&
+            people[pi].saju.P[2].b === sajuA.P[2].b) {
+          aiA = people[pi].aiResult;
+          break;
+        }
+      }
+      // 2순위: window._lastAIResult
+      if (!aiA && window._lastAIResult) aiA = window._lastAIResult;
+    } catch (e) {}
+
+    if (aiA) {
+      p += '\n### A의 개인 분석 AI 풀이 결과 (이미 분석된 것 — 궁합 맥락에서 재해석하세요)\n';
+      if (aiA.oneLine) p += '- 전체 인상: ' + aiA.oneLine + '\n';
+      if (aiA.categories) {
+        aiA.categories.forEach(function(cat) {
+          var subs = cat.subs || cat.items || [];
+          subs.forEach(function(sub) {
+            var title = sub.h || sub.catch || '';
+            var body = sub.b || sub.content || '';
+            if (title && body) {
+              p += '- [' + title + ']: ' + body.substring(0, 300) + (body.length > 300 ? '...' : '') + '\n';
+            }
+          });
+        });
+      }
+    }
+
+    // ════════════════════════════════════════
+    // 섹션 2: B(상대방)의 정보 — 풍부하게
+    // ════════════════════════════════════════
+    p += '\n### ═══ B (상대방) ═══\n';
+    p += '- 사주: ' + sajuB.P.map(function(x) { return x.l + ' ' + x.s + x.b; }).join(' | ') + '\n';
+    p += '- 일주: ' + sajuB.P[2].s + sajuB.P[2].b + ' · 일간: ' + sajuB.dm + '(' + sajuB.dmEl + ')\n';
+    p += '- 격국: ' + ggB.gyeokgukName + ' · 강도: ' + ggB.strengthGrade + ' ' + (ggB.strengthScore || '') + '점\n';
+    p += '- MBTI: ' + mbtiB.type + ' (' + (mbtiB.cf || '') + ', 주기능: ' + (cfN[cfBArr[0]] || cfBArr[0] || '') + ')\n';
+    p += '- 오행: 목=' + sajuB.el['목'] + ' 화=' + sajuB.el['화'] + ' 토=' + sajuB.el['토'] + ' 금=' + sajuB.el['금'] + ' 수=' + sajuB.el['수'] + '\n';
+
+    if (sajuB.uns) {
+      p += '- 12운성: ' + sajuB.P.map(function(pi, i) { return pi.l + '=' + (sajuB.uns[i] || '?'); }).join(', ') + '\n';
+    }
+    if (sajuB.ss && sajuB.ss.length > 0) {
+      p += '- 천간십성: ' + sajuB.ss.map(function(s) { return s.pillar + ' ' + s.stem + '(' + s.ss + ')'; }).join(', ') + '\n';
+    }
+    if (ggB.yongshin) p += '- 용신: ' + ggB.yongshin + '\n';
+    if (ggB.napeumText) p += '- 납음: ' + ggB.napeumText + '\n';
+    if (sajuB.specialSals && sajuB.specialSals.length > 0) {
+      p += '- 신살: ' + sajuB.specialSals.map(function(s) { return s.name; }).join(', ') + '\n';
+    }
+    if (mbtiB.profile) p += '- MBTI 강도: ' + mbtiB.profile + '\n';
+
+    // ★ B의 개인 분석 AI 풀이 결과 (있으면)
+    var aiB = null;
+    try {
+      var people2 = window.MBTS_People ? window.MBTS_People.get() : [];
+      for (var pi2 = 0; pi2 < people2.length; pi2++) {
+        if (people2[pi2].aiResult && people2[pi2].saju &&
+            people2[pi2].saju.P && sajuB.P &&
+            people2[pi2].saju.P[2].s === sajuB.P[2].s &&
+            people2[pi2].saju.P[2].b === sajuB.P[2].b &&
+            people2[pi2].id !== 'me') {
+          aiB = people2[pi2].aiResult;
+          break;
+        }
+      }
+    } catch (e) {}
+
+    if (aiB) {
+      p += '\n### B의 개인 분석 AI 풀이 결과\n';
+      if (aiB.oneLine) p += '- 전체 인상: ' + aiB.oneLine + '\n';
+      if (aiB.categories) {
+        aiB.categories.forEach(function(cat) {
+          var subs = cat.subs || cat.items || [];
+          subs.forEach(function(sub) {
+            var title = sub.h || sub.catch || '';
+            var body = sub.b || sub.content || '';
+            if (title && body) {
+              p += '- [' + title + ']: ' + body.substring(0, 300) + (body.length > 300 ? '...' : '') + '\n';
+            }
+          });
+        });
+      }
+    }
+
+    // ════════════════════════════════════════
+    // 섹션 3: 엔진 계산 점수
+    // ════════════════════════════════════════
+    p += '\n### ═══ 엔진 교차 분석 결과 ═══\n';
+    p += '종합: ' + ghResult.scores.total + '점 · 연애: ' + ghResult.scores.love + '% · 소통: ' + ghResult.scores.comm + '% · 가치관: ' + ghResult.scores.values + '% · 업무: ' + ghResult.scores.work + '%\n';
+    p += '★ 위 점수를 totalScore에 그대로 사용하세요.\n\n';
+
+    // ════════════════════════════════════════
+    // 섹션 4: 18레이어 상세 데이터
+    // ════════════════════════════════════════
+
+    // L1: 일간 교차
+    if (ghResult.details && ghResult.details.dg) {
+      var dg = ghResult.details.dg;
+      p += '## 일간 교차 (★핵심)\n';
+      p += '- A일간(' + dg.dgA + ') ↔ B일간(' + dg.dgB + '): 오행관계=' + (dg.ohRel || '') + '\n';
+      if (dg.rels) {
+        dg.rels.forEach(function(r) {
+          p += '  → ' + r.t + (r.oh ? '(' + r.oh + ')' : '') + '\n';
+        });
+      }
+    }
+
+    // L2: 지지 교차
+    if (ghResult.details && ghResult.details.ji && ghResult.details.ji.length > 0) {
+      p += '\n## 지지 교차 (궁위별)\n';
+      ghResult.details.ji.forEach(function(r) {
+        p += '- ' + r.pA + '(' + r.brA + ') ↔ ' + r.pB + '(' + r.brB + '): ' + r.type;
+        if (r.oh) p += '(' + r.oh + ')';
+        if (r.pA === '일지' && r.pB === '일지') p += ' ★배우자궁 교차!';
+        p += '\n';
+      });
+    }
+
+    // L1+: 천간 교차
+    if (ghResult.details && ghResult.details.gan && ghResult.details.gan.length > 0) {
+      p += '\n## 천간 교차\n';
+      ghResult.details.gan.forEach(function(r) {
+        p += '- ' + (r.pA || '') + ' ↔ ' + (r.pB || '') + ': ' + r.type + '\n';
+      });
+    }
+
+    // L3: 오행 보완
+    if (ghResult.details && ghResult.details.ohBowan && ghResult.details.ohBowan.length > 0) {
+      p += '\n## 오행 보완 (서로 채워주는 것)\n';
+      ghResult.details.ohBowan.forEach(function(r) {
+        p += '- ' + r + '\n';
+      });
+    }
+
+    // L4: MBTI 교차
+    if (ghResult.details && ghResult.details.mbti && ghResult.details.mbti.length > 0) {
+      p += '\n## MBTI 인지기능 교차\n';
+      ghResult.details.mbti.forEach(function(c) {
+        p += '- ' + c.t + ': ' + (c.desc || c.axis || '') + ' (점수: ' + c.s + ')\n';
+      });
+    }
+
+    // L5: 대운 동기화
+    if (ghResult.details && ghResult.details.dw && ghResult.details.dw.length > 0) {
+      p += '\n## 대운 동기화\n';
+      ghResult.details.dw.forEach(function(d) {
+        p += '- ' + d.type + ': A=' + d.dA + ' / B=' + d.dB + ' → ' + d.sync + '\n';
+      });
+    }
+
+    // L6: 십성 관계
+    if (ghResult.details && ghResult.details.sipsung) {
+      var ss = ghResult.details.sipsung;
+      p += '\n## ★십성 관계 (핵심)\n';
+      p += '- A→B: ' + (ss.AtoB || '?') + ' (나에게 상대방은?)\n';
+      p += '- B→A: ' + (ss.BtoA || '?') + ' (상대방에게 나는?)\n';
+      if (ss.genderContext) {
+        if (ss.genderContext.A) p += '- A성별 맥락: ' + ss.genderContext.A + '\n';
+        if (ss.genderContext.B) p += '- B성별 맥락: ' + ss.genderContext.B + '\n';
+      }
+    }
+
+    // L7: 용신 궁합
+    if (ghResult.details && ghResult.details.yongshin) {
+      var yd = ghResult.details.yongshin;
+      p += '\n## ★용신 궁합\n';
+      p += '- ' + (yd.grade || yd.desc || '') + '\n';
+      if (yd.bForA !== undefined) p += '- B가 A에게 주는 용신 에너지: ' + yd.bForA + '개\n';
+      if (yd.aForB !== undefined) p += '- A가 B에게 주는 용신 에너지: ' + yd.aForB + '개\n';
+    }
+
+    // L8: 일주 통합
+    if (ghResult.details && ghResult.details.ilju) {
+      p += '\n## ★일주 통합 판정\n';
+      p += '- ' + (ghResult.details.ilju.combo || '') + '\n';
+      if (ghResult.details.ilju.desc) p += '- ' + ghResult.details.ilju.desc + '\n';
+    }
+
+    // L9: 원진살
+    if (ghResult.details && ghResult.details.wonjin && ghResult.details.wonjin.length > 0) {
+      p += '\n## ⚠️ 원진살\n';
+      ghResult.details.wonjin.forEach(function(w) {
+        p += '- ' + (w.brA || '') + '↔' + (w.brB || '') + (w.isDJ ? ' ★일지 원진! (핵심 갈등)' : '') + '\n';
+      });
+    }
+
+    // L15: 신살 교차
+    if (ghResult.details && ghResult.details.starsCross) {
+      var sc = ghResult.details.starsCross;
+      var starItems = [];
+      if (sc.dowhaSal && sc.dowhaSal.both) starItems.push('도화살 교차 (서로 매력적)');
+      if (sc.dowhaSal && sc.dowhaSal.A && !sc.dowhaSal.both) starItems.push('A에 도화살 (A가 더 매력적)');
+      if (sc.dowhaSal && sc.dowhaSal.B && !sc.dowhaSal.both) starItems.push('B에 도화살 (B가 더 매력적)');
+      if (sc.hwagaeSal && sc.hwagaeSal.both) starItems.push('화개살 교차 (영적 연결)');
+      if (sc.yeokma && sc.yeokma.both) starItems.push('역마살 교차 (함께 이동/여행)');
+      if (sc.chuneul && sc.chuneul.both) starItems.push('천을귀인 교차 (서로 귀인)');
+      if (starItems.length > 0) {
+        p += '\n## 신살 교차\n';
+        starItems.forEach(function(s) { p += '- ' + s + '\n'; });
+      }
+    }
+
+    // L16: 강약 궁합
+    if (ghResult.details && ghResult.details.strength) {
+      var st = ghResult.details.strength;
+      p += '\n## 강약 궁합\n';
+      p += '- ' + (st.combo || '') + ': ' + (st.desc || '') + '\n';
+    }
+
+    // L17: 배우자궁 교차
+    if (ghResult.details && ghResult.details.spouseGung) {
+      var sg = ghResult.details.spouseGung;
+      p += '\n## ★배우자궁 십성 교차\n';
+      p += '- A의 배우자 자리→B: ' + (sg.A ? sg.A.toPartner : '?') + '\n';
+      p += '- B의 배우자 자리→A: ' + (sg.B ? sg.B.toPartner : '?') + '\n';
+      if (sg.desc) p += '- ' + sg.desc + '\n';
+    }
+
+    // L18: 5년 타이밍
+    if (ghResult.details && ghResult.details.timing) {
+      var tm = ghResult.details.timing;
+      p += '\n## 5년 타이밍\n';
+      if (tm.years) {
+        tm.years.forEach(function(t) {
+          p += '- ' + t.year + '년: ' + t.grade + '\n';
+        });
+      }
+      if (tm.bestYear) p += '→ 최고: ' + tm.bestYear.year + '년\n';
+      if (tm.worstYear) p += '→ 조심: ' + tm.worstYear.year + '년\n';
+      p += '이 타이밍을 장기 전망에 반영하세요.\n';
+    }
+
+    // L10: 교차 삼합
+    if (ghResult.details && ghResult.details.samhap && ghResult.details.samhap.length > 0) {
+      p += '\n## 교차 삼합\n';
+      ghResult.details.samhap.forEach(function(s) {
+        p += '- ' + (s.desc || JSON.stringify(s)) + '\n';
+      });
+    }
+
+    // L11: 공망 교차
+    if (ghResult.details && ghResult.details.gongmang) {
+      var gm = ghResult.details.gongmang;
+      if (gm.A || gm.B) {
+        p += '\n## 공망 교차\n';
+        if (gm.A && gm.B) p += '- 둘 다 일지 공망 (빈 자리끼리 만남)\n';
+        else if (gm.A) p += '- A만 일지 공망\n';
+        else if (gm.B) p += '- B만 일지 공망\n';
+      }
+    }
+
+    // L12: 납음 궁합
+    if (ghResult.details && ghResult.details.napeum) {
+      var np = ghResult.details.napeum;
+      p += '\n## 납음 궁합\n';
+      p += '- A: ' + (np.A || '?') + ' / B: ' + (np.B || '?') + ' → ' + (np.rel || '?') + '\n';
+    }
+
+    // ════════════════════════════════════════
+    // 섹션 5: saju.js 연동 데이터 (있으면)
+    // ════════════════════════════════════════
+
+    // 육친 교차
+    if (ghResult.yukchinCross) {
+      p += '\n## 육친 교차 분석\n';
+      p += '- 나→상대: ' + ghResult.yukchinCross.aToB + '\n';
+      p += '- 상대→나: ' + ghResult.yukchinCross.bToA + '\n';
+    }
+
+    // 5신 교차
+    if (ghResult.osinCross) {
+      p += '\n## 5신 교차 분석\n';
+      p += '- ' + ghResult.osinCross.aToB + '\n';
+      p += '- ' + ghResult.osinCross.bToA + '\n';
+    }
+
+    // 납음 궁합 스토리 (saju.js)
+    if (ghResult.napeumGunghap) {
+      p += '\n## 납음 궁합 스토리\n' + ghResult.napeumGunghap + '\n';
+    }
+
+    // 부부 시너지
+    if (ghResult.coupleSynergy) {
+      p += '\n## 부부 시너지\n' + ghResult.coupleSynergy + '\n';
+    }
+
+    // ════════════════════════════════════════
+    // 섹션 6: 키워드 요약
+    // ════════════════════════════════════════
+    if (ghResult.keywords && ghResult.keywords.length > 0) {
+      p += '\n## 교차 분석 키워드 요약\n';
+      ghResult.keywords.forEach(function(k) { p += '- ' + k + '\n'; });
+    }
+
+    p += '\n★ 위 데이터를 기반으로 궁합 풀이를 JSON으로 작성하세요.\n';
+    p += '★ totalScore는 엔진 계산 점수(' + ghResult.scores.total + ')를 그대로 사용하세요.\n';
+    p += '★ 개인 분석 결과가 있으면 반드시 참고하되, 문장을 복사하지 말고 두 사람의 맥락으로 재해석하세요.\n';
+
+    console.log('[gunghap] V2 유저 프롬프트 조립 완료 (' + p.length + '자, aiA=' + (!!aiA) + ', aiB=' + (!!aiB) + ')');
+    return p;
+  };
 
 
   // ╔══════════════════════════════════════╗
