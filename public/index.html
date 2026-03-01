@@ -4869,8 +4869,16 @@ function getCityLng(name){
 // mbtiGoNext 오버라이드 — 실제 분석 연결
 // ====================================================================
 function mbtiGoNext(){
-  if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null)return;
+  console.log('🔍[1] mbtiGoNext 진입, mbtiCur='+mbtiCur);
+  if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null){console.log('❌ 선택값 null → return');return;}
   if(mbtiCur<3){mbtiCur++;renderMBTI();return;}
+  console.log('🔍[2] STEP4 완료, 데이터 수집 시작');
+  console.log('🔍[3] bYear='+document.getElementById('bYear').value);
+  console.log('🔍[4] bMonth='+document.getElementById('bMonth').value+'|'+document.getElementById('bMonthInput').value);
+  console.log('🔍[5] bDay='+document.getElementById('bDay').value+'|'+document.getElementById('bDayInput').value);
+  console.log('🔍[6] gender='+birthGender);
+  console.log('🔍[7] runSajuAnalysis='+typeof runSajuAnalysis);
+  console.log('🔍[8] startRealAnalysis='+typeof startRealAnalysis);
 
   // 입력값 수집
   var y=document.getElementById('bYear').value;
@@ -4902,14 +4910,18 @@ function mbtiGoNext(){
   };
 
   // 클로버 체크 임시 비활성화 (테스트용)
+  console.log('🔍[9] go(pgLoad) 호출 직전');
   go('pgLoad');
+  console.log('🔍[10] go(pgLoad) 성공, startRealAnalysis 호출');
   startRealAnalysis(_analysisParams);
+  console.log('🔍[11] startRealAnalysis 호출 완료');
 }
 
 // ====================================================================
 // 실제 분석 실행 (pgLoad UI 업데이트 + runSajuAnalysis)
 // ====================================================================
 function startRealAnalysis(params){
+  console.log('🔍[12] startRealAnalysis 진입, params:', JSON.stringify({y:params.y,m:params.m,d:params.d,gender:params.gender,apiKey:params.apiKey}));
   _isAnalyzing=true;
   var bar=document.getElementById('load-bar');
   var phase=document.getElementById('load-phase');
@@ -4962,6 +4974,7 @@ function startRealAnalysis(params){
     window._loadTimers.push(tid);
   });
 
+  console.log('🔍[13] runSajuAnalysis 호출 직전');
   runSajuAnalysis(params,{
     onProgress:function(pct){
       bar.style.width=Math.min(pct,100)+'%';

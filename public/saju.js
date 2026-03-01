@@ -35,7 +35,7 @@ var SJ_TERM_MAP = {
   '편관': '압박/도전', '정관': '안정적 명예',
   '편인': '특수 학문', '정인': '정규 학문/보호',
   '비겁': '자기편 에너지', '식상': '표현 에너지',
-  '재성': '재물 에너지', '관성': '사회/압박 에너지', '인성': '학습/보호 에너지',
+  '재성': '재물 에너지', '관성': '직장/압박 에너지', '인성': '학습/보호 에너지',
   '용신(최길)': '핵심 에너지(최길)', '희신(길)': '보조 에너지(길)',
   '기신(흉)': '방해 에너지(흉)', '구신(소흉)': '소방해(소흉)', '한신(중립)': '중립 에너지',
   '용신': '핵심에너지', '희신': '보조에너지', '기신': '방해에너지', '구신': '소방해', '한신': '중립',
@@ -44,20 +44,24 @@ var SJ_TERM_MAP = {
   '납음': '소리의 기운', '지장간': '숨겨진 에너지',
   '배우자궁': '배우자 자리', '직업궁': '직업 자리',
   '장생': '시작', '목욕': '변화', '관대': '화려', '건록': '독립',
-  '제왕': '정점', '쇠': '안정', '병': '쇠퇴', '사': '전환',
-  '묘': '잠재', '절': '단절후재시작', '태': '잉태', '양': '성장준비'
+  '제왕': '정점', '쇠': '안정', '병': '내리막', '사': '멈춤',
+  '묘': '잠재', '절': '끊고다시', '태': '새싹', '양': '성장준비'
 };
 
 function SJ_stripTerms(text) {
   if (!text) return '';
+  console.log('[saju.js] stripTerms 호출, 입력 길이: ' + text.length);
   var result = text;
   // 긴 용어부터 먼저 치환 (겹침 방지)
   var keys = Object.keys(SJ_TERM_MAP).sort(function(a, b) { return b.length - a.length; });
   for (var i = 0; i < keys.length; i++) {
     var k = keys[i];
-    while (result.indexOf(k) >= 0) {
+    var safety = 0;
+    while (result.indexOf(k) >= 0 && safety < 50) {
       result = result.replace(k, SJ_TERM_MAP[k]);
+      safety++;
     }
+    if (safety >= 50) console.warn('[saju.js] stripTerms 안전장치 발동: ' + k);
   }
   // ★ 표시 제거 (engine.js가 자체 ★ 체계를 가지고 있으므로)
   result = result.replace(/^★/gm, '-');
@@ -2007,17 +2011,24 @@ var _origStreamSonnet = window.streamSonnet;
 
 // streamSonnet 래핑 — AI 호출 직전에 프롬프트 주입
 window.streamSonnet = function(apiKey, systemPrompt, userMsg, label, callbacks, endpoint) {
+  console.log('🔍[14] streamSonnet 래퍼 진입, label='+label);
+  console.log('🔍[15] _origStreamSonnet 타입='+typeof _origStreamSonnet);
+  console.log('🔍[16] endpoint='+endpoint);
+
   // 궁합 분석이 아닐 때만 주입
   if (label && label.indexOf('궁합') < 0 && window._SJ_pendingData) {
     try {
       userMsg = SJ_injectIntoPrompt(userMsg, window._SJ_pendingData);
-      console.log('[saju.js] 프롬프트 주입 완료 — 총 ' + userMsg.length + '자');
+      console.log('🔍[17] 프롬프트 주입 완료 — '+userMsg.length+'자');
     } catch (e) {
-      console.error('[saju.js] 프롬프트 주입 에러:', e);
+      console.error('❌ 프롬프트 주입 에러:', e);
     }
     window._SJ_pendingData = null;
   }
-  return _origStreamSonnet.call(this, apiKey, systemPrompt, userMsg, label, callbacks, endpoint);
+  console.log('🔍[18] _origStreamSonnet 호출 직전');
+  var result = _origStreamSonnet.call(this, apiKey, systemPrompt, userMsg, label, callbacks, endpoint);
+  console.log('🔍[19] _origStreamSonnet 호출 완료, result 타입='+typeof result);
+  return result;
 };
 
 // runSajuAnalysis 래핑 — 분석 전에 보강 데이터 생성
