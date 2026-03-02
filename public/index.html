@@ -604,6 +604,89 @@ button{font-family:inherit;cursor:pointer}
   background:rgba(123,166,140,0.06);border-radius:12px;margin-bottom:4px;
 }
 
+/* ===== 달토 상담 목록 ===== */
+.chat-list-header {
+  padding: 14px 16px;
+  background: rgba(248,247,244,.95);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.chat-list-back {
+  background: none; border: none;
+  font-size: 14px; color: var(--purple); font-weight: 600; padding: 4px 0;
+}
+.chat-list-title {
+  font-size: 17px; font-weight: 700; flex: 1;
+}
+.chat-list-body {
+  flex: 1; overflow-y: auto;
+  padding: 16px; padding-bottom: max(100px, calc(80px + env(safe-area-inset-bottom)));
+}
+
+/* 나에 대해 상담하기 카드 */
+.chat-me-card {
+  background: linear-gradient(135deg, rgba(139,108,193,0.08), rgba(139,108,193,0.03));
+  border: 1.5px solid rgba(139,108,193,0.15);
+  border-radius: var(--r-md); padding: 18px 16px;
+  margin-bottom: 20px; cursor: pointer;
+  display: flex; align-items: center; gap: 14px;
+  transition: all .25s ease;
+}
+.chat-me-card:hover { transform: translateX(3px); border-color: var(--purple); }
+.chat-me-card .chat-me-emoji {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--purple-light), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; color: #fff; flex-shrink: 0;
+}
+.chat-me-card .chat-me-info { flex: 1; }
+.chat-me-card .chat-me-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+.chat-me-card .chat-me-sub { font-size: 12px; color: var(--text-2); }
+.chat-me-card .chat-me-arrow { color: var(--purple); font-size: 14px; }
+.chat-me-card.disabled { opacity: 0.4; pointer-events: none; }
+
+/* 사람 목록 */
+.chat-person-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; background: #fff;
+  border: 1.5px solid var(--border); border-radius: var(--r-md);
+  margin-bottom: 8px; cursor: pointer; transition: all .2s;
+}
+.chat-person-item:hover { border-color: var(--purple); background: rgba(139,108,193,0.03); transform: translateX(3px); }
+.chat-person-emoji { font-size: 24px; width: 40px; text-align: center; }
+.chat-person-info { flex: 1; }
+.chat-person-name { font-size: 14px; font-weight: 600; }
+.chat-person-tag { font-size: 11px; color: var(--text-3); }
+.chat-person-arrow { color: var(--text-3); font-size: 14px; }
+
+/* 궁합 서브 항목 */
+.chat-gh-sub {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px 10px 52px;
+  background: rgba(212,115,139,0.03);
+  border: 1px solid rgba(212,115,139,0.1); border-radius: 12px;
+  margin: -4px 0 8px 0; cursor: pointer; transition: all .2s;
+}
+.chat-gh-sub:hover { border-color: var(--rose); background: rgba(212,115,139,0.06); }
+.chat-gh-sub-icon { font-size: 14px; }
+.chat-gh-sub-text { font-size: 12px; font-weight: 600; color: var(--rose); flex: 1; }
+.chat-gh-sub-arrow { color: var(--rose); font-size: 12px; }
+
+/* 채팅방 맥락 바 */
+.chat-context-bar {
+  font-size: 13px; color: var(--text-2); font-weight: 500;
+  padding: 6px 0 0; display: flex; align-items: center; gap: 6px;
+}
+.chat-context-name { font-weight: 700; color: var(--text-1); }
+
+/* 빈 상태 */
+.chat-empty {
+  text-align: center; padding: 60px 40px;
+}
+.chat-empty-emoji { font-size: 48px; margin-bottom: 16px; animation: float 3s ease-in-out infinite; }
+.chat-empty-text { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+
 /* ===== PAGE 6: 궁합 플로우 ===== */
 .gh-page{position:relative;z-index:1}
 .gh-flow{padding:20px 16px;padding-bottom:max(100px,calc(80px + env(safe-area-inset-bottom)))}
@@ -1731,82 +1814,8 @@ button{font-family:inherit;cursor:pointer}
 
 <!-- PAGE 5: 달토 채팅 -->
 <div class="page" id="pgChat" style="display:none">
-  <div class="chat-page">
-    <div class="chat-top">
-      <div class="chat-top-row">
-        <button class="chat-back" onclick="go('pgDash')">← 뒤로</button>
-        <div class="chat-profile">
-          <div class="chat-avatar">🐰</div>
-          <div class="chat-name-area">
-            <div class="chat-name">달토</div>
-            <div class="chat-status">● 상담 가능</div>
-          </div>
-        </div>
-      </div>
-      <div class="mode-toggle">
-        <button class="mode-btn active-sweet" id="modeSweet" onclick="setMode('sweet')">🤍 상냥 달토</button>
-        <button class="mode-btn" id="modeFire" onclick="setMode('fire')">🔥 팩폭 달토</button>
-      </div>
-      <div class="mode-desc" id="modeDesc">따뜻하고 공감 잘 하는 상담사 달토</div>
-    </div>
-
-    <div class="chat-body" id="chatBody">
-      <div class="clover-banner">🍀 질문 1잎 = 클로버 1잎 · 보유 47잎</div>
-
-      <div class="bubble-row">
-        <div class="bubble-ai-avatar">🐰</div>
-        <div>
-          <div class="bubble bubble-ai">
-            안녕하세요! 달토예요 🐰✨<br><br>
-            여우(🦊) 타입이시군요! 입만 열면 다 넘어가는 입담꾼이시네요 ㅎㅎ<br><br>
-            MBTS를 기반으로 상담해드릴게요. 연애, 진로, 올해 운세... 뭐든 편하게 물어보세요!
-          </div>
-          <div style="display:flex;gap:4px;margin-top:4px;padding-left:4px">
-            <span style="font-size:10px;color:var(--text-3)">오후 3:42</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="quick-btns" id="chat-quick-area">
-        <button class="quick-btn" onclick="sendChatMessage('올해 운세 알려줘')">올해 운세 알려줘</button>
-        <button class="quick-btn" onclick="sendChatMessage('연애운이 궁금해')">연애운이 궁금해</button>
-        <button class="quick-btn" onclick="sendChatMessage('이직해도 될까?')">이직해도 될까?</button>
-      </div>
-
-      <div class="bubble-row user">
-        <div><div class="bubble bubble-user">올해 연애운 어때? 솔로 탈출 가능해?</div></div>
-        <span class="bubble-time">3:43</span>
-      </div>
-
-      <div class="bubble-row" id="sweetReply">
-        <div class="bubble-ai-avatar">🐰</div>
-        <div>
-          <div class="bubble bubble-ai">
-            오 좋은 질문이에요! 🐰💕<br><br>
-            여우님의 사주를 보면 올해 도화살이 들어오는 해예요. 특히 상반기에 새로운 인연이 들어올 기운이 강해요! ENFP 특성상 첫인상에서 매력이 폭발하는 타입이라, 자연스럽게 만남이 생길 확률이 높아요.<br><br>
-            다만 식상이 강하셔서 "이 사람 재밌다!" 하고 빠졌다가 금방 질릴 수 있어요. 진짜 인연을 만나려면 두 번째, 세 번째 만남까지 기다려 보시는 걸 추천드려요 ☺️
-          </div>
-          <span style="font-size:10px;color:var(--text-3);margin-top:4px;display:block;padding-left:4px">3:43</span>
-        </div>
-      </div>
-
-      <div class="bubble-row bubble-fire" id="fireReply" style="display:none">
-        <div class="bubble-ai-avatar">🐰</div>
-        <div>
-          <div class="bubble bubble-ai">
-            아이고 이 여우야... 🔥<br><br>
-            솔로 탈출? 사주를 보면 도화살은 들어오는데 니가 문제야. 식상이 이렇게 강한데 누가 버티겠어. 만나면 3일은 불꽃인데 일주일 지나면 "이 사람 좀 심심한데?" 이러면서 딴 데 눈 돌리잖아.<br><br>
-            ENFP에 식상 신강이면 매력은 넘치는데 정착을 못 해. 올해 진짜 연애하고 싶으면? 재미없어 보이는 사람 한 번 만나봐. 그 사람이 니 사주에 맞는 인연일 수 있어. 재미만 쫓으면 또 혼자야 임마. 😤
-          </div>
-          <span style="font-size:10px;color:var(--text-3);margin-top:4px;display:block;padding-left:4px">3:43</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="chat-input-area">
-      <input type="text" class="chat-input" id="chat-input" placeholder="달토에게 질문하기..." oninput="updateSendBtn()" onkeydown="chatInputKeydown(event)">
-      <button class="chat-send" id="chat-send-btn" onclick="sendChatMessage()">↑</button>
-    </div>
+  <div class="chat-page" id="chatContainer">
+    <!-- chatting.js가 renderChatList() 또는 openChatRoom()으로 내용을 채움 -->
   </div>
 </div>
 
@@ -3244,34 +3253,6 @@ function clearGH(){
   document.getElementById('selectBar').classList.remove('show');
 }
 
-// ===== 달토 채팅: Mode toggle =====
-var currentMode='sweet';
-function setMode(mode){
-  currentMode=mode;
-  var sweet=document.getElementById('modeSweet');
-  var fire=document.getElementById('modeFire');
-  var desc=document.getElementById('modeDesc');
-  var send=document.getElementById('chatSend');
-  var sweetR=document.getElementById('sweetReply');
-  var fireR=document.getElementById('fireReply');
-  if(mode==='sweet'){
-    sweet.className='mode-btn active-sweet';
-    fire.className='mode-btn';
-    desc.textContent='따뜻하고 공감 잘 하는 상담사 달토';
-    send.classList.remove('fire-mode');
-    sweetR.style.display='flex';
-    fireR.style.display='none';
-  }else{
-    sweet.className='mode-btn';
-    fire.className='mode-btn active-fire';
-    desc.textContent='팩트로 때리는 시골 할멈 모드 🔥';
-    send.classList.add('fire-mode');
-    sweetR.style.display='none';
-    fireR.style.display='flex';
-  }
-}
-function demoUserMsg(text){/* placeholder for demo */}
-
 // ===== 궁합 플로우 =====
 var personMap={};
 var ghA=null;
@@ -4569,6 +4550,7 @@ function applyLoginState(){
 <script src="engine.js"></script>
 <script src="saju.js"></script>
 <script src="gunghap.js"></script>
+<script src="chatting.js"></script>
 <script>
 // ====================================================================
 // MBTS Bridge: engine.js ↔ 파이널 UI
@@ -4845,18 +4827,10 @@ go=function(id,skipPush){
 // ── 전역 상태 (renderResult 등에서 참조) ──
 var ST={y:"",m:"",d:"",h:"",min:"",gender:"",city:"",cityLng:0,ch:[null,null,null,null],it:[null,null,null,null],cur:0};
 
-// ── 채팅 전역 변수 ──
-var chatHistory=[];
-var chatSaju=null;
-var chatMbti=null;
-var chatGg=null;
-var chatDw=null;
-var isChatLoading=false;
 var _isAnalyzing=false;
 window.addEventListener('beforeunload',function(e){
   if(_isAnalyzing){e.preventDefault();e.returnValue='';return '';}
 });
-var chatRoomActive=false;
 
 // ── 도시 경도 조회 ──
 function getCityLng(name){
@@ -5596,238 +5570,11 @@ function resetAll(){
 // ====================================================================
 // 달토 채팅 시스템
 // ====================================================================
-function initChatPage(){
-  if(window._lastSaju){
-    chatSaju=window._lastSaju;
-    chatMbti=window._lastMBTI;
-    chatGg=window._lastGG;
-    chatDw=window._lastDW;
-  }
-  // 파이널.html의 채팅 페이지는 start-screen/room 분리 없이 단일 구조
-  // 사주 데이터가 있으면 실제 채팅 활성화
-}
-
-function enterChatRoom(){
-  chatRoomActive=true;
-  var ss=document.getElementById('chat-start-screen');if(ss)ss.style.display='none';
-  var cr=document.getElementById('chat-room');if(cr)cr.style.display='flex';
-  var msgs=document.getElementById('chatBody');
-  if(msgs&&!msgs.dataset.realChat){
-    if(loadChatHistory()){
-      restoreChatBubbles();
-    }else{
-      msgs.innerHTML='';
-      msgs.dataset.realChat='1';
-      var ilju=chatSaju?chatSaju.P[2].s+chatSaju.P[2].b:'';
-      var greeting='안녕하세요! 저는 사주 상담사 달토예요 🐰✨\n'+ilju+'님의 사주를 보고 있어요. 궁금한 게 있으시면 편하게 물어보세요!\n아래 버튼을 눌러 빠르게 시작할 수도 있어요 👇';
-      appendChatBubble('ai',greeting);
-      chatHistory.push({role:'assistant',content:greeting});
-      saveChatHistory();
-    }
-  }
-  scrollChatToBottom();
-}
-
-function exitChatRoom(){
-  chatRoomActive=false;
-  go('pgDash');
-}
-
-function startChatFromResult(){
-  if(window._lastSaju){
-    chatSaju=window._lastSaju;
-    chatMbti=window._lastMBTI;
-    chatGg=window._lastGG;
-    chatDw=window._lastDW;
-  }
-  go('pgChat');
-  // 실제 분석 데이터가 있으면 데모 콘텐츠를 실제 채팅으로 전환
-  if(chatSaju){
-    setTimeout(function(){enterChatRoom();},50);
-  }
-}
-
-function appendChatBubble(type,text,id){
-  var area=document.getElementById('chatBody');
-  if(!area)return;
-  var row=document.createElement('div');
-  row.className='chat-bubble-row '+(type==='user'?'chat-user':'chat-ai');
-  var html='';
-  if(type==='ai'){html+='<div class="chat-avatar">🐰</div>';}
-  var bubbleClass=type==='user'?'chat-bubble-user':'chat-bubble-ai';
-  html+='<div class="chat-bubble '+bubbleClass+'"'+(id?' id="'+id+'"':'')+'>';
-  html+=text?textToHtml(text):'';
-  html+='</div>';
-  row.innerHTML=html;
-  var timeRow=document.createElement('div');
-  var now=new Date();
-  var hr=now.getHours(),mn=now.getMinutes();
-  var ampm=hr<12?'오전':'오후';
-  var hh=hr%12;if(hh===0)hh=12;
-  timeRow.className=type==='user'?'chat-time chat-time-user':'chat-time chat-time-ai';
-  timeRow.textContent=ampm+' '+hh+':'+String(mn).padStart(2,'0');
-  area.appendChild(row);
-  area.appendChild(timeRow);
-  scrollChatToBottom();
-}
-
-function textToHtml(text){
-  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-}
-
-function updateChatBubble(id,text){
-  var el=document.getElementById(id);
-  if(el)el.innerHTML=textToHtml(text);
-}
-
-function showTypingIndicator(){
-  var area=document.getElementById('chatBody');
-  if(!area)return;
-  var row=document.createElement('div');
-  row.className='chat-bubble-row chat-ai';
-  row.id='chat-typing-row';
-  row.innerHTML='<div class="chat-avatar">🐰</div><div class="chat-bubble chat-bubble-ai"><span class="chat-typing-dot"></span><span class="chat-typing-dot"></span><span class="chat-typing-dot"></span></div>';
-  area.appendChild(row);
-  scrollChatToBottom();
-}
-
-function hideTypingIndicator(){
-  var el=document.getElementById('chat-typing-row');
-  if(el)el.remove();
-}
-
-function scrollChatToBottom(){
-  var area=document.getElementById('chatBody');
-  if(area)setTimeout(function(){area.scrollTop=area.scrollHeight;},50);
-}
-
-function showQuickButtons(){
-  var el=document.getElementById('chat-quick-area');
-  if(el)el.style.display='block';
-}
-
-function hideQuickButtons(){
-  var el=document.getElementById('chat-quick-area');
-  if(el)el.style.display='none';
-}
-
-function autoResizeChatInput(){
-  var el=document.getElementById('chat-input');
-  if(!el)return;
-  el.style.height='auto';
-  el.style.height=Math.min(el.scrollHeight,100)+'px';
-}
-
-function updateSendBtn(){
-  var input=document.getElementById('chat-input');
-  var btn=document.getElementById('chat-send-btn');
-  if(!input||!btn)return;
-  var hasText=input.value.trim().length>0;
-  btn.disabled=!hasText;
-  btn.classList.toggle('chat-send-active',hasText);
-}
-
-function chatInputKeydown(e){
-  if(e.key==='Enter'&&!e.shiftKey){
-    e.preventDefault();
-    sendChatMessage();
-  }
-}
-
-// ====================================================================
-function saveChatHistory(){
-  try{
-    localStorage.setItem('mbts_chat',JSON.stringify({
-      history:chatHistory,
-      mode:currentMode
-    }));
-  }catch(e){}
-}
-
-function loadChatHistory(){
-  try{
-    var saved=localStorage.getItem('mbts_chat');
-    if(!saved) return false;
-    var data=JSON.parse(saved);
-    if(data.history&&data.history.length>0){
-      chatHistory=data.history;
-      if(data.mode){
-        currentMode=data.mode;
-        setMode(currentMode);
-      }
-      return true;
-    }
-  }catch(e){}
-  return false;
-}
-
-function restoreChatBubbles(){
-  var msgs=document.getElementById('chatBody');
-  if(!msgs) return;
-  msgs.innerHTML='';
-  msgs.dataset.realChat='1';
-  chatHistory.forEach(function(msg){
-    appendChatBubble(msg.role==='user'?'user':'ai',msg.content);
-  });
-  scrollChatToBottom();
-}
-
-// sendChatMessage — engine.js의 buildChatPrompt + sendChatToAI 사용
-// ====================================================================
-function sendChatMessage(text){
-  var input=document.getElementById('chat-input');
-  if(!text&&input)text=input.value;
-  if(!text||!text.trim()||isChatLoading)return;
-  text=text.trim();
-
-  // 클로버 체크 임시 비활성화 (테스트용)
-  _doSendChat(text);
-}
-
-async function _doSendChat(text){
-  var input=document.getElementById('chat-input');
-  isChatLoading=true;
-
-  appendChatBubble('user',text);
-  chatHistory.push({role:'user',content:text});
-  saveChatHistory();
-
-  if(input){input.value='';input.style.height='auto';}
-  updateSendBtn();
-  hideQuickButtons();
-  showTypingIndicator();
-
-  var bubbleId='chat-ai-'+Date.now();
-  appendChatBubble('ai','',bubbleId);
-  hideTypingIndicator();
-
-  var apiKey='server-managed';
-  var systemPrompt=buildChatPrompt(chatSaju,chatMbti,chatGg,chatDw,chatHistory,currentMode);
-
-  await sendChatToAI({
-    apiKey:apiKey,
-    systemPrompt:systemPrompt,
-    messages:chatHistory,
-    endpoint:'/api/chat'
-  },{
-    onChunk:function(fullText){
-      updateChatBubble(bubbleId,fullText);
-      scrollChatToBottom();
-    },
-    onComplete:function(fullText){
-      chatHistory.push({role:'assistant',content:fullText});
-      if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
-      saveChatHistory();
-    },
-    onError:function(msg){
-      updateChatBubble(bubbleId,'앗, 연결에 문제가 생겼어요 🥺 다시 한번 물어봐 주시겠어요?');
-    }
-  });
-
-  isChatLoading=false;
-  scrollChatToBottom();
-  showQuickButtons();
-}
+// chatting.js가 채팅 기능을 담당 — 아래는 호출 호환용 stub
+function initChatPage(){}
+function enterChatRoom(){ go('pgChat'); }
+function exitChatRoom(){ go('pgDash'); }
+function startChatFromResult(){ go('pgChat'); }
 
 // ====================================================================
 // localStorage 복원
