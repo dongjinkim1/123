@@ -774,7 +774,7 @@
   // ║  PART C: 관계 유형 선택               ║
   // ╚══════════════════════════════════════╝
   window.GH_REL='';
-  window.GH_CATEGORIES={'ssom':{label:'💕 썸',emoji:'💕',categories:['끌림의 정체','밀당 공략법','발전 가능성'],scoreLabels:{love:'끌림',comm:'소통',values:'가치관',work:'일상'},scoreWeights:{love:0.40,comm:0.30,values:0.15,work:0.15},tone:'설렘과 궁금함. 두근거리는 톤.'},'lover':{label:'❤️ 연인',emoji:'❤️',categories:['우리의 케미','싸움 패턴','장기 전망'],scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'생활'},scoreWeights:{love:0.35,comm:0.25,values:0.25,work:0.15},tone:'현실적이고 깊은 분석. 솔직한 톤.'},'family':{label:'👨‍👩‍👧 가족',emoji:'👨‍👩‍👧',categories:['관계의 본질','갈등 포인트','더 가까워지려면'],scoreLabels:{love:'애정',comm:'소통',values:'가치관',work:'일상'},scoreWeights:{love:0.15,comm:0.35,values:0.35,work:0.15},tone:'따뜻하고 이해 중심. 공감 톤.'},'colleague':{label:'💼 동료',emoji:'💼',categories:['업무 케미','주의사항','같이 성공하려면'],scoreLabels:{love:'친밀도',comm:'소통',values:'가치관',work:'업무'},scoreWeights:{love:0.05,comm:0.30,values:0.25,work:0.40},tone:'프로페셔널하지만 인간적.'},'friend':{label:'🍻 친구',emoji:'🍻',categories:['우정의 본질','조심할 것','평생 친구 되려면'],scoreLabels:{love:'유대감',comm:'소통',values:'가치관',work:'활동'},scoreWeights:{love:0.10,comm:0.35,values:0.30,work:0.25},tone:'편안하고 솔직한 톤.'}};
+  window.GH_CATEGORIES={'ssom':{label:'💕 썸',emoji:'💕',categories:['이 사람, 뭔데','다가가는 법','이 썸의 결말'],scoreLabels:{love:'끌림',comm:'소통',values:'가치관',work:'일상'},scoreWeights:{love:0.40,comm:0.30,values:0.15,work:0.15},tone:'설렘과 궁금함. 두근거리는 톤.'},'lover':{label:'❤️ 연인',emoji:'❤️',categories:['꼴림','진짜 우리','우리라는 이야기'],scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'생활'},scoreWeights:{love:0.35,comm:0.25,values:0.25,work:0.15},tone:'현실적이고 깊은 분석. 솔직한 톤.'},'family':{label:'👨‍👩‍👧 가족',emoji:'👨‍👩‍👧',categories:['관계의 본질','갈등 포인트','더 가까워지려면'],scoreLabels:{love:'애정',comm:'소통',values:'가치관',work:'일상'},scoreWeights:{love:0.15,comm:0.35,values:0.35,work:0.15},tone:'따뜻하고 이해 중심. 공감 톤.'},'colleague':{label:'💼 동료',emoji:'💼',categories:['업무 케미','주의사항','같이 성공하려면'],scoreLabels:{love:'친밀도',comm:'소통',values:'가치관',work:'업무'},scoreWeights:{love:0.05,comm:0.30,values:0.25,work:0.40},tone:'프로페셔널하지만 인간적.'},'friend':{label:'🍻 친구',emoji:'🍻',categories:['우정의 본질','조심할 것','평생 친구 되려면'],scoreLabels:{love:'유대감',comm:'소통',values:'가치관',work:'활동'},scoreWeights:{love:0.10,comm:0.35,values:0.30,work:0.25},tone:'편안하고 솔직한 톤.'}};
 
   function injectRelationUI(){var g=document.getElementById('gh-btn-male');if(!g||document.getElementById('gh-rel-grid'))return;var w=g.parentElement.parentElement;if(!w)return;var d=document.createElement('div');d.style.marginBottom='14px';d.innerHTML='<label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:6px">우리의 관계</label><div style="display:flex;flex-wrap:wrap;gap:6px" id="gh-rel-grid"><button id="gh-rel-ssom" onclick="ghPickRel(\'ssom\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💕 썸</button><button id="gh-rel-lover" onclick="ghPickRel(\'lover\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">❤️ 연인</button><button id="gh-rel-family" onclick="ghPickRel(\'family\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">👨‍👩‍👧 가족</button><button id="gh-rel-colleague" onclick="ghPickRel(\'colleague\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💼 동료</button><button id="gh-rel-friend" onclick="ghPickRel(\'friend\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">🍻 친구</button></div>';w.parentNode.insertBefore(d,w.nextSibling);}
   window.ghPickRel=function(type){GH_REL=type;['ssom','lover','family','colleague','friend'].forEach(function(t){var b=document.getElementById('gh-rel-'+t);if(b){b.style.background=(t===type)?'rgba(136,97,154,0.08)':'#fff';b.style.color=(t===type)?'var(--accent)':'var(--text-muted)';b.style.borderColor=(t===type)?'var(--accent)':'var(--border-light)';}});if(typeof checkGHReady==='function')checkGHReady();};
@@ -918,22 +918,94 @@
   // ── 관계 유형별 앵커 + 카테고리 ──
   var GH_REL_CONFIG = {
     ssom: {
-      categories: ['끌림의 정체', '밀당 공략법', '발전 가능성'],
-      tone: '설렘과 궁금함. 두근거리는 톤.',
-      anchors: {
-        '끌림의 정체': '일간 교차(합/생) + 일지 관계 + MBTI 주기능 교차',
-        '밀당 공략법': '배우자궁 십성 + A/B의 연애 스타일(개인 분석)',
-        '발전 가능성': '용신 궁합 + 대운 동기화 + 5년 타이밍'
-      }
+      title: '썸',
+      subtitle: '이 사람... 나 어떻게 생각해?',
+      categories: [
+        {
+          name: '이 사람, 뭔데',
+          subs: [
+            { h: '첫 만남에서 느낀 그 떨림', tone: '처음 봤을 때 왜 심장이 그랬는지' },
+            { h: '자꾸 눈이 가는 진짜 이유', tone: '좋아하는 건지 궁금한 건지 모르겠는 그 감정' },
+            { h: '이 사람의 연애 성향', tone: '이 사람은 좋아하면 이렇게 행동해요' }
+          ]
+        },
+        {
+          name: '나를 어떻게 볼까',
+          subs: [
+            { h: '상대방 눈에 비친 나', tone: '걔 눈에 나는 어떤 사람일까?' },
+            { h: '나의 어디에 끌릴 수 있을까', tone: '내가 모르는 나의 매력 포인트' },
+            { h: '반대로, 이건 조심해', tone: '나도 모르게 밀어내고 있을 수 있는 것' }
+          ]
+        },
+        {
+          name: '다가가는 법',
+          subs: [
+            { h: '이 사람 마음 여는 방법', tone: '정답은 아닌데, 이러면 확률 올라가요' },
+            { h: '카톡/만남에서 쓸 수 있는 무기', tone: '대화할 때 이 사람이 반응하는 포인트' },
+            { h: '절대 하면 안 되는 것', tone: '이러면 진짜 끝이에요 차단각' }
+          ]
+        },
+        {
+          name: '우리 사이 온도',
+          subs: [
+            { h: '같이 있을 때 흐르는 공기', tone: '둘이 있으면 이런 분위기가 돼요' }
+          ]
+        },
+        {
+          name: '이 썸의 결말',
+          subs: [
+            { h: '아직 모르는 서로의 반전', tone: '사귀고 나서 어? 할 포인트' },
+            { h: '고백하면 될까?', tone: '올해 안에 언제가 좋을지' },
+            { h: '사귀면 이런 커플이 돼요', tone: '미리 보는 우리의 연인 버전' },
+            { h: '이 인연에 대한 한마디', tone: '소름 돋는 한 줄' }
+          ]
+        }
+      ]
     },
     lover: {
-      categories: ['우리의 케미', '싸움 패턴', '장기 전망'],
-      tone: '현실적이고 깊은 분석. 솔직한 톤.',
-      anchors: {
-        '우리의 케미': '일주 통합(합충) + 오행 보완 + MBTI 주기능 교차',
-        '싸움 패턴': '충/형/원진 + A/B의 연애 지뢰(개인 분석) + TF축',
-        '장기 전망': '대운 동기화 + 5년 타이밍 + 용신 궁합'
-      }
+      title: '연인',
+      subtitle: '이 사람이랑 쭉 가도 될까?',
+      categories: [
+        {
+          name: '꼴림',
+          subs: [
+            { h: '그 사람 눈에 비친 너', tone: '걔한테 내가 어떤 사람인지 알면 놀라요' },
+            { h: '상대방 앞에서만 나오는 너', tone: '나 원래 이런 사람 아닌데' }
+          ]
+        },
+        {
+          name: '우리의 온도',
+          subs: [
+            { h: '상대의 사랑법, 내가 못 알아보고 있는 것', tone: '표현 안 하는 게 아니라 방식이 다른 거예요' },
+            { h: '우리만의 최강 조합', tone: '우리가 제일 잘 맞는 순간' },
+            { h: '그 사람이 절대 말 안 하지만 바라는 것', tone: '속마음 해독해드릴게요' }
+          ]
+        },
+        {
+          name: '진짜 우리',
+          subs: [
+            { h: '맨날 싸우는 진짜 이유', tone: '설거지 때문이 아니었어요' },
+            { h: '상대방의 지뢰밭 지도', tone: '이건 농담으로도 하지 마세요' },
+            { h: '이 커플 전용 화해 공식', tone: '싸우면 이렇게 풀어요' }
+          ]
+        },
+        {
+          name: '같이 갈 수 있을까',
+          subs: [
+            { h: '그 사람이 위기 때 보여줄 진짜 얼굴', tone: '극한에서 이 사람은 이래요' },
+            { h: '이 감정의 유통기한', tone: '권태기는 이때, 이런 모습으로 와요' },
+            { h: '상대가 다른 사람한테 끌리는 조건', tone: '근데 그 조건, 너예요' }
+          ]
+        },
+        {
+          name: '우리라는 이야기',
+          subs: [
+            { h: '우리가 늙으면', tone: '50년 뒤 우리의 모습' },
+            { h: '이 사람이 내 인생을 바꾸고 있는 것', tone: '이 사람 아니었으면 몰랐을 나' },
+            { h: '이 사랑에 대한 한마디', tone: '소름 돋는 한 줄' }
+          ]
+        }
+      ]
     },
     family: {
       categories: ['관계의 본질', '갈등 포인트', '더 가까워지려면'],
@@ -971,13 +1043,48 @@
     var cfg = GH_REL_CONFIG[rel];
     if (!cfg) return base;
 
-    var catSection = '\n## 관계: ' + (GH_CATEGORIES[rel] ? GH_CATEGORIES[rel].label : rel)
+    var cat = GH_CATEGORIES[rel];
+    var label = cat ? cat.label : rel;
+
+    // 새 구조 (ssom, lover) — categories 안에 subs 배열이 있음
+    if (cfg.categories && cfg.categories[0] && cfg.categories[0].subs) {
+      var section = '\n## 관계: ' + label
+        + '\n부제: ' + (cfg.subtitle || '')
+        + '\n\n## 카테고리 + 소주제 (14개)\n\n';
+
+      var subCount = 0;
+      cfg.categories.forEach(function(c) {
+        section += '### ' + c.name + '\n';
+        c.subs.forEach(function(s) {
+          subCount++;
+          section += subCount + '. ' + s.h + ' — 톤: "' + s.tone + '"\n';
+        });
+        section += '\n';
+      });
+
+      section += '★ 반드시 위 ' + subCount + '개 소주제 전부를 빠짐없이 작성하세요.\n';
+      section += '★ 각 소주제의 "톤"은 글의 방향과 느낌을 가리킵니다. 톤 문장을 본문에 그대로 쓰지 마세요.\n';
+      section += '★ 각 소주제당 핵심 포인트 1~2개를 2~3문단으로 깊이 있게 쓰세요.\n';
+      section += '★ 마지막 소주제는 소름 돋는 한 줄로 마무리하세요.\n';
+      section += '\n## JSON 출력의 categories 구조\n';
+      section += 'categories 배열 안에 카테고리 객체들.\n';
+      section += '각 카테고리의 title = 카테고리명 (예: "이 사람, 뭔데")\n';
+      section += '각 카테고리의 items 배열 = 해당 카테고리의 소주제들\n';
+      section += '각 item의 catch = 소주제명 (예: "첫 만남에서 느낀 그 떨림")\n';
+      section += '각 item의 content = 본문 (2~3문단, \\n\\n으로 구분)\n';
+      section += '각 item의 insightText = 💊 실천 팁\n';
+
+      return base + section;
+    }
+
+    // 기존 구조 (family, colleague, friend)
+    var catSection = '\n## 관계: ' + label
       + '\n톤: ' + cfg.tone
       + '\n\n## 카테고리 (' + cfg.categories.length + '개)\n';
 
     cfg.categories.forEach(function(c, i) {
       catSection += (i + 1) + '. ' + c;
-      if (cfg.anchors[c]) {
+      if (cfg.anchors && cfg.anchors[c]) {
         catSection += ' → 앵커: ' + cfg.anchors[c];
       }
       catSection += '\n';
@@ -994,7 +1101,7 @@
 
   // startGunghap 래핑 (수동 입력)
   var _origSG=window.startGunghap;
-  window.startGunghap=async function(){if(!GH_REL||!GH_CATEGORIES[GH_REL])return _origSG();var apiKey=getApiKey();if(!apiKey){apiKey=await promptApiKey();if(!apiKey)return;}var bY=+document.getElementById('gh-y').value,bM=+document.getElementById('gh-m').value,bD=+document.getElementById('gh-d').value;var bH=document.getElementById('gh-h').value?+document.getElementById('gh-h').value:null,bMin=document.getElementById('gh-min').value?+document.getElementById('gh-min').value:null;var sajuB=calcSajuForApp(bY,bM,bD,bH,bMin,null),ggB=analyzeGyeokguk(sajuB);var gB=GH_GENDER==='남성'?'남':'여',dwB=calcDaewoon(sajuB,bY,bM,bD,bH||12,bMin||0,gB);var tiB=TY[GH_MBTI_SEL]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};var mbtiB={type:GH_MBTI_SEL,cf:tiB.cf,axes:[{side:GH_MBTI_SEL[0],pct:60},{side:GH_MBTI_SEL[1],pct:60},{side:GH_MBTI_SEL[2],pct:60},{side:GH_MBTI_SEL[3],pct:60}],profile:''};var sajuA=window._lastSaju,dwA=window._lastDW,ggA=window._lastGG,mbtiA=window._lastMBTIObj;if(!sajuA){alert('먼저 내 사주를 분석해주세요!');goPage('birth');return;}var ghR=analyzeGunghap(sajuA,sajuB,dwA,dwB,ggA,ggB,mbtiA,mbtiB);var w=GH_CATEGORIES[GH_REL].scoreWeights;ghR.scores.total=Math.round(ghR.scores.love*w.love+ghR.scores.comm*w.comm+ghR.scores.values*w.values+ghR.scores.work*w.work);goPage('gh-load');var cat=GH_CATEGORIES[GH_REL];var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...',cat.emoji+' '+cat.label+' 궁합...',cat.categories[0]+' 분석...',cat.categories[1]+' 분석...',cat.categories[2]+' 분석...','인지기능 궁합 탐색...','이야기를 쓰는 중...'];var p=0,iv=setInterval(function(){p+=Math.random()*1.5+0.4;if(p>95)p=95;document.getElementById('gh-load-bar').style.width=p+'%';document.getElementById('gh-load-pct').textContent=Math.round(p)+'%';document.getElementById('gh-load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);var up=buildGunghapUserPrompt(ghR,sajuA,sajuB,dwA,dwB,ggA,ggB,mbtiA,mbtiB);up+='\n### 관계: '+cat.label+'\n카테고리:\n';cat.categories.forEach(function(c,i){up+=(i+1)+'. '+c+'\n';});up+='\n톤: '+cat.tone+'\n';var sp=getGHSystemPrompt(GH_REL),ai=null,ae='';try{var at=await streamSonnet(apiKey,sp,up,cat.emoji+' 궁합','gh-load-msg','gh-load-bar','gh-load-pct','/api/gunghap-analyze');try{ai=JSON.parse(at);}catch(e){var fb=at.indexOf('{'),lb=at.lastIndexOf('}');if(fb>=0&&lb>fb)try{ai=JSON.parse(at.substring(fb,lb+1));}catch(e2){}if(!ai){var ln=at.split('\n'),si=-1,ei=-1;for(var li=0;li<ln.length;li++){if(si<0&&ln[li].trim().charAt(0)==='{')si=li;if(ln[li].trim().charAt(0)==='}'||ln[li].trim().slice(-1)==='}')ei=li;}if(si>=0&&ei>=si)try{ai=JSON.parse(ln.slice(si,ei+1).join('\n'));}catch(e3){}}if(!ai){var sn=at.substring(fb>=0?fb:0,(lb>0?lb+1:at.length));sn=sn.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});try{ai=JSON.parse(sn);}catch(e4){}}if(ai)ae='';else ae='JSON_PARSE';}}catch(e){ae=e.message||'UNKNOWN';}clearInterval(iv);document.getElementById('gh-load-bar').style.width='100%';document.getElementById('gh-load-pct').textContent='100%';setTimeout(function(){renderGunghapResultV2(ghR,ai,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,ae,GH_REL);goPage('gh-res');},600);try{addPerson({id:genId(),name:sajuB.P[2].s+sajuB.P[2].b+' · '+GH_MBTI_SEL,ilju:sajuB.P[2].s+sajuB.P[2].b,mbti:GH_MBTI_SEL,gender:GH_GENDER,birthInfo:{y:bY,m:bM,d:bD,h:bH||'',min:bMin||''},hasFull:false,saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,savedAt:Date.now()});}catch(e){}};
+  window.startGunghap=async function(){if(!GH_REL||!GH_CATEGORIES[GH_REL])return _origSG();var apiKey=getApiKey();if(!apiKey){apiKey=await promptApiKey();if(!apiKey)return;}var bY=+document.getElementById('gh-y').value,bM=+document.getElementById('gh-m').value,bD=+document.getElementById('gh-d').value;var bH=document.getElementById('gh-h').value?+document.getElementById('gh-h').value:null,bMin=document.getElementById('gh-min').value?+document.getElementById('gh-min').value:null;var sajuB=calcSajuForApp(bY,bM,bD,bH,bMin,null),ggB=analyzeGyeokguk(sajuB);var gB=GH_GENDER==='남성'?'남':'여',dwB=calcDaewoon(sajuB,bY,bM,bD,bH||12,bMin||0,gB);var tiB=TY[GH_MBTI_SEL]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};var mbtiB={type:GH_MBTI_SEL,cf:tiB.cf,axes:[{side:GH_MBTI_SEL[0],pct:60},{side:GH_MBTI_SEL[1],pct:60},{side:GH_MBTI_SEL[2],pct:60},{side:GH_MBTI_SEL[3],pct:60}],profile:''};var sajuA=window._lastSaju,dwA=window._lastDW,ggA=window._lastGG,mbtiA=window._lastMBTIObj;if(!sajuA){alert('먼저 내 사주를 분석해주세요!');goPage('birth');return;}var ghR=analyzeGunghap(sajuA,sajuB,dwA,dwB,ggA,ggB,mbtiA,mbtiB);var w=GH_CATEGORIES[GH_REL].scoreWeights;ghR.scores.total=Math.round(ghR.scores.love*w.love+ghR.scores.comm*w.comm+ghR.scores.values*w.values+ghR.scores.work*w.work);goPage('gh-load');var cat=GH_CATEGORIES[GH_REL];var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...',cat.emoji+' '+cat.label+' 궁합...',cat.categories[0]+' 분석...',cat.categories[1]+' 분석...',cat.categories[2]+' 분석...','인지기능 궁합 탐색...','이야기를 쓰는 중...'];var p=0,iv=setInterval(function(){p+=Math.random()*1.5+0.4;if(p>95)p=95;document.getElementById('gh-load-bar').style.width=p+'%';document.getElementById('gh-load-pct').textContent=Math.round(p)+'%';document.getElementById('gh-load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);var up=buildGunghapUserPrompt(ghR,sajuA,sajuB,dwA,dwB,ggA,ggB,mbtiA,mbtiB);var ghCfg=GH_REL_CONFIG[GH_REL];up+='\n### 관계: '+cat.label+'\n';if(ghCfg&&ghCfg.categories&&ghCfg.categories[0]&&ghCfg.categories[0].subs){up+='부제: '+(ghCfg.subtitle||'')+'\n\n';var sc=0;ghCfg.categories.forEach(function(gc){up+='【'+gc.name+'】\n';gc.subs.forEach(function(s){sc++;up+=sc+'. '+s.h+' (톤: '+s.tone+')\n';});up+='\n';});}else{up+='카테고리:\n';cat.categories.forEach(function(c,i){up+=(i+1)+'. '+c+'\n';});up+='\n톤: '+cat.tone+'\n';}var sp=getGHSystemPrompt(GH_REL),ai=null,ae='';try{var at=await streamSonnet(apiKey,sp,up,cat.emoji+' 궁합','gh-load-msg','gh-load-bar','gh-load-pct','/api/gunghap-analyze');try{ai=JSON.parse(at);}catch(e){var fb=at.indexOf('{'),lb=at.lastIndexOf('}');if(fb>=0&&lb>fb)try{ai=JSON.parse(at.substring(fb,lb+1));}catch(e2){}if(!ai){var ln=at.split('\n'),si=-1,ei=-1;for(var li=0;li<ln.length;li++){if(si<0&&ln[li].trim().charAt(0)==='{')si=li;if(ln[li].trim().charAt(0)==='}'||ln[li].trim().slice(-1)==='}')ei=li;}if(si>=0&&ei>=si)try{ai=JSON.parse(ln.slice(si,ei+1).join('\n'));}catch(e3){}}if(!ai){var sn=at.substring(fb>=0?fb:0,(lb>0?lb+1:at.length));sn=sn.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});try{ai=JSON.parse(sn);}catch(e4){}}if(ai)ae='';else ae='JSON_PARSE';}}catch(e){ae=e.message||'UNKNOWN';}clearInterval(iv);document.getElementById('gh-load-bar').style.width='100%';document.getElementById('gh-load-pct').textContent='100%';setTimeout(function(){renderGunghapResultV2(ghR,ai,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,ae,GH_REL);goPage('gh-res');},600);try{addPerson({id:genId(),name:sajuB.P[2].s+sajuB.P[2].b+' · '+GH_MBTI_SEL,ilju:sajuB.P[2].s+sajuB.P[2].b,mbti:GH_MBTI_SEL,gender:GH_GENDER,birthInfo:{y:bY,m:bM,d:bD,h:bH||'',min:bMin||''},hasFull:false,saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,savedAt:Date.now()});}catch(e){}};
 
   // 결과 렌더 V2
   window.renderGunghapResultV2=function(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,err,relType){if(!relType||!GH_CATEGORIES[relType])return renderGunghapResult(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,err);var cat=GH_CATEGORIES[relType],sl=cat.scoreLabels,el=document.getElementById('pg-gh-res'),sc=ghR.scores;var title=aiR&&aiR.title?aiR.title:(sajuA.P[2].s+sajuA.P[2].b+'×'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiA.type+'×'+mbtiB.type);var quote=aiR&&aiR.quote?aiR.quote:'두 사람만의 특별한 이야기';var h='<div class="res-wrap" style="max-width:640px;margin:0 auto;padding:0 0 40px"><div style="text-align:center;padding:32px 20px 20px;background:linear-gradient(180deg,rgba(136,97,154,.06) 0%,transparent 100%)"><div style="display:flex;justify-content:center;gap:0;margin-bottom:10px"><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#4CAF7D">M</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#5B8FD4">B</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E05A5A">T</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E8B84B">S</span></div><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">'+cat.emoji+' '+cat.label+' 궁합</div><h1 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:4px">'+title+'</h1></div><div style="display:flex;align-items:center;gap:12px;padding:16px 20px;justify-content:center"><div class="glass-card" style="text-align:center;padding:16px 20px;border-color:var(--accent)"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">나</div><div style="font-size:11px;color:var(--text-muted)">'+sajuA.P[2].s+sajuA.P[2].b+' · '+mbtiA.type+'</div></div><div style="font-size:28px">'+cat.emoji+'</div><div class="glass-card" style="text-align:center;padding:16px 20px;border-color:#E05A5A"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">상대방</div><div style="font-size:11px;color:var(--text-muted)">'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiB.type+'</div></div></div><div class="glass-card" style="margin:12px 20px;padding:24px"><div style="text-align:center;margin-bottom:16px"><div style="font-size:48px;font-weight:900;color:var(--accent)">'+sc.total+'<span style="font-size:24px">점</span></div><div style="font-size:13px;color:var(--text-muted)">'+cat.label+' 종합</div></div>';[{l:sl.love,v:sc.love,c:'#d63384'},{l:sl.comm,v:sc.comm,c:'#2e8b57'},{l:sl.values,v:sc.values,c:'#c99a2e'},{l:sl.work,v:sc.work,c:'#4682b4'}].forEach(function(b){h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:50px;text-align:right;font-size:13px;font-weight:600;color:var(--text-secondary)">'+b.l+'</div><div style="flex:1;height:10px;background:rgba(0,0,0,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:'+b.v+'%;background:'+b.c+';border-radius:5px;transition:width 1s"></div></div><div style="width:36px;font-size:13px;font-weight:700;color:var(--text-muted)">'+b.v+'%</div></div>';});h+='</div><div class="glass-card" style="margin:12px 20px;padding:16px 20px;border-left:4px solid var(--accent);font-size:14px;color:var(--text-secondary);line-height:1.6;font-style:italic">"'+quote+'"</div>';if(aiR&&aiR.categories){aiR.categories.forEach(function(c){h+='<div style="margin:16px 20px 0"><h3 style="font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text-primary)">'+(c.icon||'')+' '+c.title+'</h3>';if(c.items)c.items.forEach(function(item){h+='<div class="glass-card" style="padding:20px;margin-bottom:10px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:22px">'+(item.icon||cat.emoji)+'</span><span style="font-size:15px;font-weight:700;color:var(--text-primary)">'+(item.catch||'')+'</span></div><div style="font-size:14px;color:var(--text-secondary);line-height:1.7;word-break:keep-all">'+(item.content||'').replace(/\n\n/g,'<br><br>')+'</div>';if(item.insightText){var bg={gold:'rgba(201,154,46,.1)',fire:'rgba(211,47,47,.1)',water:'rgba(70,130,180,.1)',purple:'rgba(136,97,154,.1)'},tx={gold:'#c99a2e',fire:'#d32f2f',water:'#4682b4',purple:'#88619A'};h+='<div style="margin-top:12px;padding:12px 14px;background:'+(bg[item.insightType]||bg.gold)+';border-radius:10px;border:1px solid '+(tx[item.insightType]||tx.gold)+'30;display:flex;align-items:flex-start;gap:8px"><span style="font-size:14px">'+(item.insightIcon||'💡')+'</span><span style="font-size:13px;color:'+(tx[item.insightType]||tx.gold)+';line-height:1.5;font-weight:500">'+item.insightText+'</span></div>';}h+='</div>';});h+='</div>';});}else if(err){h+='<div class="glass-card" style="margin:20px;padding:24px;text-align:center"><p style="color:var(--text-muted)">AI 풀이 생성 실패</p><p style="font-size:12px;margin-top:8px">'+err+'</p></div>';}h+='<div style="padding:20px"><button onclick="shareResult()" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#191919;background:#FEE500;border:none;border-radius:14px;margin-bottom:10px">💬 공유하기</button><p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted)">참고용 분석이며 의사결정을 대체하지 않습니다.</p></div><div style="height:80px"></div></div><div class="btm-tab"><div class="btm-tab-inner"><div class="btm-tab-item" onclick="goPage(\'home\')"><div class="tab-ic">🏠</div><div class="tab-lb">홈</div></div><div class="btm-tab-item active"><div class="tab-ic">📊</div><div class="tab-lb">결과</div></div><div class="btm-tab-item" onclick="alert(\'준비 중!\')"><div class="tab-ic">💾</div><div class="tab-lb">저장</div></div><div class="btm-tab-item" onclick="alert(\'준비 중!\')"><div class="tab-ic">⚙️</div><div class="tab-lb">설정</div></div></div></div>';el.innerHTML=h;};
