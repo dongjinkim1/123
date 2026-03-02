@@ -767,14 +767,14 @@
   function checkGHPReady(){var btn=document.getElementById('btn-gh-people-start'),rel=document.getElementById('gh-people-rel');if(!btn)return;if(GH_SEL_A&&GH_SEL_B){if(rel)rel.style.display='block';}else{if(rel)rel.style.display='none';}var ok=GH_SEL_A&&GH_SEL_B&&GP_REL;btn.style.display=(GH_SEL_A&&GH_SEL_B)?'block':'none';btn.disabled=!ok;if(ok){var cd=GH_CATEGORIES[GP_REL]||{emoji:'💕',label:'궁합'};btn.textContent=cd.emoji+' '+(GH_SEL_A.name||GH_SEL_A.ilju)+' × '+(GH_SEL_B.name||GH_SEL_B.ilju)+' '+cd.label+' 분석!';btn.style.background='#d63384';btn.style.color='#fff';btn.style.cursor='pointer';}else if(GH_SEL_A&&GH_SEL_B){btn.textContent='☝️ 관계를 선택해주세요';btn.style.background='rgba(0,0,0,0.08)';btn.style.color='var(--text-muted)';btn.style.cursor='not-allowed';}}
   function injectGHSelectorUI(){var gc=document.getElementById('home-content-gunghap');if(!gc||document.getElementById('gh-people-selector'))return;var s=document.createElement('div');s.style.marginTop='16px';s.innerHTML='<div class="glass-card" style="padding:24px 20px;margin-bottom:16px"><h3 style="font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:4px">💑 두 사람을 선택하세요</h3><p style="font-size:12px;color:var(--text-muted);margin-bottom:16px">목록에서 두 사람을 골라 궁합을 볼 수 있어요</p><div id="gh-people-selector"></div><div id="gh-people-rel" style="display:none;margin-top:12px"><label style="font-size:12px;font-weight:700;color:var(--accent);display:block;margin-bottom:6px">우리의 관계</label><div style="display:flex;flex-wrap:wrap;gap:6px"><button onclick="MBTS_People.pickRel(\'ssom\')" id="gp-rel-ssom" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💕 썸</button><button onclick="MBTS_People.pickRel(\'lover\')" id="gp-rel-lover" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">❤️ 연인</button><button onclick="MBTS_People.pickRel(\'family\')" id="gp-rel-family" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">👨‍👩‍👧 가족</button><button onclick="MBTS_People.pickRel(\'colleague\')" id="gp-rel-colleague" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💼 동료</button><button onclick="MBTS_People.pickRel(\'friend\')" id="gp-rel-friend" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">🍻 친구</button></div></div><button id="btn-gh-people-start" onclick="MBTS_People.startFromList()" style="display:none;width:100%;padding:14px;font-size:15px;font-weight:700;color:#fff;background:#d63384;border:none;border-radius:12px;margin-top:16px;box-shadow:0 4px 16px rgba(214,51,132,.2);cursor:pointer" disabled>선택해주세요</button></div>';gc.appendChild(s);renderGHSelector();}
 
-  window.MBTS_People.startFromList=async function(){if(!GH_SEL_A||!GH_SEL_B||!GP_REL)return;var pA=GH_SEL_A,pB=GH_SEL_B;window._lastSaju=pA.saju;window._lastDW=pA.dw;window._lastGG=pA.gg;window._lastMBTI=pA.mbti;window._lastMBTIObj=pA.mbtiObj;if(typeof GH_REL!=='undefined')window.GH_REL=GP_REL;if(typeof GH_GENDER!=='undefined')window.GH_GENDER=pB.gender||'남성';if(typeof GH_MBTI_SEL!=='undefined')window.GH_MBTI_SEL=pB.mbti;var apiKey=getApiKey();if(!apiKey){apiKey=await promptApiKey();if(!apiKey)return;}var ghR=analyzeGunghap(pA.saju,pB.saju,pA.dw,pB.dw,pA.gg,pB.gg,pA.mbtiObj,pB.mbtiObj);if(GH_CATEGORIES[GP_REL]){var w=GH_CATEGORIES[GP_REL].scoreWeights;ghR.scores.total=Math.round(ghR.scores.love*w.love+ghR.scores.comm*w.comm+ghR.scores.values*w.values+ghR.scores.work*w.work);}goPage('gh-load');var cd=GH_CATEGORIES[GP_REL]||{emoji:'💕',label:'궁합',categories:['연애 케미','소통 방식','갈등 패턴','장기 전망'],tone:''};var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...',cd.emoji+' '+cd.label+' 궁합...',cd.categories[0]+' 분석...',(cd.categories[1]||'소통')+' 분석...',(cd.categories[2]||'전망')+' 분석...','인지기능 궁합 탐색...','이야기를 쓰는 중...'];var p=0,iv=setInterval(function(){p+=Math.random()*1.5+0.4;if(p>95)p=95;document.getElementById('gh-load-bar').style.width=p+'%';document.getElementById('gh-load-pct').textContent=Math.round(p)+'%';document.getElementById('gh-load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);var up=buildGunghapUserPrompt(ghR,pA.saju,pB.saju,pA.dw,pB.dw,pA.gg,pB.gg,pA.mbtiObj,pB.mbtiObj);up+='\n### 관계: '+cd.label+'\n카테고리:\n';cd.categories.forEach(function(c,i){up+=(i+1)+'. '+c+'\n';});if(cd.tone)up+='\n톤: '+cd.tone+'\n';var sp=getGHSystemPrompt(GP_REL);var ai=null,ae='';try{var at=await streamSonnet(apiKey,sp,up,cd.emoji+' 궁합','gh-load-msg','gh-load-bar','gh-load-pct','/api/gunghap-analyze');try{ai=JSON.parse(at);}catch(e){var fb=at.indexOf('{'),lb=at.lastIndexOf('}');if(fb>=0&&lb>fb)try{ai=JSON.parse(at.substring(fb,lb+1));}catch(e2){}if(!ai){var ln=at.split('\n'),si=-1,ei=-1;for(var li=0;li<ln.length;li++){if(si<0&&ln[li].trim().charAt(0)==='{')si=li;if(ln[li].trim().charAt(0)==='}'||ln[li].trim().slice(-1)==='}')ei=li;}if(si>=0&&ei>=si)try{ai=JSON.parse(ln.slice(si,ei+1).join('\n'));}catch(e3){}}if(!ai){var sn=at.substring(fb>=0?fb:0,(lb>0?lb+1:at.length));sn=sn.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});try{ai=JSON.parse(sn);}catch(e4){}}if(ai)ae='';else ae='JSON_PARSE';}}catch(e){ae=e.message||'UNKNOWN';}clearInterval(iv);document.getElementById('gh-load-bar').style.width='100%';document.getElementById('gh-load-pct').textContent='100%';setTimeout(function(){renderGunghapResultV2(ghR,ai,pA.saju,pB.saju,pA.mbtiObj,pB.mbtiObj,pA.gg,pB.gg,ae,GP_REL);goPage('gh-res');},600);};
+  window.MBTS_People.startFromList=async function(){if(!GH_SEL_A||!GH_SEL_B||!GP_REL)return;var pA=GH_SEL_A,pB=GH_SEL_B;window._lastSaju=pA.saju;window._lastDW=pA.dw;window._lastGG=pA.gg;window._lastMBTI=pA.mbti;window._lastMBTIObj=pA.mbtiObj;if(typeof GH_REL!=='undefined')window.GH_REL=GP_REL;if(typeof GH_GENDER!=='undefined')window.GH_GENDER=pB.gender||'남성';if(typeof GH_MBTI_SEL!=='undefined')window.GH_MBTI_SEL=pB.mbti;var apiKey=getApiKey();if(!apiKey){apiKey=await promptApiKey();if(!apiKey)return;}var ghR=analyzeGunghap(pA.saju,pB.saju,pA.dw,pB.dw,pA.gg,pB.gg,pA.mbtiObj,pB.mbtiObj);if(GH_CATEGORIES[GP_REL]){var w=GH_CATEGORIES[GP_REL].scoreWeights;ghR.scores.total=Math.round(ghR.scores.love*w.love+ghR.scores.comm*w.comm+ghR.scores.values*w.values+ghR.scores.work*w.work);}goPage('gh-load');var cd=GH_CATEGORIES[GP_REL]||{emoji:'💕',label:'궁합',categories:['연애 케미','소통 방식','갈등 패턴','장기 전망'],tone:''};var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...',cd.emoji+' '+cd.label+' 궁합...',cd.categories[0]+' 분석...',(cd.categories[1]||'소통')+' 분석...',(cd.categories[2]||'전망')+' 분석...','인지기능 궁합 탐색...','이야기를 쓰는 중...'];var p=0,iv=setInterval(function(){p+=Math.random()*1.5+0.4;if(p>95)p=95;document.getElementById('gh-load-bar').style.width=p+'%';document.getElementById('gh-load-pct').textContent=Math.round(p)+'%';document.getElementById('gh-load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);var up=buildGunghapUserPrompt(ghR,pA.saju,pB.saju,pA.dw,pB.dw,pA.gg,pB.gg,pA.mbtiObj,pB.mbtiObj);var ghCfg=GH_REL_CONFIG[GP_REL];up+='\n### 관계: '+cd.label+'\n';if(ghCfg&&ghCfg.categories&&ghCfg.categories[0]&&ghCfg.categories[0].subs){up+='부제: '+(ghCfg.subtitle||'')+'\n\n';var sc2=0;ghCfg.categories.forEach(function(gc){up+='【'+gc.name+'】\n';gc.subs.forEach(function(s){sc2++;up+=sc2+'. '+s.h+' (톤: '+s.tone+')\n';});up+='\n';});}else{up+='카테고리:\n';cd.categories.forEach(function(c,i){up+=(i+1)+'. '+c+'\n';});if(cd.tone)up+='\n톤: '+cd.tone+'\n';}var sp=getGHSystemPrompt(GP_REL);var ai=null,ae='';try{var at=await streamSonnet(apiKey,sp,up,cd.emoji+' 궁합','gh-load-msg','gh-load-bar','gh-load-pct','/api/gunghap-analyze');try{ai=JSON.parse(at);}catch(e){var fb=at.indexOf('{'),lb=at.lastIndexOf('}');if(fb>=0&&lb>fb)try{ai=JSON.parse(at.substring(fb,lb+1));}catch(e2){}if(!ai){var ln=at.split('\n'),si=-1,ei=-1;for(var li=0;li<ln.length;li++){if(si<0&&ln[li].trim().charAt(0)==='{')si=li;if(ln[li].trim().charAt(0)==='}'||ln[li].trim().slice(-1)==='}')ei=li;}if(si>=0&&ei>=si)try{ai=JSON.parse(ln.slice(si,ei+1).join('\n'));}catch(e3){}}if(!ai){var sn=at.substring(fb>=0?fb:0,(lb>0?lb+1:at.length));sn=sn.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});try{ai=JSON.parse(sn);}catch(e4){}}if(ai)ae='';else ae='JSON_PARSE';}}catch(e){ae=e.message||'UNKNOWN';}clearInterval(iv);document.getElementById('gh-load-bar').style.width='100%';document.getElementById('gh-load-pct').textContent='100%';setTimeout(function(){renderGunghapResultV2(ghR,ai,pA.saju,pB.saju,pA.mbtiObj,pB.mbtiObj,pA.gg,pB.gg,ae,GP_REL);goPage('gh-res');},600);};
 
 
   // ╔══════════════════════════════════════╗
   // ║  PART C: 관계 유형 선택               ║
   // ╚══════════════════════════════════════╝
   window.GH_REL='';
-  window.GH_CATEGORIES={'ssom':{label:'💕 썸',emoji:'💕',categories:['이 사람, 뭔데','다가가는 법','이 썸의 결말'],scoreLabels:{love:'끌림',comm:'소통',values:'가치관',work:'일상'},scoreWeights:{love:0.40,comm:0.30,values:0.15,work:0.15},tone:'설렘과 궁금함. 두근거리는 톤.'},'lover':{label:'❤️ 연인',emoji:'❤️',categories:['꼴림','진짜 우리','우리라는 이야기'],scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'생활'},scoreWeights:{love:0.35,comm:0.25,values:0.25,work:0.15},tone:'현실적이고 깊은 분석. 솔직한 톤.'},'family':{label:'👨‍👩‍👧 가족',emoji:'👨‍👩‍👧',categories:['관계의 본질','갈등 포인트','더 가까워지려면'],scoreLabels:{love:'애정',comm:'소통',values:'가치관',work:'일상'},scoreWeights:{love:0.15,comm:0.35,values:0.35,work:0.15},tone:'따뜻하고 이해 중심. 공감 톤.'},'colleague':{label:'💼 동료',emoji:'💼',categories:['업무 케미','주의사항','같이 성공하려면'],scoreLabels:{love:'친밀도',comm:'소통',values:'가치관',work:'업무'},scoreWeights:{love:0.05,comm:0.30,values:0.25,work:0.40},tone:'프로페셔널하지만 인간적.'},'friend':{label:'🍻 친구',emoji:'🍻',categories:['우정의 본질','조심할 것','평생 친구 되려면'],scoreLabels:{love:'유대감',comm:'소통',values:'가치관',work:'활동'},scoreWeights:{love:0.10,comm:0.35,values:0.30,work:0.25},tone:'편안하고 솔직한 톤.'}};
+  window.GH_CATEGORIES={'ssom':{label:'💕 썸',emoji:'💕',categories:['이 사람, 뭔데','다가가는 법','이 썸의 결말'],scoreLabels:{love:'끌림',comm:'소통',values:'가치관',work:'일상'},scoreWeights:{love:0.40,comm:0.30,values:0.15,work:0.15},tone:'설렘과 궁금함. 두근거리는 톤.'},'lover':{label:'❤️ 연인',emoji:'❤️',categories:['꼴림','진짜 우리','우리라는 이야기'],scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'생활'},scoreWeights:{love:0.35,comm:0.25,values:0.25,work:0.15},tone:'현실적이고 깊은 분석. 솔직한 톤.'},'family':{label:'👨‍👩‍👧 가족',emoji:'👨‍👩‍👧',categories:['마음의 온도','부딪힘','이어짐'],scoreLabels:{love:'애정',comm:'소통',values:'가치관',work:'일상'},scoreWeights:{love:0.15,comm:0.35,values:0.35,work:0.15},tone:'따뜻하고 이해 중심. 공감 톤.'},'colleague':{label:'💼 동료',emoji:'💼',categories:['파악','시너지','앞으로'],scoreLabels:{love:'친밀도',comm:'소통',values:'가치관',work:'업무'},scoreWeights:{love:0.05,comm:0.30,values:0.25,work:0.40},tone:'프로페셔널하지만 인간적.'},'friend':{label:'🍻 친구',emoji:'🍻',categories:['우리가 된 이유','속마음','이 우정의 의미'],scoreLabels:{love:'유대감',comm:'소통',values:'가치관',work:'활동'},scoreWeights:{love:0.10,comm:0.35,values:0.30,work:0.25},tone:'편안하고 솔직한 톤.'}};
 
   function injectRelationUI(){var g=document.getElementById('gh-btn-male');if(!g||document.getElementById('gh-rel-grid'))return;var w=g.parentElement.parentElement;if(!w)return;var d=document.createElement('div');d.style.marginBottom='14px';d.innerHTML='<label style="font-size:11px;color:var(--accent);font-weight:600;display:block;margin-bottom:6px">우리의 관계</label><div style="display:flex;flex-wrap:wrap;gap:6px" id="gh-rel-grid"><button id="gh-rel-ssom" onclick="ghPickRel(\'ssom\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💕 썸</button><button id="gh-rel-lover" onclick="ghPickRel(\'lover\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">❤️ 연인</button><button id="gh-rel-family" onclick="ghPickRel(\'family\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">👨‍👩‍👧 가족</button><button id="gh-rel-colleague" onclick="ghPickRel(\'colleague\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💼 동료</button><button id="gh-rel-friend" onclick="ghPickRel(\'friend\')" style="flex:1;min-width:75px;padding:10px 4px;font-size:12px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">🍻 친구</button></div>';w.parentNode.insertBefore(d,w.nextSibling);}
   window.ghPickRel=function(type){GH_REL=type;['ssom','lover','family','colleague','friend'].forEach(function(t){var b=document.getElementById('gh-rel-'+t);if(b){b.style.background=(t===type)?'rgba(136,97,154,0.08)':'#fff';b.style.color=(t===type)?'var(--accent)':'var(--text-muted)';b.style.borderColor=(t===type)?'var(--accent)':'var(--border-light)';}});if(typeof checkGHReady==='function')checkGHReady();};
@@ -1008,31 +1008,124 @@
       ]
     },
     family: {
-      categories: ['관계의 본질', '갈등 포인트', '더 가까워지려면'],
-      tone: '따뜻하고 이해 중심. 공감 톤.',
-      anchors: {
-        '관계의 본질': '년주/월주 교차 + 육친 관계 + 오행 보완',
-        '갈등 포인트': '충/형/원진 + A/B의 고쳐야 할 점(개인 분석)',
-        '더 가까워지려면': '용신 교차 + MBTI 열등기능 케어'
-      }
+      title: '가족',
+      subtitle: '사랑하는데 왜 이렇게 힘들까',
+      categories: [
+        {
+          name: '마음의 온도',
+          subs: [
+            { h: '그 사람이 나를 사랑하는 방식, 네가 못 알아보고 있는 것', tone: '잔소리인 줄 알았는데 그게 전부였어' },
+            { h: '상대방이 나한테 절대 안 하는 말, 근데 느끼고 있는 것', tone: '한 번도 안 했지, 근데 매일 생각해' },
+            { h: '이 사람이 나를 자랑하는 순간', tone: '내가 모르는 곳에서 내 얘기를 하고 있었어' }
+          ]
+        },
+        {
+          name: '거울',
+          subs: [
+            { h: '상대 앞에서만 나오는 나', tone: '다른 사람한테는 안 그런데 이 사람한테만 예민해져' },
+            { h: '그 사람도 상처받고 있었다는 것', tone: '나만 힘든 줄 알았는데' },
+            { h: '서로한테 없는 걸 채워주고 있는 것', tone: '나도 모르게 서로한테 기대고 있었어' }
+          ]
+        },
+        {
+          name: '부딪힘',
+          subs: [
+            { h: '둘이 닮은 것, 둘이 정반대인 것', tone: '그래서 부딪히는 거였어, 그래서 통하는 거였어' },
+            { h: '이 사람한테 내가 기대고 있는 것', tone: '없으면 안 되는 줄 몰랐어' },
+            { h: '상대방의 지뢰, 이것만은 건드리면 안 되는 것', tone: '이 한마디가 10년 치 분노 버튼이야' },
+            { h: '서운한 거 말해도 되는지 삼켜야 하는지', tone: '말하면 관계가 깨질까, 삼키면 내가 깨질까' }
+          ]
+        },
+        {
+          name: '이어짐',
+          subs: [
+            { h: '우리만의 사랑 언어', tone: '밥 먹었어?가 사랑해라는 뜻이야' },
+            { h: '이 관계가 10년 뒤에는', tone: '지금 이 거리감이 나중엔 어떻게 되는지' },
+            { h: '이 사람이 내 인생에 심어준 것', tone: '힘들었지만 나를 만든 거야' },
+            { h: '이 인연에 대한 한마디', tone: '읽고 나면 조용해지는 한 줄' }
+          ]
+        }
+      ]
     },
     colleague: {
-      categories: ['업무 케미', '주의사항', '같이 성공하려면'],
-      tone: '프로페셔널하지만 인간적.',
-      anchors: {
-        '업무 케미': '오행 보완 + 월주 교차 + MBTI JP축 + TeSi교차',
-        '주의사항': '충/형 + A/B의 직장 적성(개인 분석)',
-        '같이 성공하려면': '강약 궁합 + 용신 교차 + 대운 동기화'
-      }
+      title: '동료',
+      subtitle: '이 사람이랑 어떻게 살아남지?',
+      categories: [
+        {
+          name: '파악',
+          subs: [
+            { h: '그 사람이 나를 어떻게 보고 있는지', tone: '회사에서는 표정으로 읽을 수가 없으니까' },
+            { h: '이 사람의 작동 방식 매뉴얼', tone: '보고는 아침에 해, 결론부터 말해' },
+            { h: '상대방의 지뢰, 절대 건드리면 안 되는 것', tone: '이거 잘못 건드리면 커리어가 날아가' }
+          ]
+        },
+        {
+          name: '시너지',
+          subs: [
+            { h: '같이 일하면 폭발하는 시너지 조합', tone: '이 조합이 터지는 조건이 따로 있어' },
+            { h: '그 사람이 적인지 아군인지', tone: '웃는 게 진짜인지 아닌지' },
+            { h: '맨날 부딪히는 진짜 이유', tone: '일 못 해서가 아니야, 방식이 다른 거야' }
+          ]
+        },
+        {
+          name: '생존',
+          subs: [
+            { h: '이 사람 옆에서 내가 성장하고 있는 것', tone: '답답한데, 이게 3년 뒤 내 무기가 돼' },
+            { h: '상대 때문에 퇴사하고 싶은 건지, 진짜 가야 할 때인 건지', tone: '사람 문제야 시기 문제야' },
+            { h: '그 사람이 스트레스받으면 나한테 나오는 패턴', tone: '걔가 나한테 쏘는 거 개인적인 거 아니야' },
+            { h: '이 관계에서 나를 갉아먹고 있는 것', tone: '매일 출근하면서 닳고 있는 게 뭔지' }
+          ]
+        },
+        {
+          name: '앞으로',
+          subs: [
+            { h: '상대방한테 인정받는 법', tone: '이 사람이 보는 게 뭔지 알면 헛수고가 줄어' },
+            { h: '이 사람과 2년 뒤', tone: '걔가 올라가면 나는 어떻게 되는지' },
+            { h: '이 사람이 내 커리어에 남기는 것', tone: '힘들었지만 이게 남더라' },
+            { h: '이 인연에 대한 한마디', tone: '내일 그 사람 보면 좀 달라지는 한 줄' }
+          ]
+        }
+      ]
     },
     friend: {
-      categories: ['우정의 본질', '조심할 것', '평생 친구 되려면'],
-      tone: '편안하고 솔직한 톤.',
-      anchors: {
-        '우정의 본질': '일간 비화/생 + 삼합 교차 + MBTI 주기능 시너지',
-        '조심할 것': '원진 + 충 + A/B의 고쳐야 할 점(개인 분석)',
-        '평생 친구 되려면': '용신 교차 + 대운 동기화 + 공망 교차'
-      }
+      title: '친구',
+      subtitle: '우리 진짜 친한 거 맞지?',
+      categories: [
+        {
+          name: '우리가 된 이유',
+          subs: [
+            { h: '처음에 왜 끌렸는지', tone: '우리가 친해진 게 우연이 아니었어' },
+            { h: '이 사람 앞에서만 나오는 나', tone: '다른 데서는 안 그런데 얘 앞에서만 이래' },
+            { h: '같이 있으면 왜 이렇게 편한지의 정체', tone: '3시간이 30분 같은 이유가 있었어' }
+          ]
+        },
+        {
+          name: '속마음',
+          subs: [
+            { h: '나한테는 안 하는 말, 속으로 느끼는 것', tone: '걔가 나한테 이렇게 생각하고 있었어?' },
+            { h: '그 사람이 나한테 진짜인지', tone: '앞에서 웃는 건 누구나 해, 뒤에서도 내 편이야?' },
+            { h: '서로한테 없는 걸 채워주고 있는 것', tone: '내가 못 하는 걸 걔가, 걔가 못 하는 걸 내가' },
+            { h: '이 사람한테 내가 기대고 있는 것', tone: '나도 모르게 이 사람한테 받고 있던 것' },
+            { h: '상대방이 나한테 기대하는 나의 모습', tone: '걔는 내가 항상 이런 사람일 줄 알아' }
+          ]
+        },
+        {
+          name: '균열과 회복',
+          subs: [
+            { h: '둘이 닮은 것, 둘이 정반대인 것', tone: '그래서 통하는 거였어, 그래서 부딪히는 거였어' },
+            { h: '이 사이에서 조심해야 할 것', tone: '모르고 지나치면 금 가는 포인트' },
+            { h: '이 사이가 틀어졌을 때 푸는 법', tone: '어색해졌을 때 누가 먼저 어떻게 해야 하는지' }
+          ]
+        },
+        {
+          name: '이 우정의 의미',
+          subs: [
+            { h: '그 사람이 내 편인 줄 모르고 있는 순간들', tone: '내가 모르는 곳에서 날 지키고 있었어' },
+            { h: '이 친구가 내 인생에 가르쳐준 것', tone: '이 사람 아니었으면 난 아직도 그랬을 거야' },
+            { h: '이 우정에 대한 한마디', tone: '읽고 나면 걔한테 연락하고 싶어지는 한 줄' }
+          ]
+        }
+      ]
     }
   };
 
