@@ -1697,10 +1697,10 @@ button{font-family:inherit;cursor:pointer}
           </div>
         </div>
         <div class="section-title">🌟 더 알아보기</div>
-        <div class="svc-item"><div class="svc-icon si-1">🔮</div><div class="svc-text"><h4>오늘의 운세</h4><p>매일 업데이트되는 나의 운세</p></div><div class="svc-arrow">›</div></div>
-        <div class="svc-item"><div class="svc-icon si-2">💝</div><div class="svc-text"><h4>연애운</h4><p>MBTS로 보는 나의 연애 스타일</p></div><div class="svc-arrow">›</div></div>
-        <div class="svc-item"><div class="svc-icon si-3">🌿</div><div class="svc-text"><h4>건강운</h4><p>MBTS가 알려주는 건강 포인트</p></div><div class="svc-arrow">›</div></div>
-        <div class="svc-item"><div class="svc-icon si-4">💰</div><div class="svc-text"><h4>재물운</h4><p>2026년 나의 재물 흐름</p></div><div class="svc-arrow">›</div></div>
+        <div class="svc-item" onclick="go('pgFortune');MBTS_Fortune.render('all')"><div class="svc-icon si-1">🔮</div><div class="svc-text"><h4>오늘의 운세</h4><p>매일 업데이트되는 나의 운세</p></div><div class="svc-arrow">›</div></div>
+        <div class="svc-item" onclick="go('pgFortune');MBTS_Fortune.render('love')"><div class="svc-icon si-2">💝</div><div class="svc-text"><h4>연애운</h4><p>MBTS로 보는 나의 연애 스타일</p></div><div class="svc-arrow">›</div></div>
+        <div class="svc-item" onclick="go('pgFortune');MBTS_Fortune.render('health')"><div class="svc-icon si-3">🌿</div><div class="svc-text"><h4>건강운</h4><p>MBTS가 알려주는 건강 포인트</p></div><div class="svc-arrow">›</div></div>
+        <div class="svc-item" onclick="go('pgFortune');MBTS_Fortune.render('money')"><div class="svc-icon si-4">💰</div><div class="svc-text"><h4>재물운</h4><p>2026년 나의 재물 흐름</p></div><div class="svc-arrow">›</div></div>
       </div>
     </div>
 
@@ -1809,6 +1809,17 @@ button{font-family:inherit;cursor:pointer}
     <div class="bnav active" onclick="goNav(this,'pgSave')"><div class="bnav-icon">📊</div><span>분석결과</span></div>
     <div class="bnav" onclick="goNav(this,'pgClover')"><div class="bnav-icon">🍀</div><span>클로버</span></div>
     <div class="bnav" onclick="goNav(this,'pgMore')"><div class="bnav-icon bnav-more">•••</div><span>더보기</span></div>
+  </div>
+</div>
+
+<!-- PAGE: 운세 -->
+<div class="page" id="pgFortune" style="display:none">
+  <div class="save-page" style="padding-top:8px">
+    <div class="save-header">
+      <div class="back-btn" onclick="go('pgDash')">←</div>
+      <div class="save-title">🔮 오늘의 운세</div>
+    </div>
+    <div id="fortune-container"></div>
   </div>
 </div>
 
@@ -2802,7 +2813,8 @@ function go(id,skipPush){
 function goPage(id){
   var map={'gh-load':'pgGhLoad','gh-res':'pgGhRes',
            'birth':'pgBirth','home':'pgDash',
-           'gh-input':'pgGunghap','result':'pgRes'};
+           'gh-input':'pgGunghap','result':'pgRes',
+           'fortune':'pgFortune'};
   go(map[id]||id);
 }
 window.goPage=goPage;
@@ -4550,6 +4562,8 @@ function applyLoginState(){
 <script src="engine.js"></script>
 <script src="saju.js"></script>
 <script src="gunghap.js"></script>
+<script src="fortune_data.js"></script>
+<script src="fortune.js"></script>
 <script src="chatting.js"></script>
 <script>
 // ====================================================================
