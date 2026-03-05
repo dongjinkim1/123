@@ -61,22 +61,13 @@ function isLoggedIn() {
 
 // ── 카카오 로그인 → Supabase 유저 생성/조회 ──
 function doKakaoLogin() {
-  if (typeof Kakao === 'undefined' || !Kakao.isInitialized()) {
-    console.warn('[MBTS] Kakao SDK 미초기화 — 테스트 로그인으로 대체');
-    doTestLogin();
-    return;
-  }
-
-  // Kakao SDK v2: authorize로 리다이렉트
-  // response_type=code 대신 token을 사용하여 프론트에서 바로 access_token 수신
-  var redirectUri = window.location.origin + '/auth/kakao/callback';
   var REST_API_KEY = '951d6c9e38404e6e1086ac9f388d5a90';
+  var redirectUri = window.location.origin + '/auth/kakao/callback';
 
-  // Implicit Grant 방식으로 직접 이동
   var kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize'
     + '?client_id=' + REST_API_KEY
     + '&redirect_uri=' + encodeURIComponent(redirectUri)
-    + '&response_type=token'
+    + '&response_type=code'
     + '&scope=profile_nickname,profile_image';
 
   window.location.href = kakaoAuthUrl;

@@ -26,46 +26,32 @@ var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 var msgEl = document.querySelector('.msg');
 
-// URL hash에서 access_token 추출 (Implicit Grant 방식)
-var hash = window.location.hash.substring(1); // # 제거
-var params = {};
-hash.split('&').forEach(function(part) {
-  var kv = part.split('=');
-  if (kv.length === 2) params[kv[0]] = decodeURIComponent(kv[1]);
-});
+// URL에서 인가 코드 추출
+var urlParams = new URLSearchParams(window.location.search);
+var code = urlParams.get('code');
+var error = urlParams.get('error');
 
-var accessToken = params['access_token'];
-
-// code 방식 fallback (혹시 code가 query param으로 올 경우)
-if (!accessToken) {
-  var urlParams = new URLSearchParams(window.location.search);
-  var error = urlParams.get('error');
-  if (error) {
-    msgEl.textContent = '카카오 로그인이 취소되었습니다.';
-    setTimeout(function() { window.location.href = '/'; }, 1500);
-  } else {
-    msgEl.textContent = '인증 정보를 찾을 수 없습니다.';
-    setTimeout(function() { window.location.href = '/'; }, 2000);
-  }
+if (error) {
+  msgEl.textContent = '카카오 로그인이 취소되었습니다.';
+  setTimeout(function() { window.location.href = '/'; }, 1500);
+} else if (!code) {
+  msgEl.textContent = '인증 코드를 찾을 수 없습니다.';
+  setTimeout(function() { window.location.href = '/'; }, 2000);
 } else {
-  // access_token으로 사용자 정보 조회
-  fetch('https://kapi.kakao.com/v2/user/me', {
-    headers: { 'Authorization': 'Bearer ' + accessToken }
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(userInfo) {
-    var kakaoId = String(userInfo.id);
-    var nickname = '사용자';
-    var profileImage = null;
-    var email = null;
+  // Netlify Function으로 토큰 교환 + 사용자 정보 조회
+  var redirectUri = window.location.origin + '/auth/kakao/callback';
 
-    if (userInfo.kakao_account) {
-      if (userInfo.kakao_account.profile) {
-        nickname = userInfo.kakao_account.profile.nickname || '사용자';
-        profileImage = userInfo.kakao_account.profile.profile_image_url || null;
-      }
-      email = userInfo.kakao_account.email || null;
+  fetch('/.netlify/functions/kakao-token?code=' + encodeURIComponent(code) + '&redirect_uri=' + encodeURIComponent(redirectUri))
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (!data.success || !data.kakao_id) {
+      throw new Error(data.error || '사용자 정보 조회 실패');
     }
+
+    var kakaoId = data.kakao_id;
+    var nickname = data.nickname || '사용자';
+    var profileImage = data.profile_image || null;
+    var email = data.email || null;
 
     console.log('[MBTS] 카카오 사용자:', nickname, kakaoId);
 
@@ -135,7 +121,6 @@ if (!accessToken) {
       });
   })
   .then(function(sessionData) {
-    // 세션 저장
     try {
       localStorage.setItem('mbts_session', JSON.stringify(sessionData));
     } catch(e) {}
@@ -144,7 +129,7 @@ if (!accessToken) {
   })
   .catch(function(err) {
     console.error('[MBTS] 카카오 로그인 처리 실패:', err);
-    msgEl.textContent = '로그인 처리 실패: ' + (err.message || '다시 시도해주세요.');
+    msgEl.textContent = '로그인 실패: ' + (err.message || '다시 시도해주세요.');
     setTimeout(function() { window.location.href = '/'; }, 3000);
   });
 }
