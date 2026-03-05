@@ -19,7 +19,8 @@ exports.handler = async function(event) {
         grant_type: 'authorization_code',
         client_id: REST_API_KEY,
         redirect_uri: redirect_uri || '',
-        code: code
+        code: code,
+        client_secret: '9D7mNupeZNAZTd9rbgkWOzBN4sS4R0hp'
       }).toString()
     });
 
