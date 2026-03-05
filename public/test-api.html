@@ -3,6 +3,7 @@
 <body>
 <h2>MBTS API 테스트</h2>
 <button onclick="testAPI()">테스트 시작</button>
+<button onclick="testLongJSON()">긴 JSON 테스트</button>
 <pre id="log" style="white-space:pre-wrap;font-size:12px;max-height:80vh;overflow:auto;background:#f5f5f5;padding:16px"></pre>
 <script>
 async function testAPI() {
@@ -66,6 +67,92 @@ async function testAPI() {
     log.textContent += '총 시간: ' + elapsed + '초\n';
     log.textContent += '총 청크: ' + chunkCount + '개\n';
     log.textContent += 'SSE 원본 길이: ' + fullText.length + '자\n';
+
+  } catch(e) {
+    log.textContent += '\n\n에러: ' + e.message + '\n';
+    log.textContent += '경과 시간: ' + ((Date.now() - start) / 1000).toFixed(1) + '초\n';
+  }
+}
+
+async function testLongJSON() {
+  var log = document.getElementById('log');
+  log.textContent = '긴 JSON 테스트 요청 보내는 중...\n';
+  var start = Date.now();
+
+  try {
+    var res = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        systemPrompt: '반드시 JSON만 출력하세요. 다른 텍스트 없이 순수 JSON만. {"categories":[{"id":"test","title":"테스트","subs":[{"h":"제목","b":"내용 500자 이상"}]}]} 형식으로 subs 5개, 각 b 필드 500자 이상 한국어로 채워서 총 5000자 이상 만들어주세요.',
+        userPrompt: '위 형식대로 JSON을 생성해주세요. JSON 외 다른 텍스트 절대 금지.',
+        model: 'claude-sonnet-4-6'
+      })
+    });
+
+    log.textContent += '응답 상태: ' + res.status + '\n';
+    log.textContent += 'Content-Type: ' + res.headers.get('content-type') + '\n\n';
+
+    var reader = res.body.getReader();
+    var decoder = new TextDecoder();
+    var extractedText = '';
+    var chunkCount = 0;
+
+    while (true) {
+      var chunk = await reader.read();
+      if (chunk.done) break;
+      var text = decoder.decode(chunk.value, {stream: true});
+      chunkCount++;
+
+      var lines = text.split('\n');
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (line.startsWith('data: ')) {
+          var jsonStr = line.substring(6);
+          if (jsonStr === '[DONE]') continue;
+          try {
+            var evt = JSON.parse(jsonStr);
+            if (evt.type === 'content_block_delta' && evt.delta && evt.delta.text) {
+              extractedText += evt.delta.text;
+            }
+          } catch(e) {}
+        }
+      }
+
+      if (chunkCount % 20 === 0) {
+        log.textContent = '긴 JSON 테스트 수신 중... ' + extractedText.length + '자 (' + chunkCount + '청크)\n';
+      }
+    }
+
+    var elapsed = ((Date.now() - start) / 1000).toFixed(1);
+    log.textContent = '========== 긴 JSON 테스트 결과 ==========\n\n';
+    log.textContent += '1. 총 시간: ' + elapsed + '초\n';
+    log.textContent += '2. 추출된 텍스트 길이: ' + extractedText.length + '자\n';
+    log.textContent += '3. 총 청크: ' + chunkCount + '개\n\n';
+    log.textContent += '4. 처음 300자:\n' + extractedText.substring(0, 300) + '\n\n';
+    log.textContent += '5. 마지막 300자:\n' + extractedText.substring(extractedText.length - 300) + '\n\n';
+
+    try {
+      var parsed = JSON.parse(extractedText);
+      log.textContent += '6. JSON.parse: ✅ 성공!\n';
+      log.textContent += '   키: ' + Object.keys(parsed).join(', ') + '\n';
+      if (parsed.categories && parsed.categories[0] && parsed.categories[0].subs) {
+        log.textContent += '   subs 개수: ' + parsed.categories[0].subs.length + '\n';
+      }
+    } catch(e) {
+      log.textContent += '6. JSON.parse: ❌ 실패 — ' + e.message + '\n';
+      var cleaned = extractedText.replace(/```json|```/g, '').trim();
+      var first = cleaned.indexOf('{');
+      var last = cleaned.lastIndexOf('}');
+      if (first >= 0 && last > first) {
+        try {
+          JSON.parse(cleaned.substring(first, last + 1));
+          log.textContent += '   (브레이스 추출 후 재시도: ✅ 성공)\n';
+        } catch(e2) {
+          log.textContent += '   (브레이스 추출 후 재시도: ❌ 실패)\n';
+        }
+      }
+    }
 
   } catch(e) {
     log.textContent += '\n\n에러: ' + e.message + '\n';
