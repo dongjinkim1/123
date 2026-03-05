@@ -49,45 +49,38 @@
   };
 
   function syncToSupabase(type, record) {
-    var body = { type: type, data: {} };
+    if (typeof supabase === 'undefined') return;
 
-    // 로그인 유저면 userId 포함
-    if(typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) {
-      body.userId = mbtsSession.userId;
+    var userId = null;
+    if (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) {
+      userId = mbtsSession.userId;
     }
 
-    if(type === 'saju') {
-      body.data = {
+    if (type === 'saju') {
+      supabase.from('saju_results').insert({
+        user_id: userId,
         name: record.name || '나',
-        input: record.input || {},
-        saju: record.saju || {},
-        mbtiObj: record.mbtiObj || {},
-        aiResult: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {})
-      };
-    } else if(type === 'gunghap') {
-      body.data = {
-        personA: record.personA || {},
-        personB: record.personB || {},
-        relType: record.relType || record.relLabel || '',
-        scores: record.scores || {},
-        aiResult: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {})
-      };
+        input_data: JSON.stringify(record.input || {}),
+        saju_data: JSON.stringify(record.saju || {}),
+        mbti_data: JSON.stringify(record.mbtiObj || {}),
+        ai_result: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {})
+      }).then(function(res) {
+        if (res.error) console.warn('[sync.js] saju 저장 실패:', res.error.message);
+        else console.log('[sync.js] saju 결과 Supabase 저장 완료');
+      });
+    } else if (type === 'gunghap') {
+      supabase.from('gunghap_results').insert({
+        user_id: userId,
+        person_a: JSON.stringify(record.personA || {}),
+        person_b: JSON.stringify(record.personB || {}),
+        rel_type: record.relType || record.relLabel || '',
+        scores: JSON.stringify(record.scores || {}),
+        ai_result: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {})
+      }).then(function(res) {
+        if (res.error) console.warn('[sync.js] gunghap 저장 실패:', res.error.message);
+        else console.log('[sync.js] gunghap 결과 Supabase 저장 완료');
+      });
     }
-
-    fetch('/api/save-result', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    }).then(function(r) { return r.json(); })
-    .then(function(d) {
-      if(d.success) {
-        console.log('[sync.js] ' + type + ' 결과 Supabase 저장 완료 (id: ' + d.id + ')');
-      } else {
-        console.warn('[sync.js] ' + type + ' 저장 실패:', d.error);
-      }
-    }).catch(function(e) {
-      console.warn('[sync.js] ' + type + ' 저장 네트워크 오류:', e);
-    });
   }
 
   console.log('[sync.js] Supabase 자동 동기화 활성화');

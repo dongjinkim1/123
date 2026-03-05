@@ -1725,7 +1725,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
   <div class="dash">
     <div class="topbar">
       <div class="topbar-logo logo" onclick="go('pgDash');setTab(0)"><span class="m">M</span><span class="b">B</span><span class="t">T</span><span class="s">S</span></div>
-      <div class="topbar-profile">나</div>
+      <div class="topbar-profile user-nickname-display">나</div>
     </div>
 
     <div class="tabs">
@@ -5761,39 +5761,8 @@ setTimeout(function() {
   }
 }, 300);
 
-// ===== Visitor Tracking =====
-(function(){
-  try{
-    var pg='/';
-    var hash=location.hash.replace('#','');
-    if(hash) pg='/'+hash;
-    fetch('/api/visitor/track',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ page:pg, referrer:document.referrer||'' })
-    }).catch(function(){});
-  }catch(e){}
-})();
-
-// ===== Popup Notice =====
-function checkPopupNotice(){
-  var today=new Date().toISOString().slice(0,10);
-  var dismissed=null;
-  try{ dismissed=localStorage.getItem('mbts_popup_dismissed'); }catch(e){}
-  if(dismissed===today) return;
-
-  fetch('/api/notice/popup')
-  .then(function(r){ return r.json(); })
-  .then(function(d){
-    if(d.success && d.notice){
-      document.getElementById('popupNoticeTitle').textContent=d.notice.title||'공지사항';
-      document.getElementById('popupNoticeContent').textContent=d.notice.content||'';
-      document.getElementById('popupNoticeOverlay').classList.add('open');
-    }
-  }).catch(function(e){
-    console.warn('[MBTS] 팝업 공지 로드 실패:', e);
-  });
-}
+// ===== Popup Notice (Supabase 직접 연결 예정) =====
+function checkPopupNotice(){}
 
 function closePopupNotice(){
   var todayCheck=document.getElementById('popupNoticeToday');
