@@ -1,6 +1,14 @@
 [build]
   publish = "public"
-  functions = "netlify/functions"
+  command = ""
 
 [functions]
   node_bundler = "esbuild"
+  directory = "netlify/functions"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
