@@ -10,28 +10,25 @@ export default async function handler(req) {
   try {
     const body = await req.json();
     const { systemPrompt, userPrompt } = body;
-
     if (!systemPrompt || !userPrompt) {
-      return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
+      return new Response('Missing required fields', { status: 400 });
     }
 
     const OPENAI_KEY = Netlify.env.get('OPENAI_API_KEY');
     const ANTHROPIC_KEY = Netlify.env.get('ANTHROPIC_API_KEY');
+    const resHeaders = { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-cache' };
 
-    // GPT 먼저 (스트리밍 OFF — 전체 응답 한번에)
+    // GPT 먼저
     if (OPENAI_KEY) {
       try {
-        console.log('[MBTS] gunghap: GPT 호출 시도 (gpt-5.2)');
+        console.log('[MBTS] gunghap: GPT 호출 (gpt-5.2)');
         const gptRes = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + OPENAI_KEY
-          },
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + OPENAI_KEY },
           body: JSON.stringify({
             model: 'gpt-5.2',
             max_completion_tokens: 4096,
-            stream: false,
+            stream: true,
             messages: [
               { role: 'system', content: systemPrompt },
               { role: 'user', content: userPrompt }
@@ -40,22 +37,48 @@ export default async function handler(req) {
         });
 
         if (gptRes.ok) {
-          const data = await gptRes.json();
-          const text = data.choices[0].message.content;
-          console.log('[MBTS] gunghap: GPT 성공, 길이:', text.length);
-          return new Response(text, {
-            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          console.log('[MBTS] gunghap: GPT 연결 성공, 스트리밍 시작');
+          const reader = gptRes.body.getReader();
+          const decoder = new TextDecoder();
+          const encoder = new TextEncoder();
+
+          const readable = new ReadableStream({
+            async pull(controller) {
+              try {
+                const { done, value } = await reader.read();
+                if (done) { controller.close(); return; }
+                const text = decoder.decode(value, { stream: true });
+                const lines = text.split('\n');
+                for (const line of lines) {
+                  if (line.startsWith('data: ')) {
+                    const data = line.slice(6).trim();
+                    if (data === '[DONE]') continue;
+                    try {
+                      const parsed = JSON.parse(data);
+                      const content = parsed.choices && parsed.choices[0] && parsed.choices[0].delta && parsed.choices[0].delta.content;
+                      if (content) {
+                        controller.enqueue(encoder.encode(content));
+                      }
+                    } catch(e) {}
+                  }
+                }
+              } catch(e) {
+                controller.close();
+              }
+            }
           });
+
+          return new Response(readable, { headers: resHeaders });
         } else {
-          const errBody = await gptRes.text().catch(() => '');
-          console.log('[MBTS] gunghap: GPT 실패 (HTTP ' + gptRes.status + '):', errBody.slice(0, 300));
+          const err = await gptRes.text().catch(() => '');
+          console.log('[MBTS] gunghap: GPT 실패 (' + gptRes.status + '):', err.slice(0, 200));
         }
       } catch(e) {
         console.log('[MBTS] gunghap: GPT 에러:', e.message);
       }
     }
 
-    // Claude 폴백 (스트리밍 OFF)
+    // Claude 폴백
     if (ANTHROPIC_KEY) {
       try {
         console.log('[MBTS] gunghap: Claude 폴백 호출');
@@ -69,30 +92,56 @@ export default async function handler(req) {
           body: JSON.stringify({
             model: 'claude-sonnet-4-20250514',
             max_tokens: 4096,
+            stream: true,
             system: systemPrompt,
             messages: [{ role: 'user', content: userPrompt }]
           })
         });
 
         if (claudeRes.ok) {
-          const data = await claudeRes.json();
-          const text = data.content[0].text;
-          console.log('[MBTS] gunghap: Claude 성공, 길이:', text.length);
-          return new Response(text, {
-            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          console.log('[MBTS] gunghap: Claude 연결 성공, 스트리밍 시작');
+          const reader = claudeRes.body.getReader();
+          const decoder = new TextDecoder();
+          const encoder = new TextEncoder();
+
+          const readable = new ReadableStream({
+            async pull(controller) {
+              try {
+                const { done, value } = await reader.read();
+                if (done) { controller.close(); return; }
+                const text = decoder.decode(value, { stream: true });
+                const lines = text.split('\n');
+                for (const line of lines) {
+                  if (line.startsWith('data: ')) {
+                    const data = line.slice(6).trim();
+                    if (data === '[DONE]') continue;
+                    try {
+                      const parsed = JSON.parse(data);
+                      if (parsed.type === 'content_block_delta' && parsed.delta && parsed.delta.text) {
+                        controller.enqueue(encoder.encode(parsed.delta.text));
+                      }
+                    } catch(e) {}
+                  }
+                }
+              } catch(e) {
+                controller.close();
+              }
+            }
           });
+
+          return new Response(readable, { headers: resHeaders });
         } else {
-          const errBody = await claudeRes.text().catch(() => '');
-          console.log('[MBTS] gunghap: Claude도 실패:', errBody.slice(0, 300));
+          const err = await claudeRes.text().catch(() => '');
+          console.log('[MBTS] gunghap: Claude 실패:', err.slice(0, 200));
         }
       } catch(e) {
         console.log('[MBTS] gunghap: Claude 에러:', e.message);
       }
     }
 
-    return new Response(JSON.stringify({ error: 'All AI APIs failed' }), { status: 500 });
+    return new Response('All AI APIs failed', { status: 500 });
   } catch(e) {
-    return new Response(JSON.stringify({ error: e.message }), { status: 500 });
+    return new Response(e.message, { status: 500 });
   }
 }
 
