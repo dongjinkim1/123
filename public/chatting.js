@@ -20,22 +20,40 @@
     var pg = document.getElementById('pgChat');
     if (!pg) return;
 
-    // 사람 목록 읽기
-    var people = [];
-    try { var raw = localStorage.getItem('mbts_people'); if (raw) people = JSON.parse(raw); } catch(e) {}
-
-    var hasMySaju = !!(window._lastSaju);
+    // fortune-target.js에서 내 사주 대상 가져오기
+    var myTarget = (typeof getFortuneTarget === 'function') ? getFortuneTarget() : null;
+    var hasMySaju = !!(myTarget && myTarget.saju);
     var myIlju = '';
-    var myMBTI = window._lastMBTI || '';
-    if (hasMySaju && window._lastSaju.P && window._lastSaju.P[2]) {
-      myIlju = window._lastSaju.P[2].s + window._lastSaju.P[2].b;
+    var myMBTI = (myTarget && myTarget.mbti) ? myTarget.mbti : '';
+    if (hasMySaju && myTarget.saju.P && myTarget.saju.P[2]) {
+      myIlju = myTarget.saju.P[2].s + myTarget.saju.P[2].b;
     }
 
-    // me 제외한 사람들
+    // mbts_history에서 사람 목록 읽기 (내 MBTS 대상 제외)
     var others = [];
-    for (var i = 0; i < people.length; i++) {
-      if (people[i].id !== 'me') others.push(people[i]);
-    }
+    try {
+      var histAll = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+      var myTargetId = (myTarget && myTarget.id) ? myTarget.id : null;
+      for (var i = 0; i < histAll.length; i++) {
+        var rec = histAll[i];
+        if (rec.id !== myTargetId) {
+          others.push({
+            id: rec.id,
+            name: rec.name || '\uc774\ub984 \uc5c6\uc74c',
+            gender: (rec.input && rec.input.gender) ? rec.input.gender : '',
+            ilju: rec.animalIlju || ((rec.saju && rec.saju.P && rec.saju.P[2]) ? rec.saju.P[2].s + rec.saju.P[2].b : ''),
+            mbti: rec.mbti || '',
+            saju: rec.saju,
+            gg: rec.gg,
+            dw: rec.dw,
+            mbtiObj: rec.mbtiObj,
+            emoji: rec.animalEmoji || '\ud83c\udf1f',
+            tag: rec.animalTag || '',
+            aiResult: rec.aiResult || ''
+          });
+        }
+      }
+    } catch(e) {}
 
     var h = '';
 
@@ -116,7 +134,7 @@
     } else {
       for (var j = 0; j < others.length; j++) {
         var p = others[j];
-        var emoji = p.gender === '\uc5ec' || p.gender === '\uc5ec\uc131' ? '\ud83d\udc69' : '\ud83d\udc68';
+        var emoji = p.emoji || '\ud83c\udf1f';
         var ilju = p.ilju || '';
         var mbti = p.mbti || '';
         var name = p.name || ilju || '\uc774\ub984 \uc5c6\uc74c';
@@ -161,18 +179,32 @@
     var type = context.type || 'me';
     var person = context.person || {};
     var relType = context.relType || '';
+    var myTarget = (typeof getFortuneTarget === 'function') ? getFortuneTarget() : null;
 
-    // person 클릭 시 light 데이터만 넘어옴 → localStorage에서 full 데이터 조회
+    // person 클릭 시 light 데이터만 넘어옴 → mbts_history에서 full 데이터 조회
     if (person.id && !person.saju) {
-      var people = [];
-      try { people = JSON.parse(localStorage.getItem('mbts_people') || '[]'); } catch(e) {}
-      for (var pi = 0; pi < people.length; pi++) {
-        if (people[pi].id === person.id) {
-          context.person = people[pi];
-          person = context.person;
-          break;
+      try {
+        var histLookup = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+        for (var pi = 0; pi < histLookup.length; pi++) {
+          if (histLookup[pi].id === person.id) {
+            var found = histLookup[pi];
+            context.person = {
+              id: found.id,
+              name: found.name || '\uc774\ub984 \uc5c6\uc74c',
+              gender: (found.input && found.input.gender) ? found.input.gender : '',
+              ilju: found.animalIlju || ((found.saju && found.saju.P && found.saju.P[2]) ? found.saju.P[2].s + found.saju.P[2].b : ''),
+              mbti: found.mbti || '',
+              saju: found.saju,
+              gg: found.gg,
+              dw: found.dw,
+              mbtiObj: found.mbtiObj,
+              aiResult: found.aiResult || ''
+            };
+            person = context.person;
+            break;
+          }
         }
-      }
+      } catch(e) {}
     }
 
     // 저장된 히스토리 복원
@@ -182,10 +214,10 @@
     var ctxLabel = '\ud83d\udc30 \ub2ec\ud1a0';
     if (type === 'me') {
       var mi = '';
-      if (window._lastSaju && window._lastSaju.P && window._lastSaju.P[2]) {
-        mi = window._lastSaju.P[2].s + window._lastSaju.P[2].b;
+      if (myTarget && myTarget.saju && myTarget.saju.P && myTarget.saju.P[2]) {
+        mi = myTarget.saju.P[2].s + myTarget.saju.P[2].b;
       }
-      var mm = window._lastMBTI || '';
+      var mm = (myTarget && myTarget.mbti) ? myTarget.mbti : '';
       ctxLabel = '\ud83d\udc30 \ub2ec\ud1a0 \xd7 ' + (mi ? mi + ' ' : '') + mm;
     } else if (type === 'person') {
       ctxLabel = '\ud83d\udc30 \ub2ec\ud1a0 \xd7 ' + _esc(person.name || person.ilju || '\uc0c1\ub300');
@@ -198,10 +230,10 @@
     var greeting = '';
     if (type === 'me') {
       var gIlju = '';
-      if (window._lastSaju && window._lastSaju.P && window._lastSaju.P[2]) {
-        gIlju = window._lastSaju.P[2].s + window._lastSaju.P[2].b;
+      if (myTarget && myTarget.saju && myTarget.saju.P && myTarget.saju.P[2]) {
+        gIlju = myTarget.saju.P[2].s + myTarget.saju.P[2].b;
       }
-      var gMbti = window._lastMBTI || '';
+      var gMbti = (myTarget && myTarget.mbti) ? myTarget.mbti : '';
       greeting = '\uc548\ub155\ud558\uc138\uc694! ' + gIlju + '\uc77c\uc8fc ' + gMbti + '\ub2d8, \ubb50\uac00 \uad81\uae08\ud558\uc138\uc694? \ud83d\udc30';
     } else if (type === 'person') {
       greeting = _esc(person.name || '\uc0c1\ub300\ubc29') + '\ub2d8\uc5d0 \ub300\ud574 \uad81\uae08\ud55c \uac70 \ubb3c\uc5b4\ubd10\uc694! \ud83d\udc30';
@@ -544,12 +576,29 @@
     hideTypingIndicator();
 
     // ── engine.js buildChatPrompt 호출 ──
-    var mySaju = window._lastSaju || null;
-    var myMbti = window._lastMBTI || null;
-    var myGg = window._lastGG || null;
-    var myDw = window._lastDW || null;
+    var _ft = (typeof getFortuneTarget === 'function') ? getFortuneTarget() : null;
+    var mySaju = (_ft && _ft.saju) ? _ft.saju : null;
+    var myMbti = (_ft && _ft.mbti) ? _ft.mbti : null;
+    var myGg = (_ft && _ft.gg) ? _ft.gg : null;
+    var myDw = (_ft && _ft.dw) ? _ft.dw : null;
 
     var prompt = buildChatPrompt(mySaju, myMbti, myGg, myDw, chatHistory, currentMode);
+
+    // ── 기존 풀이 결과를 시스템 프롬프트에 포함 ──
+    if (chatContext && chatContext.type === 'me' && _ft && _ft.aiResult) {
+      prompt.systemPrompt += '\n\n## \uc774 \uc0ac\uc6a9\uc790\uc758 MBTS \ud480\uc774 \uacb0\uacfc (\uc774\ubbf8 \ubd84\uc11d \uc644\ub8cc)\n';
+      prompt.systemPrompt += '\uc544\ub798\ub294 \uc774 \uc0ac\uc6a9\uc790\uc5d0\uac8c \uc774\uc804\uc5d0 \uc81c\uacf5\ub41c \uc0ac\uc8fc+MBTI \ud1b5\ud569 \ubd84\uc11d \uacb0\uacfc\uc785\ub2c8\ub2e4. \uc774 \ub0b4\uc6a9\uc744 \uc219\uc9c0\ud558\uace0, \uc0ac\uc6a9\uc790\uac00 \uc9c8\ubb38\ud558\uba74 \uc774 \ud480\uc774\uc640 \uc77c\uad00\ub418\uac8c \ub2f5\ubcc0\ud558\uc138\uc694.\n\n';
+      prompt.systemPrompt += _ft.aiResult + '\n';
+    }
+
+    if (chatContext && chatContext.type === 'person') {
+      var personAiResult = (chatContext.person && chatContext.person.aiResult) ? chatContext.person.aiResult : '';
+      if (personAiResult) {
+        prompt.systemPrompt += '\n\n## \uc0c1\ub2f4 \ub300\uc0c1\uc790\uc758 MBTS \ud480\uc774 \uacb0\uacfc (\uc774\ubbf8 \ubd84\uc11d \uc644\ub8cc)\n';
+        prompt.systemPrompt += '\uc544\ub798\ub294 \uc774 \ub300\uc0c1\uc790\uc5d0\uac8c \uc774\uc804\uc5d0 \uc81c\uacf5\ub41c \uc0ac\uc8fc+MBTI \ud1b5\ud569 \ubd84\uc11d \uacb0\uacfc\uc785\ub2c8\ub2e4. \uc774 \ub0b4\uc6a9\uc744 \uc219\uc9c0\ud558\uace0 \ub2f5\ubcc0\ud558\uc138\uc694.\n\n';
+        prompt.systemPrompt += personAiResult + '\n';
+      }
+    }
 
     // ── 맥락별 시스템 프롬프트 보강 (engine.js 미수정) ──
     if (chatContext && chatContext.type === 'person') {

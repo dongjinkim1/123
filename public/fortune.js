@@ -146,10 +146,10 @@ function buildCategoryCard(emoji, title, catData, overlays, catKey) {
   }
   var html = '<div class="glass-card" style="padding:16px;margin-bottom:12px">';
   html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">';
-  html += '<span style="font-size:14px;font-weight:700;color:var(--text-primary)">' + emoji + ' ' + title + '</span>';
-  html += '<span style="font-size:13px;color:' + (catData.stars >= 4 ? '#4CAF7D' : catData.stars <= 2 ? '#dc3545' : 'var(--accent)') + '">' + stars + '</span>';
+  html += '<span style="font-size:14px;font-weight:700;color:var(--text-1)">' + emoji + ' ' + title + '</span>';
+  html += '<span style="font-size:13px;color:' + (catData.stars >= 4 ? '#4CAF7D' : catData.stars <= 2 ? '#dc3545' : 'var(--purple)') + '">' + stars + '</span>';
   html += '</div>';
-  html += '<div style="font-size:14px;line-height:1.7;color:var(--text-secondary)">' + catData.text + '</div>';
+  html += '<div style="font-size:14px;line-height:1.7;color:var(--text-2)">' + catData.text + '</div>';
 
   for (var o = 0; o < overlays.length; o++) {
     var ovKey = overlays[o];
@@ -162,9 +162,9 @@ function buildCategoryCard(emoji, title, catData, overlays, catKey) {
         ovText = ovData[catKey];
       }
       if (ovText) {
-        html += '<div style="margin-top:10px;padding:10px 12px;background:rgba(136,97,154,0.04);border-radius:8px;border-left:3px solid var(--accent)">';
-        html += '<div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px">' + ovKey + ' 발동!</div>';
-        html += '<div style="font-size:13px;line-height:1.6;color:var(--text-secondary)">' + ovText + '</div>';
+        html += '<div style="margin-top:10px;padding:10px 12px;background:rgba(136,97,154,0.04);border-radius:8px;border-left:3px solid var(--purple)">';
+        html += '<div style="font-size:11px;font-weight:700;color:var(--purple);margin-bottom:4px">' + ovKey + ' 발동!</div>';
+        html += '<div style="font-size:13px;line-height:1.6;color:var(--text-2)">' + ovText + '</div>';
         html += '</div>';
       }
     }
@@ -178,10 +178,9 @@ function buildCategoryCard(emoji, title, catData, overlays, catKey) {
 function renderFortuneCard(category) {
   var me = null;
   try {
-    var people = JSON.parse(localStorage.getItem('mbts_people') || '[]');
-    for (var i = 0; i < people.length; i++) {
-      if (people[i].id === 'me') { me = people[i]; break; }
-    }
+    // fortune-target.js의 함수로 대상자 가져오기
+    var rec = (typeof getFortuneTarget === 'function') ? getFortuneTarget() : null;
+    if (rec) me = { saju: rec.saju, gg: rec.gg, dw: rec.dw };
   } catch(e) {}
 
   if (!me || !me.saju) {
@@ -189,9 +188,9 @@ function renderFortuneCard(category) {
     if (container) {
       container.innerHTML = '<div class="glass-card" style="padding:32px 20px;text-align:center">' +
         '<div style="font-size:48px;margin-bottom:16px">🔮</div>' +
-        '<p style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:8px">먼저 내 사주를 분석해주세요</p>' +
-        '<p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">생년월일 입력 후 운세를 볼 수 있어요</p>' +
-        '<button onclick="goPage(\'birth\')" style="padding:12px 24px;font-size:14px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer">🔮 사주 분석하기</button>' +
+        '<p style="font-size:15px;font-weight:700;color:var(--text-1);margin-bottom:8px">먼저 내 사주를 분석해주세요</p>' +
+        '<p style="font-size:13px;color:var(--text-3);margin-bottom:16px">생년월일 입력 후 운세를 볼 수 있어요</p>' +
+        '<button onclick="go(\'pgBirth\')" style="padding:12px 24px;font-size:14px;font-weight:700;color:#fff;background:var(--purple);border:none;border-radius:12px;cursor:pointer">🔮 사주 분석하기</button>' +
       '</div>';
     }
     return;
@@ -248,9 +247,9 @@ function renderFortuneCard(category) {
     var active = (category === t.key);
     html += '<button onclick="MBTS_Fortune.render(\'' + t.key + '\')" style="' +
       'padding:8px 16px;font-size:13px;font-weight:' + (active?'700':'600') +
-      ';border:2px solid ' + (active?'var(--accent)':'var(--border-light)') +
+      ';border:2px solid ' + (active?'var(--purple)':'#E5E5EA') +
       ';background:' + (active?'rgba(136,97,154,0.08)':'#fff') +
-      ';color:' + (active?'var(--accent)':'var(--text-muted)') +
+      ';color:' + (active?'var(--purple)':'var(--text-3)') +
       ';border-radius:10px;cursor:pointer;white-space:nowrap">' +
       t.emoji + ' ' + t.label + '</button>';
   }
@@ -258,10 +257,10 @@ function renderFortuneCard(category) {
 
   // 헤더 카드
   html += '<div class="glass-card" style="padding:20px;margin-bottom:12px;text-align:center">';
-  html += '<div style="font-size:12px;color:var(--text-muted)">' + dateText + '</div>';
-  html += '<div style="font-size:18px;font-weight:700;color:var(--text-primary);margin:8px 0">';
+  html += '<div style="font-size:12px;color:var(--text-3)">' + dateText + '</div>';
+  html += '<div style="font-size:18px;font-weight:700;color:var(--text-1);margin:8px 0">';
   html += '오늘 일진: ' + base.today.ganjiText + '(' + base.today.ohGan + ')일</div>';
-  html += '<div style="display:flex;justify-content:center;gap:12px;font-size:13px;color:var(--accent)">';
+  html += '<div style="display:flex;justify-content:center;gap:12px;font-size:13px;color:var(--purple)">';
   html += '<span>나와의 관계: ' + base.sipsung + '</span>';
   html += '<span>활력: ' + base.unsung + '</span>';
   html += '</div>';
@@ -273,7 +272,7 @@ function renderFortuneCard(category) {
       var ov = overlays[oi2];
       var isGood = (ov.indexOf('귀인') >= 0 || ov.indexOf('합') >= 0 || ov.indexOf('금여록') >= 0 || ov === '학당귀인' || ov.indexOf('상생') >= 0 || ov.indexOf('삼합') >= 0);
       var isBad = (ov.indexOf('살') >= 0 || ov.indexOf('충') >= 0 || ov.indexOf('형') >= 0 || ov.indexOf('극') >= 0 || ov === '공망' || ov.indexOf('해') >= 0);
-      var badgeColor = isGood ? 'rgba(76,175,125,.1);color:#4CAF7D' : (isBad ? 'rgba(220,53,69,.1);color:#dc3545' : 'rgba(136,97,154,.1);color:var(--accent)');
+      var badgeColor = isGood ? 'rgba(76,175,125,.1);color:#4CAF7D' : (isBad ? 'rgba(220,53,69,.1);color:#dc3545' : 'rgba(136,97,154,.1);color:var(--purple)');
       html += '<span style="padding:3px 8px;font-size:10px;font-weight:600;background:' + badgeColor + ';border-radius:6px">' + ov + '</span>';
     }
     html += '</div>';
@@ -291,10 +290,10 @@ function renderFortuneCard(category) {
     html += buildCategoryCard('💪', '건강운', data.health, overlays, 'health');
     if (healthWarnings.length > 0) {
       html += '<div class="glass-card" style="padding:16px;margin-bottom:12px">';
-      html += '<div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">🏥 오행별 건강 주의</div>';
+      html += '<div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:8px">🏥 오행별 건강 주의</div>';
       for (var hw = 0; hw < healthWarnings.length; hw++) {
         var w = healthWarnings[hw];
-        html += '<div style="font-size:13px;color:var(--text-secondary);margin-bottom:4px">';
+        html += '<div style="font-size:13px;color:var(--text-2);margin-bottom:4px">';
         html += w.oh + ' 부족 → ' + w.data.organ + ' 약화 (' + w.data.lack + ')';
         html += '</div>';
       }
@@ -305,16 +304,16 @@ function renderFortuneCard(category) {
   // 종합이면 summary
   if (category === 'all') {
     html += '<div class="glass-card" style="padding:16px;margin-bottom:12px">';
-    html += '<div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">⚡ 오늘의 포인트</div>';
-    html += '<div style="font-size:14px;line-height:1.6;color:var(--text-secondary)">' + data.summary + '</div>';
+    html += '<div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:8px">⚡ 오늘의 포인트</div>';
+    html += '<div style="font-size:14px;line-height:1.6;color:var(--text-2)">' + data.summary + '</div>';
     html += '</div>';
   }
 
   // 행운 정보
   if (luckyInfo) {
     html += '<div class="glass-card" style="padding:16px;margin-bottom:12px">';
-    html += '<div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:10px">🍀 오늘의 팁</div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--text-secondary)">';
+    html += '<div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:10px">🍀 오늘의 팁</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--text-2)">';
     html += '<div>🎨 행운색: ' + luckyInfo.color + '</div>';
     html += '<div>🔢 행운숫자: ' + luckyInfo.number + '</div>';
     html += '<div>🧭 좋은 방위: ' + luckyInfo.direction + '</div>';
@@ -332,7 +331,7 @@ function renderFortuneCard(category) {
   html += '<div style="text-align:center;margin-top:16px;margin-bottom:20px">';
   html += '<button onclick="MBTS_Fortune.askDalto(\'' + daltoMsg + '\')" style="';
   html += 'padding:14px 28px;font-size:14px;font-weight:700;color:#fff;';
-  html += 'background:linear-gradient(135deg,var(--accent),#d63384);border:none;';
+  html += 'background:linear-gradient(135deg,var(--purple),#d63384);border:none;';
   html += 'border-radius:14px;cursor:pointer;box-shadow:0 4px 16px rgba(136,97,154,.3)';
   html += '">🐰 달토한테 자세히 물어보기</button>';
   html += '</div>';
@@ -353,7 +352,7 @@ function askDalto(msg) {
       }
     }, 500);
   } else {
-    if (typeof goPage === 'function') goPage('pgChat');
+    if (typeof go === 'function') go('pgChat');
   }
 }
 

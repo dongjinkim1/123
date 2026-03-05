@@ -1065,6 +1065,38 @@ button{font-family:inherit;cursor:pointer}
 .del-btn:hover{background:rgba(232,69,60,1);transform:scale(1.05)}
 .edit-mode .del-btn{display:block}
 .edit-mode .animal-card{cursor:default}
+.my-saju-check{
+  display:none;
+  align-items:center;gap:4px;
+  font-size:11px;font-weight:600;color:var(--purple);
+  cursor:pointer;
+  padding:2px 8px;
+  border-radius:12px;
+  background:rgba(139,108,193,0.08);
+  border:1.5px solid transparent;
+  transition:all .2s;
+  margin-left:6px;
+  vertical-align:middle;
+}
+.my-saju-check.checked{
+  background:rgba(139,108,193,0.15);
+  border-color:var(--purple);
+}
+.my-saju-check .check-icon{
+  width:16px;height:16px;
+  border-radius:50%;
+  border:2px solid var(--purple-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;
+  transition:all .2s;
+}
+.my-saju-check.checked .check-icon{
+  background:var(--purple);
+  border-color:var(--purple);
+  color:#fff;
+}
+.edit-mode .my-saju-check{display:inline-flex}
+.edit-mode .saju-star{display:none}
 
 /* GH edit mode */
 .gh-edit-btn{background:none;border:none;font-size:13px;font-weight:600;color:var(--rose);cursor:pointer}
@@ -1622,6 +1654,25 @@ button{font-family:inherit;cursor:pointer}
 .popup-notice-today input{margin:0}
 .popup-notice-ok{padding:8px 20px;background:#8B6CC1;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
 </style>
+
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+var SUPABASE_URL = 'https://amexswkqohkhypywuscp.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtZXhzd2txb2hraHlweXd1c2NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5NTk1NTYsImV4cCI6MjA4NjUzNTU1Nn0.FIhu_kqvdagDuf3ljzsp0-llJJlBfvacpBDIGn__Plw';
+var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+console.log('[MBTS] Supabase 클라이언트 초기화 완료');
+</script>
+
+<!-- Kakao SDK -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"></script>
+<script>
+if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
+  Kakao.init('f5a1da53c1f06fc97b3979ac9d7d3421');
+  console.log('[MBTS] Kakao SDK 초기화:', Kakao.isInitialized());
+}
+</script>
+
 </head>
 <body>
 
@@ -1696,7 +1747,11 @@ button{font-family:inherit;cursor:pointer}
             <div class="premium-go">시작하기 →</div>
           </div>
         </div>
-        <div class="section-title">🌟 더 알아보기</div>
+        <div class="section-title" style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
+          🌟 더 알아보기
+          <span id="fortuneTargetInfo" style="font-size:12px;font-weight:400;color:var(--purple);"></span>
+          <span id="fortuneTargetChange" onclick="selectFortuneTarget()" style="font-size:11px;color:var(--text-3);cursor:pointer;text-decoration:underline;display:none;">변경하기</span>
+        </div>
         <div class="svc-item" onclick="go('pgFortune');MBTS_Fortune.render('all')"><div class="svc-icon si-1">🔮</div><div class="svc-text"><h4>오늘의 운세</h4><p>매일 업데이트되는 나의 운세</p></div><div class="svc-arrow">›</div></div>
         <div class="svc-item" onclick="go('pgFortune');MBTS_Fortune.render('love')"><div class="svc-icon si-2">💝</div><div class="svc-text"><h4>연애운</h4><p>MBTS로 보는 나의 연애 스타일</p></div><div class="svc-arrow">›</div></div>
         <div class="svc-item" onclick="go('pgFortune');MBTS_Fortune.render('health')"><div class="svc-icon si-3">🌿</div><div class="svc-text"><h4>건강운</h4><p>MBTS가 알려주는 건강 포인트</p></div><div class="svc-arrow">›</div></div>
@@ -2809,6 +2864,13 @@ function go(id,skipPush){
       history.pushState({page:id},'','');
     }
   }
+  // pgDash(홈)으로 이동할 때 운세 대상자 UI 갱신
+  if(id==='pgDash'&&typeof updateFortuneTargetUI==='function'){
+    setTimeout(updateFortuneTargetUI,50);
+  }
+  if(id==='pgSave'&&typeof renderSaveCards==='function'){
+    setTimeout(renderSaveCards,50);
+  }
 }
 function goPage(id){
   var map={'gh-load':'pgGhLoad','gh-res':'pgGhRes',
@@ -2974,6 +3036,9 @@ function confirmDelHistory(btn,recordId){
       var hist=JSON.parse(localStorage.getItem('mbts_history'))||[];
       hist=hist.filter(function(r){return r.id!==recordId;});
       localStorage.setItem('mbts_history',JSON.stringify(hist));
+      if(typeof onFortuneTargetHistoryDelete==='function'){
+        onFortuneTargetHistoryDelete(recordId);
+      }
     }catch(e){}
     card.style.transition='all .3s';
     card.style.transform='scale(0.8)';
@@ -3022,8 +3087,10 @@ function renderSaveCards(){
   var ohColors={'목':'#22A469','화':'#E8453C','토':'#C49A2A','금':'#6B7B8D','수':'#2D7EB5'};
   var ohBg={'목':'#EDFCF2,#D1FAE5','화':'#FEF1F0,#FEE2E2','토':'#FDF8EC,#FEF3C7','금':'#F2F4F6,#E2E8F0','수':'#EDF5FC,#DBEAFE'};
   var html='';
+  var currentTarget=localStorage.getItem('mbts_fortuneTarget');
+  if(!currentTarget&&hist.length>0) currentTarget=hist[0].id;
   var reversed=hist.slice().reverse();
-  reversed.forEach(function(rec){
+  reversed.forEach(function(rec,idx){
     var emoji=rec.animalEmoji||'🌟';
     var tag=rec.animalTag||'';
     var mbti=rec.mbti||'';
@@ -3044,11 +3111,17 @@ function renderSaveCards(){
     var meBadge='';
     /* personMap에 등록 (궁합 선택용) */
     personMap[rec.id]={name:name,emoji:emoji,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
-    html+='<div class="animal-card" data-record-id="'+rec.id+'" onclick="openHistoryRecord(\''+rec.id+'\')" style="--card-glow:'+glow+'">';
+    var extraClass=(idx>=3)?' extra-card':'';
+    var extraStyle=(idx>=3)?'display:none;':'';
+    html+='<div class="animal-card'+extraClass+'" data-record-id="'+rec.id+'" onclick="openHistoryRecord(\''+rec.id+'\')" style="'+extraStyle+'--card-glow:'+glow+'">';
     html+='<div class="animal-card-top">';
     html+='<div class="animal-emoji-box" style="background:linear-gradient(135deg,'+bg1+')">'+emoji+'</div>';
     html+='<div class="animal-info">';
-    html+='<div class="animal-name">'+name+meBadge+'</div>';
+    var isTarget=(rec.id===currentTarget);
+    var starBadge=isTarget?' <span class="saju-star" style="color:var(--purple);font-size:13px;" title="더 알아보기 대상">⭐</span>':'';
+    var checkUI='<span class="my-saju-check'+(isTarget?' checked':'')+'" onclick="event.stopPropagation();setMyFortune(\''+rec.id+'\')">';
+    checkUI+='<span class="check-icon">'+(isTarget?'✓':'')+'</span> 내 MBTS</span>';
+    html+='<div class="animal-name">'+name+starBadge+checkUI+'</div>';
     html+='<div>';
     if(tag) html+='<span class="animal-tag" style="background:rgba('+glowR+','+glowG+','+glowB+',0.08);color:'+clr+'">'+tag+'</span>';
     if(mbti) html+='<span class="animal-tag" style="background:rgba(139,108,193,0.08);color:var(--purple)">'+mbti+'</span>';
@@ -3067,6 +3140,11 @@ function renderSaveCards(){
     html+='</div>';
     html+='</div>';
   });
+  if(reversed.length>3){
+    html+='<div id="showMoreBtn" onclick="toggleExtraCards()" style="text-align:center;padding:12px 0 8px;cursor:pointer">';
+    html+='<span style="font-size:13px;font-weight:600;color:var(--text-3)">더보기 ∨</span>';
+    html+='</div>';
+  }
   cardList.innerHTML=html;
 }
 
@@ -3091,14 +3169,16 @@ function renderGhHistoryCards(){
 
   var html='';
   var reversed=hist.slice().reverse();
-  reversed.forEach(function(rec){
+  reversed.forEach(function(rec,idx){
     var pA=rec.personA||{};
     var pB=rec.personB||{};
     var total=(rec.scores&&rec.scores.total)?rec.scores.total:0;
     var relLabel=rec.relLabel||'궁합';
     var date=rec.date||'';
 
-    html+='<div class="gh-history" data-record-id="'+rec.id+'" onclick="openGhHistoryRecord(\''+rec.id+'\')" style="cursor:pointer">';
+    var extraCls=(idx>=3)?' extra-gh':'';
+    var extraStyle=(idx>=3)?' display:none;':'';
+    html+='<div class="gh-history'+extraCls+'" data-record-id="'+rec.id+'" onclick="openGhHistoryRecord(\''+rec.id+'\')" style="cursor:pointer;'+extraStyle+'">';
     html+='<button class="gh-del-btn" onclick="event.stopPropagation();confirmDelGhHistory(this,\''+rec.id+'\')">지우기</button>';
     html+='<div class="gh-pair">';
     html+='<div class="gh-pair-unit"><div class="gh-pair-animal" style="background:linear-gradient(135deg,#E8DEFF,#F0E6FF)">'+(pA.emoji||'👤')+'</div><div class="gh-pair-name" data-side="a">'+(pA.name||'?')+'</div></div>';
@@ -3113,6 +3193,10 @@ function renderGhHistoryCards(){
     html+='<div class="gh-score-date">'+date+'</div>';
     html+='</div>';
   });
+
+  if(reversed.length>3){
+    html+='<button onclick="event.stopPropagation();toggleExtraGh()" id="btnMoreGh" style="width:100%;padding:10px;margin-top:8px;background:none;border:1px solid #E5E5EA;border-radius:var(--r-sm);font-size:13px;color:var(--text-3);cursor:pointer">더보기 ∨</button>';
+  }
 
   cardList.innerHTML=html;
 }
@@ -3955,10 +4039,20 @@ function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
 </style>
 <script>
 function toggleExtraGh(){
-  /* 더미 카드 제거됨 — 호환성 유지용 빈 함수 */
+  var items=document.querySelectorAll('.extra-gh');
+  var btn=document.getElementById('btnMoreGh');
+  if(!items.length) return;
+  var show=(items[0].style.display==='none');
+  for(var i=0;i<items.length;i++){items[i].style.display=show?'':'none';}
+  if(btn) btn.textContent=show?'접기 ∧':'더보기 ∨';
 }
 function toggleExtraCards(){
-  /* 더미 카드 제거됨 — 호환성 유지용 빈 함수 */
+  var items=document.querySelectorAll('.extra-card');
+  var btn=document.getElementById('btnMoreCards');
+  if(!items.length) return;
+  var show=(items[0].style.display==='none');
+  for(var i=0;i<items.length;i++){items[i].style.display=show?'':'none';}
+  if(btn) btn.textContent=show?'접기 ∧':'더보기 ∨';
 }
 // ===== 궁합 로딩 (pgGhLoad) =====
 var ghLoadTimer=null;
@@ -4539,7 +4633,8 @@ function getUser(){
       id: mbtsSession.userId,
       nickname: mbtsSession.nickname,
       clover_balance: mbtsSession.cloverBalance,
-      provider: mbtsSession.provider
+      provider: mbtsSession.provider,
+      kakao_id: mbtsSession.kakaoId || null
     };
     return mbtsUser;
   }
@@ -4564,6 +4659,7 @@ function applyLoginState(){
 <script src="gunghap.js"></script>
 <script src="fortune_data.js"></script>
 <script src="fortune.js"></script>
+<script src="fortune-target.js"></script>
 <script src="chatting.js"></script>
 <script>
 // ====================================================================
@@ -5557,6 +5653,10 @@ function renderResult(result,saju,mt,gg,isAI){
     };
     hist.push(record);
     localStorage.setItem('mbts_history',JSON.stringify(hist));
+    // 첫 분석이면 자동으로 fortuneTarget 설정
+    if(hist.length===1){
+      localStorage.setItem('mbts_fortuneTarget',record.id);
+    }
   }catch(e3){}
 }
 
