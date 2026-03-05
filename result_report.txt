@@ -1,0 +1,84 @@
+[PM 9:47:36] 🚀 MBTS E2E 풀 테스트 시작
+[PM 9:47:36] 시작 시각: 2026. 2. 28. PM 9:47:36
+[PM 9:47:36] 
+[PM 9:47:37] ========== Phase 1: 유저 5명 DB 직접 생성 ==========
+[PM 9:47:39] ✅ 김서연 생성 완료 — ID: cafc996b-5774-46f8-b0e8-b41989b6a5f7
+[PM 9:47:39] ✅ 이준호 생성 완료 — ID: c5255fe2-8188-4b20-a18a-237e88c0c897
+[PM 9:47:40] ✅ 박지은 생성 완료 — ID: 27dd0384-9bad-4b42-a475-113296dc99f0
+[PM 9:47:40] ✅ 최민수 생성 완료 — ID: fd675155-2f06-431f-9d97-8580ca0a9cfc
+[PM 9:47:40] ✅ 정하윤 생성 완료 — ID: f9d467e2-95a4-4d6a-8e1a-6b79a22cb071
+[PM 9:47:40] 
+[PM 9:47:40] ========== Phase 2: admin에서 클로버 지급 ==========
+[PM 9:47:41] ✅ admin 로그인 성공
+[PM 9:47:46] ✅ 김서연 → 🍀 57개 지급
+[PM 9:47:46] ✅ 이준호 → 🍀 48개 지급
+[PM 9:47:47] ✅ 박지은 → 🍀 49개 지급
+[PM 9:47:47] ✅ 최민수 → 🍀 50개 지급
+[PM 9:47:48] ✅ 정하윤 → 🍀 26개 지급
+[PM 9:47:48] 
+[PM 9:47:48] 📋 클로버 지급 결과:
+[PM 9:47:48]   김서연: 🍀 57개
+[PM 9:47:48]   이준호: 🍀 48개
+[PM 9:47:48]   박지은: 🍀 49개
+[PM 9:47:48]   최민수: 🍀 50개
+[PM 9:47:48]   정하윤: 🍀 26개
+[PM 9:47:48] 
+[PM 9:47:48] 📋 활동 배분 (클로버 기준):
+[PM 9:47:48]   궁합: 김서연(57) × 최민수(50)
+[PM 9:47:48]   궁합: 박지은(49) × 이준호(48)
+[PM 9:47:48]   달토: 정하윤(26)
+[PM 9:47:48] 
+[PM 9:47:48] ========== Phase 3: 5명 동시 사주 분석 (서버 부하 테스트!) ==========
+[PM 9:47:48] ⚡ 5명이 동시에 AI 풀이를 요청합니다. 서버가 버티는지 확인!
+[PM 9:47:48] [김서연] 사주 분석 시작...
+[PM 9:47:48] [이준호] 사주 분석 시작...
+[PM 9:47:48] [박지은] 사주 분석 시작...
+[PM 9:47:48] [최민수] 사주 분석 시작...
+[PM 9:47:48] [정하윤] 사주 분석 시작...
+[PM 9:48:00] [정하윤] AI 분석 대기 중... (최대 7분)
+[PM 9:48:04] [박지은] AI 분석 대기 중... (최대 7분)
+[PM 9:48:04] [최민수] AI 분석 대기 중... (최대 7분)
+[PM 9:48:05] [김서연] AI 분석 대기 중... (최대 7분)
+[PM 9:48:05] [이준호] AI 분석 대기 중... (최대 7분)
+[PM 9:51:00] [정하윤] ❌ 사주 분석 타임아웃 또는 에러: Waiting failed
+[PM 9:51:04] [박지은] ❌ 사주 분석 타임아웃 또는 에러: Waiting failed
+[PM 9:51:04] [최민수] ❌ 사주 분석 타임아웃 또는 에러: Waiting failed
+[PM 9:51:05] [김서연] ❌ 사주 분석 타임아웃 또는 에러: Waiting failed
+[PM 9:51:05] [이준호] ❌ 사주 분석 타임아웃 또는 에러: Waiting failed
+[PM 9:51:05] 
+[PM 9:51:05] ⏱️ 5명 동시 사주 분석 총 소요 시간: 197초
+[PM 9:51:05] 📊 성공: 0/5명
+[PM 9:51:05] ⚠️ 일부 실패 — 서버 동시 처리 한계 확인 필요
+[PM 9:51:05] 
+[PM 9:51:05] ========== Phase 4: 궁합 분석 (순차, 7분 대기) ==========
+[PM 9:51:05] 
+[PM 9:51:05] [궁합] 김서연 × 최민수 (lover) 시작...
+[PM 9:51:07] [궁합] 김서연 × 최민수 AI 분석 대기 중... (최대 7분)
+[PM 9:54:07] [궁합] ❌ 김서연 × 최민수 타임아웃: Waiting failed
+[PM 9:54:07] 
+[PM 9:54:07] [궁합] 박지은 × 이준호 (ssom) 시작...
+[PM 9:54:10] [궁합] 박지은 × 이준호 AI 분석 대기 중... (최대 7분)
+[PM 9:57:10] [궁합] ❌ 박지은 × 이준호 타임아웃: Waiting failed
+[PM 9:57:10] 
+[PM 9:57:10] ========== Phase 5: 달토 채팅 ==========
+[PM 9:57:10] 
+[PM 9:57:10] [달토] 정하윤 달토 채팅 시작...
+[PM 9:57:12] [달토] 정하윤 AI 응답 대기 중...
+[PM 10:00:12] [달토] ❌ 정하윤 채팅 타임아웃: Waiting failed: 180000ms exceeded
+[PM 10:00:12] 
+[PM 10:00:12] ========== Phase 6: admin 대시보드 확인 ==========
+[PM 10:00:13] 
+[PM 10:00:13] 💥 치명적 에러: Failed to fetch
+[PM 10:00:13] TypeError: Failed to fetch
+    at evaluate (evaluate at checkAdminDashboard (C:\Users\김쪨리\Desktop\mbts-app\scripts\e2e-test.js:514:30), <anonymous>:1:24)
+    at #evaluate (C:\Users\김쪨리\Desktop\mbts-app\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:391:56)
+    at async ExecutionContext.evaluate (C:\Users\김쪨리\Desktop\mbts-app\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:277:16)
+    at async IsolatedWorld.evaluate (C:\Users\김쪨리\Desktop\mbts-app\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\IsolatedWorld.js:100:16)
+    at async CdpFrame.evaluate (C:\Users\김쪨리\Desktop\mbts-app\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Frame.js:362:20)
+    at async CdpPage.evaluate (C:\Users\김쪨리\Desktop\mbts-app\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:830:20)
+    at async checkAdminDashboard (C:\Users\김쪨리\Desktop\mbts-app\scripts\e2e-test.js:514:19)
+    at async C:\Users\김쪨리\Desktop\mbts-app\scripts\e2e-test.js:600:21
+[PM 10:00:14] 
+[PM 10:00:14] ========================================
+[PM 10:00:14] 테스트 완료 시각: 2026. 2. 28. PM 10:00:14
+[PM 10:00:14] ========================================
