@@ -7,7 +7,7 @@
 <style>
 body{display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#F8F7F4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 .loading{text-align:center}
-.loading div{font-size:15px;color:#666;margin-top:12px}
+.loading .msg{font-size:15px;color:#666;margin-top:12px}
 .spinner{width:40px;height:40px;border:3px solid #eee;border-top:3px solid #8B6CC1;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
@@ -15,7 +15,7 @@ body{display:flex;align-items:center;justify-content:center;height:100vh;margin:
 <body>
 <div class="loading">
   <div class="spinner"></div>
-  <div>카카오 로그인 처리 중...</div>
+  <div class="msg">카카오 로그인 처리 중...</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -24,37 +24,33 @@ var SUPABASE_URL = 'https://amexswkqohkhypywuscp.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtZXhzd2txb2hraHlweXd1c2NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5NTk1NTYsImV4cCI6MjA4NjUzNTU1Nn0.FIhu_kqvdagDuf3ljzsp0-llJJlBfvacpBDIGn__Plw';
 var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-var REST_API_KEY = '951d6c9e38404e6e1086ac9f388d5a90';
+var msgEl = document.querySelector('.msg');
 
-// URL에서 인가 코드 추출
-var urlParams = new URLSearchParams(window.location.search);
-var code = urlParams.get('code');
+// URL hash에서 access_token 추출 (Implicit Grant 방식)
+var hash = window.location.hash.substring(1); // # 제거
+var params = {};
+hash.split('&').forEach(function(part) {
+  var kv = part.split('=');
+  if (kv.length === 2) params[kv[0]] = decodeURIComponent(kv[1]);
+});
 
-if (!code) {
-  document.querySelector('.loading div:last-child').textContent = '인증 코드가 없습니다. 다시 시도해주세요.';
-  setTimeout(function() { window.location.href = '/'; }, 2000);
+var accessToken = params['access_token'];
+
+// code 방식 fallback (혹시 code가 query param으로 올 경우)
+if (!accessToken) {
+  var urlParams = new URLSearchParams(window.location.search);
+  var error = urlParams.get('error');
+  if (error) {
+    msgEl.textContent = '카카오 로그인이 취소되었습니다.';
+    setTimeout(function() { window.location.href = '/'; }, 1500);
+  } else {
+    msgEl.textContent = '인증 정보를 찾을 수 없습니다.';
+    setTimeout(function() { window.location.href = '/'; }, 2000);
+  }
 } else {
-  // 인가 코드로 토큰 발급
-  var tokenUrl = 'https://kauth.kakao.com/oauth/token';
-  var body = 'grant_type=authorization_code'
-    + '&client_id=' + REST_API_KEY
-    + '&redirect_uri=' + encodeURIComponent(window.location.origin + '/auth/kakao/callback')
-    + '&code=' + code;
-
-  fetch(tokenUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: body
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(tokenData) {
-    if (!tokenData.access_token) {
-      throw new Error('토큰 발급 실패');
-    }
-    // 토큰으로 사용자 정보 조회
-    return fetch('https://kapi.kakao.com/v2/user/me', {
-      headers: { 'Authorization': 'Bearer ' + tokenData.access_token }
-    });
+  // access_token으로 사용자 정보 조회
+  fetch('https://kapi.kakao.com/v2/user/me', {
+    headers: { 'Authorization': 'Bearer ' + accessToken }
   })
   .then(function(r) { return r.json(); })
   .then(function(userInfo) {
@@ -71,11 +67,18 @@ if (!code) {
       email = userInfo.kakao_account.email || null;
     }
 
+    console.log('[MBTS] 카카오 사용자:', nickname, kakaoId);
+
     // Supabase에서 기존 유저 확인
     return sb.from('users').select('*').eq('kakao_id', kakaoId).maybeSingle()
       .then(function(result) {
+        if (result.error) {
+          console.error('[MBTS] 유저 조회 에러:', result.error);
+          throw new Error('유저 조회 실패');
+        }
+
         if (result.data) {
-          // 기존 유저 — 업데이트
+          // 기존 유저
           var user = result.data;
           return sb.from('users')
             .update({ nickname: nickname, profile_image: profileImage })
@@ -91,7 +94,7 @@ if (!code) {
               };
             });
         } else {
-          // 신규 유저 — 생성
+          // 신규 유저
           return sb.from('users')
             .insert({
               kakao_id: kakaoId,
@@ -104,7 +107,10 @@ if (!code) {
             .select()
             .single()
             .then(function(insertResult) {
-              if (insertResult.error) throw insertResult.error;
+              if (insertResult.error) {
+                console.error('[MBTS] 유저 생성 에러:', insertResult.error);
+                throw new Error('유저 생성 실패');
+              }
               var newUser = insertResult.data;
 
               // 가입 보너스 기록
@@ -129,17 +135,17 @@ if (!code) {
       });
   })
   .then(function(sessionData) {
-    // 세션 저장 후 메인 페이지로 이동
+    // 세션 저장
     try {
       localStorage.setItem('mbts_session', JSON.stringify(sessionData));
     } catch(e) {}
-    document.querySelector('.loading div:last-child').textContent = '환영합니다, ' + sessionData.nickname + '님! 🍀';
+    msgEl.textContent = '환영합니다, ' + sessionData.nickname + '님! 🍀';
     setTimeout(function() { window.location.href = '/'; }, 1000);
   })
   .catch(function(err) {
     console.error('[MBTS] 카카오 로그인 처리 실패:', err);
-    document.querySelector('.loading div:last-child').textContent = '로그인 처리 실패. 다시 시도해주세요.';
-    setTimeout(function() { window.location.href = '/'; }, 2000);
+    msgEl.textContent = '로그인 처리 실패: ' + (err.message || '다시 시도해주세요.');
+    setTimeout(function() { window.location.href = '/'; }, 3000);
   });
 }
 </script>

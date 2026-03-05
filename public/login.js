@@ -67,20 +67,19 @@ function doKakaoLogin() {
     return;
   }
 
-  // Kakao SDK v2는 Kakao.Auth.authorize() 사용 (리다이렉트 방식)
-  // SPA에서는 REST API + 팝업 방식이 더 적합하지만,
-  // 간단하게 authorize 리다이렉트 방식 사용
+  // Kakao SDK v2: authorize로 리다이렉트
+  // response_type=code 대신 token을 사용하여 프론트에서 바로 access_token 수신
+  var redirectUri = window.location.origin + '/auth/kakao/callback';
+  var REST_API_KEY = '951d6c9e38404e6e1086ac9f388d5a90';
 
-  try {
-    Kakao.Auth.authorize({
-      redirectUri: window.location.origin + '/auth/kakao/callback',
-      scope: 'profile_nickname,profile_image'
-    });
-  } catch(e) {
-    console.error('[MBTS] 카카오 로그인 실패:', e);
-    // fallback: 테스트 로그인
-    doTestLogin();
-  }
+  // Implicit Grant 방식으로 직접 이동
+  var kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize'
+    + '?client_id=' + REST_API_KEY
+    + '&redirect_uri=' + encodeURIComponent(redirectUri)
+    + '&response_type=token'
+    + '&scope=profile_nickname,profile_image';
+
+  window.location.href = kakaoAuthUrl;
 }
 
 // ── Supabase 유저 생성/조회 ──
