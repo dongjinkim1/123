@@ -40,9 +40,8 @@ export default async (req, context) => {
             model: 'gpt-5.2',
             max_completion_tokens: 4000,
             stream: true,
-            response_format: { type: 'json_object' },
             messages: [
-              { role: 'system', content: systemPrompt },
+              { role: 'system', content: 'You must respond ONLY with valid JSON. No markdown, no explanation, no code blocks. Raw JSON only.\n\n' + systemPrompt },
               { role: 'user',   content: userPrompt   }
             ]
           })
