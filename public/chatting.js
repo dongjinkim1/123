@@ -552,6 +552,21 @@
     if (!text || !text.trim() || isChatLoading) return;
     text = text.trim();
 
+    // 달토 채팅 무료 3회 체크
+    var chatCount = parseInt(localStorage.getItem('mbts_chat_count') || '0');
+
+    if (chatCount >= 3) {
+      // 4회부터 클로버 차감
+      useClover(3, 'chat', function(success) {
+        if (!success) return;
+        localStorage.setItem('mbts_chat_count', String(chatCount + 1));
+        _doSendChat(text);
+      });
+      return;
+    }
+
+    // 무료 3회 이내
+    localStorage.setItem('mbts_chat_count', String(chatCount + 1));
     _doSendChat(text);
   }
 
