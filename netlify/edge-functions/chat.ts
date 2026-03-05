@@ -18,11 +18,7 @@ export default async (req: Request) => {
       return new Response('API key not configured', { status: 500 });
     }
 
-    const modelMap: Record<string, string> = {
-      'claude-sonnet-4-6': 'claude-sonnet-4-20250514',
-      'claude-sonnet-4-20250514': 'claude-sonnet-4-20250514'
-    };
-    const claudeModel = modelMap[model] || model || 'claude-sonnet-4-20250514';
+    const claudeModel = model || 'claude-sonnet-4-6';
 
     const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
