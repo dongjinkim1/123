@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>API Test</title></head>
+<body>
+<h2>MBTS API 테스트</h2>
+<button onclick="testAPI()">테스트 시작</button>
+<pre id="log" style="white-space:pre-wrap;font-size:12px;max-height:80vh;overflow:auto;background:#f5f5f5;padding:16px"></pre>
+<script>
+async function testAPI() {
+  var log = document.getElementById('log');
+  log.textContent = '요청 보내는 중...\n';
+  var start = Date.now();
+
+  try {
+    var res = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        systemPrompt: '당신은 테스트 AI입니다. 아래 JSON 형식으로만 응답하세요:\n{"test": true, "message": "hello", "items": [1,2,3]}',
+        userPrompt: '테스트 응답을 해주세요.',
+        model: 'claude-sonnet-4-6'
+      })
+    });
+
+    log.textContent += '응답 상태: ' + res.status + '\n';
+    log.textContent += 'Content-Type: ' + res.headers.get('content-type') + '\n\n';
+
+    var reader = res.body.getReader();
+    var decoder = new TextDecoder();
+    var fullText = '';
+    var chunkCount = 0;
+
+    while (true) {
+      var chunk = await reader.read();
+      if (chunk.done) {
+        log.textContent += '\n\n--- 스트림 종료 (done=true) ---\n';
+        break;
+      }
+      var text = decoder.decode(chunk.value, {stream: true});
+      chunkCount++;
+      fullText += text;
+
+      // SSE에서 텍스트 추출
+      var lines = text.split('\n');
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (line.startsWith('data: ')) {
+          var jsonStr = line.substring(6);
+          if (jsonStr === '[DONE]') {
+            log.textContent += '[DONE] 수신\n';
+            continue;
+          }
+          try {
+            var evt = JSON.parse(jsonStr);
+            if (evt.type === 'content_block_delta' && evt.delta && evt.delta.text) {
+              log.textContent += evt.delta.text;
+            } else if (evt.type) {
+              log.textContent += '\n[이벤트: ' + evt.type + ']\n';
+            }
+          } catch(e) {}
+        }
+      }
+    }
+
+    var elapsed = ((Date.now() - start) / 1000).toFixed(1);
+    log.textContent += '\n\n========== 결과 ==========\n';
+    log.textContent += '총 시간: ' + elapsed + '초\n';
+    log.textContent += '총 청크: ' + chunkCount + '개\n';
+    log.textContent += 'SSE 원본 길이: ' + fullText.length + '자\n';
+
+  } catch(e) {
+    log.textContent += '\n\n에러: ' + e.message + '\n';
+    log.textContent += '경과 시간: ' + ((Date.now() - start) / 1000).toFixed(1) + '초\n';
+  }
+}
+</script>
+</body>
+</html>
