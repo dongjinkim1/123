@@ -34,6 +34,7 @@ export default async (req, context) => {
             model: 'gpt-5.2',
             max_completion_tokens: 4000,
             stream: true,
+            response_format: { type: 'json_object' },
             messages: [
               { role: 'system', content: systemPrompt },
               { role: 'user',   content: userPrompt   }
