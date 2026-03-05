@@ -124,8 +124,8 @@
       var jsonBlock = lines2.slice(startIdx, endIdx + 1).join('\n');
       try { JSON.parse(jsonBlock); return jsonBlock; } catch(e3) {}
     }
-    console.warn('[openai.js] JSON 추출 실패:', cleaned.substring(0, 100));
-    return cleaned;
+    console.warn('[openai.js] JSON 추출 실패 → Anthropic 폴백:', cleaned.substring(0, 100));
+    throw new Error('JSON_EXTRACT_FAIL');
   }
 
   // ============================================================
