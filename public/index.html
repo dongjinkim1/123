@@ -5722,7 +5722,13 @@ if(typeof Kakao!=='undefined'&&!Kakao.isInitialized()){
 console.log('[MBTS] index.html bridge loaded — engine.js + UI connected');
 
 // 세션 초기화
-initLogin();
+if (typeof initLogin === 'function') initLogin();
+setTimeout(function() {
+  if (typeof isLoggedIn === 'function' && isLoggedIn()) {
+    go('pgDash');
+    if (typeof updateLoginUI === 'function') updateLoginUI();
+  }
+}, 300);
 
 // ===== Visitor Tracking =====
 (function(){
