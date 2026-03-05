@@ -37,7 +37,7 @@ export default async function handler(req) {
           },
           body: JSON.stringify({
             model: 'gpt-5.3-chat-latest',
-            max_tokens: 2048,
+            max_completion_tokens: 2048,
             stream: true,
             messages: gptMessages
           })
