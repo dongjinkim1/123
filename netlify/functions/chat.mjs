@@ -33,7 +33,7 @@ export default async function handler(req) {
             'Authorization': 'Bearer ' + OPENAI_KEY
           },
           body: JSON.stringify({
-            model: 'gpt-4o-mini',
+            model: 'gpt-5',
             max_tokens: 2048,
             stream: true,
             messages: gptMessages
