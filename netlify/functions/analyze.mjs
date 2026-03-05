@@ -17,10 +17,8 @@ export default async function handler(req) {
 
     const OPENAI_KEY = Netlify.env.get('OPENAI_API_KEY');
     const ANTHROPIC_KEY = Netlify.env.get('ANTHROPIC_API_KEY');
-    let headers = { 'Content-Type': 'text/plain; charset=utf-8', 'Transfer-Encoding': 'chunked', 'Cache-Control': 'no-cache' };
-    let gptFailed = false;
 
-    // GPT 먼저 시도 (메인)
+    // GPT 먼저 (스트리밍 OFF — 전체 응답 한번에)
     if (OPENAI_KEY) {
       try {
         console.log('[MBTS] analyze: GPT 호출 시도 (gpt-5.2)');
@@ -33,7 +31,7 @@ export default async function handler(req) {
           body: JSON.stringify({
             model: 'gpt-5.2',
             max_completion_tokens: 4096,
-            stream: true,
+            stream: false,
             messages: [
               { role: 'system', content: systemPrompt },
               { role: 'user', content: userPrompt }
@@ -42,44 +40,25 @@ export default async function handler(req) {
         });
 
         if (gptRes.ok) {
-          console.log('[MBTS] analyze: GPT 성공');
-          const transformStream = new TransformStream({
-            async transform(chunk, controller) {
-              const text = new TextDecoder().decode(chunk);
-              const lines = text.split('\n');
-              for (const line of lines) {
-                if (line.startsWith('data: ')) {
-                  const data = line.slice(6);
-                  if (data === '[DONE]') continue;
-                  try {
-                    const parsed = JSON.parse(data);
-                    if (parsed.choices && parsed.choices[0] && parsed.choices[0].delta && parsed.choices[0].delta.content) {
-                      controller.enqueue(new TextEncoder().encode(parsed.choices[0].delta.content));
-                    }
-                  } catch(e) {}
-                }
-              }
-            }
+          const data = await gptRes.json();
+          const text = data.choices[0].message.content;
+          console.log('[MBTS] analyze: GPT 성공, 길이:', text.length);
+          return new Response(text, {
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
           });
-          return new Response(gptRes.body.pipeThrough(transformStream), { headers });
         } else {
           const errBody = await gptRes.text().catch(() => '');
-          console.log('[MBTS] analyze: GPT 실패 (HTTP ' + gptRes.status + '):', errBody.slice(0, 200));
-          gptFailed = true;
+          console.log('[MBTS] analyze: GPT 실패 (HTTP ' + gptRes.status + '):', errBody.slice(0, 300));
         }
       } catch(e) {
         console.log('[MBTS] analyze: GPT 에러:', e.message);
-        gptFailed = true;
       }
-    } else {
-      console.log('[MBTS] analyze: OPENAI_API_KEY 없음, Claude로 진행');
-      gptFailed = true;
     }
 
-    // Claude 폴백
-    if (gptFailed && ANTHROPIC_KEY) {
+    // Claude 폴백 (스트리밍 OFF)
+    if (ANTHROPIC_KEY) {
       try {
-        console.log('[MBTS] analyze: Claude 폴백 호출 (claude-sonnet-4-20250514)');
+        console.log('[MBTS] analyze: Claude 폴백 호출');
         const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
           headers: {
@@ -90,47 +69,29 @@ export default async function handler(req) {
           body: JSON.stringify({
             model: 'claude-sonnet-4-20250514',
             max_tokens: 4096,
-            stream: true,
             system: systemPrompt,
             messages: [{ role: 'user', content: userPrompt }]
           })
         });
 
         if (claudeRes.ok) {
-          console.log('[MBTS] analyze: Claude 성공');
-          const transformStream = new TransformStream({
-            async transform(chunk, controller) {
-              const text = new TextDecoder().decode(chunk);
-              const lines = text.split('\n');
-              for (const line of lines) {
-                if (line.startsWith('data: ')) {
-                  const data = line.slice(6);
-                  if (data === '[DONE]') continue;
-                  try {
-                    const parsed = JSON.parse(data);
-                    if (parsed.type === 'content_block_delta' && parsed.delta && parsed.delta.text) {
-                      controller.enqueue(new TextEncoder().encode(parsed.delta.text));
-                    }
-                  } catch(e) {}
-                }
-              }
-            }
+          const data = await claudeRes.json();
+          const text = data.content[0].text;
+          console.log('[MBTS] analyze: Claude 성공, 길이:', text.length);
+          return new Response(text, {
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
           });
-          return new Response(claudeRes.body.pipeThrough(transformStream), { headers });
         } else {
           const errBody = await claudeRes.text().catch(() => '');
-          console.log('[MBTS] analyze: Claude도 실패 (HTTP ' + claudeRes.status + '):', errBody.slice(0, 200));
+          console.log('[MBTS] analyze: Claude도 실패:', errBody.slice(0, 300));
         }
       } catch(e) {
         console.log('[MBTS] analyze: Claude 에러:', e.message);
       }
     }
 
-    console.log('[MBTS] analyze: 모든 AI API 실패');
     return new Response(JSON.stringify({ error: 'All AI APIs failed' }), { status: 500 });
-
   } catch(e) {
-    console.log('[MBTS] analyze: 요청 처리 에러:', e.message);
     return new Response(JSON.stringify({ error: e.message }), { status: 500 });
   }
 }
