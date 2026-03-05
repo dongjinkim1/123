@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<title>MBTS 카카오 공유 카드 생성기</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<style>
+body { font-family: 'Nunito', sans-serif; padding: 20px; background: #f5f5f5; }
+h2 { margin-bottom: 10px; }
+#progress { margin: 16px 0; font-size: 14px; color: #555; }
+#preview { margin-top: 16px; }
+button { padding: 12px 24px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; border-radius: 8px; background: #4CAF7D; color: #fff; }
+button:disabled { background: #ccc; cursor: not-allowed; }
+</style>
+</head>
+<body>
+<h2>MBTS 75장 카카오 공유 카드 생성기</h2>
+<button id="startBtn" onclick="generateAll()">75장 생성 시작</button>
+<div id="progress"></div>
+<div id="preview"></div>
+
+<script>
+var OHENG_COLORS = {
+  '목': { color: '#22A469', colorDark: '#166B44' },
+  '화': { color: '#E8453C', colorDark: '#972D27' },
+  '토': { color: '#C49A2A', colorDark: '#7F641B' },
+  '금': { color: '#6B7B8D', colorDark: '#454F5C' },
+  '수': { color: '#2D7EB5', colorDark: '#1D5275' }
+};
+
+var OHENG_CODE = { '목': 'Wo', '화': 'Fi', '토': 'Ea', '금': 'Me', '수': 'Wa' };
+
+var ANIMAL_CODE = {
+  '늑대': 'Wf', '여우': 'Fo', '다람쥐': 'Sq', '사슴': 'De', '고양이': 'Ca',
+  '사자': 'Li', '공작새': 'Pk', '벌': 'Be', '독수리': 'Eg', '올빼미': 'Ow',
+  '곰': 'Br', '수달': 'Ot', '소': 'Ox', '코끼리': 'El', '거북이': 'Tu',
+  '치타': 'Ch', '앵무새': 'Pa', '악어': 'Cr', '시바견': 'Sb', '문어': 'Oc',
+  '상어': 'Sk', '돌고래': 'Do', '비버': 'Bv', '고래': 'Wh', '해파리': 'Jf'
+};
+
+var STATE_CODE = { '신강': 'S', '신약': 'W', '특수': 'X' };
+
+var ANIMALS = [
+  { oheng:'목', emoji:'🐺', name:'늑대', mods:[
+    {label:'신강',tag:'싸한분위기러',title:'아무 말 안 했는데 분위기 싸해지는 늑대',traits:['존재감 과다','표정관리 불가','고칠생각 없음'],rx:'가끔은 웃어보기 챌린지'},
+    {label:'신약',tag:'츤데레',title:'무리에 끼고 싶지만 혼자인 늑대',traits:['혼자가 편한 척','외로움 탐','먼저 연락 못함'],rx:'먼저 손 내밀기 챌린지'},
+    {label:'특수',tag:'퇴사상상러',title:'퇴사 상상하다 하루가 끝나는 늑대',traits:['퇴사 시뮬 30회/일','현실 브레이크','통장이 족쇄'],rx:'작은 것부터 벗어나보기'}
+  ]},
+  { oheng:'목', emoji:'🦊', name:'여우', mods:[
+    {label:'신강',tag:'입담꾼',title:'입만 열면 다 넘어가는 여우',traits:['말빨 미쳤음','센스 만렙','분위기 장악'],rx:'진심은 말빨로 안 통해'},
+    {label:'신약',tag:'잡생각러',title:'아이디어만 100개인 여우',traits:['아이디어 폭포','실행 부족','잡생각 대마왕'],rx:'하나만 골라서 일단 시작'},
+    {label:'특수',tag:'N잡러',title:'부업이 5개인데 다 중간인 여우',traits:['N잡 중','다 중간','멈추면 불안'],rx:'하나를 터뜨려야 나머지도 산다'}
+  ]},
+  { oheng:'목', emoji:'🐿️', name:'다람쥐', mods:[
+    {label:'신강',tag:'짠테크러',title:'도토리 3만개 숨겨놓은 다람쥐',traits:['재물감각','알뜰살뜰','투자본능'],rx:'가끔은 지르는 맛도 알아야'},
+    {label:'신약',tag:'망설이러',title:'도토리 보이는데 손이 안 닿는 다람쥐',traits:['기회포착은 함','실행 느림','타이밍 미스'],rx:'보이면 바로 잡기. 3초 룰.'},
+    {label:'특수',tag:'공허러',title:'도토리만 모으다 봄을 잊은 다람쥐',traits:['성공했지만 공허','의미부재','영혼 텅빈'],rx:'통장 말고 마음을 채우기'}
+  ]},
+  { oheng:'목', emoji:'🦌', name:'사슴', mods:[
+    {label:'신강',tag:'괜찮아러',title:"'나 괜찮아'가 입버릇인 사슴",traits:['자기희생','감정 숨김','괜찮지 않음'],rx:'오늘만 솔직해보기'},
+    {label:'신약',tag:'눈치러',title:'눈치 100만개 장착한 사슴',traits:['눈치왕','체면중시','사회불안'],rx:'남 시선은 내 인생이 아니야'},
+    {label:'특수',tag:'자기후순위러',title:'남 챙기느라 자기 밥은 안 먹는 사슴',traits:['남 챙기기 달인','자기는 후순위','무의식 희생'],rx:'오늘은 내 밥 먼저 먹기'}
+  ]},
+  { oheng:'목', emoji:'🐱', name:'고양이', mods:[
+    {label:'신강',tag:'알고리즘러',title:'유튜브 알고리즘에 인생 뺏긴 고양이',traits:['호기심 무한','쓸데없는 지식','시간 블랙홀'],rx:'그 시간에 산책 한 번이라도'},
+    {label:'신약',tag:'집콕러',title:'박스만 보면 들어가는 고양이',traits:['안전지대 사랑','소심한 박학','나서기 두려움'],rx:'박스 밖도 생각보다 괜찮아'},
+    {label:'특수',tag:'속앓이러',title:'다 알지만 입이 안 떨어지는 고양이',traits:['지식풍부','표현부족','속앓이'],rx:'일단 한마디만. 그게 시작이야'}
+  ]},
+  { oheng:'화', emoji:'🦁', name:'사자', mods:[
+    {label:'신강',tag:'지시알러지러',title:'지시받으면 일단 화부터 나는 사자',traits:['자존심 끝판왕','지시 알러지','내가 먼저!'],rx:'남의 말도 일단 들어보기'},
+    {label:'신약',tag:'속으르렁러',title:'으르렁거리고 싶은데 목이 안 나오는 사자',traits:['속 왕기질','겉소심','내적분노'],rx:'일단 한 번 크게 으르렁'},
+    {label:'특수',tag:'혼자텐션러',title:'단톡방에서 혼자 텐션 높은 사자',traits:['존재감 폭발','혼자 신남','읽씹 당해도 계속'],rx:'무대 아래에서도 너는 너야'}
+  ]},
+  { oheng:'화', emoji:'🦚', name:'공작새', mods:[
+    {label:'신강',tag:'셀카장인',title:'셀카 200장 찍고 1장 고르는 공작새',traits:['표현욕구 폭발','완벽한 연출','관심=산소'],rx:'조명 없어도 이미 빛나'},
+    {label:'신약',tag:'방전러',title:'깃털 펴다 힘 빠진 공작새',traits:['표현하다 방전','에너지 롤러코스터','번아웃 상습범'],rx:'에너지 충전 먼저, 깃털은 그 다음'},
+    {label:'특수',tag:'참는공작',title:'깃털 펴고 싶은데 눈치 보는 공작새',traits:['속은 화려','겉은 점잖','내적 갈등'],rx:'한 번쯤 맘껏 펼쳐봐'}
+  ]},
+  { oheng:'화', emoji:'🐝', name:'벌', mods:[
+    {label:'신강',tag:'쉼불안러',title:'쉬는 날에도 뭔가 해야 불안한 벌',traits:['워커홀릭','쉬면 불안','죄책감 드리븐'],rx:'쉬는 것도 생산성이야'},
+    {label:'신약',tag:'무거운날개',title:'꽃은 보이는데 날개가 무거운 벌',traits:['기회 포착','체력부족','마음만 급함'],rx:'무리하지 말고 가까운 꽃부터'},
+    {label:'특수',tag:'욕심벌',title:'남의 꿀까지 가져오는 벌',traits:['공격적 재테크','남것도 내것','승부사'],rx:'남의 꽃밭도 존중하기'}
+  ]},
+  { oheng:'화', emoji:'🦅', name:'독수리', mods:[
+    {label:'신강',tag:'분위기얼리러',title:'회의 때 한마디로 분위기 얼리는 독수리',traits:['팩트폭행','분위기 파악 불가','본의 아닌 카리스마'],rx:'팩트에 쿠션 한 겹 입히기'},
+    {label:'신약',tag:'기다림러',title:'높이 날고 싶은데 바람이 안 도와주는 독수리',traits:['목표 높음','환경 안맞음','인내가 필요'],rx:'바람은 반드시 바뀐다'},
+    {label:'특수',tag:'스펙갑공허러',title:'LinkedIn 프로필이 무서운 독수리',traits:['스펙 화려','정체성 혼란','가면 속 공허'],rx:'프로필 말고 진짜 나를 찾기'}
+  ]},
+  { oheng:'화', emoji:'🦉', name:'올빼미', mods:[
+    {label:'신강',tag:'새벽분석러',title:'새벽 3시에 전 애인 인스타 분석하는 올빼미',traits:['야행성 분석','쓸데없는 관찰','새벽 감성'],rx:'그 분석력을 자기한테 써봐'},
+    {label:'신약',tag:'생각러',title:'생각만 하다 해 지는 올빼미',traits:['분석마비','완벽주의','시작공포'],rx:'70%면 충분해. 일단 시작'},
+    {label:'특수',tag:'침묵러',title:'다 보이는데 아무 말 안 하는 올빼미',traits:['관찰력 극대화','표현부족','속답답'],rx:'본 것을 말해야 지혜가 돼'}
+  ]},
+  { oheng:'토', emoji:'🐻', name:'곰', mods:[
+    {label:'신강',tag:'내꺼진심러',title:'내 과자 하나에 진심인 곰',traits:['영역 의식','작은 것에 진심','터지면 무서움'],rx:'모든 과자가 네 영역은 아니야'},
+    {label:'신약',tag:'동굴러',title:'동굴에서 나오기 싫은 곰',traits:['집순이/집돌이','에너지 부족','안전지대 사랑'],rx:'동굴 밖에도 맛있는 게 있어'},
+    {label:'특수',tag:'모순소비러',title:'꿀 먹으면서 다이어트 한다는 곰',traits:['모순적 소비','아끼면서 지름','합리화 달인'],rx:'인정해. 그냥 먹고 싶었던 거야'}
+  ]},
+  { oheng:'토', emoji:'🦦', name:'수달', mods:[
+    {label:'신강',tag:'놀이터러',title:'장난치다 하루가 끝나는 수달',traits:['장난꾸러기','놀기 대장','분위기 메이커'],rx:'놀다가도 가끔은 진지하게'},
+    {label:'신약',tag:'급잠러',title:'재롱 피우다 잠드는 수달',traits:['귀여움 MAX','5분 체력','급속 방전'],rx:'텐션 조절이 곧 생존전략'},
+    {label:'특수',tag:'자기검열러',title:'놀고 싶은데 눈치 보이는 수달',traits:['놀고싶다','눈치보임','자기검열'],rx:'네가 놀아도 세상은 안 무너져'}
+  ]},
+  { oheng:'토', emoji:'🐂', name:'소', mods:[
+    {label:'신강',tag:'일단출근러',title:'불만 있어도 일단 출근하는 소',traits:['묵묵 실행','불만 삼킴','관성 출근'],rx:'불만 좀 말해도 괜찮아'},
+    {label:'신약',tag:'과부하러',title:'짐이 너무 많아 주저앉은 소',traits:['과부하','쉬고싶다','의무감에 눌림'],rx:'짐 절반만 내려놔도 갈 수 있어'},
+    {label:'특수',tag:'몰래투잡러',title:'본업 하면서 부업 몰래 하는 소',traits:['실속파','투잡 중','체력 한계'],rx:'몸이 자본이라는 거 잊지 마'}
+  ]},
+  { oheng:'토', emoji:'🐘', name:'코끼리', mods:[
+    {label:'신강',tag:'기억삭제불가러',title:'남이 한 말 10년째 기억하는 코끼리',traits:['기억력 무한','상처 저장소','용서≠망각'],rx:'가끔은 잊는 것도 능력이야'},
+    {label:'신약',tag:'무거운발러',title:'무거운 발걸음의 코끼리',traits:['의무과다','느린게아니라무거운것','지침'],rx:'한 발짝만. 그것만으로도 대단해'},
+    {label:'특수',tag:'상처아카이브러',title:'상처도 교훈도 다 기록하는 코끼리',traits:['기록 본능','상처→교훈','성장형 아픔'],rx:'좋은 기억도 기록해줘'}
+  ]},
+  { oheng:'토', emoji:'🐢', name:'거북이', mods:[
+    {label:'신강',tag:'느린조급러',title:'남들 3바퀴 돌 때 1바퀴 확실히 도는 거북이',traits:['자기 페이스','꾸준함','속은 조급'],rx:'속도가 아닌 방향이 중요해'},
+    {label:'신약',tag:'등껍질러',title:'등껍질 안에서 세상 구경하는 거북이',traits:['안전지대','관찰중','세상은 무서워'],rx:'머리만 살짝 내밀어봐'},
+    {label:'특수',tag:'이상러',title:'지혜는 깊은데 통장은 얕은 거북이',traits:['지혜롭지만 가난','이상주의','학자형'],rx:'지혜도 현금화할 수 있어'}
+  ]},
+  { oheng:'금', emoji:'🐆', name:'치타', mods:[
+    {label:'신강',tag:'일단결제러',title:'생각보다 손이 먼저 나가는 치타',traits:['결단력 미침','충동적','후회는 나중에'],rx:'달리기 전에 1초만 앞을 봐'},
+    {label:'신약',tag:'생각만치타',title:'달리고 싶은데 발이 안 떨어지는 치타',traits:['머리는 빠름','몸은 느림','내적 갈등'],rx:'한 발만 내디뎌. 나머지는 관성'},
+    {label:'특수',tag:'실시간공유러',title:'달리면서 인스타 올리는 치타',traits:['행동+공유 동시','실시간 중계','멈춤 불가'],rx:'가끔은 조용히 달려도 돼'}
+  ]},
+  { oheng:'금', emoji:'🦜', name:'앵무새', mods:[
+    {label:'신강',tag:'직설러',title:'할 말은 꼭 하는 앵무새',traits:['직설화법','관찰력','한마디가 칼'],rx:'정곡도 포장하면 더 잘 먹혀'},
+    {label:'신약',tag:'배터리러',title:'떠들다 배터리 나가는 앵무새',traits:['수다+방전','텐션 롤러코스터','5분 집중'],rx:'말 줄이면 체력이 늘어'},
+    {label:'특수',tag:'TMI러',title:'알고 있는 걸 다 말해버리는 앵무새',traits:['TMI 폭탄','지식+수다','강의본능'],rx:'상대방 턴도 있다는 걸 기억'}
+  ]},
+  { oheng:'금', emoji:'🐊', name:'악어', mods:[
+    {label:'신강',tag:'세일알림러',title:'할인 알림 뜨면 새벽에도 일어나는 악어',traits:['기회포착 비정상','세일 알림 = 기상','놓치면 우울'],rx:'놓아야 할 때를 아는 것도 실력'},
+    {label:'신약',tag:'잠복러',title:'물속에서 기회만 기다리는 악어',traits:['인내심','타이밍 중시','수동적'],rx:'가끔은 먼저 물 밖으로 나가기'},
+    {label:'특수',tag:'야생생존러',title:'사수 없이 알아서 크는 야생 악어',traits:['야생 생존력','매뉴얼 없음','맨땅 헤딩'],rx:'가끔은 물어보는 게 빠르다'}
+  ]},
+  { oheng:'금', emoji:'🐕', name:'시바견', mods:[
+    {label:'신강',tag:'거부반응러',title:'싫으면 온몸으로 거부하는 시바견',traits:['자기룰 철벽','표정 = 솔직','타협없음'],rx:'남의 규칙에도 이유가 있어'},
+    {label:'신약',tag:'거부러',title:'산책 가기 싫은데 끌려가는 시바견',traits:['수동적 저항','하기싫어','결국 함'],rx:'가끔은 순순히 가는 게 더 편해'},
+    {label:'특수',tag:'투덜러',title:'규칙은 지키는데 한마디씩 하는 시바견',traits:['규칙+불만','한마디 장인','투덜투덜'],rx:'말투만 바꿔도 세상이 달라져'}
+  ]},
+  { oheng:'금', emoji:'🐙', name:'문어', mods:[
+    {label:'신강',tag:'탭30개러',title:'탭 30개 켜놓고 하나도 안 닫는 문어',traits:['멀티태스킹(인 척)','탭 30개','하나도 안 끝남'],rx:'탭 하나만 남기고 다 닫기'},
+    {label:'신약',tag:'숨기러',title:'먹물 뿌리고 숨는 문어',traits:['회피형','방어본능','숨기 달인'],rx:'도망치지 않으면 의외로 별 거 아냐'},
+    {label:'특수',tag:'분석만프로러',title:'주식 분석은 프로인데 수익은 마이너스인 문어',traits:['분석 프로','수익 마이너스','이론≠실전'],rx:'분석력을 통장에도 적용해봐'}
+  ]},
+  { oheng:'수', emoji:'🦈', name:'상어', mods:[
+    {label:'신강',tag:'존재불안러',title:'일 안 하면 존재가치 없다고 느끼는 상어',traits:['멈춤불가','존재불안','쉼=공포'],rx:'멈춰도 안 죽어. 진짜로.'},
+    {label:'신약',tag:'고독러',title:'깊은 바다에서 혼자 헤엄치는 상어',traits:['강한척','외로움 숨김','고독한 독립'],rx:'약한 모습도 보여줘도 돼'},
+    {label:'특수',tag:'내맘대로러',title:'팀플에서 결국 다 내 맘대로 하는 상어',traits:['독단적','결과는 냄','협업 스킬 0'],rx:'같이 하면 더 큰 결과 나와'}
+  ]},
+  { oheng:'수', emoji:'🐬', name:'돌고래', mods:[
+    {label:'신강',tag:'자동MC러',title:'아무 모임에서나 MC 되는 돌고래',traits:['분위기 장인','자동 MC','본능적 유머'],rx:'매 순간 MC 안 해도 돼'},
+    {label:'신약',tag:'떠돌이러',title:'파도에 떠밀려 다니는 돌고래',traits:['흐름타기','방향없음','자유롭지만 불안'],rx:'방향 하나만 정하면 파도가 밀어줘'},
+    {label:'특수',tag:'선두러',title:'무리 앞에서 점프하는 돌고래',traits:['리더+퍼포머','점프본능','앞장서기'],rx:'팔로워도 중요한 역할이야'}
+  ]},
+  { oheng:'수', emoji:'🦫', name:'비버', mods:[
+    {label:'신강',tag:'묵묵무관심러',title:'아무도 안 알아주는데 묵묵히 짓는 비버',traits:['꾸준함','인정 부재','묵묵히 축적'],rx:'알아주는 사람은 반드시 나타나'},
+    {label:'신약',tag:'허무러',title:'댐 짓다 지쳐서 주저앉은 비버',traits:['노력중','결과없음','번아웃 직전'],rx:'쌓인 건 보이지 않아도 있어'},
+    {label:'특수',tag:'공허러',title:'댐만 짓고 왜 짓는지 모르는 비버',traits:['바쁘지만 공허','의미부재','목적없는 성실'],rx:'왜 짓는지 먼저 물어봐'}
+  ]},
+  { oheng:'수', emoji:'🐋', name:'고래', mods:[
+    {label:'신강',tag:'상담사인데상담러',title:'다 품어주다 본인이 터지는 고래',traits:['포용력 MAX','자기 케어 부족','터지기 직전'],rx:'남 고민 말고 내 고민 먼저'},
+    {label:'신약',tag:'속울음러',title:'깊은 바다에서 조용히 울고 있는 고래',traits:['조용한 울음','참음','무거운 책임'],rx:'울어도 돼. 고래의 울음도 노래야'},
+    {label:'특수',tag:'읽씹당하는리더러',title:'그룹채팅에서 혼자 공지 올리는 고래',traits:['혼자 책임','읽씹 당함','외로운 리더'],rx:'도움을 구하는 것도 용기야'}
+  ]},
+  { oheng:'수', emoji:'🪼', name:'해파리', mods:[
+    {label:'신강',tag:'샤워철학러',title:'샤워하다 인생 의미 생각하는 해파리',traits:['감수성 극대화','샤워 = 철학시간','물값 폭탄'],rx:'때로는 얕은 곳에서 놀아도 돼'},
+    {label:'신약',tag:'표류러',title:'조류에 떠밀려 다니는 해파리',traits:['방향없는 사색','우유부단','조류따라'],rx:'방향 하나만 정해봐'},
+    {label:'특수',tag:'독침러',title:'독 쏘고 도망가는 해파리',traits:['평소 순함','건드리면 한방','수동공격'],rx:'독 쏘기 전에 먼저 말해봐'}
+  ]}
+];
+
+function makeCardHTML(animal, mod, oheng) {
+  var c = OHENG_COLORS[oheng];
+  var traitsHTML = '';
+  for (var t = 0; t < mod.traits.length; t++) {
+    traitsHTML += '<span style="background:rgba(255,255,255,0.18);color:rgba(255,255,255,0.9);font-size:11px;font-weight:600;padding:3px 12px;border-radius:14px;">' + mod.traits[t] + '</span>';
+  }
+  return '<div style="width:800px;height:400px;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;font-family:Nunito,sans-serif;">' +
+    '<div style="background:#fff;padding:12px 0 10px;display:flex;flex-direction:column;align-items:center;gap:1px;">' +
+      '<div style="font-weight:900;font-size:30px;letter-spacing:2px;">' +
+        '<span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span>' +
+      '</div>' +
+      '<div style="font-size:10px;color:#aaa;font-weight:600;">사주×MBTI 퍼스널 분석</div>' +
+    '</div>' +
+    '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:30px;position:relative;background:linear-gradient(135deg,' + c.color + ',' + c.colorDark + ');">' +
+      '<div style="font-size:70px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.15));margin-bottom:6px;">' + animal.emoji + '</div>' +
+      '<div style="display:inline-block;background:rgba(255,255,255,0.22);color:#fff;font-size:12px;font-weight:700;padding:3px 14px;border-radius:20px;margin-bottom:6px;">' + mod.tag + '</div>' +
+      '<div style="color:#fff;font-size:18px;font-weight:800;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,0.1);margin-bottom:8px;">' + mod.title + '</div>' +
+      '<div style="display:flex;gap:8px;justify-content:center;margin-bottom:17px;">' + traitsHTML + '</div>' +
+      '<div style="font-size:11px;color:rgba(255,255,255,0.6);font-weight:600;">💊 ' + mod.rx + '</div>' +
+      '<div style="position:absolute;bottom:10px;right:20px;font-size:10px;color:rgba(255,255,255,0.3);font-weight:600;">mbts.kr</div>' +
+    '</div>' +
+  '</div>';
+}
+
+async function generateAll() {
+  var btn = document.getElementById('startBtn');
+  var progress = document.getElementById('progress');
+  var preview = document.getElementById('preview');
+  btn.disabled = true;
+
+  var zip = new JSZip();
+  var total = ANIMALS.length * 3;
+  var count = 0;
+
+  for (var a = 0; a < ANIMALS.length; a++) {
+    var animal = ANIMALS[a];
+    for (var m = 0; m < animal.mods.length; m++) {
+      var mod = animal.mods[m];
+      count++;
+      var filename = OHENG_CODE[animal.oheng] + ANIMAL_CODE[animal.name] + STATE_CODE[mod.label] + '.png';
+      progress.textContent = count + '/' + total + ' — ' + filename + ' 생성 중...';
+
+      preview.innerHTML = makeCardHTML(animal, mod, animal.oheng);
+      var cardEl = preview.firstChild;
+
+      await new Promise(function(r) { setTimeout(r, 50); });
+
+      var canvas = await html2canvas(cardEl, { scale: 2, width: 800, height: 400, useCORS: true, backgroundColor: null });
+      var blob = await new Promise(function(resolve) { canvas.toBlob(resolve, 'image/png'); });
+      zip.file(filename, blob);
+    }
+  }
+
+  progress.textContent = '모든 카드 생성 완료! ZIP 다운로드 중...';
+  var zipBlob = await zip.generateAsync({ type: 'blob' });
+  saveAs(zipBlob, 'mbts-animal-cards.zip');
+  progress.textContent = total + '장 카드 생성 완료! mbts-animal-cards.zip 다운로드됨.';
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
