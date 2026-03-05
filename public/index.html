@@ -5241,14 +5241,32 @@ function showToast(msg){
 }
 
 function shareKakao(){
+  var ohengMap = { '목':'Wo', '화':'Fi', '토':'Ea', '금':'Me', '수':'Wa' };
+  var animalMap = { '늑대':'Wf', '여우':'Fo', '다람쥐':'Sq', '사슴':'De', '고양이':'Ca', '사자':'Li', '공작새':'Pk', '벌':'Be', '독수리':'Eg', '올빼미':'Ow', '곰':'Br', '수달':'Ot', '소':'Ox', '코끼리':'El', '거북이':'Tu', '치타':'Ch', '앵무새':'Pa', '악어':'Cr', '시바견':'Sb', '문어':'Oc', '상어':'Sk', '돌고래':'Do', '비버':'Bv', '고래':'Wh', '해파리':'Jf' };
+  var condMap = { '신강':'S', '신약':'W', '특수':'X' };
+
   var animalTitle='',animalDesc='',animalEmoji='';
   if(window._lastAIResult&&window._lastAIResult.animal&&window._lastSaju){
     var aInfo=getAnimalResult(window._lastAIResult.animal.oheng,window._lastAIResult.animal.dominant_sipsung,window._lastAIResult.animal.condition);
     if(aInfo&&aInfo.mod){animalEmoji=aInfo.emoji;animalTitle=aInfo.mod.title;animalDesc=aInfo.mod.desc;}
   }
   var shareTitle=animalEmoji+' '+(animalTitle||'MBTS — 사주×MBTI 퍼스널 분석');
-  var shareDesc=animalDesc||'세상에 같은 풀이는 없습니다. 내 운명동물 알아보기!';
-  var shareUrl=window.location.href.split('?')[0];
+  var shareDesc=animalDesc?(animalDesc+'\n\n사주×MBTI 퍼스널 분석 MBTS'):'세상에 같은 풀이는 없습니다. 내 운명동물 알아보기!';
+
+  var shareImageUrl = 'https://mbts.kr/animals/FiLiS.png';
+  if (window._lastAIResult && window._lastAIResult.animal) {
+    var a = window._lastAIResult.animal;
+    var oh = ohengMap[a.oheng] || 'Fi';
+    var aInfoImg = getAnimalResult(a.oheng, a.dominant_sipsung, a.condition);
+    var anName = aInfoImg ? (animalMap[aInfoImg.name] || 'Li') : 'Li';
+    var cond = condMap[a.condition] || 'S';
+    shareImageUrl = 'https://mbts.kr/animals/' + oh + anName + cond + '.png';
+  }
+
+  var shareUrl = 'https://mbts.kr';
+  if (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) {
+    shareUrl += '?ref=' + mbtsSession.userId;
+  }
 
   if(typeof Kakao!=='undefined'&&Kakao.isInitialized()){
     try{
@@ -5257,7 +5275,9 @@ function shareKakao(){
         content:{
           title:shareTitle,
           description:shareDesc+'\n\n#MBTS #사주 #MBTI #운명동물',
-          imageUrl:'https://your-domain.com/og-image.png',
+          imageUrl:shareImageUrl,
+          imageWidth:800,
+          imageHeight:400,
           link:{mobileWebUrl:shareUrl,webUrl:shareUrl}
         },
         buttons:[{title:'🔮 나도 운명 확인하기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]
