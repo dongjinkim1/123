@@ -33,7 +33,7 @@ export default async function handler(req) {
       },
       body: JSON.stringify({
         model: claudeModel,
-        max_tokens: 4096,
+        max_tokens: 16384,
         stream: true,
         system: systemPrompt,
         messages: [{ role: 'user', content: userPrompt }]
