@@ -18,7 +18,11 @@ export default async function handler(req) {
       return new Response('API key not configured', { status: 500 });
     }
 
-    const claudeModel = model || 'claude-sonnet-4-20250514';
+    const modelMap = {
+      'claude-sonnet-4-6': 'claude-sonnet-4-20250514',
+      'claude-sonnet-4-20250514': 'claude-sonnet-4-20250514'
+    };
+    const claudeModel = modelMap[model] || model || 'claude-sonnet-4-20250514';
 
     const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
