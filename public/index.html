@@ -4661,7 +4661,6 @@ function applyLoginState(){
 <script src="fortune.js"></script>
 <script src="fortune-target.js"></script>
 <script src="chatting.js"></script>
-<script src="openai.js"></script>
 <script>
 // ====================================================================
 // MBTS Bridge: engine.js ↔ 파이널 UI
@@ -5731,19 +5730,19 @@ setTimeout(function() {
   }
 }, 300);
 
-// ===== Visitor Tracking (서버 미구현 — 비활성화) =====
-// (function(){
-//   try{
-//     var pg='/';
-//     var hash=location.hash.replace('#','');
-//     if(hash) pg='/'+hash;
-//     fetch('/api/visitor/track',{
-//       method:'POST',
-//       headers:{'Content-Type':'application/json'},
-//       body:JSON.stringify({ page:pg, referrer:document.referrer||'' })
-//     }).catch(function(){});
-//   }catch(e){}
-// })();
+// ===== Visitor Tracking =====
+(function(){
+  try{
+    var pg='/';
+    var hash=location.hash.replace('#','');
+    if(hash) pg='/'+hash;
+    fetch('/api/visitor/track',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ page:pg, referrer:document.referrer||'' })
+    }).catch(function(){});
+  }catch(e){}
+})();
 
 // ===== Popup Notice =====
 function checkPopupNotice(){
@@ -5752,17 +5751,17 @@ function checkPopupNotice(){
   try{ dismissed=localStorage.getItem('mbts_popup_dismissed'); }catch(e){}
   if(dismissed===today) return;
 
-  // fetch('/api/notice/popup')  — 서버 미구현, 비활성화
-  // .then(function(r){ return r.json(); })
-  // .then(function(d){
-  //   if(d.success && d.notice){
-  //     document.getElementById('popupNoticeTitle').textContent=d.notice.title||'공지사항';
-  //     document.getElementById('popupNoticeContent').textContent=d.notice.content||'';
-  //     document.getElementById('popupNoticeOverlay').classList.add('open');
-  //   }
-  // }).catch(function(e){
-  //   console.warn('[MBTS] 팝업 공지 로드 실패:', e);
-  // });
+  fetch('/api/notice/popup')
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if(d.success && d.notice){
+      document.getElementById('popupNoticeTitle').textContent=d.notice.title||'공지사항';
+      document.getElementById('popupNoticeContent').textContent=d.notice.content||'';
+      document.getElementById('popupNoticeOverlay').classList.add('open');
+    }
+  }).catch(function(e){
+    console.warn('[MBTS] 팝업 공지 로드 실패:', e);
+  });
 }
 
 function closePopupNotice(){
