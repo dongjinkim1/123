@@ -67,37 +67,20 @@ function doKakaoLogin() {
     return;
   }
 
-  Kakao.Auth.login({
-    success: function(authObj) {
-      console.log('[MBTS] 카카오 인증 성공');
-      // 카카오 사용자 정보 가져오기
-      Kakao.API.request({
-        url: '/v2/user/me',
-        success: function(res) {
-          var kakaoId = String(res.id);
-          var nickname = (res.kakao_account && res.kakao_account.profile)
-            ? res.kakao_account.profile.nickname : '사용자';
-          var profileImage = (res.kakao_account && res.kakao_account.profile)
-            ? res.kakao_account.profile.profile_image_url : null;
-          var email = (res.kakao_account && res.kakao_account.email)
-            ? res.kakao_account.email : null;
+  // Kakao SDK v2는 Kakao.Auth.authorize() 사용 (리다이렉트 방식)
+  // SPA에서는 REST API + 팝업 방식이 더 적합하지만,
+  // 간단하게 authorize 리다이렉트 방식 사용
 
-          console.log('[MBTS] 카카오 사용자:', nickname, kakaoId);
-
-          // Supabase에서 기존 유저 찾기 or 신규 생성
-          upsertKakaoUser(kakaoId, nickname, profileImage, email);
-        },
-        fail: function(err) {
-          console.error('[MBTS] 카카오 사용자 정보 실패:', err);
-          if (typeof showToast === 'function') showToast('카카오 로그인 실패');
-        }
-      });
-    },
-    fail: function(err) {
-      console.error('[MBTS] 카카오 로그인 실패:', err);
-      if (typeof showToast === 'function') showToast('카카오 로그인에 실패했습니다');
-    }
-  });
+  try {
+    Kakao.Auth.authorize({
+      redirectUri: window.location.origin + '/auth/kakao/callback',
+      scope: 'profile_nickname,profile_image'
+    });
+  } catch(e) {
+    console.error('[MBTS] 카카오 로그인 실패:', e);
+    // fallback: 테스트 로그인
+    doTestLogin();
+  }
 }
 
 // ── Supabase 유저 생성/조회 ──
