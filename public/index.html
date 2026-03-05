@@ -1820,7 +1820,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
   <div class="save-page">
     <div class="save-header">
       <div class="save-title">분석결과</div>
-      <div class="save-clover">🍀 47잎</div>
+      <div class="save-clover">🍀 <span class="clover-balance-display">0</span>잎</div>
     </div>
 
     <div class="sub-tabs">
@@ -1973,7 +1973,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
         </div>
       </div>
 
-      <button style="width:100%;padding:14px;font-size:14px;font-weight:600;color:var(--text-3);background:#fff;border:1px solid var(--border);border-radius:var(--r-md)">로그아웃</button>
+      <button onclick="doLogout()" style="width:100%;padding:14px;font-size:14px;font-weight:600;color:var(--text-3);background:#fff;border:1px solid var(--border);border-radius:var(--r-md)">로그아웃</button>
 
       <div style="text-align:center;padding:24px 0;font-size:11px;color:var(--text-3)">MBTS v1.0.0</div>
     </div>
@@ -4205,8 +4205,11 @@ function goChatFromGh(el){
 document.getElementById('ghStart')?.addEventListener('click', function(){
   if(!ghA || !ghB || !ghRel) return;
 
-  // 클로버 체크 임시 비활성화 (테스트용)
-  _runGunghapAnalysis();
+  // 클로버 차감 후 궁합 분석 진행
+  useClover(15, 'gunghap', function(success) {
+    if (!success) return;
+    _runGunghapAnalysis();
+  });
 });
 
 async function _runGunghapAnalysis(){
@@ -4993,12 +4996,15 @@ function mbtiGoNext(){
     apiKey:apiKey
   };
 
-  // 클로버 체크 임시 비활성화 (테스트용)
-  console.log('🔍[9] go(pgLoad) 호출 직전');
-  go('pgLoad');
-  console.log('🔍[10] go(pgLoad) 성공, startRealAnalysis 호출');
-  startRealAnalysis(_analysisParams);
-  console.log('🔍[11] startRealAnalysis 호출 완료');
+  // 클로버 차감 후 분석 진행
+  useClover(15, 'saju', function(success) {
+    if (!success) return;
+    console.log('🔍[9] go(pgLoad) 호출 직전');
+    go('pgLoad');
+    console.log('🔍[10] go(pgLoad) 성공, startRealAnalysis 호출');
+    startRealAnalysis(_analysisParams);
+    console.log('🔍[11] startRealAnalysis 호출 완료');
+  });
 }
 
 // ====================================================================
