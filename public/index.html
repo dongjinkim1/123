@@ -5277,6 +5277,19 @@ function shareKakao(){
     shareUrl += '?ref=' + mbtsSession.userId;
   }
 
+  console.log('[MBTS] shareKakao 디버그:', {
+    shareTitle: shareTitle,
+    shareDesc: shareDesc,
+    shareImageUrl: shareImageUrl,
+    shareUrl: shareUrl,
+    imageWidth: 800,
+    imageHeight: 600,
+    animalTitle: animalTitle,
+    animalDesc: animalDesc,
+    animalEmoji: animalEmoji,
+    hasAIResult: !!(window._lastAIResult && window._lastAIResult.animal)
+  });
+
   if(typeof Kakao!=='undefined'&&Kakao.isInitialized()){
     try{
       Kakao.Share.sendDefault({
