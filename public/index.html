@@ -4949,6 +4949,10 @@ go=function(id,skipPush){
 var ST={y:"",m:"",d:"",h:"",min:"",gender:"",city:"",cityLng:0,ch:[null,null,null,null],it:[null,null,null,null],cur:0};
 
 var _isAnalyzing=false;
+
+var TITLE_OVERRIDE = {
+  'LinkedIn 프로필이 무서운 독수리': '스펙 갑인데 본인은 쫄보인 독수리'
+};
 window.addEventListener('beforeunload',function(e){
   if(_isAnalyzing){e.preventDefault();e.returnValue='';return '';}
 });
@@ -5252,6 +5256,7 @@ function shareKakao(){
   if(window._lastAIResult&&window._lastAIResult.animal&&window._lastSaju){
     var aInfo=getAnimalResult(window._lastAIResult.animal.oheng,window._lastAIResult.animal.dominant_sipsung,window._lastAIResult.animal.condition);
     if(aInfo&&aInfo.mod){animalEmoji=aInfo.emoji;animalTitle=aInfo.mod.title;animalDesc=aInfo.mod.desc;}
+    if(TITLE_OVERRIDE[animalTitle])animalTitle=TITLE_OVERRIDE[animalTitle];
   }
   var shareTitle=animalEmoji+' '+(animalTitle||'MBTS — 사주×MBTI 퍼스널 분석');
   var shareDesc=animalDesc?(animalDesc+'\n\n사주×MBTI 퍼스널 분석 MBTS'):'세상에 같은 풀이는 없습니다. 내 운명동물 알아보기!';
@@ -5384,8 +5389,10 @@ function renderResult(result,saju,mt,gg,isAI){
     var gFrom=ohD.color,gTo=adjustColor(ohD.color,0.65);
     h+='<div id="animal-card-capture" class="r-animal" style="background:linear-gradient(135deg,'+gFrom+','+gTo+')">';
     h+='<div class="r-animal-emoji">'+animalInfo.emoji+'</div>';
+    var _aTitle=mod.title;
+    if(TITLE_OVERRIDE[_aTitle])_aTitle=TITLE_OVERRIDE[_aTitle];
     h+='<div class="r-animal-tag">'+mod.tag+'</div>';
-    h+='<div class="r-animal-title">'+mod.title+'</div>';
+    h+='<div class="r-animal-title">'+_aTitle+'</div>';
     h+='<div class="r-animal-desc">'+mod.desc+'</div>';
     h+='<div class="r-animal-traits">';
     (mod.traits||[]).forEach(function(t){h+='<span class="r-animal-trait">#'+t+'</span>';});
