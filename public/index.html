@@ -5259,7 +5259,8 @@ function shareKakao(){
     if(TITLE_OVERRIDE[animalTitle])animalTitle=TITLE_OVERRIDE[animalTitle];
   }
   var shareTitle=animalEmoji+' '+(animalTitle||'MBTS — 사주×MBTI 퍼스널 분석');
-  var shareDesc=animalDesc?(animalDesc+'\n\n사주×MBTI 퍼스널 분석 MBTS'):'세상에 같은 풀이는 없습니다. 내 운명동물 알아보기!';
+  var nickname = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '';
+  var shareDesc = nickname ? (nickname + '님의 MBTS 결과를 공유드립니다.') : 'MBTS — 세상에 같은 풀이는 없습니다.';
 
   var shareImageUrl = 'https://mbts.kr/animals/FiLiS.png';
   if (window._lastAIResult && window._lastAIResult.animal) {
@@ -5282,10 +5283,10 @@ function shareKakao(){
         objectType:'feed',
         content:{
           title:shareTitle,
-          description:shareDesc+'\n\n#MBTS #사주 #MBTI #운명동물',
+          description:shareDesc,
           imageUrl:shareImageUrl,
           imageWidth:800,
-          imageHeight:400,
+          imageHeight:600,
           link:{mobileWebUrl:shareUrl,webUrl:shareUrl}
         },
         buttons:[{title:'🔮 나도 운명 확인하기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]
