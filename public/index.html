@@ -5192,7 +5192,7 @@ function initCatNav(){
           pill.classList.toggle('active',pill.getAttribute('data-cat')===catId);
         });
         var activePill=nav.querySelector('.r-cat-pill.active');
-        if(activePill)activePill.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+        if(activePill){var _nl=activePill.offsetLeft,_nw=nav.offsetWidth,_pw=activePill.offsetWidth;nav.scrollTo({left:_nl-(_nw/2)+(_pw/2),behavior:'smooth'});}
       }
     });
   },{rootMargin:'-20% 0px -60% 0px'});
