@@ -80,13 +80,16 @@ export default async (request: Request) => {
 
     // 3. 내역 기록
     const labels: Record<string, string> = { saju: '사주', gunghap: '궁합', chat: '달토 채팅' };
-    await supabase.from('clover_history').insert({
+    const { error: historyError } = await supabase.from('clover_history').insert({
       user_id: userId,
       amount: -amount,
       balance_after: newBalance,
       type: type,
       description: (labels[type] || '서비스') + ' 분석',
     });
+    if (historyError) {
+      console.error('[clover-use] history insert error:', historyError);
+    }
 
     return new Response(JSON.stringify({ success: true, balance: newBalance }), {
       status: 200,

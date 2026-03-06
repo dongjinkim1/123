@@ -2893,6 +2893,7 @@ function go(id,skipPush){
   pg.classList.add('active');
   window.scrollTo({top:0,behavior:'instant'});
   if(id==='pgMore') updateMoreProfile();
+  if(id==='pgClover'&&typeof loadCloverHistory==='function') loadCloverHistory();
   if(!skipPush){
     var noHistoryPages=['pgLoad','pgGhLoad'];
     if(noHistoryPages.indexOf(id)===-1){
@@ -5858,32 +5859,5 @@ if('serviceWorker' in navigator){
     </div>
   </div>
 </div>
-<script>
-window.findOverflow = function() {
-  var docWidth = document.documentElement.offsetWidth;
-  var all = document.querySelectorAll('*');
-  var overflows = [];
-  for (var i = 0; i < all.length; i++) {
-    var el = all[i];
-    if (el.offsetWidth > docWidth + 1) {
-      el.style.outline = '3px solid red';
-      overflows.push((overflows.length+1) + ') <' + el.tagName + '> class=' + (el.className||'').toString().substring(0,40) + ' | 폭=' + el.offsetWidth + 'px (초과' + (el.offsetWidth - docWidth) + 'px) | 내용: ' + (el.textContent||'').substring(0,40).replace(/\n/g,' '));
-    }
-  }
-  var msg = overflows.length === 0
-    ? '✅ 넘치는 요소 없음! 화면폭=' + docWidth + 'px'
-    : '❌ ' + overflows.length + '개 넘침:\n\n' + overflows.join('\n\n');
-  alert(msg);
-};
-
-// 3초 후 버튼 무조건 생성
-setTimeout(function(){
-  var btn = document.createElement('button');
-  btn.textContent = '🔍 넘침검사';
-  btn.style.cssText = 'position:fixed;bottom:80px;right:12px;z-index:99999;padding:10px 14px;background:#E05A5A;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.3)';
-  btn.onclick = window.findOverflow;
-  document.body.appendChild(btn);
-}, 3000);
-</script>
 </body>
 </html>

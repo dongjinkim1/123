@@ -36,6 +36,7 @@ function useClover(amount, type, callback) {
       }
       if (typeof updateLoginUI === 'function') updateLoginUI();
       console.log('[MBTS] 클로버 차감 완료, 잔액:', data.balance);
+      if (typeof loadCloverHistory === 'function') loadCloverHistory();
       if (callback) callback(true, data.balance);
     } else if (data.error === 'Insufficient clover') {
       if (typeof showToast === 'function') showToast('클로버가 부족합니다 🍀 (' + (data.balance || 0) + '/' + amount + ')');
