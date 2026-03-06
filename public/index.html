@@ -1310,22 +1310,22 @@ button{font-family:inherit;cursor:pointer}
 .load-dots span:nth-child(3){animation-delay:.4s}
 
 /* ===== 결과 페이지 CSS (pgRes) ===== */
-.res-wrap{max-width:640px;margin:0 auto;padding:0 0 80px;position:relative}
+.res-wrap{max-width:640px;margin:0 auto;padding:0 0 80px;position:relative;overflow-x:hidden}
 .res-header{text-align:center;padding:36px 20px 16px}
 .res-header .logo-sm{display:flex;justify-content:center;gap:0;margin-bottom:8px}
 .res-header .logo-sm span{font-family:var(--font-main);font-weight:800;font-size:28px;line-height:1}
 .el-fire{color:#E8453C}.el-earth{color:#C49A2A}.el-wood{color:#22A469}.el-water{color:#2D7EB5}.el-metal{color:#6B7B8D}
-.r-animal{margin:0 16px 16px;border-radius:20px;padding:32px 24px;text-align:center;position:relative;overflow:hidden}
+.r-animal{margin:0 16px 16px;border-radius:20px;padding:32px 24px;text-align:center;position:relative;overflow:hidden;max-width:100%;box-sizing:border-box}
 .r-animal-emoji{font-size:72px;display:block;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15))}
 .r-animal-tag{display:inline-block;padding:4px 14px;border-radius:100px;font-size:12px;font-weight:700;margin-bottom:8px;background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
 .r-animal-title{font-size:17px;font-weight:800;color:#fff;line-height:1.5;margin-bottom:6px}
 .r-animal-desc{font-size:13px;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:14px;word-break:keep-all}
 .r-animal-traits{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .r-animal-trait{padding:4px 12px;border-radius:100px;font-size:11px;font-weight:600;background:rgba(255,255,255,.18);color:#fff}
-.r-share-row{display:flex;gap:10px;justify-content:center;margin:0 16px 20px}
+.r-share-row{display:flex;gap:10px;justify-content:center;margin:0 16px 20px;max-width:100%;box-sizing:border-box}
 .r-share-btn{padding:10px 20px;font-size:13px;font-weight:600;border:1.5px solid var(--border);border-radius:100px;background:#fff;color:var(--text-2);cursor:pointer}
 .r-share-btn:active{background:var(--bg-2)}
-.r-profile{margin:0 16px 20px;background:#fff;border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.r-profile{margin:0 16px 20px;background:#fff;border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04);max-width:100%;box-sizing:border-box}
 .r-profile-title{font-size:12px;font-weight:700;color:var(--text-3);text-align:center;padding:16px 16px 12px;letter-spacing:2px}
 .r-pil-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 14px 14px}
 .r-pil-box{text-align:center;background:rgba(0,0,0,.02);border-radius:14px;padding:10px 4px;border:1px solid var(--border)}
@@ -5828,5 +5828,18 @@ if('serviceWorker' in navigator){
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/twemoji@latest/dist/twemoji.min.js"></script>
+<script>
+twemoji.parse(document.body, { folder: 'svg', ext: '.svg' });
+
+// 페이지 전환 시에도 이모지 변환 적용
+var _origGo = typeof go === 'function' ? go : null;
+if (_origGo) {
+  go = function() {
+    _origGo.apply(this, arguments);
+    setTimeout(function() { twemoji.parse(document.body, { folder: 'svg', ext: '.svg' }); }, 100);
+  };
+}
+</script>
 </body>
 </html>
