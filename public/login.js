@@ -163,6 +163,25 @@ function upsertKakaoUser(kakaoId, nickname, profileImage, email) {
 // ── 로그인 성공 후 처리 ──
 function onLoginSuccess() {
   updateLoginUI();
+  // 레퍼럴 보상 처리
+  try {
+    var ref = localStorage.getItem('mbts_referrer');
+    if (ref && ref !== mbtsSession.userId) {
+      fetch('/api/referral-reward', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ referrerId: ref, newUserId: mbtsSession.userId })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.success) {
+          console.log('[MBTS] 레퍼럴 보상 지급 완료');
+        }
+      })
+      .catch(function(e) { console.warn('[MBTS] 레퍼럴 처리 실패:', e); });
+      localStorage.removeItem('mbts_referrer');
+    }
+  } catch(e) {}
   if (typeof go === 'function') go('pgDash');
   if (typeof showToast === 'function') {
     showToast('환영합니다, ' + mbtsSession.nickname + '님! 🍀');

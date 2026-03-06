@@ -5799,6 +5799,23 @@ function startChatFromResult(){ go('pgChat'); }
 // 초기 히스토리 상태 설정
 history.replaceState({page:'pgLanding'},'','');
 
+// ===== 레퍼럴 코드 저장 =====
+(function(){
+  try{
+    var params=new URLSearchParams(window.location.search);
+    var ref=params.get('ref');
+    if(ref&&ref.length>5){
+      localStorage.setItem('mbts_referrer',ref);
+      console.log('[MBTS] 레퍼럴 코드 저장:',ref);
+      // URL에서 ref 파라미터 제거 (깔끔하게)
+      if(window.history&&window.history.replaceState){
+        var clean=window.location.pathname;
+        window.history.replaceState({},'',clean);
+      }
+    }
+  }catch(e){}
+})();
+
 // 카카오 SDK 초기화
 if(typeof Kakao!=='undefined'&&!Kakao.isInitialized()){
   Kakao.init('f5a1da53c1f06fc97b3979ac9d7d3421');

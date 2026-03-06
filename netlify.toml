@@ -10,3 +10,7 @@
 [[edge_functions]]
   function = "clover-balance"
   path = "/api/clover-balance"
+
+[[edge_functions]]
+  function = "referral-reward"
+  path = "/api/referral-reward"
