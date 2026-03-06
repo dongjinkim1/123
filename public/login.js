@@ -226,35 +226,34 @@ function doTestLogin() {
     });
 }
 
-// ── 세션 체크 (Supabase에서 최신 잔액 확인) ──
+// ── 세션 체크 (서버 API에서 최신 잔액 확인) ──
 function checkSession(callback) {
   if (!mbtsSession.userId) {
     if (callback) callback(false);
     return;
   }
 
-  if (typeof supabase === 'undefined') {
+  fetch('/api/clover-balance', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: mbtsSession.userId })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      mbtsSession.cloverBalance = data.balance;
+      mbtsSession.nickname = data.nickname || mbtsSession.nickname;
+      saveSession(mbtsSession);
+      updateLoginUI();
+      if (callback) callback(true);
+    } else {
+      clearSession();
+      if (callback) callback(false);
+    }
+  })
+  .catch(function() {
     if (callback) callback(false);
-    return;
-  }
-
-  supabase
-    .from('users')
-    .select('clover_balance, nickname')
-    .eq('id', mbtsSession.userId)
-    .maybeSingle()
-    .then(function(result) {
-      if (result.data) {
-        mbtsSession.cloverBalance = result.data.clover_balance || 0;
-        mbtsSession.nickname = result.data.nickname || mbtsSession.nickname;
-        saveSession(mbtsSession);
-        updateLoginUI();
-        if (callback) callback(true);
-      } else {
-        clearSession();
-        if (callback) callback(false);
-      }
-    });
+  });
 }
 
 // ── 로그아웃 ──
@@ -283,26 +282,30 @@ function updateLoginUI() {
 
 // ── 클로버 잔액 새로고침 ──
 function refreshCloverBalance(callback) {
-  if (!mbtsSession.userId || typeof supabase === 'undefined') {
+  if (!mbtsSession.userId) {
     if (callback) callback(0);
     return;
   }
 
-  supabase
-    .from('users')
-    .select('clover_balance')
-    .eq('id', mbtsSession.userId)
-    .maybeSingle()
-    .then(function(result) {
-      if (result.data) {
-        mbtsSession.cloverBalance = result.data.clover_balance || 0;
-        saveSession(mbtsSession);
-        updateLoginUI();
-        if (callback) callback(mbtsSession.cloverBalance);
-      } else {
-        if (callback) callback(0);
-      }
-    });
+  fetch('/api/clover-balance', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: mbtsSession.userId })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      mbtsSession.cloverBalance = data.balance;
+      saveSession(mbtsSession);
+      updateLoginUI();
+      if (callback) callback(data.balance);
+    } else {
+      if (callback) callback(0);
+    }
+  })
+  .catch(function() {
+    if (callback) callback(0);
+  });
 }
 
 // ── 초기화 ──

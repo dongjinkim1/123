@@ -21,69 +21,36 @@ function useClover(amount, type, callback) {
     return;
   }
 
-  // 먼저 Supabase에서 최신 잔액 확인
-  if (typeof supabase === 'undefined') {
+  fetch('/api/clover-use', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: user.id, amount: amount, type: type })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      // 로컬 잔액 업데이트
+      if (typeof mbtsSession !== 'undefined') {
+        mbtsSession.cloverBalance = data.balance;
+        try { localStorage.setItem('mbts_session', JSON.stringify(mbtsSession)); } catch(e) {}
+      }
+      if (typeof updateLoginUI === 'function') updateLoginUI();
+      console.log('[MBTS] 클로버 차감 완료, 잔액:', data.balance);
+      if (callback) callback(true, data.balance);
+    } else if (data.error === 'Insufficient clover') {
+      if (typeof showToast === 'function') showToast('클로버가 부족합니다 🍀 (' + (data.balance || 0) + '/' + amount + ')');
+      showChargeModal();
+      if (callback) callback(false);
+    } else {
+      if (typeof showToast === 'function') showToast('클로버 차감 실패');
+      if (callback) callback(false);
+    }
+  })
+  .catch(function(err) {
+    console.error('[MBTS] 클로버 API 오류:', err);
     if (typeof showToast === 'function') showToast('서버 연결 실패');
     if (callback) callback(false);
-    return;
-  }
-
-  supabase
-    .from('users')
-    .select('clover_balance')
-    .eq('id', user.id)
-    .maybeSingle()
-    .then(function(result) {
-      if (!result.data) {
-        if (typeof showToast === 'function') showToast('유저 정보를 찾을 수 없습니다');
-        if (callback) callback(false);
-        return;
-      }
-
-      var balance = result.data.clover_balance || 0;
-
-      if (balance < amount) {
-        if (typeof showToast === 'function') showToast('클로버가 부족합니다 🍀 (' + balance + '/' + amount + ')');
-        showChargeModal();
-        if (callback) callback(false);
-        return;
-      }
-
-      var newBalance = balance - amount;
-
-      // 잔액 차감
-      supabase
-        .from('users')
-        .update({ clover_balance: newBalance })
-        .eq('id', user.id)
-        .then(function(updateResult) {
-          if (updateResult.error) {
-            console.error('[MBTS] 클로버 차감 실패:', updateResult.error);
-            if (typeof showToast === 'function') showToast('클로버 차감 실패');
-            if (callback) callback(false);
-            return;
-          }
-
-          // 내역 기록
-          supabase.from('clover_history').insert({
-            user_id: user.id,
-            amount: -amount,
-            balance_after: newBalance,
-            type: type || 'saju',
-            description: getCloverTypeLabel(type) + ' 분석'
-          }).then(function() {
-            console.log('[MBTS] 클로버 차감:', -amount, '잔액:', newBalance);
-          });
-
-          // 로컬 잔액 업데이트
-          if (typeof mbtsSession !== 'undefined') {
-            mbtsSession.cloverBalance = newBalance;
-            try { localStorage.setItem('mbts_session', JSON.stringify(mbtsSession)); } catch(e) {}
-          }
-          if (typeof updateLoginUI === 'function') updateLoginUI();
-          if (callback) callback(true, newBalance);
-        });
-    });
+  });
 }
 
 function getCloverTypeLabel(type) {

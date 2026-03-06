@@ -2,3 +2,11 @@
   publish = "public"
   command = "node prebuild.js"
   functions = "netlify/functions"
+
+[[edge_functions]]
+  function = "clover-use"
+  path = "/api/clover-use"
+
+[[edge_functions]]
+  function = "clover-balance"
+  path = "/api/clover-balance"
