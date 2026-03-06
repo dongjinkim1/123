@@ -1906,7 +1906,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
     <div style="margin:0 16px 28px;padding:24px;background:rgba(200,235,210,0.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.6);border-radius:var(--r-lg);cursor:pointer;transition:all 0.35s cubic-bezier(.4,0,.2,1)" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
       <div style="text-align:center;padding:20px 0 24px">
         <div style="font-size:48px;margin-bottom:8px">🍀</div>
-        <div style="font-size:42px;font-weight:900;margin-bottom:4px;color:#2D9D78;text-shadow:0 1px 2px rgba(255,255,255,0.4),0 -1px 1px rgba(0,80,50,0.15)">47<span style="font-size:18px;font-weight:600">잎</span></div>
+        <div style="font-size:42px;font-weight:900;margin-bottom:4px;color:#2D9D78;text-shadow:0 1px 2px rgba(255,255,255,0.4),0 -1px 1px rgba(0,80,50,0.15)"><span class="clover-balance-display">0</span><span style="font-size:18px;font-weight:600">잎</span></div>
       </div>
       <button class="clover-charge-btn" onclick="document.getElementById('chargeModal').style.display='flex'" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#3DB88A,#2D9D78,#238C6A);border:none;border-radius:var(--r-sm);box-shadow:0 4px 12px rgba(45,157,120,0.25);cursor:pointer;transition:all 0.35s cubic-bezier(.4,0,.2,1)">클로버 충전하기</button>
     </div>
@@ -1940,10 +1940,10 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 
     <div style="padding:0 16px">
       <div onclick="go('pgProfile')" style="display:flex;align-items:center;gap:14px;padding:20px;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:20px;cursor:pointer">
-        <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#E8DEFF,#F0E6FF);display:flex;align-items:center;justify-content:center;font-size:26px">🦊</div>
+        <div id="moreProfileEmoji" style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#E8DEFF,#F0E6FF);display:flex;align-items:center;justify-content:center;font-size:26px">🌟</div>
         <div style="flex:1">
-          <div style="font-size:17px;font-weight:700">여우님</div>
-          <div style="font-size:12px;color:var(--text-3);margin-top:2px">ENFP · 갑인일주 · #입담꾼</div>
+          <div id="moreProfileName" class="user-nickname-display" style="font-size:17px;font-weight:700">사용자</div>
+          <div id="moreProfileInfo" style="font-size:12px;color:var(--text-3);margin-top:2px">분석하면 여기에 표시돼요</div>
         </div>
         <div style="font-size:13px;color:var(--purple);font-weight:600">편집 ›</div>
       </div>
@@ -2859,6 +2859,32 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 <script>
 // Page navigation
 var pageStack=['pgLanding'];
+function updateMoreProfile(){
+  var emojiEl=document.getElementById('moreProfileEmoji');
+  var infoEl=document.getElementById('moreProfileInfo');
+  if(!emojiEl||!infoEl) return;
+  try{
+    var rec=(typeof getFortuneTarget==='function')?getFortuneTarget():null;
+    if(!rec){
+      var hist=JSON.parse(localStorage.getItem('mbts_history')||'[]');
+      if(hist.length>0) rec=hist[0];
+    }
+    if(rec){
+      var emoji=rec.animalEmoji||'🌟';
+      var mbti=rec.mbti||'';
+      var ilju='';
+      if(rec.saju&&rec.saju.P&&rec.saju.P[2]) ilju=rec.saju.P[2].s+rec.saju.P[2].b+'일주';
+      var tag=rec.animalTag||'';
+      var parts=[];
+      if(mbti) parts.push(mbti);
+      if(ilju) parts.push(ilju);
+      if(tag) parts.push('#'+tag);
+      emojiEl.textContent=emoji;
+      infoEl.textContent=parts.length>0?parts.join(' · '):'분석하면 여기에 표시돼요';
+    }
+  }catch(e){console.warn('[MBTS] 프로필 업데이트 실패:',e);}
+}
+
 function go(id,skipPush){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');p.style.display='none'});
   var pg=document.getElementById(id);
@@ -2866,6 +2892,7 @@ function go(id,skipPush){
   pg.style.display=flexPages.indexOf(id)>=0?'flex':'block';
   pg.classList.add('active');
   window.scrollTo({top:0,behavior:'instant'});
+  if(id==='pgMore') updateMoreProfile();
   if(!skipPush){
     var noHistoryPages=['pgLoad','pgGhLoad'];
     if(noHistoryPages.indexOf(id)===-1){

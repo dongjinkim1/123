@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /test-api.html
+Disallow: /generate-cards.html
+Disallow: /generate-og.html
