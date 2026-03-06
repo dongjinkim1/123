@@ -5829,58 +5829,31 @@ if('serviceWorker' in navigator){
   </div>
 </div>
 <script>
-// [DEBUG] 모바일 오버플로우 감지기
 window.findOverflow = function() {
   var docWidth = document.documentElement.offsetWidth;
-  var all = document.querySelectorAll('#pgRes *, #pgGhRes *');
+  var all = document.querySelectorAll('*');
   var overflows = [];
   for (var i = 0; i < all.length; i++) {
     var el = all[i];
     if (el.offsetWidth > docWidth + 1) {
       el.style.outline = '3px solid red';
-      overflows.push({
-        tag: el.tagName,
-        id: el.id || '',
-        cls: (el.className || '').toString().substring(0, 50),
-        w: el.offsetWidth,
-        diff: el.offsetWidth - docWidth,
-        text: (el.textContent || '').substring(0, 60).replace(/\n/g,' ')
-      });
+      overflows.push((overflows.length+1) + ') <' + el.tagName + '> class=' + (el.className||'').toString().substring(0,40) + ' | 폭=' + el.offsetWidth + 'px (초과' + (el.offsetWidth - docWidth) + 'px) | 내용: ' + (el.textContent||'').substring(0,40).replace(/\n/g,' '));
     }
   }
-  var msg = '';
-  if (overflows.length === 0) {
-    msg = '✅ 넘치는 요소 없음! 화면폭=' + docWidth + 'px';
-  } else {
-    msg = '❌ 넘치는 요소 ' + overflows.length + '개:\n\n';
-    overflows.forEach(function(o, i) {
-      msg += (i+1) + ') <' + o.tag + '> .' + o.cls + '\n   폭=' + o.w + 'px (초과 ' + o.diff + 'px)\n   내용: ' + o.text + '\n\n';
-    });
-  }
+  var msg = overflows.length === 0
+    ? '✅ 넘치는 요소 없음! 화면폭=' + docWidth + 'px'
+    : '❌ ' + overflows.length + '개 넘침:\n\n' + overflows.join('\n\n');
   alert(msg);
-  console.log('[MBTS DEBUG]', msg);
-  return overflows;
 };
 
-// 결과 페이지가 열릴 때 디버그 버튼 자동 표시
-var _origGo = window.go;
-if (typeof _origGo === 'function') {
-  window.go = function(id, skipPush) {
-    _origGo(id, skipPush);
-    if (id === 'pgRes' || id === 'pgGhRes') {
-      setTimeout(function() {
-        if (!document.getElementById('debugOverflowBtn')) {
-          var btn = document.createElement('button');
-          btn.id = 'debugOverflowBtn';
-          btn.textContent = '🔍 넘침 검사';
-          btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:99999;padding:12px 18px;background:#E05A5A;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.3);cursor:pointer';
-          btn.onclick = findOverflow;
-          document.body.appendChild(btn);
-        }
-      }, 500);
-    }
-  };
-}
+// 3초 후 버튼 무조건 생성
+setTimeout(function(){
+  var btn = document.createElement('button');
+  btn.textContent = '🔍 넘침검사';
+  btn.style.cssText = 'position:fixed;bottom:80px;right:12px;z-index:99999;padding:10px 14px;background:#E05A5A;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.3)';
+  btn.onclick = window.findOverflow;
+  document.body.appendChild(btn);
+}, 3000);
 </script>
 </body>
 </html>
