@@ -73,91 +73,36 @@ function doKakaoLogin() {
   window.location.href = kakaoAuthUrl;
 }
 
-// ── Supabase 유저 생성/조회 ──
+// ── 서버 API로 유저 생성/조회 ──
 function upsertKakaoUser(kakaoId, nickname, profileImage, email) {
-  if (typeof supabase === 'undefined') {
-    console.error('[MBTS] Supabase 미초기화');
-    return;
-  }
-
-  // 1) 기존 유저 조회
-  supabase
-    .from('users')
-    .select('*')
-    .eq('kakao_id', kakaoId)
-    .maybeSingle()
-    .then(function(result) {
-      if (result.error) {
-        console.error('[MBTS] 유저 조회 실패:', result.error);
-        if (typeof showToast === 'function') showToast('로그인 중 오류 발생');
-        return;
-      }
-
-      if (result.data) {
-        // 기존 유저 — 닉네임/프로필 업데이트
-        var user = result.data;
-        supabase
-          .from('users')
-          .update({ nickname: nickname, profile_image: profileImage })
-          .eq('id', user.id)
-          .then(function() {
-            console.log('[MBTS] 기존 유저 로그인:', nickname);
-            saveSession({
-              userId: user.id,
-              kakaoId: kakaoId,
-              nickname: nickname,
-              profileImage: profileImage,
-              provider: 'kakao',
-              cloverBalance: user.clover_balance || 0
-            });
-            onLoginSuccess();
-          });
-      } else {
-        // 신규 유저 — 생성 (클로버 50개 보너스)
-        supabase
-          .from('users')
-          .insert({
-            kakao_id: kakaoId,
-            nickname: nickname,
-            profile_image: profileImage,
-            email: email,
-            clover_balance: 50,
-            role: 'user'
-          })
-          .select()
-          .single()
-          .then(function(insertResult) {
-            if (insertResult.error) {
-              console.error('[MBTS] 유저 생성 실패:', insertResult.error);
-              if (typeof showToast === 'function') showToast('계정 생성 실패');
-              return;
-            }
-            var newUser = insertResult.data;
-            console.log('[MBTS] 신규 유저 생성:', nickname, '🍀 50잎 지급');
-            saveSession({
-              userId: newUser.id,
-              kakaoId: kakaoId,
-              nickname: nickname,
-              profileImage: profileImage,
-              provider: 'kakao',
-              cloverBalance: 50
-            });
-
-            // 신규가입 클로버 내역 기록
-            supabase.from('clover_history').insert({
-              user_id: newUser.id,
-              amount: 50,
-              balance_after: 50,
-              type: 'signup_bonus',
-              description: '🎉 가입 축하 보너스'
-            }).then(function() {
-              console.log('[MBTS] 가입 보너스 내역 기록 완료');
-            });
-
-            onLoginSuccess();
-          });
-      }
-    });
+  fetch('/api/auth-kakao', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ kakaoId: kakaoId, nickname: nickname, profileImage: profileImage, email: email })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success && data.user) {
+      var u = data.user;
+      console.log('[MBTS] ' + (data.isNew ? '신규 유저 생성' : '기존 유저 로그인') + ':', u.nickname);
+      saveSession({
+        userId: u.id,
+        kakaoId: u.kakaoId,
+        nickname: u.nickname,
+        profileImage: u.profileImage,
+        provider: 'kakao',
+        cloverBalance: u.cloverBalance || 0
+      });
+      onLoginSuccess();
+    } else {
+      console.error('[MBTS] 로그인 실패:', data.error);
+      if (typeof showToast === 'function') showToast('로그인 중 오류 발생');
+    }
+  })
+  .catch(function(err) {
+    console.error('[MBTS] 로그인 API 오류:', err);
+    if (typeof showToast === 'function') showToast('서버 연결 실패');
+  });
 }
 
 // ── 로그인 성공 후 처리 ──
@@ -195,59 +140,30 @@ function onLoginSuccess() {
 
 // ── 테스트 로그인 (개발용) ──
 function doTestLogin() {
-  if (typeof supabase === 'undefined') {
-    console.error('[MBTS] Supabase 미초기화');
-    return;
-  }
-
-  var testKakaoId = 'test_user_001';
-
-  supabase
-    .from('users')
-    .select('*')
-    .eq('kakao_id', testKakaoId)
-    .maybeSingle()
-    .then(function(result) {
-      if (result.data) {
-        // 기존 테스트 유저
-        var user = result.data;
-        saveSession({
-          userId: user.id,
-          kakaoId: testKakaoId,
-          nickname: user.nickname || '테스트유저',
-          provider: 'test',
-          cloverBalance: user.clover_balance || 0
-        });
-        onLoginSuccess();
-      } else {
-        // 테스트 유저 생성
-        supabase
-          .from('users')
-          .insert({
-            kakao_id: testKakaoId,
-            nickname: '테스트유저',
-            clover_balance: 50,
-            role: 'user'
-          })
-          .select()
-          .single()
-          .then(function(insertResult) {
-            if (insertResult.error) {
-              console.error('[MBTS] 테스트 유저 생성 실패:', insertResult.error);
-              return;
-            }
-            var newUser = insertResult.data;
-            saveSession({
-              userId: newUser.id,
-              kakaoId: testKakaoId,
-              nickname: '테스트유저',
-              provider: 'test',
-              cloverBalance: 50
-            });
-            onLoginSuccess();
-          });
-      }
-    });
+  fetch('/api/auth-kakao', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ kakaoId: 'test_user_001', nickname: '테스트유저' })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success && data.user) {
+      var u = data.user;
+      saveSession({
+        userId: u.id,
+        kakaoId: u.kakaoId,
+        nickname: u.nickname || '테스트유저',
+        provider: 'test',
+        cloverBalance: u.cloverBalance || 0
+      });
+      onLoginSuccess();
+    } else {
+      console.error('[MBTS] 테스트 로그인 실패:', data.error);
+    }
+  })
+  .catch(function(err) {
+    console.error('[MBTS] 테스트 로그인 API 오류:', err);
+  });
 }
 
 // ── 세션 체크 (서버 API에서 최신 잔액 확인) ──

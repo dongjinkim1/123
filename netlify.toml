@@ -14,3 +14,7 @@
 [[edge_functions]]
   function = "referral-reward"
   path = "/api/referral-reward"
+
+[[edge_functions]]
+  function = "auth-kakao"
+  path = "/api/auth-kakao"
