@@ -163,7 +163,7 @@ function upsertKakaoUser(kakaoId, nickname, profileImage, email) {
 // ── 로그인 성공 후 처리 ──
 function onLoginSuccess() {
   updateLoginUI();
-  // 레퍼럴 보상 처리
+  // 레퍼럴 보상 처리 (A:추천인 +2, B:신규유저 +2)
   try {
     var ref = localStorage.getItem('mbts_referrer');
     if (ref && ref !== mbtsSession.userId) {
@@ -175,7 +175,12 @@ function onLoginSuccess() {
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (data.success) {
-          console.log('[MBTS] 레퍼럴 보상 지급 완료');
+          console.log('[MBTS] 레퍼럴 보상 지급 완료 (양쪽 +2)');
+          // 내 잔액도 +2 반영
+          mbtsSession.cloverBalance = (mbtsSession.cloverBalance || 0) + 2;
+          saveSession(mbtsSession);
+          if (typeof updateLoginUI === 'function') updateLoginUI();
+          if (typeof showToast === 'function') showToast('🎁 초대 보너스 +2잎!');
         }
       })
       .catch(function(e) { console.warn('[MBTS] 레퍼럴 처리 실패:', e); });

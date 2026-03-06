@@ -87,6 +87,29 @@ export default async (request: Request) => {
       description: '🎁 친구 초대 보상',
     });
 
+    // B(신규유저)에게도 2잎 지급
+    const { data: newUser } = await supabase
+      .from('users')
+      .select('clover_balance')
+      .eq('id', newUserId)
+      .maybeSingle();
+
+    if (newUser) {
+      const newUserBalance = (newUser.clover_balance || 0) + REWARD;
+      await supabase
+        .from('users')
+        .update({ clover_balance: newUserBalance })
+        .eq('id', newUserId);
+
+      await supabase.from('clover_history').insert({
+        user_id: newUserId,
+        amount: REWARD,
+        balance_after: newUserBalance,
+        type: 'referral_bonus',
+        description: '🎁 초대받기 보너스',
+      });
+    }
+
     console.log('[referral] ' + referrerId + ' rewarded ' + REWARD + ' clovers');
 
     return new Response(JSON.stringify({ success: true, reward: REWARD }), {
