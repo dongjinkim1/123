@@ -18,3 +18,7 @@
 [[edge_functions]]
   function = "auth-kakao"
   path = "/api/auth-kakao"
+
+[[edge_functions]]
+  function = "clover-charge"
+  path = "/api/clover-charge"

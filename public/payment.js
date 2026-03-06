@@ -102,65 +102,39 @@ function doCharge() {
     return;
   }
 
-  if (typeof supabase === 'undefined') {
-    if (typeof showToast === 'function') showToast('서버 연결 실패');
-    return;
-  }
-
   // ========================================
   // TODO: 실결제 연동 (토스페이먼츠 or 카카오페이)
   // 아래는 테스트용 즉시 충전 — 결제 연동 후 교체
   // ========================================
   if (!confirm('🍀 ' + selectedChargeAmount + '잎 충전 (₩' + selectedChargePrice.toLocaleString() + ')\n\n⚠️ 현재 테스트 모드: 무료 충전됩니다.')) return;
 
-  // 최신 잔액 조회 후 충전
-  supabase
-    .from('users')
-    .select('clover_balance')
-    .eq('id', user.id)
-    .maybeSingle()
-    .then(function(result) {
-      if (!result.data) {
-        if (typeof showToast === 'function') showToast('유저 정보를 찾을 수 없습니다');
-        return;
+  fetch('/api/clover-charge', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: user.id, amount: selectedChargeAmount, price: selectedChargePrice })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      // 로컬 업데이트
+      if (typeof mbtsSession !== 'undefined') {
+        mbtsSession.cloverBalance = data.balance;
+        try { localStorage.setItem('mbts_session', JSON.stringify(mbtsSession)); } catch(e) {}
       }
+      if (typeof updateLoginUI === 'function') updateLoginUI();
 
-      var currentBalance = result.data.clover_balance || 0;
-      var newBalance = currentBalance + selectedChargeAmount;
-
-      supabase
-        .from('users')
-        .update({ clover_balance: newBalance })
-        .eq('id', user.id)
-        .then(function(updateResult) {
-          if (updateResult.error) {
-            if (typeof showToast === 'function') showToast('충전 실패');
-            return;
-          }
-
-          // 내역 기록
-          supabase.from('clover_history').insert({
-            user_id: user.id,
-            amount: selectedChargeAmount,
-            balance_after: newBalance,
-            type: 'charge',
-            description: '🍀 ' + selectedChargeAmount + '잎 충전 (₩' + selectedChargePrice.toLocaleString() + ')'
-          }).then(function() {
-            console.log('[MBTS] 클로버 충전:', selectedChargeAmount, '잔액:', newBalance);
-          });
-
-          // 로컬 업데이트
-          if (typeof mbtsSession !== 'undefined') {
-            mbtsSession.cloverBalance = newBalance;
-            try { localStorage.setItem('mbts_session', JSON.stringify(mbtsSession)); } catch(e) {}
-          }
-          if (typeof updateLoginUI === 'function') updateLoginUI();
-
-          hideChargeModal();
-          if (typeof showToast === 'function') showToast('🍀 ' + selectedChargeAmount + '잎 충전 완료! 잔액: ' + newBalance + '잎');
-          loadCloverHistory();
-        });
-    });
+      hideChargeModal();
+      if (typeof showToast === 'function') showToast('🍀 ' + selectedChargeAmount + '잎 충전 완료! 잔액: ' + data.balance + '잎');
+      console.log('[MBTS] 클로버 충전:', selectedChargeAmount, '잔액:', data.balance);
+      if (typeof loadCloverHistory === 'function') loadCloverHistory();
+    } else {
+      if (typeof showToast === 'function') showToast('충전 실패: ' + (data.error || '알 수 없는 오류'));
+    }
+  })
+  .catch(function(err) {
+    console.error('[MBTS] 충전 API 오류:', err);
+    if (typeof showToast === 'function') showToast('서버 연결 실패');
+  });
 }
 
 // ===== 내 클로버 내역 로드 =====
