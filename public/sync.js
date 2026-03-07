@@ -63,7 +63,7 @@
         input_data: JSON.stringify(record.input || {}),
         saju_data: JSON.stringify(record.saju || {}),
         mbti_data: JSON.stringify(record.mbtiObj || {}),
-        ai_result: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {})
+        result_json: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {})
       }).then(function(res) {
         if (res.error) console.warn('[sync.js] saju 저장 실패:', res.error.message);
         else console.log('[sync.js] saju 결과 Supabase 저장 완료');
@@ -75,7 +75,7 @@
         person_b: JSON.stringify(record.personB || {}),
         rel_type: record.relType || record.relLabel || '',
         scores: JSON.stringify(record.scores || {}),
-        ai_result: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {})
+        result_json: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {})
       }).then(function(res) {
         if (res.error) console.warn('[sync.js] gunghap 저장 실패:', res.error.message);
         else console.log('[sync.js] gunghap 결과 Supabase 저장 완료');
