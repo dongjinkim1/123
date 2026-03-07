@@ -2892,6 +2892,11 @@ function go(id,skipPush){
   pg.style.display=flexPages.indexOf(id)>=0?'flex':'block';
   pg.classList.add('active');
   window.scrollTo({top:0,behavior:'instant'});
+  // 비로그인 유저 분석 진입 차단
+  if((id==='pgBirth'||id==='pgGunghap')&&typeof isLoggedIn==='function'&&!isLoggedIn()){
+    if(typeof showToast==='function') showToast('로그인이 필요합니다 🍀');
+    id='pgLogin';
+  }
   if(id==='pgMore') updateMoreProfile();
   if(id==='pgClover'&&typeof loadCloverHistory==='function') loadCloverHistory();
   if(!skipPush){
