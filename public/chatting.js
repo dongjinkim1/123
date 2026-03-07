@@ -424,7 +424,7 @@
     var s = '';
     s += '<div style="display:flex;justify-content:flex-end;margin-bottom:12px">';
     s += '<div style="'
-      + 'background:#8B6CC1;color:#fff;border-radius:16px 0 16px 16px;'
+      + 'background:' + (currentMode === 'fire' ? '#FFE8E8' : '#E8DEFF') + ';color:#333;border-radius:16px 0 16px 16px;'
       + 'padding:12px 16px;font-size:14px;line-height:1.6;max-width:75%'
       + '">' + textToHtml(text) + '</div>';
     s += '</div>';
@@ -454,7 +454,7 @@
       var urow = document.createElement('div');
       urow.style.cssText = 'display:flex;justify-content:flex-end;margin-bottom:12px';
       urow.innerHTML = '<div style="'
-        + 'background:#8B6CC1;color:#fff;border-radius:16px 0 16px 16px;'
+        + 'background:' + (currentMode === 'fire' ? '#FFE8E8' : '#E8DEFF') + ';color:#333;border-radius:16px 0 16px 16px;'
         + 'padding:12px 16px;font-size:14px;line-height:1.6;max-width:75%'
         + '">' + textToHtml(text) + '</div>';
       body.appendChild(urow);
@@ -586,23 +586,42 @@
     }
   }
 
-  // 팩폭 모드 토글 (+ 달토 자동 메시지)
+  function showModeToast(text) {
+    var existing = document.getElementById('chatModeToast');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.id = 'chatModeToast';
+    toast.textContent = text;
+    toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.9);'
+      + 'background:rgba(0,0,0,0.75);color:#fff;padding:14px 28px;border-radius:16px;'
+      + 'font-size:15px;font-weight:700;z-index:9999;pointer-events:none;'
+      + 'opacity:0;transition:all 0.3s ease';
+    document.body.appendChild(toast);
+    requestAnimationFrame(function() {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translate(-50%,-50%) scale(1)';
+    });
+    setTimeout(function() {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translate(-50%,-50%) scale(0.9)';
+      setTimeout(function() { if (toast.parentNode) toast.remove(); }, 300);
+    }, 1500);
+  }
+
+  // 팩폭 모드 토글 (+ 토스트 팝업)
   function toggleFireMode() {
     var newMode = (currentMode === 'fire') ? 'sweet' : 'fire';
     setMode(newMode);
     // 메뉴 닫기
     togglePlusMenu();
-    // 달토 자동 메시지
+    // 토스트 팝업
     var msg = '';
     if (newMode === 'fire') {
-      msg = '\ud83d\udd25 \ud329\ud3ed \ubaa8\ub4dc ON! \uc194\uc9c1\ud558\uac8c \uac04\ub2e4, \uac01\uc624\ud574.';
+      msg = '\ud83d\udd25 \ud329\ud3ed \ubaa8\ub4dc ON!';
     } else {
-      msg = '\ud83e\udd0d \ub2e4\uc2dc \uc0c1\ub0e5 \ubaa8\ub4dc~ \ud3b8\ud558\uac8c \ubb3c\uc5b4\ubd10\uc694 \ud83d\udc30';
+      msg = '\ud83e\udd0d \uc0c1\ub0e5 \ubaa8\ub4dc\ub85c \uc804\ud658~';
     }
-    appendChatBubble('ai', msg);
-    chatHistory.push({ role: 'assistant', content: msg });
-    saveChatContext();
-    scrollChatToBottom();
+    showModeToast(msg);
     // 버튼 텍스트 업데이트
     var fireBtn = document.getElementById('fireToggleBtn');
     if (fireBtn) {
@@ -897,6 +916,7 @@
   window.toggleFireMode = toggleFireMode;
   window.showQuickSuggestions = showQuickSuggestions;
   window.resetChatConfirm = resetChatConfirm;
+  window.showModeToast = showModeToast;
   window.updateSendBtn = updateSendBtn;
   window.chatInputKeydown = chatInputKeydown;
 
