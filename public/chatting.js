@@ -407,7 +407,7 @@
     s += '<div style="display:flex;gap:8px;margin-bottom:12px">';
     s += '<div style="'
       + 'width:36px;height:36px;border-radius:50%;flex-shrink:0;'
-      + 'background:linear-gradient(135deg,#B8A5D6,#8B6CC1);'
+      + 'background:linear-gradient(135deg,' + (currentMode === 'fire' ? '#FFE0E0,#F5C0C0' : '#B8A5D6,#8B6CC1') + ');'
       + 'display:flex;align-items:center;justify-content:center;font-size:18px'
       + '">\ud83d\udc30</div>';
     s += '<div style="'
@@ -441,7 +441,7 @@
       row.style.cssText = 'display:flex;gap:8px;margin-bottom:12px';
       row.innerHTML = '<div style="'
         + 'width:36px;height:36px;border-radius:50%;flex-shrink:0;'
-        + 'background:linear-gradient(135deg,#B8A5D6,#8B6CC1);'
+        + 'background:linear-gradient(135deg,' + (currentMode === 'fire' ? '#FFE0E0,#F5C0C0' : '#B8A5D6,#8B6CC1') + ');'
         + 'display:flex;align-items:center;justify-content:center;font-size:18px'
         + '">\ud83d\udc30</div>'
         + '<div' + (id ? ' id="' + id + '"' : '') + ' style="'
@@ -489,7 +489,7 @@
     row.style.cssText = 'display:flex;gap:8px;margin-bottom:12px';
     row.innerHTML = '<div style="'
       + 'width:36px;height:36px;border-radius:50%;flex-shrink:0;'
-      + 'background:linear-gradient(135deg,#B8A5D6,#8B6CC1);'
+      + 'background:linear-gradient(135deg,' + (currentMode === 'fire' ? '#FFE0E0,#F5C0C0' : '#B8A5D6,#8B6CC1') + ');'
       + 'display:flex;align-items:center;justify-content:center;font-size:18px'
       + '">\ud83d\udc30</div>'
       + '<div style="'
