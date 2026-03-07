@@ -603,22 +603,18 @@
     var myGg = (_ft && _ft.gg) ? _ft.gg : null;
     var myDw = (_ft && _ft.dw) ? _ft.dw : null;
 
-    var prompt = buildChatPrompt(mySaju, myMbti, myGg, myDw, chatHistory, currentMode);
+    var prompt = buildChatPrompt(null, null, null, null, chatHistory, currentMode);
 
-    // ── 기존 풀이 결과를 시스템 프롬프트에 포함 ──
-    if (chatContext && chatContext.type === 'me' && _ft && _ft.aiResult) {
-      prompt.systemPrompt += '\n\n## \uc774 \uc0ac\uc6a9\uc790\uc758 MBTS \ud480\uc774 \uacb0\uacfc (\uc774\ubbf8 \ubd84\uc11d \uc644\ub8cc)\n';
-      prompt.systemPrompt += '\uc544\ub798\ub294 \uc774 \uc0ac\uc6a9\uc790\uc5d0\uac8c \uc774\uc804\uc5d0 \uc81c\uacf5\ub41c \uc0ac\uc8fc+MBTI \ud1b5\ud569 \ubd84\uc11d \uacb0\uacfc\uc785\ub2c8\ub2e4. \uc774 \ub0b4\uc6a9\uc744 \uc219\uc9c0\ud558\uace0, \uc0ac\uc6a9\uc790\uac00 \uc9c8\ubb38\ud558\uba74 \uc774 \ud480\uc774\uc640 \uc77c\uad00\ub418\uac8c \ub2f5\ubcc0\ud558\uc138\uc694.\n\n';
-      prompt.systemPrompt += safeStr(_ft.aiResult) + '\n';
+    // ── 전체 MBTS 데이터를 달토에게 전달 ──
+    if (_ft) {
+      prompt.systemPrompt += '\n\n## \uc774 \uc0ac\uc6a9\uc790\uc758 \uc804\uccb4 MBTS \ub370\uc774\ud130\n';
+      prompt.systemPrompt += '\uc544\ub798\ub294 \uc0ac\uc8fc \uc6d0\uad6d, \uaca9\uad6d, \uc6a9\uc2e0, \ub300\uc6b4, \uc138\uc6b4, \uc6d4\uc6b4, \uc0bc\uc7ac, \uc2e0\uc0b4, \uc554\ud569, 12\uc6b4\uc131, \uacf5\ub9dd, \uc624\ud589\ubd84\ud3ec, MBTI \uc778\uc9c0\uae30\ub2a5, AI \ud480\uc774 \uacb0\uacfc\uac00 \ubaa8\ub450 \ud3ec\ud568\ub41c \ub370\uc774\ud130\uc785\ub2c8\ub2e4. \uc774 \ub370\uc774\ud130\ub97c \uc644\uc804\ud788 \uc219\uc9c0\ud558\uace0, \uc0ac\uc8fc \uc6a9\uc5b4\uc640 \uc218\uce58\ub97c \uc815\ud655\ud788 \uc778\uc6a9\ud558\uba70, \uae30\uc874 \ud480\uc774\uc640 \uc77c\uad00\ub418\uac8c \ub2f5\ubcc0\ud558\uc138\uc694.\n\n';
+      prompt.systemPrompt += safeStr(_ft) + '\n';
     }
 
-    if (chatContext && chatContext.type === 'person') {
-      var personAiResult = safeStr(chatContext.person && chatContext.person.aiResult);
-      if (personAiResult) {
-        prompt.systemPrompt += '\n\n## \uc0c1\ub2f4 \ub300\uc0c1\uc790\uc758 MBTS \ud480\uc774 \uacb0\uacfc (\uc774\ubbf8 \ubd84\uc11d \uc644\ub8cc)\n';
-        prompt.systemPrompt += '\uc544\ub798\ub294 \uc774 \ub300\uc0c1\uc790\uc5d0\uac8c \uc774\uc804\uc5d0 \uc81c\uacf5\ub41c \uc0ac\uc8fc+MBTI \ud1b5\ud569 \ubd84\uc11d \uacb0\uacfc\uc785\ub2c8\ub2e4. \uc774 \ub0b4\uc6a9\uc744 \uc219\uc9c0\ud558\uace0 \ub2f5\ubcc0\ud558\uc138\uc694.\n\n';
-        prompt.systemPrompt += personAiResult + '\n';
-      }
+    if (chatContext && chatContext.type === 'person' && chatContext.person) {
+      prompt.systemPrompt += '\n\n## \uc0c1\ub2f4 \ub300\uc0c1\uc790\uc758 \uc804\uccb4 MBTS \ub370\uc774\ud130\n';
+      prompt.systemPrompt += safeStr(chatContext.person) + '\n';
     }
 
     // ── 맥락별 시스템 프롬프트 보강 (engine.js 미수정) ──
