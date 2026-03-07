@@ -2118,6 +2118,56 @@ window.SJ_buildCoupleSynergy   = SJ_buildCoupleSynergy;
 window.SJ_stripTerms           = SJ_stripTerms;
 window.SJ_TERM_MAP             = SJ_TERM_MAP;
 
+function SJ_calcWolun(saju) {
+  if (!saju || !saju.raw) return null;
+  var TGAN_KR = ['갑','을','병','정','무','기','경','신','임','계'];
+  var JIJI_KR = ['자','축','인','묘','진','사','오','미','신','유','술','해'];
+  var JIJANGGAN_JEONGGI = [9,5,0,1,4,2,3,5,6,7,4,8];
+  var SS_NAMES = ['비견','겁재','식신','상관','편재','정재','편관','정관','편인','정인'];
+  var ssGroupMap = {'비견':'비겁','겁재':'비겁','식신':'식상','상관':'식상','편재':'재성','정재':'재성','편관':'관성','정관':'관성','편인':'인성','정인':'인성'};
+  var wolunHintMap = {
+    '비겁':'자기에너지강화, 독립·경쟁의달',
+    '식상':'표현·창작의달, 새아이디어',
+    '재성':'재물·실리의달, 수입기회',
+    '관성':'책임·압박의달, 직장변화',
+    '인성':'학습·휴식의달, 귀인등장'
+  };
+  var CHUNG = [[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]];
+  var YUKHAP = [[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
+  var monthNames = ['1월(인월)','2월(묘월)','3월(진월)','4월(사월)','5월(오월)','6월(미월)','7월(신월)','8월(유월)','9월(술월)','10월(해월)','11월(자월)','12월(축월)'];
+  var monthBranches = [2,3,4,5,6,7,8,9,10,11,0,1];
+  var gungwiMap = {'년지':'외부환경','월지':'직업','일지':'배우자·건강','시지':'자녀'};
+  function getSS(dg, tg) { return SS_NAMES[((tg - dg) % 10 + 10) % 10] || ''; }
+  var currentYear = new Date().getFullYear();
+  var yearGan = ((currentYear + 6) % 10);
+  var monthStartStem = ((yearGan % 5) * 2 + 2) % 10;
+  var dg = saju.raw.dg;
+  var wonJi = [{v:saju.raw.yj,l:'년지'},{v:saju.raw.mj,l:'월지'},{v:saju.raw.dj,l:'일지'}];
+  if (saju.raw.hj != null) wonJi.push({v:saju.raw.hj,l:'시지'});
+  var arr = [];
+  for (var i = 0; i < 12; i++) {
+    var wGan = (monthStartStem + i) % 10;
+    var wJi = monthBranches[i];
+    var ganSS = getSS(dg, wGan);
+    var jiSS = getSS(dg, JIJANGGAN_JEONGGI[wJi]);
+    var group = ssGroupMap[ganSS] || ganSS;
+    var rels = [];
+    for (var j = 0; j < wonJi.length; j++) {
+      for (var c = 0; c < CHUNG.length; c++) {
+        if ((wJi === CHUNG[c][0] && wonJi[j].v === CHUNG[c][1]) || (wJi === CHUNG[c][1] && wonJi[j].v === CHUNG[c][0]))
+          rels.push(JIJI_KR[wJi] + JIJI_KR[wonJi[j].v] + '충(' + gungwiMap[wonJi[j].l] + ')');
+      }
+      for (var h = 0; h < YUKHAP.length; h++) {
+        if ((wJi === YUKHAP[h][0] && wonJi[j].v === YUKHAP[h][1]) || (wJi === YUKHAP[h][1] && wonJi[j].v === YUKHAP[h][0]))
+          rels.push(JIJI_KR[wJi] + JIJI_KR[wonJi[j].v] + '합(' + gungwiMap[wonJi[j].l] + ')');
+      }
+    }
+    arr.push({ month: monthNames[i], gan: TGAN_KR[wGan], ji: JIJI_KR[wJi], ganSS: ganSS, jiSS: jiSS, group: group, hint: wolunHintMap[group] || '', relations: rels });
+  }
+  return { year: currentYear, months: arr };
+}
+window.SJ_calcWolun = SJ_calcWolun;
+
 console.log('[saju.js] v4.0 로드 완료 — 경중 재분류 (격국5+맥락4+대운2+힌트6+원국1 = 18개 주입, 6개 gunghap전용)');
 
 })();

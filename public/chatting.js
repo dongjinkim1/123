@@ -605,16 +605,35 @@
 
     var prompt = buildChatPrompt(null, null, null, null, chatHistory, currentMode);
 
-    // ── 전체 MBTS 데이터를 달토에게 전달 ──
+    // ── _ft에 보강 데이터 붙여서 통째로 전달 ──
+    if (_ft && _ft.saju && _ft.gg && _ft.dw) {
+      var gender = (_ft.input && _ft.input.gender) ? _ft.input.gender : '';
+      if (typeof SJ_enrichSajuData === 'function') {
+        _ft.enriched = SJ_enrichSajuData(_ft.saju, _ft.gg, _ft.dw, gender, _ft.mbti || '');
+      }
+      if (typeof SJ_calcWolun === 'function') {
+        _ft.wolun = SJ_calcWolun(_ft.saju);
+      }
+    }
     if (_ft) {
-      prompt.systemPrompt += '\n\n## \uc774 \uc0ac\uc6a9\uc790\uc758 \uc804\uccb4 MBTS \ub370\uc774\ud130\n';
-      prompt.systemPrompt += '\uc544\ub798\ub294 \uc0ac\uc8fc \uc6d0\uad6d, \uaca9\uad6d, \uc6a9\uc2e0, \ub300\uc6b4, \uc138\uc6b4, \uc6d4\uc6b4, \uc0bc\uc7ac, \uc2e0\uc0b4, \uc554\ud569, 12\uc6b4\uc131, \uacf5\ub9dd, \uc624\ud589\ubd84\ud3ec, MBTI \uc778\uc9c0\uae30\ub2a5, AI \ud480\uc774 \uacb0\uacfc\uac00 \ubaa8\ub450 \ud3ec\ud568\ub41c \ub370\uc774\ud130\uc785\ub2c8\ub2e4. \uc774 \ub370\uc774\ud130\ub97c \uc644\uc804\ud788 \uc219\uc9c0\ud558\uace0, \uc0ac\uc8fc \uc6a9\uc5b4\uc640 \uc218\uce58\ub97c \uc815\ud655\ud788 \uc778\uc6a9\ud558\uba70, \uae30\uc874 \ud480\uc774\uc640 \uc77c\uad00\ub418\uac8c \ub2f5\ubcc0\ud558\uc138\uc694.\n\n';
+      prompt.systemPrompt += '\n\n## \uc774 \uc0ac\uc6a9\uc790\uc758 \uc804\uccb4 MBTS \ub370\uc774\ud130 (\uc0ac\uc8fc\uc6d0\uad6d+\uaca9\uad6d+\uc6a9\uc2e0+\ub300\uc6b4+\uc138\uc6b4+\uc6d4\uc6b4+\uc2e0\uc0b4+\uc554\ud569+\ud615\ucda9+\uacf5\ub9dd+12\uc6b4\uc131+\uc624\ud589+MBTI+AI\ud480\uc774+\ubcf4\uac15\ubd84\uc11d \ud3ec\ud568)\n';
+      prompt.systemPrompt += '\ubaa8\ub4e0 \ub370\uc774\ud130\ub97c \uc219\uc9c0\ud558\uace0, \uc0ac\uc8fc \uc6a9\uc5b4\uc640 \uc218\uce58\ub97c \uc815\ud655\ud788 \uc778\uc6a9\ud558\uba70, \uae30\uc874 \ud480\uc774\uc640 \uc77c\uad00\ub418\uac8c \ub2f5\ubcc0\ud558\uc138\uc694.\n\n';
       prompt.systemPrompt += safeStr(_ft) + '\n';
     }
 
     if (chatContext && chatContext.type === 'person' && chatContext.person) {
-      prompt.systemPrompt += '\n\n## \uc0c1\ub2f4 \ub300\uc0c1\uc790\uc758 \uc804\uccb4 MBTS \ub370\uc774\ud130\n';
-      prompt.systemPrompt += safeStr(chatContext.person) + '\n';
+      var cp = chatContext.person;
+      if (cp.saju && cp.gg && cp.dw) {
+        var pGender = (cp.input && cp.input.gender) ? cp.input.gender : '';
+        if (typeof SJ_enrichSajuData === 'function') {
+          cp.enriched = SJ_enrichSajuData(cp.saju, cp.gg, cp.dw, pGender, cp.mbti || '');
+        }
+        if (typeof SJ_calcWolun === 'function') {
+          cp.wolun = SJ_calcWolun(cp.saju);
+        }
+      }
+      prompt.systemPrompt += '\n\n## \uc0c1\ub2f4 \ub300\uc0c1\uc790 \uc804\uccb4 MBTS \ub370\uc774\ud130\n';
+      prompt.systemPrompt += safeStr(cp) + '\n';
     }
 
     // ── 맥락별 시스템 프롬프트 보강 (engine.js 미수정) ──
