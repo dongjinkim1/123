@@ -2168,6 +2168,121 @@ function SJ_calcWolun(saju) {
 }
 window.SJ_calcWolun = SJ_calcWolun;
 
+// ── 원국 지지 간 충/합/해 전체 관계 분석 ──
+function SJ_buildWonkukRelations(saju) {
+  if (!saju || !saju.raw) return '';
+  var r = saju.raw;
+  var JIJI_KR = ['자','축','인','묘','진','사','오','미','신','유','술','해'];
+  var pillars = [{v:r.yj,l:'년지'},{v:r.mj,l:'월지'},{v:r.dj,l:'일지'}];
+  if (r.hj != null) pillars.push({v:r.hj,l:'시지'});
+  var gungwi = {'년지':'외부환경/조상','월지':'직업/부모','일지':'배우자/건강','시지':'자녀/말년'};
+
+  var CHUNG = [[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]];
+  var YUKHAP = [[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
+  var SAMHAP = [[2,6,10],[5,9,1],[8,0,4],[11,3,7]];
+  var BANGHAP = [[2,3,4],[5,6,7],[8,9,10],[11,0,1]];
+  var JIHAE = [[0,7],[1,6],[2,5],[3,4],[8,11],[9,10]];
+
+  var results = [];
+
+  // 충
+  for (var i = 0; i < pillars.length; i++) {
+    for (var j = i + 1; j < pillars.length; j++) {
+      for (var c = 0; c < CHUNG.length; c++) {
+        if ((pillars[i].v === CHUNG[c][0] && pillars[j].v === CHUNG[c][1]) || (pillars[i].v === CHUNG[c][1] && pillars[j].v === CHUNG[c][0])) {
+          results.push(pillars[i].l + JIJI_KR[pillars[i].v] + '↔' + pillars[j].l + JIJI_KR[pillars[j].v] + ' 충 (' + gungwi[pillars[i].l] + '↔' + gungwi[pillars[j].l] + ')');
+        }
+      }
+    }
+  }
+
+  // 육합
+  for (var i = 0; i < pillars.length; i++) {
+    for (var j = i + 1; j < pillars.length; j++) {
+      for (var h = 0; h < YUKHAP.length; h++) {
+        if ((pillars[i].v === YUKHAP[h][0] && pillars[j].v === YUKHAP[h][1]) || (pillars[i].v === YUKHAP[h][1] && pillars[j].v === YUKHAP[h][0])) {
+          results.push(pillars[i].l + JIJI_KR[pillars[i].v] + '↔' + pillars[j].l + JIJI_KR[pillars[j].v] + ' 육합 (' + gungwi[pillars[i].l] + '↔' + gungwi[pillars[j].l] + ')');
+        }
+      }
+    }
+  }
+
+  // 삼합 (3개 이상 일치)
+  var jiVals = pillars.map(function(p) { return p.v; });
+  for (var s = 0; s < SAMHAP.length; s++) {
+    var matched = [];
+    for (var k = 0; k < SAMHAP[s].length; k++) {
+      if (jiVals.indexOf(SAMHAP[s][k]) >= 0) matched.push(JIJI_KR[SAMHAP[s][k]]);
+    }
+    if (matched.length >= 2) {
+      results.push('삼합 ' + matched.join('·') + (matched.length === 3 ? ' (완전삼합)' : ' (반삼합)'));
+    }
+  }
+
+  // 방합
+  for (var b = 0; b < BANGHAP.length; b++) {
+    var bMatched = [];
+    for (var k = 0; k < BANGHAP[b].length; k++) {
+      if (jiVals.indexOf(BANGHAP[b][k]) >= 0) bMatched.push(JIJI_KR[BANGHAP[b][k]]);
+    }
+    if (bMatched.length >= 2) {
+      results.push('방합 ' + bMatched.join('·') + (bMatched.length === 3 ? ' (완전방합)' : ' (반방합)'));
+    }
+  }
+
+  // 지지해
+  for (var i = 0; i < pillars.length; i++) {
+    for (var j = i + 1; j < pillars.length; j++) {
+      for (var d = 0; d < JIHAE.length; d++) {
+        if ((pillars[i].v === JIHAE[d][0] && pillars[j].v === JIHAE[d][1]) || (pillars[i].v === JIHAE[d][1] && pillars[j].v === JIHAE[d][0])) {
+          results.push(pillars[i].l + JIJI_KR[pillars[i].v] + '↔' + pillars[j].l + JIJI_KR[pillars[j].v] + ' 해 (' + gungwi[pillars[i].l] + '↔' + gungwi[pillars[j].l] + ')');
+        }
+      }
+    }
+  }
+
+  if (results.length === 0) return '★원국 지지 관계: 특별한 충합형해 없음';
+  return '★원국 지지 관계:\n  ' + results.join('\n  ');
+}
+window.SJ_buildWonkukRelations = SJ_buildWonkukRelations;
+
+// ── 공망 상세 (빈 궁위 없어도 공망 지지 자체를 알려줌) ──
+function SJ_buildGongmangFull(saju) {
+  if (!saju || !saju.raw) return '';
+  var JIJI_KR = ['자','축','인','묘','진','사','오','미','신','유','술','해'];
+  var r = saju.raw, dg = r.dg, dj = r.dj;
+  var idx60 = -1;
+  for (var k = 0; k < 60; k++) { if (k % 10 === dg && k % 12 === dj) { idx60 = k; break; } }
+  if (idx60 < 0) return '';
+  var xunStart = Math.floor(idx60 / 10) * 10;
+  var usedJi = [];
+  for (var k2 = xunStart; k2 < xunStart + 10; k2++) usedJi.push(k2 % 12);
+  var gmArr = [];
+  for (var j = 0; j < 12; j++) { if (usedJi.indexOf(j) < 0) gmArr.push(j); }
+  var gmNames = gmArr.map(function(g) { return JIJI_KR[g]; });
+
+  var pillars = [{v:r.yj,l:'년지'},{v:r.mj,l:'월지'},{v:r.dj,l:'일지'}];
+  if (r.hj != null) pillars.push({v:r.hj,l:'시지'});
+  var gungwi = {'년지':'조상/어린시절','월지':'직업/사회','일지':'배우자/건강','시지':'자녀/말년'};
+
+  var affected = [];
+  for (var i = 0; i < pillars.length; i++) {
+    if (pillars[i].v != null && gmArr.indexOf(pillars[i].v) >= 0) {
+      affected.push(pillars[i].l + '(' + JIJI_KR[pillars[i].v] + ') → ' + gungwi[pillars[i].l] + ' 자리 공망');
+    }
+  }
+
+  var lines = ['★공망: ' + gmNames.join('·') + '공망'];
+  if (affected.length > 0) {
+    lines.push('  해당 궁위: ' + affected.join(', '));
+    lines.push('  → 해당 자리의 에너지가 비어있거나 늦게 채워지는 구조');
+  } else {
+    lines.push('  원국 지지에 공망이 걸리지 않음 (공망 영향 미미)');
+  }
+  return lines.join('\n');
+}
+window.SJ_buildGongmangFull = SJ_buildGongmangFull;
+
 console.log('[saju.js] v4.0 로드 완료 — 경중 재분류 (격국5+맥락4+대운2+힌트6+원국1 = 18개 주입, 6개 gunghap전용)');
 
 })();

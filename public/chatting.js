@@ -614,6 +614,12 @@
       if (typeof SJ_calcWolun === 'function') {
         _ft.wolun = SJ_calcWolun(_ft.saju);
       }
+      if (typeof SJ_buildWonkukRelations === 'function') {
+        _ft.wonkukRelations = SJ_buildWonkukRelations(_ft.saju);
+      }
+      if (typeof SJ_buildGongmangFull === 'function') {
+        _ft.gongmangFull = SJ_buildGongmangFull(_ft.saju);
+      }
     }
     if (_ft) {
       prompt.systemPrompt += '\n\n## \uc774 \uc0ac\uc6a9\uc790\uc758 \uc804\uccb4 MBTS \ub370\uc774\ud130 (\uc0ac\uc8fc\uc6d0\uad6d+\uaca9\uad6d+\uc6a9\uc2e0+\ub300\uc6b4+\uc138\uc6b4+\uc6d4\uc6b4+\uc2e0\uc0b4+\uc554\ud569+\ud615\ucda9+\uacf5\ub9dd+12\uc6b4\uc131+\uc624\ud589+MBTI+AI\ud480\uc774+\ubcf4\uac15\ubd84\uc11d \ud3ec\ud568)\n';
