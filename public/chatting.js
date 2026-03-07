@@ -10,6 +10,12 @@
   var chatHistory = [];         // 현재 채팅방 대화 기록
   var isChatLoading = false;    // API 호출 중 플래그
 
+  function safeStr(v) {
+    if (!v) return '';
+    if (typeof v === 'string') return v;
+    try { return JSON.stringify(v); } catch(e) { return ''; }
+  }
+
   // ══════════════════════════════════
   // PART B: 목록 화면 렌더링
   // ══════════════════════════════════
@@ -603,11 +609,11 @@
     if (chatContext && chatContext.type === 'me' && _ft && _ft.aiResult) {
       prompt.systemPrompt += '\n\n## \uc774 \uc0ac\uc6a9\uc790\uc758 MBTS \ud480\uc774 \uacb0\uacfc (\uc774\ubbf8 \ubd84\uc11d \uc644\ub8cc)\n';
       prompt.systemPrompt += '\uc544\ub798\ub294 \uc774 \uc0ac\uc6a9\uc790\uc5d0\uac8c \uc774\uc804\uc5d0 \uc81c\uacf5\ub41c \uc0ac\uc8fc+MBTI \ud1b5\ud569 \ubd84\uc11d \uacb0\uacfc\uc785\ub2c8\ub2e4. \uc774 \ub0b4\uc6a9\uc744 \uc219\uc9c0\ud558\uace0, \uc0ac\uc6a9\uc790\uac00 \uc9c8\ubb38\ud558\uba74 \uc774 \ud480\uc774\uc640 \uc77c\uad00\ub418\uac8c \ub2f5\ubcc0\ud558\uc138\uc694.\n\n';
-      prompt.systemPrompt += _ft.aiResult + '\n';
+      prompt.systemPrompt += safeStr(_ft.aiResult) + '\n';
     }
 
     if (chatContext && chatContext.type === 'person') {
-      var personAiResult = (chatContext.person && chatContext.person.aiResult) ? chatContext.person.aiResult : '';
+      var personAiResult = safeStr(chatContext.person && chatContext.person.aiResult);
       if (personAiResult) {
         prompt.systemPrompt += '\n\n## \uc0c1\ub2f4 \ub300\uc0c1\uc790\uc758 MBTS \ud480\uc774 \uacb0\uacfc (\uc774\ubbf8 \ubd84\uc11d \uc644\ub8cc)\n';
         prompt.systemPrompt += '\uc544\ub798\ub294 \uc774 \ub300\uc0c1\uc790\uc5d0\uac8c \uc774\uc804\uc5d0 \uc81c\uacf5\ub41c \uc0ac\uc8fc+MBTI \ud1b5\ud569 \ubd84\uc11d \uacb0\uacfc\uc785\ub2c8\ub2e4. \uc774 \ub0b4\uc6a9\uc744 \uc219\uc9c0\ud558\uace0 \ub2f5\ubcc0\ud558\uc138\uc694.\n\n';
