@@ -217,19 +217,17 @@
     loadChatContext();
 
     // 맥락 표시 텍스트
-    var ctxLabel = '\ud83d\udc30 \ub2ec\ud1a0';
+    var ctxLabel = '';
     if (type === 'me') {
-      var mi = '';
-      if (myTarget && myTarget.saju && myTarget.saju.P && myTarget.saju.P[2]) {
-        mi = myTarget.saju.P[2].s + myTarget.saju.P[2].b;
+      var myName = (myTarget && myTarget.name) ? myTarget.name : '';
+      if (!myName && myTarget && myTarget.saju && myTarget.saju.P && myTarget.saju.P[2]) {
+        myName = myTarget.saju.P[2].s + myTarget.saju.P[2].b + '\uc77c\uc8fc';
       }
-      var mm = (myTarget && myTarget.mbti) ? myTarget.mbti : '';
-      ctxLabel = '\ud83d\udc30 \ub2ec\ud1a0 \xd7 ' + (mi ? mi + ' ' : '') + mm;
+      ctxLabel = (myName || '\ub098') + '\ub2d8\uacfc\uc758 \ub300\ud654';
     } else if (type === 'person') {
-      ctxLabel = '\ud83d\udc30 \ub2ec\ud1a0 \xd7 ' + _esc(person.name || person.ilju || '\uc0c1\ub300');
+      ctxLabel = _esc(person.name || person.ilju || '\uc0c1\ub300') + '\ub2d8\uacfc\uc758 \ub300\ud654';
     } else if (type === 'gunghap') {
-      var relLabelMap = { ssom: '\uc378', lover: '\uc5f0\uc778', friend: '\uce5c\uad6c', colleague: '\ub3d9\ub8cc', family: '\uac00\uc871' };
-      ctxLabel = '\ud83d\udc30 \ub2ec\ud1a0 \xd7 ' + _esc(person.name || '') + ' (' + (relLabelMap[relType] || relType) + ')';
+      ctxLabel = '\uad81\ud569 \uc0c1\ub2f4';
     }
 
     // 달토 인사 메시지
@@ -277,20 +275,6 @@
       + '">\u2190 \ubaa9\ub85d</button>';
     h += '<div style="font-size:15px;font-weight:700;flex:1">' + ctxLabel + '</div>';
     h += '</div>';
-    // 모드 토글
-    var swActive = currentMode === 'sweet';
-    h += '<div style="display:flex;gap:6px">';
-    h += '<button id="chatModeSweet" onclick="setMode(\'sweet\')" style="'
-      + 'flex:1;padding:8px 0;font-size:13px;font-weight:600;border-radius:10px;'
-      + 'border:1.5px solid ' + (swActive ? '#8B6CC1' : 'rgba(0,0,0,0.08)') + ';cursor:pointer;transition:all 0.2s;'
-      + 'background:' + (swActive ? '#8B6CC1' : '#fff') + ';color:' + (swActive ? '#fff' : '#333')
-      + '">\ud83e\udd0d \uc0c1\ub0e5</button>';
-    h += '<button id="chatModeFire" onclick="setMode(\'fire\')" style="'
-      + 'flex:1;padding:8px 0;font-size:13px;font-weight:600;border-radius:10px;'
-      + 'border:1.5px solid ' + (!swActive ? '#E8513D' : 'rgba(0,0,0,0.08)') + ';cursor:pointer;transition:all 0.2s;'
-      + 'background:' + (!swActive ? '#E8513D' : '#fff') + ';color:' + (!swActive ? '#fff' : '#333')
-      + '">\ud83d\udd25 \ud329\ud3ed</button>';
-    h += '</div>';
     h += '</div>';
 
     // ─── 채팅 바디 ───
@@ -329,6 +313,40 @@
 
     h += '</div>'; // chatBody 끝
 
+    // ─── + 메뉴 (슬라이드업) ───
+    h += '<div id="chatPlusMenu" style="'
+      + 'display:none;'
+      + 'padding:12px 16px;'
+      + 'background:rgba(248,247,244,0.98);'
+      + 'backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);'
+      + 'border-top:1px solid rgba(0,0,0,0.06)'
+      + '">';
+    h += '<div style="display:flex;flex-direction:column;gap:2px">';
+    h += '<button onclick="showQuickSuggestions()" style="'
+      + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
+      + 'background:none;border:none;border-radius:12px;cursor:pointer;'
+      + 'font-size:15px;font-weight:600;color:#333;width:100%;text-align:left;'
+      + 'transition:background 0.2s'
+      + '" onmouseover="this.style.background=\'rgba(139,108,193,0.06)\'" onmouseout="this.style.background=\'none\'">'
+      + '<span style="font-size:20px">\ud83d\udd2e</span> \ucd94\ucc9c \uc9c8\ubb38</button>';
+    h += '<button onclick="toggleFireMode()" id="fireToggleBtn" style="'
+      + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
+      + 'background:none;border:none;border-radius:12px;cursor:pointer;'
+      + 'font-size:15px;font-weight:600;color:#333;width:100%;text-align:left;'
+      + 'transition:background 0.2s'
+      + '" onmouseover="this.style.background=\'rgba(232,81,61,0.06)\'" onmouseout="this.style.background=\'none\'">'
+      + '<span style="font-size:20px">' + (currentMode === 'fire' ? '\ud83e\udd0d' : '\ud83d\udd25') + '</span> '
+      + (currentMode === 'fire' ? '\uc0c1\ub0e5 \ubaa8\ub4dc\ub85c \uc804\ud658' : '\ud329\ud3ed \ubaa8\ub4dc\ub85c \uc804\ud658') + '</button>';
+    h += '<button onclick="resetChatConfirm()" style="'
+      + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
+      + 'background:none;border:none;border-radius:12px;cursor:pointer;'
+      + 'font-size:15px;font-weight:600;color:#333;width:100%;text-align:left;'
+      + 'transition:background 0.2s'
+      + '" onmouseover="this.style.background=\'rgba(0,0,0,0.03)\'" onmouseout="this.style.background=\'none\'">'
+      + '<span style="font-size:20px">\ud83d\udd04</span> \uc0c8 \ub300\ud654 \uc2dc\uc791\ud558\uae30</button>';
+    h += '</div>';
+    h += '</div>';
+
     // ─── 입력창 ───
     h += '<div style="'
       + 'padding:10px 16px;'
@@ -338,6 +356,11 @@
       + 'border-top:1px solid rgba(0,0,0,0.06);'
       + 'display:flex;align-items:center;gap:8px'
       + '">';
+    h += '<button onclick="togglePlusMenu()" id="chatPlusBtn" style="'
+      + 'width:40px;height:40px;border-radius:50%;border:none;'
+      + 'background:#F0ECF5;color:#8B6CC1;font-size:22px;font-weight:700;'
+      + 'cursor:pointer;flex-shrink:0;transition:all 0.2s'
+      + '">+</button>';
     h += '<input type="text" id="chatInput" placeholder="\ub2ec\ud1a0\uc5d0\uac8c \uc9c8\ubb38\ud558\uae30..." '
       + 'oninput="updateSendBtn()" onkeydown="chatInputKeydown(event)" style="'
       + 'flex:1;padding:12px 16px;font-size:14px;'
@@ -546,6 +569,99 @@
         sw.style.background = '#fff'; sw.style.color = '#333'; sw.style.borderColor = 'rgba(0,0,0,0.08)';
       }
     }
+  }
+
+  // + 메뉴 토글
+  function togglePlusMenu() {
+    var menu = document.getElementById('chatPlusMenu');
+    if (!menu) return;
+    if (menu.style.display === 'none' || !menu.style.display) {
+      menu.style.display = 'block';
+      var btn = document.getElementById('chatPlusBtn');
+      if (btn) { btn.style.background = '#8B6CC1'; btn.style.color = '#fff'; btn.textContent = '\u00d7'; }
+    } else {
+      menu.style.display = 'none';
+      var btn = document.getElementById('chatPlusBtn');
+      if (btn) { btn.style.background = '#F0ECF5'; btn.style.color = '#8B6CC1'; btn.textContent = '+'; }
+    }
+  }
+
+  // 팩폭 모드 토글 (+ 달토 자동 메시지)
+  function toggleFireMode() {
+    var newMode = (currentMode === 'fire') ? 'sweet' : 'fire';
+    setMode(newMode);
+    // 메뉴 닫기
+    togglePlusMenu();
+    // 달토 자동 메시지
+    var msg = '';
+    if (newMode === 'fire') {
+      msg = '\ud83d\udd25 \ud329\ud3ed \ubaa8\ub4dc ON! \uc194\uc9c1\ud558\uac8c \uac04\ub2e4, \uac01\uc624\ud574.';
+    } else {
+      msg = '\ud83e\udd0d \ub2e4\uc2dc \uc0c1\ub0e5 \ubaa8\ub4dc~ \ud3b8\ud558\uac8c \ubb3c\uc5b4\ubd10\uc694 \ud83d\udc30';
+    }
+    appendChatBubble('ai', msg);
+    chatHistory.push({ role: 'assistant', content: msg });
+    saveChatContext();
+    scrollChatToBottom();
+    // 버튼 텍스트 업데이트
+    var fireBtn = document.getElementById('fireToggleBtn');
+    if (fireBtn) {
+      fireBtn.innerHTML = '<span style="font-size:20px">' + (newMode === 'fire' ? '\ud83e\udd0d' : '\ud83d\udd25') + '</span> ' + (newMode === 'fire' ? '\uc0c1\ub0e5 \ubaa8\ub4dc\ub85c \uc804\ud658' : '\ud329\ud3ed \ubaa8\ub4dc\ub85c \uc804\ud658');
+    }
+  }
+
+  // 추천 질문 표시
+  function showQuickSuggestions() {
+    togglePlusMenu();
+    var type = (chatContext && chatContext.type) ? chatContext.type : 'me';
+    var suggestions = [];
+    if (type === 'me') {
+      suggestions = ['\uc62c\ud574 \uc6b4\uc138 \uc54c\ub824\uc918', '\uc5f0\uc560\uc6b4\uc774 \uad81\uae08\ud574', '\uc774\uc9c1\ud574\ub3c4 \ub420\uae4c?', '\uc7ac\ubb3c\uc6b4 \ubcf4\uc5ec\uc918', '\uac74\uac15 \uc8fc\uc758\ud560 \uc810\uc740?', '\uc774\ubc88 \ub2ec \uc6b4\uc138\ub294?'];
+    } else if (type === 'person') {
+      suggestions = ['\uc774 \uc0ac\ub78c \uc131\uaca9 \ubd84\uc11d', '\uacf5\ub7b5\ubc95 \uc54c\ub824\uc918', '\uc798 \ub9de\ub294 \ubd80\ubd84\uc740?', '\uc8fc\uc758\ud560 \uc810\uc740?', '\uc774 \uc0ac\ub78c \uc5f0\uc560 \uc2a4\ud0c0\uc77c', '\uc62c\ud574 \uc774 \uc0ac\ub78c \uc6b4\uc138'];
+    } else if (type === 'gunghap') {
+      suggestions = ['\uad81\ud569 \uc694\uc57d\ud574\uc918', '\uacf5\ub7b5\ubc95 \uc54c\ub824\uc918', '\uc8fc\uc758\ud560 \uc810\uc740?', '\uc798 \ub9de\ub294 \ubd80\ubd84\uc740?', '\uc548 \ub9de\ub294 \ubd80\ubd84\uc740?', '\uc7a5\uae30\uc801\uc73c\ub85c \uc5b4\ub54c?'];
+    }
+    var area = document.getElementById('chatQuickArea');
+    if (!area) {
+      var body = document.getElementById('chatBody');
+      if (body) {
+        var div = document.createElement('div');
+        div.id = 'chatQuickArea';
+        div.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px 44px';
+        body.appendChild(div);
+        area = div;
+      }
+    }
+    if (area) {
+      area.style.display = 'flex';
+      var qh = '';
+      for (var i = 0; i < suggestions.length; i++) {
+        qh += '<button onclick="sendChatMessage(\'' + suggestions[i].replace(/'/g, "\\'") + '\')" style="'
+          + 'padding:8px 14px;font-size:13px;font-weight:600;'
+          + 'background:#fff;color:#8B6CC1;'
+          + 'border:1.5px solid rgba(139,108,193,0.2);border-radius:20px;'
+          + 'cursor:pointer;transition:all 0.2s'
+          + '">' + suggestions[i] + '</button>';
+      }
+      area.innerHTML = qh;
+      scrollChatToBottom();
+    }
+  }
+
+  // 새 대화 시작
+  function resetChatConfirm() {
+    togglePlusMenu();
+    if (!confirm('\ub300\ud654\ub97c \ucd08\uae30\ud654\ud560\uae4c\uc694?')) return;
+    chatHistory = [];
+    var cid = '';
+    if (chatContext) {
+      if (chatContext.type === 'me') cid = 'me';
+      else if (chatContext.person && chatContext.person.id) cid = chatContext.person.id;
+      else if (chatContext.type === 'gunghap') cid = 'gunghap_' + (chatContext.person && chatContext.person.id ? chatContext.person.id : '');
+    }
+    if (cid) localStorage.removeItem('mbts_chat_' + cid);
+    openChatRoom(chatContext);
   }
 
   // ══════════════════════════════════
@@ -777,6 +893,10 @@
   // 전역 호환용 (index.html onclick에서 호출될 수 있으므로)
   window.sendChatMessage = sendChatMessage;
   window.setMode = setMode;
+  window.togglePlusMenu = togglePlusMenu;
+  window.toggleFireMode = toggleFireMode;
+  window.showQuickSuggestions = showQuickSuggestions;
+  window.resetChatConfirm = resetChatConfirm;
   window.updateSendBtn = updateSendBtn;
   window.chatInputKeydown = chatInputKeydown;
 
