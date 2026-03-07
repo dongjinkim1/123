@@ -113,77 +113,81 @@
   // STEP 2: MBTI 4문항 (강도 없이)
   // ══════════════════════════════════
   function renderStep2(pg) {
-    var ax = MBTI_AXES[svcMBTICur];
+    var cur = svcMBTICur;
+    var d = DM_AX[cur];
+    var ac = DC[cur];
+    var bg = DB[cur];
     var h = '';
-    h += '<div style="padding:20px;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding-top:48px">';
-    h += '<div class="birth-wrap">';
-    h += '<button class="birth-back" onclick="svcMBTIBack()">\u2190 \ub4a4\ub85c</button>';
 
-    // 진행 바
-    h += '<div style="display:flex;gap:4px;margin-bottom:28px">';
-    h += '<div style="flex:1;height:4px;border-radius:2px;background:#8B6CC1"></div>';
-    var mbtiProgress = (svcMBTICur + 1) / 4;
-    h += '<div style="flex:1;height:4px;border-radius:2px;background:rgba(0,0,0,0.06);overflow:hidden"><div style="width:' + (mbtiProgress * 100) + '%;height:100%;background:#8B6CC1;border-radius:2px;transition:width 0.3s"></div></div>';
-    h += '</div>';
+    h += '<div style="padding:20px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background .4s;background:' + bg + '">';
+    h += '<div style="width:100%;max-width:440px">';
 
-    // MBTI 4글자 미리보기
-    h += '<div style="display:flex;justify-content:center;gap:8px;margin-bottom:20px">';
+    // 뒤로
+    h += '<button onclick="svcMBTIBack()" style="background:none;border:none;font-size:14px;color:#8B6CC1;font-weight:600;padding:4px 0;cursor:pointer;margin-bottom:12px">\u2190 \ub4a4\ub85c</button>';
+
+    // 진행바 (축별 색상)
+    h += '<div style="display:flex;gap:4px;margin-bottom:20px">';
+    h += '<div style="flex:1;height:4px;border-radius:2px;background:#5B8FD4"></div>';
     for (var i = 0; i < 4; i++) {
-      var selected = svcMBTI[i];
-      var isCurrent = (i === svcMBTICur);
-      var bgColor = selected ? '#8B6CC1' : (isCurrent ? 'rgba(139,108,193,0.15)' : 'rgba(0,0,0,0.04)');
-      var txtColor = selected ? '#fff' : (isCurrent ? '#8B6CC1' : '#bbb');
-      var border = isCurrent && !selected ? '2px solid rgba(139,108,193,0.3)' : '2px solid transparent';
-      h += '<div style="width:44px;height:44px;border-radius:12px;background:' + bgColor + ';color:' + txtColor + ';border:' + border + ';display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;transition:all 0.3s">' + (selected || '?') + '</div>';
+      h += '<div style="flex:1;height:4px;border-radius:2px;background:' + (i <= cur ? DC[i] : DC[i] + '30') + '"></div>';
     }
     h += '</div>';
 
-    // 카드
-    h += '<div class="birth-card" style="text-align:center">';
-    h += '<div style="font-size:11px;color:var(--text-3);letter-spacing:1px;margin-bottom:4px">STEP ' + (svcMBTICur + 1) + '/4</div>';
-    h += '<div style="font-size:17px;font-weight:800;margin-bottom:20px;color:var(--text-1)">\ub2f9\uc2e0\uc740 \uc5b4\ub290 \ucabd\uc5d0 \uac00\uae5c\ub098\uc694?</div>';
-
-    // 선택지 2개
-    h += '<div class="ap-mbti-opts">';
-    h += '<button class="ap-mbti-opt-btn" onclick="svcPickMBTIStep(\'' + ax.L + '\')" id="svcOptL">';
-    h += '<div class="lt">' + ax.L + '</div>';
-    h += '<div class="lb">' + ax.Lname + '</div>';
-    h += '<div class="ds">' + ax.Ldesc + '</div>';
-    h += '</button>';
-    h += '<button class="ap-mbti-opt-btn" onclick="svcPickMBTIStep(\'' + ax.R + '\')" id="svcOptR">';
-    h += '<div class="lt">' + ax.R + '</div>';
-    h += '<div class="lb">' + ax.Rname + '</div>';
-    h += '<div class="ds">' + ax.Rdesc + '</div>';
-    h += '</button>';
+    // MBTI 글자 미리보기
+    h += '<div style="display:flex;justify-content:center;gap:8px;margin-bottom:24px">';
+    for (var i = 0; i < 4; i++) {
+      var lt = svcMBTI[i] ? svcMBTI[i] : '?';
+      var isCur = (i === cur);
+      h += '<div style="width:42px;height:50px;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:900;border-radius:10px;background:' + (isCur ? DC[i] + '20' : (svcMBTI[i] ? DC[i] + '10' : 'rgba(0,0,0,0.04)')) + ';border:2.5px solid ' + (isCur ? DC[i] : 'transparent') + ';color:' + (svcMBTI[i] ? DC[i] : 'var(--text-3)') + '">' + lt + '</div>';
+    }
     h += '</div>';
 
-    h += '</div>'; // birth-card
-    h += '</div>'; // birth-wrap
+    // 카드 (글로시)
+    h += '<div style="background:#fff;border:1px solid ' + ac + '65;border-radius:20px;box-shadow:0 2px 12px ' + ac + '18,0 0 0 1px ' + ac + '20;padding:28px 22px;transition:border-color .3s,box-shadow .3s">';
+    h += '<div style="font-size:11px;color:var(--text-3);text-align:center;letter-spacing:1px;margin-bottom:4px">STEP ' + (cur + 1) + '/4</div>';
+    h += '<div style="font-size:17px;font-weight:800;text-align:center;margin-bottom:16px;color:var(--text-1)">\ub2f9\uc2e0\uc740 \uc5b4\ub290 \ucabd\uc5d0 \uac00\uae5c\ub098\uc694?</div>';
+
+    // 선택지 (기존 renderMBTI 그대로)
+    h += '<div style="display:flex;gap:10px;margin-bottom:18px">';
+    var sides = ['L', 'R'];
+    for (var si = 0; si < sides.length; si++) {
+      var side = sides[si];
+      var lb = side === 'L' ? d.Ll : d.Rl;
+      var lt = side === 'L' ? d.L : d.R;
+      var ds = side === 'L' ? d.Ld : d.Rd;
+      var sel = (svcMBTI[cur] === lt);
+      var btnBg = sel ? 'linear-gradient(145deg,' + ac + '18,' + ac + '08)' : 'rgba(0,0,0,0.02)';
+      var btnBdr = sel ? '2.5px solid ' + ac : '2.5px solid var(--border)';
+      var gloss = sel ? '<div style="position:absolute;top:0;left:0;right:0;height:45%;background:linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0));border-radius:14px 14px 0 0;pointer-events:none"></div>' : '';
+      var shadow = sel ? ';box-shadow:0 4px 20px ' + ac + '25;position:relative;overflow:hidden' : '';
+      h += '<button onclick="svcPickMBTIStep(\'' + lt + '\')" style="flex:1;padding:20px 12px;background:' + btnBg + ';border:' + btnBdr + ';border-radius:16px;cursor:pointer;text-align:center;color:var(--text-1);font-family:inherit;transition:all .25s' + shadow + '">' + gloss;
+      h += '<div style="font-size:34px;font-weight:900;color:' + (sel ? ac : 'var(--text-3)') + ';margin-bottom:6px;position:relative">' + lt + '</div>';
+      h += '<div style="font-size:12.5px;font-weight:700;margin-bottom:4px;color:' + (sel ? ac : 'var(--text-2)') + ';position:relative">' + lb + '</div>';
+      h += '<div style="font-size:11px;color:var(--text-3);line-height:1.5;position:relative">' + ds + '</div>';
+      h += '</button>';
+    }
     h += '</div>';
+
+    h += '</div>'; // 카드 끝
+    h += '</div>'; // max-width
+    h += '</div>'; // 전체
 
     pg.innerHTML = h;
   }
 
   function svcPickMBTIStep(val) {
     svcMBTI[svcMBTICur] = val;
-    // 선택 효과
-    var isL = (val === MBTI_AXES[svcMBTICur].L);
-    var btnL = document.getElementById('svcOptL');
-    var btnR = document.getElementById('svcOptR');
-    if (btnL) btnL.className = 'ap-mbti-opt-btn' + (isL ? ' sel' : '');
-    if (btnR) btnR.className = 'ap-mbti-opt-btn' + (!isL ? ' sel' : '');
-    if (isL && btnL) { btnL.style.borderColor = '#8B6CC1'; btnL.style.background = 'rgba(139,108,193,0.05)'; }
-    if (!isL && btnR) { btnR.style.borderColor = '#8B6CC1'; btnR.style.background = 'rgba(139,108,193,0.05)'; }
-
+    // 선택 이펙트 보여주고 자동 다음
+    var pg = document.getElementById('pgAnimal');
+    if (pg) renderStep2(pg);
     setTimeout(function() {
       if (svcMBTICur < 3) {
         svcMBTICur++;
-        var pg = document.getElementById('pgAnimal');
         if (pg) renderStep2(pg);
       } else {
         svcDoAnalyze();
       }
-    }, 350);
+    }, 400);
   }
 
   function svcMBTIBack() {
