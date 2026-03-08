@@ -322,26 +322,37 @@
       + 'border-top:1px solid rgba(0,0,0,0.06)'
       + '">';
     h += '<div style="display:flex;flex-direction:column;gap:2px">';
+    // 1. 추천 질문
     h += '<button onclick="showQuickSuggestions()" style="'
       + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
       + 'background:none;border:none;border-radius:12px;cursor:pointer;'
       + 'font-size:15px;font-weight:600;color:#333;width:100%;text-align:left;'
-      + 'transition:background 0.2s'
+      + 'transition:background 0.2s;font-family:inherit'
       + '" onmouseover="this.style.background=\'rgba(139,108,193,0.06)\'" onmouseout="this.style.background=\'none\'">'
       + '<span style="font-size:20px">\ud83d\udd2e</span> \ucd94\ucc9c \uc9c8\ubb38</button>';
+    // 2. 팩폭/상냥 모드 전환
     h += '<button onclick="toggleFireMode()" id="fireToggleBtn" style="'
       + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
       + 'background:none;border:none;border-radius:12px;cursor:pointer;'
       + 'font-size:15px;font-weight:600;color:#333;width:100%;text-align:left;'
-      + 'transition:background 0.2s'
+      + 'transition:background 0.2s;font-family:inherit'
       + '" onmouseover="this.style.background=\'rgba(232,81,61,0.06)\'" onmouseout="this.style.background=\'none\'">'
       + '<span style="font-size:20px">' + (currentMode === 'fire' ? '\ud83e\udd0d' : '\ud83d\udd25') + '</span> '
       + (currentMode === 'fire' ? '\uc0c1\ub0e5 \ubaa8\ub4dc\ub85c \uc804\ud658' : '\ud329\ud3ed \ubaa8\ub4dc\ub85c \uc804\ud658') + '</button>';
+    // 3. 클로버 충전
+    h += '<button onclick="togglePlusMenu();if(typeof showChargeModal===\'function\')showChargeModal();" style="'
+      + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
+      + 'background:none;border:none;border-radius:12px;cursor:pointer;'
+      + 'font-size:15px;font-weight:600;color:#333;width:100%;text-align:left;'
+      + 'transition:background 0.2s;font-family:inherit'
+      + '" onmouseover="this.style.background=\'rgba(45,157,120,0.06)\'" onmouseout="this.style.background=\'none\'">'
+      + '<span style="font-size:20px">\ud83c\udf40</span> \ud074\ub85c\ubc84 \ucda9\uc804</button>';
+    // 4. 새 대화 시작하기
     h += '<button onclick="resetChatConfirm()" style="'
       + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
       + 'background:none;border:none;border-radius:12px;cursor:pointer;'
       + 'font-size:15px;font-weight:600;color:#333;width:100%;text-align:left;'
-      + 'transition:background 0.2s'
+      + 'transition:background 0.2s;font-family:inherit'
       + '" onmouseover="this.style.background=\'rgba(0,0,0,0.03)\'" onmouseout="this.style.background=\'none\'">'
       + '<span style="font-size:20px">\ud83d\udd04</span> \uc0c8 \ub300\ud654 \uc2dc\uc791\ud558\uae30</button>';
     h += '</div>';
@@ -358,7 +369,9 @@
       + '">';
     h += '<button onclick="togglePlusMenu()" id="chatPlusBtn" style="'
       + 'width:40px;height:40px;border-radius:50%;border:none;'
-      + 'background:#F0ECF5;color:#8B6CC1;font-size:22px;font-weight:700;'
+      + 'background:' + (currentMode === 'fire' ? '#FFE8E8' : '#F0ECF5') + ';'
+      + 'color:' + (currentMode === 'fire' ? '#E8453C' : '#8B6CC1') + ';'
+      + 'font-size:22px;font-weight:700;'
       + 'cursor:pointer;flex-shrink:0;transition:all 0.2s'
       + '">+</button>';
     h += '<input type="text" id="chatInput" placeholder="\ub2ec\ud1a0\uc5d0\uac8c \uc9c8\ubb38\ud558\uae30..." '
@@ -370,8 +383,8 @@
       + '">';
     h += '<button id="chatSendBtn" onclick="sendChatMessage()" style="'
       + 'width:40px;height:40px;border-radius:50%;border:none;'
-      + 'background:#8B6CC1;color:#fff;font-size:16px;font-weight:700;'
-      + 'cursor:pointer;flex-shrink:0;opacity:0.4;transition:opacity 0.2s'
+      + 'background:' + (currentMode === 'fire' ? '#E8453C' : '#8B6CC1') + ';color:#fff;font-size:16px;font-weight:700;'
+      + 'cursor:pointer;flex-shrink:0;opacity:0.4;transition:all 0.2s'
       + '">\u2191</button>';
     h += '</div>';
 
@@ -558,16 +571,30 @@
 
   function setMode(mode) {
     currentMode = mode;
-    var sw = document.getElementById('chatModeSweet');
-    var fi = document.getElementById('chatModeFire');
-    if (sw && fi) {
-      if (mode === 'sweet') {
-        sw.style.background = '#8B6CC1'; sw.style.color = '#fff'; sw.style.borderColor = '#8B6CC1';
-        fi.style.background = '#fff'; fi.style.color = '#333'; fi.style.borderColor = 'rgba(0,0,0,0.08)';
-      } else {
-        fi.style.background = '#E8513D'; fi.style.color = '#fff'; fi.style.borderColor = '#E8513D';
-        sw.style.background = '#fff'; sw.style.color = '#333'; sw.style.borderColor = 'rgba(0,0,0,0.08)';
-      }
+
+    // 전송 버튼 색상 즉시 반영
+    var sendBtn = document.getElementById('chatSendBtn');
+    if (sendBtn) {
+      sendBtn.style.background = (mode === 'fire') ? '#E8453C' : '#8B6CC1';
+    }
+
+    // 입력창 포커스 색상 반영
+    var chatInput = document.getElementById('chatInput');
+    if (chatInput) {
+      chatInput.style.borderColor = (mode === 'fire') ? 'rgba(232,69,60,0.3)' : 'rgba(139,108,193,0.3)';
+    }
+
+    // + 버튼 색상 반영
+    var plusBtn = document.getElementById('chatPlusBtn');
+    if (plusBtn && plusBtn.textContent === '+') {
+      plusBtn.style.background = (mode === 'fire') ? '#FFE8E8' : '#F0ECF5';
+      plusBtn.style.color = (mode === 'fire') ? '#E8453C' : '#8B6CC1';
+    }
+
+    // fireToggleBtn 텍스트 업데이트
+    var fireBtn = document.getElementById('fireToggleBtn');
+    if (fireBtn) {
+      fireBtn.innerHTML = '<span style="font-size:20px">' + (mode === 'fire' ? '\ud83e\udd0d' : '\ud83d\udd25') + '</span> ' + (mode === 'fire' ? '\uc0c1\ub0e5 \ubaa8\ub4dc\ub85c \uc804\ud658' : '\ud329\ud3ed \ubaa8\ub4dc\ub85c \uc804\ud658');
     }
   }
 
@@ -575,14 +602,22 @@
   function togglePlusMenu() {
     var menu = document.getElementById('chatPlusMenu');
     if (!menu) return;
+    var btn = document.getElementById('chatPlusBtn');
+    var isFire = (currentMode === 'fire');
     if (menu.style.display === 'none' || !menu.style.display) {
       menu.style.display = 'block';
-      var btn = document.getElementById('chatPlusBtn');
-      if (btn) { btn.style.background = '#8B6CC1'; btn.style.color = '#fff'; btn.textContent = '\u00d7'; }
+      if (btn) {
+        btn.style.background = isFire ? '#E8453C' : '#8B6CC1';
+        btn.style.color = '#fff';
+        btn.textContent = '\u00d7';
+      }
     } else {
       menu.style.display = 'none';
-      var btn = document.getElementById('chatPlusBtn');
-      if (btn) { btn.style.background = '#F0ECF5'; btn.style.color = '#8B6CC1'; btn.textContent = '+'; }
+      if (btn) {
+        btn.style.background = isFire ? '#FFE8E8' : '#F0ECF5';
+        btn.style.color = isFire ? '#E8453C' : '#8B6CC1';
+        btn.textContent = '+';
+      }
     }
   }
 
@@ -612,20 +647,15 @@
   function toggleFireMode() {
     var newMode = (currentMode === 'fire') ? 'sweet' : 'fire';
     setMode(newMode);
+    // 대화 히스토리에 모드 저장
+    saveChatContext();
     // 메뉴 닫기
     togglePlusMenu();
     // 토스트 팝업
-    var msg = '';
     if (newMode === 'fire') {
-      msg = '\ud83d\udd25 \ud329\ud3ed \ubaa8\ub4dc ON!';
+      showModeToast('\ud83d\udd25 \ud329\ud3ed \ubaa8\ub4dc ON!');
     } else {
-      msg = '\ud83e\udd0d \uc0c1\ub0e5 \ubaa8\ub4dc\ub85c \uc804\ud658~';
-    }
-    showModeToast(msg);
-    // 버튼 텍스트 업데이트
-    var fireBtn = document.getElementById('fireToggleBtn');
-    if (fireBtn) {
-      fireBtn.innerHTML = '<span style="font-size:20px">' + (newMode === 'fire' ? '\ud83e\udd0d' : '\ud83d\udd25') + '</span> ' + (newMode === 'fire' ? '\uc0c1\ub0e5 \ubaa8\ub4dc\ub85c \uc804\ud658' : '\ud329\ud3ed \ubaa8\ub4dc\ub85c \uc804\ud658');
+      showModeToast('\ud83e\udd0d \uc0c1\ub0e5 \ubaa8\ub4dc\ub85c \uc804\ud658~');
     }
   }
 
