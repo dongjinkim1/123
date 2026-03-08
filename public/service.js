@@ -32,6 +32,7 @@
   // ══════════════════════════════════════
   function renderAnimalPage() {
     if (_svcInAnalysis) return; // 분석 중 재진입 방지
+    if (window._compatMode) return; // 궁합 매칭 모드일 때 재진입 방지
     window._svcMode = 'free';
     go('pgBirth');
   }
@@ -523,7 +524,10 @@
       } catch(e) {}
     }
 
+    window._compatMode = true;   // go('pgAnimal') → renderAnimalPage() 재진입 방지
     go('pgAnimal');
+    window._compatMode = false;
+
     if (rec && rec.saju) {
       svcRenderConfirm(rec);
     } else {
@@ -640,6 +644,7 @@
     var rec = window._compatSrc;
     if (!rec || !rec.saju) { renderCompatPage(); return; }
 
+    _svcInAnalysis = true; // renderAnimalPage 재진입 방지
     var pg = document.getElementById('pgAnimal');
     svcShowCompatLoading(pg);
 
@@ -654,6 +659,7 @@
       }
 
       svcRenderCompatResult(pg, rec, matches);
+      _svcInAnalysis = false;
     }, 1800);
   }
 
@@ -908,6 +914,14 @@
   window.svcStartCompatAnalysis = svcStartCompatAnalysis;
   window.svcShareCompatKakao = svcShareCompatKakao;
   window.svcShareKakao = svcShareKakao;
+
+  // ── 디버그 체크리스트 ──
+  console.log('[MBTS][DEBUG] renderCompatPage 존재:', typeof renderCompatPage);
+  console.log('[MBTS][DEBUG] renderAnimalPage 존재:', typeof renderAnimalPage);
+  console.log('[MBTS][DEBUG] OH_SANG 존재:', typeof OH_SANG);
+  console.log('[MBTS][DEBUG] ANIMALS 존재:', typeof ANIMALS);
+  console.log('[MBTS][DEBUG] getAnimalResult 존재:', typeof getAnimalResult);
+  console.log('[MBTS][DEBUG] getFortuneTarget 존재:', typeof getFortuneTarget);
 
   console.log('[MBTS] service.js v2 loaded (프리미엄 톤 무료 동물 서비스)');
 })();
