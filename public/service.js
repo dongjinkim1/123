@@ -369,26 +369,37 @@
 
   // 오행 상생 역방향 (나를 생해주는 오행)
   var OH_SANG_REV = {'목':'수','화':'목','토':'화','금':'토','수':'금'};
-  // 오행 상생 순방향 (내가 생해주는 오행) — engine.js의 OH_SANG 참조
-  // OH_SANG = {'목':'화','화':'토','토':'금','금':'수','수':'목'};
 
-  // 십성 궁합 매칭 테이블
+  // 십성 궁합 매칭 테이블 + 동물별 구체적 이유
   var SS_COMPAT = {
-    '비겁': { best:'재성', good:'식상', mirror:'관성' },
-    '식상': { best:'관성', good:'재성', mirror:'인성' },
-    '재성': { best:'비겁', good:'관성', mirror:'식상' },
-    '관성': { best:'식상', good:'인성', mirror:'비겁' },
-    '인성': { best:'재성', good:'비겁', mirror:'관성' }
+    '비겁': {
+      best: { ss:'재성', reason: function(my,tgt){ return my+'의 거친 에너지를 '+tgt+'가 현실 감각으로 잡아줌 — 서로에게 없는 걸 채워주는 최강 보완형'; } },
+      good: { ss:'식상', reason: function(my,tgt){ return my+'의 단단함 위에 '+tgt+'의 표현력이 올라타면 시너지 폭발 — 함께 만들어가는 성장형'; } },
+      mirror: { ss:'관성', reason: function(my,tgt){ return my+'와 '+tgt+', 서로 밀고 당기며 긴장감 있는 자극 — 말 안 해도 통하는 거울 관계'; } }
+    },
+    '식상': {
+      best: { ss:'관성', reason: function(my,tgt){ return my+'의 자유로운 표현을 '+tgt+'가 방향을 잡아줌 — 날개 달린 안정감'; } },
+      good: { ss:'재성', reason: function(my,tgt){ return my+'의 아이디어를 '+tgt+'가 현실로 바꿔줌 — 꿈을 돈으로 만드는 조합'; } },
+      mirror: { ss:'인성', reason: function(my,tgt){ return my+'가 표현하고 '+tgt+'가 받아주는 — 정서적으로 가장 편안한 조합'; } }
+    },
+    '재성': {
+      best: { ss:'비겁', reason: function(my,tgt){ return my+'의 현실 감각에 '+tgt+'의 추진력이 합쳐지면 — 목표를 반드시 이루는 파트너'; } },
+      good: { ss:'관성', reason: function(my,tgt){ return my+'의 기회 포착력 + '+tgt+'의 책임감 — 서로를 믿고 맡기는 신뢰형'; } },
+      mirror: { ss:'식상', reason: function(my,tgt){ return my+'의 계산과 '+tgt+'의 감성이 만나 — 이성과 감성의 완벽 밸런스'; } }
+    },
+    '관성': {
+      best: { ss:'식상', reason: function(my,tgt){ return my+'의 무거운 책임을 '+tgt+'가 유쾌하게 풀어줌 — 삶이 가벼워지는 힐링 관계'; } },
+      good: { ss:'인성', reason: function(my,tgt){ return my+'의 원칙 위에 '+tgt+'의 지혜가 더해져 — 함께할수록 단단해지는 조합'; } },
+      mirror: { ss:'비겁', reason: function(my,tgt){ return my+'가 이끌고 '+tgt+'가 밀어주는 — 역할이 딱 맞아떨어지는 팀워크'; } }
+    },
+    '인성': {
+      best: { ss:'재성', reason: function(my,tgt){ return my+'의 생각을 '+tgt+'가 행동으로 옮겨줌 — 머릿속 세상을 현실로 만드는 파트너'; } },
+      good: { ss:'비겁', reason: function(my,tgt){ return my+'의 깊은 내면을 '+tgt+'가 활기로 깨워줌 — 움츠린 나를 세상 밖으로'; } },
+      mirror: { ss:'관성', reason: function(my,tgt){ return my+'의 사색과 '+tgt+'의 실행력 — 생각을 결과로 바꾸는 지적 자극형'; } }
+    }
   };
 
-  // 매칭 이유 텍스트 (랭크별)
-  var COMPAT_REASONS = {
-    gen_me: '부족한 에너지를 자연스럽게 채워주는 최고의 보완 관계',
-    i_gen:  '내가 자연스럽게 돌보게 되고 함께 성장하는 시너지 관계',
-    same:   '같은 본질을 공유하며 말 안 해도 통하는 거울 같은 관계'
-  };
-
-  // 랭크별 배지 색상
+  // 랭크별 배지 스타일
   var RANK_STYLE = [
     { bg:'linear-gradient(135deg,#FFD700,#FFA500)', color:'#fff', label:'🥇 1위', shadow:'rgba(255,165,0,0.3)' },
     { bg:'linear-gradient(135deg,#C0C0C0,#A0A0A0)', color:'#fff', label:'🥈 2위', shadow:'rgba(160,160,160,0.3)' },
@@ -396,34 +407,44 @@
   ];
 
   // ── 매칭 로직: 내 오행+십성 → TOP 3 동물 ──
-  function findCompatAnimals(myOheng, mySipsung) {
+  function findCompatAnimals(myOheng, mySipsung, myAnimalName) {
     var results = [];
     if (typeof OH_SANG === 'undefined' || typeof ANIMALS === 'undefined') return results;
 
     var genMe = OH_SANG_REV[myOheng]; // 나를 생해주는 오행
     var iGen = OH_SANG[myOheng];       // 내가 생해주는 오행
-    var ssc = SS_COMPAT[mySipsung] || { best:'재성', good:'식상', mirror:'관성' };
+    var ssc = SS_COMPAT[mySipsung];
+    if (!ssc) ssc = SS_COMPAT['비겁']; // 폴백
 
     // 1위: 나를 생해주는 오행 + best 십성
-    var k1 = genMe + '_' + ssc.best;
-    if (ANIMALS[k1]) results.push({
-      rank: 1, key: k1, animal: ANIMALS[k1], mod: ANIMALS[k1].mods[0],
-      oheng: genMe, sipsung: ssc.best, reason: COMPAT_REASONS.gen_me
-    });
+    var k1 = genMe + '_' + ssc.best.ss;
+    if (ANIMALS[k1]) {
+      var reasonText = ssc.best.reason(myAnimalName, ANIMALS[k1].name);
+      results.push({
+        rank: 1, key: k1, animal: ANIMALS[k1], mod: ANIMALS[k1].mods[0],
+        oheng: genMe, sipsung: ssc.best.ss, reason: reasonText
+      });
+    }
 
     // 2위: 내가 생해주는 오행 + good 십성
-    var k2 = iGen + '_' + ssc.good;
-    if (ANIMALS[k2]) results.push({
-      rank: 2, key: k2, animal: ANIMALS[k2], mod: ANIMALS[k2].mods[0],
-      oheng: iGen, sipsung: ssc.good, reason: COMPAT_REASONS.i_gen
-    });
+    var k2 = iGen + '_' + ssc.good.ss;
+    if (ANIMALS[k2]) {
+      var reasonText2 = ssc.good.reason(myAnimalName, ANIMALS[k2].name);
+      results.push({
+        rank: 2, key: k2, animal: ANIMALS[k2], mod: ANIMALS[k2].mods[0],
+        oheng: iGen, sipsung: ssc.good.ss, reason: reasonText2
+      });
+    }
 
-    // 3위: 같은 오행 + mirror 십성 (자신과 다른 동물이어야 함)
-    var k3 = myOheng + '_' + ssc.mirror;
-    if (ANIMALS[k3]) results.push({
-      rank: 3, key: k3, animal: ANIMALS[k3], mod: ANIMALS[k3].mods[0],
-      oheng: myOheng, sipsung: ssc.mirror, reason: COMPAT_REASONS.same
-    });
+    // 3위: 같은 오행 + mirror 십성 (자기 자신과 다른 동물)
+    var k3 = myOheng + '_' + ssc.mirror.ss;
+    if (ANIMALS[k3] && ANIMALS[k3].name !== myAnimalName) {
+      var reasonText3 = ssc.mirror.reason(myAnimalName, ANIMALS[k3].name);
+      results.push({
+        rank: 3, key: k3, animal: ANIMALS[k3], mod: ANIMALS[k3].mods[0],
+        oheng: myOheng, sipsung: ssc.mirror.ss, reason: reasonText3
+      });
+    }
 
     return results;
   }
@@ -435,11 +456,64 @@
     return '/animals/' + oh + an + 'S.png?v=2';
   }
 
+  // ── 내 동물 정보 추출 헬퍼 ──
+  function extractMyAnimalInfo(rec) {
+    var info = {
+      name: rec.name || '나',
+      emoji: rec.animalEmoji || '🌟',
+      tag: rec.animalTag || '',
+      mbti: rec.mbti || '',
+      oheng: (rec.saju && rec.saju.dmEl) ? rec.saju.dmEl : '화',
+      ilju: '',
+      animalName: '',
+      animalTitle: '',
+      dominantSS: '비겁',
+      condition: '신강',
+      birth: ''
+    };
+
+    // 일주
+    if (rec.saju && rec.saju.P && rec.saju.P[2]) {
+      info.ilju = rec.saju.P[2].s + rec.saju.P[2].b;
+    }
+
+    // 생년월일 텍스트
+    if (rec.input) {
+      var parts = [];
+      if (rec.input.y) parts.push(rec.input.y);
+      if (rec.input.m) parts.push(rec.input.m);
+      if (rec.input.d) parts.push(rec.input.d);
+      info.birth = parts.join('.');
+      if (rec.input.h && rec.input.h !== '모름' && rec.input.h !== '') {
+        info.birth += ' ' + rec.input.h + ':' + (rec.input.min || '00');
+      }
+    }
+
+    // 동물 매칭
+    if (rec.saju && rec.gg) {
+      info.dominantSS = (rec.gg.dominant && rec.gg.dominant[0]) ? rec.gg.dominant[0] : '비겁';
+      if (rec.gg.isJonggyeok || rec.gg.isHwakyeok) info.condition = '특수';
+      else if (rec.gg.strengthGrade === '신약' || rec.gg.strengthGrade === '극신약') info.condition = '신약';
+
+      var animalObj = (typeof getAnimalResult === 'function') ? getAnimalResult(info.oheng, info.dominantSS, info.condition) : null;
+      if (animalObj) {
+        info.animalName = animalObj.name;
+        info.animalTitle = animalObj.mod ? animalObj.mod.title : '';
+        info.emoji = animalObj.emoji;
+        info.tag = animalObj.mod ? animalObj.mod.tag : info.tag;
+      }
+    }
+
+    info.imgUrl = info.animalName ? getAnimalImgUrl(info.oheng, info.animalName) : '';
+    info.oc = OC[info.oheng] || OC['화'];
+
+    return info;
+  }
+
   // ══════════════════════════════════════
   // 궁합 동물 진입점
   // ══════════════════════════════════════
   function renderCompatPage() {
-    // 기존 결과 확인 (fortune-target → history)
     var rec = null;
     if (typeof getFortuneTarget === 'function') rec = getFortuneTarget();
     if (!rec) {
@@ -449,7 +523,6 @@
       } catch(e) {}
     }
 
-    // 결과가 있으면 확인 화면, 없으면 안내
     go('pgAnimal');
     if (rec && rec.saju) {
       svcRenderConfirm(rec);
@@ -464,6 +537,11 @@
     if (!pg) return;
 
     var h = '';
+    h += '<style>';
+    h += '@keyframes svcReveal{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}';
+    h += '.svc-cta{width:100%;padding:16px;font-size:15px;font-weight:700;border:none;border-radius:16px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}';
+    h += '.svc-cta:hover{transform:translateY(-2px)}.svc-cta:active{transform:translateY(0)}';
+    h += '</style>';
     h += '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg)">';
     h += '<div style="text-align:center;max-width:320px;animation:svcReveal .5s ease both">';
     h += '<div style="font-size:64px;margin-bottom:20px">🔮</div>';
@@ -471,43 +549,19 @@
     h += '<div style="font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:32px">내 운명 동물을 먼저 확인하면<br>잘 맞는 동물도 알려드려요!</div>';
     h += '<button onclick="renderAnimalPage()" class="svc-cta" style="background:linear-gradient(135deg,var(--rose),#C05875);color:#fff;box-shadow:0 4px 20px rgba(212,115,139,0.3)">';
     h += '🦁 내 동물 알아보기 (무료)</button>';
-    h += '<div style="margin-top:16px"><button onclick="go(\'pgDash\')" style="background:none;border:none;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit">← 돌아가기</button></div>';
+    h += '<div style="margin-top:16px"><button onclick="go(\'pgDash\');setTab(1)" style="background:none;border:none;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit">← 돌아가기</button></div>';
     h += '</div></div>';
     pg.innerHTML = h;
   }
 
-  // ── 기존 결과 확인 화면 ──
+  // ══════════════════════════════════════
+  // 확인 화면 — "김동진 · 1993.5.26 · INFP" 보여주기
+  // ══════════════════════════════════════
   function svcRenderConfirm(rec) {
     var pg = document.getElementById('pgAnimal');
     if (!pg) return;
 
-    var name = rec.name || '나';
-    var emoji = rec.animalEmoji || '🌟';
-    var tag = rec.animalTag || '';
-    var mbti = rec.mbti || '';
-    var ilju = '';
-    if (rec.saju && rec.saju.P && rec.saju.P[2]) ilju = rec.saju.P[2].s + rec.saju.P[2].b;
-    var oheng = rec.saju ? rec.saju.dmEl : '화';
-    var oc = OC[oheng] || OC['화'];
-
-    // 동물 이름 찾기
-    var animalName = '';
-    var animalTitle = '';
-    if (rec.saju && rec.gg) {
-      var dominantSS = rec.gg.dominant ? rec.gg.dominant[0] : '비겁';
-      var condition = '신강';
-      if (rec.gg.isJonggyeok || rec.gg.isHwakyeok) condition = '특수';
-      else if (rec.gg.strengthGrade === '신약' || rec.gg.strengthGrade === '극신약') condition = '신약';
-      var animalObj = (typeof getAnimalResult === 'function') ? getAnimalResult(oheng, dominantSS, condition) : null;
-      if (animalObj) {
-        animalName = animalObj.name;
-        animalTitle = animalObj.mod ? animalObj.mod.title : '';
-        emoji = animalObj.emoji;
-        tag = animalObj.mod ? animalObj.mod.tag : tag;
-      }
-    }
-
-    var imgUrl = animalName ? getAnimalImgUrl(oheng, animalName) : '';
+    var info = extractMyAnimalInfo(rec);
 
     var h = '';
     h += '<style>';
@@ -525,48 +579,59 @@
     h += '<div style="width:40px"></div>';
     h += '</div>';
 
-    // 확인 카드
-    h += '<div style="padding:40px 20px;max-width:400px;margin:0 auto;text-align:center">';
-
+    // 타이틀
+    h += '<div style="padding:32px 20px 0;max-width:400px;margin:0 auto;text-align:center">';
     h += '<div style="font-size:18px;font-weight:800;color:var(--text-1);margin-bottom:8px;animation:svcReveal .5s ease both">💕 나와 잘 맞는 동물 찾기</div>';
-    h += '<div style="font-size:13px;color:var(--text-2);margin-bottom:32px;animation:svcReveal .5s ease both;animation-delay:.1s;opacity:0">' + name + '님의 기존 결과로 분석할게요</div>';
+    h += '<div style="font-size:13px;color:var(--text-2);margin-bottom:28px;animation:svcReveal .5s ease both;animation-delay:.1s;opacity:0">' + info.name + '님의 결과로 볼게요</div>';
 
-    // 동물 카드
+    // ── 동물 카드 (이름 · 생년월일 · MBTI 포함) ──
     h += '<div style="background:#fff;border-radius:24px;padding:28px 24px;margin-bottom:32px;';
-    h += 'box-shadow:0 4px 24px rgba(0,0,0,0.06);border:1.5px solid ' + oc.m + '15;';
+    h += 'box-shadow:0 4px 24px rgba(0,0,0,0.06);border:1.5px solid ' + info.oc.m + '15;';
     h += 'animation:svcReveal .5s ease both;animation-delay:.15s;opacity:0">';
 
-    // 이미지
-    h += '<div style="width:100px;height:100px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid ' + oc.m + '20;box-shadow:0 6px 20px ' + oc.m + '15;background:#fff">';
-    if (imgUrl) {
-      h += '<img src="' + imgUrl + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:48px;background:' + oc.bg + '\\\'>' + emoji + '</div>\'">';
+    // 동물 이미지
+    h += '<div style="width:100px;height:100px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid ' + info.oc.m + '20;box-shadow:0 6px 20px ' + info.oc.m + '15;background:#fff">';
+    if (info.imgUrl) {
+      h += '<img src="' + info.imgUrl + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:48px;background:' + info.oc.bg + '\\\'>' + info.emoji + '</div>\'">';
     } else {
-      h += '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:48px;background:' + oc.bg + '">' + emoji + '</div>';
+      h += '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:48px;background:' + info.oc.bg + '">' + info.emoji + '</div>';
     }
     h += '</div>';
 
-    h += '<div style="font-size:17px;font-weight:800;color:var(--text-1);margin-bottom:4px">' + emoji + ' ' + (animalTitle || name) + '</div>';
-    if (tag) h += '<div style="display:inline-block;padding:5px 14px;background:' + oc.g + ';border-radius:100px;font-size:12px;font-weight:700;color:#fff;margin-bottom:10px">#' + tag + '</div>';
-    h += '<div style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap">';
-    if (oheng) h += '<span style="padding:4px 10px;background:' + oc.bg + ';border-radius:100px;font-size:11px;font-weight:600;color:' + oc.m + '">' + oheng + '</span>';
-    if (ilju) h += '<span style="padding:4px 10px;background:rgba(0,0,0,0.03);border-radius:100px;font-size:11px;font-weight:600;color:var(--text-2)">' + ilju + '일주</span>';
-    if (mbti) h += '<span style="padding:4px 10px;background:rgba(0,0,0,0.03);border-radius:100px;font-size:11px;font-weight:600;color:var(--text-2)">' + mbti + '</span>';
-    h += '</div>';
+    // 동물 타이틀
+    h += '<div style="font-size:17px;font-weight:800;color:var(--text-1);margin-bottom:6px">' + info.emoji + ' ' + (info.animalTitle || info.name) + '</div>';
+
+    // 태그
+    if (info.tag) {
+      h += '<div style="display:inline-block;padding:5px 14px;background:' + info.oc.g + ';border-radius:100px;font-size:12px;font-weight:700;color:#fff;margin-bottom:12px">#' + info.tag + '</div>';
+    }
+
+    // ★ 핵심: 이름 · 생년월일 · MBTI 한줄 표시
+    h += '<div style="font-size:14px;color:var(--text-2);font-weight:600;letter-spacing:-0.2px">';
+    var infoParts = [];
+    if (info.name && info.name !== '나') infoParts.push(info.name);
+    if (info.birth) infoParts.push(info.birth);
+    if (info.mbti) infoParts.push(info.mbti);
+    h += infoParts.join(' · ');
     h += '</div>';
 
-    // CTA 버튼
+    h += '</div>'; // 카드 끝
+
+    // ── CTA 버튼 ──
     h += '<div style="display:flex;flex-direction:column;gap:10px;animation:svcReveal .5s ease both;animation-delay:.25s;opacity:0">';
+
+    // 이 결과로 보기
     h += '<button class="svc-cta" onclick="svcStartCompatAnalysis()" style="background:linear-gradient(135deg,var(--rose),#C05875);color:#fff;box-shadow:0 4px 20px rgba(212,115,139,0.3);font-size:16px">';
     h += '💕 이 결과로 보기</button>';
-    h += '<button class="svc-cta" onclick="renderAnimalPage()" style="background:rgba(0,0,0,0.03);color:var(--text-2);font-size:14px;font-weight:600">';
-    h += '새로 입력하기</button>';
-    h += '</div>';
 
+    // 다른 사람으로 할래요 → pgBirth로 (궁합용 새 입력)
+    h += '<button class="svc-cta" onclick="window._svcMode=\'free\';go(\'pgBirth\')" style="background:rgba(0,0,0,0.03);color:var(--text-2);font-size:14px;font-weight:600">';
+    h += '다른 사람으로 할래요</button>';
+
+    h += '</div>';
     h += '</div></div>';
 
     pg.innerHTML = h;
-
-    // 분석용 데이터 임시 저장
     window._compatSrc = rec;
   }
 
@@ -579,9 +644,8 @@
     svcShowCompatLoading(pg);
 
     setTimeout(function() {
-      var oheng = rec.saju.dmEl;
-      var dominantSS = (rec.gg && rec.gg.dominant) ? rec.gg.dominant[0] : '비겁';
-      var matches = findCompatAnimals(oheng, dominantSS);
+      var info = extractMyAnimalInfo(rec);
+      var matches = findCompatAnimals(info.oheng, info.dominantSS, info.animalName);
 
       if (matches.length === 0) {
         if (typeof showToast === 'function') showToast('매칭 결과를 찾을 수 없어요');
@@ -619,29 +683,12 @@
 
   // ══════════════════════════════════════
   // 궁합 동물 결과 화면
+  // "🦊 여우 × 잘 맞는 동물 TOP 3" 타이틀 포함
   // ══════════════════════════════════════
   function svcRenderCompatResult(pg, rec, matches) {
     if (!pg) return;
 
-    var name = rec.name || '나';
-    var emoji = rec.animalEmoji || '🌟';
-    var oheng = rec.saju ? rec.saju.dmEl : '화';
-    var oc = OC[oheng] || OC['화'];
-    var ilju = '';
-    if (rec.saju && rec.saju.P && rec.saju.P[2]) ilju = rec.saju.P[2].s + rec.saju.P[2].b;
-    var mbti = rec.mbti || '';
-
-    // 내 동물 이름
-    var myAnimalName = '';
-    if (rec.saju && rec.gg) {
-      var ds = rec.gg.dominant ? rec.gg.dominant[0] : '비겁';
-      var cond = '신강';
-      if (rec.gg.isJonggyeok || rec.gg.isHwakyeok) cond = '특수';
-      else if (rec.gg.strengthGrade === '신약' || rec.gg.strengthGrade === '극신약') cond = '신약';
-      var myAnimal = (typeof getAnimalResult === 'function') ? getAnimalResult(oheng, ds, cond) : null;
-      if (myAnimal) { myAnimalName = myAnimal.name; emoji = myAnimal.emoji; }
-    }
-    var myImgUrl = myAnimalName ? getAnimalImgUrl(oheng, myAnimalName) : '';
+    var info = extractMyAnimalInfo(rec);
 
     var h = '';
     h += '<style>';
@@ -667,22 +714,34 @@
     h += '<div style="width:40px"></div>';
     h += '</div>';
 
-    // ── 히어로: 내 동물 + 타이틀 ──
+    // ── 히어로: 내 동물 + "🦊 여우 × 잘 맞는 동물 TOP 3" 타이틀 ──
     h += '<div style="background:linear-gradient(180deg,rgba(212,115,139,0.06) 0%,rgba(255,220,230,0.15) 40%,var(--bg) 100%);padding:24px 20px 28px;text-align:center">';
 
-    // 내 동물 소형 표시
+    // 내 동물 이미지 (소형)
     h += '<div style="animation:svcImgIn .5s ease both">';
-    h += '<div style="width:80px;height:80px;margin:0 auto 14px;border-radius:50%;overflow:hidden;border:3px solid ' + oc.m + '25;box-shadow:0 6px 20px ' + oc.m + '15;background:#fff">';
-    if (myImgUrl) {
-      h += '<img src="' + myImgUrl + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:40px;background:' + oc.bg + '\\\'>' + emoji + '</div>\'">';
+    h += '<div style="width:80px;height:80px;margin:0 auto 14px;border-radius:50%;overflow:hidden;border:3px solid ' + info.oc.m + '25;box-shadow:0 6px 20px ' + info.oc.m + '15;background:#fff">';
+    if (info.imgUrl) {
+      h += '<img src="' + info.imgUrl + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:40px;background:' + info.oc.bg + '\\\'>' + info.emoji + '</div>\'">';
     } else {
-      h += '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:40px;background:' + oc.bg + '">' + emoji + '</div>';
+      h += '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:40px;background:' + info.oc.bg + '">' + info.emoji + '</div>';
     }
     h += '</div></div>';
 
+    // ★ 핵심: "🦊 여우 × 잘 맞는 동물 TOP 3" 타이틀
     h += '<div style="animation:svcReveal .5s ease both;animation-delay:.1s;opacity:0">';
-    h += '<div style="font-size:13px;color:var(--text-2);margin-bottom:6px">' + emoji + ' ' + name + '의 ' + oheng + '(' + oc.hj + ') 에너지</div>';
-    h += '<div style="font-family:\'Noto Serif KR\',serif;font-size:22px;font-weight:700;color:var(--text-1);line-height:1.4">나와 잘 맞는 동물<br><span style="color:var(--rose)">TOP 3</span></div>';
+    h += '<div style="font-family:\'Noto Serif KR\',serif;font-size:22px;font-weight:700;color:var(--text-1);line-height:1.4">';
+    h += info.emoji + ' ' + (info.animalName || info.name) + ' ×</div>';
+    h += '<div style="font-family:\'Noto Serif KR\',serif;font-size:22px;font-weight:700;color:var(--text-1);line-height:1.4">잘 맞는 동물 <span style="color:var(--rose)">TOP 3</span></div>';
+
+    // 이름 · 생년월일 · MBTI 서브텍스트
+    h += '<div style="font-size:12px;color:var(--text-3);margin-top:10px">';
+    var subParts = [];
+    if (info.name && info.name !== '나') subParts.push(info.name);
+    if (info.birth) subParts.push(info.birth);
+    if (info.mbti) subParts.push(info.mbti);
+    h += subParts.join(' · ');
+    h += '</div>';
+
     h += '</div>';
     h += '</div>';
 
@@ -694,11 +753,11 @@
       var moc = OC[mt.oheng] || OC['화'];
       var mImgUrl = getAnimalImgUrl(mt.oheng, mt.animal.name);
       var rs = RANK_STYLE[i];
-      var delay = (0.2 + i * 0.1).toFixed(1);
+      var delay = (0.2 + i * 0.12).toFixed(2);
 
       h += '<div class="svc-match-card" style="animation:svcReveal .5s ease both;animation-delay:' + delay + 's;opacity:0">';
 
-      // 랭크 배지
+      // 동물 이미지 + 랭크 배지
       h += '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">';
       h += '<div style="width:60px;height:60px;border-radius:50%;overflow:hidden;border:2.5px solid ' + moc.m + '25;box-shadow:0 4px 12px ' + moc.m + '15;background:#fff">';
       h += '<img src="' + mImgUrl + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:28px;background:' + moc.bg + '\\\'>' + mt.animal.emoji + '</div>\'">';
@@ -706,14 +765,15 @@
       h += '<span style="display:inline-block;padding:2px 10px;background:' + rs.bg + ';border-radius:100px;font-size:10px;font-weight:800;color:' + rs.color + ';box-shadow:0 2px 8px ' + rs.shadow + ';white-space:nowrap">' + rs.label + '</span>';
       h += '</div>';
 
-      // 정보
+      // 동물 정보 + 구체적 이유
       h += '<div style="flex:1;min-width:0">';
       h += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap">';
       h += '<span style="font-size:16px;font-weight:800;color:var(--text-1)">' + mt.animal.emoji + ' ' + mt.animal.name + '</span>';
       h += '<span style="padding:3px 10px;background:' + moc.bg + ';border-radius:100px;font-size:10px;font-weight:700;color:' + moc.m + '">' + mt.oheng + '(' + moc.hj + ')</span>';
       h += '</div>';
       h += '<div style="display:inline-block;padding:3px 10px;background:' + moc.g + ';border-radius:100px;font-size:11px;font-weight:700;color:#fff;margin-bottom:6px">#' + mt.mod.tag + '</div>';
-      h += '<div style="font-size:12px;color:var(--text-2);line-height:1.55">' + mt.reason + '</div>';
+      // ★ 핵심: 구체적인 매칭 이유
+      h += '<div style="font-size:12px;color:var(--text-2);line-height:1.6">' + mt.reason + '</div>';
       h += '</div>';
 
       h += '</div>';
@@ -722,7 +782,7 @@
     // ── 구분선 + CTA ──
     h += '<div style="height:1px;background:rgba(0,0,0,0.04);margin:20px 0"></div>';
 
-    h += '<div style="display:flex;flex-direction:column;gap:10px;animation:svcReveal .5s ease both;animation-delay:.5s;opacity:0">';
+    h += '<div style="display:flex;flex-direction:column;gap:10px;animation:svcReveal .5s ease both;animation-delay:.55s;opacity:0">';
 
     // 궁합 제대로 보기
     h += '<button class="svc-cta" onclick="goToGunghap(\'pgAnimal\')" style="background:linear-gradient(135deg,var(--rose),#C05875);color:#fff;box-shadow:0 4px 20px rgba(212,115,139,0.28)">';
@@ -738,7 +798,6 @@
 
     h += '</div>';
 
-    // 다시 하기
     h += '<div style="text-align:center;margin-top:16px;padding-bottom:24px">';
     h += '<button onclick="renderCompatPage()" style="background:none;border:none;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit;text-decoration:underline">🔄 다시 분석하기</button>';
     h += '</div>';
@@ -747,8 +806,6 @@
 
     pg.innerHTML = h;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // 공유용 데이터 저장
     window._lastCompatResult = { rec: rec, matches: matches };
   }
 
@@ -756,13 +813,14 @@
   function svcShareCompatKakao() {
     var r = window._lastCompatResult;
     if (!r || !r.matches || r.matches.length === 0) return;
+    var info = extractMyAnimalInfo(r.rec);
     var top = r.matches[0];
     var shareUrl = 'https://mbts.kr';
     if (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) {
       shareUrl += '?ref=' + mbtsSession.userId;
     }
 
-    var title = '💕 나와 잘 맞는 동물 1위: ' + top.animal.emoji + ' ' + top.animal.name;
+    var title = info.emoji + ' ' + (info.animalName || info.name) + '과 잘 맞는 1위: ' + top.animal.emoji + ' ' + top.animal.name;
     var desc = '#' + top.mod.tag + ' — ' + top.reason;
 
     if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
