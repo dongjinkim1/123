@@ -339,7 +339,7 @@
     h += '📝 MBTS 전체 분석 보기 <span style="font-size:11px;opacity:0.75;margin-left:2px">🍀15</span></button>';
 
     // 궁합
-    h += '<button class="svc-cta" onclick="goToGunghap(\'pgAnimal\')" style="background:rgba(212,115,139,0.06);color:#D4738B;border:1.5px solid rgba(212,115,139,0.12)">';
+    h += '<button class="svc-cta" onclick="renderCompatPage()" style="background:rgba(212,115,139,0.06);color:#D4738B;border:1.5px solid rgba(212,115,139,0.12)">';
     h += '💕 나와 맞는 동물은?</button>';
 
     h += '</div>';
@@ -361,6 +361,437 @@
       oheng: oheng, condition: condition,
       imgUrl: imgUrl, emoji: animal.emoji
     };
+  }
+
+  // ══════════════════════════════════════
+  // 무료 궁합 동물 매칭 서비스
+  // ══════════════════════════════════════
+
+  // 오행 상생 역방향 (나를 생해주는 오행)
+  var OH_SANG_REV = {'목':'수','화':'목','토':'화','금':'토','수':'금'};
+  // 오행 상생 순방향 (내가 생해주는 오행) — engine.js의 OH_SANG 참조
+  // OH_SANG = {'목':'화','화':'토','토':'금','금':'수','수':'목'};
+
+  // 십성 궁합 매칭 테이블
+  var SS_COMPAT = {
+    '비겁': { best:'재성', good:'식상', mirror:'관성' },
+    '식상': { best:'관성', good:'재성', mirror:'인성' },
+    '재성': { best:'비겁', good:'관성', mirror:'식상' },
+    '관성': { best:'식상', good:'인성', mirror:'비겁' },
+    '인성': { best:'재성', good:'비겁', mirror:'관성' }
+  };
+
+  // 매칭 이유 텍스트 (랭크별)
+  var COMPAT_REASONS = {
+    gen_me: '부족한 에너지를 자연스럽게 채워주는 최고의 보완 관계',
+    i_gen:  '내가 자연스럽게 돌보게 되고 함께 성장하는 시너지 관계',
+    same:   '같은 본질을 공유하며 말 안 해도 통하는 거울 같은 관계'
+  };
+
+  // 랭크별 배지 색상
+  var RANK_STYLE = [
+    { bg:'linear-gradient(135deg,#FFD700,#FFA500)', color:'#fff', label:'🥇 1위', shadow:'rgba(255,165,0,0.3)' },
+    { bg:'linear-gradient(135deg,#C0C0C0,#A0A0A0)', color:'#fff', label:'🥈 2위', shadow:'rgba(160,160,160,0.3)' },
+    { bg:'linear-gradient(135deg,#CD7F32,#A0522D)', color:'#fff', label:'🥉 3위', shadow:'rgba(160,82,45,0.3)' }
+  ];
+
+  // ── 매칭 로직: 내 오행+십성 → TOP 3 동물 ──
+  function findCompatAnimals(myOheng, mySipsung) {
+    var results = [];
+    if (typeof OH_SANG === 'undefined' || typeof ANIMALS === 'undefined') return results;
+
+    var genMe = OH_SANG_REV[myOheng]; // 나를 생해주는 오행
+    var iGen = OH_SANG[myOheng];       // 내가 생해주는 오행
+    var ssc = SS_COMPAT[mySipsung] || { best:'재성', good:'식상', mirror:'관성' };
+
+    // 1위: 나를 생해주는 오행 + best 십성
+    var k1 = genMe + '_' + ssc.best;
+    if (ANIMALS[k1]) results.push({
+      rank: 1, key: k1, animal: ANIMALS[k1], mod: ANIMALS[k1].mods[0],
+      oheng: genMe, sipsung: ssc.best, reason: COMPAT_REASONS.gen_me
+    });
+
+    // 2위: 내가 생해주는 오행 + good 십성
+    var k2 = iGen + '_' + ssc.good;
+    if (ANIMALS[k2]) results.push({
+      rank: 2, key: k2, animal: ANIMALS[k2], mod: ANIMALS[k2].mods[0],
+      oheng: iGen, sipsung: ssc.good, reason: COMPAT_REASONS.i_gen
+    });
+
+    // 3위: 같은 오행 + mirror 십성 (자신과 다른 동물이어야 함)
+    var k3 = myOheng + '_' + ssc.mirror;
+    if (ANIMALS[k3]) results.push({
+      rank: 3, key: k3, animal: ANIMALS[k3], mod: ANIMALS[k3].mods[0],
+      oheng: myOheng, sipsung: ssc.mirror, reason: COMPAT_REASONS.same
+    });
+
+    return results;
+  }
+
+  // ── 이미지 URL 헬퍼 ──
+  function getAnimalImgUrl(oheng, animalName) {
+    var oh = OH_MAP[oheng] || 'Fi';
+    var an = AN_MAP[animalName] || 'Li';
+    return '/animals/' + oh + an + 'S.png?v=2';
+  }
+
+  // ══════════════════════════════════════
+  // 궁합 동물 진입점
+  // ══════════════════════════════════════
+  function renderCompatPage() {
+    // 기존 결과 확인 (fortune-target → history)
+    var rec = null;
+    if (typeof getFortuneTarget === 'function') rec = getFortuneTarget();
+    if (!rec) {
+      try {
+        var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+        if (hist.length > 0) rec = hist[hist.length - 1];
+      } catch(e) {}
+    }
+
+    // 결과가 있으면 확인 화면, 없으면 안내
+    go('pgAnimal');
+    if (rec && rec.saju) {
+      svcRenderConfirm(rec);
+    } else {
+      svcRenderNoResult();
+    }
+  }
+
+  // ── 결과 없음 안내 ──
+  function svcRenderNoResult() {
+    var pg = document.getElementById('pgAnimal');
+    if (!pg) return;
+
+    var h = '';
+    h += '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg)">';
+    h += '<div style="text-align:center;max-width:320px;animation:svcReveal .5s ease both">';
+    h += '<div style="font-size:64px;margin-bottom:20px">🔮</div>';
+    h += '<div style="font-family:\'Noto Serif KR\',serif;font-size:20px;font-weight:700;color:var(--text-1);margin-bottom:10px;line-height:1.5">먼저 내 동물을<br>알아볼까요?</div>';
+    h += '<div style="font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:32px">내 운명 동물을 먼저 확인하면<br>잘 맞는 동물도 알려드려요!</div>';
+    h += '<button onclick="renderAnimalPage()" class="svc-cta" style="background:linear-gradient(135deg,var(--rose),#C05875);color:#fff;box-shadow:0 4px 20px rgba(212,115,139,0.3)">';
+    h += '🦁 내 동물 알아보기 (무료)</button>';
+    h += '<div style="margin-top:16px"><button onclick="go(\'pgDash\')" style="background:none;border:none;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit">← 돌아가기</button></div>';
+    h += '</div></div>';
+    pg.innerHTML = h;
+  }
+
+  // ── 기존 결과 확인 화면 ──
+  function svcRenderConfirm(rec) {
+    var pg = document.getElementById('pgAnimal');
+    if (!pg) return;
+
+    var name = rec.name || '나';
+    var emoji = rec.animalEmoji || '🌟';
+    var tag = rec.animalTag || '';
+    var mbti = rec.mbti || '';
+    var ilju = '';
+    if (rec.saju && rec.saju.P && rec.saju.P[2]) ilju = rec.saju.P[2].s + rec.saju.P[2].b;
+    var oheng = rec.saju ? rec.saju.dmEl : '화';
+    var oc = OC[oheng] || OC['화'];
+
+    // 동물 이름 찾기
+    var animalName = '';
+    var animalTitle = '';
+    if (rec.saju && rec.gg) {
+      var dominantSS = rec.gg.dominant ? rec.gg.dominant[0] : '비겁';
+      var condition = '신강';
+      if (rec.gg.isJonggyeok || rec.gg.isHwakyeok) condition = '특수';
+      else if (rec.gg.strengthGrade === '신약' || rec.gg.strengthGrade === '극신약') condition = '신약';
+      var animalObj = (typeof getAnimalResult === 'function') ? getAnimalResult(oheng, dominantSS, condition) : null;
+      if (animalObj) {
+        animalName = animalObj.name;
+        animalTitle = animalObj.mod ? animalObj.mod.title : '';
+        emoji = animalObj.emoji;
+        tag = animalObj.mod ? animalObj.mod.tag : tag;
+      }
+    }
+
+    var imgUrl = animalName ? getAnimalImgUrl(oheng, animalName) : '';
+
+    var h = '';
+    h += '<style>';
+    h += '@keyframes svcReveal{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}';
+    h += '.svc-cta{width:100%;padding:16px;font-size:15px;font-weight:700;border:none;border-radius:16px;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}';
+    h += '.svc-cta:hover{transform:translateY(-2px)}.svc-cta:active{transform:translateY(0)}';
+    h += '</style>';
+
+    h += '<div style="min-height:100vh;background:var(--bg)">';
+
+    // 상단 바
+    h += '<div style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between">';
+    h += '<button onclick="go(\'pgDash\');setTab(1)" style="background:none;border:none;font-size:14px;color:var(--rose);font-weight:600;cursor:pointer;font-family:inherit">← 궁합</button>';
+    h += '<span style="font-size:12px;font-weight:600;color:var(--text-3);letter-spacing:0.5px">BEST MATCH</span>';
+    h += '<div style="width:40px"></div>';
+    h += '</div>';
+
+    // 확인 카드
+    h += '<div style="padding:40px 20px;max-width:400px;margin:0 auto;text-align:center">';
+
+    h += '<div style="font-size:18px;font-weight:800;color:var(--text-1);margin-bottom:8px;animation:svcReveal .5s ease both">💕 나와 잘 맞는 동물 찾기</div>';
+    h += '<div style="font-size:13px;color:var(--text-2);margin-bottom:32px;animation:svcReveal .5s ease both;animation-delay:.1s;opacity:0">' + name + '님의 기존 결과로 분석할게요</div>';
+
+    // 동물 카드
+    h += '<div style="background:#fff;border-radius:24px;padding:28px 24px;margin-bottom:32px;';
+    h += 'box-shadow:0 4px 24px rgba(0,0,0,0.06);border:1.5px solid ' + oc.m + '15;';
+    h += 'animation:svcReveal .5s ease both;animation-delay:.15s;opacity:0">';
+
+    // 이미지
+    h += '<div style="width:100px;height:100px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid ' + oc.m + '20;box-shadow:0 6px 20px ' + oc.m + '15;background:#fff">';
+    if (imgUrl) {
+      h += '<img src="' + imgUrl + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:48px;background:' + oc.bg + '\\\'>' + emoji + '</div>\'">';
+    } else {
+      h += '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:48px;background:' + oc.bg + '">' + emoji + '</div>';
+    }
+    h += '</div>';
+
+    h += '<div style="font-size:17px;font-weight:800;color:var(--text-1);margin-bottom:4px">' + emoji + ' ' + (animalTitle || name) + '</div>';
+    if (tag) h += '<div style="display:inline-block;padding:5px 14px;background:' + oc.g + ';border-radius:100px;font-size:12px;font-weight:700;color:#fff;margin-bottom:10px">#' + tag + '</div>';
+    h += '<div style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap">';
+    if (oheng) h += '<span style="padding:4px 10px;background:' + oc.bg + ';border-radius:100px;font-size:11px;font-weight:600;color:' + oc.m + '">' + oheng + '</span>';
+    if (ilju) h += '<span style="padding:4px 10px;background:rgba(0,0,0,0.03);border-radius:100px;font-size:11px;font-weight:600;color:var(--text-2)">' + ilju + '일주</span>';
+    if (mbti) h += '<span style="padding:4px 10px;background:rgba(0,0,0,0.03);border-radius:100px;font-size:11px;font-weight:600;color:var(--text-2)">' + mbti + '</span>';
+    h += '</div>';
+    h += '</div>';
+
+    // CTA 버튼
+    h += '<div style="display:flex;flex-direction:column;gap:10px;animation:svcReveal .5s ease both;animation-delay:.25s;opacity:0">';
+    h += '<button class="svc-cta" onclick="svcStartCompatAnalysis()" style="background:linear-gradient(135deg,var(--rose),#C05875);color:#fff;box-shadow:0 4px 20px rgba(212,115,139,0.3);font-size:16px">';
+    h += '💕 이 결과로 보기</button>';
+    h += '<button class="svc-cta" onclick="renderAnimalPage()" style="background:rgba(0,0,0,0.03);color:var(--text-2);font-size:14px;font-weight:600">';
+    h += '새로 입력하기</button>';
+    h += '</div>';
+
+    h += '</div></div>';
+
+    pg.innerHTML = h;
+
+    // 분석용 데이터 임시 저장
+    window._compatSrc = rec;
+  }
+
+  // ── 궁합 분석 실행 ──
+  function svcStartCompatAnalysis() {
+    var rec = window._compatSrc;
+    if (!rec || !rec.saju) { renderCompatPage(); return; }
+
+    var pg = document.getElementById('pgAnimal');
+    svcShowCompatLoading(pg);
+
+    setTimeout(function() {
+      var oheng = rec.saju.dmEl;
+      var dominantSS = (rec.gg && rec.gg.dominant) ? rec.gg.dominant[0] : '비겁';
+      var matches = findCompatAnimals(oheng, dominantSS);
+
+      if (matches.length === 0) {
+        if (typeof showToast === 'function') showToast('매칭 결과를 찾을 수 없어요');
+        go('pgDash');
+        return;
+      }
+
+      svcRenderCompatResult(pg, rec, matches);
+    }, 1800);
+  }
+
+  // ── 궁합 로딩 화면 ──
+  function svcShowCompatLoading(pg) {
+    if (!pg) return;
+    var h = '';
+    h += '<style>';
+    h += '@keyframes svcHeartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.15)}28%{transform:scale(1)}42%{transform:scale(1.1)}70%{transform:scale(1)}}';
+    h += '@keyframes svcFadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}';
+    h += '@keyframes svcBarCompat{0%{width:0}50%{width:55%}100%{width:92%}}';
+    h += '@keyframes svcDot{0%,80%,100%{opacity:0.2}40%{opacity:1}}';
+    h += '.svc-dots span{animation:svcDot 1.4s ease-in-out infinite;font-weight:700}';
+    h += '.svc-dots span:nth-child(2){animation-delay:0.2s}.svc-dots span:nth-child(3){animation-delay:0.4s}';
+    h += '</style>';
+    h += '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg)">';
+    h += '<div style="text-align:center;animation:svcFadeIn .6s ease">';
+    h += '<div style="font-size:56px;margin-bottom:24px;animation:svcHeartbeat 1.2s ease-in-out infinite">💕</div>';
+    h += '<div style="font-family:\'Noto Serif KR\',serif;font-size:19px;font-weight:700;color:var(--text-1);margin-bottom:10px">오행 궁합을 분석하고 있어요</div>';
+    h += '<div style="font-size:13px;color:var(--text-3)">나와 잘 맞는 동물을 찾는 중<span class="svc-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    h += '<div style="margin:32px auto 0;width:200px;height:3px;background:rgba(0,0,0,0.04);border-radius:10px;overflow:hidden">';
+    h += '<div style="height:100%;background:linear-gradient(90deg,var(--rose),#C05875);border-radius:10px;animation:svcBarCompat 1.6s ease-in-out forwards"></div>';
+    h += '</div>';
+    h += '</div></div>';
+    pg.innerHTML = h;
+  }
+
+  // ══════════════════════════════════════
+  // 궁합 동물 결과 화면
+  // ══════════════════════════════════════
+  function svcRenderCompatResult(pg, rec, matches) {
+    if (!pg) return;
+
+    var name = rec.name || '나';
+    var emoji = rec.animalEmoji || '🌟';
+    var oheng = rec.saju ? rec.saju.dmEl : '화';
+    var oc = OC[oheng] || OC['화'];
+    var ilju = '';
+    if (rec.saju && rec.saju.P && rec.saju.P[2]) ilju = rec.saju.P[2].s + rec.saju.P[2].b;
+    var mbti = rec.mbti || '';
+
+    // 내 동물 이름
+    var myAnimalName = '';
+    if (rec.saju && rec.gg) {
+      var ds = rec.gg.dominant ? rec.gg.dominant[0] : '비겁';
+      var cond = '신강';
+      if (rec.gg.isJonggyeok || rec.gg.isHwakyeok) cond = '특수';
+      else if (rec.gg.strengthGrade === '신약' || rec.gg.strengthGrade === '극신약') cond = '신약';
+      var myAnimal = (typeof getAnimalResult === 'function') ? getAnimalResult(oheng, ds, cond) : null;
+      if (myAnimal) { myAnimalName = myAnimal.name; emoji = myAnimal.emoji; }
+    }
+    var myImgUrl = myAnimalName ? getAnimalImgUrl(oheng, myAnimalName) : '';
+
+    var h = '';
+    h += '<style>';
+    h += '@keyframes svcReveal{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}';
+    h += '@keyframes svcPopIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}';
+    h += '@keyframes svcImgIn{from{opacity:0;transform:scale(0.8) rotate(-5deg)}to{opacity:1;transform:scale(1) rotate(0)}}';
+    h += '.svc-cta{width:100%;padding:16px;font-size:15px;font-weight:700;border:none;border-radius:16px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}';
+    h += '.svc-cta:hover{transform:translateY(-2px)}.svc-cta:active{transform:translateY(0)}';
+    h += '.svc-match-card{background:#fff;border-radius:20px;padding:20px;margin-bottom:12px;';
+    h += 'box-shadow:0 2px 16px rgba(0,0,0,0.035);border:1px solid rgba(0,0,0,0.04);';
+    h += 'display:flex;align-items:center;gap:16px;transition:all .25s;cursor:pointer}';
+    h += '.svc-match-card:hover{transform:translateX(4px);box-shadow:0 4px 20px rgba(0,0,0,0.06)}';
+    h += '</style>';
+
+    h += '<div style="min-height:100vh;background:var(--bg)">';
+
+    // ── 상단 바 ──
+    h += '<div style="padding:12px 16px;position:sticky;top:0;z-index:10;';
+    h += 'background:rgba(248,247,244,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);';
+    h += 'display:flex;align-items:center;justify-content:space-between">';
+    h += '<button onclick="go(\'pgDash\');setTab(1)" style="background:none;border:none;font-size:14px;color:var(--rose);font-weight:600;cursor:pointer;font-family:inherit">← 궁합</button>';
+    h += '<span style="font-size:12px;font-weight:600;color:var(--text-3);letter-spacing:0.5px">BEST MATCH</span>';
+    h += '<div style="width:40px"></div>';
+    h += '</div>';
+
+    // ── 히어로: 내 동물 + 타이틀 ──
+    h += '<div style="background:linear-gradient(180deg,rgba(212,115,139,0.06) 0%,rgba(255,220,230,0.15) 40%,var(--bg) 100%);padding:24px 20px 28px;text-align:center">';
+
+    // 내 동물 소형 표시
+    h += '<div style="animation:svcImgIn .5s ease both">';
+    h += '<div style="width:80px;height:80px;margin:0 auto 14px;border-radius:50%;overflow:hidden;border:3px solid ' + oc.m + '25;box-shadow:0 6px 20px ' + oc.m + '15;background:#fff">';
+    if (myImgUrl) {
+      h += '<img src="' + myImgUrl + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:40px;background:' + oc.bg + '\\\'>' + emoji + '</div>\'">';
+    } else {
+      h += '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:40px;background:' + oc.bg + '">' + emoji + '</div>';
+    }
+    h += '</div></div>';
+
+    h += '<div style="animation:svcReveal .5s ease both;animation-delay:.1s;opacity:0">';
+    h += '<div style="font-size:13px;color:var(--text-2);margin-bottom:6px">' + emoji + ' ' + name + '의 ' + oheng + '(' + oc.hj + ') 에너지</div>';
+    h += '<div style="font-family:\'Noto Serif KR\',serif;font-size:22px;font-weight:700;color:var(--text-1);line-height:1.4">나와 잘 맞는 동물<br><span style="color:var(--rose)">TOP 3</span></div>';
+    h += '</div>';
+    h += '</div>';
+
+    // ── TOP 3 카드 영역 ──
+    h += '<div style="padding:8px 16px 32px;max-width:480px;margin:0 auto">';
+
+    for (var i = 0; i < matches.length; i++) {
+      var mt = matches[i];
+      var moc = OC[mt.oheng] || OC['화'];
+      var mImgUrl = getAnimalImgUrl(mt.oheng, mt.animal.name);
+      var rs = RANK_STYLE[i];
+      var delay = (0.2 + i * 0.1).toFixed(1);
+
+      h += '<div class="svc-match-card" style="animation:svcReveal .5s ease both;animation-delay:' + delay + 's;opacity:0">';
+
+      // 랭크 배지
+      h += '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">';
+      h += '<div style="width:60px;height:60px;border-radius:50%;overflow:hidden;border:2.5px solid ' + moc.m + '25;box-shadow:0 4px 12px ' + moc.m + '15;background:#fff">';
+      h += '<img src="' + mImgUrl + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:28px;background:' + moc.bg + '\\\'>' + mt.animal.emoji + '</div>\'">';
+      h += '</div>';
+      h += '<span style="display:inline-block;padding:2px 10px;background:' + rs.bg + ';border-radius:100px;font-size:10px;font-weight:800;color:' + rs.color + ';box-shadow:0 2px 8px ' + rs.shadow + ';white-space:nowrap">' + rs.label + '</span>';
+      h += '</div>';
+
+      // 정보
+      h += '<div style="flex:1;min-width:0">';
+      h += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap">';
+      h += '<span style="font-size:16px;font-weight:800;color:var(--text-1)">' + mt.animal.emoji + ' ' + mt.animal.name + '</span>';
+      h += '<span style="padding:3px 10px;background:' + moc.bg + ';border-radius:100px;font-size:10px;font-weight:700;color:' + moc.m + '">' + mt.oheng + '(' + moc.hj + ')</span>';
+      h += '</div>';
+      h += '<div style="display:inline-block;padding:3px 10px;background:' + moc.g + ';border-radius:100px;font-size:11px;font-weight:700;color:#fff;margin-bottom:6px">#' + mt.mod.tag + '</div>';
+      h += '<div style="font-size:12px;color:var(--text-2);line-height:1.55">' + mt.reason + '</div>';
+      h += '</div>';
+
+      h += '</div>';
+    }
+
+    // ── 구분선 + CTA ──
+    h += '<div style="height:1px;background:rgba(0,0,0,0.04);margin:20px 0"></div>';
+
+    h += '<div style="display:flex;flex-direction:column;gap:10px;animation:svcReveal .5s ease both;animation-delay:.5s;opacity:0">';
+
+    // 궁합 제대로 보기
+    h += '<button class="svc-cta" onclick="goToGunghap(\'pgAnimal\')" style="background:linear-gradient(135deg,var(--rose),#C05875);color:#fff;box-shadow:0 4px 20px rgba(212,115,139,0.28)">';
+    h += '💕 궁합 제대로 보기 <span style="font-size:11px;opacity:0.75;margin-left:2px">🍀15</span></button>';
+
+    // 카카오 공유
+    h += '<button class="svc-cta" onclick="svcShareCompatKakao()" style="background:#FEE500;color:#191919;box-shadow:0 4px 16px rgba(254,229,0,0.35)">';
+    h += '📣 내 결과 공유하기</button>';
+
+    // 내 동물 다시 보기
+    h += '<button class="svc-cta" onclick="renderAnimalPage()" style="background:rgba(0,0,0,0.03);color:var(--text-2);font-size:14px;font-weight:600">';
+    h += '🦁 내 동물 다시 보기</button>';
+
+    h += '</div>';
+
+    // 다시 하기
+    h += '<div style="text-align:center;margin-top:16px;padding-bottom:24px">';
+    h += '<button onclick="renderCompatPage()" style="background:none;border:none;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit;text-decoration:underline">🔄 다시 분석하기</button>';
+    h += '</div>';
+
+    h += '</div></div>';
+
+    pg.innerHTML = h;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 공유용 데이터 저장
+    window._lastCompatResult = { rec: rec, matches: matches };
+  }
+
+  // ── 궁합 결과 카카오 공유 ──
+  function svcShareCompatKakao() {
+    var r = window._lastCompatResult;
+    if (!r || !r.matches || r.matches.length === 0) return;
+    var top = r.matches[0];
+    var shareUrl = 'https://mbts.kr';
+    if (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) {
+      shareUrl += '?ref=' + mbtsSession.userId;
+    }
+
+    var title = '💕 나와 잘 맞는 동물 1위: ' + top.animal.emoji + ' ' + top.animal.name;
+    var desc = '#' + top.mod.tag + ' — ' + top.reason;
+
+    if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
+      try {
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: title, description: desc,
+            imageUrl: 'https://mbts.kr' + getAnimalImgUrl(top.oheng, top.animal.name).replace('?v=2','') + '?v=2',
+            imageWidth: 800, imageHeight: 600,
+            link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
+          },
+          buttons: [{ title: '🔮 나도 알아보기', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }]
+        });
+        return;
+      } catch(e) {}
+    }
+
+    if (navigator.share) {
+      navigator.share({ title: title, text: desc + '\n\n나도 알아보기 👉\n' + shareUrl, url: shareUrl }).catch(function(){});
+      return;
+    }
+
+    var text = title + '\n' + desc + '\n\n' + shareUrl;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() {
+        if (typeof showToast === 'function') showToast('복사되었어요!');
+      });
+    }
   }
 
   // ══════════════════════════════════════
@@ -415,6 +846,9 @@
   // 전역 노출
   // ══════════════════════════════════════
   window.renderAnimalPage = renderAnimalPage;
+  window.renderCompatPage = renderCompatPage;
+  window.svcStartCompatAnalysis = svcStartCompatAnalysis;
+  window.svcShareCompatKakao = svcShareCompatKakao;
   window.svcShareKakao = svcShareKakao;
 
   console.log('[MBTS] service.js v2 loaded (프리미엄 톤 무료 동물 서비스)');
