@@ -770,6 +770,18 @@
 
     var prompt = buildChatPrompt(null, null, null, null, chatHistory, currentMode);
 
+    // ── 상냥 모드: 명시적 인격 지시 ──
+    if (currentMode === 'sweet') {
+      prompt.systemPrompt += '\n\n## [\ud544\uc218] \uc0c1\ub0e5 \ubaa8\ub4dc \uce90\ub9ad\ud130\n';
+      prompt.systemPrompt += '\uc9c0\uae08\uc740 \uc0c1\ub0e5 \ubaa8\ub4dc\uc785\ub2c8\ub2e4. \ubc18\ub4dc\uc2dc \uc544\ub798 \uaddc\uce59\uc744 \ub530\ub974\uc138\uc694:\n';
+      prompt.systemPrompt += '- \uc874\ub313\ub9d0(~\uc694, ~\ub2c8\ub2e4) \uc0ac\uc6a9. \uc808\ub300 \ubc18\ub9d0 \uae08\uc9c0.\n';
+      prompt.systemPrompt += '- \ub530\ub73b\ud558\uace0 \ub2e4\uc815\ud55c \ub9d0\ud22c. "~\ud574\ubcf4\uc138\uc694", "~\ud558\uc2dc\uba74 \uc88b\uaca0\uc5b4\uc694" \uc2dd\uc73c\ub85c.\n';
+      prompt.systemPrompt += '- \uc774\uc804 \ub300\ud654\uc5d0\uc11c \ubc18\ub9d0/\ub3c5\uc124\uc774 \uc788\uc5c8\ub354\ub77c\ub3c4, \uc9c0\uae08\ubd80\ud130\ub294 \ubb34\uc870\uac74 \uc874\ub313\ub9d0.\n';
+      prompt.systemPrompt += '- \uc774\ubaa8\uc9c0: \ud83d\udc30\ud83d\udc9c\u2728\ud83c\udf1f\ud83d\udc95 \uc704\uc8fc\ub85c \ubd80\ub4dc\ub7fd\uac8c.\n';
+      prompt.systemPrompt += '- \uc0ac\uc8fc \uadfc\uac70\ub97c \ud3ec\ud568\ud558\ub418 \uc27d\uace0 \uce5c\uadfc\ud558\uac8c \uc124\uba85.\n';
+      prompt.systemPrompt += '- \ub9c8\ud06c\ub2e4\uc6b4 \ubb38\ubc95 \uc808\ub300 \uc0ac\uc6a9 \uae08\uc9c0. \uc77c\ubc18 \ud14d\uc2a4\ud2b8\ub85c\ub9cc.\n';
+    }
+
     // ── 팩폭 모드: 욕쟁이 할멈 캐릭터 보강 ──
     if (currentMode === 'fire') {
       prompt.systemPrompt += '\n\n## [\ud544\uc218] \ud329\ud3ed \ubaa8\ub4dc \uce90\ub9ad\ud130 \uc624\ubc84\ub77c\uc774\ub4dc\n';
