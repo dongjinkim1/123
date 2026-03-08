@@ -291,10 +291,23 @@
     if (hasHistory) {
       for (var hi = 0; hi < chatHistory.length; hi++) {
         var msg = chatHistory[hi];
+        var msgMode = msg.mode || 'sweet';
+
+        // 전환 메시지는 배너로 표시
+        if (msg.content === '\ud83d\udd25 \ud329\ud3ed \ub2ec\ud1a0 \uc0c1\ub2f4 ON!' || msg.content === '\ud83e\udd0d \uc0c1\ub0e5 \ub2ec\ud1a0 \uc0c1\ub2f4 ON!') {
+          var isFire = (msg.content.indexOf('\ud83d\udd25') >= 0);
+          h += '<div style="text-align:center;margin:20px 0"><span style="display:inline-block;padding:8px 20px;'
+            + 'background:' + (isFire ? 'rgba(232,69,60,0.08)' : 'rgba(139,108,193,0.08)') + ';'
+            + 'border-radius:100px;font-size:13px;font-weight:700;'
+            + 'color:' + (isFire ? '#E8453C' : '#8B6CC1') + '">'
+            + msg.content + '</span></div>';
+          continue;
+        }
+
         if (msg.role === 'user') {
-          h += _buildUserBubbleHtml(msg.content);
+          h += _buildUserBubbleHtml(msg.content, msgMode);
         } else if (msg.role === 'assistant') {
-          h += _buildAiBubbleHtml(msg.content);
+          h += _buildAiBubbleHtml(msg.content, msgMode);
         }
       }
     }
@@ -415,12 +428,13 @@
   }
 
   // ─── AI 버블 HTML 문자열 생성 (정적 렌더용) ───
-  function _buildAiBubbleHtml(text) {
+  function _buildAiBubbleHtml(text, msgMode) {
+    var m = msgMode || currentMode;
     var s = '';
     s += '<div style="display:flex;gap:8px;margin-bottom:12px">';
     s += '<div style="'
       + 'width:36px;height:36px;border-radius:50%;flex-shrink:0;'
-      + 'background:linear-gradient(135deg,' + (currentMode === 'fire' ? '#FFE0E0,#F5C0C0' : '#B8A5D6,#8B6CC1') + ');'
+      + 'background:linear-gradient(135deg,' + (m === 'fire' ? '#FFE0E0,#F5C0C0' : '#B8A5D6,#8B6CC1') + ');'
       + 'display:flex;align-items:center;justify-content:center;font-size:18px'
       + '">\ud83d\udc30</div>';
     s += '<div style="'
@@ -433,11 +447,12 @@
   }
 
   // ─── User 버블 HTML 문자열 생성 (정적 렌더용) ───
-  function _buildUserBubbleHtml(text) {
+  function _buildUserBubbleHtml(text, msgMode) {
+    var m = msgMode || currentMode;
     var s = '';
     s += '<div style="display:flex;justify-content:flex-end;margin-bottom:12px">';
     s += '<div style="'
-      + 'background:' + (currentMode === 'fire' ? '#FFE8E8' : '#E8DEFF') + ';color:#333;border-radius:16px 0 16px 16px;'
+      + 'background:' + (m === 'fire' ? '#FFE8E8' : '#E8DEFF') + ';color:#333;border-radius:16px 0 16px 16px;'
       + 'padding:12px 16px;font-size:14px;line-height:1.6;max-width:75%'
       + '">' + textToHtml(text) + '</div>';
     s += '</div>';
@@ -445,16 +460,18 @@
   }
 
   // ─── 말풍선 동적 추가 ───
-  function appendChatBubble(type, text, id) {
+  function appendChatBubble(type, text, id, msgMode) {
     var body = document.getElementById('chatBody');
     if (!body) return;
+
+    var m = msgMode || currentMode;
 
     if (type === 'ai') {
       var row = document.createElement('div');
       row.style.cssText = 'display:flex;gap:8px;margin-bottom:12px';
       row.innerHTML = '<div style="'
         + 'width:36px;height:36px;border-radius:50%;flex-shrink:0;'
-        + 'background:linear-gradient(135deg,' + (currentMode === 'fire' ? '#FFE0E0,#F5C0C0' : '#B8A5D6,#8B6CC1') + ');'
+        + 'background:linear-gradient(135deg,' + (m === 'fire' ? '#FFE0E0,#F5C0C0' : '#B8A5D6,#8B6CC1') + ');'
         + 'display:flex;align-items:center;justify-content:center;font-size:18px'
         + '">\ud83d\udc30</div>'
         + '<div' + (id ? ' id="' + id + '"' : '') + ' style="'
@@ -467,13 +484,12 @@
       var urow = document.createElement('div');
       urow.style.cssText = 'display:flex;justify-content:flex-end;margin-bottom:12px';
       urow.innerHTML = '<div style="'
-        + 'background:' + (currentMode === 'fire' ? '#FFE8E8' : '#E8DEFF') + ';color:#333;border-radius:16px 0 16px 16px;'
+        + 'background:' + (m === 'fire' ? '#FFE8E8' : '#E8DEFF') + ';color:#333;border-radius:16px 0 16px 16px;'
         + 'padding:12px 16px;font-size:14px;line-height:1.6;max-width:75%'
         + '">' + textToHtml(text) + '</div>';
       body.appendChild(urow);
     }
 
-    // 시간 표시
     var now = new Date();
     var hr = now.getHours(), mn = now.getMinutes();
     var ampm = hr < 12 ? '\uc624\uc804' : '\uc624\ud6c4';
@@ -647,11 +663,31 @@
   function toggleFireMode() {
     var newMode = (currentMode === 'fire') ? 'sweet' : 'fire';
     setMode(newMode);
-    // 대화 히스토리에 모드 저장
+
+    // ── 채팅방에 전환 배너 표시 ──
+    var body = document.getElementById('chatBody');
+    if (body) {
+      var bannerDiv = document.createElement('div');
+      bannerDiv.style.cssText = 'text-align:center;margin:20px 0;';
+      bannerDiv.innerHTML = '<span style="display:inline-block;padding:8px 20px;'
+        + 'background:' + (newMode === 'fire' ? 'rgba(232,69,60,0.08)' : 'rgba(139,108,193,0.08)') + ';'
+        + 'border-radius:100px;font-size:13px;font-weight:700;'
+        + 'color:' + (newMode === 'fire' ? '#E8453C' : '#8B6CC1') + '">'
+        + (newMode === 'fire' ? '\ud83d\udd25 \ud329\ud3ed \ub2ec\ud1a0 \uc0c1\ub2f4 ON!' : '\ud83e\udd0d \uc0c1\ub0e5 \ub2ec\ud1a0 \uc0c1\ub2f4 ON!') + '</span>';
+      body.appendChild(bannerDiv);
+      scrollChatToBottom();
+    }
+
+    // ── 히스토리에 전환 메시지 삽입 (AI가 읽도록) ──
+    if (newMode === 'fire') {
+      chatHistory.push({ role: 'user', content: '\ud83d\udd25 \ud329\ud3ed \ub2ec\ud1a0 \uc0c1\ub2f4 ON!', mode: 'fire' });
+    } else {
+      chatHistory.push({ role: 'user', content: '\ud83e\udd0d \uc0c1\ub0e5 \ub2ec\ud1a0 \uc0c1\ub2f4 ON!', mode: 'sweet' });
+    }
     saveChatContext();
-    // 메뉴 닫기
+
+    // 메뉴 닫기 + 토스트
     togglePlusMenu();
-    // 토스트 팝업
     if (newMode === 'fire') {
       showModeToast('\ud83d\udd25 \ud329\ud3ed \ubaa8\ub4dc ON!');
     } else {
@@ -745,9 +781,9 @@
     var inp = document.getElementById('chatInput');
     isChatLoading = true;
 
-    // 유저 말풍선
-    appendChatBubble('user', text);
-    chatHistory.push({ role: 'user', content: text });
+    // 유저 말풍선 (현재 모드 색상)
+    appendChatBubble('user', text, null, currentMode);
+    chatHistory.push({ role: 'user', content: text, mode: currentMode });
     saveChatContext();
 
     // 입력창 초기화
@@ -773,10 +809,11 @@
     // ── 상냥 모드: 명시적 인격 지시 ──
     if (currentMode === 'sweet') {
       prompt.systemPrompt += '\n\n## [\ud544\uc218] \uc0c1\ub0e5 \ubaa8\ub4dc \uce90\ub9ad\ud130\n';
-      prompt.systemPrompt += '\uc9c0\uae08\uc740 \uc0c1\ub0e5 \ubaa8\ub4dc\uc785\ub2c8\ub2e4. \ubc18\ub4dc\uc2dc \uc544\ub798 \uaddc\uce59\uc744 \ub530\ub974\uc138\uc694:\n';
+      prompt.systemPrompt += '\uc9c0\uae08\uc740 "\uc0c1\ub0e5 \ub2ec\ud1a0 \uc0c1\ub2f4" \ubaa8\ub4dc\uc785\ub2c8\ub2e4. \ubc18\ub4dc\uc2dc \uc544\ub798 \uaddc\uce59\uc744 \ub530\ub974\uc138\uc694:\n';
       prompt.systemPrompt += '- \uc874\ub313\ub9d0(~\uc694, ~\ub2c8\ub2e4) \uc0ac\uc6a9. \uc808\ub300 \ubc18\ub9d0 \uae08\uc9c0.\n';
       prompt.systemPrompt += '- \ub530\ub73b\ud558\uace0 \ub2e4\uc815\ud55c \ub9d0\ud22c. "~\ud574\ubcf4\uc138\uc694", "~\ud558\uc2dc\uba74 \uc88b\uaca0\uc5b4\uc694" \uc2dd\uc73c\ub85c.\n';
-      prompt.systemPrompt += '- \uc774\uc804 \ub300\ud654\uc5d0\uc11c \ubc18\ub9d0/\ub3c5\uc124\uc774 \uc788\uc5c8\ub354\ub77c\ub3c4, \uc9c0\uae08\ubd80\ud130\ub294 \ubb34\uc870\uac74 \uc874\ub313\ub9d0.\n';
+      prompt.systemPrompt += '- \ub300\ud654 \uc911\uc5d0 "\ud83d\udd25 \ud329\ud3ed \ub2ec\ud1a0 \uc0c1\ub2f4 ON!" \uba54\uc2dc\uc9c0\uac00 \ubcf4\uc774\uba74 \uadf8\uac74 \uc774\uc804\uc5d0 \ud329\ud3ed \ubaa8\ub4dc\uc600\ub358 \uad6c\uac04\uc774\uc5d0\uc694. \uadf8 \uad6c\uac04\uc758 \ubc18\ub9d0/\ub3c5\uc124\uc740 \ubb34\uc2dc\ud558\uace0 \uc9c0\uae08\uc740 \ubb34\uc870\uac74 \uc874\ub313\ub9d0.\n';
+      prompt.systemPrompt += '- \ub9cc\uc57d \uc774\uc804 \ud329\ud3ed \uad6c\uac04\uc758 \ub300\ud654\uac00 \ubcf4\uc774\uba74, "\uc5b4\uba38~ \uc544\uae4c \ub204\uac00 \uc800\ub807\uac8c \ub9d0\ud588\uc5b4\uc694? \ubb34\uc11c\uc6cc\ub77c~ \ud83d\udc30\ud83d\udc9c" \uac19\uc740 \uc2dd\uc73c\ub85c \uac00\ubccd\uac8c \ub9ac\uc561\uc158\ud574\ub3c4 \uc88b\uc544\uc694.\n';
       prompt.systemPrompt += '- \uc774\ubaa8\uc9c0: \ud83d\udc30\ud83d\udc9c\u2728\ud83c\udf1f\ud83d\udc95 \uc704\uc8fc\ub85c \ubd80\ub4dc\ub7fd\uac8c.\n';
       prompt.systemPrompt += '- \uc0ac\uc8fc \uadfc\uac70\ub97c \ud3ec\ud568\ud558\ub418 \uc27d\uace0 \uce5c\uadfc\ud558\uac8c \uc124\uba85.\n';
       prompt.systemPrompt += '- \ub9c8\ud06c\ub2e4\uc6b4 \ubb38\ubc95 \uc808\ub300 \uc0ac\uc6a9 \uae08\uc9c0. \uc77c\ubc18 \ud14d\uc2a4\ud2b8\ub85c\ub9cc.\n';
@@ -797,6 +834,7 @@
       prompt.systemPrompt += '- \uc0ac\uc8fc \uc6a9\uc5b4 \uac70\uce68\uc5c6\uc774 \uc4f0\uace0 "\uc26c\uc6b4 \ub9d0\ud558\uba74 \ub9d0\uc774\uc57c~" \ud558\uace0 \ud480\uc5b4\uc8fc\uae30\n';
       prompt.systemPrompt += '- \ub2f5\ubcc0\uc740 5\ubb38\uc7a5 \uc774\uc0c1, \uc0ac\uc8fc \uadfc\uac70 \ubc18\ub4dc\uc2dc \ud3ec\ud568\n';
       prompt.systemPrompt += '- \ub9c8\ud06c\ub2e4\uc6b4 \ubb38\ubc95 \uc808\ub300 \uc0ac\uc6a9 \uae08\uc9c0. \uc77c\ubc18 \ud14d\uc2a4\ud2b8\ub85c\ub9cc.\n';
+      prompt.systemPrompt += '- \ub300\ud654 \uc911\uc5d0 "\ud83e\udd0d \uc0c1\ub0e5 \ub2ec\ud1a0 \uc0c1\ub2f4 ON!" \uba54\uc2dc\uc9c0\uac00 \ubcf4\uc774\uba74 \uadf8\uac74 \uc774\uc804\uc5d0 \uc0c1\ub0e5 \ubaa8\ub4dc\uc600\ub358 \uad6c\uac04\uc774\uc5d0\uc694. "\ud6c4\ud6c4\ud6c7 \uc785 \ubc14\ub978 \ub9d0 \uc704\uc8fc\uad70 \ud83d\ude0f \ud329\ud2b8\ub85c \ub54c\ub824\uc918? \uc88b\uc544 \uc774\ub188\uc544!" \uac19\uc740 \uc2dd\uc73c\ub85c \ub9ac\uc561\uc158.\n';
     }
 
     // ── _ft에 보강 데이터 붙여서 통째로 전달 ──
@@ -875,7 +913,7 @@
         scrollChatToBottom();
       },
       onComplete: function(fullText) {
-        chatHistory.push({ role: 'assistant', content: fullText });
+        chatHistory.push({ role: 'assistant', content: fullText, mode: currentMode });
         if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
         saveChatContext();
         isChatLoading = false;
