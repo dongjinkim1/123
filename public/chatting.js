@@ -902,10 +902,14 @@
     }
 
     // ── engine.js sendChatToAI 호출 ──
+    // API에는 role + content만 전달 (mode 필드 제거)
+    var apiMessages = chatHistory.map(function(m) {
+      return { role: m.role, content: m.content };
+    });
     sendChatToAI({
       apiKey: 'server-managed',
       systemPrompt: prompt.systemPrompt,
-      messages: chatHistory,
+      messages: apiMessages,
       endpoint: '/api/chat'
     }, {
       onChunk: function(fullText) {
