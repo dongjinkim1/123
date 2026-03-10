@@ -3221,7 +3221,17 @@ function renderSaveCards(){
     html+='</div>';
     html+='<div class="animal-meta">';
     if(ilju) html+='<span>'+ilju+'</span><span>·</span>';
-    html+='<span>'+oheng+(dominant?' · '+dominant:'')+(strength?' · '+strength:'')+'</span>';
+    var dominantLabel = '';
+    if(dominant){
+      if(Array.isArray(dominant)){
+        dominantLabel = dominant[0] || '';
+      } else if(typeof dominant === 'string'){
+        dominantLabel = dominant.split(',')[0] || '';
+      } else {
+        dominantLabel = String(dominant);
+      }
+    }
+    html+='<span>'+oheng+(dominantLabel?' · '+dominantLabel:'')+(strength?' · '+strength:'')+'</span>';
     html+='</div>';
     html+='</div>';
     html+='<button class="del-btn" onclick="event.stopPropagation();confirmDelHistory(this,\''+rec.id+'\')">지우기</button>';

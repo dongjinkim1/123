@@ -935,6 +935,7 @@
   // ══════════════════════════════════════
   window.renderAnimalPage = renderAnimalPage;
   window.renderCompatPage = renderCompatPage;
+  window.svcRenderResult = svcRenderResult;
   window.svcStartCompatAnalysis = svcStartCompatAnalysis;
   window.svcShareCompatKakao = svcShareCompatKakao;
   window.svcShareKakao = svcShareKakao;
