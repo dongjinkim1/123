@@ -1161,51 +1161,27 @@ button{font-family:inherit;cursor:pointer}
 .btn-gunghap.ready{opacity:1;pointer-events:auto}
 
 /* ===== BIRTH INPUT PAGE ===== */
-.birth-wrap{max-width:460px;width:100%;margin:0 auto;animation:up .6s ease both}
-.birth-back{background:none;border:none;color:var(--purple);font-size:14px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:4px}
-.birth-progress{display:flex;align-items:center;gap:0;margin-bottom:28px;position:relative;justify-content:center}
-.birth-step{display:flex;flex-direction:column;align-items:center;gap:0;position:relative;z-index:1;width:44px}
-.birth-step-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;border:2px solid rgba(0,0,0,0.06);background:#fff;color:var(--text-3);transition:all .3s;animation:float 3s ease-in-out infinite}
-.birth-step:nth-child(2) .birth-step-icon{animation-delay:.4s}
-.birth-step:nth-child(3) .birth-step-icon{animation-delay:.8s}
-.birth-step.active .birth-step-icon{background:linear-gradient(135deg,var(--purple),var(--purple-deep));border-color:var(--purple);color:#fff;box-shadow:0 4px 16px rgba(139,108,193,0.3)}
-.birth-step.done .birth-step-icon{background:var(--purple);border-color:var(--purple);color:#fff}
-.birth-progress-line{width:60px;height:2px;background:rgba(0,0,0,0.06);margin:0 8px;align-self:center}
-.birth-progress-line.filled{background:var(--purple)}
-
-/* Glassy Purple Card */
-.birth-card{
-  background:rgba(225,215,245,0.45);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.5);
-  border-radius:var(--r-lg);padding:32px 24px;
-  position:relative;overflow:hidden;
-  box-shadow:0 8px 32px rgba(139,108,193,0.08);
-}
-.birth-card::before{
-  content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;
-  background:radial-gradient(circle,rgba(139,108,193,.08) 0%,transparent 70%);border-radius:50%;
-}
-.birth-title{font-size:22px;font-weight:800;color:#3D2E5C;margin-bottom:4px;position:relative}
-.birth-title span{color:var(--purple)}
-.birth-sub{font-size:13px;color:#6B5A80;margin-bottom:28px;line-height:1.5;position:relative}
+/* ── Birth Page Color System ── */
+.birth-wrap{--b-bg:#fcfaf7;--b-bg-top:#f0ebe3;--b-gold:#c9a87c;--b-gold-border:rgba(178,152,120,0.35);--b-border:#ece6dc;--b-text-1:#1a1520;--b-text-2:#7a7080;--b-text-3:#b5a89c;--b-text-placeholder:#bfb5a8;--b-cta:#8B7461;--b-cta-dark:#7A6352;--b-male:#4A90D9;--b-female:#D94A78;max-width:440px;width:100%;margin:0 auto}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+#pgBirth input::placeholder{color:var(--b-text-placeholder)!important}
+#pgBirth *{-webkit-tap-highlight-color:transparent}
 
 /* Input Groups */
-.birth-row{display:flex;gap:10px;margin-bottom:16px;position:relative}
+.birth-row{display:flex;gap:8px;margin-bottom:0;position:relative}
 .birth-field{flex:1;position:relative}
-.birth-field.wide{flex:2}
-.birth-label{font-size:11px;font-weight:700;color:#5A4580;display:block;margin-bottom:6px;letter-spacing:0.5px}
+.birth-field.wide{flex:1.5}
+.birth-label{font-size:12px;font-weight:600;color:var(--b-text-2);display:block;margin-bottom:8px;letter-spacing:0.5px}
 
-/* Combo: input + ▼ in one box */
+/* Combo: input + ▼ */
 .birth-combo{position:relative;display:flex;align-items:center}
-.birth-combo .birth-input{padding-right:32px}
-.birth-combo-arrow{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:10px;color:#8A7BA0;cursor:pointer;padding:4px;transition:transform .2s;z-index:2}
+.birth-combo .birth-input{padding-right:36px}
+.birth-combo-arrow{position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:9px;color:#bbb;cursor:pointer;padding:8px 10px;transition:transform .25s ease;z-index:2}
 .birth-combo-arrow.open{transform:translateY(-50%) rotate(180deg)}
 
-.birth-input{width:100%;padding:14px 16px;font-size:15px;font-weight:500;background:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.7);border-radius:14px;outline:none;color:#3D2E5C;font-family:inherit;transition:all .25s;-webkit-appearance:none;appearance:none}
-.birth-input::placeholder{color:#8A7BA0;font-weight:400}
-.birth-input:focus{border-color:var(--purple);background:rgba(255,255,255,0.8);box-shadow:0 0 0 4px rgba(139,108,193,0.1)}
-.birth-input:not(:placeholder-shown){border-color:rgba(139,108,193,0.3)}
+.birth-input{width:100%;padding:14px 16px;font-size:15px;font-weight:500;background:#ffffff;border:1.5px solid var(--b-border);border-radius:14px;outline:none;color:var(--b-text-1);font-family:inherit;transition:all .25s;-webkit-appearance:none;appearance:none;box-sizing:border-box}
+.birth-input:focus{border-color:rgba(178,152,120,0.4);background:#ffffff;box-shadow:0 0 0 3px rgba(201,168,124,0.08)}
+.birth-input:not(:placeholder-shown){font-weight:600;border-color:var(--b-gold-border)}
 /* Hide number spinner */
 .birth-input[type=number]::-webkit-inner-spin-button,
 .birth-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
@@ -1213,34 +1189,36 @@ button{font-family:inherit;cursor:pointer}
 
 /* Inline Dropdown */
 .birth-dropdown{
-  position:absolute;top:100%;left:0;right:0;margin-top:4px;
-  background:#fff;border:1.5px solid rgba(139,108,193,0.15);
-  border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,0.1);
-  z-index:100;max-height:200px;overflow-y:auto;
+  position:absolute;top:calc(100% + 5px);left:0;right:0;
+  background:#ffffff;border:1px solid #e8e0d5;
+  border-radius:14px;box-shadow:0 12px 36px rgba(30,20,10,0.14),0 4px 12px rgba(30,20,10,0.08);
+  z-index:9999;max-height:200px;overflow-y:auto;
   opacity:0;transform:translateY(-8px);pointer-events:none;
   transition:all .2s cubic-bezier(.4,0,.2,1);
-  padding:6px;
+  padding:5px;
 }
 .birth-dropdown.show{opacity:1;transform:translateY(0);pointer-events:auto}
 .birth-dropdown::-webkit-scrollbar{width:4px}
-.birth-dropdown::-webkit-scrollbar-thumb{background:rgba(139,108,193,0.2);border-radius:2px}
+.birth-dropdown::-webkit-scrollbar-thumb{background:rgba(201,168,124,0.25);border-radius:2px}
 .birth-drop-item{
-  padding:10px 14px;font-size:14px;font-weight:500;color:#4A3D66;
-  border-radius:10px;cursor:pointer;transition:all .15s;font-family:inherit;
+  padding:10px 14px;font-size:14px;font-weight:500;color:#4a4050;
+  border-radius:10px;cursor:pointer;transition:background .12s;font-family:inherit;
 }
-.birth-drop-item:hover{background:rgba(139,108,193,0.06);color:var(--purple)}
-.birth-drop-item.selected{background:rgba(139,108,193,0.1);color:var(--purple);font-weight:700}
+.birth-drop-item:hover{background:#faf6f1}
+.birth-drop-item.selected{background:rgba(201,168,124,0.1);color:#96784e;font-weight:700}
 
 /* Gender Buttons */
-.birth-gender-row{display:flex;gap:10px;margin-bottom:28px}
-.birth-gender{flex:1;padding:14px;font-size:15px;font-weight:600;background:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.7);border-radius:14px;color:#8A7BA0;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .25s;cursor:pointer}
-.birth-gender:hover{border-color:rgba(139,108,193,0.3)}
-.birth-gender.selected{background:rgba(255,255,255,0.85);border-color:var(--purple);color:var(--purple);box-shadow:0 2px 12px rgba(139,108,193,0.15)}
+.birth-gender-row{display:flex;gap:10px;margin-bottom:0}
+.birth-gender-sel{flex:1;padding:15px 12px;font-size:15px;font-weight:700;background:#ffffff;border:1.5px solid var(--b-border);border-radius:14px;color:#bbb;display:flex;align-items:center;justify-content:center;transition:all .3s;cursor:pointer;font-family:inherit}
+.birth-gender-sel:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+.birth-gender-sel:active{transform:scale(0.97)}
 
-/* Next Button */
-.birth-next{width:100%;padding:16px;font-size:16px;font-weight:700;border:none;border-radius:16px;color:#8A7BA0;background:rgba(255,255,255,0.4);cursor:not-allowed;transition:all .3s;position:relative}
-.birth-next.ready{color:#fff;background:linear-gradient(135deg,var(--purple),var(--purple-deep));cursor:pointer;box-shadow:0 4px 20px rgba(139,108,193,0.3)}
-.birth-next.ready:active{transform:scale(0.98)}
+/* CTA Button */
+.birth-next{width:100%;padding:17px;font-size:16px;font-weight:700;border:none;border-radius:16px;color:#ccc;background:rgba(0,0,0,0.04);cursor:default;transition:all .45s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;font-family:inherit;letter-spacing:-0.3px}
+.birth-next.ready{color:#FFFFFF;background:linear-gradient(135deg,#8B7461 0%,#7A6352 100%);cursor:pointer;box-shadow:0 8px 32px rgba(139,116,97,0.3)}
+.birth-next.ready:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(139,116,97,0.35)}
+.birth-next.ready:active{transform:translateY(0) scale(0.99)}
+.birth-next .shimmer{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);background-size:200% 100%;animation:shimmer 4s ease-in-out infinite}
 
 /* ===== MBTI PAGE ===== */
 .mbti-wrap{max-width:500px;width:100%;margin:0 auto;animation:up .5s ease both}
@@ -2373,126 +2351,172 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 <!-- PAGE 6: 궁합 플로우 -->
 <!-- ===== BIRTH INPUT PAGE ===== -->
 <div class="page" id="pgBirth">
-  <div style="padding:20px;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding-top:48px">
-    <div class="birth-wrap">
-      <button class="birth-back" onclick="go('pgDash')">← 돌아가기</button>
+  <div style="min-height:100vh;background:var(--b-bg,#fcfaf7);position:relative;overflow:hidden">
 
-      <!-- Progress Steps: 숫자만, 미니멀 -->
-      <div class="birth-progress">
-        <div class="birth-step active"><div class="birth-step-icon">1</div></div>
-        <div class="birth-progress-line" id="bLine1"></div>
-        <div class="birth-step" id="bStep2"><div class="birth-step-icon">2</div></div>
-        <div class="birth-progress-line" id="bLine2"></div>
-        <div class="birth-step" id="bStep3"><div class="birth-step-icon">3</div></div>
-      </div>
+    <!-- Background decorations -->
+    <div style="position:absolute;top:0;left:0;right:0;height:380px;background:linear-gradient(180deg,#f0ebe3 0%,#f5f0ea 50%,#fcfaf7 100%);pointer-events:none"></div>
+    <div style="position:absolute;top:-80px;right:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,124,0.06),transparent 70%);filter:blur(50px);pointer-events:none"></div>
+    <div style="position:absolute;bottom:100px;left:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(160,140,190,0.05),transparent 70%);filter:blur(40px);pointer-events:none"></div>
+    <div style="position:absolute;top:60px;right:28px;font-size:52px;opacity:0.04;transform:rotate(15deg);pointer-events:none">✦</div>
+    <div style="position:absolute;top:240px;left:18px;font-size:28px;opacity:0.04;pointer-events:none">☽</div>
 
-      <!-- Glassy Purple Card -->
-      <div class="birth-card">
-        <div class="birth-title"><span>생년월일시</span>를 알려주세요</div>
+    <!-- Main content -->
+    <div style="position:relative;z-index:1;max-width:440px;margin:0 auto;padding:0 24px 80px">
+      <div class="birth-wrap">
 
-        <!-- 이름 + 본인 체크 -->
-        <div class="birth-field" style="margin-bottom:16px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <!-- Header -->
+        <div style="padding-top:48px;margin-bottom:28px;position:relative;z-index:10">
+          <button onclick="go('pgDash')" style="background:none;border:none;font-size:13px;color:#b5a89c;cursor:pointer;font-family:inherit;font-weight:500;margin-bottom:22px;padding:0;display:flex;align-items:center;gap:4px">← 돌아가기</button>
+
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+            <span style="font-size:11px;font-weight:700;color:#c9a87c;letter-spacing:2.5px">STEP 01</span>
+            <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(201,168,124,0.3),transparent)"></div>
+            <span style="font-size:10px;color:#d5ccc0;letter-spacing:1px">01 — 03</span>
+          </div>
+
+          <h1 style="font-family:'Noto Serif KR',Georgia,serif;font-size:26px;font-weight:700;color:#1a1520;line-height:1.5;letter-spacing:-1px;margin:0 0 8px 0">당신의 이야기는<br><span style="color:#c9a87c">언제</span> 시작되었나요</h1>
+          <p style="font-size:13px;color:#a9a0b0;font-weight:400;line-height:1.7;margin:0">시간과 출생지까지 입력하면 더 정확한 풀이가 가능해요</p>
+        </div>
+
+        <!-- ━━ 이름 ━━ -->
+        <div style="position:relative;z-index:60;margin-bottom:24px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
             <label class="birth-label" style="margin:0">이름</label>
-            <label onclick="toggleMyProfile()" style="display:flex;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent">
-              <div id="myProfileCheck" style="width:18px;height:18px;border-radius:5px;border:2px solid var(--purple);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:var(--purple);transition:all .2s;flex-shrink:0">✓</div>
-              <span style="font-size:12px;color:var(--purple);font-weight:600">본인 정보예요</span>
-            </label>
+            <button id="myProfileCheck" onclick="toggleMyProfile()" style="background:none;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;color:#c9a87c;display:flex;align-items:center;gap:5px;padding:0;transition:color .25s">
+              <span id="myProfileIcon" style="width:16px;height:16px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;background:#c9a87c;border:none;font-size:9px;color:#fff;transition:all .25s;flex-shrink:0">✓</span>
+              본인
+            </button>
           </div>
-          <input class="birth-input" type="text" id="bName" placeholder="예: 지수, 별명" maxlength="10" oninput="checkBirthReady()" style="width:100%;box-sizing:border-box">
+          <input class="birth-input" type="text" id="bName" placeholder="이름 또는 별명" maxlength="10" oninput="checkBirthReady()" style="width:100%;box-sizing:border-box">
         </div>
 
-        <!-- 태어난 해 / 월 / 일 -->
-        <div class="birth-row">
-          <div class="birth-field wide">
-            <label class="birth-label">태어난 해</label>
-            <div class="birth-combo">
-              <input class="birth-input" type="number" id="bYear" placeholder="예: 1990" oninput="checkBirthReady()">
-              <span class="birth-combo-arrow" id="bYearArrow" onclick="event.stopPropagation();toggleBirthDrop('year')">▼</span>
+        <!-- ━━ 생년월일 ━━ -->
+        <div style="position:relative;z-index:50;margin-bottom:24px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+            <label class="birth-label" style="margin:0">생년월일</label>
+            <div style="display:flex;background:#f3ede5;border-radius:9px;padding:2.5px">
+              <button type="button" id="calSolar" onclick="setCalType('solar')" style="padding:5px 14px;border-radius:7px;border:none;font-size:11px;font-weight:600;background:#fff;color:#96784e;cursor:pointer;font-family:inherit;transition:all .25s;box-shadow:0 1px 5px rgba(0,0,0,0.06)">양력</button>
+              <button type="button" id="calLunar" onclick="setCalType('lunar')" style="padding:5px 14px;border-radius:7px;border:none;font-size:11px;font-weight:600;background:transparent;color:#b5a89c;cursor:pointer;font-family:inherit;transition:all .25s;box-shadow:none">음력</button>
             </div>
-            <div class="birth-dropdown" id="dropYear"></div>
+            <button type="button" id="leapMonthRow" onclick="toggleLeapMonth()" style="display:none;align-items:center;gap:4px;background:none;border:none;font-size:11px;font-weight:600;color:#c4b8aa;cursor:pointer;font-family:inherit;padding:0;transition:all .3s">
+              <span id="leapMonthIcon" style="width:15px;height:15px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1.5px solid #d5cfc5;font-size:8px;color:#fff;transition:all .25s;flex-shrink:0"></span>
+              윤달
+            </button>
+            <input type="hidden" id="isLeapMonth" value="false">
           </div>
-          <div class="birth-field">
-            <label class="birth-label">월</label>
-            <div class="birth-combo">
-              <input class="birth-input" type="number" id="bMonthInput" placeholder="월" min="1" max="12" oninput="onComboInput('month')">
-              <span class="birth-combo-arrow" id="bMonthArrow" onclick="event.stopPropagation();toggleBirthDrop('month')">▼</span>
+          <div class="birth-row">
+            <div class="birth-field wide">
+              <div class="birth-combo">
+                <input class="birth-input" type="number" id="bYear" placeholder="예: 1995" oninput="checkBirthReady()" maxlength="4">
+                <span class="birth-combo-arrow" id="bYearArrow" onclick="event.stopPropagation();toggleBirthDrop('year')">▼</span>
+              </div>
+              <div class="birth-dropdown" id="dropYear"></div>
             </div>
-            <input type="hidden" id="bMonth">
-            <div class="birth-dropdown" id="dropMonth"></div>
-          </div>
-          <div class="birth-field">
-            <label class="birth-label">일</label>
-            <div class="birth-combo">
-              <input class="birth-input" type="number" id="bDayInput" placeholder="일" min="1" max="31" oninput="onComboInput('day')">
-              <span class="birth-combo-arrow" id="bDayArrow" onclick="event.stopPropagation();toggleBirthDrop('day')">▼</span>
+            <div class="birth-field">
+              <div class="birth-combo">
+                <input class="birth-input" type="number" id="bMonthInput" placeholder="월" min="1" max="12" oninput="onComboInput('month')" maxlength="2">
+                <span class="birth-combo-arrow" id="bMonthArrow" onclick="event.stopPropagation();toggleBirthDrop('month')">▼</span>
+              </div>
+              <input type="hidden" id="bMonth">
+              <div class="birth-dropdown" id="dropMonth"></div>
             </div>
-            <input type="hidden" id="bDay">
-            <div class="birth-dropdown" id="dropDay"></div>
-          </div>
-        </div>
-
-        <!-- 양력/음력 토글 + 윤달 -->
-        <div style="display:flex;align-items:center;gap:8px;margin:-4px 0 16px">
-          <div style="display:flex;background:rgba(0,0,0,0.03);border-radius:10px;padding:3px;gap:2px">
-            <button type="button" id="calSolarBtn" onclick="setCalType('solar')" style="padding:6px 14px;font-size:12px;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .2s;background:#fff;color:var(--purple);box-shadow:0 1px 4px rgba(0,0,0,0.06)">☀️ 양력</button>
-            <button type="button" id="calLunarBtn" onclick="setCalType('lunar')" style="padding:6px 14px;font-size:12px;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .2s;background:transparent;color:var(--text-3)">🌙 음력</button>
-          </div>
-          <label id="leapMonthRow" style="display:none;align-items:center;gap:4px;font-size:12px;color:var(--text-2);cursor:pointer">
-            <input type="checkbox" id="isLeapMonth" style="width:15px;height:15px;accent-color:var(--purple)">윤달
-          </label>
-        </div>
-
-        <!-- 시 / 분 / 시간모름 -->
-        <div class="birth-row">
-          <div class="birth-field">
-            <label class="birth-label">시</label>
-            <div class="birth-combo">
-              <input class="birth-input" type="number" id="bHourInput" placeholder="시" min="0" max="23" oninput="onComboInput('hour')">
-              <span class="birth-combo-arrow" id="bHourArrow" onclick="event.stopPropagation();toggleBirthDrop('hour')">▼</span>
+            <div class="birth-field">
+              <div class="birth-combo">
+                <input class="birth-input" type="number" id="bDayInput" placeholder="일" min="1" max="31" oninput="onComboInput('day')" maxlength="2">
+                <span class="birth-combo-arrow" id="bDayArrow" onclick="event.stopPropagation();toggleBirthDrop('day')">▼</span>
+              </div>
+              <input type="hidden" id="bDay">
+              <div class="birth-dropdown" id="dropDay"></div>
             </div>
-            <input type="hidden" id="bHour">
-            <div class="birth-dropdown" id="dropHour"></div>
-          </div>
-          <div class="birth-field">
-            <label class="birth-label">분</label>
-            <div class="birth-combo">
-              <input class="birth-input" type="number" id="bMinInput" placeholder="분" min="0" max="59" oninput="onComboInput('min')">
-              <span class="birth-combo-arrow" id="bMinArrow" onclick="event.stopPropagation();toggleBirthDrop('min')">▼</span>
-            </div>
-            <input type="hidden" id="bMin">
-            <div class="birth-dropdown" id="dropMin"></div>
-          </div>
-          <div class="birth-field" style="display:flex;align-items:flex-end">
-            <button type="button" onclick="setTimeUnknown()" style="width:100%;padding:14px 0;font-size:13px;font-weight:600;color:var(--text-3);background:rgba(0,0,0,0.02);border:1.5px solid rgba(0,0,0,0.06);border-radius:14px;cursor:pointer;font-family:inherit;transition:all .2s">⏱ 시간 모름</button>
           </div>
         </div>
 
-        <!-- 출생지 / 모름 -->
-        <div style="display:flex;gap:10px;margin-bottom:20px">
-          <div class="birth-field" style="flex:1;margin:0">
-            <label class="birth-label">출생지</label>
-            <div class="birth-combo">
-              <input class="birth-input" type="text" id="bCityInput" placeholder="예: 서울" oninput="onComboInput('city')">
-              <span class="birth-combo-arrow" id="bCityArrow" onclick="event.stopPropagation();toggleBirthDrop('city')">▼</span>
+        <!-- ━━ 태어난 시간 ━━ -->
+        <div style="position:relative;z-index:40;margin-bottom:24px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <label class="birth-label" style="margin:0">태어난 시간</label>
+            <span style="font-size:11px;color:#d0c7bb">선택사항</span>
+          </div>
+          <div id="timeInputArea">
+            <div class="birth-row">
+              <div class="birth-field">
+                <div class="birth-combo">
+                  <input class="birth-input" type="number" id="bHourInput" placeholder="시" min="0" max="23" oninput="onComboInput('hour')" maxlength="2">
+                  <span class="birth-combo-arrow" id="bHourArrow" onclick="event.stopPropagation();toggleBirthDrop('hour')">▼</span>
+                </div>
+                <input type="hidden" id="bHour">
+                <div class="birth-dropdown" id="dropHour"></div>
+              </div>
+              <div class="birth-field">
+                <div class="birth-combo">
+                  <input class="birth-input" type="number" id="bMinInput" placeholder="분" min="0" max="59" oninput="onComboInput('min')" maxlength="2">
+                  <span class="birth-combo-arrow" id="bMinArrow" onclick="event.stopPropagation();toggleBirthDrop('min')">▼</span>
+                </div>
+                <input type="hidden" id="bMin">
+                <div class="birth-dropdown" id="dropMin"></div>
+              </div>
+              <div class="birth-field" style="display:flex;align-items:stretch">
+                <button type="button" onclick="setTimeUnknown()" style="width:100%;padding:14px 8px;border-radius:14px;border:1.5px solid #ece6dc;background:#ffffff;color:#b5a89c;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
+              </div>
             </div>
-            <input type="hidden" id="bCity">
-            <div class="birth-dropdown" id="dropCity"></div>
           </div>
-          <div style="display:flex;align-items:flex-end;flex-shrink:0">
-            <button type="button" onclick="setCityUnknown()" style="padding:14px 16px;font-size:13px;font-weight:600;color:var(--text-3);background:rgba(0,0,0,0.02);border:1.5px solid rgba(0,0,0,0.06);border-radius:14px;cursor:pointer;font-family:inherit;transition:all .2s">📍 모름</button>
+          <div id="noTimeCard" style="display:none;padding:16px 20px;border-radius:14px;background:#f8f5f0;border:1.5px solid #e8e0d5;cursor:pointer" onclick="restoreTimeInput()">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#8a7e6a;margin-bottom:2px">시간 몰라도 괜찮아요 ✦</div>
+                <div style="font-size:11px;color:#b5a99a">시간 없이도 분석할 수 있어요</div>
+              </div>
+              <span style="font-size:11px;font-weight:600;color:#96784e;padding:5px 12px;border-radius:8px;background:rgba(201,168,124,0.1);border:1px solid rgba(201,168,124,0.15)">다시 입력</span>
+            </div>
           </div>
         </div>
 
-        <!-- 성별 -->
-        <label class="birth-label">성별</label>
-        <div class="birth-gender-row">
-          <button class="birth-gender" id="bMale" onclick="pickBirthGender('남성')">♂ 남성</button>
-          <button class="birth-gender" id="bFemale" onclick="pickBirthGender('여성')">♀ 여성</button>
+        <!-- ━━ 출생지 ━━ -->
+        <div style="position:relative;z-index:30;margin-bottom:24px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <label class="birth-label" style="margin:0">출생지</label>
+            <span style="font-size:11px;color:#d0c7bb">시차 보정에 사용돼요</span>
+          </div>
+          <div id="cityInputArea">
+            <div style="display:flex;gap:8px">
+              <div class="birth-field" style="flex:1;margin:0">
+                <div class="birth-combo">
+                  <input class="birth-input" type="text" id="bCityInput" placeholder="도시명 입력 또는 선택" oninput="onComboInput('city')">
+                  <span class="birth-combo-arrow" id="bCityArrow" onclick="event.stopPropagation();toggleBirthDrop('city')">▼</span>
+                </div>
+                <input type="hidden" id="bCity">
+                <div class="birth-dropdown" id="dropCity"></div>
+              </div>
+              <div style="flex-shrink:0;display:flex;align-items:stretch">
+                <button type="button" onclick="setCityUnknown()" style="padding:14px 16px;border-radius:14px;border:1.5px solid #ece6dc;background:#ffffff;color:#b5a89c;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
+              </div>
+            </div>
+          </div>
+          <div id="noCityCard" style="display:none;padding:16px 20px;border-radius:14px;background:#f8f5f0;border:1.5px solid #e8e0d5;cursor:pointer" onclick="restoreCityInput()">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#8a7e6a;margin-bottom:2px">출생지 몰라도 괜찮아요 ✦</div>
+                <div style="font-size:11px;color:#b5a99a">출생지 없이도 분석 가능해요</div>
+              </div>
+              <span style="font-size:11px;font-weight:600;color:#96784e;padding:5px 12px;border-radius:8px;background:rgba(201,168,124,0.1);border:1px solid rgba(201,168,124,0.15)">다시 입력</span>
+            </div>
+          </div>
         </div>
 
-        <!-- 다음 -->
-        <button class="birth-next" id="birthNextBtn" onclick="goToMBTI()">다음 단계 →</button>
+        <!-- ━━ 성별 ━━ -->
+        <div style="position:relative;z-index:20;margin-bottom:0">
+          <label class="birth-label">성별</label>
+          <div class="birth-gender-row">
+            <button class="birth-gender-sel" id="bMale" onclick="pickBirthGender('남성')">남성</button>
+            <button class="birth-gender-sel" id="bFemale" onclick="pickBirthGender('여성')">여성</button>
+          </div>
+        </div>
+
+        <!-- ━━ CTA ━━ -->
+        <div style="position:relative;z-index:10;margin-top:36px">
+          <button class="birth-next" id="birthNextBtn" onclick="goToMBTI()"><span style="position:relative">다음 단계 →</span></button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -3787,8 +3811,15 @@ var CITIES=['모름','서울','부산','대구','인천','광주','대전','울�
 
 function pickBirthGender(g){
   birthGender=g;
-  document.getElementById('bMale').classList.toggle('selected',g==='남성');
-  document.getElementById('bFemale').classList.toggle('selected',g==='여성');
+  var mBtn=document.getElementById('bMale');
+  var fBtn=document.getElementById('bFemale');
+  if(g==='남성'){
+    mBtn.style.borderColor='#4A90D955';mBtn.style.background='#4A90D90a';mBtn.style.color='#4A90D9';mBtn.style.boxShadow='0 4px 16px #4A90D915';
+    fBtn.style.borderColor='#ece6dc';fBtn.style.background='#ffffff';fBtn.style.color='#bbb';fBtn.style.boxShadow='none';
+  } else {
+    fBtn.style.borderColor='#D94A7855';fBtn.style.background='#D94A780a';fBtn.style.color='#D94A78';fBtn.style.boxShadow='0 4px 16px #D94A7815';
+    mBtn.style.borderColor='#ece6dc';mBtn.style.background='#ffffff';mBtn.style.color='#bbb';mBtn.style.boxShadow='none';
+  }
   checkBirthReady();
 }
 
@@ -3798,7 +3829,13 @@ function checkBirthReady(){
   var m=document.getElementById('bMonth').value||document.getElementById('bMonthInput').value;
   var d=document.getElementById('bDay').value||document.getElementById('bDayInput').value;
   var ok=nm&&y&&m&&d&&birthGender;
-  document.getElementById('birthNextBtn').classList.toggle('ready',!!ok);
+  var btn=document.getElementById('birthNextBtn');
+  btn.classList.toggle('ready',!!ok);
+  var shimEl=document.getElementById('birthShimmer');
+  if(!shimEl){
+    shimEl=document.createElement('div');shimEl.id='birthShimmer';shimEl.className='shimmer';btn.insertBefore(shimEl,btn.firstChild);
+  }
+  shimEl.style.display=ok?'block':'none';
 }
 
 // 타이핑으로 값 입력 시 hidden에도 반영
@@ -3980,39 +4017,62 @@ window._isMyProfile = true;
 
 function setCalType(type) {
   window._isLunarInput = (type === 'lunar');
-  var sBtn = document.getElementById('calSolarBtn');
-  var lBtn = document.getElementById('calLunarBtn');
+  var sBtn = document.getElementById('calSolar');
+  var lBtn = document.getElementById('calLunar');
   var leapRow = document.getElementById('leapMonthRow');
   if (type === 'lunar') {
     lBtn.style.background = '#fff';
-    lBtn.style.color = '#D4A853';
-    lBtn.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
+    lBtn.style.color = '#96784e';
+    lBtn.style.boxShadow = '0 1px 5px rgba(0,0,0,0.06)';
     sBtn.style.background = 'transparent';
-    sBtn.style.color = 'var(--text-3)';
+    sBtn.style.color = '#b5a89c';
     sBtn.style.boxShadow = 'none';
     if (leapRow) leapRow.style.display = 'flex';
   } else {
     sBtn.style.background = '#fff';
-    sBtn.style.color = 'var(--purple)';
-    sBtn.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
+    sBtn.style.color = '#96784e';
+    sBtn.style.boxShadow = '0 1px 5px rgba(0,0,0,0.06)';
     lBtn.style.background = 'transparent';
-    lBtn.style.color = 'var(--text-3)';
+    lBtn.style.color = '#b5a89c';
     lBtn.style.boxShadow = 'none';
     if (leapRow) leapRow.style.display = 'none';
+    document.getElementById('isLeapMonth').value = 'false';
+  }
+}
+
+function toggleLeapMonth() {
+  var el = document.getElementById('isLeapMonth');
+  var icon = document.getElementById('leapMonthIcon');
+  var btn = document.getElementById('leapMonthRow');
+  var isOn = el.value === 'true';
+  el.value = isOn ? 'false' : 'true';
+  if (!isOn) {
+    icon.style.background = '#c9a87c';
+    icon.style.border = 'none';
+    icon.innerHTML = '✓';
+    btn.style.color = '#c9a87c';
+  } else {
+    icon.style.background = 'transparent';
+    icon.style.border = '1.5px solid #d5cfc5';
+    icon.innerHTML = '';
+    btn.style.color = '#c4b8aa';
   }
 }
 
 function toggleMyProfile() {
   window._isMyProfile = !window._isMyProfile;
-  var el = document.getElementById('myProfileCheck');
+  var icon = document.getElementById('myProfileIcon');
+  var btn = document.getElementById('myProfileCheck');
   if (window._isMyProfile) {
-    el.style.background = 'var(--purple)';
-    el.style.borderColor = 'var(--purple)';
-    el.innerHTML = '✓';
+    icon.style.background = '#c9a87c';
+    icon.style.border = 'none';
+    icon.innerHTML = '✓';
+    btn.style.color = '#c9a87c';
   } else {
-    el.style.background = '#fff';
-    el.style.borderColor = 'var(--border)';
-    el.innerHTML = '';
+    icon.style.background = 'transparent';
+    icon.style.border = '1.5px solid #ddd';
+    icon.innerHTML = '';
+    btn.style.color = '#ccc';
   }
 }
 
@@ -4021,15 +4081,29 @@ function setTimeUnknown() {
   document.getElementById('bHour').value = '';
   document.getElementById('bMinInput').value = '';
   document.getElementById('bMin').value = '';
+  document.getElementById('timeInputArea').style.display = 'none';
+  document.getElementById('noTimeCard').style.display = 'block';
   checkBirthReady();
-  if (typeof showToast === 'function') showToast('시간 모름으로 설정했어요');
+}
+
+function restoreTimeInput() {
+  document.getElementById('noTimeCard').style.display = 'none';
+  document.getElementById('timeInputArea').style.display = 'block';
 }
 
 function setCityUnknown() {
   document.getElementById('bCityInput').value = '모름';
   document.getElementById('bCity').value = '모름';
+  document.getElementById('cityInputArea').style.display = 'none';
+  document.getElementById('noCityCard').style.display = 'block';
   checkBirthReady();
-  if (typeof showToast === 'function') showToast('출생지 모름으로 설정했어요');
+}
+
+function restoreCityInput() {
+  document.getElementById('noCityCard').style.display = 'none';
+  document.getElementById('cityInputArea').style.display = 'block';
+  document.getElementById('bCityInput').value = '';
+  document.getElementById('bCity').value = '';
 }
 
 function goToMBTI(){
@@ -4037,7 +4111,7 @@ function goToMBTI(){
     var ly = parseInt(document.getElementById('bYear').value);
     var lm = parseInt(document.getElementById('bMonth').value || document.getElementById('bMonthInput').value);
     var ld = parseInt(document.getElementById('bDay').value || document.getElementById('bDayInput').value);
-    var leap = document.getElementById('isLeapMonth') ? document.getElementById('isLeapMonth').checked : false;
+    var leap = document.getElementById('isLeapMonth').value === 'true';
     var solar = lunarToSolar(ly, lm, ld, leap);
     if(!solar){
       if(typeof showToast === 'function') showToast('음력 날짜를 확인해주세요');
