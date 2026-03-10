@@ -3399,8 +3399,30 @@ function openHistoryRecord(recordId){
   try{hist=JSON.parse(localStorage.getItem('mbts_history'))||[];}catch(e){}
   var rec=null;
   for(var i=0;i<hist.length;i++){if(hist[i].id===recordId){rec=hist[i];break;}}
-  if(!rec||!rec.aiResult)return;
-  /* ST 객체 복원 */
+  if(!rec)return;
+
+  // 무료 동물 서비스 레코드 (aiResult 없음)
+  if(!rec.aiResult){
+    if(rec.saju && rec.gg){
+      var oheng = rec.saju.dmEl || '토';
+      var dominantSS = (rec.gg.dominant && rec.gg.dominant[0]) ? rec.gg.dominant[0] : '비겁';
+      var condition = '신강';
+      if(rec.gg.isJonggyeok || rec.gg.isHwakyeok) condition = '특수';
+      else if(rec.gg.strengthGrade === '신약' || rec.gg.strengthGrade === '극신약') condition = '신약';
+      var animal = (typeof getAnimalResult === 'function') ? getAnimalResult(oheng, dominantSS, condition) : null;
+      if(animal && animal.mod){
+        go('pgAnimal');
+        var pg = document.getElementById('pgAnimal');
+        if(typeof window.svcRenderResult === 'function'){
+          window.svcRenderResult(pg, animal, rec.mbti || '', rec.saju, rec.gg, oheng, condition, rec.name || '나');
+        }
+        return;
+      }
+    }
+    return;
+  }
+
+  // 기존 프리미엄 결과 (원본 그대로)
   if(rec.input){
     ST.y=rec.input.y||'';ST.m=rec.input.m||'';ST.d=rec.input.d||'';
     ST.h=rec.input.h||'';ST.min=rec.input.min||'';
@@ -3408,7 +3430,6 @@ function openHistoryRecord(recordId){
     ST.cityLng=rec.input.cityLng||0;
   }
   ST.name=rec.name||'나';
-  /* 전역 변수 복원 */
   window._lastSaju=rec.saju||null;
   window._lastDW=rec.dw||null;
   window._lastGG=rec.gg||null;
@@ -3416,7 +3437,6 @@ function openHistoryRecord(recordId){
   window._lastMBTIObj=rec.mbtiObj||null;
   window._lastAIResult=rec.aiResult||null;
   window._lastIsAI=rec.isAI||false;
-  /* renderResult 호출 (히스토리 중복저장 방지 플래그) */
   window._skipHistorySave=true;
   renderResult(rec.aiResult,rec.saju,rec.mbti,rec.gg,rec.isAI);
   window._skipHistorySave=false;
