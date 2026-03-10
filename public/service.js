@@ -270,10 +270,16 @@
       // ── 카드 1: 성격 ──
       h += '<div class="svc-r-card">';
       h += '<div class="svc-r-label"><span class="svc-r-label-icon">🎭</span><span class="svc-r-label-text">성격</span></div>';
-      for (var i = 0; i < detail.personality.length; i++) {
-        var pMb = (i === 1) ? 'margin:0 0 16px 0' : 'margin:0';
-        h += '<p style="font-size:14.5px;line-height:2;color:var(--text-2);word-break:keep-all;' + pMb + '">' + detail.personality[i] + '</p>';
-      }
+      h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
+      h += '<div>' + detail.personality[0] + '</div>';
+      h += '<div>' + detail.personality[1] + '</div>';
+      h += '</div>';
+      h += '<div style="height:20px"></div>';
+      h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
+      h += '<div>' + detail.personality[2] + '</div>';
+      h += '<div>' + detail.personality[3] + '</div>';
+      h += '<div>' + detail.personality[4] + '</div>';
+      h += '</div>';
       h += '<div style="margin-top:14px">';
       for (var j = 0; j < detail.pTags.length; j++) {
         h += '<span class="svc-trait" style="background:' + oc.bg + ';color:' + oc.m + '">#' + detail.pTags[j] + '</span>';
@@ -283,10 +289,16 @@
       // ── 카드 2: 성향 ──
       h += '<div class="svc-r-card">';
       h += '<div class="svc-r-label"><span class="svc-r-label-icon">🧭</span><span class="svc-r-label-text">성향</span></div>';
-      for (var i = 0; i < detail.tendency.length; i++) {
-        var tMb = (i === 1) ? 'margin:0 0 16px 0' : 'margin:0';
-        h += '<p style="font-size:14.5px;line-height:2;color:var(--text-2);word-break:keep-all;' + tMb + '">' + detail.tendency[i] + '</p>';
-      }
+      h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
+      h += '<div>' + detail.tendency[0] + '</div>';
+      h += '<div>' + detail.tendency[1] + '</div>';
+      h += '</div>';
+      h += '<div style="height:20px"></div>';
+      h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
+      h += '<div>' + detail.tendency[2] + '</div>';
+      h += '<div>' + detail.tendency[3] + '</div>';
+      h += '<div>' + detail.tendency[4] + '</div>';
+      h += '</div>';
       h += '<div style="margin-top:14px">';
       for (var j = 0; j < detail.tTags.length; j++) {
         h += '<span class="svc-trait" style="background:' + oc.bg + ';color:' + oc.m + '">#' + detail.tTags[j] + '</span>';
