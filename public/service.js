@@ -252,13 +252,6 @@
     h += 'box-shadow:0 4px 16px ' + oc.m + '30">#' + mod.tag + '</span>';
     h += '</div>';
 
-    // 동물 타이틀
-    h += '<div style="animation:svcReveal .6s ease both;animation-delay:.45s;opacity:0">';
-    h += '<h1 style="font-family:\'Noto Serif KR\',serif;font-size:22px;font-weight:700;color:var(--text-1);';
-    h += 'margin:16px 0 0;line-height:1.45;letter-spacing:-0.5px">';
-    h += animal.emoji + ' ' + mod.title + '</h1>';
-    h += '</div>';
-
     h += '</div>'; // 히어로 끝
 
     // ══════════════════════════════════
