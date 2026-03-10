@@ -107,6 +107,7 @@
           var record = {
             id: 'svc_' + Date.now(),
             name: nameVal || '나',
+            isMyProfile: window._isMyProfile || false,
             input: { y:y, m:m, d:d, h:h, min:min, gender:gender },
             saju: saju, gg: gg,
             mbti: mbtiStr,
