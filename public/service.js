@@ -271,11 +271,14 @@
       h += '<div class="svc-r-card">';
       h += '<div class="svc-r-label"><span class="svc-r-label-icon">🎭</span><span class="svc-r-label-text">성격</span></div>';
       h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
-      h += detail.personality[0] + ' ' + detail.personality[1];
+      h += '<div>' + detail.personality[0] + '</div>';
+      h += '<div>' + detail.personality[1] + '</div>';
       h += '</div>';
       h += '<div style="height:20px"></div>';
       h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
-      h += detail.personality[2] + ' ' + detail.personality[3] + ' ' + detail.personality[4];
+      h += '<div>' + detail.personality[2] + '</div>';
+      h += '<div>' + detail.personality[3] + '</div>';
+      h += '<div>' + detail.personality[4] + '</div>';
       h += '</div>';
       h += '<div style="margin-top:14px">';
       for (var j = 0; j < detail.pTags.length; j++) {
@@ -287,11 +290,14 @@
       h += '<div class="svc-r-card">';
       h += '<div class="svc-r-label"><span class="svc-r-label-icon">🧭</span><span class="svc-r-label-text">성향</span></div>';
       h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
-      h += detail.tendency[0] + ' ' + detail.tendency[1];
+      h += '<div>' + detail.tendency[0] + '</div>';
+      h += '<div>' + detail.tendency[1] + '</div>';
       h += '</div>';
       h += '<div style="height:20px"></div>';
       h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
-      h += detail.tendency[2] + ' ' + detail.tendency[3] + ' ' + detail.tendency[4];
+      h += '<div>' + detail.tendency[2] + '</div>';
+      h += '<div>' + detail.tendency[3] + '</div>';
+      h += '<div>' + detail.tendency[4] + '</div>';
       h += '</div>';
       h += '<div style="margin-top:14px">';
       for (var j = 0; j < detail.tTags.length; j++) {
