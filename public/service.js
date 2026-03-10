@@ -225,39 +225,32 @@
     // ══════════════════════════════════
     h += '<div style="min-height:100vh;background:var(--bg)">';
 
-    // ── 상단 네비게이션 바 ──
-    h += '<div style="padding:12px 16px;position:sticky;top:0;z-index:10;';
-    h += 'background:rgba(248,247,244,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);';
-    h += 'display:flex;align-items:center;justify-content:space-between">';
-    h += '<button onclick="go(\'pgDash\')" style="background:none;border:none;font-size:14px;color:' + oc.m + ';font-weight:600;cursor:pointer;font-family:inherit">← 홈</button>';
-    h += '<span style="font-size:12px;font-weight:600;color:var(--text-3);letter-spacing:0.5px">MY MBTS ANIMAL</span>';
-    h += '<div style="width:40px"></div>';
+    // ── 프리미엄 스타일 헤더 ──
+    h += '<div style="text-align:center;padding:36px 20px 16px">';
+    h += '<div onclick="go(\'pgDash\')" style="cursor:pointer;display:flex;justify-content:center;gap:0;margin-bottom:8px">';
+    h += '<span style="font-weight:800;font-size:28px;line-height:1;color:#4CAF7D">M</span>';
+    h += '<span style="font-weight:800;font-size:28px;line-height:1;color:#5B8FD4">B</span>';
+    h += '<span style="font-weight:800;font-size:28px;line-height:1;color:#E05A5A">T</span>';
+    h += '<span style="font-weight:800;font-size:28px;line-height:1;color:#E8B84B">S</span>';
+    h += '</div>';
+    h += '<div style="font-size:13px;font-weight:600;color:var(--text-2)">' + userName + '의 운명 동물</div>';
     h += '</div>';
 
-    // ── 히어로 영역 (오행 그라데이션) ──
-    h += '<div style="background:' + oc.lg + ';padding:28px 20px 36px;text-align:center">';
+    // ── 동물 카드 + 콘텐츠 영역 (640px) ──
+    h += '<div style="max-width:640px;margin:0 auto;padding:0 16px 32px">';
 
-    // 동물 이미지 (카드형)
-    h += '<div style="animation:svcImgIn .7s cubic-bezier(.34,1.56,.64,1) both">';
-    h += '<div style="width:100%;max-width:360px;margin:0 auto 20px;border-radius:24px;overflow:hidden;';
-    h += 'box-shadow:0 12px 40px ' + oc.m + '20,0 4px 12px rgba(0,0,0,0.06);background:#fff">';
+    // 동물 카드 이미지
+    h += '<div style="animation:svcImgIn .7s cubic-bezier(.34,1.56,.64,1) both;margin-bottom:16px">';
+    h += '<div style="border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.08)">';
     h += '<img src="' + imgUrl + '" alt="' + animal.name + '" style="width:100%;display:block" ';
-    h += 'onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;font-size:100px;background:' + oc.bg + '\\\'>' + animal.emoji + '</div>\'">';
+    h += 'onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/3;font-size:100px;background:' + oc.bg + '\\\'>' + animal.emoji + '</div>\'">';
     h += '</div></div>';
 
-    // 태그 뱃지
-    h += '<div style="animation:svcTagPop .5s cubic-bezier(.34,1.56,.64,1) both;animation-delay:.35s;opacity:0">';
-    h += '<span style="display:inline-block;padding:7px 20px;background:' + oc.g + ';border-radius:100px;';
-    h += 'font-size:13px;font-weight:800;color:#fff;letter-spacing:0.3px;';
-    h += 'box-shadow:0 4px 16px ' + oc.m + '30">#' + mod.tag + '</span>';
+    // 공유 버튼
+    h += '<div style="display:flex;gap:8px;margin-bottom:20px">';
+    h += '<button style="flex:1;padding:12px;font-size:13px;font-weight:600;color:var(--text-2);background:#fff;border:1px solid var(--border);border-radius:14px;cursor:pointer;font-family:inherit">📷 이미지 저장</button>';
+    h += '<button onclick="svcShareKakao&&svcShareKakao()" style="flex:1;padding:12px;font-size:13px;font-weight:700;color:#191919;background:#FEE500;border:1px solid #FEE500;border-radius:14px;cursor:pointer;font-family:inherit">💬 카카오톡 공유</button>';
     h += '</div>';
-
-    h += '</div>'; // 히어로 끝
-
-    // ══════════════════════════════════
-    // 카드 영역
-    // ══════════════════════════════════
-    h += '<div style="padding:20px 16px 32px;max-width:480px;margin:0 auto">';
 
     // ANIMAL_DETAIL 조회
     var dominantSS = gg.dominant ? gg.dominant[0] : '';
@@ -271,14 +264,15 @@
       h += '<div class="svc-r-card">';
       h += '<div class="svc-r-label"><span class="svc-r-label-icon">🎭</span><span class="svc-r-label-text">성격</span></div>';
       h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
-      h += '<div>' + detail.personality[0] + '</div>';
-      h += '<div>' + detail.personality[1] + '</div>';
+      h += detail.personality[0] + ' ' + detail.personality[1];
       h += '</div>';
-      h += '<div style="height:20px"></div>';
+      h += '<div style="height:16px"></div>';
       h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
-      h += '<div>' + detail.personality[2] + '</div>';
-      h += '<div>' + detail.personality[3] + '</div>';
-      h += '<div>' + detail.personality[4] + '</div>';
+      h += detail.personality[2] + ' ' + detail.personality[3];
+      h += '</div>';
+      h += '<div style="height:16px"></div>';
+      h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
+      h += detail.personality[4];
       h += '</div>';
       h += '<div style="margin-top:14px">';
       for (var j = 0; j < detail.pTags.length; j++) {
@@ -290,14 +284,15 @@
       h += '<div class="svc-r-card">';
       h += '<div class="svc-r-label"><span class="svc-r-label-icon">🧭</span><span class="svc-r-label-text">성향</span></div>';
       h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
-      h += '<div>' + detail.tendency[0] + '</div>';
-      h += '<div>' + detail.tendency[1] + '</div>';
+      h += detail.tendency[0] + ' ' + detail.tendency[1];
       h += '</div>';
-      h += '<div style="height:20px"></div>';
+      h += '<div style="height:16px"></div>';
       h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
-      h += '<div>' + detail.tendency[2] + '</div>';
-      h += '<div>' + detail.tendency[3] + '</div>';
-      h += '<div>' + detail.tendency[4] + '</div>';
+      h += detail.tendency[2] + ' ' + detail.tendency[3];
+      h += '</div>';
+      h += '<div style="height:16px"></div>';
+      h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all">';
+      h += detail.tendency[4];
       h += '</div>';
       h += '<div style="margin-top:14px">';
       for (var j = 0; j < detail.tTags.length; j++) {
