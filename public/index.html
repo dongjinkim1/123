@@ -1171,21 +1171,21 @@ button{font-family:inherit;cursor:pointer}
 #pgBirth *{-webkit-tap-highlight-color:transparent}
 
 /* Glassy Card */
-.birth-glass-card{background:rgba(255,255,255,0.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.6);border-radius:24px;padding:28px 22px 32px;box-shadow:0 4px 16px rgba(139,108,193,0.05),0 12px 48px rgba(100,70,150,0.07),0 0 0 1px rgba(139,108,193,0.03)}
+.birth-glass-card{background:rgba(255,255,255,0.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.6);border-radius:24px;padding:20px 20px 24px;box-shadow:0 4px 16px rgba(139,108,193,0.05),0 12px 48px rgba(100,70,150,0.07),0 0 0 1px rgba(139,108,193,0.03)}
 
 /* Input Groups */
 .birth-row{display:flex;gap:8px;margin-bottom:0;position:relative}
 .birth-field{flex:1;position:relative}
 .birth-field.wide{flex:1.5}
-.birth-label{font-size:12px;font-weight:700;color:#5A4580;display:block;margin-bottom:8px;letter-spacing:0.3px}
+.birth-label{font-size:12px;font-weight:700;color:#5A4580;display:block;margin-bottom:6px;letter-spacing:0.3px}
 
 /* Combo: input + ▼ */
 .birth-combo{position:relative;display:flex;align-items:center}
-.birth-combo .birth-input{padding-right:36px}
+.birth-combo .birth-input{padding:12px 36px 12px 14px}
 .birth-combo-arrow{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:9px;color:#B0A0C8;cursor:pointer;padding:8px;transition:transform .25s ease;z-index:2}
 .birth-combo-arrow.open{transform:translateY(-50%) rotate(180deg)}
 
-.birth-input{width:100%;padding:15px 16px;font-size:15px;font-weight:500;background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,0.6);border-radius:14px;outline:none;color:#3D2E5C;font-family:inherit;transition:all .3s;-webkit-appearance:none;appearance:none;box-sizing:border-box}
+.birth-input{width:100%;padding:12px 14px;font-size:15px;font-weight:500;background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,0.6);border-radius:14px;outline:none;color:#3D2E5C;font-family:inherit;transition:all .3s;-webkit-appearance:none;appearance:none;box-sizing:border-box}
 .birth-input:focus{border-color:rgba(139,108,193,0.3);background:rgba(255,255,255,0.55);box-shadow:0 0 0 3px rgba(139,108,193,0.06),0 4px 20px rgba(139,108,193,0.06)}
 .birth-input:not(:placeholder-shown){font-weight:600;border-color:rgba(139,108,193,0.25);box-shadow:0 2px 12px rgba(139,108,193,0.04)}
 /* Hide number spinner */
@@ -1215,12 +1215,12 @@ button{font-family:inherit;cursor:pointer}
 
 /* Gender Buttons */
 .birth-gender-row{display:flex;gap:10px;margin-bottom:0}
-.birth-gender-sel{flex:1;padding:15px 12px;font-size:15px;font-weight:700;background:rgba(255,255,255,0.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,0.6);border-radius:14px;color:#9B8CB8;display:flex;align-items:center;justify-content:center;transition:all .3s;cursor:pointer;font-family:inherit}
+.birth-gender-sel{flex:1;padding:12px 10px;font-size:15px;font-weight:700;background:rgba(255,255,255,0.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,0.6);border-radius:14px;color:#9B8CB8;display:flex;align-items:center;justify-content:center;transition:all .3s;cursor:pointer;font-family:inherit}
 .birth-gender-sel:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
 .birth-gender-sel:active{transform:scale(0.97)}
 
 /* CTA Button */
-.birth-next{width:100%;padding:18px;font-size:16px;font-weight:700;border:none;border-radius:18px;color:#C4B0E8;background:rgba(139,108,193,0.08);cursor:default;transition:all .5s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;font-family:inherit;letter-spacing:-0.3px}
+.birth-next{width:100%;padding:16px;font-size:16px;font-weight:700;border:none;border-radius:18px;color:#C4B0E8;background:rgba(139,108,193,0.08);cursor:default;transition:all .5s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;font-family:inherit;letter-spacing:-0.3px}
 .birth-next.ready{color:#fff;background:linear-gradient(135deg,#8B6CC1 0%,#7B5DAF 50%,#6B4FA0 100%);cursor:pointer;box-shadow:0 8px 36px rgba(107,79,160,0.3)}
 .birth-next.ready:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(107,79,160,0.35)}
 .birth-next.ready:active{transform:translateY(0) scale(0.98)}
@@ -2379,29 +2379,29 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
     </div>
 
     <!-- Main content -->
-    <div style="position:relative;z-index:1;max-width:420px;margin:0 auto;padding:0 24px 90px">
+    <div style="position:relative;z-index:1;max-width:420px;margin:0 auto;padding:0 24px 40px">
       <div class="birth-wrap">
 
         <!-- Header -->
-        <div style="padding-top:52px;margin-bottom:32px;position:relative;z-index:10">
-          <button onclick="go('pgDash')" style="background:none;border:none;font-size:13px;color:#8B6CC1;cursor:pointer;font-family:inherit;font-weight:600;margin-bottom:28px;padding:0;display:flex;align-items:center;gap:5px"><span style="font-size:16px">←</span> 돌아가기</button>
+        <div style="padding-top:36px;margin-bottom:18px;position:relative;z-index:10">
+          <button onclick="go('pgDash')" style="background:none;border:none;font-size:13px;color:#8B6CC1;cursor:pointer;font-family:inherit;font-weight:600;margin-bottom:16px;padding:0;display:flex;align-items:center;gap:5px"><span style="font-size:16px">←</span> 돌아가기</button>
 
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
             <span style="font-size:10px;font-weight:800;color:#8B6CC1;letter-spacing:3px;text-transform:uppercase">Step 01</span>
             <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(139,108,193,0.2),transparent)"></div>
             <span style="font-size:10px;color:#C4B0E8;letter-spacing:1.5px;font-weight:500">01 — 03</span>
           </div>
 
-          <h1 style="font-family:'Noto Serif KR',Georgia,serif;font-size:28px;font-weight:700;color:#2E1F4E;line-height:1.55;letter-spacing:-1.2px;margin:0 0 10px 0">당신의 이야기는<br><span style="background:linear-gradient(135deg,#8B6CC1,#B88ED8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">언제</span> 시작되었나요</h1>
-          <p style="font-size:13.5px;color:#9B8CB8;font-weight:400;line-height:1.7;margin:0">시간과 출생지까지 입력하면 더 정확한 풀이가 가능해요</p>
+          <h1 style="font-family:'Noto Serif KR',Georgia,serif;font-size:22px;font-weight:700;color:#2E1F4E;line-height:1.5;letter-spacing:-1px;margin:0 0 6px 0">당신의 이야기는 <span style="background:linear-gradient(135deg,#8B6CC1,#B88ED8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">언제</span> 시작되었나요</h1>
+          <p style="font-size:12.5px;color:#9B8CB8;font-weight:400;line-height:1.6;margin:0">시간과 출생지까지 입력하면 더 정확한 풀이가 가능해요</p>
         </div>
 
         <!-- Glassy Card -->
         <div class="birth-glass-card">
 
         <!-- ━━ 이름 ━━ -->
-        <div style="position:relative;z-index:60;margin-bottom:22px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="position:relative;z-index:60;margin-bottom:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <label class="birth-label" style="margin:0">이름</label>
             <button id="myProfileCheck" onclick="toggleMyProfile()" style="background:none;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;color:#8B6CC1;display:flex;align-items:center;gap:5px;padding:0;transition:color .25s">
               <span id="myProfileIcon" style="width:16px;height:16px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#8B6CC1,#A07DD6);border:none;font-size:9px;color:#fff;transition:all .25s;flex-shrink:0;box-shadow:0 2px 8px rgba(139,108,193,0.25)">✓</span>
@@ -2412,8 +2412,8 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
         </div>
 
         <!-- ━━ 생년월일 ━━ -->
-        <div style="position:relative;z-index:50;margin-bottom:22px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+        <div style="position:relative;z-index:50;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap">
             <label class="birth-label" style="margin:0">생년월일</label>
             <div style="display:flex;background:rgba(139,108,193,0.06);border-radius:10px;padding:3px">
               <button type="button" id="calSolar" onclick="setCalType('solar')" style="padding:5px 14px;border-radius:8px;border:none;font-size:11px;font-weight:600;background:#fff;color:#7B5DAF;cursor:pointer;font-family:inherit;transition:all .25s;box-shadow:0 2px 8px rgba(139,108,193,0.1)">양력</button>
@@ -2453,8 +2453,8 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
         </div>
 
         <!-- ━━ 태어난 시간 ━━ -->
-        <div style="position:relative;z-index:40;margin-bottom:22px">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <div style="position:relative;z-index:40;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             <label class="birth-label" style="margin:0">태어난 시간</label>
             <span style="font-size:10px;color:#C4B0E8;font-weight:500">선택</span>
           </div>
@@ -2477,11 +2477,11 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
                 <div class="birth-dropdown" id="dropMin"></div>
               </div>
               <div class="birth-field" style="display:flex;align-items:stretch;flex:0.85">
-                <button type="button" onclick="setTimeUnknown()" style="width:100%;padding:14px 8px;border-radius:14px;border:1.5px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);color:#9B8CB8;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
+                <button type="button" onclick="setTimeUnknown()" style="width:100%;padding:12px 8px;border-radius:14px;border:1.5px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);color:#9B8CB8;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
               </div>
             </div>
           </div>
-          <div id="noTimeCard" style="display:none;padding:16px 18px;border-radius:14px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;transition:background .2s" onclick="restoreTimeInput()">
+          <div id="noTimeCard" style="display:none;padding:13px 16px;border-radius:14px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;transition:background .2s" onclick="restoreTimeInput()">
             <div style="display:flex;align-items:center;justify-content:space-between">
               <div>
                 <div style="font-size:14px;font-weight:600;color:#6B5A80;margin-bottom:2px">시간 몰라도 괜찮아요 ✦</div>
@@ -2493,8 +2493,8 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
         </div>
 
         <!-- ━━ 출생지 ━━ -->
-        <div style="position:relative;z-index:30;margin-bottom:22px">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <div style="position:relative;z-index:30;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             <label class="birth-label" style="margin:0">출생지</label>
             <span style="font-size:10px;color:#C4B0E8;font-weight:500">시차 보정</span>
           </div>
@@ -2509,11 +2509,11 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
                 <div class="birth-dropdown" id="dropCity"></div>
               </div>
               <div style="flex-shrink:0;display:flex;align-items:stretch">
-                <button type="button" onclick="setCityUnknown()" style="padding:14px 14px;border-radius:14px;border:1.5px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);color:#9B8CB8;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
+                <button type="button" onclick="setCityUnknown()" style="padding:12px 12px;border-radius:14px;border:1.5px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);color:#9B8CB8;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
               </div>
             </div>
           </div>
-          <div id="noCityCard" style="display:none;padding:16px 18px;border-radius:14px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;transition:background .2s" onclick="restoreCityInput()">
+          <div id="noCityCard" style="display:none;padding:13px 16px;border-radius:14px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;transition:background .2s" onclick="restoreCityInput()">
             <div style="display:flex;align-items:center;justify-content:space-between">
               <div>
                 <div style="font-size:14px;font-weight:600;color:#6B5A80;margin-bottom:2px">출생지 몰라도 괜찮아요 ✦</div>
@@ -2536,7 +2536,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
         </div><!-- /birth-glass-card -->
 
         <!-- ━━ CTA ━━ -->
-        <div style="position:relative;z-index:10;margin-top:28px">
+        <div style="position:relative;z-index:10;margin-top:20px">
           <button class="birth-next" id="birthNextBtn" onclick="goToMBTI()"><span style="position:relative">다음 단계 →</span></button>
         </div>
 
