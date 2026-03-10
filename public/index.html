@@ -3866,7 +3866,7 @@ function onComboInput(type){
         var drop=document.getElementById('dropCity');
         var html='';
         filtered.forEach(function(c,i){
-          html+='<div class="birth-drop-item'+(i===0?' first':'')+'" onclick="pickBirthDrop(\'city\',\''+c+'\')">'+c.replace(v,'<strong style="color:var(--purple)">'+v+'</strong>')+'</div>';
+          html+='<div class="birth-drop-item'+(i===0?' first':'')+'" onclick="pickBirthDrop(\'city\',\''+c+'\')">'+c.replace(v,'<strong style="color:#c9a87c">'+v+'</strong>')+'</div>';
         });
         drop.innerHTML=html;
         drop.classList.add('show');
@@ -3913,12 +3913,15 @@ document.addEventListener('keydown',function(e){
       cityInput.blur();
       return;
     }
-    // 다른 숫자 필드에서 엔터 → 다음 필드로 포커스
+    // 다른 숫자 필드에서 엔터 → 다음 보이는 필드로 포커스
     var fields=['bYear','bMonthInput','bDayInput','bHourInput','bMinInput','bCityInput'];
     var idx=fields.indexOf(document.activeElement.id);
-    if(idx>=0&&idx<fields.length-1){
+    if(idx>=0){
       e.preventDefault();
-      document.getElementById(fields[idx+1]).focus();
+      for(var ni=idx+1;ni<fields.length;ni++){
+        var nextEl=document.getElementById(fields[ni]);
+        if(nextEl&&nextEl.offsetParent!==null){nextEl.focus();return;}
+      }
     }
   }
 });
@@ -3938,7 +3941,7 @@ function toggleBirthDrop(type){
   if(type==='year'){
     dropId='dropYear';arrowId='bYearArrow';
     var cur=document.getElementById('bYear').value;
-    for(var i=2010;i>=1950;i--) items.push({v:String(i),label:String(i)+'년',sel:cur==String(i)});
+    for(var i=2026;i>=1930;i--) items.push({v:String(i),label:String(i)+'년',sel:cur==String(i)});
   }else if(type==='month'){
     dropId='dropMonth';arrowId='bMonthArrow';
     var cur=document.getElementById('bMonth').value||document.getElementById('bMonthInput').value;
@@ -4076,35 +4079,45 @@ function toggleMyProfile() {
   }
 }
 
-function setTimeUnknown() {
-  document.getElementById('bHourInput').value = '';
-  document.getElementById('bHour').value = '';
-  document.getElementById('bMinInput').value = '';
-  document.getElementById('bMin').value = '';
-  document.getElementById('timeInputArea').style.display = 'none';
-  document.getElementById('noTimeCard').style.display = 'block';
+function toggleNoTime() {
+  var card = document.getElementById('noTimeCard');
+  var area = document.getElementById('timeInputArea');
+  var isHidden = area.style.display === 'none';
+  if (isHidden) {
+    area.style.display = 'block';
+    card.style.display = 'none';
+  } else {
+    area.style.display = 'none';
+    card.style.display = 'block';
+    document.getElementById('bHourInput').value = '';
+    document.getElementById('bHour').value = '';
+    document.getElementById('bMinInput').value = '';
+    document.getElementById('bMin').value = '';
+  }
   checkBirthReady();
 }
+function setTimeUnknown() { toggleNoTime(); }
+function restoreTimeInput() { toggleNoTime(); }
 
-function restoreTimeInput() {
-  document.getElementById('noTimeCard').style.display = 'none';
-  document.getElementById('timeInputArea').style.display = 'block';
-}
-
-function setCityUnknown() {
-  document.getElementById('bCityInput').value = '모름';
-  document.getElementById('bCity').value = '모름';
-  document.getElementById('cityInputArea').style.display = 'none';
-  document.getElementById('noCityCard').style.display = 'block';
+function toggleNoCity() {
+  var card = document.getElementById('noCityCard');
+  var area = document.getElementById('cityInputArea');
+  var isHidden = area.style.display === 'none';
+  if (isHidden) {
+    area.style.display = 'block';
+    card.style.display = 'none';
+    document.getElementById('bCityInput').value = '';
+    document.getElementById('bCity').value = '';
+  } else {
+    area.style.display = 'none';
+    card.style.display = 'block';
+    document.getElementById('bCityInput').value = '모름';
+    document.getElementById('bCity').value = '모름';
+  }
   checkBirthReady();
 }
-
-function restoreCityInput() {
-  document.getElementById('noCityCard').style.display = 'none';
-  document.getElementById('cityInputArea').style.display = 'block';
-  document.getElementById('bCityInput').value = '';
-  document.getElementById('bCity').value = '';
-}
+function setCityUnknown() { toggleNoCity(); }
+function restoreCityInput() { toggleNoCity(); }
 
 function goToMBTI(){
   if(window._isLunarInput && typeof lunarToSolar === 'function'){
@@ -6026,8 +6039,18 @@ function resetAll(){
   var hFields=['bMonth','bDay','bHour','bMin','bCity'];
   hFields.forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   birthGender='';
-  var bm=document.getElementById('bMale');if(bm)bm.classList.remove('selected');
-  var bf=document.getElementById('bFemale');if(bf)bf.classList.remove('selected');
+  var bm=document.getElementById('bMale');if(bm){bm.style.borderColor='#ece6dc';bm.style.background='#ffffff';bm.style.color='#bbb';bm.style.boxShadow='none';}
+  var bf=document.getElementById('bFemale');if(bf){bf.style.borderColor='#ece6dc';bf.style.background='#ffffff';bf.style.color='#bbb';bf.style.boxShadow='none';}
+  var timeArea=document.getElementById('timeInputArea');
+  var timeCard=document.getElementById('noTimeCard');
+  if(timeArea)timeArea.style.display='block';
+  if(timeCard)timeCard.style.display='none';
+  var cityArea=document.getElementById('cityInputArea');
+  var cityCard=document.getElementById('noCityCard');
+  if(cityArea)cityArea.style.display='block';
+  if(cityCard)cityCard.style.display='none';
+  var btn=document.getElementById('birthNextBtn');if(btn)btn.classList.remove('ready');
+  var shim=document.getElementById('birthShimmer');if(shim)shim.style.display='none';
   document.getElementById('pgRes').innerHTML='';
   go('pgDash');
 }
