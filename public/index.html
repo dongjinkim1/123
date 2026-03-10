@@ -1161,27 +1161,33 @@ button{font-family:inherit;cursor:pointer}
 .btn-gunghap.ready{opacity:1;pointer-events:auto}
 
 /* ===== BIRTH INPUT PAGE ===== */
-/* ── Birth Page Color System ── */
-.birth-wrap{--b-bg:#fcfaf7;--b-bg-top:#f0ebe3;--b-gold:#c9a87c;--b-gold-border:rgba(178,152,120,0.35);--b-border:#ece6dc;--b-text-1:#1a1520;--b-text-2:#7a7080;--b-text-3:#b5a89c;--b-text-placeholder:#bfb5a8;--b-cta:#8B7461;--b-cta-dark:#7A6352;--b-male:#4A90D9;--b-female:#D94A78;max-width:440px;width:100%;margin:0 auto}
+/* ── Birth Page — SNS Vibe ── */
+.birth-wrap{max-width:420px;width:100%;margin:0 auto}
 @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-#pgBirth input::placeholder{color:var(--b-text-placeholder)!important}
+@keyframes orbDrift{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(18px,-12px) scale(1.03)}50%{transform:translate(-8px,16px) scale(0.97)}75%{transform:translate(12px,6px) scale(1.01)}}
+@keyframes twinkle{0%,100%{opacity:0.15}50%{opacity:0.7}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+#pgBirth input::placeholder{color:#B0A0C8!important;font-weight:400!important}
 #pgBirth *{-webkit-tap-highlight-color:transparent}
+
+/* Glassy Card */
+.birth-glass-card{background:rgba(255,255,255,0.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.6);border-radius:24px;padding:28px 22px 32px;box-shadow:0 4px 16px rgba(139,108,193,0.05),0 12px 48px rgba(100,70,150,0.07),0 0 0 1px rgba(139,108,193,0.03)}
 
 /* Input Groups */
 .birth-row{display:flex;gap:8px;margin-bottom:0;position:relative}
 .birth-field{flex:1;position:relative}
 .birth-field.wide{flex:1.5}
-.birth-label{font-size:12px;font-weight:600;color:var(--b-text-2);display:block;margin-bottom:8px;letter-spacing:0.5px}
+.birth-label{font-size:12px;font-weight:700;color:#5A4580;display:block;margin-bottom:8px;letter-spacing:0.3px}
 
 /* Combo: input + ▼ */
 .birth-combo{position:relative;display:flex;align-items:center}
 .birth-combo .birth-input{padding-right:36px}
-.birth-combo-arrow{position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:9px;color:#bbb;cursor:pointer;padding:8px 10px;transition:transform .25s ease;z-index:2}
+.birth-combo-arrow{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:9px;color:#B0A0C8;cursor:pointer;padding:8px;transition:transform .25s ease;z-index:2}
 .birth-combo-arrow.open{transform:translateY(-50%) rotate(180deg)}
 
-.birth-input{width:100%;padding:14px 16px;font-size:15px;font-weight:500;background:#ffffff;border:1.5px solid var(--b-border);border-radius:14px;outline:none;color:var(--b-text-1);font-family:inherit;transition:all .25s;-webkit-appearance:none;appearance:none;box-sizing:border-box}
-.birth-input:focus{border-color:rgba(178,152,120,0.4);background:#ffffff;box-shadow:0 0 0 3px rgba(201,168,124,0.08)}
-.birth-input:not(:placeholder-shown){font-weight:600;border-color:var(--b-gold-border)}
+.birth-input{width:100%;padding:15px 16px;font-size:15px;font-weight:500;background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,0.6);border-radius:14px;outline:none;color:#3D2E5C;font-family:inherit;transition:all .3s;-webkit-appearance:none;appearance:none;box-sizing:border-box}
+.birth-input:focus{border-color:rgba(139,108,193,0.3);background:rgba(255,255,255,0.55);box-shadow:0 0 0 3px rgba(139,108,193,0.06),0 4px 20px rgba(139,108,193,0.06)}
+.birth-input:not(:placeholder-shown){font-weight:600;border-color:rgba(139,108,193,0.25);box-shadow:0 2px 12px rgba(139,108,193,0.04)}
 /* Hide number spinner */
 .birth-input[type=number]::-webkit-inner-spin-button,
 .birth-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
@@ -1189,36 +1195,36 @@ button{font-family:inherit;cursor:pointer}
 
 /* Inline Dropdown */
 .birth-dropdown{
-  position:absolute;top:calc(100% + 5px);left:0;right:0;
-  background:#ffffff;border:1px solid #e8e0d5;
-  border-radius:14px;box-shadow:0 12px 36px rgba(30,20,10,0.14),0 4px 12px rgba(30,20,10,0.08);
+  position:absolute;top:calc(100% + 6px);left:0;right:0;
+  background:#ffffff;border:1px solid rgba(139,108,193,0.1);
+  border-radius:16px;box-shadow:0 16px 48px rgba(80,50,120,0.12),0 4px 12px rgba(80,50,120,0.06);
   z-index:9999;max-height:200px;overflow-y:auto;
   opacity:0;transform:translateY(-8px);pointer-events:none;
   transition:all .2s cubic-bezier(.4,0,.2,1);
-  padding:5px;
+  padding:6px;
 }
 .birth-dropdown.show{opacity:1;transform:translateY(0);pointer-events:auto}
 .birth-dropdown::-webkit-scrollbar{width:4px}
-.birth-dropdown::-webkit-scrollbar-thumb{background:rgba(201,168,124,0.25);border-radius:2px}
+.birth-dropdown::-webkit-scrollbar-thumb{background:rgba(139,108,193,0.2);border-radius:2px}
 .birth-drop-item{
-  padding:10px 14px;font-size:14px;font-weight:500;color:#4a4050;
-  border-radius:10px;cursor:pointer;transition:background .12s;font-family:inherit;
+  padding:11px 14px;font-size:14px;font-weight:500;color:#4a4050;
+  border-radius:11px;cursor:pointer;transition:background .12s;font-family:inherit;
 }
-.birth-drop-item:hover{background:#faf6f1}
-.birth-drop-item.selected{background:rgba(201,168,124,0.1);color:#96784e;font-weight:700}
+.birth-drop-item:hover{background:rgba(139,108,193,0.03)}
+.birth-drop-item.selected{background:rgba(139,108,193,0.07);color:#7B5DAF;font-weight:700}
 
 /* Gender Buttons */
 .birth-gender-row{display:flex;gap:10px;margin-bottom:0}
-.birth-gender-sel{flex:1;padding:15px 12px;font-size:15px;font-weight:700;background:#ffffff;border:1.5px solid var(--b-border);border-radius:14px;color:#bbb;display:flex;align-items:center;justify-content:center;transition:all .3s;cursor:pointer;font-family:inherit}
-.birth-gender-sel:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+.birth-gender-sel{flex:1;padding:15px 12px;font-size:15px;font-weight:700;background:rgba(255,255,255,0.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,0.6);border-radius:14px;color:#9B8CB8;display:flex;align-items:center;justify-content:center;transition:all .3s;cursor:pointer;font-family:inherit}
+.birth-gender-sel:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
 .birth-gender-sel:active{transform:scale(0.97)}
 
 /* CTA Button */
-.birth-next{width:100%;padding:17px;font-size:16px;font-weight:700;border:none;border-radius:16px;color:#ccc;background:rgba(0,0,0,0.04);cursor:default;transition:all .45s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;font-family:inherit;letter-spacing:-0.3px}
-.birth-next.ready{color:#FFFFFF;background:linear-gradient(135deg,#8B7461 0%,#7A6352 100%);cursor:pointer;box-shadow:0 8px 32px rgba(139,116,97,0.3)}
-.birth-next.ready:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(139,116,97,0.35)}
-.birth-next.ready:active{transform:translateY(0) scale(0.99)}
-.birth-next .shimmer{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);background-size:200% 100%;animation:shimmer 4s ease-in-out infinite}
+.birth-next{width:100%;padding:18px;font-size:16px;font-weight:700;border:none;border-radius:18px;color:#C4B0E8;background:rgba(139,108,193,0.08);cursor:default;transition:all .5s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;font-family:inherit;letter-spacing:-0.3px}
+.birth-next.ready{color:#fff;background:linear-gradient(135deg,#8B6CC1 0%,#7B5DAF 50%,#6B4FA0 100%);cursor:pointer;box-shadow:0 8px 36px rgba(107,79,160,0.3)}
+.birth-next.ready:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(107,79,160,0.35)}
+.birth-next.ready:active{transform:translateY(0) scale(0.98)}
+.birth-next .shimmer{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);background-size:200% 100%;animation:shimmer 3s ease-in-out infinite}
 
 /* ===== MBTI PAGE ===== */
 .mbti-wrap{max-width:500px;width:100%;margin:0 auto;animation:up .5s ease both}
@@ -2351,39 +2357,54 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 <!-- PAGE 6: 궁합 플로우 -->
 <!-- ===== BIRTH INPUT PAGE ===== -->
 <div class="page" id="pgBirth">
-  <div style="min-height:100vh;background:var(--b-bg,#fcfaf7);position:relative;overflow:hidden">
+  <div style="min-height:100vh;background:#F8F6F9;position:relative;overflow:hidden">
 
-    <!-- Background decorations -->
-    <div style="position:absolute;top:0;left:0;right:0;height:380px;background:linear-gradient(180deg,#f0ebe3 0%,#f5f0ea 50%,#fcfaf7 100%);pointer-events:none"></div>
-    <div style="position:absolute;top:-80px;right:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,124,0.06),transparent 70%);filter:blur(50px);pointer-events:none"></div>
-    <div style="position:absolute;bottom:100px;left:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(160,140,190,0.05),transparent 70%);filter:blur(40px);pointer-events:none"></div>
-    <div style="position:absolute;top:60px;right:28px;font-size:52px;opacity:0.04;transform:rotate(15deg);pointer-events:none">✦</div>
-    <div style="position:absolute;top:240px;left:18px;font-size:28px;opacity:0.04;pointer-events:none">☽</div>
+    <!-- Ambient: gradient + orbs + stars + moon -->
+    <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:55%;background:linear-gradient(165deg,rgba(210,195,240,0.5) 0%,rgba(230,215,250,0.35) 25%,rgba(245,225,235,0.25) 50%,rgba(248,246,249,0) 100%)"></div>
+      <div style="position:absolute;top:-60px;right:-40px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(139,108,193,0.12) 0%,transparent 65%);filter:blur(50px);animation:orbDrift 25s ease-in-out infinite"></div>
+      <div style="position:absolute;top:250px;left:-90px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(196,176,232,0.1) 0%,transparent 65%);filter:blur(50px);animation:orbDrift 25s ease-in-out infinite;animation-delay:-8s"></div>
+      <div style="position:absolute;top:500px;right:-50px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(220,170,190,0.08) 0%,transparent 65%);filter:blur(45px);animation:orbDrift 25s ease-in-out infinite;animation-delay:-16s"></div>
+      <div style="position:absolute;bottom:100px;left:30px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(180,200,240,0.06) 0%,transparent 65%);filter:blur(40px);animation:orbDrift 25s ease-in-out infinite;animation-delay:-12s"></div>
+      <div style="position:absolute;top:80px;left:15%;width:3px;height:3px;border-radius:50%;background:rgba(180,160,220,0.8);animation:twinkle 2.5s ease-in-out infinite"></div>
+      <div style="position:absolute;top:140px;right:20%;width:2px;height:2px;border-radius:50%;background:rgba(180,160,220,0.8);animation:twinkle 2.8s ease-in-out infinite;animation-delay:0.8s"></div>
+      <div style="position:absolute;top:220px;left:8%;width:2.5px;height:2.5px;border-radius:50%;background:rgba(180,160,220,0.8);animation:twinkle 3.1s ease-in-out infinite;animation-delay:1.6s"></div>
+      <div style="position:absolute;top:60px;right:35%;width:2px;height:2px;border-radius:50%;background:rgba(180,160,220,0.8);animation:twinkle 3.4s ease-in-out infinite;animation-delay:2.4s"></div>
+      <div style="position:absolute;top:320px;right:12%;width:3px;height:3px;border-radius:50%;background:rgba(180,160,220,0.8);animation:twinkle 2.9s ease-in-out infinite;animation-delay:0.4s"></div>
+      <div style="position:absolute;top:180px;left:42%;width:1.5px;height:1.5px;border-radius:50%;background:rgba(180,160,220,0.8);animation:twinkle 3.5s ease-in-out infinite;animation-delay:3s"></div>
+      <div style="position:absolute;top:400px;left:25%;width:2px;height:2px;border-radius:50%;background:rgba(180,160,220,0.8);animation:twinkle 3.7s ease-in-out infinite;animation-delay:1.2s"></div>
+      <div style="position:absolute;top:110px;left:55%;width:2px;height:2px;border-radius:50%;background:rgba(180,160,220,0.8);animation:twinkle 3.0s ease-in-out infinite;animation-delay:2s"></div>
+      <div style="position:absolute;top:45px;right:45px;font-size:22px;opacity:0.12;animation:float 5s ease-in-out infinite">☽</div>
+      <div style="position:absolute;top:165px;left:35px;font-size:14px;opacity:0.08;animation:float 4s ease-in-out infinite;animation-delay:-1.5s">✦</div>
+    </div>
 
     <!-- Main content -->
-    <div style="position:relative;z-index:1;max-width:440px;margin:0 auto;padding:0 24px 80px">
+    <div style="position:relative;z-index:1;max-width:420px;margin:0 auto;padding:0 24px 90px">
       <div class="birth-wrap">
 
         <!-- Header -->
-        <div style="padding-top:48px;margin-bottom:28px;position:relative;z-index:10">
-          <button onclick="go('pgDash')" style="background:none;border:none;font-size:13px;color:#b5a89c;cursor:pointer;font-family:inherit;font-weight:500;margin-bottom:22px;padding:0;display:flex;align-items:center;gap:4px">← 돌아가기</button>
+        <div style="padding-top:52px;margin-bottom:32px;position:relative;z-index:10">
+          <button onclick="go('pgDash')" style="background:none;border:none;font-size:13px;color:#8B6CC1;cursor:pointer;font-family:inherit;font-weight:600;margin-bottom:28px;padding:0;display:flex;align-items:center;gap:5px"><span style="font-size:16px">←</span> 돌아가기</button>
 
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
-            <span style="font-size:11px;font-weight:700;color:#c9a87c;letter-spacing:2.5px">STEP 01</span>
-            <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(201,168,124,0.3),transparent)"></div>
-            <span style="font-size:10px;color:#d5ccc0;letter-spacing:1px">01 — 03</span>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+            <span style="font-size:10px;font-weight:800;color:#8B6CC1;letter-spacing:3px;text-transform:uppercase">Step 01</span>
+            <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(139,108,193,0.2),transparent)"></div>
+            <span style="font-size:10px;color:#C4B0E8;letter-spacing:1.5px;font-weight:500">01 — 03</span>
           </div>
 
-          <h1 style="font-family:'Noto Serif KR',Georgia,serif;font-size:26px;font-weight:700;color:#1a1520;line-height:1.5;letter-spacing:-1px;margin:0 0 8px 0">당신의 이야기는<br><span style="color:#c9a87c">언제</span> 시작되었나요</h1>
-          <p style="font-size:13px;color:#a9a0b0;font-weight:400;line-height:1.7;margin:0">시간과 출생지까지 입력하면 더 정확한 풀이가 가능해요</p>
+          <h1 style="font-family:'Noto Serif KR',Georgia,serif;font-size:28px;font-weight:700;color:#2E1F4E;line-height:1.55;letter-spacing:-1.2px;margin:0 0 10px 0">당신의 이야기는<br><span style="background:linear-gradient(135deg,#8B6CC1,#B88ED8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">언제</span> 시작되었나요</h1>
+          <p style="font-size:13.5px;color:#9B8CB8;font-weight:400;line-height:1.7;margin:0">시간과 출생지까지 입력하면 더 정확한 풀이가 가능해요</p>
         </div>
 
+        <!-- Glassy Card -->
+        <div class="birth-glass-card">
+
         <!-- ━━ 이름 ━━ -->
-        <div style="position:relative;z-index:60;margin-bottom:24px">
+        <div style="position:relative;z-index:60;margin-bottom:22px">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
             <label class="birth-label" style="margin:0">이름</label>
-            <button id="myProfileCheck" onclick="toggleMyProfile()" style="background:none;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;color:#c9a87c;display:flex;align-items:center;gap:5px;padding:0;transition:color .25s">
-              <span id="myProfileIcon" style="width:16px;height:16px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;background:#c9a87c;border:none;font-size:9px;color:#fff;transition:all .25s;flex-shrink:0">✓</span>
+            <button id="myProfileCheck" onclick="toggleMyProfile()" style="background:none;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;color:#8B6CC1;display:flex;align-items:center;gap:5px;padding:0;transition:color .25s">
+              <span id="myProfileIcon" style="width:16px;height:16px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#8B6CC1,#A07DD6);border:none;font-size:9px;color:#fff;transition:all .25s;flex-shrink:0;box-shadow:0 2px 8px rgba(139,108,193,0.25)">✓</span>
               본인
             </button>
           </div>
@@ -2391,15 +2412,15 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
         </div>
 
         <!-- ━━ 생년월일 ━━ -->
-        <div style="position:relative;z-index:50;margin-bottom:24px">
+        <div style="position:relative;z-index:50;margin-bottom:22px">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
             <label class="birth-label" style="margin:0">생년월일</label>
-            <div style="display:flex;background:#f3ede5;border-radius:9px;padding:2.5px">
-              <button type="button" id="calSolar" onclick="setCalType('solar')" style="padding:5px 14px;border-radius:7px;border:none;font-size:11px;font-weight:600;background:#fff;color:#96784e;cursor:pointer;font-family:inherit;transition:all .25s;box-shadow:0 1px 5px rgba(0,0,0,0.06)">양력</button>
-              <button type="button" id="calLunar" onclick="setCalType('lunar')" style="padding:5px 14px;border-radius:7px;border:none;font-size:11px;font-weight:600;background:transparent;color:#b5a89c;cursor:pointer;font-family:inherit;transition:all .25s;box-shadow:none">음력</button>
+            <div style="display:flex;background:rgba(139,108,193,0.06);border-radius:10px;padding:3px">
+              <button type="button" id="calSolar" onclick="setCalType('solar')" style="padding:5px 14px;border-radius:8px;border:none;font-size:11px;font-weight:600;background:#fff;color:#7B5DAF;cursor:pointer;font-family:inherit;transition:all .25s;box-shadow:0 2px 8px rgba(139,108,193,0.1)">양력</button>
+              <button type="button" id="calLunar" onclick="setCalType('lunar')" style="padding:5px 14px;border-radius:8px;border:none;font-size:11px;font-weight:600;background:transparent;color:#B0A0C8;cursor:pointer;font-family:inherit;transition:all .25s;box-shadow:none">음력</button>
             </div>
-            <button type="button" id="leapMonthRow" onclick="toggleLeapMonth()" style="display:none;align-items:center;gap:4px;background:none;border:none;font-size:11px;font-weight:600;color:#c4b8aa;cursor:pointer;font-family:inherit;padding:0;transition:all .3s">
-              <span id="leapMonthIcon" style="width:15px;height:15px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1.5px solid #d5cfc5;font-size:8px;color:#fff;transition:all .25s;flex-shrink:0"></span>
+            <button type="button" id="leapMonthRow" onclick="toggleLeapMonth()" style="display:none;align-items:center;gap:4px;background:none;border:none;font-size:11px;font-weight:600;color:#C4B0E8;cursor:pointer;font-family:inherit;padding:0;transition:all .3s">
+              <span id="leapMonthIcon" style="width:15px;height:15px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1.5px solid #C4B0E8;font-size:8px;color:#fff;transition:all .25s;flex-shrink:0"></span>
               윤달
             </button>
             <input type="hidden" id="isLeapMonth" value="false">
@@ -2432,10 +2453,10 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
         </div>
 
         <!-- ━━ 태어난 시간 ━━ -->
-        <div style="position:relative;z-index:40;margin-bottom:24px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="position:relative;z-index:40;margin-bottom:22px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
             <label class="birth-label" style="margin:0">태어난 시간</label>
-            <span style="font-size:11px;color:#d0c7bb">선택사항</span>
+            <span style="font-size:10px;color:#C4B0E8;font-weight:500">선택</span>
           </div>
           <div id="timeInputArea">
             <div class="birth-row">
@@ -2455,27 +2476,27 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
                 <input type="hidden" id="bMin">
                 <div class="birth-dropdown" id="dropMin"></div>
               </div>
-              <div class="birth-field" style="display:flex;align-items:stretch">
-                <button type="button" onclick="setTimeUnknown()" style="width:100%;padding:14px 8px;border-radius:14px;border:1.5px solid #ece6dc;background:#ffffff;color:#b5a89c;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
+              <div class="birth-field" style="display:flex;align-items:stretch;flex:0.85">
+                <button type="button" onclick="setTimeUnknown()" style="width:100%;padding:14px 8px;border-radius:14px;border:1.5px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);color:#9B8CB8;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
               </div>
             </div>
           </div>
-          <div id="noTimeCard" style="display:none;padding:16px 20px;border-radius:14px;background:#f8f5f0;border:1.5px solid #e8e0d5;cursor:pointer" onclick="restoreTimeInput()">
+          <div id="noTimeCard" style="display:none;padding:16px 18px;border-radius:14px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;transition:background .2s" onclick="restoreTimeInput()">
             <div style="display:flex;align-items:center;justify-content:space-between">
               <div>
-                <div style="font-size:14px;font-weight:600;color:#8a7e6a;margin-bottom:2px">시간 몰라도 괜찮아요 ✦</div>
-                <div style="font-size:11px;color:#b5a99a">시간 없이도 분석할 수 있어요</div>
+                <div style="font-size:14px;font-weight:600;color:#6B5A80;margin-bottom:2px">시간 몰라도 괜찮아요 ✦</div>
+                <div style="font-size:11px;color:#9B8CB8">시간 없이도 분석할 수 있어요</div>
               </div>
-              <span style="font-size:11px;font-weight:600;color:#96784e;padding:5px 12px;border-radius:8px;background:rgba(201,168,124,0.1);border:1px solid rgba(201,168,124,0.15)">다시 입력</span>
+              <span style="font-size:11px;font-weight:600;color:#8B6CC1;padding:5px 12px;border-radius:8px;background:rgba(139,108,193,0.06);border:1px solid rgba(139,108,193,0.1)">다시 입력</span>
             </div>
           </div>
         </div>
 
         <!-- ━━ 출생지 ━━ -->
-        <div style="position:relative;z-index:30;margin-bottom:24px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="position:relative;z-index:30;margin-bottom:22px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
             <label class="birth-label" style="margin:0">출생지</label>
-            <span style="font-size:11px;color:#d0c7bb">시차 보정에 사용돼요</span>
+            <span style="font-size:10px;color:#C4B0E8;font-weight:500">시차 보정</span>
           </div>
           <div id="cityInputArea">
             <div style="display:flex;gap:8px">
@@ -2488,17 +2509,17 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
                 <div class="birth-dropdown" id="dropCity"></div>
               </div>
               <div style="flex-shrink:0;display:flex;align-items:stretch">
-                <button type="button" onclick="setCityUnknown()" style="padding:14px 16px;border-radius:14px;border:1.5px solid #ece6dc;background:#ffffff;color:#b5a89c;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
+                <button type="button" onclick="setCityUnknown()" style="padding:14px 14px;border-radius:14px;border:1.5px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);color:#9B8CB8;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;white-space:nowrap">모름</button>
               </div>
             </div>
           </div>
-          <div id="noCityCard" style="display:none;padding:16px 20px;border-radius:14px;background:#f8f5f0;border:1.5px solid #e8e0d5;cursor:pointer" onclick="restoreCityInput()">
+          <div id="noCityCard" style="display:none;padding:16px 18px;border-radius:14px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;transition:background .2s" onclick="restoreCityInput()">
             <div style="display:flex;align-items:center;justify-content:space-between">
               <div>
-                <div style="font-size:14px;font-weight:600;color:#8a7e6a;margin-bottom:2px">출생지 몰라도 괜찮아요 ✦</div>
-                <div style="font-size:11px;color:#b5a99a">출생지 없이도 분석 가능해요</div>
+                <div style="font-size:14px;font-weight:600;color:#6B5A80;margin-bottom:2px">출생지 몰라도 괜찮아요 ✦</div>
+                <div style="font-size:11px;color:#9B8CB8">출생지 없이도 분석 가능해요</div>
               </div>
-              <span style="font-size:11px;font-weight:600;color:#96784e;padding:5px 12px;border-radius:8px;background:rgba(201,168,124,0.1);border:1px solid rgba(201,168,124,0.15)">다시 입력</span>
+              <span style="font-size:11px;font-weight:600;color:#8B6CC1;padding:5px 12px;border-radius:8px;background:rgba(139,108,193,0.06);border:1px solid rgba(139,108,193,0.1)">다시 입력</span>
             </div>
           </div>
         </div>
@@ -2512,8 +2533,10 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
           </div>
         </div>
 
+        </div><!-- /birth-glass-card -->
+
         <!-- ━━ CTA ━━ -->
-        <div style="position:relative;z-index:10;margin-top:36px">
+        <div style="position:relative;z-index:10;margin-top:28px">
           <button class="birth-next" id="birthNextBtn" onclick="goToMBTI()"><span style="position:relative">다음 단계 →</span></button>
         </div>
 
@@ -3814,11 +3837,11 @@ function pickBirthGender(g){
   var mBtn=document.getElementById('bMale');
   var fBtn=document.getElementById('bFemale');
   if(g==='남성'){
-    mBtn.style.borderColor='#4A90D955';mBtn.style.background='#4A90D90a';mBtn.style.color='#4A90D9';mBtn.style.boxShadow='0 4px 16px #4A90D915';
-    fBtn.style.borderColor='#ece6dc';fBtn.style.background='#ffffff';fBtn.style.color='#bbb';fBtn.style.boxShadow='none';
+    mBtn.style.borderColor='#5B8FD450';mBtn.style.background='rgba(91,143,212,0.06)';mBtn.style.color='#5B8FD4';mBtn.style.boxShadow='0 4px 18px #5B8FD418';
+    fBtn.style.borderColor='rgba(255,255,255,0.6)';fBtn.style.background='rgba(255,255,255,0.45)';fBtn.style.color='#9B8CB8';fBtn.style.boxShadow='none';
   } else {
-    fBtn.style.borderColor='#D94A7855';fBtn.style.background='#D94A780a';fBtn.style.color='#D94A78';fBtn.style.boxShadow='0 4px 16px #D94A7815';
-    mBtn.style.borderColor='#ece6dc';mBtn.style.background='#ffffff';mBtn.style.color='#bbb';mBtn.style.boxShadow='none';
+    fBtn.style.borderColor='#D4738B50';fBtn.style.background='rgba(212,115,139,0.06)';fBtn.style.color='#D4738B';fBtn.style.boxShadow='0 4px 18px #D4738B18';
+    mBtn.style.borderColor='rgba(255,255,255,0.6)';mBtn.style.background='rgba(255,255,255,0.45)';mBtn.style.color='#9B8CB8';mBtn.style.boxShadow='none';
   }
   checkBirthReady();
 }
@@ -3866,7 +3889,7 @@ function onComboInput(type){
         var drop=document.getElementById('dropCity');
         var html='';
         filtered.forEach(function(c,i){
-          html+='<div class="birth-drop-item'+(i===0?' first':'')+'" onclick="pickBirthDrop(\'city\',\''+c+'\')">'+c.replace(v,'<strong style="color:#c9a87c">'+v+'</strong>')+'</div>';
+          html+='<div class="birth-drop-item'+(i===0?' first':'')+'" onclick="pickBirthDrop(\'city\',\''+c+'\')">'+c.replace(v,'<strong style="color:#8B6CC1">'+v+'</strong>')+'</div>';
         });
         drop.innerHTML=html;
         drop.classList.add('show');
@@ -4025,18 +4048,18 @@ function setCalType(type) {
   var leapRow = document.getElementById('leapMonthRow');
   if (type === 'lunar') {
     lBtn.style.background = '#fff';
-    lBtn.style.color = '#96784e';
-    lBtn.style.boxShadow = '0 1px 5px rgba(0,0,0,0.06)';
+    lBtn.style.color = '#7B5DAF';
+    lBtn.style.boxShadow = '0 2px 8px rgba(139,108,193,0.1)';
     sBtn.style.background = 'transparent';
-    sBtn.style.color = '#b5a89c';
+    sBtn.style.color = '#B0A0C8';
     sBtn.style.boxShadow = 'none';
     if (leapRow) leapRow.style.display = 'flex';
   } else {
     sBtn.style.background = '#fff';
-    sBtn.style.color = '#96784e';
-    sBtn.style.boxShadow = '0 1px 5px rgba(0,0,0,0.06)';
+    sBtn.style.color = '#7B5DAF';
+    sBtn.style.boxShadow = '0 2px 8px rgba(139,108,193,0.1)';
     lBtn.style.background = 'transparent';
-    lBtn.style.color = '#b5a89c';
+    lBtn.style.color = '#B0A0C8';
     lBtn.style.boxShadow = 'none';
     if (leapRow) leapRow.style.display = 'none';
     document.getElementById('isLeapMonth').value = 'false';
@@ -4050,15 +4073,17 @@ function toggleLeapMonth() {
   var isOn = el.value === 'true';
   el.value = isOn ? 'false' : 'true';
   if (!isOn) {
-    icon.style.background = '#c9a87c';
+    icon.style.background = 'linear-gradient(135deg,#8B6CC1,#A07DD6)';
     icon.style.border = 'none';
+    icon.style.boxShadow = '0 2px 8px rgba(139,108,193,0.25)';
     icon.innerHTML = '✓';
-    btn.style.color = '#c9a87c';
+    btn.style.color = '#8B6CC1';
   } else {
     icon.style.background = 'transparent';
-    icon.style.border = '1.5px solid #d5cfc5';
+    icon.style.border = '1.5px solid #C4B0E8';
+    icon.style.boxShadow = 'none';
     icon.innerHTML = '';
-    btn.style.color = '#c4b8aa';
+    btn.style.color = '#C4B0E8';
   }
 }
 
@@ -4067,15 +4092,17 @@ function toggleMyProfile() {
   var icon = document.getElementById('myProfileIcon');
   var btn = document.getElementById('myProfileCheck');
   if (window._isMyProfile) {
-    icon.style.background = '#c9a87c';
+    icon.style.background = 'linear-gradient(135deg,#8B6CC1,#A07DD6)';
     icon.style.border = 'none';
+    icon.style.boxShadow = '0 2px 8px rgba(139,108,193,0.25)';
     icon.innerHTML = '✓';
-    btn.style.color = '#c9a87c';
+    btn.style.color = '#8B6CC1';
   } else {
     icon.style.background = 'transparent';
-    icon.style.border = '1.5px solid #ddd';
+    icon.style.border = '1.5px solid #C4B0E8';
+    icon.style.boxShadow = 'none';
     icon.innerHTML = '';
-    btn.style.color = '#ccc';
+    btn.style.color = '#C4B0E8';
   }
 }
 
@@ -6039,8 +6066,8 @@ function resetAll(){
   var hFields=['bMonth','bDay','bHour','bMin','bCity'];
   hFields.forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   birthGender='';
-  var bm=document.getElementById('bMale');if(bm){bm.style.borderColor='#ece6dc';bm.style.background='#ffffff';bm.style.color='#bbb';bm.style.boxShadow='none';}
-  var bf=document.getElementById('bFemale');if(bf){bf.style.borderColor='#ece6dc';bf.style.background='#ffffff';bf.style.color='#bbb';bf.style.boxShadow='none';}
+  var bm=document.getElementById('bMale');if(bm){bm.style.borderColor='rgba(255,255,255,0.6)';bm.style.background='rgba(255,255,255,0.45)';bm.style.color='#9B8CB8';bm.style.boxShadow='none';}
+  var bf=document.getElementById('bFemale');if(bf){bf.style.borderColor='rgba(255,255,255,0.6)';bf.style.background='rgba(255,255,255,0.45)';bf.style.color='#9B8CB8';bf.style.boxShadow='none';}
   var timeArea=document.getElementById('timeInputArea');
   var timeCard=document.getElementById('noTimeCard');
   if(timeArea)timeArea.style.display='block';
