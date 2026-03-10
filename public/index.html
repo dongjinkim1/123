@@ -3410,8 +3410,15 @@ function openHistoryRecord(recordId){
       else if(rec.gg.strengthGrade === '신약' || rec.gg.strengthGrade === '극신약') condition = '신약';
       var animal = (typeof getAnimalResult === 'function') ? getAnimalResult(oheng, dominantSS, condition) : null;
       if(animal && animal.mod){
-        go('pgAnimal');
+        document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');p.style.display='none'});
         var pg = document.getElementById('pgAnimal');
+        pg.style.display = 'block';
+        pg.classList.add('active');
+        window.scrollTo({top:0,behavior:'instant'});
+        if(pageStack[pageStack.length-1]!=='pgAnimal'){
+          pageStack.push('pgAnimal');
+        }
+        history.pushState({page:'pgAnimal'},'','');
         if(typeof window.svcRenderResult === 'function'){
           window.svcRenderResult(pg, animal, rec.mbti || '', rec.saju, rec.gg, oheng, condition, rec.name || '나');
         }
