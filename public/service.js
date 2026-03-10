@@ -259,14 +259,6 @@
     h += animal.emoji + ' ' + mod.title + '</h1>';
     h += '</div>';
 
-    // 정보 뱃지 라인
-    h += '<div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;flex-wrap:wrap;';
-    h += 'animation:svcReveal .6s ease both;animation-delay:.55s;opacity:0">';
-    h += '<span style="padding:5px 12px;background:rgba(255,255,255,0.75);border-radius:100px;font-size:11px;font-weight:700;color:' + oc.m + ';border:1px solid ' + oc.m + '25;backdrop-filter:blur(4px)">' + oc.hj + ' ' + oheng + '</span>';
-    h += '<span style="padding:5px 12px;background:rgba(255,255,255,0.75);border-radius:100px;font-size:11px;font-weight:600;color:var(--text-2);backdrop-filter:blur(4px)">' + ilju + '일주</span>';
-    h += '<span style="padding:5px 12px;background:rgba(255,255,255,0.75);border-radius:100px;font-size:11px;font-weight:600;color:var(--text-2);backdrop-filter:blur(4px)">' + mbti + '</span>';
-    h += '</div>';
-
     h += '</div>'; // 히어로 끝
 
     // ══════════════════════════════════
@@ -286,7 +278,8 @@
       h += '<div class="svc-r-card">';
       h += '<div class="svc-r-label"><span class="svc-r-label-icon">🎭</span><span class="svc-r-label-text">성격</span></div>';
       for (var i = 0; i < detail.personality.length; i++) {
-        h += '<p style="font-size:14.5px;line-height:2;color:var(--text-2);word-break:keep-all;margin:0">' + detail.personality[i] + '</p>';
+        var pMb = (i === 1) ? 'margin:0 0 16px 0' : 'margin:0';
+        h += '<p style="font-size:14.5px;line-height:2;color:var(--text-2);word-break:keep-all;' + pMb + '">' + detail.personality[i] + '</p>';
       }
       h += '<div style="margin-top:14px">';
       for (var j = 0; j < detail.pTags.length; j++) {
@@ -298,7 +291,8 @@
       h += '<div class="svc-r-card">';
       h += '<div class="svc-r-label"><span class="svc-r-label-icon">🧭</span><span class="svc-r-label-text">성향</span></div>';
       for (var i = 0; i < detail.tendency.length; i++) {
-        h += '<p style="font-size:14.5px;line-height:2;color:var(--text-2);word-break:keep-all;margin:0">' + detail.tendency[i] + '</p>';
+        var tMb = (i === 1) ? 'margin:0 0 16px 0' : 'margin:0';
+        h += '<p style="font-size:14.5px;line-height:2;color:var(--text-2);word-break:keep-all;' + tMb + '">' + detail.tendency[i] + '</p>';
       }
       h += '<div style="margin-top:14px">';
       for (var j = 0; j < detail.tTags.length; j++) {

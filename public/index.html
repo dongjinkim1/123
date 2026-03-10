@@ -3401,7 +3401,6 @@ function openHistoryRecord(recordId){
   for(var i=0;i<hist.length;i++){if(hist[i].id===recordId){rec=hist[i];break;}}
   if(!rec)return;
 
-  // 무료 동물 서비스 레코드 (aiResult 없음)
   if(!rec.aiResult){
     if(rec.saju && rec.gg){
       var oheng = rec.saju.dmEl || '토';
@@ -3422,7 +3421,6 @@ function openHistoryRecord(recordId){
     return;
   }
 
-  // 기존 프리미엄 결과 (원본 그대로)
   if(rec.input){
     ST.y=rec.input.y||'';ST.m=rec.input.m||'';ST.d=rec.input.d||'';
     ST.h=rec.input.h||'';ST.min=rec.input.min||'';
