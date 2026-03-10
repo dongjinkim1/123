@@ -2389,27 +2389,20 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
       <!-- Glassy Purple Card -->
       <div class="birth-card">
         <div class="birth-title"><span>생년월일시</span>를 알려주세요</div>
-        <div class="birth-sub">양력 기준 · 시간과 분까지 입력하면 더 정확해요</div>
 
-        <!-- 이름 / 저장명 -->
+        <!-- 이름 + 본인 체크 -->
         <div class="birth-field" style="margin-bottom:16px">
-          <label class="birth-label">이름 (저장명)</label>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <label class="birth-label" style="margin:0">이름</label>
+            <label onclick="toggleMyProfile()" style="display:flex;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent">
+              <div id="myProfileCheck" style="width:18px;height:18px;border-radius:5px;border:2px solid var(--purple);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:var(--purple);transition:all .2s;flex-shrink:0">✓</div>
+              <span style="font-size:12px;color:var(--purple);font-weight:600">본인 정보예요</span>
+            </label>
+          </div>
           <input class="birth-input" type="text" id="bName" placeholder="예: 지수, 별명" maxlength="10" oninput="checkBirthReady()" style="width:100%;box-sizing:border-box">
         </div>
 
-        <!-- 양력/음력 토글 -->
-        <div style="display:flex;gap:8px;margin-bottom:16px">
-          <button type="button" id="calSolar" onclick="setCalType('solar')" class="birth-gender selected" style="flex:1;padding:12px;font-size:14px">☀️ 양력</button>
-          <button type="button" id="calLunar" onclick="setCalType('lunar')" class="birth-gender" style="flex:1;padding:12px;font-size:14px">🌙 음력</button>
-        </div>
-        <div id="leapMonthRow" style="display:none;margin-bottom:12px">
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2);cursor:pointer">
-            <input type="checkbox" id="isLeapMonth" style="width:18px;height:18px;accent-color:var(--purple)">
-            윤달이에요
-          </label>
-        </div>
-
-        <!-- 년 / 월 / 일 -->
+        <!-- 태어난 해 / 월 / 일 -->
         <div class="birth-row">
           <div class="birth-field wide">
             <label class="birth-label">태어난 해</label>
@@ -2439,12 +2432,23 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
           </div>
         </div>
 
-        <!-- 시 / 분 / 출생지 -->
+        <!-- 양력/음력 토글 + 윤달 -->
+        <div style="display:flex;align-items:center;gap:8px;margin:-4px 0 16px">
+          <div style="display:flex;background:rgba(0,0,0,0.03);border-radius:10px;padding:3px;gap:2px">
+            <button type="button" id="calSolarBtn" onclick="setCalType('solar')" style="padding:6px 14px;font-size:12px;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .2s;background:#fff;color:var(--purple);box-shadow:0 1px 4px rgba(0,0,0,0.06)">☀️ 양력</button>
+            <button type="button" id="calLunarBtn" onclick="setCalType('lunar')" style="padding:6px 14px;font-size:12px;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .2s;background:transparent;color:var(--text-3)">🌙 음력</button>
+          </div>
+          <label id="leapMonthRow" style="display:none;align-items:center;gap:4px;font-size:12px;color:var(--text-2);cursor:pointer">
+            <input type="checkbox" id="isLeapMonth" style="width:15px;height:15px;accent-color:var(--purple)">윤달
+          </label>
+        </div>
+
+        <!-- 시 / 분 / 시간모름 -->
         <div class="birth-row">
           <div class="birth-field">
             <label class="birth-label">시</label>
             <div class="birth-combo">
-              <input class="birth-input" type="number" id="bHourInput" placeholder="모름" min="0" max="23" oninput="onComboInput('hour')">
+              <input class="birth-input" type="number" id="bHourInput" placeholder="시" min="0" max="23" oninput="onComboInput('hour')">
               <span class="birth-combo-arrow" id="bHourArrow" onclick="event.stopPropagation();toggleBirthDrop('hour')">▼</span>
             </div>
             <input type="hidden" id="bHour">
@@ -2453,26 +2457,31 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
           <div class="birth-field">
             <label class="birth-label">분</label>
             <div class="birth-combo">
-              <input class="birth-input" type="number" id="bMinInput" placeholder="모름" min="0" max="59" oninput="onComboInput('min')">
+              <input class="birth-input" type="number" id="bMinInput" placeholder="분" min="0" max="59" oninput="onComboInput('min')">
               <span class="birth-combo-arrow" id="bMinArrow" onclick="event.stopPropagation();toggleBirthDrop('min')">▼</span>
             </div>
             <input type="hidden" id="bMin">
             <div class="birth-dropdown" id="dropMin"></div>
           </div>
-          <div class="birth-field">
+          <div class="birth-field" style="display:flex;align-items:flex-end">
+            <button type="button" onclick="setTimeUnknown()" style="width:100%;padding:14px 0;font-size:13px;font-weight:600;color:var(--text-3);background:rgba(0,0,0,0.02);border:1.5px solid rgba(0,0,0,0.06);border-radius:14px;cursor:pointer;font-family:inherit;transition:all .2s">⏱ 시간 모름</button>
+          </div>
+        </div>
+
+        <!-- 출생지 / 모름 -->
+        <div style="display:flex;gap:10px;margin-bottom:20px">
+          <div class="birth-field" style="flex:1;margin:0">
             <label class="birth-label">출생지</label>
             <div class="birth-combo">
-              <input class="birth-input" type="text" id="bCityInput" placeholder="모름" oninput="onComboInput('city')">
+              <input class="birth-input" type="text" id="bCityInput" placeholder="예: 서울" oninput="onComboInput('city')">
               <span class="birth-combo-arrow" id="bCityArrow" onclick="event.stopPropagation();toggleBirthDrop('city')">▼</span>
             </div>
             <input type="hidden" id="bCity">
             <div class="birth-dropdown" id="dropCity"></div>
           </div>
-        </div>
-
-        <!-- 시간·출생지 모름 -->
-        <div style="display:flex;gap:8px;margin-bottom:20px">
-          <button type="button" onclick="document.getElementById('bHourInput').value='';document.getElementById('bHour').value='';document.getElementById('bMinInput').value='';document.getElementById('bMin').value='';document.getElementById('bCityInput').value='모름';document.getElementById('bCity').value='모름';checkBirthReady()" style="width:100%;padding:10px;font-size:13px;font-weight:600;color:var(--text-3);background:rgba(0,0,0,0.03);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:inherit">시간 · 출생지 모름</button>
+          <div style="display:flex;align-items:flex-end;flex-shrink:0">
+            <button type="button" onclick="setCityUnknown()" style="padding:14px 16px;font-size:13px;font-weight:600;color:var(--text-3);background:rgba(0,0,0,0.02);border:1.5px solid rgba(0,0,0,0.06);border-radius:14px;cursor:pointer;font-family:inherit;transition:all .2s">📍 모름</button>
+          </div>
         </div>
 
         <!-- 성별 -->
@@ -2480,17 +2489,6 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
         <div class="birth-gender-row">
           <button class="birth-gender" id="bMale" onclick="pickBirthGender('남성')">♂ 남성</button>
           <button class="birth-gender" id="bFemale" onclick="pickBirthGender('여성')">♀ 여성</button>
-        </div>
-
-        <!-- 본인 정보 토글 -->
-        <div style="margin:16px 0 20px">
-          <label onclick="toggleMyProfile()" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:12px 16px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);border-radius:14px">
-            <div id="myProfileCheck" style="width:22px;height:22px;border-radius:6px;border:2px solid var(--purple);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;background:var(--purple);transition:all .2s">✓</div>
-            <div>
-              <div style="font-size:14px;font-weight:600;color:var(--text-1)">본인 정보입니다</div>
-              <div style="font-size:11px;color:var(--text-3);margin-top:2px">운세·궁합·채팅에 자동 연결돼요</div>
-            </div>
-          </label>
         </div>
 
         <!-- 다음 -->
@@ -3978,18 +3976,36 @@ var mbtiIt=[null,null,null,null];
 var mbtiCur=0;
 
 window._isLunarInput = false;
+window._isMyProfile = true;
+
 function setCalType(type) {
   window._isLunarInput = (type === 'lunar');
-  document.getElementById('calSolar').classList.toggle('selected', type === 'solar');
-  document.getElementById('calLunar').classList.toggle('selected', type === 'lunar');
-  document.getElementById('leapMonthRow').style.display = (type === 'lunar') ? 'block' : 'none';
+  var sBtn = document.getElementById('calSolarBtn');
+  var lBtn = document.getElementById('calLunarBtn');
+  var leapRow = document.getElementById('leapMonthRow');
+  if (type === 'lunar') {
+    lBtn.style.background = '#fff';
+    lBtn.style.color = '#D4A853';
+    lBtn.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
+    sBtn.style.background = 'transparent';
+    sBtn.style.color = 'var(--text-3)';
+    sBtn.style.boxShadow = 'none';
+    if (leapRow) leapRow.style.display = 'flex';
+  } else {
+    sBtn.style.background = '#fff';
+    sBtn.style.color = 'var(--purple)';
+    sBtn.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
+    lBtn.style.background = 'transparent';
+    lBtn.style.color = 'var(--text-3)';
+    lBtn.style.boxShadow = 'none';
+    if (leapRow) leapRow.style.display = 'none';
+  }
 }
 
-window._isMyProfile = true;
-function toggleMyProfile(){
+function toggleMyProfile() {
   window._isMyProfile = !window._isMyProfile;
   var el = document.getElementById('myProfileCheck');
-  if(window._isMyProfile){
+  if (window._isMyProfile) {
     el.style.background = 'var(--purple)';
     el.style.borderColor = 'var(--purple)';
     el.innerHTML = '✓';
@@ -4000,8 +4016,23 @@ function toggleMyProfile(){
   }
 }
 
+function setTimeUnknown() {
+  document.getElementById('bHourInput').value = '';
+  document.getElementById('bHour').value = '';
+  document.getElementById('bMinInput').value = '';
+  document.getElementById('bMin').value = '';
+  checkBirthReady();
+  if (typeof showToast === 'function') showToast('시간 모름으로 설정했어요');
+}
+
+function setCityUnknown() {
+  document.getElementById('bCityInput').value = '모름';
+  document.getElementById('bCity').value = '모름';
+  checkBirthReady();
+  if (typeof showToast === 'function') showToast('출생지 모름으로 설정했어요');
+}
+
 function goToMBTI(){
-  // 음력→양력 변환
   if(window._isLunarInput && typeof lunarToSolar === 'function'){
     var ly = parseInt(document.getElementById('bYear').value);
     var lm = parseInt(document.getElementById('bMonth').value || document.getElementById('bMonthInput').value);
@@ -4012,7 +4043,6 @@ function goToMBTI(){
       if(typeof showToast === 'function') showToast('음력 날짜를 확인해주세요');
       return;
     }
-    // 변환된 양력 값으로 입력 필드 업데이트
     document.getElementById('bYear').value = solar.year;
     document.getElementById('bMonth').value = solar.month;
     document.getElementById('bMonthInput').value = solar.month;
