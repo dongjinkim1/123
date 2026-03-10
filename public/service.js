@@ -206,7 +206,6 @@
     h += '@keyframes svcReveal{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}';
     h += '@keyframes svcImgIn{from{opacity:0;transform:scale(0.8) rotate(-5deg)}to{opacity:1;transform:scale(1) rotate(0)}}';
     h += '@keyframes svcTagPop{from{opacity:0;transform:scale(0.6) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}';
-    h += '@keyframes svcGlow{0%,100%{box-shadow:0 0 0 0 ' + oc.m + '20}50%{box-shadow:0 0 0 12px ' + oc.m + '00}}';
     h += '@keyframes svcShimmer{0%{background-position:-200% center}100%{background-position:200% center}}';
     h += '.svc-r-card{background:#fff;border-radius:20px;padding:22px 20px;margin-bottom:14px;';
     h += 'box-shadow:0 2px 16px rgba(0,0,0,0.035);border:1px solid rgba(0,0,0,0.04);animation:svcReveal .6s ease both}';
@@ -238,17 +237,13 @@
     // ── 히어로 영역 (오행 그라데이션) ──
     h += '<div style="background:' + oc.lg + ';padding:28px 20px 36px;text-align:center">';
 
-    // 동물 이미지
+    // 동물 이미지 (카드형)
     h += '<div style="animation:svcImgIn .7s cubic-bezier(.34,1.56,.64,1) both">';
-    h += '<div style="width:172px;height:172px;margin:0 auto 20px;position:relative">';
-    // 글로우 링
-    h += '<div style="position:absolute;inset:-8px;border-radius:50%;border:2.5px solid ' + oc.m + '18;animation:svcGlow 2.5s ease-in-out infinite"></div>';
-    // 이미지 컨테이너
-    h += '<div style="width:172px;height:172px;border-radius:50%;overflow:hidden;border:4px solid #fff;';
-    h += 'box-shadow:0 12px 40px ' + oc.m + '20,0 4px 12px rgba(0,0,0,0.06);position:relative;background:#fff">';
-    h += '<img src="' + imgUrl + '" alt="' + animal.name + '" style="width:100%;height:100%;object-fit:cover" ';
-    h += 'onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:80px;background:' + oc.bg + '\\\'>' + animal.emoji + '</div>\'">';
-    h += '</div></div></div>';
+    h += '<div style="width:100%;max-width:360px;margin:0 auto 20px;border-radius:24px;overflow:hidden;';
+    h += 'box-shadow:0 12px 40px ' + oc.m + '20,0 4px 12px rgba(0,0,0,0.06);background:#fff">';
+    h += '<img src="' + imgUrl + '" alt="' + animal.name + '" style="width:100%;display:block" ';
+    h += 'onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;font-size:100px;background:' + oc.bg + '\\\'>' + animal.emoji + '</div>\'">';
+    h += '</div></div>';
 
     // 태그 뱃지
     h += '<div style="animation:svcTagPop .5s cubic-bezier(.34,1.56,.64,1) both;animation-delay:.35s;opacity:0">';
@@ -279,27 +274,56 @@
     // ══════════════════════════════════
     h += '<div style="padding:20px 16px 32px;max-width:480px;margin:0 auto">';
 
-    // ── 카드 1: 한줄 설명 ──
-    h += '<div class="svc-r-card">';
-    h += '<div style="font-size:15px;color:var(--text-1);line-height:1.8;text-align:center;padding:4px 4px;font-weight:400">' + mod.desc + '</div>';
-    h += '</div>';
-
-    // ── 카드 2: 특성 ──
-    h += '<div class="svc-r-card">';
-    h += '<div class="svc-r-label"><span class="svc-r-label-icon">🎯</span><span class="svc-r-label-text">나의 특성</span></div>';
-    h += '<div>';
-    for (var i = 0; i < mod.traits.length; i++) {
-      h += '<span class="svc-trait" style="background:' + oc.bg + ';color:' + oc.m + '">#' + mod.traits[i] + '</span>';
+    // ANIMAL_DETAIL 조회
+    var dominantSS = gg.dominant ? gg.dominant[0] : '';
+    var detail = null;
+    if (typeof ANIMAL_DETAIL !== 'undefined' && ANIMAL_DETAIL[oheng + '_' + dominantSS]) {
+      detail = ANIMAL_DETAIL[oheng + '_' + dominantSS][condition];
     }
-    h += '</div></div>';
 
-    // ── 카드 3: 처방전 ──
-    h += '<div class="svc-r-card">';
-    h += '<div class="svc-r-label"><span class="svc-r-label-icon">💊</span><span class="svc-r-label-text">처방전</span></div>';
-    h += '<div style="background:' + oc.bg + ';border-radius:14px;padding:16px 18px;position:relative">';
-    h += '<div style="position:absolute;top:10px;left:14px;font-size:24px;opacity:0.1;color:' + oc.m + '">❝</div>';
-    h += '<div style="font-size:15px;font-weight:600;color:' + oc.m + ';line-height:1.65;padding-left:6px">' + mod.rx + '</div>';
-    h += '</div></div>';
+    if (detail) {
+      // ── 카드 1: 성격 ──
+      h += '<div class="svc-r-card">';
+      h += '<div class="svc-r-label"><span class="svc-r-label-icon">🎭</span><span class="svc-r-label-text">성격</span></div>';
+      for (var i = 0; i < detail.personality.length; i++) {
+        h += '<p style="font-size:14.5px;line-height:2;color:var(--text-2);word-break:keep-all;margin:0">' + detail.personality[i] + '</p>';
+      }
+      h += '<div style="margin-top:14px">';
+      for (var j = 0; j < detail.pTags.length; j++) {
+        h += '<span class="svc-trait" style="background:' + oc.bg + ';color:' + oc.m + '">#' + detail.pTags[j] + '</span>';
+      }
+      h += '</div></div>';
+
+      // ── 카드 2: 성향 ──
+      h += '<div class="svc-r-card">';
+      h += '<div class="svc-r-label"><span class="svc-r-label-icon">🧭</span><span class="svc-r-label-text">성향</span></div>';
+      for (var i = 0; i < detail.tendency.length; i++) {
+        h += '<p style="font-size:14.5px;line-height:2;color:var(--text-2);word-break:keep-all;margin:0">' + detail.tendency[i] + '</p>';
+      }
+      h += '<div style="margin-top:14px">';
+      for (var j = 0; j < detail.tTags.length; j++) {
+        h += '<span class="svc-trait" style="background:' + oc.bg + ';color:' + oc.m + '">#' + detail.tTags[j] + '</span>';
+      }
+      h += '</div></div>';
+    } else {
+      // 폴백: 기존 레이아웃
+      h += '<div class="svc-r-card">';
+      h += '<div style="font-size:15px;color:var(--text-1);line-height:1.8;text-align:center;padding:4px 4px;font-weight:400">' + mod.desc + '</div>';
+      h += '</div>';
+      h += '<div class="svc-r-card">';
+      h += '<div class="svc-r-label"><span class="svc-r-label-icon">🎯</span><span class="svc-r-label-text">나의 특성</span></div>';
+      h += '<div>';
+      for (var i = 0; i < mod.traits.length; i++) {
+        h += '<span class="svc-trait" style="background:' + oc.bg + ';color:' + oc.m + '">#' + mod.traits[i] + '</span>';
+      }
+      h += '</div></div>';
+      h += '<div class="svc-r-card">';
+      h += '<div class="svc-r-label"><span class="svc-r-label-icon">💊</span><span class="svc-r-label-text">처방전</span></div>';
+      h += '<div style="background:' + oc.bg + ';border-radius:14px;padding:16px 18px;position:relative">';
+      h += '<div style="position:absolute;top:10px;left:14px;font-size:24px;opacity:0.1;color:' + oc.m + '">❝</div>';
+      h += '<div style="font-size:15px;font-weight:600;color:' + oc.m + ';line-height:1.65;padding-left:6px">' + mod.rx + '</div>';
+      h += '</div></div>';
+    }
 
     // ── 카드 4: 더 깊은 풀이 (잠금/티저 — 추후 확장 영역) ──
     h += '<div class="svc-r-card" style="position:relative;overflow:hidden">';
