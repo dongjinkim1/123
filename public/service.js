@@ -241,8 +241,8 @@
 
     // 동물 카드 이미지
     h += '<div style="animation:svcImgIn .7s cubic-bezier(.34,1.56,.64,1) both;margin-bottom:16px">';
-    h += '<div style="border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.08)">';
-    h += '<img src="' + imgUrl + '" alt="' + animal.name + '" style="width:100%;display:block" ';
+    h += '<div style="border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.08);aspect-ratio:2/1">';
+    h += '<img src="' + imgUrl + '" alt="' + animal.name + '" style="width:100%;height:100%;object-fit:cover;display:block" ';
     h += 'onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/3;font-size:100px;background:' + oc.bg + '\\\'>' + animal.emoji + '</div>\'">';
     h += '</div></div>';
 
