@@ -320,6 +320,33 @@
       h += '</div></div>';
     }
 
+    // ── 카드 3: MBTS 포인트 ──
+    var mbtsKey = ilju + '_' + mbti;
+    var mbtsPoint = (typeof MBTS_POINTS !== 'undefined') ? MBTS_POINTS[mbtsKey] : null;
+    if (mbtsPoint) {
+      h += '<div class="svc-r-card" style="animation-delay:.24s">';
+      h += '<div class="svc-r-label"><span class="svc-r-label-icon">✨</span><span class="svc-r-label-text">MBTS 포인트</span></div>';
+
+      // 본문 5줄 렌더링
+      var mbtsLines = mbtsPoint.text.split('\n').filter(function(l) { return l.trim().length > 0; });
+      for (var mi = 0; mi < mbtsLines.length; mi++) {
+        h += '<div style="font-size:14.5px;line-height:1.85;color:var(--text-2);word-break:keep-all';
+        if (mi > 0) h += ';margin-top:14px';
+        h += '">' + mbtsLines[mi] + '</div>';
+      }
+
+      // 해시태그
+      if (mbtsPoint.tags && mbtsPoint.tags.length > 0) {
+        h += '<div style="margin-top:14px">';
+        for (var ti = 0; ti < mbtsPoint.tags.length; ti++) {
+          h += '<span class="svc-trait" style="background:' + oc.bg + ';color:' + oc.m + '">' + mbtsPoint.tags[ti] + '</span>';
+        }
+        h += '</div>';
+      }
+
+      h += '</div>';
+    }
+
     // ── 카드 4: 더 깊은 풀이 (잠금/티저 — 추후 확장 영역) ──
     h += '<div class="svc-r-card" style="position:relative;overflow:hidden">';
     h += '<div class="svc-r-label"><span class="svc-r-label-icon">🔮</span><span class="svc-r-label-text">더 깊은 운명 풀이</span></div>';
