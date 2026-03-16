@@ -439,10 +439,11 @@
   // B-10. MBTS 프롬프트 빌더
   // ═══════════════════════════════════════════════════
 
-  function buildMBTSPrompt(mbtsResult, sjData) {
+  function buildMBTSPrompt(mbtsResult) {
     if (!mbtsResult) return '';
     var L = [];
 
+    // 풍경 씨앗 (MBTS 고유)
     if (mbtsResult.landscape) {
       L.push('## 이 사람의 풍경 (이야기의 씨앗)');
       L.push(mbtsResult.landscape.landscape);
@@ -450,12 +451,14 @@
       L.push('');
     }
 
-    L.push('## ★ 핵심 포인트');
-    if (mbtsResult.temperament) L.push('1. 기질: ' + mbtsResult.temperament.name + '(' + mbtsResult.temperament.nameEn + ') — ' + mbtsResult.temperament.keywords);
-    if (mbtsResult.strengthGrade) L.push('2. 자아: ' + mbtsResult.strengthGrade.label + '(' + mbtsResult.strengthGrade.pct + '%) — ' + mbtsResult.strengthGrade.desc + '. 처방: ' + mbtsResult.strengthGrade.rx);
-    if (mbtsResult.gaeun) L.push('3. 개운: ' + mbtsResult.gaeun.message + ' 행동: ' + mbtsResult.gaeun.actions.join(', '));
+    // 핵심 포인트 (MBTS 고유)
+    L.push('## ★ MBTS 핵심 포인트');
+    if (mbtsResult.temperament) L.push('기질: ' + mbtsResult.temperament.name + '(' + mbtsResult.temperament.nameEn + ') — ' + mbtsResult.temperament.keywords);
+    if (mbtsResult.strengthGrade) L.push('자아강도: ' + mbtsResult.strengthGrade.label + '(' + mbtsResult.strengthGrade.pct + '%) — ' + mbtsResult.strengthGrade.desc + '. 처방: ' + mbtsResult.strengthGrade.rx);
+    if (mbtsResult.gaeun) L.push('개운: ' + mbtsResult.gaeun.message);
     L.push('');
 
+    // 특이점 (MBTS 고유)
     var sp = false;
     if (mbtsResult.discrepancies && mbtsResult.discrepancies.length > 0) {
       if (!sp) { L.push('## ☆ 특이점'); sp = true; }
@@ -463,58 +466,16 @@
     }
     if (mbtsResult.phaseTransition) {
       if (!sp) { L.push('## ☆ 특이점'); sp = true; }
-      L.push('- 간합변환: ' + (mbtsResult.phaseTransition.from?mbtsResult.phaseTransition.from.id:'') + '→' + mbtsResult.phaseTransition.to + ' (' + mbtsResult.phaseTransition.meaning + ')');
+      L.push('- 간합변환: ' + (mbtsResult.phaseTransition.from?mbtsResult.phaseTransition.from.id:'') + '→' + mbtsResult.phaseTransition.to);
     }
     if (mbtsResult.brokenChains && mbtsResult.brokenChains.length > 0) {
       if (!sp) { L.push('## ☆ 특이점'); sp = true; }
       mbtsResult.brokenChains.forEach(function(bc) { L.push('- 상생체인: ' + bc.desc); });
     }
-    if (mbtsResult.amhap && mbtsResult.amhap.length > 0) {
-      if (!sp) { L.push('## ☆ 특이점'); sp = true; }
-      mbtsResult.amhap.forEach(function(a) { L.push('- 암합: ' + a.from + '↔' + a.to + ' 합화' + a.hapOh + ' [' + a.gungwi + '] (' + a.layer + ')'); });
-    }
     if (sp) L.push('');
 
-    if (mbtsResult.transitionSpeed) {
-      L.push('## 교운기: ' + mbtsResult.transitionSpeed.desc);
-      L.push('');
-    }
-
-    if (mbtsResult.positions) {
-      L.push('## 8자 MBTS 기능');
-      var pk = ['dayGan','monthGan','yearGan','hourGan'];
-      var pl = ['일간(핵심자아)','월간(사회적도구)','년간(외부인상)','시간(지향점)'];
-      for (var i=0;i<pk.length;i++) { var p=mbtsResult.positions[pk[i]]; if (p&&p.func) L.push('- '+pl[i]+': '+p.func.id+'('+p.func.name+')'); }
-      L.push('');
-    }
-
-    if (mbtsResult.mbtiLevels) {
-      L.push('## MBTI 강도');
-      var ax = ['E/I','S/N','T/F','J/P'];
-      for (var m=0;m<4;m++) L.push('- '+ax[m]+': '+mbtsResult.mbtiLevels[m].label+'('+mbtsResult.mbtiLevels[m].level+')');
-      L.push('');
-    }
-
-    // 기존 SJ 데이터 병합
-    if (sjData) {
-      var clean = typeof SJ_stripTerms === 'function' ? SJ_stripTerms : function(t){return t;};
-      var parts = [];
-      if (sjData.gyeokguk) {
-        if (sjData.gyeokguk.osinText) parts.push(clean(sjData.gyeokguk.osinText));
-        if (sjData.gyeokguk.tongbyeonText) parts.push(clean(sjData.gyeokguk.tongbyeonText));
-        if (sjData.gyeokguk.strengthText) parts.push(clean(sjData.gyeokguk.strengthText));
-      }
-      if (sjData.context) { if (sjData.context.yukchinText) parts.push(clean(sjData.context.yukchinText)); }
-      if (sjData.daewoon) { if (sjData.daewoon.gyowoongiText) parts.push(clean(sjData.daewoon.gyowoongiText)); }
-      if (sjData.hints) {
-        if (sjData.hints.healthText) parts.push(clean(sjData.hints.healthText));
-        if (sjData.hints.hapTriggerText) parts.push(clean(sjData.hints.hapTriggerText));
-        if (sjData.hints.jobText) parts.push(clean(sjData.hints.jobText));
-      }
-      if (parts.length > 0) { L.push('## 상세 데이터'); parts.forEach(function(p){L.push(p);}); L.push(''); }
-    }
-
-    L.push('## 바넘 방지 (풀이 마지막에 포함)');
+    // 바넘 방지 (짧게)
+    L.push('## 바넘 방지');
     L.push(BARNUM_PREVENTION.text);
 
     return L.join('\n');
@@ -581,7 +542,7 @@
       // 궁합이 아닌 일반 분석일 때 MBTS 프롬프트 주입
       if (label && label.indexOf('궁합') < 0 && window._MBTS_result) {
         try {
-          var mbtsPrompt = buildMBTSPrompt(window._MBTS_result, window._SJ_pendingData);
+          var mbtsPrompt = buildMBTSPrompt(window._MBTS_result);
           if (mbtsPrompt && mbtsPrompt.length > 100) {
             var marker = '## 참고 힌트';
             var idx = userMsg.indexOf(marker);
@@ -598,9 +559,8 @@
         } catch(e) {
           console.warn('[mbts-logic] MBTS 프롬프트 주입 실패 (기존 프롬프트 사용):', e.message);
         }
-        // 사용 후 정리 (MBTS가 sjData를 이미 병합했으므로 saju.js 중복 주입 방지)
+        // MBTS 결과만 정리. _SJ_pendingData는 saju.js가 자체 처리하도록 유지
         window._MBTS_result = null;
-        window._SJ_pendingData = null;
       }
 
       // 원래의 streamSonnet 호출
