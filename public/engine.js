@@ -1542,11 +1542,8 @@ E) 타인 시선  F) 질문  G) 데이터 발견
 - 본문(b): 풀이만. 처방은 tip에만.
 - 추상적 조언 금지. 오늘 당장 할 수 있는 구체적 행동.
 
-## animal 필드
-- oheng: 일간 오행. dominant_sipsung: 가장 지배적 십성 카테고리. condition: "신강"/"신약"/"특수"
-
 ## profile 필드
-- seasonNote, pillars(시→일→월→연), ohengBalance, specialStars, mbtiType, mbtiName, mbtiFunctions, mbtiTags: 제공 데이터 그대로
+- seasonNote, specialStars, mbtiType, mbtiName, mbtiFunctions, mbtiTags: 제공 데이터 그대로
 
 ## oneLine 필드
 적천수 물상 + 월지 계절 + 사주 분위기. 자연 이미지 한 줄.
@@ -1567,22 +1564,8 @@ E) 타인 시선  F) 질문  G) 데이터 발견
 
 {
   "_blueprint": {...},
-  "animal": {"oheng":"화","dominant_sipsung":"비겁","condition":"신강"},
   "profile": {
     "seasonNote": "입하 (초여름 화왕절)",
-    "pillars": [
-      {"label":"시주","chun":"갑","chunOheng":"목","ji":"진","jiOheng":"토","sipsung":"식신","unyeong":"","isDay":false},
-      {"label":"일주","chun":"임","chunOheng":"수","ji":"술","jiOheng":"토","sipsung":"비견","unyeong":"관대","isDay":true},
-      {"label":"월주","chun":"정","chunOheng":"화","ji":"사","jiOheng":"화","sipsung":"정재","unyeong":"절","isDay":false},
-      {"label":"연주","chun":"무","chunOheng":"토","ji":"진","jiOheng":"토","sipsung":"편관","unyeong":"묘","isDay":false}
-    ],
-    "ohengBalance": [
-      {"name":"목","count":1,"emoji":"🌿"},
-      {"name":"화","count":2,"emoji":"🔥"},
-      {"name":"토","count":4,"emoji":"🪨"},
-      {"name":"금","count":0,"emoji":"⚔️"},
-      {"name":"수","count":1,"emoji":"🌊"}
-    ],
     "specialStars": ["천을귀인","화개살","백호살","괴강살","음양차착","원진살","귀문관살"],
     "mbtiType": "INTP",
     "mbtiName": "논리술사",
@@ -1643,7 +1626,6 @@ E) 타인 시선  F) 질문  G) 데이터 발견
 - 각 sub는 {"h":"소제목", "b":"본문"} 형태
 - h는 위에 정의된 소제목 그대로 사용
 - b의 마지막에 💊 실천 팁 필수
-- profile.pillars와 ohengBalance도 위 구조대로 채워주세요
 
 ★ _blueprint를 먼저 완성하고, 그것을 참조하면서 categories를 쓰세요.
 JSON만 출력하세요.`;

@@ -5701,6 +5701,12 @@ function renderResult(result,saju,mt,gg,isAI){
   var prof=result.profile||{};
 
   /* ── 동물 카드 데이터 ── */
+  if(!result.animal){
+    var _cond='신강';
+    if(gg.isJonggyeok||gg.isHwakyeok) _cond='특수';
+    else if(gg.strengthGrade==='신약'||gg.strengthGrade==='극신약') _cond='신약';
+    result.animal={oheng:saju.dmEl||'토', dominant_sipsung:gg.dominant[0]||'비겁', condition:_cond};
+  }
   var animalInfo=null;
   if(result.animal){animalInfo=getAnimalResult(result.animal.oheng,result.animal.dominant_sipsung,result.animal.condition);}
   var ohD=animalInfo?animalInfo.ohengData:OHENG_DATA[0];
@@ -5794,6 +5800,30 @@ function renderResult(result,saju,mt,gg,isAI){
 
   /* 4기둥 그리드 */
   h+='<div class="r-pil-grid">';
+  if(!prof.pillars||prof.pillars.length===0){
+    var _pillarLabels=['시주','일주','월주','연주'];
+    var _pillarKeys=[['hg','hj'],['dg','dj'],['mg','mj'],['yg','yj']];
+    prof.pillars=_pillarLabels.map(function(label,pi){
+      var gKey=_pillarKeys[pi][0], jKey=_pillarKeys[pi][1];
+      var gIdx=saju.raw[gKey], jIdx=saju.raw[jKey];
+      return {
+        label:label,
+        chun:(gIdx!=null?TGAN_KR[gIdx]:''),
+        chunOheng:(gIdx!=null?OHAENG_TGAN[gIdx]:''),
+        ji:(jIdx!=null?JIJI_KR[jIdx]:''),
+        jiOheng:(jIdx!=null?OHAENG_JIJI[jIdx]:''),
+        sipsung:(saju.ss[pi]?saju.ss[pi].ss:''),
+        unyeong:(saju.uns?saju.uns[pi]:''),
+        isDay:(pi===1)
+      };
+    });
+  }
+  if(!prof.ohengBalance||prof.ohengBalance.length===0){
+    var _ohEmoji={'목':'🌿','화':'🔥','토':'🪨','금':'⚔️','수':'🌊'};
+    prof.ohengBalance=['목','화','토','금','수'].map(function(oh){
+      return {name:oh, count:saju.el[oh]||0, emoji:_ohEmoji[oh]};
+    });
+  }
   if(prof.pillars&&prof.pillars.length===4&&prof.pillars[0].chun){
     prof.pillars.forEach(function(pil){
       var isDay=!!pil.isDay;
