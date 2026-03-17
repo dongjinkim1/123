@@ -2692,6 +2692,7 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
           // ── 스트리밍 마커 감지 ──
           if(fullText.indexOf('<<<BLUEPRINT_DONE>>>') >= 0 && !_blueprintFired) {
             _blueprintFired = true;
+            console.log('[STREAM] <<<BLUEPRINT_DONE>>> 감지');
             onBlueprint();
           }
           var subDoneCount = (fullText.match(/<<<SUB_DONE>>>/g) || []).length;
@@ -2710,6 +2711,7 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
                 var subJson = fullText.substring(subStart, subEnd + 1);
                 try {
                   var subObj = JSON.parse(subJson);
+                  console.log('[STREAM] <<<SUB_DONE>>> 감지 #' + (_subFiredCount + 1), subObj ? subObj.h : 'parse fail');
                   onSub(subObj, _subFiredCount);
                 } catch(pe2) {}
               }
