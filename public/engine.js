@@ -2625,6 +2625,8 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
   var onMessage = callbacks.onMessage || function(){};
   var onProgress = callbacks.onProgress || function(){};
   var onPercent = callbacks.onPercent || function(){};
+  var onSub = callbacks.onSub || function(){};
+  var onBlueprint = callbacks.onBlueprint || function(){};
   endpoint = endpoint || '/api/analyze';
   var currentModel = 'claude-sonnet-4-6';
   var overloadRetries = 0;
@@ -2668,6 +2670,8 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
   var decoder = new TextDecoder();
   var fullText = '', buffer = '', chunkCount = 0;
   var streamStart = Date.now();
+  var _blueprintFired = false;
+  var _subFiredCount = 0;
   while(true) {
     if(Date.now() - streamStart > 300000) break;
     var chunk = await reader.read();
@@ -2685,6 +2689,33 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
         if(evt.type === 'content_block_delta' && evt.delta && evt.delta.text) {
           fullText += evt.delta.text;
           chunkCount++;
+          // ── 스트리밍 마커 감지 ──
+          if(fullText.indexOf('<<<BLUEPRINT_DONE>>>') >= 0 && !_blueprintFired) {
+            _blueprintFired = true;
+            onBlueprint();
+          }
+          var subDoneCount = (fullText.match(/<<<SUB_DONE>>>/g) || []).length;
+          while(_subFiredCount < subDoneCount) {
+            var markers = [];
+            var searchFrom = 0;
+            for(var mi = 0; mi < subDoneCount; mi++) {
+              var mIdx = fullText.indexOf('<<<SUB_DONE>>>', searchFrom);
+              if(mIdx >= 0) { markers.push(mIdx); searchFrom = mIdx + 14; }
+            }
+            var markerPos = markers[_subFiredCount];
+            if(markerPos >= 0) {
+              var subEnd = fullText.lastIndexOf('}', markerPos);
+              var subStart = fullText.lastIndexOf('{"h":', subEnd);
+              if(subStart >= 0 && subEnd >= subStart) {
+                var subJson = fullText.substring(subStart, subEnd + 1);
+                try {
+                  var subObj = JSON.parse(subJson);
+                  onSub(subObj, _subFiredCount);
+                } catch(pe2) {}
+              }
+            }
+            _subFiredCount++;
+          }
           var pct = Math.min(94, 5 + Math.round((fullText.length / 8000) * 90));
           onProgress(pct);
           onPercent(pct);
@@ -2695,6 +2726,7 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
     }
   }
   console.log('[MBTS] ' + label + ' 완료: ' + fullText.length + '자');
+  fullText = fullText.replace(/<<<BLUEPRINT_DONE>>>/g, '').replace(/<<<SUB_DONE>>>/g, '');
   var cleaned = fullText.replace(/```json|```/g, "").trim();
   try { JSON.parse(cleaned); return cleaned; } catch(e1) {}
   var firstBrace = cleaned.indexOf('{');
