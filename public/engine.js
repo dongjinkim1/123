@@ -2685,6 +2685,7 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
           fullText += evt.delta.text;
           chunkCount++;
           // ── categories 영역 시작 감지 ──
+          if(fullText.length % 2000 === 0) console.log('[STREAM-DBG] fullText 길이:', fullText.length, '_categoriesStarted:', _categoriesStarted, '_detectedSubs:', _detectedSubs);
           if(!_categoriesStarted && fullText.indexOf('"categories"') >= 0) {
             _categoriesStarted = true;
             onBlueprint();
@@ -2692,6 +2693,10 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
           }
           // ── 다음 sub 제목 감지 → 이전 sub 완성 ──
           if(_categoriesStarted && _detectedSubs < SUB_TITLES.length) {
+            if(_detectedSubs === 0 && fullText.indexOf('"h"') >= 0) {
+              var sample = fullText.substring(fullText.indexOf('"h"'), fullText.indexOf('"h"') + 30);
+              console.log('[STREAM-DBG] h필드 샘플:', JSON.stringify(sample));
+            }
             var nextIdx = _detectedSubs + 1;
             if(nextIdx < SUB_TITLES.length) {
               var nextMarker = '"h":"' + SUB_TITLES[nextIdx] + '"';
