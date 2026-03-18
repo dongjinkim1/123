@@ -1621,12 +1621,6 @@ E) 타인 시선  F) 질문  G) 데이터 발견
   ]
 }
 
-★ 스트리밍 마커 규칙 (반드시 지키세요):
-- _blueprint 객체의 }를 닫은 직후에 <<<BLUEPRINT_DONE>>>을 출력하세요.
-- categories 안의 각 sub 객체 {"h":"...","b":"..."}의 }를 닫은 직후마다 <<<SUB_DONE>>>을 출력하세요.
-- 이 마커들은 실시간 렌더링용이며 JSON 구조 자체에는 영향을 주지 않습니다.
-- 마커는 반드시 해당 }를 닫은 직후, 쉼표나 다음 객체 시작 전에 위치해야 합니다.
-
 ★ 위 JSON 구조를 정확히 따르세요. 특히:
 - categories 안에 subs 배열 필수
 - 각 sub는 {"h":"소제목", "b":"본문"} 형태
@@ -2670,8 +2664,6 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
   var decoder = new TextDecoder();
   var fullText = '', buffer = '', chunkCount = 0;
   var streamStart = Date.now();
-  var _blueprintFired = false;
-  var _subFiredCount = 0;
   while(true) {
     if(Date.now() - streamStart > 300000) break;
     var chunk = await reader.read();
@@ -2689,35 +2681,6 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
         if(evt.type === 'content_block_delta' && evt.delta && evt.delta.text) {
           fullText += evt.delta.text;
           chunkCount++;
-          // ── 스트리밍 마커 감지 ──
-          if(fullText.indexOf('<<<BLUEPRINT_DONE>>>') >= 0 && !_blueprintFired) {
-            _blueprintFired = true;
-            console.log('[STREAM] <<<BLUEPRINT_DONE>>> 감지');
-            onBlueprint();
-          }
-          var subDoneCount = (fullText.match(/<<<SUB_DONE>>>/g) || []).length;
-          while(_subFiredCount < subDoneCount) {
-            var markers = [];
-            var searchFrom = 0;
-            for(var mi = 0; mi < subDoneCount; mi++) {
-              var mIdx = fullText.indexOf('<<<SUB_DONE>>>', searchFrom);
-              if(mIdx >= 0) { markers.push(mIdx); searchFrom = mIdx + 14; }
-            }
-            var markerPos = markers[_subFiredCount];
-            if(markerPos >= 0) {
-              var subEnd = fullText.lastIndexOf('}', markerPos);
-              var subStart = fullText.lastIndexOf('{"h":', subEnd);
-              if(subStart >= 0 && subEnd >= subStart) {
-                var subJson = fullText.substring(subStart, subEnd + 1);
-                try {
-                  var subObj = JSON.parse(subJson);
-                  console.log('[STREAM] <<<SUB_DONE>>> 감지 #' + (_subFiredCount + 1), subObj ? subObj.h : 'parse fail');
-                  onSub(subObj, _subFiredCount);
-                } catch(pe2) {}
-              }
-            }
-            _subFiredCount++;
-          }
           var pct = Math.min(94, 5 + Math.round((fullText.length / 8000) * 90));
           onProgress(pct);
           onPercent(pct);
@@ -2728,7 +2691,6 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
     }
   }
   console.log('[MBTS] ' + label + ' 완료: ' + fullText.length + '자');
-  fullText = fullText.replace(/<<<BLUEPRINT_DONE>>>/g, '').replace(/<<<SUB_DONE>>>/g, '');
   var cleaned = fullText.replace(/```json|```/g, "").trim();
   try { JSON.parse(cleaned); return cleaned; } catch(e1) {}
   var firstBrace = cleaned.indexOf('{');
