@@ -2663,6 +2663,9 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
   var reader = r.body.getReader();
   var decoder = new TextDecoder();
   var fullText = '', buffer = '', chunkCount = 0;
+  var SUB_TITLES = ["나의 성격","나의 장점","고쳐야 할 점","남들이 보는 나","연애 스타일","잘 맞는 타입","연애 지뢰","직장 적성","맞춤 재물 쌓는 법","올해 키워드","올해 조언","대운 흐름","기회의 시기","인생 한줄 마무리"];
+  var _detectedSubs = 0;
+  var _categoriesStarted = false;
   var streamStart = Date.now();
   while(true) {
     if(Date.now() - streamStart > 300000) break;
@@ -2681,6 +2684,36 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
         if(evt.type === 'content_block_delta' && evt.delta && evt.delta.text) {
           fullText += evt.delta.text;
           chunkCount++;
+          // ── categories 영역 시작 감지 ──
+          if(!_categoriesStarted && fullText.indexOf('"categories"') >= 0) {
+            _categoriesStarted = true;
+            onBlueprint();
+            console.log('[STREAM] categories 시작 감지 — blueprint 완료');
+          }
+          // ── 다음 sub 제목 감지 → 이전 sub 완성 ──
+          if(_categoriesStarted && _detectedSubs < SUB_TITLES.length) {
+            var nextIdx = _detectedSubs + 1;
+            if(nextIdx < SUB_TITLES.length) {
+              var nextMarker = '"h":"' + SUB_TITLES[nextIdx] + '"';
+              if(fullText.indexOf(nextMarker) >= 0 && _detectedSubs < nextIdx) {
+                var prevTitle = SUB_TITLES[_detectedSubs];
+                var prevMarker = '"h":"' + prevTitle + '"';
+                var prevStart = fullText.lastIndexOf('{', fullText.indexOf(prevMarker));
+                var nextStart = fullText.lastIndexOf('{', fullText.indexOf(nextMarker));
+                if(prevStart >= 0 && nextStart > prevStart) {
+                  var subText = fullText.substring(prevStart, nextStart).replace(/,\s*$/, '');
+                  try {
+                    var subObj = JSON.parse(subText);
+                    console.log('[STREAM] sub 완성 #' + (_detectedSubs + 1) + ': ' + subObj.h);
+                    onSub(subObj, _detectedSubs);
+                  } catch(e) {
+                    console.log('[STREAM] sub 파싱 실패 #' + (_detectedSubs + 1) + ': ' + prevTitle);
+                  }
+                }
+                _detectedSubs = nextIdx;
+              }
+            }
+          }
           var pct = Math.min(94, 5 + Math.round((fullText.length / 8000) * 90));
           onProgress(pct);
           onPercent(pct);
