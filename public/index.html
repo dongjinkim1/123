@@ -4377,6 +4377,95 @@ function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .charge-pkg:hover{transform:translateY(-1px)}
 .charge-pkg:active{transform:translateY(0)}
+/* ── 프로그레시브 렌더링 ── */
+.prog-sub-card {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.prog-sub-card.revealed {
+  animation: progSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes progSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.prog-skeleton {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(136,97,154,0.1);
+  padding: 20px;
+  margin-bottom: 12px;
+}
+.prog-skel-line {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(136,97,154,0.06) 0%, rgba(136,97,154,0.12) 50%, rgba(136,97,154,0.06) 100%);
+  background-size: 400px 12px;
+  animation: progShimmer 1.5s linear infinite;
+  margin-bottom: 10px;
+}
+.prog-skel-line:nth-child(1) { width: 40%; height: 14px; margin-bottom: 16px; }
+.prog-skel-line:nth-child(2) { width: 100%; }
+.prog-skel-line:nth-child(3) { width: 92%; }
+.prog-skel-line:nth-child(4) { width: 85%; }
+.prog-skel-line:nth-child(5) { width: 70%; margin-bottom: 0; }
+@keyframes progShimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+.prog-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px 14px;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.prog-bottom-bar.show { transform: translateY(0); }
+.prog-bottom-pill {
+  background: rgba(255,248,240,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 100px;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid rgba(136,97,154,0.1);
+}
+.prog-dots {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-right: 10px;
+}
+.prog-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #B8A9E8;
+  opacity: 0.25;
+  transition: opacity 0.4s, background 0.4s;
+}
+.prog-dots span.filled {
+  opacity: 1;
+  background: #88619A;
+}
+.prog-bottom-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8a8a9a;
+  white-space: nowrap;
+}
+.prog-bottom-pill.done { border-color: rgba(76,175,125,0.2); }
+.prog-bottom-pill.done .prog-bottom-text { color: #4CAF7D; font-weight: 600; }
+.prog-bottom-pill.done .prog-dots span.filled { background: #4CAF7D; }
 </style>
 <script>
 function toggleExtraGh(){
@@ -5452,7 +5541,9 @@ function startRealAnalysis(params){
       }catch(e){}
 
       setTimeout(function(){
-        renderResult(data.result,data.saju,data.mt,data.gg,data.isAI);
+        if(!data.result._progressiveRendered) {
+          renderResult(data.result,data.saju,data.mt,data.gg,data.isAI);
+        }
       },1200);
     },
     onError:function(msg){
@@ -5668,6 +5759,320 @@ function adjustColor(hex,factor){
   var r=parseInt(hex.substring(0,2),16),g=parseInt(hex.substring(2,4),16),b=parseInt(hex.substring(4,6),16);
   r=Math.round(r*factor);g=Math.round(g*factor);b=Math.round(b*factor);
   return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+}
+
+// ═══════════════════════════════════════════════════
+// 프로그레시브 렌더러 — 스트리밍 sub 실시간 표시
+// ═══════════════════════════════════════════════════
+
+var _progState = null; // 프로그레시브 렌더링 상태
+
+function initProgressivePage(saju, mt, gg, params) {
+  tipColorIndex = 0;
+  var ti = TY[mt] || {n:"탐험가", cf:"Ni-Te-Fi-Se"};
+  gg = gg || analyzeGyeokguk(saju);
+
+  // animal 계산 (클라이언트)
+  var condition = '신강';
+  if(gg.isJonggyeok || gg.isHwakyeok) condition = '특수';
+  else if(gg.strengthGrade==='신약'||gg.strengthGrade==='극신약') condition = '신약';
+  var animalInfo = getAnimalResult(saju.dmEl||'토', gg.dominant[0]||'비겁', condition);
+  var ohD = animalInfo ? animalInfo.ohengData : OHENG_DATA[0];
+
+  // pillars 계산 (클라이언트)
+  var _pillarLabels = ['시주','일주','월주','연주'];
+  var _pillarKeys = [['hg','hj'],['dg','dj'],['mg','mj'],['yg','yj']];
+  var pillars = _pillarLabels.map(function(label, pi) {
+    var gIdx = saju.raw[_pillarKeys[pi][0]], jIdx = saju.raw[_pillarKeys[pi][1]];
+    return {
+      label: label, chun: (gIdx!=null?TGAN_KR[gIdx]:''), chunOheng: (gIdx!=null?OHAENG_TGAN[gIdx]:''),
+      ji: (jIdx!=null?JIJI_KR[jIdx]:''), jiOheng: (jIdx!=null?OHAENG_JIJI[jIdx]:''),
+      sipsung: (saju.ss[pi]?saju.ss[pi].ss:''), unyeong: (saju.uns?saju.uns[pi]:''), isDay: (pi===1)
+    };
+  });
+
+  // ohengBalance 계산
+  var _ohEmoji = {'목':'🌿','화':'🔥','토':'🪨','금':'⚔️','수':'🌊'};
+  var ohengBalance = ['목','화','토','금','수'].map(function(oh) {
+    return { name: oh, count: saju.el[oh]||0, emoji: _ohEmoji[oh] };
+  });
+
+  var pg = document.getElementById('pgRes');
+  pg.style.background = 'var(--bg)';
+  pg.style.color = 'var(--text-1)';
+
+  var bdgS = 'display:inline-block;padding:3px 10px;font-size:10px;font-weight:600;border-radius:8px;margin:2px';
+  var aiBadge = '<span style="'+bdgS+';background:rgba(46,139,87,.1);color:#2e8b57">✨ AI 프리미엄</span>';
+  var trueSolarBadge = saju.trueSolarApplied ? '<span style="'+bdgS+';background:rgba(70,130,180,.1);color:#4682b4">🌍 진태양시</span>' : '';
+  var elCls = {'목':'el-wood','화':'el-fire','토':'el-earth','금':'el-metal','수':'el-water'};
+  var RDC = ['#5B8FD4','#2e8b57','#88619A','#c99a2e'];
+
+  var h = '<div class="res-wrap">';
+
+  // ① 헤더
+  h += '<div class="res-header">';
+  h += '<div class="logo-sm" style="cursor:pointer" onclick="go(\'pgDash\')"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div>';
+  h += '<p style="font-size:12px;color:var(--text-3);margin-bottom:4px">';
+  h += ST.y+'년 '+ST.m+'월 '+ST.d+'일 '+(ST.h?ST.h+'시':'')+(ST.min?ST.min+'분':'')+' · '+ST.gender;
+  h += '</p>';
+  h += '<div style="display:flex;align-items:center;justify-content:space-between">';
+  h += '<button onclick="go(\'pgDash\')" style="font-size:14px;font-weight:600;color:var(--purple);cursor:pointer;background:none;border:none;padding:0">← 돌아가기</button>';
+  h += '<div style="font-size:13px;font-weight:600;color:var(--text-2)">당신이라는 사람</div>';
+  h += '<div style="width:80px"></div>';
+  h += '</div></div>';
+
+  // ② 동물카드
+  if(animalInfo && animalInfo.mod) {
+    var mod = animalInfo.mod;
+    var gFrom = ohD.color, gTo = adjustColor(ohD.color, 0.65);
+    h += '<div class="r-animal" style="background:linear-gradient(135deg,'+gFrom+','+gTo+')">';
+    h += '<div class="r-animal-emoji">'+animalInfo.emoji+'</div>';
+    var _aTitle = mod.title;
+    if(TITLE_OVERRIDE[_aTitle]) _aTitle = TITLE_OVERRIDE[_aTitle];
+    h += '<div class="r-animal-tag">'+mod.tag+'</div>';
+    h += '<div class="r-animal-title">'+_aTitle+'</div>';
+    h += '<div class="r-animal-desc">'+mod.desc+'</div>';
+    h += '<div class="r-animal-traits">';
+    (mod.traits||[]).forEach(function(t){ h += '<span class="r-animal-trait">#'+t+'</span>'; });
+    h += '</div>';
+    h += '<div class="r-animal-rx">💊 '+mod.rx+'</div>';
+    h += '</div>';
+  }
+
+  // ③ MBTI 카드
+  h += '<div class="r-profile"><div class="r-mbti-area">';
+  h += '<div class="r-mbti-letters">';
+  mt.split('').forEach(function(l,i){ h += '<span style="color:'+RDC[i]+'">'+l+'</span>'; });
+  h += '</div>';
+  h += '<div class="r-mbti-name">'+ti.n+'</div>';
+  h += '<div class="r-mbti-cf">인지기능: '+ti.cf+'</div>';
+  h += '<div class="r-mbti-tags">';
+  ST.ch.forEach(function(c,i){
+    var lb = c==='L' ? DM_AX[i].Ll : DM_AX[i].Rl;
+    h += '<span class="r-mbti-tag">'+strLv(ST.it[i])+' '+lb+'</span>';
+  });
+  h += '</div></div></div>';
+
+  // ④ 만세력
+  h += '<div class="r-profile">';
+  h += '<div class="r-profile-title">📜 만 세 력</div>';
+  h += '<div style="text-align:center;padding:0 16px 12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">'+aiBadge+trueSolarBadge+'</div>';
+  h += '<div class="r-pil-grid">';
+  pillars.forEach(function(pil) {
+    var isDay = !!pil.isDay;
+    var cEl = pil.chunOheng||'', jEl = pil.jiOheng||'';
+    h += '<div class="r-pil'+(isDay?' r-pil-day':'')+'">';
+    h += '<div class="r-pil-label">'+(pil.label||'')+'</div>';
+    h += '<div class="r-pil-char '+(elCls[cEl]||'')+'">'+(pil.chun||'')+'</div>';
+    h += '<div class="r-pil-info">'+(cEl||'')+(pil.sipsung?' · '+pil.sipsung:'')+'</div>';
+    h += '<div class="r-pil-char '+(elCls[jEl]||'')+'">'+(pil.ji||'')+'</div>';
+    h += '<div class="r-pil-info">'+(jEl||'')+(pil.unyeong?' · '+pil.unyeong:'')+'</div>';
+    h += '</div>';
+  });
+  h += '</div>';
+
+  // 오행 밸런스
+  h += '<div class="r-oh-row">';
+  ohengBalance.forEach(function(ob) {
+    h += '<div class="r-oh-item"><span class="r-oh-emoji">'+ob.emoji+'</span>';
+    h += '<span class="r-oh-name '+(elCls[ob.name]||'')+'">'+ob.name+'</span>';
+    h += '<span class="r-oh-cnt">'+ob.count+'</span></div>';
+  });
+  h += '</div></div>';
+
+  // ⑤ sub 카드 컨테이너 (빈 상태)
+  h += '<div id="prog-sub-container"></div>';
+
+  // ⑥ 스켈레톤
+  h += '<div id="prog-skeleton" class="prog-skeleton">';
+  h += '<div class="prog-skel-line"></div><div class="prog-skel-line"></div>';
+  h += '<div class="prog-skel-line"></div><div class="prog-skel-line"></div>';
+  h += '<div class="prog-skel-line"></div></div>';
+
+  // ⑦ 완료 영역 (숨김)
+  h += '<div id="prog-complete" style="display:none"></div>';
+
+  h += '<div style="height:80px"></div></div>';
+
+  // 하단 진행 바
+  h += '<div class="prog-bottom-bar" id="prog-bar"><div class="prog-bottom-pill" id="prog-pill">';
+  h += '<div class="prog-dots" id="prog-dots"></div>';
+  h += '<div class="prog-bottom-text" id="prog-text">1/14 풀이 중</div>';
+  h += '</div></div>';
+
+  pg.innerHTML = h;
+
+  // 도트 생성
+  var dotsEl = document.getElementById('prog-dots');
+  for(var di = 0; di < 14; di++) { var dot = document.createElement('span'); dotsEl.appendChild(dot); }
+
+  // 바 표시
+  document.getElementById('prog-bar').classList.add('show');
+
+  // 상태 저장
+  _progState = {
+    saju: saju, mt: mt, gg: gg, animalInfo: animalInfo,
+    subCount: 0, params: params, ti: ti
+  };
+
+  // 페이지 이동
+  go('pgRes');
+  window.scrollTo({ top: 0 });
+
+  console.log('[PROGRESSIVE] 페이지 초기화 완료');
+}
+
+function appendSubCard(subObj, index) {
+  if(!_progState) return;
+  var container = document.getElementById('prog-sub-container');
+  if(!container) return;
+
+  // 카테고리 구분자
+  var catMap = {
+    0:'🔥 나란 사람', 4:'💘 나의 연애', 7:'💼 일과 돈',
+    9:'⚡ 2026년 나의 운', 11:'🔮 인생 로드맵'
+  };
+  if(catMap[index]) {
+    var catDiv = document.createElement('div');
+    catDiv.className = 'r-cat-head prog-sub-card';
+    var catParts = catMap[index].split(' ');
+    catDiv.innerHTML = '<div class="r-cat-title-row"><span class="r-cat-icon">'+catParts[0]+'</span><span class="r-cat-title">'+catParts.slice(1).join(' ')+'</span></div>';
+    container.appendChild(catDiv);
+    setTimeout(function(){ catDiv.classList.add('revealed'); }, 50);
+  }
+
+  // Sub 카드
+  var card = document.createElement('div');
+  card.className = 'r-sub prog-sub-card';
+  var bodyHtml = renderSubBody(subObj.b || '');
+  var tipHtml = '';
+  if(subObj.tip) {
+    var _tc = tipPalette[tipColorIndex % tipPalette.length];
+    tipColorIndex++;
+    tipHtml = '<div style="border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.85;background:'+_tc.bg+';border-left:3px solid '+_tc.border+';color:var(--text-2)">'+subObj.tip+'</div>';
+  }
+  card.innerHTML = '<div class="r-sub-h">'+(subObj.h||'')+'</div>' +
+    '<div class="r-sub-b">'+bodyHtml+'</div>' + tipHtml;
+  container.appendChild(card);
+  setTimeout(function(){ card.classList.add('revealed'); }, 100);
+
+  // 스켈레톤 위치 조정 (항상 마지막에)
+  var skel = document.getElementById('prog-skeleton');
+  if(skel) container.parentNode.insertBefore(skel, container.nextSibling);
+
+  // 진행 바 업데이트
+  _progState.subCount = index + 1;
+  updateProgressBar(_progState.subCount);
+
+  console.log('[PROGRESSIVE] sub 추가 #' + (index+1) + ': ' + subObj.h);
+}
+
+function updateProgressBar(count) {
+  var text = document.getElementById('prog-text');
+  var dots = document.getElementById('prog-dots');
+  if(text) text.textContent = count + '/14 풀이 중';
+  if(dots) {
+    var children = dots.children;
+    for(var i = 0; i < children.length; i++) {
+      if(i < count) children[i].classList.add('filled');
+      else children[i].classList.remove('filled');
+    }
+  }
+}
+
+function finalizeProgressivePage(result, saju, mt, gg, isAI) {
+  // 스켈레톤 제거
+  var skel = document.getElementById('prog-skeleton');
+  if(skel) skel.remove();
+
+  // 누락된 sub 채우기
+  if(result && result.categories) {
+    var container = document.getElementById('prog-sub-container');
+    var existCount = _progState ? _progState.subCount : 0;
+    var allSubs = [];
+    result.categories.forEach(function(cat) {
+      (cat.subs||[]).forEach(function(sub) { allSubs.push(sub); });
+    });
+    for(var i = existCount; i < allSubs.length; i++) {
+      appendSubCard(allSubs[i], i);
+    }
+  }
+
+  // 진행 바 완료
+  var pill = document.getElementById('prog-pill');
+  var text = document.getElementById('prog-text');
+  var dots = document.getElementById('prog-dots');
+  if(pill) pill.classList.add('done');
+  if(text) text.textContent = '풀이 완성';
+  if(dots) {
+    var children = dots.children;
+    for(var i = 0; i < children.length; i++) children[i].classList.add('filled');
+  }
+
+  // 3초 후 바 숨기기
+  setTimeout(function() {
+    var bar = document.getElementById('prog-bar');
+    if(bar) bar.classList.remove('show');
+  }, 3500);
+
+  // oneLine + CTA
+  var completeEl = document.getElementById('prog-complete');
+  if(completeEl && result) {
+    var ch = '';
+    if(result.oneLine) {
+      ch += '<div class="r-oneline">';
+      ch += '<div class="r-oneline-label">YOUR LIFE IN ONE LINE</div>';
+      ch += '<div class="r-oneline-text">'+(result.oneLine||'').replace(/\\n/g,'<br>').replace(/\n/g,'<br>')+'</div>';
+      ch += '</div>';
+    }
+    ch += '<div class="r-cta">';
+    ch += '<div class="r-cta-row">';
+    ch += '<button class="r-cta-btn" onclick="go(\'pgGunghap\')" style="background:rgba(232,69,60,.1);color:#E8453C">💕 궁합 보러가기</button>';
+    ch += '<button class="r-cta-btn" onclick="shareKakao()" style="background:#FEE500;color:#191919">💬 카카오 공유</button>';
+    ch += '</div>';
+    ch += '<p style="margin-top:16px;font-size:11px;color:var(--text-3);opacity:.8">본 풀이는 명리학과 MBTI 이론을 기반한 참고용 분석이며,<br>개인의 의사결정을 대체하지 않습니다.</p>';
+    ch += '</div>';
+    completeEl.innerHTML = ch;
+    completeEl.style.display = 'block';
+  }
+
+  // 히스토리 저장 (기존 renderResult와 동일)
+  try {
+    var hist = JSON.parse(localStorage.getItem('mbts_history')||'[]');
+    var dateStr = new Date().toISOString().slice(0,10);
+    var animalInfo = _progState ? _progState.animalInfo : null;
+    var myEmoji = animalInfo ? animalInfo.emoji : '🌟';
+    var myTag = animalInfo && animalInfo.mod ? animalInfo.mod.tag : '· '+mt;
+    var myIlju = saju.P[2].s + saju.P[2].b;
+
+    // result.animal 세팅 (shareKakao 등에서 사용)
+    if(!result.animal) {
+      var _cond = '신강';
+      if(gg.isJonggyeok||gg.isHwakyeok) _cond = '특수';
+      else if(gg.strengthGrade==='신약'||gg.strengthGrade==='극신약') _cond = '신약';
+      result.animal = { oheng: saju.dmEl||'토', dominant_sipsung: gg.dominant[0]||'비겁', condition: _cond };
+    }
+
+    window._lastAIResult = result;
+    window._lastSaju = saju;
+    window._lastIsAI = isAI;
+
+    var record = {
+      id: String(Date.now())+'_'+String(Math.random()).slice(2,8),
+      name: (ST.name||'나'), date: dateStr,
+      input: {y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender},
+      saju: saju, dw: window._lastDW, gg: gg, mbti: mt,
+      mbtiObj: window._lastMBTIObj, aiResult: result, isAI: isAI,
+      animal: result.animal||null, animalEmoji: myEmoji, animalTag: myTag,
+      animalIlju: myIlju, animalOneLine: animalInfo&&animalInfo.mod?animalInfo.mod.oneLine:''
+    };
+    hist.push(record);
+    localStorage.setItem('mbts_history', JSON.stringify(hist));
+    if(hist.length===1) localStorage.setItem('mbts_fortuneTarget', record.id);
+  } catch(e3) { console.warn('[PROGRESSIVE] 히스토리 저장 실패:', e3); }
+
+  _progState = null;
+  console.log('[PROGRESSIVE] 완료');
 }
 
 // ====================================================================
