@@ -41,7 +41,7 @@ if (error) {
   // Netlify Function으로 토큰 교환 + 사용자 정보 조회
   var redirectUri = window.location.origin + '/auth/kakao/callback';
 
-  fetch('/.netlify/functions/kakao-token?code=' + encodeURIComponent(code) + '&redirect_uri=' + encodeURIComponent(redirectUri))
+  fetch('/api/kakao-token?code=' + encodeURIComponent(code) + '&redirect_uri=' + encodeURIComponent(redirectUri))
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (!data.success || !data.kakao_id) {
