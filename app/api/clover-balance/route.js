@@ -17,7 +17,7 @@ export async function POST(request) {
       .maybeSingle()
 
     if (error || !data) {
-      return Response.json({ error: 'User not found' }, { status: 404 })
+      return Response.json({ success: true, balance: 0, nickname: '' })
     }
 
     return Response.json({ success: true, balance: data.clover_balance || 0, nickname: data.nickname || '' })
