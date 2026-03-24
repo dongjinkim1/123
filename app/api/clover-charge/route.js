@@ -18,7 +18,7 @@ export async function POST(request) {
       .maybeSingle()
 
     if (fetchError || !user) {
-      return Response.json({ error: 'User not found' }, { status: 404 })
+      return Response.json({ error: 'User not found', balance: 0 })
     }
 
     var currentBalance = user.clover_balance || 0

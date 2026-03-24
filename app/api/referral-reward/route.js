@@ -23,7 +23,7 @@ export async function POST(request) {
       .maybeSingle()
 
     if (fetchError || !referrer) {
-      return Response.json({ error: 'Referrer not found' }, { status: 404 })
+      return Response.json({ error: 'Referrer not found', success: false })
     }
 
     // 추천인에게 클로버 2잎 지급

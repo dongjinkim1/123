@@ -22,7 +22,7 @@ export async function POST(request) {
       .single()
 
     if (fetchErr || !user) {
-      return Response.json({ success: false, error: '유저를 찾을 수 없습니다' }, { status: 404 })
+      return Response.json({ success: false, error: '유저를 찾을 수 없습니다', balance: 0 })
     }
 
     var balance = user.clover_balance || 0
