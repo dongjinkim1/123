@@ -2,7 +2,7 @@
 // MBTS Service Worker
 // BUILD_TIME을 매 배포마다 갱신하여 캐시를 무효화
 // ============================================================
-var BUILD_TIME = '20260319a';
+var BUILD_TIME = '20260325_1455';
 var CACHE_NAME = 'mbts-' + BUILD_TIME;
 var urlsToCache = [
   '/',
