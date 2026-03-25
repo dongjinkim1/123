@@ -2699,10 +2699,14 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
             }
             var nextIdx = _detectedSubs + 1;
             if(nextIdx < SUB_TITLES.length) {
-              var nextMarker = '"h":"' + SUB_TITLES[nextIdx] + '"';
-              if(fullText.indexOf(nextMarker) >= 0 && _detectedSubs < nextIdx) {
+              var _nns = '"h":"' + SUB_TITLES[nextIdx] + '"';
+              var _nws = '"h": "' + SUB_TITLES[nextIdx] + '"';
+              var nextMarker = fullText.indexOf(_nns) >= 0 ? _nns : (fullText.indexOf(_nws) >= 0 ? _nws : null);
+              if(nextMarker && _detectedSubs < nextIdx) {
                 var prevTitle = SUB_TITLES[_detectedSubs];
-                var prevMarker = '"h":"' + prevTitle + '"';
+                var _pns = '"h":"' + prevTitle + '"';
+                var _pws = '"h": "' + prevTitle + '"';
+                var prevMarker = fullText.indexOf(_pns) >= 0 ? _pns : (fullText.indexOf(_pws) >= 0 ? _pws : _pns);
                 var prevStart = fullText.lastIndexOf('{', fullText.indexOf(prevMarker));
                 var nextStart = fullText.lastIndexOf('{', fullText.indexOf(nextMarker));
                 if(prevStart >= 0 && nextStart > prevStart) {
