@@ -3050,6 +3050,7 @@ async function runSajuAnalysis(params, callbacks){
 
     // ── 프로그레시브 렌더링 연결 ──
     var _progSubQueue = [];
+    var _collectedSubs = [];
     var _progInitDone = false;
     var _progCallbacks = {
       onMessage: callbacks.onMessage || function(){},
@@ -3061,6 +3062,7 @@ async function runSajuAnalysis(params, callbacks){
       onSub: function(subObj, idx) {
         console.log('[PROG] sub 감지 #' + (idx+1) + ': ' + (subObj?subObj.h:'?'));
         _progSubQueue.push({ sub: subObj, idx: idx });
+        _collectedSubs.push(subObj);
 
         // 3개 모이면 페이지 초기화 + 첫 3개 표시
         if(_progSubQueue.length === 3 && !_progInitDone) {
@@ -3113,10 +3115,28 @@ async function runSajuAnalysis(params, callbacks){
         sanitized = sanitized.replace(/[\x00-\x1F\x7F]/g, function(c) { return c === '\n' || c === '\r' || c === '\t' ? c : ''; });
         try { result = JSON.parse(sanitized); } catch(e4) {}
       }
-      // 2~4차 성공 시 에러 초기화
+      // 5차: 잘린 JSON 괄호 복구
+      if (!result) {
+        var rawText = aiText.substring(fb >= 0 ? fb : 0);
+        var repaired = rawText;
+        var openBraces = (repaired.match(/{/g) || []).length;
+        var closeBraces = (repaired.match(/}/g) || []).length;
+        var openBrackets = (repaired.match(/\[/g) || []).length;
+        var closeBrackets = (repaired.match(/\]/g) || []).length;
+        while (closeBrackets < openBrackets) { repaired += ']'; closeBrackets++; }
+        while (closeBraces < openBraces) { repaired += '}'; closeBraces++; }
+        repaired = repaired.replace(/,\s*([}\]])/g, '$1');
+        try { result = JSON.parse(repaired); console.log('[MBTS] 5차 괄호 복구 성공'); } catch(e5) {}
+      }
+      // 2~5차 성공 시 에러 초기화
       if (result) {
         apiError = '';
         console.log('[MBTS] JSON 추출 성공 (폴백 파서)');
+      } else if (_collectedSubs.length >= 3) {
+        // 프로그레시브 수집분으로 부분 저장
+        result = { _blueprint: {landscape:'', oneLine:''}, categories: _collectedSubs };
+        apiError = '';
+        console.log('[MBTS] JSON 파싱 실패 — 프로그레시브 수집분으로 부분 저장 (' + _collectedSubs.length + '개 sub)');
       } else {
         apiError = 'JSON_PARSE';
         result = mkFB(saju, mt, gg);
