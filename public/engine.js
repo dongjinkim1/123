@@ -2751,6 +2751,18 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
     var jsonBlock = lines2.slice(startIdx, endIdx + 1).join('\n');
     try { JSON.parse(jsonBlock); return jsonBlock; } catch(e3) {}
   }
+  // JSON 미닫힘 자동 보정
+  if (cleaned.trim().length > 100 && cleaned.trim().slice(-1) !== '}') {
+    console.log('[STREAM] JSON 미닫힘 감지 — 자동 보정');
+    var openB = (cleaned.match(/{/g)||[]).length;
+    var closeB = (cleaned.match(/}/g)||[]).length;
+    var openA = (cleaned.match(/\[/g)||[]).length;
+    var closeA = (cleaned.match(/\]/g)||[]).length;
+    while (closeA < openA) { cleaned += ']'; closeA++; }
+    while (closeB < openB) { cleaned += '}'; closeB++; }
+    cleaned = cleaned.replace(/,\s*([}\]])/g, '$1');
+    try { JSON.parse(cleaned); return cleaned; } catch(e4) {}
+  }
   console.warn('[MBTS] JSON 추출 실패, 원본 반환:', cleaned.substring(0, 100));
   return cleaned;
 }
@@ -3147,9 +3159,13 @@ async function runSajuAnalysis(params, callbacks){
     if(result && !apiError) result = postValidateAI(result, dw, saju, gg);
 
   }catch(e){
-    console.error('[MBTS] 에러:', e);
-    apiError=e.message||'UNKNOWN';
-    result=mkFB(saju,mt,gg);
+    if (result && result.categories && result.categories.length >= 10) {
+      console.log('[MBTS] postValidateAI 실패했지만 categories ' + result.categories.length + '개 확보 — 계속 진행');
+    } else {
+      console.error('[MBTS] 에러:', e);
+      apiError=e.message||'UNKNOWN';
+      result=mkFB(saju,mt,gg);
+    }
   }
 
   clearInterval(iv);if(callbacks.onProgress)callbacks.onProgress(100);if(callbacks.onPercent)callbacks.onPercent(100);

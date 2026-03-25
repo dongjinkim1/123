@@ -29,7 +29,7 @@ export async function POST(request) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 24000,
+        max_tokens: 30000,
         stream: true,
         system: systemPrompt,
         messages: [{ role: 'user', content: userPrompt }],

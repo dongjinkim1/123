@@ -36,7 +36,7 @@ export async function POST(request) {
 
     const stream = await client.messages.create({
       model: useModel,
-      max_tokens: 24000,
+      max_tokens: 30000,
       temperature: 0.8,
       stream: true,
       system: finalSystemPrompt,
