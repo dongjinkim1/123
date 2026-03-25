@@ -2716,7 +2716,28 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
                     console.log('[STREAM] sub 완성 #' + (_detectedSubs + 1) + ': ' + subObj.h);
                     onSub(subObj, _detectedSubs);
                   } catch(e) {
-                    console.log('[STREAM] sub 파싱 실패 #' + (_detectedSubs + 1) + ': ' + prevTitle);
+                    // 카테고리 경계 파싱 실패 → 첫 번째 완전한 JSON 객체만 추출
+                    var _brace = 0, _inStr = false, _esc = false, _end = -1;
+                    for(var _si = 0; _si < subText.length; _si++) {
+                      var _ch = subText[_si];
+                      if(_esc) { _esc = false; continue; }
+                      if(_ch === '\\') { _esc = true; continue; }
+                      if(_ch === '"') { _inStr = !_inStr; continue; }
+                      if(_inStr) continue;
+                      if(_ch === '{') _brace++;
+                      if(_ch === '}') { _brace--; if(_brace === 0) { _end = _si; break; } }
+                    }
+                    if(_end > 0) {
+                      try {
+                        var subObj2 = JSON.parse(subText.substring(0, _end + 1));
+                        console.log('[STREAM] sub 완성(경계보정) #' + (_detectedSubs + 1) + ': ' + subObj2.h);
+                        onSub(subObj2, _detectedSubs);
+                      } catch(e2) {
+                        console.log('[STREAM] sub 파싱 실패 #' + (_detectedSubs + 1) + ': ' + prevTitle);
+                      }
+                    } else {
+                      console.log('[STREAM] sub 파싱 실패 #' + (_detectedSubs + 1) + ': ' + prevTitle);
+                    }
                   }
                 }
                 _detectedSubs = nextIdx;
