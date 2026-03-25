@@ -2025,6 +2025,31 @@ window.streamSonnet = function(apiKey, systemPrompt, userMsg, label, callbacks, 
     }
     window._SJ_pendingData = null;
   }
+
+  // MBTS 73이론 데이터 주입
+  if (window._MBTS_result && typeof buildMBTSPrompt === 'function') {
+    try {
+      var mbtsPrompt = buildMBTSPrompt(window._MBTS_result);
+      if (mbtsPrompt && mbtsPrompt.length > 100) {
+        var marker = '## 참고 힌트';
+        var idx = userMsg.indexOf(marker);
+        if (idx >= 0) {
+          userMsg = userMsg.substring(0, idx) +
+            '\n## MBTS v7.0 분석 재료 (이야기의 씨앗으로 활용)\n' +
+            mbtsPrompt + '\n\n' +
+            userMsg.substring(idx);
+        } else {
+          userMsg += '\n\n## MBTS v7.0 분석 재료\n' + mbtsPrompt;
+        }
+        console.log('[saju.js] MBTS 프롬프트 주입 완료 — ' + mbtsPrompt.length + '자');
+      }
+    } catch(e) {
+      console.warn('[saju.js] MBTS 주입 실패 (기존 프롬프트 사용):', e.message);
+    }
+    window._MBTS_result = null;
+  }
+
+  console.log('[saju.js] 최종 프롬프트 길이: ' + userMsg.length + '자');
   console.log('🔍[18] _origStreamSonnet 호출 직전');
   var result = _origStreamSonnet.call(this, apiKey, systemPrompt, userMsg, label, callbacks, endpoint);
   console.log('🔍[19] _origStreamSonnet 호출 완료, result 타입='+typeof result);
