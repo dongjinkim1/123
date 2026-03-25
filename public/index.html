@@ -5859,27 +5859,36 @@ function initProgressivePage(saju, mt, gg, params) {
   h += '<div class="r-profile-title">📜 만 세 력</div>';
   h += '<div style="text-align:center;padding:0 16px 12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">'+aiBadge+trueSolarBadge+'</div>';
   h += '<div class="r-pil-grid">';
-  pillars.forEach(function(pil) {
-    var isDay = !!pil.isDay;
-    var cEl = pil.chunOheng||'', jEl = pil.jiOheng||'';
-    h += '<div class="r-pil'+(isDay?' r-pil-day':'')+'">';
-    h += '<div class="r-pil-label">'+(pil.label||'')+'</div>';
-    h += '<div class="r-pil-char '+(elCls[cEl]||'')+'">'+(pil.chun||'')+'</div>';
-    h += '<div class="r-pil-info">'+(cEl||'')+(pil.sipsung?' · '+pil.sipsung:'')+'</div>';
-    h += '<div class="r-pil-char '+(elCls[jEl]||'')+'">'+(pil.ji||'')+'</div>';
-    h += '<div class="r-pil-info">'+(jEl||'')+(pil.unyeong?' · '+pil.unyeong:'')+'</div>';
-    h += '</div>';
+  var pRev=[saju.P[3],saju.P[2],saju.P[1],saju.P[0]];
+  var ssRev=[saju.ss[3],saju.ss[2],saju.ss[1],saju.ss[0]];
+  var unsRev=[saju.uns[3],saju.uns[2],saju.uns[1],saju.uns[0]];
+  pRev.forEach(function(p,i){
+    var sOh=p.gi!=null?OHAENG_TGAN[p.gi]:'',bOh=p.bi!=null?OHAENG_JIJI[p.bi]:'';
+    var isDay=i===1;
+    h+='<div class="r-pil-box'+(isDay?' r-pil-day':'')+'">';
+    h+='<div class="r-pil-label">'+p.l+'</div>';
+    h+='<div class="r-pil-stem '+(elCls[sOh]||'')+'">'+p.s+'</div>';
+    h+='<div class="r-pil-info">'+sOh+'</div>';
+    h+='<div class="r-pil-ss">'+(ssRev[i]?ssRev[i].ss:'')+'</div>';
+    if(unsRev[i])h+='<div class="r-pil-un">'+unsRev[i]+'</div>';
+    h+='<div class="r-pil-div"></div>';
+    h+='<div class="r-pil-branch '+(elCls[bOh]||'')+'">'+p.b+'</div>';
+    h+='<div class="r-pil-info">'+bOh+'</div>';
+    h+='</div>';
   });
   h += '</div>';
 
   // 오행 밸런스
-  h += '<div class="r-oh-row">';
-  ohengBalance.forEach(function(ob) {
-    h += '<div class="r-oh-item"><span class="r-oh-emoji">'+ob.emoji+'</span>';
-    h += '<span class="r-oh-name '+(elCls[ob.name]||'')+'">'+ob.name+'</span>';
-    h += '<span class="r-oh-cnt">'+ob.count+'</span></div>';
+  h+='<div class="r-oh-bar">';
+  ['목','화','토','금','수'].forEach(function(e){
+    var c=saju.el[e]||0;
+    var od=OHENG_DATA.filter(function(o){return o.key===e;})[0]||{};
+    h+='<div class="r-oh-item">';
+    h+='<div class="r-oh-dot" style="background:'+(c>0?od.bg:'#f5f5f5')+';border:2px solid '+(c>0?od.color:'#eee')+'">'+(od.emoji||EJ[e]||'')+'</div>';
+    h+='<div class="r-oh-lbl" style="color:'+(od.color||'#999')+'">'+e+' '+c+'</div>';
+    h+='</div>';
   });
-  h += '</div></div>';
+  h+='</div></div>';
 
   // ⑤ sub 카드 컨테이너 (빈 상태)
   h += '<div id="prog-sub-container"></div>';
