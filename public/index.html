@@ -5395,6 +5395,7 @@ function getCityLng(name){
 // mbtiGoNext 오버라이드 — 실제 분석 연결
 // ====================================================================
 function mbtiGoNext(){
+  if(_isAnalyzing){console.log('⚠️ 분석 진행 중 — 중복 실행 방지');return;}
   console.log('🔍[1] mbtiGoNext 진입, mbtiCur='+mbtiCur);
   if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null){console.log('❌ 선택값 null → return');return;}
   if(mbtiCur<3){mbtiCur++;renderMBTI();return;}
