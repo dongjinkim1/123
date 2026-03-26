@@ -396,17 +396,8 @@
     // 8자 심리 위치
     r.positions = {};
     var gans = [saju.raw.yg, saju.raw.mg, saju.raw.dg, saju.raw.hg];
-    var ganKeys = ['yearGan','monthGan','dayGan','hourGan'];
-    for (var j=0;j<4;j++) { if (gans[j]!=null) r.positions[ganKeys[j]] = { func: ganToMBTS(gans[j]), area: PILLAR_PSYCHOLOGY[ganKeys[j]] }; }
-    var jijis = [saju.raw.yj, saju.raw.mj, saju.raw.dj, saju.raw.hj];
-    var jiKeys = ['yearJi','monthJi','dayJi','hourJi'];
-    var JIJANGGAN_JEONGGI = [9,5,0,1,4,2,3,5,6,7,4,8];
-    for (var k=0;k<4;k++) {
-      if (jijis[k]!=null && PILLAR_PSYCHOLOGY[jiKeys[k]]) {
-        var jeonggiGan = JIJANGGAN_JEONGGI[jijis[k]];
-        r.positions[jiKeys[k]] = { func: ganToMBTS(jeonggiGan), area: PILLAR_PSYCHOLOGY[jiKeys[k]] };
-      }
-    }
+    var keys = ['yearGan','monthGan','dayGan','hourGan'];
+    for (var j=0;j<4;j++) { if (gans[j]!=null) r.positions[keys[j]] = { func: ganToMBTS(gans[j]), area: PILLAR_PSYCHOLOGY[keys[j]] }; }
 
     // 암합
     if (saju.amhap && saju.amhap.length > 0) {
@@ -452,81 +443,39 @@
     if (!mbtsResult) return '';
     var L = [];
 
-    // 핵심 자아
-    if (mbtsResult.coreFunction) {
-      L.push('## 핵심 자아 인지기능');
-      L.push(mbtsResult.coreFunction.id + '(' + mbtsResult.coreFunction.name + ') — ' + mbtsResult.coreFunction.desc);
-      if (mbtsResult.coreFunction.oh) L.push('오행 에너지: ' + mbtsResult.coreFunction.oh);
-      L.push('');
-    }
-
-    // 풍경 재료
+    // 풍경 씨앗 (MBTS 고유)
     if (mbtsResult.landscape) {
-      L.push('## 이 사람의 풍경 재료');
-      if (mbtsResult.landscape.hero) {
-        L.push('주인공: ' + mbtsResult.landscape.hero.image + ' (' + mbtsResult.landscape.hero.qualities + ')');
-      }
-      if (mbtsResult.landscape.season) {
-        L.push('계절: ' + mbtsResult.landscape.season.season + ' (' + mbtsResult.landscape.season.mood + ')');
-      }
-      if (mbtsResult.landscape.ground) {
-        L.push('무대: ' + mbtsResult.landscape.ground.season + ' (' + mbtsResult.landscape.ground.mood + ')');
-      }
-      if (mbtsResult.landscape.summary) {
-        L.push('한줄 요약: ' + mbtsResult.landscape.summary);
-      }
-      if (mbtsResult.landscapeHarmony) {
-        L.push('조화도: ' + mbtsResult.landscapeHarmony.label + ' — ' + mbtsResult.landscapeHarmony.desc);
-      }
+      L.push('## 이 사람의 풍경 (이야기의 씨앗)');
+      L.push(mbtsResult.landscape.landscape);
+      if (mbtsResult.landscapeHarmony) L.push('조화도: ' + mbtsResult.landscapeHarmony.label + ' — ' + mbtsResult.landscapeHarmony.desc);
       L.push('');
     }
 
-    // 핵심 포인트 + 모든 분석 데이터
-    L.push('## MBTS 분석 데이터');
+    // 핵심 포인트 (MBTS 고유)
+    L.push('## ★ MBTS 핵심 포인트');
     if (mbtsResult.temperament) L.push('기질: ' + mbtsResult.temperament.name + '(' + mbtsResult.temperament.nameEn + ') — ' + mbtsResult.temperament.keywords);
     if (mbtsResult.strengthGrade) L.push('자아강도: ' + mbtsResult.strengthGrade.label + '(' + mbtsResult.strengthGrade.pct + '%) — ' + mbtsResult.strengthGrade.desc + '. 처방: ' + mbtsResult.strengthGrade.rx);
     if (mbtsResult.gaeun) L.push('개운: ' + mbtsResult.gaeun.message);
-    if (mbtsResult.discrepancies && mbtsResult.discrepancies.length > 0) {
-      mbtsResult.discrepancies.forEach(function(d) { L.push('불일치(' + d.type + '): ' + d.desc); });
-    }
-    if (mbtsResult.phaseTransition) {
-      L.push('간합변환: ' + (mbtsResult.phaseTransition.from ? mbtsResult.phaseTransition.from.id : '') + '→' + mbtsResult.phaseTransition.to + ' (' + mbtsResult.phaseTransition.meaning + ')');
-    }
-    if (mbtsResult.transitionSpeed) {
-      L.push('교운기: ' + mbtsResult.transitionSpeed.desc);
-    }
-    if (mbtsResult.brokenChains && mbtsResult.brokenChains.length > 0) {
-      mbtsResult.brokenChains.forEach(function(bc) { L.push('상생체인: ' + bc.desc); });
-    }
-    if (mbtsResult.amhap && mbtsResult.amhap.length > 0) {
-      mbtsResult.amhap.forEach(function(ah) { L.push('암합: ' + ah.from + '↔' + ah.to + ' (궁위: ' + (ah.gungwi||'') + ', ' + ah.layer + ', 경로: ' + ah.path + ')'); });
-    }
     L.push('');
 
-    // 8자 심리 위치
-    if (mbtsResult.positions && Object.keys(mbtsResult.positions).length > 0) {
-      L.push('## 8자 심리 위치');
-      var posOrder = ['yearGan','yearJi','monthGan','monthJi','dayGan','dayJi','hourGan','hourJi'];
-      for (var i = 0; i < posOrder.length; i++) {
-        var pos = mbtsResult.positions[posOrder[i]];
-        if (pos && pos.func && pos.area) {
-          L.push(pos.area.area + ': ' + pos.func.id + '(' + pos.func.name + ') — ' + pos.area.desc);
-        }
-      }
-      L.push('');
+    // 특이점 (MBTS 고유)
+    var sp = false;
+    if (mbtsResult.discrepancies && mbtsResult.discrepancies.length > 0) {
+      if (!sp) { L.push('## ☆ 특이점'); sp = true; }
+      mbtsResult.discrepancies.forEach(function(d) { L.push('- 불일치(' + d.type + '): ' + d.desc); });
     }
-
-    // MBTI 강도
-    if (mbtsResult.mbtiLevels && mbtsResult.mbtiLevels.length === 4) {
-      L.push('## MBTI 축별 강도');
-      var axes = ['E/I', 'S/N', 'T/F', 'J/P'];
-      for (var j = 0; j < 4; j++) {
-        if (mbtsResult.mbtiLevels[j]) L.push(axes[j] + ': ' + mbtsResult.mbtiLevels[j].label);
-      }
-      L.push('');
+    if (mbtsResult.phaseTransition) {
+      if (!sp) { L.push('## ☆ 특이점'); sp = true; }
+      L.push('- 간합변환: ' + (mbtsResult.phaseTransition.from?mbtsResult.phaseTransition.from.id:'') + '→' + mbtsResult.phaseTransition.to);
     }
+    if (mbtsResult.brokenChains && mbtsResult.brokenChains.length > 0) {
+      if (!sp) { L.push('## ☆ 특이점'); sp = true; }
+      mbtsResult.brokenChains.forEach(function(bc) { L.push('- 상생체인: ' + bc.desc); });
+    }
+    if (sp) L.push('');
 
-    // 바넘 방지
+    // 바넘 방지 (짧게)
+    L.push('## 바넘 방지');
     L.push(BARNUM_PREVENTION.text);
 
     return L.join('\n');
