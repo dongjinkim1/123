@@ -6611,6 +6611,7 @@ function closePopupNotice(){
 setTimeout(function(){ checkPopupNotice(); }, 1500);
 </script>
 <script>
+/* SW 비활성화 — 캐시 원인 분리 테스트
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
     navigator.serviceWorker.register('/sw.js').then(function(reg){
@@ -6620,6 +6621,7 @@ if('serviceWorker' in navigator){
     });
   });
 }
+*/
 </script>
 <!-- Popup Notice -->
 <div class="popup-notice-overlay" id="popupNoticeOverlay" onclick="if(event.target===this)closePopupNotice()">
