@@ -2407,6 +2407,9 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
           <p style="font-size:12.5px;color:#9B8CB8;font-weight:400;line-height:1.6;margin:0">시간과 출생지까지 입력하면 더 정확한 풀이가 가능해요</p>
         </div>
 
+        <!-- ━━ 프리필 카드 (본인 데이터 있을 때 표시) ━━ -->
+        <div id="birthPrefillCard" style="display:none;background:linear-gradient(135deg,rgba(139,108,193,0.06),rgba(196,176,232,0.08));border:1.5px solid rgba(139,108,193,0.15);border-radius:20px;padding:20px 20px 16px;margin-bottom:16px;position:relative;overflow:hidden"></div>
+
         <!-- Glassy Card -->
         <div class="birth-glass-card">
 
@@ -2547,7 +2550,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
         </div><!-- /birth-glass-card -->
 
         <!-- ━━ CTA ━━ -->
-        <div style="position:relative;z-index:10;margin-top:20px">
+        <div id="birthCtaWrap" style="position:relative;z-index:10;margin-top:20px">
           <button class="birth-next" id="birthNextBtn" onclick="goToMBTI()"><span style="position:relative">다음 단계 →</span></button>
         </div>
 
@@ -3029,6 +3032,7 @@ function go(id,skipPush){
     if(typeof showToast==='function') showToast('로그인이 필요합니다 🍀');
     id='pgLogin';
   }
+  if(id==='pgBirth'&&typeof prefillBirthForm==='function') setTimeout(prefillBirthForm,50);
   if(id==='pgMore') updateMoreProfile();
   if(id==='pgAnimal'&&typeof renderAnimalPage==='function') renderAnimalPage();
   if(id==='pgClover'&&typeof loadCloverHistory==='function') loadCloverHistory();
@@ -4096,6 +4100,127 @@ function toggleLeapMonth() {
     icon.innerHTML = '';
     btn.style.color = '#C4B0E8';
   }
+}
+
+// ── pgBirth 프리필: 본인 데이터 자동 채움 ──
+function prefillBirthForm(){
+  var prefillCard=document.getElementById('birthPrefillCard');
+  var glassCard=document.querySelector('.birth-glass-card');
+  var ctaWrap=document.getElementById('birthCtaWrap');
+  if(!prefillCard)return;
+
+  // mbts_history에서 본인 체크된 최신 레코드 찾기
+  var rec=null;
+  try{
+    var hist=JSON.parse(localStorage.getItem('mbts_history')||'[]');
+    for(var i=hist.length-1;i>=0;i--){
+      if(hist[i].isMyProfile){rec=hist[i];break;}
+    }
+  }catch(e){}
+
+  if(!rec||!rec.input){
+    // 본인 데이터 없음 → 프리필 카드 숨기고 폼 보이기
+    prefillCard.style.display='none';
+    if(glassCard)glassCard.style.display='';
+    if(ctaWrap)ctaWrap.style.display='';
+    return;
+  }
+
+  // 본인 데이터 있음 → 프리필 카드 보이고 폼 숨기기
+  var inp=rec.input;
+  var nameStr=rec.name||'나';
+  var birthStr=inp.y+'.'+(inp.m||'?')+'.'+(inp.d||'?');
+  if(inp.h&&inp.h!=='모름')birthStr+=' '+inp.h+':'+(inp.min||'00');
+  birthStr+=' · '+(inp.gender||'');
+  if(inp.city&&inp.city!=='모름')birthStr+=' · '+inp.city;
+
+  var emoji=rec.animalEmoji||'🌟';
+  var tag=rec.animalTag||rec.mbti||'';
+
+  var ch='<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;position:relative">';
+  ch+='<div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#F2EAFF,#FFE8F0);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">'+emoji+'</div>';
+  ch+='<div style="flex:1">';
+  ch+='<div style="font-size:16px;font-weight:700;color:#2E1F4E;margin-bottom:3px">'+nameStr+'</div>';
+  ch+='<div style="font-size:12px;color:#9B8CB8;line-height:1.5">'+birthStr+'</div>';
+  if(tag)ch+='<div style="font-size:11px;color:#B07AAC;margin-top:2px">'+tag+'</div>';
+  ch+='</div></div>';
+
+  ch+='<button onclick="usePrefill()" style="width:100%;padding:14px 0;margin-bottom:8px;background:linear-gradient(135deg,#8B6CC1,#A07DD6);border:none;border-radius:14px;cursor:pointer;font-size:15px;font-weight:700;color:#fff;font-family:inherit;box-shadow:0 4px 16px rgba(139,108,193,0.3)">이대로 분석하기 →</button>';
+  ch+='<button onclick="showBirthForm()" style="width:100%;padding:12px 0;background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid rgba(139,108,193,0.12);border-radius:14px;cursor:pointer;font-size:13px;font-weight:600;color:#9B8CB8;font-family:inherit">다른 사람 분석할래요</button>';
+
+  prefillCard.innerHTML=ch;
+  prefillCard.style.display='block';
+  if(glassCard)glassCard.style.display='none';
+  if(ctaWrap)ctaWrap.style.display='none';
+
+  // rec 데이터를 윈도우에 임시 저장 (usePrefill에서 사용)
+  window._prefillRec=rec;
+}
+
+// "이대로 분석하기" → 폼에 데이터 채우고 바로 MBTI로
+function usePrefill(){
+  var rec=window._prefillRec;
+  if(!rec||!rec.input)return;
+  var inp=rec.input;
+
+  // 폼 필드 채우기
+  document.getElementById('bName').value=rec.name||'';
+  document.getElementById('bYear').value=inp.y||'';
+  document.getElementById('bMonthInput').value=inp.m||'';
+  document.getElementById('bMonth').value=inp.m||'';
+  document.getElementById('bDayInput').value=inp.d||'';
+  document.getElementById('bDay').value=inp.d||'';
+
+  if(inp.h&&inp.h!=='모름'){
+    document.getElementById('bHourInput').value=inp.h;
+    document.getElementById('bHour').value=inp.h;
+  }
+  if(inp.min){
+    document.getElementById('bMinInput').value=inp.min;
+    document.getElementById('bMin').value=inp.min;
+  }
+  if(inp.city&&inp.city!=='모름'){
+    document.getElementById('bCityInput').value=inp.city;
+    document.getElementById('bCity').value=inp.city;
+  }
+  if(inp.gender) pickBirthGender(inp.gender);
+
+  window._isMyProfile=true;
+  var icon=document.getElementById('myProfileIcon');
+  if(icon){icon.style.background='linear-gradient(135deg,#8B6CC1,#A07DD6)';icon.style.border='none';icon.style.boxShadow='0 2px 8px rgba(139,108,193,0.25)';icon.innerHTML='✓';}
+
+  // 바로 MBTI 단계로
+  goToMBTI();
+}
+
+// "다른 사람 분석할래요" → 빈 폼 보이기
+function showBirthForm(){
+  var prefillCard=document.getElementById('birthPrefillCard');
+  var glassCard=document.querySelector('.birth-glass-card');
+  var ctaWrap=document.getElementById('birthCtaWrap');
+  if(prefillCard)prefillCard.style.display='none';
+  if(glassCard)glassCard.style.display='';
+  if(ctaWrap)ctaWrap.style.display='';
+
+  // 폼 초기화
+  document.getElementById('bName').value='';
+  document.getElementById('bYear').value='';
+  document.getElementById('bMonthInput').value='';document.getElementById('bMonth').value='';
+  document.getElementById('bDayInput').value='';document.getElementById('bDay').value='';
+  document.getElementById('bHourInput').value='';document.getElementById('bHour').value='';
+  document.getElementById('bMinInput').value='';document.getElementById('bMin').value='';
+  document.getElementById('bCityInput').value='';document.getElementById('bCity').value='';
+  birthGender='';
+  var bm=document.getElementById('bMale');if(bm){bm.style.borderColor='rgba(255,255,255,0.6)';bm.style.background='rgba(255,255,255,0.45)';bm.style.color='#9B8CB8';bm.style.boxShadow='none';}
+  var bf=document.getElementById('bFemale');if(bf){bf.style.borderColor='rgba(255,255,255,0.6)';bf.style.background='rgba(255,255,255,0.45)';bf.style.color='#9B8CB8';bf.style.boxShadow='none';}
+
+  window._isMyProfile=false;
+  var icon=document.getElementById('myProfileIcon');
+  if(icon){icon.style.background='transparent';icon.style.border='1.5px solid #C4B0E8';icon.style.boxShadow='none';icon.innerHTML='';}
+  var btn=document.getElementById('myProfileCheck');
+  if(btn)btn.style.color='#C4B0E8';
+
+  checkBirthReady();
 }
 
 function toggleMyProfile() {
@@ -6089,7 +6214,8 @@ function finalizeProgressivePage(result, saju, mt, gg, isAI) {
     var record = {
       id: String(Date.now())+'_'+String(Math.random()).slice(2,8),
       name: (ST.name||'나'), date: dateStr,
-      input: {y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender},
+      input: {y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city||'',cityLng:ST.cityLng||0},
+      isMyProfile: window._isMyProfile||false,
       saju: saju, dw: window._lastDW, gg: gg, mbti: mt,
       mbtiObj: window._lastMBTIObj, aiResult: result, isAI: isAI,
       animal: result.animal||null, animalEmoji: myEmoji, animalTag: myTag,
@@ -6495,6 +6621,7 @@ function renderResult(result,saju,mt,gg,isAI){
       name:(ST.name||'나'),
       date:dateStr,
       input:{y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city,cityLng:ST.cityLng},
+      isMyProfile: window._isMyProfile||false,
       saju:saju,
       dw:window._lastDW,
       gg:gg,
