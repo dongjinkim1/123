@@ -1754,7 +1754,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
           </div>
         </div>
 
-        <div onclick="go('pgBirth')" style="margin:0 0 16px;padding:24px;background:linear-gradient(135deg,#FFF2F6,#F2EAFF,#FFF0F8);border:1.5px solid rgba(212,140,180,0.18);border-radius:24px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.25s ease;box-shadow:0 2px 12px rgba(139,108,193,0.06)" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(139,108,193,0.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 12px rgba(139,108,193,0.06)'">
+        <div onclick="window._svcMode=null;go('pgBirth')" style="margin:0 0 16px;padding:24px;background:linear-gradient(135deg,#FFF2F6,#F2EAFF,#FFF0F8);border:1.5px solid rgba(212,140,180,0.18);border-radius:24px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.25s ease;box-shadow:0 2px 12px rgba(139,108,193,0.06)" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(139,108,193,0.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 12px rgba(139,108,193,0.06)'">
           <div style="position:absolute;top:-15px;right:-10px;width:85px;height:85px;background:radial-gradient(circle,rgba(255,210,235,0.4) 0%,transparent 70%);border-radius:50%"></div>
           <div style="position:absolute;bottom:-12px;left:25px;width:55px;height:55px;background:radial-gradient(circle,rgba(232,222,255,0.35) 0%,transparent 70%);border-radius:50%"></div>
           <div style="position:absolute;top:30px;left:-10px;width:40px;height:40px;background:radial-gradient(circle,rgba(255,230,242,0.3) 0%,transparent 70%);border-radius:50%"></div>
@@ -1871,7 +1871,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
       <div style="padding:0 16px 4px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:12px;color:var(--text-3)">MBTS 풀이한 사람들이 여기 모여요</div><button class="edit-btn" id="editBtn" onclick="toggleEditMode()">수정</button></div>
       <div id="cardList"></div>
       <div style="padding:12px 16px 16px">
-        <button onclick="go('pgBirth')" style="width:100%;padding:14px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--purple),var(--purple-deep));border:none;border-radius:var(--r-sm)">새 MBTS 풀이하기 →</button>
+        <button onclick="window._svcMode=null;go('pgBirth')" style="width:100%;padding:14px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--purple),var(--purple-deep));border:none;border-radius:var(--r-sm)">새 MBTS 풀이하기 →</button>
       </div>
     </div>
     <div class="sub-content" id="saveTab1">
@@ -4109,92 +4109,128 @@ function prefillBirthForm(){
   var ctaWrap=document.getElementById('birthCtaWrap');
   if(!prefillCard)return;
 
-  // mbts_history에서 본인 체크된 최신 레코드 찾기
+  // mbts_history에서 본인 데이터 찾기
   var rec=null;
   try{
     var hist=JSON.parse(localStorage.getItem('mbts_history')||'[]');
+    // 1차: isMyProfile === true인 최신 레코드
     for(var i=hist.length-1;i>=0;i--){
       if(hist[i].isMyProfile){rec=hist[i];break;}
+    }
+    // 2차 폴백: isMyProfile 없으면 input이 있는 가장 최근 레코드
+    if(!rec){
+      for(var i=hist.length-1;i>=0;i--){
+        if(hist[i].input&&hist[i].input.y){rec=hist[i];break;}
+      }
     }
   }catch(e){}
 
   if(!rec||!rec.input){
-    // 본인 데이터 없음 → 프리필 카드 숨기고 폼 보이기
     prefillCard.style.display='none';
     if(glassCard)glassCard.style.display='';
     if(ctaWrap)ctaWrap.style.display='';
     return;
   }
 
-  // 본인 데이터 있음 → 프리필 카드 보이고 폼 숨기기
+  // ── 프리필 카드 HTML 생성 ──
   var inp=rec.input;
   var nameStr=rec.name||'나';
-  var birthStr=inp.y+'.'+(inp.m||'?')+'.'+(inp.d||'?');
-  if(inp.h&&inp.h!=='모름')birthStr+=' '+inp.h+':'+(inp.min||'00');
-  birthStr+=' · '+(inp.gender||'');
-  if(inp.city&&inp.city!=='모름')birthStr+=' · '+inp.city;
 
+  // 생년월일 + 시간 + 성별 + 도시
+  var birthStr=inp.y+'.'+(inp.m||'?')+'.'+(inp.d||'?');
+  if(inp.h&&inp.h!=='모름'&&inp.h!=='')birthStr+=' '+inp.h+':'+(inp.min||'00');
+  birthStr+=' · '+(inp.gender||'');
+  if(inp.city&&inp.city!=='모름'&&inp.city!=='')birthStr+=' · '+inp.city;
+
+  // 동물 이모지 + MBTI + 동물 태그
   var emoji=rec.animalEmoji||'🌟';
-  var tag=rec.animalTag||rec.mbti||'';
+  var mbtiStr=rec.mbti||'';
+  var animalTag=rec.animalTag||'';
+  var tagLine='';
+  if(mbtiStr&&animalTag) tagLine=mbtiStr+' · '+animalTag;
+  else if(mbtiStr) tagLine=mbtiStr;
+  else if(animalTag) tagLine=animalTag;
+
+  // 클로버 비용 표시 (프리미엄=15, 무료동물=없음)
+  var isFree=window._svcMode==='free';
+  var btnLabel=isFree?'이대로 분석하기 →':'이대로 분석하기 🍀15 →';
 
   var ch='<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;position:relative">';
   ch+='<div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#F2EAFF,#FFE8F0);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">'+emoji+'</div>';
   ch+='<div style="flex:1">';
   ch+='<div style="font-size:16px;font-weight:700;color:#2E1F4E;margin-bottom:3px">'+nameStr+'</div>';
   ch+='<div style="font-size:12px;color:#9B8CB8;line-height:1.5">'+birthStr+'</div>';
-  if(tag)ch+='<div style="font-size:11px;color:#B07AAC;margin-top:2px">'+tag+'</div>';
+  if(tagLine)ch+='<div style="font-size:11px;color:#B07AAC;margin-top:2px">'+tagLine+'</div>';
   ch+='</div></div>';
-
-  ch+='<button onclick="usePrefill()" style="width:100%;padding:14px 0;margin-bottom:8px;background:linear-gradient(135deg,#8B6CC1,#A07DD6);border:none;border-radius:14px;cursor:pointer;font-size:15px;font-weight:700;color:#fff;font-family:inherit;box-shadow:0 4px 16px rgba(139,108,193,0.3)">이대로 분석하기 →</button>';
-  ch+='<button onclick="showBirthForm()" style="width:100%;padding:12px 0;background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid rgba(139,108,193,0.12);border-radius:14px;cursor:pointer;font-size:13px;font-weight:600;color:#9B8CB8;font-family:inherit">다른 사람 분석할래요</button>';
+  ch+='<button onclick="usePrefill()" style="width:100%;padding:14px 0;margin-bottom:8px;background:linear-gradient(135deg,#8B6CC1,#A07DD6);border:none;border-radius:14px;cursor:pointer;font-size:15px;font-weight:700;color:#fff;font-family:inherit;box-shadow:0 4px 16px rgba(139,108,193,0.3)">'+btnLabel+'</button>';
+  ch+='<button onclick="showBirthForm(false)" style="width:100%;padding:12px 0;background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid rgba(139,108,193,0.12);border-radius:14px;cursor:pointer;font-size:13px;font-weight:600;color:#9B8CB8;font-family:inherit">다른 사람 분석할래요</button>';
 
   prefillCard.innerHTML=ch;
   prefillCard.style.display='block';
   if(glassCard)glassCard.style.display='none';
   if(ctaWrap)ctaWrap.style.display='none';
-
-  // rec 데이터를 윈도우에 임시 저장 (usePrefill에서 사용)
   window._prefillRec=rec;
 }
 
-// "이대로 분석하기" → 폼에 데이터 채우고 바로 MBTI로
+// ── "이대로 분석하기" 클릭 ──
 function usePrefill(){
+  // 더블탭 방지
+  if(window._prefillLock)return;
+  window._prefillLock=true;
+  setTimeout(function(){window._prefillLock=false;},3000);
+
   var rec=window._prefillRec;
   if(!rec||!rec.input)return;
   var inp=rec.input;
 
-  // 폼 필드 채우기
+  // 1. 폼 필드 채우기
   document.getElementById('bName').value=rec.name||'';
   document.getElementById('bYear').value=inp.y||'';
   document.getElementById('bMonthInput').value=inp.m||'';
   document.getElementById('bMonth').value=inp.m||'';
   document.getElementById('bDayInput').value=inp.d||'';
   document.getElementById('bDay').value=inp.d||'';
-
-  if(inp.h&&inp.h!=='모름'){
+  if(inp.h&&inp.h!=='모름'&&inp.h!==''){
     document.getElementById('bHourInput').value=inp.h;
     document.getElementById('bHour').value=inp.h;
   }
-  if(inp.min){
+  if(inp.min&&inp.min!==''){
     document.getElementById('bMinInput').value=inp.min;
     document.getElementById('bMin').value=inp.min;
   }
-  if(inp.city&&inp.city!=='모름'){
+  if(inp.city&&inp.city!=='모름'&&inp.city!==''){
     document.getElementById('bCityInput').value=inp.city;
     document.getElementById('bCity').value=inp.city;
   }
   if(inp.gender) pickBirthGender(inp.gender);
 
-  window._isMyProfile=true;
-  var icon=document.getElementById('myProfileIcon');
-  if(icon){icon.style.background='linear-gradient(135deg,#8B6CC1,#A07DD6)';icon.style.border='none';icon.style.boxShadow='0 2px 8px rgba(139,108,193,0.25)';icon.innerHTML='✓';}
-
-  // 바로 MBTI 단계로
-  goToMBTI();
+  // 2. MBTI 데이터 복원 → 바로 분석 (MBTI 선택 스킵)
+  var mObj=rec.mbtiObj;
+  if(mObj&&mObj.ch&&mObj.it&&mObj.ch.indexOf(null)===-1&&mObj.it.indexOf(null)===-1){
+    mbtiCh=mObj.ch.slice();
+    mbtiIt=mObj.it.slice();
+    mbtiCur=3;
+    window._isMyProfile=true;
+    mbtiGoNext();
+  } else {
+    // MBTI 데이터 없거나 불완전 → 폼 프리필 상태로 MBTI 선택부터
+    window._isMyProfile=true;
+    var icon=document.getElementById('myProfileIcon');
+    if(icon){icon.style.background='linear-gradient(135deg,#8B6CC1,#A07DD6)';icon.style.border='none';icon.style.boxShadow='0 2px 8px rgba(139,108,193,0.25)';icon.innerHTML='✓';}
+    var prefillCard=document.getElementById('birthPrefillCard');
+    var glassCard=document.querySelector('.birth-glass-card');
+    var ctaWrap=document.getElementById('birthCtaWrap');
+    if(prefillCard)prefillCard.style.display='none';
+    if(glassCard)glassCard.style.display='';
+    if(ctaWrap)ctaWrap.style.display='';
+    checkBirthReady();
+    if(typeof showToast==='function') showToast('MBTI 선택이 필요해요 ✨');
+    window._prefillLock=false;
+  }
 }
 
-// "다른 사람 분석할래요" → 빈 폼 보이기
-function showBirthForm(){
+// ── "다른 사람 분석할래요" 클릭 ──
+function showBirthForm(keepSvcMode){
   var prefillCard=document.getElementById('birthPrefillCard');
   var glassCard=document.querySelector('.birth-glass-card');
   var ctaWrap=document.getElementById('birthCtaWrap');
