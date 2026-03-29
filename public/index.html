@@ -1738,28 +1738,39 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
     <!-- Tab 0 -->
     <div class="tab-content active" id="tc0">
       <div class="content" style="padding-top:20px">
-        <div onclick="go('pgAnimal')" style="margin:0 0 12px;padding:20px;background:linear-gradient(135deg,#FFF0F5,#F0EEFF,#FFF8F0);border:1.5px solid rgba(139,108,193,0.12);border-radius:20px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:all 0.25s ease;box-shadow:0 2px 12px rgba(139,108,193,0.06)" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(139,108,193,0.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 12px rgba(139,108,193,0.06)'">
-          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#FFE0EC,#E8DEFF);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">🦁</div>
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-              <span style="font-size:15px;font-weight:800">내 MBTS 동물은 뭘까?</span>
-              <span style="font-size:10px;font-weight:700;color:#4CAF7D;background:rgba(76,175,125,0.1);padding:2px 8px;border-radius:10px">무료</span>
+        <div onclick="go('pgAnimal')" style="margin:0 0 16px;padding:24px;background:linear-gradient(135deg,#FFF0F5,#F0EEFF,#FFF8F0);border:1.5px solid rgba(139,108,193,0.18);border-radius:24px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.25s ease;box-shadow:0 2px 12px rgba(139,108,193,0.06)" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(139,108,193,0.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 12px rgba(139,108,193,0.06)'">
+          <div style="position:absolute;top:-15px;right:-15px;width:80px;height:80px;background:radial-gradient(circle,rgba(232,222,255,0.5) 0%,transparent 70%);border-radius:50%"></div>
+          <div style="position:absolute;bottom:-10px;left:20px;width:50px;height:50px;background:radial-gradient(circle,rgba(255,224,236,0.4) 0%,transparent 70%);border-radius:50%"></div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;position:relative">
+            <div style="width:60px;height:60px;border-radius:20px;background:linear-gradient(135deg,#FFE0EC,#E8DEFF);display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0">🦁</div>
+            <div>
+              <div style="font-size:17px;font-weight:700;margin-bottom:4px">내 MBTS 동물은 뭘까?</div>
+              <div style="font-size:13px;color:#888">MBTI × 사주 조합 · 30초면 끝!</div>
             </div>
-            <div style="font-size:12px;color:#888">MBTI × 사주 조합 · 30초면 끝!</div>
           </div>
-          <div style="font-size:13px;color:#8B6CC1;font-weight:700">GO →</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+            <span style="font-size:11px;font-weight:600;color:#4CAF7D;background:rgba(76,175,125,0.08);padding:5px 14px;border-radius:12px">무료</span>
+            <div style="font-size:14px;color:#8B6CC1;font-weight:600">시작하기 →</div>
+          </div>
         </div>
 
-        <div class="premium" onclick="go('pgBirth')">
-          <div class="premium-badge">✦ PREMIUM</div>
-          <h3>MBTS 프리미엄 분석</h3>
-          <div class="desc">생년월일시와 MBTI만 입력하면<br>AI가 당신만의 운명 지도를 그려드려요</div>
-          <div class="premium-footer">
-            <div class="tags">
-              <span class="tag tag-t">⏱ 약 2분</span>
-              <span class="tag tag-p">🍀 15</span>
+        <div onclick="go('pgBirth')" style="margin:0 0 16px;padding:24px;background:linear-gradient(135deg,#FFF2F6,#F2EAFF,#FFF0F8);border:1.5px solid rgba(212,140,180,0.18);border-radius:24px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.25s ease;box-shadow:0 2px 12px rgba(139,108,193,0.06)" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(139,108,193,0.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 12px rgba(139,108,193,0.06)'">
+          <div style="position:absolute;top:-15px;right:-10px;width:85px;height:85px;background:radial-gradient(circle,rgba(255,210,235,0.4) 0%,transparent 70%);border-radius:50%"></div>
+          <div style="position:absolute;bottom:-12px;left:25px;width:55px;height:55px;background:radial-gradient(circle,rgba(232,222,255,0.35) 0%,transparent 70%);border-radius:50%"></div>
+          <div style="position:absolute;top:30px;left:-10px;width:40px;height:40px;background:radial-gradient(circle,rgba(255,230,242,0.3) 0%,transparent 70%);border-radius:50%"></div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;position:relative">
+            <div style="width:60px;height:60px;border-radius:20px;background:#fff;border:1.5px solid rgba(139,108,193,0.25);display:grid;grid-template-columns:18px 18px;justify-content:center;align-content:center;gap:0;flex-shrink:0"><span style="font-size:21px;font-weight:500;color:#4CAF7D;text-align:center;display:block">M</span><span style="font-size:21px;font-weight:500;color:#5B8FD4;text-align:center;display:block">B</span><span style="font-size:21px;font-weight:500;color:#E05A5A;text-align:center;display:block">T</span><span style="font-size:21px;font-weight:500;color:#E8B84B;text-align:center;display:block">S</span></div>
+            <div>
+              <div style="font-size:17px;font-weight:700;margin-bottom:4px">MBTS 프리미엄 분석</div>
+              <div style="font-size:13px;color:#888">AI가 당신만의 운명 지도를 그려드려요</div>
             </div>
-            <div class="premium-go">시작하기 →</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+            <div style="display:flex;gap:6px">
+              <span style="font-size:11px;font-weight:600;color:#B07AAC;background:rgba(176,122,172,0.08);padding:5px 12px;border-radius:12px">약 2분</span>
+              <span style="font-size:11px;font-weight:600;color:#B07AAC;background:rgba(176,122,172,0.08);padding:5px 12px;border-radius:12px">🍀 15</span>
+            </div>
+            <div style="font-size:14px;color:#B07AAC;font-weight:600">시작하기 →</div>
           </div>
         </div>
         <div class="section-title" style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
