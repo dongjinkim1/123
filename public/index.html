@@ -5582,15 +5582,6 @@ function startLoadAnim(){
 // ====================================================================
 // UI 렌더링 함수 (mbts.html 5839-6239 기반)
 // ====================================================================
-var tipColorIndex=0;
-var tipPalette=[
-  {bg:'rgba(136,97,154,0.08)',border:'#886199'},
-  {bg:'rgba(100,149,237,0.08)',border:'#6495ED'},
-  {bg:'rgba(72,191,145,0.08)',border:'#48BF91'},
-  {bg:'rgba(219,112,147,0.08)',border:'#DB7093'},
-  {bg:'rgba(210,150,100,0.08)',border:'#D29664'},
-  {bg:'rgba(147,130,210,0.08)',border:'#9382D2'}
-];
 function isTipLine(str){
   if(!str||str.length===0)return false;
   var c=str.charCodeAt(0);
@@ -5600,6 +5591,15 @@ function isTipLine(str){
   if(c===0x2B50)return true;
   return false;
 }
+var tipColorIndex=0;
+var tipPalette=[
+  {bg:'rgba(136,97,154,0.08)',border:'#886199'},
+  {bg:'rgba(100,149,237,0.08)',border:'#6495ED'},
+  {bg:'rgba(72,191,145,0.08)',border:'#48BF91'},
+  {bg:'rgba(219,112,147,0.08)',border:'#DB7093'},
+  {bg:'rgba(210,150,100,0.08)',border:'#D29664'},
+  {bg:'rgba(147,130,210,0.08)',border:'#9382D2'}
+];
 function renderSubBody(text){
   var paras=(text||'').split('\n\n');
   var out='';
