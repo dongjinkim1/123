@@ -5591,13 +5591,21 @@ var tipPalette=[
   {bg:'rgba(210,150,100,0.08)',border:'#D29664'},
   {bg:'rgba(147,130,210,0.08)',border:'#9382D2'}
 ];
+function isTipLine(str){
+  if(!str||str.length===0)return false;
+  var c=str.charCodeAt(0);
+  if(c>=0xD800&&c<=0xDBFF)return true;
+  if(c>=0x2600&&c<=0x27BF)return true;
+  if(c>=0x2500&&c<=0x25FF)return true;
+  if(c===0x2B50)return true;
+  return false;
+}
 function renderSubBody(text){
-  var tipEmojis=['💊','🔥','💧','💜','🌱','💎'];
   var paras=(text||'').split('\n\n');
   var out='';
   paras.forEach(function(p){
     p=p.trim();if(!p)return;
-    var isTip=tipEmojis.some(function(e){return p.indexOf(e)===0;});
+    var isTip=isTipLine(p);
     if(isTip){
       var tc=tipPalette[tipColorIndex%tipPalette.length];
       tipColorIndex++;
