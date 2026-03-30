@@ -64,13 +64,17 @@
     else if(dmOhA===dmOhB){dmOhRel='비화';R.details.ohBowan.push({dir:'양방',d:'같은 오행('+dmOhA+') — 공감 최고, 보완 부족'});}
 
     // ── 레이어 4: MBTI 궁합 ──
-    var cfA=mbtiObjA.cf.split('-'), cfB=mbtiObjB.cf.split('-');
+    var _cfStrA=(mbtiObjA&&mbtiObjA.cf)?mbtiObjA.cf:'Ni-Fe-Ti-Se';
+    var _cfStrB=(mbtiObjB&&mbtiObjB.cf)?mbtiObjB.cf:'Ni-Fe-Ti-Se';
+    var cfA=_cfStrA.split('-'), cfB=_cfStrB.split('-');
     var m1=getCFC(cfA[0],cfB[0]); R.details.mbti.push({pair:cfA[0]+'↔'+cfB[0],t:'주기능',s:m1.s,d:m1.d});
     var m2=getCFC(cfA[0],cfB[1]); R.details.mbti.push({pair:cfA[0]+'↔'+cfB[1],t:'A주↔B부',s:m2.s,d:m2.d});
     var m3=getCFC(cfB[0],cfA[1]); R.details.mbti.push({pair:cfB[0]+'↔'+cfA[1],t:'B주↔A부',s:m3.s,d:m3.d});
     var axN=['EI','SN','TF','JP'];
+    var _axA=(mbtiObjA&&mbtiObjA.axes&&mbtiObjA.axes.length===4)?mbtiObjA.axes:[{side:'I',pct:60},{side:'N',pct:60},{side:'F',pct:60},{side:'J',pct:60}];
+    var _axB=(mbtiObjB&&mbtiObjB.axes&&mbtiObjB.axes.length===4)?mbtiObjB.axes:[{side:'I',pct:60},{side:'N',pct:60},{side:'F',pct:60},{side:'J',pct:60}];
     for(var xi=0;xi<4;xi++){
-      var aAx=mbtiObjA.axes[xi],aBx=mbtiObjB.axes[xi],same=(aAx.side===aBx.side);
+      var aAx=_axA[xi],aBx=_axB[xi],same=(aAx.side===aBx.side);
       var axS=same?7:5; if(axN[xi]==='SN'&&!same)axS=4; if(axN[xi]==='TF'&&!same)axS=5;
       R.details.mbti.push({axis:axN[xi],sA:aAx.side,sB:aBx.side,same:same,s:axS,d:same?'같은 '+aAx.side+'형 — 공감대 높음':'다른 축('+aAx.side+'↔'+aBx.side+') — 보완과 갈등'});
     }
@@ -397,7 +401,7 @@
     p += '### ═══ A (나) ═══\n';
     p += '- 사주: ' + sajuA.P.map(function(x) { return x.l + ' ' + x.s + x.b; }).join(' | ') + '\n';
     p += '- 일주: ' + sajuA.P[2].s + sajuA.P[2].b + ' · 일간: ' + sajuA.dm + '(' + sajuA.dmEl + ')\n';
-    p += '- 격국: ' + ggA.gyeokgukName + ' · 강도: ' + ggA.strengthGrade + ' ' + (ggA.strengthScore || '') + '점\n';
+    p += '- 격국: ' + (ggA.gyeokgukName||'미분석') + ' · 강도: ' + (ggA.strengthGrade||'중화') + ' ' + (ggA.strengthScore || '') + '점\n';
     p += '- MBTI: ' + mbtiA.type + ' (' + (mbtiA.cf || '') + ', 주기능: ' + (cfN[cfAArr[0]] || cfAArr[0] || '') + ')\n';
     p += '- 오행: 목=' + sajuA.el['목'] + ' 화=' + sajuA.el['화'] + ' 토=' + sajuA.el['토'] + ' 금=' + sajuA.el['금'] + ' 수=' + sajuA.el['수'] + '\n';
 
@@ -470,7 +474,7 @@
     p += '\n### ═══ B (상대방) ═══\n';
     p += '- 사주: ' + sajuB.P.map(function(x) { return x.l + ' ' + x.s + x.b; }).join(' | ') + '\n';
     p += '- 일주: ' + sajuB.P[2].s + sajuB.P[2].b + ' · 일간: ' + sajuB.dm + '(' + sajuB.dmEl + ')\n';
-    p += '- 격국: ' + ggB.gyeokgukName + ' · 강도: ' + ggB.strengthGrade + ' ' + (ggB.strengthScore || '') + '점\n';
+    p += '- 격국: ' + (ggB.gyeokgukName||'미분석') + ' · 강도: ' + (ggB.strengthGrade||'중화') + ' ' + (ggB.strengthScore || '') + '점\n';
     p += '- MBTI: ' + mbtiB.type + ' (' + (mbtiB.cf || '') + ', 주기능: ' + (cfN[cfBArr[0]] || cfBArr[0] || '') + ')\n';
     p += '- 오행: 목=' + sajuB.el['목'] + ' 화=' + sajuB.el['화'] + ' 토=' + sajuB.el['토'] + ' 금=' + sajuB.el['금'] + ' 수=' + sajuB.el['수'] + '\n';
 
