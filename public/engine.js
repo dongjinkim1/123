@@ -3161,13 +3161,34 @@ async function runSajuAnalysis(params, callbacks){
         repaired = repaired.replace(/,\s*([}\]])/g, '$1');
         try { result = JSON.parse(repaired); console.log('[MBTS] 5차 괄호 복구 성공'); } catch(e5) {}
       }
+      // 5.5차: 잘린 sub 경계에서 자르기 (미닫힌 문자열 대응)
+      if (!result) {
+        var rawForTrunc = aiText.substring(fb >= 0 ? fb : 0);
+        var lastQuoteBrace = rawForTrunc.lastIndexOf('"}');
+        if (lastQuoteBrace > 0) {
+          var truncated = rawForTrunc.substring(0, lastQuoteBrace + 2);
+          var tOB = (truncated.match(/{/g)||[]).length;
+          var tCB = (truncated.match(/}/g)||[]).length;
+          var tOA = (truncated.match(/\[/g)||[]).length;
+          var tCA = (truncated.match(/\]/g)||[]).length;
+          while (tCA < tOA) { truncated += ']'; tCA++; }
+          while (tCB < tOB) { truncated += '}'; tCB++; }
+          truncated = truncated.replace(/,\s*([}\]])/g, '$1');
+          try { result = JSON.parse(truncated); console.log('[MBTS] 5.5차 sub 경계 자르기 성공 (' + lastQuoteBrace + '자)'); } catch(e55) {}
+        }
+      }
       // 2~5차 성공 시 에러 초기화
       if (result) {
         apiError = '';
         console.log('[MBTS] JSON 추출 성공 (폴백 파서)');
       } else if (_collectedSubs.length >= 3) {
-        // 프로그레시브 수집분으로 부분 저장
-        result = { _blueprint: {landscape:'', oneLine:''}, categories: _collectedSubs };
+        // 프로그레시브 수집분으로 부분 저장 + 원본에서 oneLine/profile 추출
+        var _olMatch = aiText.match(/"oneLine"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+        var _olVal = _olMatch ? _olMatch[1].replace(/\\n/g, '\n').replace(/\\"/g, '"') : '';
+        var _pfMatch = aiText.match(/"profile"\s*:\s*(\{[^}]+\})/);
+        var _pfVal = null;
+        if (_pfMatch) { try { _pfVal = JSON.parse(_pfMatch[1]); } catch(ep) {} }
+        result = { _blueprint: {landscape:'', oneLine: _olVal}, profile: _pfVal || {}, oneLine: _olVal, categories: _collectedSubs };
         apiError = '';
         console.log('[MBTS] JSON 파싱 실패 — 프로그레시브 수집분으로 부분 저장 (' + _collectedSubs.length + '개 sub)');
       } else {
