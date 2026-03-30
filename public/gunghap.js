@@ -943,25 +943,18 @@
   + '  "totalScore": 87,\n'
   + '  "categories": [\n'
   + '    {\n'
-  + '      "title": "카테고리명",\n'
-  + '      "icon": "이모지",\n'
-  + '      "items": [\n'
+  + '      "n": "카테고리명",\n'
+  + '      "subs": [\n'
   + '        {\n'
-  + '          "icon": "이모지",\n'
-  + '          "catch": "감성 소제목 (7자 이내)",\n'
-  + '          "desc": "한줄 요약",\n'
-  + '          "basis": "분석 근거 (비표시, 전문용어 허용)",\n'
-  + '          "content": "문단1\\n\\n문단2\\n\\n문단3\\n\\n문단4\\n\\n문단5",\n'
-  + '          "insightType": "gold|fire|water|purple",\n'
-  + '          "insightIcon": "이모지",\n'
-  + '          "insightText": "맞춤 처방 (오늘 당장 할 수 있는 구체적 행동)"\n'
+  + '          "h": "감성 소제목 (7자 이내)",\n'
+  + '          "b": "문단1\\n\\n문단2\\n\\n문단3\\n\\n💊 오늘 당장 할 수 있는 구체적 행동 팁"\n'
   + '        }\n'
   + '      ]\n'
   + '    }\n'
   + '  ]\n'
   + '}\n\n'
 
-  + 'content: 3~5문단, 각 3~5문장. \\n\\n으로 구분.\n'
+  + 'b: 3~5문단, 각 3~5문장. \\n\\n으로 구분. 마지막 문단은 이모지로 시작하는 실천 팁 (💊, 💡, 🔑, ✨ 등).\n'
   + 'JSON만 출력하세요.';
 
 
@@ -1211,11 +1204,10 @@
       section += '★ 마지막 소주제는 소름 돋는 한 줄로 마무리하세요.\n';
       section += '\n## JSON 출력의 categories 구조\n';
       section += 'categories 배열 안에 카테고리 객체들.\n';
-      section += '각 카테고리의 title = 카테고리명 (예: "이 사람, 뭔데")\n';
-      section += '각 카테고리의 items 배열 = 해당 카테고리의 소주제들\n';
-      section += '각 item의 catch = 소주제명 (예: "첫 만남에서 느낀 그 떨림")\n';
-      section += '각 item의 content = 본문 (2~3문단, \\n\\n으로 구분)\n';
-      section += '각 item의 insightText = 💊 실천 팁\n';
+      section += '각 카테고리의 n = 카테고리명 (예: "이 사람, 뭔데")\n';
+      section += '각 카테고리의 subs 배열 = 해당 카테고리의 소주제들\n';
+      section += '각 sub의 h = 소주제명 (예: "첫 만남에서 느낀 그 떨림")\n';
+      section += '각 sub의 b = 본문 (2~3문단, \\n\\n으로 구분) + 마지막 줄은 이모지로 시작하는 실천 팁\n';
 
       return base + section;
     }
