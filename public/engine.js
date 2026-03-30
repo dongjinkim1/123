@@ -3097,23 +3097,17 @@ async function runSajuAnalysis(params, callbacks){
         _progSubQueue.push({ sub: subObj, idx: idx });
         _collectedSubs.push(subObj);
 
-        // 3개 모이면 페이지 초기화 + 첫 3개 표시
-        if(_progSubQueue.length === 3 && !_progInitDone) {
+        if(!_progInitDone) {
           _progInitDone = true;
-          clearInterval(iv); // 로딩 인터벌 정리
+          clearInterval(iv);
           if(callbacks.onProgress) callbacks.onProgress(100);
           if(callbacks.onPercent) callbacks.onPercent(100);
           if(typeof initProgressivePage === 'function') {
             initProgressivePage(saju, mt, gg, params);
-            // 첫 3개 시차 등장
-            setTimeout(function(){ appendSubCard(_progSubQueue[0].sub, 0); }, 200);
-            setTimeout(function(){ appendSubCard(_progSubQueue[1].sub, 1); }, 450);
-            setTimeout(function(){ appendSubCard(_progSubQueue[2].sub, 2); }, 700);
           }
         }
 
-        // 4개째부터는 바로 추가
-        if(_progInitDone && _progSubQueue.length > 3) {
+        if(_progInitDone) {
           appendSubCard(subObj, idx);
         }
       }
