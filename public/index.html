@@ -4204,11 +4204,18 @@ function usePrefill(){
   }
   if(inp.gender) pickBirthGender(inp.gender);
 
-  // 2. MBTI 데이터 복원 → 바로 분석 (MBTI 선택 스킵)
+  // 2. MBTI 데이터 복원 — 3단계 폴백 체인
   var mObj=rec.mbtiObj;
-  if(mObj&&mObj.ch&&mObj.it&&mObj.ch.indexOf(null)===-1&&mObj.it.indexOf(null)===-1){
-    mbtiCh=mObj.ch.slice();
-    mbtiIt=mObj.it.slice();
+  var ch=(inp.ch)||(mObj&&mObj.ch)||null;
+  var it=(inp.it)||(mObj&&mObj.it)||null;
+  if(!ch&&rec.mbti&&rec.mbti.length===4){
+    var _m={E:'L',I:'R',S:'L',N:'R',T:'L',F:'R',J:'L',P:'R'};
+    ch=rec.mbti.split('').map(function(c){return _m[c]||'R';});
+    it=[60,60,60,60];
+  }
+  if(ch&&it&&ch.indexOf(null)===-1&&it.indexOf(null)===-1){
+    mbtiCh=ch.slice();
+    mbtiIt=it.slice();
     mbtiCur=3;
     window._isMyProfile=true;
     mbtiGoNext();
