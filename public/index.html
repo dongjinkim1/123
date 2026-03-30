@@ -4102,22 +4102,19 @@ function toggleLeapMonth() {
   }
 }
 
-// ── pgBirth 프리필: 본인 데이터 자동 채움 ──
+// ── pgBirth 프리필: 본인 데이터 자동 채움 (Apple Settings 스타일) ──
 function prefillBirthForm(){
   var prefillCard=document.getElementById('birthPrefillCard');
   var glassCard=document.querySelector('.birth-glass-card');
   var ctaWrap=document.getElementById('birthCtaWrap');
   if(!prefillCard)return;
 
-  // mbts_history에서 본인 데이터 찾기
   var rec=null;
   try{
     var hist=JSON.parse(localStorage.getItem('mbts_history')||'[]');
-    // 1차: isMyProfile === true인 최신 레코드
     for(var i=hist.length-1;i>=0;i--){
       if(hist[i].isMyProfile){rec=hist[i];break;}
     }
-    // 2차 폴백: isMyProfile 없으면 input이 있는 가장 최근 레코드
     if(!rec){
       for(var i=hist.length-1;i>=0;i--){
         if(hist[i].input&&hist[i].input.y){rec=hist[i];break;}
@@ -4132,38 +4129,41 @@ function prefillBirthForm(){
     return;
   }
 
-  // ── 프리필 카드 HTML 생성 ──
   var inp=rec.input;
   var nameStr=rec.name||'나';
-
-  // 생년월일 + 시간 + 성별 + 도시
-  var birthStr=inp.y+'.'+(inp.m||'?')+'.'+(inp.d||'?');
-  if(inp.h&&inp.h!=='모름'&&inp.h!=='')birthStr+=' '+inp.h+':'+(inp.min||'00');
-  birthStr+=' · '+(inp.gender||'');
-  if(inp.city&&inp.city!=='모름'&&inp.city!=='')birthStr+=' · '+inp.city;
-
-  // 동물 이모지 + MBTI + 동물 태그
-  var emoji=rec.animalEmoji||'🌟';
   var mbtiStr=rec.mbti||'';
-  var animalTag=rec.animalTag||'';
-  var tagLine='';
-  if(mbtiStr&&animalTag) tagLine=mbtiStr+' · '+animalTag;
-  else if(mbtiStr) tagLine=mbtiStr;
-  else if(animalTag) tagLine=animalTag;
+  var infoStr=mbtiStr;
+  if(inp.y)infoStr+=(infoStr?' · ':'')+inp.y+'.'+inp.m+'.'+inp.d;
+  if(inp.gender)infoStr+=' · '+inp.gender;
 
-  // 클로버 비용 표시 (프리미엄=15, 무료동물=없음)
+  var emoji=rec.animalEmoji||'🌟';
   var isFree=window._svcMode==='free';
-  var btnLabel=isFree?'이대로 분석하기 →':'이대로 분석하기 🍀15 →';
+  var btnLabel=isFree?'분석하기':'분석하기 🍀15';
 
-  var ch='<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;position:relative">';
-  ch+='<button onclick="showBirthForm(false)" style="position:absolute;top:0;right:0;background:none;border:none;font-size:12px;font-weight:600;color:#B07AAC;cursor:pointer;font-family:inherit;padding:2px 0">수정하기</button>';
-  ch+='<div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#F2EAFF,#FFE8F0);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">'+emoji+'</div>';
-  ch+='<div style="flex:1">';
-  ch+='<div style="font-size:16px;font-weight:700;color:#2E1F4E;margin-bottom:3px">'+nameStr+'</div>';
-  ch+='<div style="font-size:12px;color:#9B8CB8;line-height:1.5">'+birthStr+'</div>';
-  if(tagLine)ch+='<div style="font-size:11px;color:#B07AAC;margin-top:2px">'+tagLine+'</div>';
-  ch+='</div></div>';
-  ch+='<button onclick="usePrefill()" style="width:100%;padding:14px 0;background:linear-gradient(135deg,#8B6CC1,#A07DD6);border:none;border-radius:14px;cursor:pointer;font-size:15px;font-weight:700;color:#fff;font-family:inherit;box-shadow:0 4px 16px rgba(139,108,193,0.3)">'+btnLabel+'</button>';
+  var ch='';
+  ch+='<div style="background:var(--color-background-primary,#fff);border-radius:16px;border:0.5px solid var(--color-border-tertiary,#eee);overflow:hidden">';
+
+  ch+='<div style="padding:16px 20px;display:flex;align-items:center;gap:14px">';
+  ch+='<div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#E8DEFF,#F2EAFF);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">'+emoji+'</div>';
+  ch+='<div style="flex:1;min-width:0">';
+  ch+='<div style="font-size:16px;font-weight:700;color:var(--color-text-primary,#2E1F4E)">'+nameStr+'</div>';
+  ch+='<div style="font-size:13px;color:var(--color-text-secondary,#888);margin-top:1px">'+infoStr+'</div>';
+  ch+='</div>';
+  ch+='<span onclick="editPrefillForm()" style="font-size:13px;color:#8B6CC1;flex-shrink:0;cursor:pointer">수정</span>';
+  ch+='</div>';
+
+  ch+='<div style="display:flex;align-items:center;padding:0 20px"><div style="flex:1;height:0.5px;background:var(--color-border-tertiary,#eee)"></div><span style="font-size:11px;color:var(--color-text-tertiary,#bbb);padding:0 12px;flex-shrink:0">or</span><div style="flex:1;height:0.5px;background:var(--color-border-tertiary,#eee)"></div></div>';
+
+  ch+='<div onclick="showBirthForm()" style="padding:10px 20px;display:flex;align-items:center;gap:10px;cursor:pointer">';
+  ch+='<div style="width:32px;height:32px;border-radius:50%;background:var(--color-background-secondary,#f5f5f5);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:14px;color:var(--color-text-tertiary,#bbb)">+</span></div>';
+  ch+='<span style="font-size:13px;color:var(--color-text-tertiary,#999)">다른 사람 분석하기</span>';
+  ch+='</div>';
+
+  ch+='</div>';
+
+  ch+='<div style="margin-top:16px">';
+  ch+='<button onclick="usePrefill()" style="width:100%;padding:16px 0;background:#8B6CC1;border:none;border-radius:14px;cursor:pointer;font-size:16px;font-weight:700;color:#fff;font-family:inherit;letter-spacing:-0.2px">'+btnLabel+'</button>';
+  ch+='</div>';
 
   prefillCard.innerHTML=ch;
   prefillCard.style.display='block';
@@ -4172,9 +4172,8 @@ function prefillBirthForm(){
   window._prefillRec=rec;
 }
 
-// ── "이대로 분석하기" 클릭 ──
+// ── "분석하기" 클릭 — MBTI 3단계 폴백 + 바로 분석 ──
 function usePrefill(){
-  // 더블탭 방지
   if(window._prefillLock)return;
   window._prefillLock=true;
   setTimeout(function(){window._prefillLock=false;},3000);
@@ -4183,28 +4182,17 @@ function usePrefill(){
   if(!rec||!rec.input)return;
   var inp=rec.input;
 
-  // 1. 폼 필드 채우기
   document.getElementById('bName').value=rec.name||'';
   document.getElementById('bYear').value=inp.y||'';
   document.getElementById('bMonthInput').value=inp.m||'';
   document.getElementById('bMonth').value=inp.m||'';
   document.getElementById('bDayInput').value=inp.d||'';
   document.getElementById('bDay').value=inp.d||'';
-  if(inp.h&&inp.h!=='모름'&&inp.h!==''){
-    document.getElementById('bHourInput').value=inp.h;
-    document.getElementById('bHour').value=inp.h;
-  }
-  if(inp.min&&inp.min!==''){
-    document.getElementById('bMinInput').value=inp.min;
-    document.getElementById('bMin').value=inp.min;
-  }
-  if(inp.city&&inp.city!=='모름'&&inp.city!==''){
-    document.getElementById('bCityInput').value=inp.city;
-    document.getElementById('bCity').value=inp.city;
-  }
-  if(inp.gender) pickBirthGender(inp.gender);
+  if(inp.h&&inp.h!=='모름'&&inp.h!==''){document.getElementById('bHourInput').value=inp.h;document.getElementById('bHour').value=inp.h;}
+  if(inp.min&&inp.min!==''){document.getElementById('bMinInput').value=inp.min;document.getElementById('bMin').value=inp.min;}
+  if(inp.city&&inp.city!=='모름'&&inp.city!==''){document.getElementById('bCityInput').value=inp.city;document.getElementById('bCity').value=inp.city;}
+  if(inp.gender)pickBirthGender(inp.gender);
 
-  // 2. MBTI 데이터 복원 — 3단계 폴백 체인
   var mObj=rec.mbtiObj;
   var ch=(inp.ch)||(mObj&&mObj.ch)||null;
   var it=(inp.it)||(mObj&&mObj.it)||null;
@@ -4220,7 +4208,6 @@ function usePrefill(){
     window._isMyProfile=true;
     mbtiGoNext();
   } else {
-    // MBTI 데이터 없거나 불완전 → 폼 프리필 상태로 MBTI 선택부터
     window._isMyProfile=true;
     var icon=document.getElementById('myProfileIcon');
     if(icon){icon.style.background='linear-gradient(135deg,#8B6CC1,#A07DD6)';icon.style.border='none';icon.style.boxShadow='0 2px 8px rgba(139,108,193,0.25)';icon.innerHTML='✓';}
@@ -4231,13 +4218,16 @@ function usePrefill(){
     if(glassCard)glassCard.style.display='';
     if(ctaWrap)ctaWrap.style.display='';
     checkBirthReady();
-    if(typeof showToast==='function') showToast('MBTI 선택이 필요해요 ✨');
+    if(typeof showToast==='function')showToast('MBTI 선택이 필요해요 ✨');
     window._prefillLock=false;
   }
 }
 
-// ── "다른 사람 분석할래요" 클릭 ──
-function showBirthForm(keepSvcMode){
+// ── "수정" 클릭 — 데이터 채운 채로 폼 열기 ──
+function editPrefillForm(){
+  var rec=window._prefillRec;
+  if(!rec||!rec.input)return;
+  var inp=rec.input;
   var prefillCard=document.getElementById('birthPrefillCard');
   var glassCard=document.querySelector('.birth-glass-card');
   var ctaWrap=document.getElementById('birthCtaWrap');
@@ -4245,7 +4235,34 @@ function showBirthForm(keepSvcMode){
   if(glassCard)glassCard.style.display='';
   if(ctaWrap)ctaWrap.style.display='';
 
-  // 폼 초기화
+  document.getElementById('bName').value=rec.name||'';
+  document.getElementById('bYear').value=inp.y||'';
+  document.getElementById('bMonthInput').value=inp.m||'';
+  document.getElementById('bMonth').value=inp.m||'';
+  document.getElementById('bDayInput').value=inp.d||'';
+  document.getElementById('bDay').value=inp.d||'';
+  if(inp.h&&inp.h!=='모름'&&inp.h!==''){document.getElementById('bHourInput').value=inp.h;document.getElementById('bHour').value=inp.h;}
+  if(inp.min&&inp.min!==''){document.getElementById('bMinInput').value=inp.min;document.getElementById('bMin').value=inp.min;}
+  if(inp.city&&inp.city!=='모름'&&inp.city!==''){document.getElementById('bCityInput').value=inp.city;document.getElementById('bCity').value=inp.city;}
+  if(inp.gender)pickBirthGender(inp.gender);
+
+  window._isMyProfile=true;
+  var icon=document.getElementById('myProfileIcon');
+  if(icon){icon.style.background='linear-gradient(135deg,#8B6CC1,#A07DD6)';icon.style.border='none';icon.style.boxShadow='0 2px 8px rgba(139,108,193,0.25)';icon.innerHTML='✓';}
+  var btn=document.getElementById('myProfileCheck');
+  if(btn)btn.style.color='#8B6CC1';
+  checkBirthReady();
+}
+
+// ── "다른 사람 분석하기" 클릭 — 빈 폼 열기 ──
+function showBirthForm(){
+  var prefillCard=document.getElementById('birthPrefillCard');
+  var glassCard=document.querySelector('.birth-glass-card');
+  var ctaWrap=document.getElementById('birthCtaWrap');
+  if(prefillCard)prefillCard.style.display='none';
+  if(glassCard)glassCard.style.display='';
+  if(ctaWrap)ctaWrap.style.display='';
+
   document.getElementById('bName').value='';
   document.getElementById('bYear').value='';
   document.getElementById('bMonthInput').value='';document.getElementById('bMonth').value='';
@@ -4262,7 +4279,6 @@ function showBirthForm(keepSvcMode){
   if(icon){icon.style.background='transparent';icon.style.border='1.5px solid #C4B0E8';icon.style.boxShadow='none';icon.innerHTML='';}
   var btn=document.getElementById('myProfileCheck');
   if(btn)btn.style.color='#C4B0E8';
-
   checkBirthReady();
 }
 
