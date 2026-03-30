@@ -5219,6 +5219,10 @@ function getDemoData(y,m,d,gender,mbtiStr){
 
 // ── 궁합 결과를 pgGhRes 기존 디자인에 채워넣기 ──
 function fillGhResult(ghResult, aiResult, sajuA, sajuB, mbtiObjA, mbtiObjB, relType){
+  // 프로그레시브 렌더러가 있으면 그쪽으로 위임
+  if(typeof fillGhResultProgressive==='function'){
+    return fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,relType);
+  }
   var scores=ghResult.scores;
   var cat=(window.GH_CATEGORIES&&window.GH_CATEGORIES[relType])||
     {emoji:'💕',label:'궁합',scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'성장'}};
