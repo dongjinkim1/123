@@ -5008,9 +5008,9 @@ async function _runGunghapAnalysis(){
 
     await new Promise(function(resolve){setTimeout(resolve,1200);});
 
-    // 결과 렌더링
+    // 결과 렌더링 — 의사 프로그레시브
     go('pgGhRes');
-    fillGhResult(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);
+    fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);
 
     // 궁합 결과 localStorage 저장
     if(!window._skipGhHistorySave) try {
@@ -5578,6 +5578,128 @@ function fillGhResult(ghResult, aiResult, sajuA, sajuB, mbtiObjA, mbtiObjB, relT
 
   // 12. 스크롤 옵저버 초기화
   setTimeout(function(){initGhScrollObserver();},500);
+}
+
+function fillGhResultProgressive(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,relType){
+  tipColorIndex=0;
+  var el=document.getElementById('pg-gh-res');
+  if(!el)return fillGhResult(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,relType);
+  var cat=(window.GH_CATEGORIES&&window.GH_CATEGORIES[relType])||{label:'궁합',emoji:'💕',scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'업무'}};
+  var sl=cat.scoreLabels||{love:'연애',comm:'소통',values:'가치관',work:'업무'};
+  var sc=ghR.scores;
+  var title=(aiR&&aiR.title)?aiR.title:(sajuA.P[2].s+sajuA.P[2].b+'×'+sajuB.P[2].s+sajuB.P[2].b);
+  var quote=(aiR&&aiR.quote)?aiR.quote:'두 사람만의 이야기';
+
+  // ① 헤더 + 점수 (즉시 표시)
+  var h='<div class="res-wrap">';
+  h+='<div class="res-header">';
+  h+='<div class="logo-sm" style="cursor:pointer" onclick="go(\'pgDash\')"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div>';
+  h+='<p style="font-size:12px;color:var(--text-3);margin-bottom:4px">'+cat.emoji+' '+cat.label+'</p>';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between">';
+  h+='<button onclick="go(\'pgDash\')" style="font-size:14px;font-weight:600;color:var(--purple);cursor:pointer;background:none;border:none;padding:0">← 돌아가기</button>';
+  h+='<div style="font-size:13px;font-weight:600;color:var(--text-2)">'+title+'</div>';
+  h+='<div style="width:80px"></div>';
+  h+='</div></div>';
+
+  // ② 점수 카드
+  h+='<div class="r-sub prog-sub-card" style="text-align:center;padding:24px">';
+  h+='<div style="font-size:48px;font-weight:900;color:var(--purple)">'+sc.total+'<span style="font-size:24px">점</span></div>';
+  h+='<div style="font-size:13px;color:var(--text-3);margin-bottom:16px">'+cat.label+' 종합</div>';
+  var bars=[{l:sl.love||'연애',v:sc.love,c:'#d63384'},{l:sl.comm||'소통',v:sc.comm,c:'#2e8b57'},{l:sl.values||'가치관',v:sc.values,c:'#c99a2e'},{l:sl.work||'업무',v:sc.work,c:'#4682b4'}];
+  bars.forEach(function(b){
+    h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">';
+    h+='<div style="width:50px;text-align:right;font-size:13px;font-weight:600;color:var(--text-2)">'+b.l+'</div>';
+    h+='<div style="flex:1;height:8px;background:rgba(0,0,0,0.04);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+b.v+'%;background:'+b.c+';border-radius:4px;transition:width 1s"></div></div>';
+    h+='<div style="width:36px;font-size:13px;font-weight:700;color:var(--text-3)">'+b.v+'%</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+
+  // ③ Quote
+  if(quote){
+    h+='<div class="r-sub prog-sub-card" style="padding:16px 20px;border-left:3px solid var(--purple);font-size:14px;color:var(--text-2);line-height:1.7;font-style:italic">"'+quote+'"</div>';
+  }
+
+  // ④ Sub 컨테이너 + 스켈레톤
+  h+='<div id="gh-prog-sub-container"></div>';
+  h+='<div id="gh-prog-skeleton" class="r-sub prog-sub-card" style="text-align:center;padding:20px;color:var(--text-3);font-size:13px"><span class="load-dots"><span></span><span></span><span></span></span> 풀이를 펼치는 중</div>';
+
+  // ⑤ CTA (숨김 — 완료 후 표시)
+  h+='<div id="gh-prog-cta" style="display:none;padding:20px">';
+  h+='<button onclick="go(\'pgDash\')" class="r-cta-btn" style="background:rgba(232,69,60,.1);color:#E8453C">💕 새 궁합 보기</button>';
+  h+='<button onclick="shareResult()" class="r-cta-btn" style="background:#FEE500;color:#191919">💬 카카오 공유</button>';
+  h+='<p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-3)">본 풀이는 참고용 분석이며, 개인의 의사결정을 대체하지 않습니다.</p>';
+  h+='</div>';
+
+  h+='</div>';
+  el.innerHTML=h;
+
+  // 점수 카드와 quote에 revealed 애니메이션
+  setTimeout(function(){
+    var cards=el.querySelectorAll('.prog-sub-card');
+    for(var i=0;i<cards.length;i++) cards[i].classList.add('revealed');
+  },100);
+
+  // ⑥ Sub 의사 프로그레시브 — 200ms 간격으로 추가
+  if(aiR&&aiR.categories){
+    var container=document.getElementById('gh-prog-sub-container');
+    var allSubs=[];
+    var ghCatMap={};
+    var catIdx=0;
+    aiR.categories.forEach(function(c){
+      var catName=c.n||c.title||'';
+      ghCatMap[allSubs.length]=catName;
+      var subs=c.subs||c.items||[];
+      subs.forEach(function(sub){
+        allSubs.push(sub);
+      });
+      catIdx++;
+    });
+
+    var subIdx=0;
+    var ghProgTimer=setInterval(function(){
+      if(subIdx>=allSubs.length){
+        clearInterval(ghProgTimer);
+        // 스켈레톤 제거 + CTA 표시
+        var skel=document.getElementById('gh-prog-skeleton');
+        if(skel)skel.style.display='none';
+        var cta=document.getElementById('gh-prog-cta');
+        if(cta)cta.style.display='block';
+        return;
+      }
+
+      // 카테고리 구분자
+      if(typeof ghCatMap[subIdx]!=='undefined'){
+        var catDiv=document.createElement('div');
+        catDiv.className='r-cat-head prog-sub-card';
+        catDiv.innerHTML='<div class="r-cat-title-row"><span class="r-cat-title">'+ghCatMap[subIdx]+'</span></div>';
+        container.appendChild(catDiv);
+        setTimeout(function(){catDiv.classList.add('revealed');},50);
+      }
+
+      // Sub 카드 (appendSubCard 패턴 재사용)
+      var sub=allSubs[subIdx];
+      var subH=sub.h||sub.catch||'';
+      var subB=sub.b||(sub.content?(sub.content+(sub.insightText?('\n\n'+(sub.insightIcon||'💊')+' '+sub.insightText):'')):'');
+      var bodyHtml=(typeof renderSubBody==='function')?renderSubBody(subB):subB.replace(/\n\n/g,'<br><br>');
+
+      var card=document.createElement('div');
+      card.className='r-sub prog-sub-card';
+      card.innerHTML='<div class="r-sub-h">'+subH+'</div><div class="r-sub-b">'+bodyHtml+'</div>';
+      container.appendChild(card);
+      setTimeout(function(){card.classList.add('revealed');},50);
+
+      // 스켈레톤을 항상 마지막으로
+      var skel=document.getElementById('gh-prog-skeleton');
+      if(skel)container.parentNode.insertBefore(skel,container.nextSibling);
+
+      subIdx++;
+    },200);
+  } else {
+    // AI 실패 시
+    var skel=document.getElementById('gh-prog-skeleton');
+    if(skel)skel.innerHTML='<p style="color:var(--text-3)">AI 풀이 생성 실패</p>';
+  }
 }
 
 // ===== 궁합 탭 스크롤 함수 =====
