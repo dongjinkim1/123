@@ -6250,7 +6250,7 @@ function finalizeProgressivePage(result, saju, mt, gg, isAI) {
     var record = {
       id: String(Date.now())+'_'+String(Math.random()).slice(2,8),
       name: (ST.name||'나'), date: dateStr,
-      input: {y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city||'',cityLng:ST.cityLng||0},
+      input: {y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city||'',cityLng:ST.cityLng||0,ch:ST.ch||null,it:ST.it||null},
       isMyProfile: window._isMyProfile||false,
       saju: saju, dw: window._lastDW, gg: gg, mbti: mt,
       mbtiObj: window._lastMBTIObj, aiResult: result, isAI: isAI,
@@ -6656,7 +6656,7 @@ function renderResult(result,saju,mt,gg,isAI){
       id:String(Date.now())+'_'+String(Math.random()).slice(2,8),
       name:(ST.name||'나'),
       date:dateStr,
-      input:{y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city,cityLng:ST.cityLng},
+      input:{y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city,cityLng:ST.cityLng,ch:ST.ch||null,it:ST.it||null},
       isMyProfile: window._isMyProfile||false,
       saju:saju,
       dw:window._lastDW,
