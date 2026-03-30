@@ -4939,8 +4939,53 @@ async function _runGunghapAnalysis(){
 
     var aiResult=null;
     try{aiResult=JSON.parse(aiText);}catch(e){
+      // 2차: { ~ } 추출
       var fb=aiText.indexOf('{'),lb=aiText.lastIndexOf('}');
       if(fb>=0&&lb>fb)try{aiResult=JSON.parse(aiText.substring(fb,lb+1));}catch(e2){}
+      // 3차: 줄 단위
+      if(!aiResult){
+        var lines=aiText.split('\n'),si=-1,ei=-1;
+        for(var li=0;li<lines.length;li++){
+          if(si<0&&lines[li].trim().charAt(0)==='{')si=li;
+          if(lines[li].trim().charAt(0)==='}'||lines[li].trim().slice(-1)==='}')ei=li;
+        }
+        if(si>=0&&ei>=si)try{aiResult=JSON.parse(lines.slice(si,ei+1).join('\n'));}catch(e3){}
+      }
+      // 4차: 제어문자 제거
+      if(!aiResult){
+        var sanitized=aiText.substring(fb>=0?fb:0,(lb>0?lb+1:aiText.length));
+        sanitized=sanitized.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});
+        try{aiResult=JSON.parse(sanitized);}catch(e4){}
+      }
+      // 5차: 괄호 복구
+      if(!aiResult){
+        var repaired=aiText.substring(fb>=0?fb:0);
+        var oB=(repaired.match(/{/g)||[]).length,cB=(repaired.match(/}/g)||[]).length;
+        var oA=(repaired.match(/\[/g)||[]).length,cA=(repaired.match(/\]/g)||[]).length;
+        while(cA<oA){repaired+=']';cA++;}
+        while(cB<oB){repaired+='}';cB++;}
+        repaired=repaired.replace(/,\s*([}\]])/g,'$1');
+        try{aiResult=JSON.parse(repaired);console.log('[GH] 5차 괄호 복구 성공');}catch(e5){}
+      }
+      // 5.5차: sub 경계 자르기 (스택 기반 괄호 닫기)
+      if(!aiResult){
+        var rawT=aiText.substring(fb>=0?fb:0);
+        var lastQB=rawT.lastIndexOf('"}');
+        if(lastQB>0){
+          var trunc=rawT.substring(0,lastQB+2);
+          var _stk=[];
+          for(var _si=0;_si<trunc.length;_si++){
+            var _ch=trunc[_si];
+            if(_ch==='{'||_ch==='[')_stk.push(_ch);
+            else if(_ch==='}'&&_stk.length&&_stk[_stk.length-1]==='{')_stk.pop();
+            else if(_ch===']'&&_stk.length&&_stk[_stk.length-1]==='[')_stk.pop();
+          }
+          for(var _sj=_stk.length-1;_sj>=0;_sj--)trunc+=(_stk[_sj]==='{'?'}':']');
+          trunc=trunc.replace(/,\s*([}\]])/g,'$1');
+          try{aiResult=JSON.parse(trunc);console.log('[GH] 5.5차 sub경계 자르기 성공');}catch(e55){}
+        }
+      }
+      if(aiResult)console.log('[GH] JSON 폴백 파서 성공');
     }
 
     _isAnalyzing=false;

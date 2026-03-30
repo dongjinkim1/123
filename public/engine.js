@@ -3155,18 +3155,20 @@ async function runSajuAnalysis(params, callbacks){
         repaired = repaired.replace(/,\s*([}\]])/g, '$1');
         try { result = JSON.parse(repaired); console.log('[MBTS] 5차 괄호 복구 성공'); } catch(e5) {}
       }
-      // 5.5차: 잘린 sub 경계에서 자르기 (미닫힌 문자열 대응)
+      // 5.5차: 잘린 sub 경계에서 자르기 (스택 기반 괄호 닫기)
       if (!result) {
         var rawForTrunc = aiText.substring(fb >= 0 ? fb : 0);
         var lastQuoteBrace = rawForTrunc.lastIndexOf('"}');
         if (lastQuoteBrace > 0) {
           var truncated = rawForTrunc.substring(0, lastQuoteBrace + 2);
-          var tOB = (truncated.match(/{/g)||[]).length;
-          var tCB = (truncated.match(/}/g)||[]).length;
-          var tOA = (truncated.match(/\[/g)||[]).length;
-          var tCA = (truncated.match(/\]/g)||[]).length;
-          while (tCA < tOA) { truncated += ']'; tCA++; }
-          while (tCB < tOB) { truncated += '}'; tCB++; }
+          var _stk2=[];
+          for(var _si2=0;_si2<truncated.length;_si2++){
+            var _ch2=truncated[_si2];
+            if(_ch2==='{'||_ch2==='[')_stk2.push(_ch2);
+            else if(_ch2==='}'&&_stk2.length&&_stk2[_stk2.length-1]==='{')_stk2.pop();
+            else if(_ch2===']'&&_stk2.length&&_stk2[_stk2.length-1]==='[')_stk2.pop();
+          }
+          for(var _sj2=_stk2.length-1;_sj2>=0;_sj2--)truncated+=(_stk2[_sj2]==='{'?'}':']');
           truncated = truncated.replace(/,\s*([}\]])/g, '$1');
           try { result = JSON.parse(truncated); console.log('[MBTS] 5.5차 sub 경계 자르기 성공 (' + lastQuoteBrace + '자)'); } catch(e55) {}
         }
