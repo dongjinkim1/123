@@ -875,7 +875,7 @@
   function checkGHPReady(){var btn=document.getElementById('btn-gh-people-start'),rel=document.getElementById('gh-people-rel');if(!btn)return;if(GH_SEL_A&&GH_SEL_B){if(rel)rel.style.display='block';}else{if(rel)rel.style.display='none';}var ok=GH_SEL_A&&GH_SEL_B&&GP_REL;btn.style.display=(GH_SEL_A&&GH_SEL_B)?'block':'none';btn.disabled=!ok;if(ok){var cd=GH_CATEGORIES[GP_REL]||{emoji:'💕',label:'궁합'};btn.textContent=cd.emoji+' '+(GH_SEL_A.name||GH_SEL_A.ilju)+' × '+(GH_SEL_B.name||GH_SEL_B.ilju)+' '+cd.label+' 분석!';btn.style.background='#d63384';btn.style.color='#fff';btn.style.cursor='pointer';}else if(GH_SEL_A&&GH_SEL_B){btn.textContent='☝️ 관계를 선택해주세요';btn.style.background='rgba(0,0,0,0.08)';btn.style.color='var(--text-muted)';btn.style.cursor='not-allowed';}}
   function injectGHSelectorUI(){var gc=document.getElementById('home-content-gunghap');if(!gc||document.getElementById('gh-people-selector'))return;var s=document.createElement('div');s.style.marginTop='16px';s.innerHTML='<div class="glass-card" style="padding:24px 20px;margin-bottom:16px"><h3 style="font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:4px">💑 두 사람을 선택하세요</h3><p style="font-size:12px;color:var(--text-muted);margin-bottom:16px">목록에서 두 사람을 골라 궁합을 볼 수 있어요</p><div id="gh-people-selector"></div><div id="gh-people-rel" style="display:none;margin-top:12px"><label style="font-size:12px;font-weight:700;color:var(--accent);display:block;margin-bottom:6px">우리의 관계</label><div style="display:flex;flex-wrap:wrap;gap:6px"><button onclick="MBTS_People.pickRel(\'ssom\')" id="gp-rel-ssom" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💕 썸</button><button onclick="MBTS_People.pickRel(\'lover\')" id="gp-rel-lover" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">❤️ 연인</button><button onclick="MBTS_People.pickRel(\'family\')" id="gp-rel-family" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">👨‍👩‍👧 가족</button><button onclick="MBTS_People.pickRel(\'colleague\')" id="gp-rel-colleague" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">💼 동료</button><button onclick="MBTS_People.pickRel(\'friend\')" id="gp-rel-friend" style="flex:1;min-width:70px;padding:8px 4px;font-size:11px;font-weight:600;background:#fff;border:2px solid var(--border-light);border-radius:10px;color:var(--text-muted);cursor:pointer">🍻 친구</button></div></div><button id="btn-gh-people-start" onclick="MBTS_People.startFromList()" style="display:none;width:100%;padding:14px;font-size:15px;font-weight:700;color:#fff;background:#d63384;border:none;border-radius:12px;margin-top:16px;box-shadow:0 4px 16px rgba(214,51,132,.2);cursor:pointer" disabled>선택해주세요</button></div>';gc.appendChild(s);renderGHSelector();}
 
-  window.MBTS_People.startFromList=async function(){if(!GH_SEL_A||!GH_SEL_B||!GP_REL)return;var pA=GH_SEL_A,pB=GH_SEL_B;window._lastSaju=pA.saju;window._lastDW=pA.dw;window._lastGG=pA.gg;window._lastMBTI=pA.mbti;window._lastMBTIObj=pA.mbtiObj;if(typeof GH_REL!=='undefined')window.GH_REL=GP_REL;if(typeof GH_GENDER!=='undefined')window.GH_GENDER=pB.gender||'남성';if(typeof GH_MBTI_SEL!=='undefined')window.GH_MBTI_SEL=pB.mbti;var apiKey=getApiKey();if(!apiKey){apiKey=await promptApiKey();if(!apiKey)return;}var ghR=analyzeGunghap(pA.saju,pB.saju,pA.dw,pB.dw,pA.gg,pB.gg,pA.mbtiObj,pB.mbtiObj);if(GH_CATEGORIES[GP_REL]){var w=GH_CATEGORIES[GP_REL].scoreWeights;ghR.scores.total=Math.round(ghR.scores.love*w.love+ghR.scores.comm*w.comm+ghR.scores.values*w.values+ghR.scores.work*w.work);}goPage('gh-load');var cd=GH_CATEGORIES[GP_REL]||{emoji:'💕',label:'궁합',categories:['연애 케미','소통 방식','갈등 패턴','장기 전망'],tone:''};var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...',cd.emoji+' '+cd.label+' 궁합...',cd.categories[0]+' 분석...',(cd.categories[1]||'소통')+' 분석...',(cd.categories[2]||'전망')+' 분석...','인지기능 궁합 탐색...','이야기를 쓰는 중...'];var p=0,iv=setInterval(function(){p+=Math.random()*1.5+0.4;if(p>95)p=95;document.getElementById('gh-load-bar').style.width=p+'%';document.getElementById('gh-load-pct').textContent=Math.round(p)+'%';document.getElementById('gh-load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);var up=buildGunghapUserPrompt(ghR,pA.saju,pB.saju,pA.dw,pB.dw,pA.gg,pB.gg,pA.mbtiObj,pB.mbtiObj);var ghCfg=GH_REL_CONFIG[GP_REL];up+='\n### 관계: '+cd.label+'\n';if(ghCfg&&ghCfg.categories&&ghCfg.categories[0]&&ghCfg.categories[0].subs){up+='부제: '+(ghCfg.subtitle||'')+'\n\n';var sc2=0;ghCfg.categories.forEach(function(gc){up+='【'+gc.name+'】\n';gc.subs.forEach(function(s){sc2++;up+=sc2+'. '+s.h+' (톤: '+s.tone+')\n';});up+='\n';});}else{up+='카테고리:\n';cd.categories.forEach(function(c,i){up+=(i+1)+'. '+c+'\n';});if(cd.tone)up+='\n톤: '+cd.tone+'\n';}var sp=getGHSystemPrompt(GP_REL);var ai=null,ae='',_ghSubCount2=0,_ghPageInited2=false;try{var at=await streamSonnet(apiKey,sp,up,cd.emoji+' 궁합',{onMessage:function(m){var el=document.getElementById('gh-load-msg');if(el)el.innerHTML=m+'<span class="load-dots"><span></span><span></span><span></span></span>';},onProgress:function(pct){var b=document.getElementById('gh-load-bar');if(b)b.style.width=Math.max(Math.min(pct,100),5)+'%';var pe=document.getElementById('gh-load-pct');if(pe)pe.textContent=Math.round(pct)+'%';},onChunk:function(fullText,chunkNum){var ns=parseGhNewSubs(fullText,_ghSubCount2);if(ns.length>0){if(!_ghPageInited2){_ghPageInited2=true;clearInterval(iv);goPage('gh-res');if(typeof initGhStreamPage==='function')initGhStreamPage(ghR,pA.saju,pB.saju,pA.mbtiObj,pB.mbtiObj,GP_REL);}ns.forEach(function(sub){if(typeof appendGhStreamSub==='function')appendGhStreamSub(sub,_ghSubCount2);_ghSubCount2++;});}}},'/api/gunghap-analyze');try{ai=JSON.parse(at);}catch(e){var fb=at.indexOf('{'),lb=at.lastIndexOf('}');if(fb>=0&&lb>fb)try{ai=JSON.parse(at.substring(fb,lb+1));}catch(e2){}if(!ai){var ln=at.split('\n'),si=-1,ei=-1;for(var li=0;li<ln.length;li++){if(si<0&&ln[li].trim().charAt(0)==='{')si=li;if(ln[li].trim().charAt(0)==='}'||ln[li].trim().slice(-1)==='}')ei=li;}if(si>=0&&ei>=si)try{ai=JSON.parse(ln.slice(si,ei+1).join('\n'));}catch(e3){}}if(!ai){var sn=at.substring(fb>=0?fb:0,(lb>0?lb+1:at.length));sn=sn.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});try{ai=JSON.parse(sn);}catch(e4){}}if(ai)ae='';else ae='JSON_PARSE';}}catch(e){ae=e.message||'UNKNOWN';}if(ai)ai=postValidateGH(ai,ghR,pA.dw,pB.dw);clearInterval(iv);document.getElementById('gh-load-bar').style.width='100%';document.getElementById('gh-load-pct').textContent='100%';setTimeout(function(){if(_ghPageInited2){if(typeof finalizeGhStream==='function')finalizeGhStream(ai);}else if(typeof fillGhResultProgressive==='function'){goPage('gh-res');fillGhResultProgressive(ghR,ai,pA.saju,pB.saju,pA.mbtiObj,pB.mbtiObj,GP_REL);}else{renderGunghapResultV2(ghR,ai,pA.saju,pB.saju,pA.mbtiObj,pB.mbtiObj,pA.gg,pB.gg,ae,GP_REL);goPage('gh-res');}},600);};
+  window.MBTS_People.startFromList=async function(){if(!GH_SEL_A||!GH_SEL_B||!GP_REL)return;var pA=GH_SEL_A,pB=GH_SEL_B;window._lastSaju=pA.saju;window._lastDW=pA.dw;window._lastGG=pA.gg;window._lastMBTI=pA.mbti;window._lastMBTIObj=pA.mbtiObj;if(typeof GH_REL!=='undefined')window.GH_REL=GP_REL;if(typeof GH_GENDER!=='undefined')window.GH_GENDER=pB.gender||'남성';if(typeof GH_MBTI_SEL!=='undefined')window.GH_MBTI_SEL=pB.mbti;var apiKey=getApiKey();if(!apiKey){apiKey=await promptApiKey();if(!apiKey)return;}var ghR=analyzeGunghap(pA.saju,pB.saju,pA.dw,pB.dw,pA.gg,pB.gg,pA.mbtiObj,pB.mbtiObj);if(GH_CATEGORIES[GP_REL]){var w=GH_CATEGORIES[GP_REL].scoreWeights;ghR.scores.total=Math.round(ghR.scores.love*w.love+ghR.scores.comm*w.comm+ghR.scores.values*w.values+ghR.scores.work*w.work);}goPage('gh-load');var cd=GH_CATEGORIES[GP_REL]||{emoji:'💕',label:'궁합',categories:['연애 케미','소통 방식','갈등 패턴','장기 전망'],tone:''};var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...',cd.emoji+' '+cd.label+' 궁합...',cd.categories[0]+' 분석...',(cd.categories[1]||'소통')+' 분석...',(cd.categories[2]||'전망')+' 분석...','인지기능 궁합 탐색...','이야기를 쓰는 중...'];var p=0,iv=setInterval(function(){p+=Math.random()*1.5+0.4;if(p>95)p=95;document.getElementById('gh-load-bar').style.width=p+'%';document.getElementById('gh-load-pct').textContent=Math.round(p)+'%';document.getElementById('gh-load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);var up=buildGunghapUserPrompt(ghR,pA.saju,pB.saju,pA.dw,pB.dw,pA.gg,pB.gg,pA.mbtiObj,pB.mbtiObj);var ghCfg=GH_REL_CONFIG[GP_REL];up+='\n### 관계: '+cd.label+'\n';if(ghCfg&&ghCfg.subs&&ghCfg.subs.length>0){up+='부제: '+(ghCfg.subtitle||'')+'\n\n';for(var _si2=0;_si2<ghCfg.subs.length;_si2++){up+=(_si2+1)+'. '+ghCfg.subs[_si2].h+' (톤: '+ghCfg.subs[_si2].tone+')\n';}}else if(ghCfg&&ghCfg.categories&&ghCfg.categories[0]&&ghCfg.categories[0].subs){up+='부제: '+(ghCfg.subtitle||'')+'\n\n';var sc2=0;ghCfg.categories.forEach(function(gc){up+='【'+gc.name+'】\n';gc.subs.forEach(function(s){sc2++;up+=sc2+'. '+s.h+' (톤: '+s.tone+')\n';});up+='\n';});}else{up+='카테고리:\n';cd.categories.forEach(function(c,i){up+=(i+1)+'. '+c+'\n';});if(cd.tone)up+='\n톤: '+cd.tone+'\n';}var sp=getGHSystemPrompt(GP_REL);var ai=null,ae='',_ghSubCount2=0,_ghPageInited2=false;try{var at=await streamSonnet(apiKey,sp,up,cd.emoji+' 궁합',{onMessage:function(m){var el=document.getElementById('gh-load-msg');if(el)el.innerHTML=m+'<span class="load-dots"><span></span><span></span><span></span></span>';},onProgress:function(pct){var b=document.getElementById('gh-load-bar');if(b)b.style.width=Math.max(Math.min(pct,100),5)+'%';var pe=document.getElementById('gh-load-pct');if(pe)pe.textContent=Math.round(pct)+'%';},onChunk:function(fullText,chunkNum){var ns=parseGhNewSubs(fullText,_ghSubCount2);if(ns.length>0){if(!_ghPageInited2){_ghPageInited2=true;clearInterval(iv);goPage('gh-res');if(typeof initGhStreamPage==='function')initGhStreamPage(ghR,pA.saju,pB.saju,pA.mbtiObj,pB.mbtiObj,GP_REL);}ns.forEach(function(sub){if(typeof appendGhStreamSub==='function')appendGhStreamSub(sub,_ghSubCount2);_ghSubCount2++;});}}},'/api/gunghap-analyze');try{ai=JSON.parse(at);}catch(e){var fb=at.indexOf('{'),lb=at.lastIndexOf('}');if(fb>=0&&lb>fb)try{ai=JSON.parse(at.substring(fb,lb+1));}catch(e2){}if(!ai){var ln=at.split('\n'),si=-1,ei=-1;for(var li=0;li<ln.length;li++){if(si<0&&ln[li].trim().charAt(0)==='{')si=li;if(ln[li].trim().charAt(0)==='}'||ln[li].trim().slice(-1)==='}')ei=li;}if(si>=0&&ei>=si)try{ai=JSON.parse(ln.slice(si,ei+1).join('\n'));}catch(e3){}}if(!ai){var sn=at.substring(fb>=0?fb:0,(lb>0?lb+1:at.length));sn=sn.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});try{ai=JSON.parse(sn);}catch(e4){}}if(ai)ae='';else ae='JSON_PARSE';}}catch(e){ae=e.message||'UNKNOWN';}if(ai)ai=postValidateGH(ai,ghR,pA.dw,pB.dw);clearInterval(iv);document.getElementById('gh-load-bar').style.width='100%';document.getElementById('gh-load-pct').textContent='100%';setTimeout(function(){if(_ghPageInited2){if(typeof finalizeGhStream==='function')finalizeGhStream(ai);}else if(typeof fillGhResultProgressive==='function'){goPage('gh-res');fillGhResultProgressive(ghR,ai,pA.saju,pB.saju,pA.mbtiObj,pB.mbtiObj,GP_REL);}else{renderGunghapResultV2(ghR,ai,pA.saju,pB.saju,pA.mbtiObj,pB.mbtiObj,pA.gg,pB.gg,ae,GP_REL);goPage('gh-res');}},600);};
 
 
   // ╔══════════════════════════════════════╗
@@ -1062,216 +1062,96 @@
   + 'JSON만 출력하세요.';
 
 
-  // ── 관계 유형별 앵커 + 카테고리 ──
+  // ── 관계 유형별 플랫 12 subs + anchor (v3 감사 기반) ──
   var GH_REL_CONFIG = {
     ssom: {
       title: '썸',
       subtitle: '이 사람... 나 어떻게 생각해?',
-      categories: [
-        {
-          name: '이 사람, 뭔데',
-          subs: [
-            { h: '첫 만남에서 느낀 그 떨림', tone: '처음 봤을 때 왜 심장이 그랬는지', anchor: '일간 교차 관계 (합/충/생/극/비화) | 보조: 일지 육합 여부 + MBTI EI축 교차' },
-            { h: '자꾸 눈이 가는 진짜 이유', tone: '좋아하는 건지 궁금한 건지 모르겠는 그 감정', anchor: 'A의 용신 + B의 오행 배치 + 도화살 교차 | 보조: MBTI 주기능↔보조기능 교차' },
-            { h: '이 사람의 연애 성향', tone: '이 사람은 좋아하면 이렇게 행동해요', anchor: 'B의 배우자궁(일지) 십성 + B의 격국 강약 | 보조: B의 MBTI TF축 + 강도' }
-          ]
-        },
-        {
-          name: '나를 어떻게 볼까',
-          subs: [
-            { h: '상대방 눈에 비친 나', tone: '걔 눈에 나는 어떤 사람일까?', anchor: 'B 일간 기준 A 일간 십성 + A의 월간·시간이 B에게 주는 인상 | 보조: MBTI SN축 교차' },
-            { h: '나의 어디에 끌릴 수 있을까', tone: '내가 모르는 나의 매력 포인트', anchor: 'B의 용신과 A의 오행 배치 관계 | 보조: MBTI A주↔B부 교차' },
-            { h: '반대로, 이건 조심해', tone: '나도 모르게 밀어내고 있을 수 있는 것', anchor: '원진살·해 + A의 과잉 오행이 B에게 주는 부담 | 보조: MBTI EI축 차이 + JP축 차이' }
-          ]
-        },
-        {
-          name: '다가가는 법',
-          subs: [
-            { h: '이 사람 마음 여는 방법', tone: '정답은 아닌데, 이러면 확률 올라가요', anchor: 'B의 용신 방향 + B의 격국 | 보조: B의 MBTI 주기능' },
-            { h: '카톡/만남에서 쓸 수 있는 무기', tone: '대화할 때 이 사람이 반응하는 포인트', anchor: '천간합 궁위 + 삼합 공통 오행 | 보조: MBTI 인지기능 교차 (사주50%+MBTI50% 허용)' },
-            { h: '절대 하면 안 되는 것', tone: '이러면 진짜 끝이에요 차단각', anchor: '⚠️ 충·형 + B의 신살 중 예민한 것 | 보조: MBTI JP축 차이 + TF축 차이' }
-          ]
-        },
-        {
-          name: '우리 사이 온도',
-          subs: [
-            { h: '같이 있을 때 흐르는 공기', tone: '둘이 있으면 이런 분위기가 돼요', anchor: '납음 궁합 | 보조: 강약 궁합 + 삼합 + MBTI EI축 조합' }
-          ]
-        },
-        {
-          name: '이 썸의 결말',
-          subs: [
-            { h: '아직 모르는 서로의 반전', tone: '사귀고 나서 어? 할 포인트', anchor: '12운성 교차 + 화개살·역마살·천을귀인 교차 | 보조: MBTI 열등기능(4번째)' },
-            { h: '고백하면 될까?', tone: '올해 안에 언제가 좋을지', anchor: '대운 동기화 + 5년 타이밍 (세운) | 보조: 12운성 + MBTI JP축' },
-            { h: '사귀면 이런 커플이 돼요', tone: '미리 보는 우리의 연인 버전', anchor: '배우자궁 십성 교차 + 육친 교차 | 보조: 오행 보완 + 삼합 + MBTI 전체 유형 조합' },
-            { h: '이 인연에 대한 한마디', tone: '소름 돋는 한 줄', anchor: '키워드 요약 (18레이어 종합) + 납음 궁합 | 보조: MBTI 주기능 조합' }
-          ]
-        }
+      subs: [
+        { h: '이 사람의 성격', tone: '겉과 속, 진짜 성격을 짚어줘', anchor: 'B일간 오행+격국 유형+강약 | 보조: MBTI B주기능·EI축' },
+        { h: '이 사람의 연애 스타일', tone: '좋아하면 이렇게 행동하는 사람', anchor: 'B배우자궁(일지) 십성+B 12운성 | 보조: MBTI B TF축+강도' },
+        { h: '이 사람이 좋아하는 타입', tone: '어떤 사람에게 끌리는지', anchor: 'B용신 방향+B배우자궁 십성+도화살 유무/궁위 | 보조: MBTI B주기능 반응 에너지' },
+        { h: '이 사람이 싫어하는 타입', tone: '이런 사람은 절대 안 됨', anchor: 'B과잉오행+B 5신중 기신 오행+겁재·편관 과다 여부 | 보조: MBTI B열등기능' },
+        { h: '상대 눈에 비친 나', tone: '걔 눈에 나는 어떤 사람일까?', anchor: 'B→A 십성+성별맥락 십성(L14)+A의 월간이 B에게 주는 인상 | 보조: MBTI SN축 교차+8자심리위치(년간=외부인상)' },
+        { h: '우리 사이의 끌림', tone: '왜 자꾸 신경 쓰이는지의 정체', anchor: '일간 합/충/생/극/비화+일지 육합 여부+용신↔오행 보완 | 보조: MBTI 주기능↔주기능 교차' },
+        { h: '서로 맞춰가야 할 부분', tone: '안 맞는 건 안 맞는 거야', anchor: '⚠️ 충·형·원진살·해(강제 언급)+과잉 오행 충돌+양인살 유무 | 보조: MBTI JP축·TF축 차이' },
+        { h: '통하는 접근법', tone: '이러면 확률 올라가요', anchor: 'B용신 방향+천간합 궁위+삼합 공통 오행 | 보조: MBTI 인지기능 교차(A주↔B부)' },
+        { h: '역효과 나는 행동', tone: '이러면 진짜 끝이에요', anchor: '⚠️ 충·형 반복+B 결핍 오행 건드리는 패턴+공망 | 보조: MBTI B열등기능+JP축 차이' },
+        { h: '이 사람과 사귀려면', tone: '타이밍과 현실적 조언', anchor: '대운 동기화+5년 타이밍(세운)+12운성 | 보조: MBTI JP축+전체 유형 조합' },
+        { h: '사귀면 어떤 커플이 되는지', tone: '미리 보는 우리의 연인 버전', anchor: '배우자궁 십성 교차+납음 궁합(이름 포함)+강약 궁합+부부시너지 | 보조: MBTI 전체 유형 조합' },
+        { h: '한 줄 요약', tone: '소름 돋는 한 줄', anchor: '키워드 요약(18레이어)+납음+MBTS 관계유형별 비교(bestRelType) | 보조: MBTI 주기능 조합' }
       ]
     },
     lover: {
       title: '연인',
       subtitle: '이 사람이랑 쭉 가도 될까?',
-      categories: [
-        {
-          name: '꼴림',
-          subs: [
-            { h: '그 사람 눈에 비친 너', tone: '걔한테 내가 어떤 사람인지 알면 놀라요', anchor: 'B 일간 기준 A 일간 십성 + B의 배우자궁(일지) 십성 | 보조: MBTI SN축 교차' },
-            { h: '상대방 앞에서만 나오는 너', tone: '나 원래 이런 사람 아닌데', anchor: 'A의 배우자궁(일지) 십성 + 일지끼리의 관계 (합/충/형) | 보조: MBTI 열등기능(4번째)' }
-          ]
-        },
-        {
-          name: '우리의 온도',
-          subs: [
-            { h: '상대의 사랑법, 내가 못 알아보고 있는 것', tone: '표현 안 하는 게 아니라 방식이 다른 거예요', anchor: 'B의 일간 십성 분포 (정재/편재/정관/편관 위치) + B의 격국 강약 | 보조: B의 MBTI TF축 + 주기능' },
-            { h: '우리만의 최강 조합', tone: '우리가 제일 잘 맞는 순간', anchor: '천간합 궁위 + 삼합 공통 오행 | 보조: MBTI 인지기능 교차 (주↔주)' },
-            { h: '그 사람이 절대 말 안 하지만 바라는 것', tone: '속마음 해독해드릴게요', anchor: 'B의 용신과 A의 오행 배치 + B의 12운성 (대운 지지 기준) | 보조: MBTI B의 열등기능(4번째)' }
-          ]
-        },
-        {
-          name: '진짜 우리',
-          subs: [
-            { h: '맨날 싸우는 진짜 이유', tone: '설거지 때문이 아니었어요', anchor: '⚠️ 충·형·원진살·해 (강제 언급) | 보조: MBTI TF축 차이 + JP축 차이' },
-            { h: '상대방의 지뢰밭 지도', tone: '이건 농담으로도 하지 마세요', anchor: '양인살·겁재과다·편인과다·편관과다 + B의 과잉/결핍 오행 | 보조: MBTI B의 열등기능 + JP축' },
-            { h: '이 커플 전용 화해 공식', tone: '싸우면 이렇게 풀어요', anchor: '용신 궁합 (서로가 필요한 에너지) + 천간합 궁위 | 보조: MBTI 인지기능 교차 (A주↔B부, B주↔A부)' }
-          ]
-        },
-        {
-          name: '같이 갈 수 있을까',
-          subs: [
-            { h: '그 사람이 위기 때 보여줄 진짜 얼굴', tone: '극한에서 이 사람은 이래요', anchor: '12운성 (대운 지지 기준) + 강약 궁합 | 보조: 격국 유형 (종격/일반격) + MBTI EI축 + TF축' },
-            { h: '이 감정의 유통기한', tone: '권태기는 이때, 이런 모습으로 와요', anchor: '대운 동기화 + 5년 타이밍 (세운) | 보조: 도화살 교차 + MBTI SN축' },
-            { h: '상대가 다른 사람한테 끌리는 조건', tone: '근데 그 조건, 너예요', anchor: 'B의 용신 방향 + B의 배우자궁 십성 + 도화살 위치 | 보조: MBTI B의 주기능이 반응하는 에너지 방향' }
-          ]
-        },
-        {
-          name: '우리라는 이야기',
-          subs: [
-            { h: '우리가 늙으면', tone: '50년 뒤 우리의 모습', anchor: '납음 궁합 + 50세 이후 대운 동기화 | 보조: 삼합 + MBTI 전체 유형 조합' },
-            { h: '이 사람이 내 인생을 바꾸고 있는 것', tone: '이 사람 아니었으면 몰랐을 나', anchor: '오행 보완 + A의 용신과 B의 관계 | 보조: 12운성 교차 + MBTI 인지기능 교차' },
-            { h: '이 사랑에 대한 한마디', tone: '소름 돋는 한 줄', anchor: '키워드 요약 (18레이어 종합) + 납음 궁합 | 보조: MBTI 주기능 조합' }
-          ]
-        }
+      subs: [
+        { h: '이 사람의 성격', tone: '겉과 속, 진짜 성격을 짚어줘', anchor: 'B일간 오행+격국 유형+강약 | 보조: MBTI B주기능·EI축' },
+        { h: '이 사람의 연애 스타일', tone: '사랑을 표현하는 방식', anchor: 'B배우자궁(일지) 십성+B 12운성 | 보조: MBTI B TF축+강도' },
+        { h: '이 사람이 연인에게 바라는 것', tone: '채워달라는 빈자리', anchor: 'B용신 방향+B배우자궁 십성+육친 중 인성·식상 배치 | 보조: MBTI B열등기능(채워달라는 곳)' },
+        { h: '이 사람이 연인에게 민감한 부분', tone: '이건 농담으로도 하지 마세요', anchor: 'B과잉오행+B 5신중 기신+겁재·편인·편관 과다+양인살 | 보조: MBTI B열등기능+TF축' },
+        { h: '상대 눈에 비친 나', tone: '걔한테 내가 어떤 사람인지', anchor: 'B→A 십성+성별맥락 십성+A월간→B인상 | 보조: MBTI SN축 교차+8자심리위치' },
+        { h: '잘 맞는 부분', tone: '우리가 제일 잘 맞는 순간', anchor: '천간합 궁위+삼합 공통 오행+오행 보완 관계 | 보조: MBTI 인지기능 교차(주↔주)' },
+        { h: '서로 맞춰가야 할 부분', tone: '설거지 때문이 아니었어요', anchor: '⚠️ 충·형·원진살·해(강제)+격국 교차(강약 차이)+양인살 | 보조: MBTI JP축·TF축 차이' },
+        { h: '싸웠을 때 화해법', tone: '이 커플 전용 화해 공식', anchor: '용신 궁합(서로 필요한 에너지)+천간합 궁위 | 보조: MBTI 인지기능 교차(A주↔B부, B주↔A부)' },
+        { h: '우리에게 맞는 소통법', tone: '이 관계에 맞는 대화 방법', anchor: '납음 궁합+강약 궁합+일지 교차 관계 | 보조: MBTI EI축·SN축 조합' },
+        { h: '결혼하면 어떤 부부가 되는지', tone: '미리 보는 우리 가정의 모습', anchor: '배우자궁 십성 교차+납음 궁합+부부시너지+강약 궁합 | 보조: MBTI 전체 유형 조합' },
+        { h: '결혼까지 가려면', tone: '현실적 타이밍과 조건', anchor: '대운 동기화+5년 타이밍(세운)+12운성 | 보조: MBTI JP축+전체 유형' },
+        { h: '한 줄 요약', tone: '이 사랑에 대한 소름 돋는 한 줄', anchor: '키워드 요약(18레이어)+납음+MBTS bestRelType | 보조: MBTI 주기능 조합' }
       ]
     },
     family: {
       title: '가족',
       subtitle: '사랑하는데 왜 이렇게 힘들까',
-      categories: [
-        {
-          name: '마음의 온도',
-          subs: [
-            { h: '그 사람이 나를 사랑하는 방식, 네가 못 알아보고 있는 것', tone: '잔소리인 줄 알았는데 그게 전부였어', anchor: 'B의 일간 십성 분포 (인성·비겁 중심) + B의 격국 강약 | 보조: MBTI B의 TF축 + 주기능' },
-            { h: '상대방이 나한테 절대 안 하는 말, 근데 느끼고 있는 것', tone: '한 번도 안 했지, 근데 매일 생각해', anchor: 'B의 용신과 A의 오행 배치 + B의 12운성 (대운 지지 기준) | 보조: MBTI B의 열등기능(4번째)' },
-            { h: '이 사람이 나를 자랑하는 순간', tone: '내가 모르는 곳에서 내 얘기를 하고 있었어', anchor: 'B 일간 기준 A 일간 십성 + 천간합 궁위 | 보조: MBTI B의 Fe/Fi축' }
-          ]
-        },
-        {
-          name: '거울',
-          subs: [
-            { h: '상대 앞에서만 나오는 나', tone: '다른 사람한테는 안 그런데 이 사람한테만 예민해져', anchor: 'A의 일지 십성 + 일지끼리의 관계 (합/충/형) | 보조: MBTI 열등기능(4번째)' },
-            { h: '그 사람도 상처받고 있었다는 것', tone: '나만 힘든 줄 알았는데', anchor: 'B의 결핍 오행 + B의 12운성 (대운 지지 기준) | 보조: MBTI B의 열등기능 + EI축' },
-            { h: '서로한테 없는 걸 채워주고 있는 것', tone: '나도 모르게 서로한테 기대고 있었어', anchor: '오행 보완 관계 | 보조: MBTI 인지기능 교차 (A주↔B부, B주↔A부)' }
-          ]
-        },
-        {
-          name: '부딪힘',
-          subs: [
-            { h: '둘이 닮은 것, 둘이 정반대인 것', tone: '그래서 부딪히는 거였어, 그래서 통하는 거였어', anchor: '강약 궁합 + 격국 교차 | 보조: MBTI 4축 비교' },
-            { h: '이 사람한테 내가 기대고 있는 것', tone: '없으면 안 되는 줄 몰랐어', anchor: 'A의 용신과 B의 오행 배치 + 육친 교차 | 보조: MBTI A의 열등기능이 B의 주기능과 만나는 구조 ※현재 의존 구조만' },
-            { h: '상대방의 지뢰, 이것만은 건드리면 안 되는 것', tone: '이 한마디가 10년 치 분노 버튼이야', anchor: '양인살·편인과다·편관과다 + B의 과잉/결핍 오행 | 보조: MBTI B의 열등기능 + TF축' },
-            { h: '서운한 거 말해도 되는지 삼켜야 하는지', tone: '말하면 관계가 깨질까, 삼키면 내가 깨질까', anchor: '⚠️ 충·형·원진살·해 (강제 언급) + 용신 궁합 | 보조: MBTI TF축 차이 + JP축 차이' }
-          ]
-        },
-        {
-          name: '이어짐',
-          subs: [
-            { h: '우리만의 사랑 언어', tone: '밥 먹었어?가 사랑해라는 뜻이야', anchor: '납음 궁합 + 삼합 공통 오행 | 보조: MBTI 인지기능 교차 + Fe/Fi축' },
-            { h: '이 관계가 10년 뒤에는', tone: '지금 이 거리감이 나중엔 어떻게 되는지', anchor: '대운 동기화 + 10년 단위 타이밍 | 보조: MBTI 전체 유형 조합' },
-            { h: '이 사람이 내 인생에 심어준 것', tone: '힘들었지만 나를 만든 거야', anchor: '육친 교차 + 오행 보완 | 보조: 12운성 교차 + MBTI 인지기능 교차 ※장기적 영향만' },
-            { h: '이 인연에 대한 한마디', tone: '읽고 나면 조용해지는 한 줄', anchor: '키워드 요약 (18레이어 종합) + 납음 궁합 | 보조: MBTI 주기능 조합' }
-          ]
-        }
+      subs: [
+        { h: '이 사람의 성격', tone: '겉과 속, 진짜 성격을 짚어줘', anchor: 'B일간 오행+격국 유형+강약 | 보조: MBTI B주기능·EI축' },
+        { h: '이 사람이 사랑을 표현하는 방식', tone: '잔소리인 줄 알았는데 그게 전부였어', anchor: 'B일간 십성 분포(인성·비겁 중심)+B격국 강약 | 보조: MBTI B TF축+주기능' },
+        { h: '이 사람이 가족에게 바라는 것', tone: '한 번도 말 안 했지만 매일 생각해', anchor: 'B용신 방향+B 12운성+B 5신중 기신 | 보조: MBTI B열등기능' },
+        { h: '이 사람이 가족에게 서운해하는 것', tone: '이 한마디가 10년 치 분노 버튼', anchor: 'B과잉오행+양인살·편인과다·편관과다 | 보조: MBTI B열등기능+TF축' },
+        { h: '상대 눈에 비친 나', tone: '다른 사람한테는 안 그런데 이 사람한테만', anchor: 'A일지 십성+일지끼리 관계+B→A십성 | 보조: MBTI 열등기능+8자심리위치' },
+        { h: '서로 채워주고 있는 것', tone: '나도 모르게 기대고 있었어', anchor: '오행 보완 관계+육친 교차 | 보조: MBTI 인지기능 교차(A주↔B부, B주↔A부)' },
+        { h: '맨날 부딪히는 진짜 이유', tone: '그래서 부딪히는 거였어', anchor: '⚠️ 충·형·원진살·해(강제)+강약 궁합+격국 교차 | 보조: MBTI 4축 비교' },
+        { h: '상대의 지뢰, 절대 건드리면 안 되는 것', tone: '이건 농담으로도 하지 마세요', anchor: '양인살+B과잉/결핍 오행+공망 | 보조: MBTI B열등기능+JP축' },
+        { h: '서운한 거 말해도 되는 법', tone: '말하면 관계가 깨질까, 삼키면 내가 깨질까', anchor: '용신 궁합+천간합 궁위 | 보조: MBTI TF축 차이+JP축 차이' },
+        { h: '이 관계가 10년 뒤에는', tone: '지금 이 거리감이 나중엔 어떻게 되는지', anchor: '대운 동기화+5년 타이밍 | 보조: MBTI 전체 유형 조합' },
+        { h: '이 사람이 내 인생에 심어준 것', tone: '힘들었지만 나를 만든 거야', anchor: '오행 보완+A의 용신과 B의 관계+12운성 교차 | 보조: MBTI 인지기능 교차' },
+        { h: '한 줄 요약', tone: '읽고 나면 조용해지는 한 줄', anchor: '키워드 요약(18레이어)+납음+MBTS bestRelType | 보조: MBTI 주기능 조합' }
       ]
     },
     colleague: {
       title: '동료',
       subtitle: '이 사람이랑 어떻게 살아남지?',
-      categories: [
-        {
-          name: '파악',
-          subs: [
-            { h: '그 사람이 나를 어떻게 보고 있는지', tone: '회사에서는 표정으로 읽을 수가 없으니까', anchor: 'B 일간 기준 A 일간 십성 + A의 월간이 B에게 주는 인상 | 보조: MBTI SN축 교차 + TF축 교차' },
-            { h: '이 사람의 작동 방식 매뉴얼', tone: '보고는 아침에 해, 결론부터 말해', anchor: 'B의 격국 유형 + B의 강약 + B의 일간 십성 분포 (정관/편관/정재/편재 중심) | 보조: MBTI B의 주기능 + JP축' },
-            { h: '상대방의 지뢰, 절대 건드리면 안 되는 것', tone: '이거 잘못 건드리면 커리어가 날아가', anchor: '양인살·겁재과다·편관과다 + B의 과잉/결핍 오행 | 보조: MBTI B의 열등기능 + TF축' }
-          ]
-        },
-        {
-          name: '시너지',
-          subs: [
-            { h: '같이 일하면 폭발하는 시너지 조합', tone: '이 조합이 터지는 조건이 따로 있어', anchor: '오행 보완 관계 + 천간합 궁위 (특히 월간합) | 보조: MBTI 인지기능 교차 (주↔주) + Te/Ti 배치' },
-            { h: '그 사람이 적인지 아군인지', tone: '웃는 게 진짜인지 아닌지', anchor: '천간합·삼합 유무 vs ⚠️ 충·형·원진살·해 유무 (양쪽 동시 판정) | 보조: MBTI TF축 교차' },
-            { h: '맨날 부딪히는 진짜 이유', tone: '일 못 해서가 아니야, 방식이 다른 거야', anchor: '⚠️ 충·형·원진살·해 (강제 언급) + 격국 교차 (업무 방식 차이) | 보조: MBTI JP축 차이 + Te vs Ti 충돌' }
-          ]
-        },
-        {
-          name: '생존',
-          subs: [
-            { h: '이 사람 옆에서 내가 성장하고 있는 것', tone: '답답한데, 이게 3년 뒤 내 무기가 돼', anchor: 'A의 용신과 B의 오행 배치 + 12운성 교차 | 보조: MBTI 인지기능 교차 ※현재 진행형 변화만' },
-            { h: '상대 때문에 퇴사하고 싶은 건지, 진짜 가야 할 때인 건지', tone: '사람 문제야 시기 문제야', anchor: '대운 동기화 + 5년 타이밍 (세운) + A의 12운성 (대운 지지 기준) | 보조: MBTI A의 주기능 에너지 상태' },
-            { h: '그 사람이 스트레스받으면 나한테 나오는 패턴', tone: '걔가 나한테 쏘는 거 개인적인 거 아니야', anchor: 'B의 격국 강약 + B의 과잉 오행이 A에게 미치는 영향 | 보조: MBTI B의 열등기능 (스트레스 시 발현) + EI축' },
-            { h: '이 관계에서 나를 갉아먹고 있는 것', tone: '매일 출근하면서 닳고 있는 게 뭔지', anchor: '12운성 (대운 지지 기준) + A의 과잉/결핍 오행 | 보조: MBTI A의 열등기능이 계속 눌리는 패턴' }
-          ]
-        },
-        {
-          name: '앞으로',
-          subs: [
-            { h: '상대방한테 인정받는 법', tone: '이 사람이 보는 게 뭔지 알면 헛수고가 줄어', anchor: 'B의 용신 방향 + B 일간 기준 A 일간 십성 | 보조: MBTI B의 주기능이 반응하는 에너지 방향' },
-            { h: '이 사람과 2년 뒤', tone: '걔가 올라가면 나는 어떻게 되는지', anchor: '대운 동기화 + 세운 2~3년 타이밍 | 보조: MBTI 전체 유형 조합 + SN축' },
-            { h: '이 사람이 내 커리어에 남기는 것', tone: '힘들었지만 이게 남더라', anchor: '육친 교차 + 격국 교차 | 보조: 12운성 교차 + MBTI 인지기능 교차 ※이 관계가 끝나도 남는 것만' },
-            { h: '이 인연에 대한 한마디', tone: '내일 그 사람 보면 좀 달라지는 한 줄', anchor: '키워드 요약 (18레이어 종합) + 납음 궁합 | 보조: MBTI 주기능 조합' }
-          ]
-        }
+      subs: [
+        { h: '이 사람의 성격', tone: '겉과 속, 진짜 성격을 짚어줘', anchor: 'B일간 오행+격국 유형+강약 | 보조: MBTI B주기능·EI축' },
+        { h: '이 사람의 업무 스타일', tone: '보고는 아침에 해, 결론부터 말해', anchor: 'B격국 유형+강약+B월간 십성+B일간 십성 분포(정관/편관/정재/편재 중심) | 보조: MBTI B JP축+Te/Ti 배치' },
+        { h: '이 사람이 선호하는 업무 방식', tone: '이렇게 하면 좋아하는 것', anchor: 'B용신 방향+B인성·식상 배치+B월간 합 여부 | 보조: MBTI B주기능+SN축' },
+        { h: '이 사람이 싫어하는 업무 방식', tone: '이거 잘못 건드리면 커리어가 날아가', anchor: 'B 5신중 기신+양인살·겁재과다·편관과다 | 보조: MBTI B열등기능+TF축' },
+        { h: '상대 눈에 비친 나', tone: '회사에서는 표정으로 읽을 수가 없으니까', anchor: 'B→A 십성+A월간이 B에게 주는 인상+성별맥락 | 보조: MBTI SN축·TF축 교차+8자심리위치' },
+        { h: '같이 일할 때 시너지', tone: '이 조합이 터지는 조건', anchor: '오행 보완+천간합 궁위(특히 월간합)+삼합 | 보조: MBTI 인지기능 교차(주↔주)+Te/Ti' },
+        { h: '같이 일할 때 맞춰가야 할 부분', tone: '일 못 해서가 아니야, 방식이 다른 거야', anchor: '⚠️ 충·형·원진살·해(강제)+격국 교차(업무방식 차이) | 보조: MBTI JP축 차이+Te vs Ti 충돌' },
+        { h: '이 사람과 대화할 때 팁', tone: '업무 대화에서 효과적인 방법', anchor: 'B용신 방향+천간합 궁위 | 보조: MBTI B주기능 소통 방식' },
+        { h: '이 사람에게 인정받는 법', tone: '이 사람이 보는 게 뭔지 알면 헛수고가 줄어', anchor: 'B용신 방향+B→A 십성 | 보조: MBTI B주기능 반응 에너지' },
+        { h: '트러블 났을 때 대처법', tone: '걔가 나한테 쏘는 거 개인적인 거 아니야', anchor: '용신 궁합+충·형 반복 패턴+공망 | 보조: MBTI 인지기능 교차(A주↔B부)' },
+        { h: '이 사람과 같이 성장하려면', tone: '답답한데, 이게 3년 뒤 내 무기가 돼', anchor: '대운 동기화+12운성 교차+A의 용신과 B의 오행 | 보조: MBTI 전체 유형 조합' },
+        { h: '한 줄 요약', tone: '내일 그 사람 보면 좀 달라지는 한 줄', anchor: '키워드 요약(18레이어)+납음+MBTS bestRelType | 보조: MBTI 주기능 조합' }
       ]
     },
     friend: {
       title: '친구',
       subtitle: '우리 진짜 친한 거 맞지?',
-      categories: [
-        {
-          name: '우리가 된 이유',
-          subs: [
-            { h: '처음에 왜 끌렸는지', tone: '우리가 친해진 게 우연이 아니었어', anchor: '일간 교차 관계 (합/생/비화 중심) | 보조: MBTI 인지기능 주기능↔주기능 교차' },
-            { h: '이 사람 앞에서만 나오는 나', tone: '다른 데서는 안 그런데 얘 앞에서만 이래', anchor: 'A의 일지 십성 + 일지끼리의 관계 | 보조: MBTI 열등기능(4번째)' },
-            { h: '같이 있으면 왜 이렇게 편한지의 정체', tone: '3시간이 30분 같은 이유가 있었어', anchor: '납음 궁합 + 삼합 공통 오행 | 보조: MBTI EI축 조합 + SN축 조합' }
-          ]
-        },
-        {
-          name: '속마음',
-          subs: [
-            { h: '나한테는 안 하는 말, 속으로 느끼는 것', tone: '걔가 나한테 이렇게 생각하고 있었어?', anchor: 'B의 용신과 A의 오행 배치 + B의 12운성 (대운 지지 기준) | 보조: MBTI B의 열등기능(4번째) ※현재 시점 감정/니즈만' },
-            { h: '그 사람이 나한테 진짜인지', tone: '앞에서 웃는 건 누구나 해, 뒤에서도 내 편이야?', anchor: '천간합 궁위 + 원진살·해 유무 | 보조: MBTI TF축 교차 ※구조적 진정성 판정만' },
-            { h: '서로한테 없는 걸 채워주고 있는 것', tone: '내가 못 하는 걸 걔가, 걔가 못 하는 걸 내가', anchor: '오행 보완 관계 | 보조: MBTI 인지기능 교차 (A주↔B부, B주↔A부)' },
-            { h: '이 사람한테 내가 기대고 있는 것', tone: '나도 모르게 이 사람한테 받고 있던 것', anchor: 'A의 용신과 B의 오행 배치 | 보조: MBTI A의 열등기능이 B의 주기능과 만나는 구조' },
-            { h: '상대방이 나한테 기대하는 나의 모습', tone: '걔는 내가 항상 이런 사람일 줄 알아', anchor: 'B 일간 기준 A 일간 십성 + B의 비겁·식상 분포 | 보조: MBTI B의 주기능이 A에게 기대하는 역할' }
-          ]
-        },
-        {
-          name: '균열과 회복',
-          subs: [
-            { h: '둘이 닮은 것, 둘이 정반대인 것', tone: '그래서 통하는 거였어, 그래서 부딪히는 거였어', anchor: '강약 궁합 + 격국 교차 | 보조: MBTI 4축 비교' },
-            { h: '이 사이에서 조심해야 할 것', tone: '모르고 지나치면 금 가는 포인트', anchor: '⚠️ 충·형·원진살·해 (강제 언급) + 과잉 오행끼리 충돌 | 보조: MBTI JP축 차이 + TF축 차이' },
-            { h: '이 사이가 틀어졌을 때 푸는 법', tone: '어색해졌을 때 누가 먼저 어떻게 해야 하는지', anchor: '용신 궁합 + 천간합 궁위 | 보조: MBTI 인지기능 교차' }
-          ]
-        },
-        {
-          name: '이 우정의 의미',
-          subs: [
-            { h: '그 사람이 내 편인 줄 모르고 있는 순간들', tone: '내가 모르는 곳에서 날 지키고 있었어', anchor: '육친 교차 + 천을귀인 교차 | 보조: MBTI Fe/Fi축' },
-            { h: '이 친구가 내 인생에 가르쳐준 것', tone: '이 사람 아니었으면 난 아직도 그랬을 거야', anchor: '오행 보완 + A의 용신과 B의 관계 | 보조: 12운성 교차 + MBTI 인지기능 교차' },
-            { h: '이 우정에 대한 한마디', tone: '읽고 나면 걔한테 연락하고 싶어지는 한 줄', anchor: '키워드 요약 (18레이어 종합) + 납음 궁합 | 보조: MBTI 주기능 조합' }
-          ]
-        }
+      subs: [
+        { h: '이 사람의 성격', tone: '겉과 속, 진짜 성격을 짚어줘', anchor: 'B일간 오행+격국 유형+강약 | 보조: MBTI B주기능·EI축' },
+        { h: '이 사람의 우정 스타일', tone: '친구 관계에서 이 사람의 패턴', anchor: 'B비겁·식상 분포+B일간↔일지 관계 | 보조: MBTI B EI축+Fe/Fi축' },
+        { h: '이 사람이 친구에게 바라는 것', tone: '친구에게 원하는 것', anchor: 'B용신 방향+B인성·비겁 배치 | 보조: MBTI B열등기능(무의식적 니즈)' },
+        { h: '이 사람이 친구에게 서운해하는 것', tone: '친구 관계에서 서운해하는 포인트', anchor: 'B 5신중 기신+과잉 오행 자극 패턴+원진살 | 보조: MBTI B열등기능+TF축' },
+        { h: '상대 눈에 비친 나', tone: '걔 눈에 나는 어떤 사람일까?', anchor: 'B→A 십성+B비겁·식상이 A를 인식하는 방식 | 보조: MBTI SN축 교차+8자심리위치' },
+        { h: '잘 맞는 부분', tone: '3시간이 30분 같은 이유', anchor: '납음 궁합+삼합 공통 오행+오행 보완 | 보조: MBTI EI축·SN축 조합' },
+        { h: '서로 맞춰가야 할 부분', tone: '모르고 지나치면 금 가는 포인트', anchor: '⚠️ 충·형·원진살·해(강제)+과잉 오행 충돌+양인살 | 보조: MBTI JP축·TF축 차이' },
+        { h: '이 사람의 감정 표현 방식', tone: '이 사람이 감정을 드러내는 방법', anchor: 'B격국 강약+B 12운성+B일간 음양 | 보조: MBTI B TF축+Fe/Fi축' },
+        { h: '이 사람과 같이 하면 잘 되는 것', tone: '함께하면 시너지 나는 것', anchor: '천간합 궁위+삼합 공통 오행+용신↔오행 보완+부부시너지(활동추천) | 보조: MBTI 인지기능 교차(주↔부)' },
+        { h: '멀어졌을 때 회복법', tone: '어색해졌을 때 누가 먼저 어떻게', anchor: '용신 궁합+천간합 궁위+천을귀인 교차 | 보조: MBTI 인지기능 교차+Fe/Fi' },
+        { h: '이 사람과 같이 성장하려면', tone: '함께 발전하기 위한 방법', anchor: '대운 동기화+12운성 교차+오행 보완 장기 변화 | 보조: MBTI 전체 유형 조합' },
+        { h: '한 줄 요약', tone: '읽고 나면 걔한테 연락하고 싶어지는 한 줄', anchor: '키워드 요약(18레이어)+납음+MBTS bestRelType | 보조: MBTI 주기능 조합' }
       ]
     }
   };
@@ -1286,53 +1166,55 @@
     var cat = GH_CATEGORIES[rel];
     var label = cat ? cat.label : rel;
 
-    // 새 구조 (ssom, lover) — categories 안에 subs 배열이 있음
-    if (cfg.categories && cfg.categories[0] && cfg.categories[0].subs) {
+    // ★ v3 플랫 subs 구조 (최우선)
+    if (cfg.subs && cfg.subs.length > 0) {
       var section = '\n## 관계: ' + label
         + '\n부제: ' + (cfg.subtitle || '')
-        + '\n\n## 카테고리 + 소주제 (14개)\n\n';
+        + '\n\n## 소주제 (' + cfg.subs.length + '개) — 플랫 구조, 순서대로 작성\n\n';
 
-      var subCount = 0;
-      cfg.categories.forEach(function(c) {
-        section += '### ' + c.name + '\n';
-        c.subs.forEach(function(s) {
-          subCount++;
-          section += subCount + '. ' + s.h + ' — 톤: "' + s.tone + '"' + (s.anchor ? ' / 앵커: ' + s.anchor : '') + '\n';
-        });
+      for (var i = 0; i < cfg.subs.length; i++) {
+        var s = cfg.subs[i];
+        section += (i + 1) + '. ' + s.h + ' — 톤: "' + s.tone + '"';
+        if (s.anchor) section += '\n   앵커: ' + s.anchor;
         section += '\n';
-      });
+      }
 
-      section += '★ 반드시 위 ' + subCount + '개 소주제 전부를 빠짐없이 작성하세요.\n';
-      section += '★ 각 소주제의 "톤"은 글의 방향과 느낌을 가리킵니다. 톤 문장을 본문에 그대로 쓰지 마세요.\n';
-      section += '★ 각 소주제당 핵심 포인트 1~2개를 2~3문단으로 깊이 있게 쓰세요.\n';
-      section += '★ 마지막 소주제는 소름 돋는 한 줄로 마무리하세요.\n';
-      section += '\n## JSON 출력의 categories 구조\n';
-      section += 'categories 배열 안에 카테고리 객체들.\n';
-      section += '각 카테고리의 n = 카테고리명 (예: "이 사람, 뭔데")\n';
-      section += '각 카테고리의 subs 배열 = 해당 카테고리의 소주제들\n';
-      section += '각 sub의 h = 소주제명 (예: "첫 만남에서 느낀 그 떨림")\n';
-      section += '각 sub의 b = 본문 (2~3문단, \\n\\n으로 구분) + 마지막 줄은 이모지로 시작하는 실천 팁\n';
+      section += '\n★ 반드시 위 ' + cfg.subs.length + '개 소주제 전부를 빠짐없이 순서대로 작성하세요.\n';
+      section += '★ 각 소주제의 "톤"은 글의 방향과 느낌. 톤 문장을 본문에 그대로 쓰지 마세요.\n';
+      section += '★ "앵커"는 해당 소주제에서 반드시 참고해야 할 사주/MBTI 데이터입니다. 앵커에 명시된 데이터를 근거로 풀이하세요.\n';
+      section += '★ ⚠️ 표시된 소주제는 충·형·원진살 등 부정적 요소를 반드시 언급하세요.\n';
+      section += '★ 각 소주제당 2~3문단, 마지막은 소름 돋는 한 줄로 마무리.\n';
+      section += '\n## JSON 출력 구조\n';
+      section += 'categories 배열에 객체 1개. title = "' + (cfg.title || label) + '"\n';
+      section += 'items 배열 = ' + cfg.subs.length + '개 (소주제 순서 그대로)\n';
+      section += '각 item: { catch: 소주제명, content: 본문(\\n\\n 구분), icon: 이모지, insightText: 실천팁, insightIcon: 팁이모지, insightType: "gold"/"fire"/"water"/"purple" }\n';
 
       return base + section;
     }
 
-    // 기존 구조 (family, colleague, friend)
-    var catSection = '\n## 관계: ' + label
-      + '\n톤: ' + cfg.tone
-      + '\n\n## 카테고리 (' + cfg.categories.length + '개)\n';
+    // 레거시: 중첩 categories 구조 (혹시 남아있을 경우)
+    if (cfg.categories && cfg.categories[0] && cfg.categories[0].subs) {
+      var section2 = '\n## 관계: ' + label
+        + '\n부제: ' + (cfg.subtitle || '')
+        + '\n\n## 카테고리 + 소주제\n\n';
+      var subCount = 0;
+      cfg.categories.forEach(function(c) {
+        section2 += '### ' + c.name + '\n';
+        c.subs.forEach(function(s) {
+          subCount++;
+          section2 += subCount + '. ' + s.h + ' — 톤: "' + s.tone + '"' + (s.anchor ? ' / 앵커: ' + s.anchor : '') + '\n';
+        });
+        section2 += '\n';
+      });
+      section2 += '★ 반드시 위 ' + subCount + '개 소주제 전부를 빠짐없이 작성하세요.\n';
+      return base + section2;
+    }
 
-    cfg.categories.forEach(function(c, i) {
-      catSection += (i + 1) + '. ' + c;
-      if (cfg.anchors && cfg.anchors[c]) {
-        catSection += ' → 앵커: ' + cfg.anchors[c];
-      }
-      catSection += '\n';
-    });
-
-    catSection += '\n카테고리당 2~3개 항목, 총 7~9개\n';
-    catSection += '★ 앵커는 "최소한 이것은 참고"이지 "이것만 써라"가 아닙니다.\n';
-    catSection += '더 강렬한 것을 발견하면 그것이 주인공이 될 수 있습니다.\n';
-
+    // 최후방: 기존 단순 카테고리
+    var catSection = '\n## 관계: ' + label + '\n카테고리:\n';
+    if (cfg.categories) {
+      cfg.categories.forEach(function(c, i) { catSection += (i + 1) + '. ' + c + '\n'; });
+    }
     return base + catSection;
   };
 
@@ -1340,7 +1222,7 @@
 
   // startGunghap 래핑 (수동 입력)
   var _origSG=window.startGunghap;
-  window.startGunghap=async function(){if(!GH_REL||!GH_CATEGORIES[GH_REL])return _origSG();var apiKey=getApiKey();if(!apiKey){apiKey=await promptApiKey();if(!apiKey)return;}var bY=+document.getElementById('gh-y').value,bM=+document.getElementById('gh-m').value,bD=+document.getElementById('gh-d').value;var bH=document.getElementById('gh-h').value?+document.getElementById('gh-h').value:null,bMin=document.getElementById('gh-min').value?+document.getElementById('gh-min').value:null;var sajuB=calcSajuForApp(bY,bM,bD,bH,bMin,null),ggB=analyzeGyeokguk(sajuB);var gB=GH_GENDER==='남성'?'남':'여',dwB=calcDaewoon(sajuB,bY,bM,bD,bH||12,bMin||0,gB);var tiB=TY[GH_MBTI_SEL]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};var mbtiB={type:GH_MBTI_SEL,cf:tiB.cf,axes:[{side:GH_MBTI_SEL[0],pct:60},{side:GH_MBTI_SEL[1],pct:60},{side:GH_MBTI_SEL[2],pct:60},{side:GH_MBTI_SEL[3],pct:60}],profile:''};var sajuA=window._lastSaju,dwA=window._lastDW,ggA=window._lastGG,mbtiA=window._lastMBTIObj;if(!sajuA){alert('먼저 내 사주를 분석해주세요!');goPage('birth');return;}var ghR=analyzeGunghap(sajuA,sajuB,dwA,dwB,ggA,ggB,mbtiA,mbtiB);var w=GH_CATEGORIES[GH_REL].scoreWeights;ghR.scores.total=Math.round(ghR.scores.love*w.love+ghR.scores.comm*w.comm+ghR.scores.values*w.values+ghR.scores.work*w.work);goPage('gh-load');var cat=GH_CATEGORIES[GH_REL];var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...',cat.emoji+' '+cat.label+' 궁합...',cat.categories[0]+' 분석...',cat.categories[1]+' 분석...',cat.categories[2]+' 분석...','인지기능 궁합 탐색...','이야기를 쓰는 중...'];var p=0,iv=setInterval(function(){p+=Math.random()*1.5+0.4;if(p>95)p=95;document.getElementById('gh-load-bar').style.width=p+'%';document.getElementById('gh-load-pct').textContent=Math.round(p)+'%';document.getElementById('gh-load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);var up=buildGunghapUserPrompt(ghR,sajuA,sajuB,dwA,dwB,ggA,ggB,mbtiA,mbtiB);var ghCfg=GH_REL_CONFIG[GH_REL];up+='\n### 관계: '+cat.label+'\n';if(ghCfg&&ghCfg.categories&&ghCfg.categories[0]&&ghCfg.categories[0].subs){up+='부제: '+(ghCfg.subtitle||'')+'\n\n';var sc=0;ghCfg.categories.forEach(function(gc){up+='【'+gc.name+'】\n';gc.subs.forEach(function(s){sc++;up+=sc+'. '+s.h+' (톤: '+s.tone+')\n';});up+='\n';});}else{up+='카테고리:\n';cat.categories.forEach(function(c,i){up+=(i+1)+'. '+c+'\n';});up+='\n톤: '+cat.tone+'\n';}var sp=getGHSystemPrompt(GH_REL),ai=null,ae='',_ghSubCount=0,_ghPageInited=false;try{var at=await streamSonnet(apiKey,sp,up,cat.emoji+' 궁합',{onMessage:function(m){var el=document.getElementById('gh-load-msg');if(el)el.innerHTML=m+'<span class="load-dots"><span></span><span></span><span></span></span>';},onProgress:function(pct){var b=document.getElementById('gh-load-bar');if(b)b.style.width=Math.max(Math.min(pct,100),5)+'%';var pe=document.getElementById('gh-load-pct');if(pe)pe.textContent=Math.round(pct)+'%';},onChunk:function(fullText,chunkNum){var ns=parseGhNewSubs(fullText,_ghSubCount);if(ns.length>0){if(!_ghPageInited){_ghPageInited=true;clearInterval(iv);goPage('gh-res');if(typeof initGhStreamPage==='function')initGhStreamPage(ghR,sajuA,sajuB,mbtiA,mbtiB,GH_REL);}ns.forEach(function(sub){if(typeof appendGhStreamSub==='function')appendGhStreamSub(sub,_ghSubCount);_ghSubCount++;});}}},'/api/gunghap-analyze');try{ai=JSON.parse(at);}catch(e){var fb=at.indexOf('{'),lb=at.lastIndexOf('}');if(fb>=0&&lb>fb)try{ai=JSON.parse(at.substring(fb,lb+1));}catch(e2){}if(!ai){var ln=at.split('\n'),si=-1,ei=-1;for(var li=0;li<ln.length;li++){if(si<0&&ln[li].trim().charAt(0)==='{')si=li;if(ln[li].trim().charAt(0)==='}'||ln[li].trim().slice(-1)==='}')ei=li;}if(si>=0&&ei>=si)try{ai=JSON.parse(ln.slice(si,ei+1).join('\n'));}catch(e3){}}if(!ai){var sn=at.substring(fb>=0?fb:0,(lb>0?lb+1:at.length));sn=sn.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});try{ai=JSON.parse(sn);}catch(e4){}}if(ai)ae='';else ae='JSON_PARSE';}}catch(e){ae=e.message||'UNKNOWN';}if(ai)ai=postValidateGH(ai,ghR,dwA,dwB);clearInterval(iv);document.getElementById('gh-load-bar').style.width='100%';document.getElementById('gh-load-pct').textContent='100%';setTimeout(function(){if(_ghPageInited){if(typeof finalizeGhStream==='function')finalizeGhStream(ai);}else if(typeof fillGhResultProgressive==='function'){goPage('gh-res');fillGhResultProgressive(ghR,ai,sajuA,sajuB,mbtiA,mbtiB,GH_REL);}else{renderGunghapResultV2(ghR,ai,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,ae,GH_REL);goPage('gh-res');}},600);try{addPerson({id:genId(),name:sajuB.P[2].s+sajuB.P[2].b+' · '+GH_MBTI_SEL,ilju:sajuB.P[2].s+sajuB.P[2].b,mbti:GH_MBTI_SEL,gender:GH_GENDER,birthInfo:{y:bY,m:bM,d:bD,h:bH||'',min:bMin||''},hasFull:false,saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,savedAt:Date.now()});}catch(e){}};
+  window.startGunghap=async function(){if(!GH_REL||!GH_CATEGORIES[GH_REL])return _origSG();var apiKey=getApiKey();if(!apiKey){apiKey=await promptApiKey();if(!apiKey)return;}var bY=+document.getElementById('gh-y').value,bM=+document.getElementById('gh-m').value,bD=+document.getElementById('gh-d').value;var bH=document.getElementById('gh-h').value?+document.getElementById('gh-h').value:null,bMin=document.getElementById('gh-min').value?+document.getElementById('gh-min').value:null;var sajuB=calcSajuForApp(bY,bM,bD,bH,bMin,null),ggB=analyzeGyeokguk(sajuB);var gB=GH_GENDER==='남성'?'남':'여',dwB=calcDaewoon(sajuB,bY,bM,bD,bH||12,bMin||0,gB);var tiB=TY[GH_MBTI_SEL]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};var mbtiB={type:GH_MBTI_SEL,cf:tiB.cf,axes:[{side:GH_MBTI_SEL[0],pct:60},{side:GH_MBTI_SEL[1],pct:60},{side:GH_MBTI_SEL[2],pct:60},{side:GH_MBTI_SEL[3],pct:60}],profile:''};var sajuA=window._lastSaju,dwA=window._lastDW,ggA=window._lastGG,mbtiA=window._lastMBTIObj;if(!sajuA){alert('먼저 내 사주를 분석해주세요!');goPage('birth');return;}var ghR=analyzeGunghap(sajuA,sajuB,dwA,dwB,ggA,ggB,mbtiA,mbtiB);var w=GH_CATEGORIES[GH_REL].scoreWeights;ghR.scores.total=Math.round(ghR.scores.love*w.love+ghR.scores.comm*w.comm+ghR.scores.values*w.values+ghR.scores.work*w.work);goPage('gh-load');var cat=GH_CATEGORIES[GH_REL];var msgs=['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...',cat.emoji+' '+cat.label+' 궁합...',cat.categories[0]+' 분석...',cat.categories[1]+' 분석...',cat.categories[2]+' 분석...','인지기능 궁합 탐색...','이야기를 쓰는 중...'];var p=0,iv=setInterval(function(){p+=Math.random()*1.5+0.4;if(p>95)p=95;document.getElementById('gh-load-bar').style.width=p+'%';document.getElementById('gh-load-pct').textContent=Math.round(p)+'%';document.getElementById('gh-load-msg').textContent=msgs[Math.min(Math.floor(p/12),7)];},900);var up=buildGunghapUserPrompt(ghR,sajuA,sajuB,dwA,dwB,ggA,ggB,mbtiA,mbtiB);var ghCfg=GH_REL_CONFIG[GH_REL];up+='\n### 관계: '+cat.label+'\n';if(ghCfg&&ghCfg.subs&&ghCfg.subs.length>0){up+='부제: '+(ghCfg.subtitle||'')+'\n\n';for(var _si=0;_si<ghCfg.subs.length;_si++){up+=(_si+1)+'. '+ghCfg.subs[_si].h+' (톤: '+ghCfg.subs[_si].tone+')\n';}}else if(ghCfg&&ghCfg.categories&&ghCfg.categories[0]&&ghCfg.categories[0].subs){up+='부제: '+(ghCfg.subtitle||'')+'\n\n';var sc=0;ghCfg.categories.forEach(function(gc){up+='【'+gc.name+'】\n';gc.subs.forEach(function(s){sc++;up+=sc+'. '+s.h+' (톤: '+s.tone+')\n';});up+='\n';});}else{up+='카테고리:\n';cat.categories.forEach(function(c,i){up+=(i+1)+'. '+c+'\n';});if(cat.tone)up+='\n톤: '+cat.tone+'\n';}var sp=getGHSystemPrompt(GH_REL),ai=null,ae='',_ghSubCount=0,_ghPageInited=false;try{var at=await streamSonnet(apiKey,sp,up,cat.emoji+' 궁합',{onMessage:function(m){var el=document.getElementById('gh-load-msg');if(el)el.innerHTML=m+'<span class="load-dots"><span></span><span></span><span></span></span>';},onProgress:function(pct){var b=document.getElementById('gh-load-bar');if(b)b.style.width=Math.max(Math.min(pct,100),5)+'%';var pe=document.getElementById('gh-load-pct');if(pe)pe.textContent=Math.round(pct)+'%';},onChunk:function(fullText,chunkNum){var ns=parseGhNewSubs(fullText,_ghSubCount);if(ns.length>0){if(!_ghPageInited){_ghPageInited=true;clearInterval(iv);goPage('gh-res');if(typeof initGhStreamPage==='function')initGhStreamPage(ghR,sajuA,sajuB,mbtiA,mbtiB,GH_REL);}ns.forEach(function(sub){if(typeof appendGhStreamSub==='function')appendGhStreamSub(sub,_ghSubCount);_ghSubCount++;});}}},'/api/gunghap-analyze');try{ai=JSON.parse(at);}catch(e){var fb=at.indexOf('{'),lb=at.lastIndexOf('}');if(fb>=0&&lb>fb)try{ai=JSON.parse(at.substring(fb,lb+1));}catch(e2){}if(!ai){var ln=at.split('\n'),si=-1,ei=-1;for(var li=0;li<ln.length;li++){if(si<0&&ln[li].trim().charAt(0)==='{')si=li;if(ln[li].trim().charAt(0)==='}'||ln[li].trim().slice(-1)==='}')ei=li;}if(si>=0&&ei>=si)try{ai=JSON.parse(ln.slice(si,ei+1).join('\n'));}catch(e3){}}if(!ai){var sn=at.substring(fb>=0?fb:0,(lb>0?lb+1:at.length));sn=sn.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});try{ai=JSON.parse(sn);}catch(e4){}}if(ai)ae='';else ae='JSON_PARSE';}}catch(e){ae=e.message||'UNKNOWN';}if(ai)ai=postValidateGH(ai,ghR,dwA,dwB);clearInterval(iv);document.getElementById('gh-load-bar').style.width='100%';document.getElementById('gh-load-pct').textContent='100%';setTimeout(function(){if(_ghPageInited){if(typeof finalizeGhStream==='function')finalizeGhStream(ai);}else if(typeof fillGhResultProgressive==='function'){goPage('gh-res');fillGhResultProgressive(ghR,ai,sajuA,sajuB,mbtiA,mbtiB,GH_REL);}else{renderGunghapResultV2(ghR,ai,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,ae,GH_REL);goPage('gh-res');}},600);try{addPerson({id:genId(),name:sajuB.P[2].s+sajuB.P[2].b+' · '+GH_MBTI_SEL,ilju:sajuB.P[2].s+sajuB.P[2].b,mbti:GH_MBTI_SEL,gender:GH_GENDER,birthInfo:{y:bY,m:bM,d:bD,h:bH||'',min:bMin||''},hasFull:false,saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,savedAt:Date.now()});}catch(e){}};
 
   // 결과 렌더 V2
   window.renderGunghapResultV2=function(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,err,relType){if(!relType||!GH_CATEGORIES[relType])return renderGunghapResult(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,ggA,ggB,err);var cat=GH_CATEGORIES[relType],sl=cat.scoreLabels,el=document.getElementById('ghResContent'),sc=ghR.scores;var title=aiR&&aiR.title?aiR.title:(sajuA.P[2].s+sajuA.P[2].b+'×'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiA.type+'×'+mbtiB.type);var quote=aiR&&aiR.quote?aiR.quote:'두 사람만의 특별한 이야기';var h='<div class="res-wrap" style="max-width:640px;margin:0 auto;padding:0 0 40px"><div style="text-align:center;padding:32px 20px 20px;background:linear-gradient(180deg,rgba(136,97,154,.06) 0%,transparent 100%)"><div style="display:flex;justify-content:center;gap:0;margin-bottom:10px"><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#4CAF7D">M</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#5B8FD4">B</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E05A5A">T</span><span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E8B84B">S</span></div><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">'+cat.emoji+' '+cat.label+' 궁합</div><h1 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:4px">'+title+'</h1></div><div style="display:flex;align-items:center;gap:12px;padding:16px 20px;justify-content:center"><div class="glass-card" style="text-align:center;padding:16px 20px;border-color:var(--accent)"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">나</div><div style="font-size:11px;color:var(--text-muted)">'+sajuA.P[2].s+sajuA.P[2].b+' · '+mbtiA.type+'</div></div><div style="font-size:28px">'+cat.emoji+'</div><div class="glass-card" style="text-align:center;padding:16px 20px;border-color:#E05A5A"><div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">상대방</div><div style="font-size:11px;color:var(--text-muted)">'+sajuB.P[2].s+sajuB.P[2].b+' · '+mbtiB.type+'</div></div></div><div class="glass-card" style="margin:12px 20px;padding:24px"><div style="text-align:center;margin-bottom:16px"><div style="font-size:48px;font-weight:900;color:var(--accent)">'+sc.total+'<span style="font-size:24px">점</span></div><div style="font-size:13px;color:var(--text-muted)">'+cat.label+' 종합</div></div>';[{l:sl.love,v:sc.love,c:'#d63384'},{l:sl.comm,v:sc.comm,c:'#2e8b57'},{l:sl.values,v:sc.values,c:'#c99a2e'},{l:sl.work,v:sc.work,c:'#4682b4'}].forEach(function(b){h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:50px;text-align:right;font-size:13px;font-weight:600;color:var(--text-secondary)">'+b.l+'</div><div style="flex:1;height:10px;background:rgba(0,0,0,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:'+b.v+'%;background:'+b.c+';border-radius:5px;transition:width 1s"></div></div><div style="width:36px;font-size:13px;font-weight:700;color:var(--text-muted)">'+b.v+'%</div></div>';});h+='</div><div class="glass-card" style="margin:12px 20px;padding:16px 20px;border-left:4px solid var(--accent);font-size:14px;color:var(--text-secondary);line-height:1.6;font-style:italic">"'+quote+'"</div>';if(aiR&&aiR.categories){aiR.categories.forEach(function(c){var catName=c.n||c.title||'';h+='<div style="margin:16px 20px 0"><h3 style="font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text-primary)">'+catName+'</h3>';var subs=c.subs||c.items||[];subs.forEach(function(sub){var subH=sub.h||sub.catch||'';var subB=sub.b||(sub.content?(sub.content+(sub.insightText?('\n\n'+(sub.insightIcon||'💊')+' '+sub.insightText):'')):'');var bodyHtml=(typeof renderSubBody==='function')?renderSubBody(subB):subB.replace(/\n\n/g,'<br><br>');h+='<div class="glass-card" style="padding:20px;margin-bottom:10px"><div class="r-sub-h">'+subH+'</div><div class="r-sub-b">'+bodyHtml+'</div></div>';});h+='</div>';});}else if(err){h+='<div class="glass-card" style="margin:20px;padding:24px;text-align:center"><p style="color:var(--text-muted)">AI 풀이 생성 실패</p><p style="font-size:12px;margin-top:8px">'+err+'</p></div>';}h+='<div style="margin:24px 16px 20px;text-align:center"><button onclick="if(window.MBTS_Chat&&window._ghChatData)MBTS_Chat.openFromGunghap(window._ghChatData.person,window._ghChatData.relType,window._ghChatData.ghResult)" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#8B6CC1,#6B4FA0);border:none;border-radius:14px;cursor:pointer;transition:all .3s;box-shadow:0 4px 16px rgba(139,108,193,0.25)">🐰 달토한테 이 궁합 더 물어보기</button></div>';h+='<div style="padding:20px"><button onclick="shareResult()" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#191919;background:#FEE500;border:none;border-radius:14px;margin-bottom:10px">💬 공유하기</button><p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted)">참고용 분석이며 의사결정을 대체하지 않습니다.</p></div></div>';window._ghChatData={person:{name:sajuB.P[2].s+sajuB.P[2].b+' \xb7 '+mbtiB.type,saju:sajuB,mbtiObj:mbtiB,gg:ggB,ilju:sajuB.P[2].s+sajuB.P[2].b,mbti:mbtiB.type},relType:relType,ghResult:ghR};el.innerHTML=h;};
