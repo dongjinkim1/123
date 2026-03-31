@@ -4789,9 +4789,11 @@ async function _runGunghapAnalysis(){
   }
 
   try{
+    var _ixGhSubCount=0,_ixGhInited=false;
     var aiText=await streamSonnet(apiKey, systemPrompt, userPrompt, '💕 궁합', {
       onMessage:function(m){msg.innerHTML=m+'<span class="load-dots"><span></span><span></span><span></span></span>';},
-      onProgress:function(p){bar.style.width=Math.max(Math.min(p,100),50)+'%';}
+      onProgress:function(p){bar.style.width=Math.max(Math.min(p,100),50)+'%';},
+      onChunk:function(fullText,chunkNum){if(typeof parseGhNewSubs!=='function')return;var ns=parseGhNewSubs(fullText,_ixGhSubCount);if(ns.length>0){if(!_ixGhInited){_ixGhInited=true;go('pgGhRes');if(typeof initGhStreamPage==='function')initGhStreamPage(ghResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);}ns.forEach(function(sub){if(typeof appendGhStreamSub==='function')appendGhStreamSub(sub,_ixGhSubCount);_ixGhSubCount++;});}}
     }, '/api/gunghap-analyze');
 
     var aiResult=null;
@@ -4856,9 +4858,9 @@ async function _runGunghapAnalysis(){
 
     await new Promise(function(resolve){setTimeout(resolve,1200);});
 
-    // 결과 렌더링 — 의사 프로그레시브
-    go('pgGhRes');
-    fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);
+    // 결과 렌더링 — 실시간 스트리밍 or 의사 프로그레시브
+    if(_ixGhInited){if(typeof finalizeGhStream==='function')finalizeGhStream(aiResult);}
+    else{go('pgGhRes');fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);}
 
     // 궁합 결과 localStorage 저장
     if(!window._skipGhHistorySave) try {
@@ -5430,6 +5432,103 @@ function fillGhResult(ghResult, aiResult, sajuA, sajuB, mbtiObjA, mbtiObjB, relT
 
   // 12. 스크롤 옵저버 초기화
   setTimeout(function(){initGhScrollObserver();},500);
+}
+
+// ── 궁합 실시간 스트리밍 렌더 (Phase 5) ──
+function initGhStreamPage(ghR, sajuA, sajuB, mbtiA, mbtiB, relType) {
+  var el = document.getElementById('ghResContent');
+  if (!el) return;
+  var cat = (window.GH_CATEGORIES && window.GH_CATEGORIES[relType]) ||
+    {emoji:'💕', label:'궁합', scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'성장'}};
+  var sl = cat.scoreLabels || {love:'연애',comm:'소통',values:'가치관',work:'성장'};
+  var sc = ghR.scores || {total:0,love:0,comm:0,values:0,work:0};
+  var ilA = (sajuA && sajuA.P && sajuA.P[2]) ? sajuA.P[2].s + sajuA.P[2].b : '';
+  var ilB = (sajuB && sajuB.P && sajuB.P[2]) ? sajuB.P[2].s + sajuB.P[2].b : '';
+  var mA = (mbtiA && mbtiA.type) ? mbtiA.type : '';
+  var mB = (mbtiB && mbtiB.type) ? mbtiB.type : '';
+  var h = '';
+  h += '<div style="text-align:center;padding:32px 20px 16px">';
+  h += '<div style="display:flex;justify-content:center;gap:0;margin-bottom:8px">';
+  h += '<span style="font-weight:800;font-size:24px;color:#4CAF7D">M</span>';
+  h += '<span style="font-weight:800;font-size:24px;color:#5B8FD4">B</span>';
+  h += '<span style="font-weight:800;font-size:24px;color:#E05A5A">T</span>';
+  h += '<span style="font-weight:800;font-size:24px;color:#E8B84B">S</span>';
+  h += '</div>';
+  h += '<div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">' + cat.emoji + ' ' + cat.label + ' 궁합</div>';
+  h += '<h1 id="ghStreamTitle" style="font-size:18px;font-weight:800;color:var(--text-primary);margin-bottom:0">' + ilA + ' × ' + ilB + ' · ' + mA + ' × ' + mB + '</h1>';
+  h += '</div>';
+  h += '<div class="glass-card" style="margin:12px 20px;padding:20px;text-align:center">';
+  h += '<div style="font-size:44px;font-weight:900;color:var(--accent)">' + sc.total + '<span style="font-size:22px">점</span></div>';
+  h += '<div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">' + cat.label + ' 종합</div>';
+  [{l:sl.love,v:sc.love,c:'#d63384'},{l:sl.comm,v:sc.comm,c:'#2e8b57'},{l:sl.values,v:sc.values,c:'#c99a2e'},{l:sl.work,v:sc.work,c:'#4682b4'}].forEach(function(b){
+    h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">';
+    h += '<div style="width:44px;text-align:right;font-size:12px;font-weight:600;color:var(--text-secondary)">' + b.l + '</div>';
+    h += '<div style="flex:1;height:8px;background:rgba(0,0,0,0.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:' + b.v + '%;background:' + b.c + ';border-radius:4px;transition:width 1s"></div></div>';
+    h += '<div style="width:32px;font-size:12px;font-weight:700;color:var(--text-muted)">' + b.v + '</div>';
+    h += '</div>';
+  });
+  h += '</div>';
+  h += '<div id="ghStreamQuote" class="glass-card" style="margin:12px 20px;padding:14px 18px;border-left:4px solid var(--accent);font-size:13px;color:var(--text-secondary);line-height:1.6;font-style:italic">분석 중...</div>';
+  h += '<div id="ghStreamSubs" style="padding:0 20px"></div>';
+  h += '<div id="ghStreamFooter"></div>';
+  el.innerHTML = h;
+  el.scrollTop = 0;
+}
+
+function appendGhStreamSub(sub, index) {
+  var container = document.getElementById('ghStreamSubs');
+  if (!container) return;
+  var card = document.createElement('div');
+  card.className = 'glass-card';
+  card.style.cssText = 'padding:20px;margin-bottom:12px;opacity:0;transform:translateY(16px);transition:all 0.4s ease';
+  var bodyHtml = '';
+  if (sub.b && Array.isArray(sub.b)) {
+    sub.b.forEach(function(line) {
+      if (typeof renderSubBody === 'function') {
+        bodyHtml += renderSubBody([line]);
+      } else {
+        var isTip = (line.charAt(0) === '\uD83D' || line.charAt(0) === '\u2728' || line.indexOf('\uD83D\uDCA1') === 0);
+        if (isTip) {
+          bodyHtml += '<div style="margin-top:10px;padding:10px 12px;background:rgba(139,108,193,0.06);border-radius:10px;border:1px solid rgba(139,108,193,0.12);font-size:13px;color:#88619A;line-height:1.5">' + line + '</div>';
+        } else {
+          bodyHtml += '<p style="font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:8px;word-break:keep-all">' + line.replace(/\n/g, '<br>') + '</p>';
+        }
+      }
+    });
+  }
+  card.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="font-size:20px">\u2728</span><span style="font-size:15px;font-weight:700;color:var(--text-primary)">' + (sub.h || '') + '</span></div>' + bodyHtml;
+  container.appendChild(card);
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    });
+  });
+  card.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function finalizeGhStream(aiResult) {
+  if (aiResult && aiResult.title) {
+    var titleEl = document.getElementById('ghStreamTitle');
+    if (titleEl) titleEl.textContent = aiResult.title;
+  }
+  if (aiResult && aiResult.quote) {
+    var quoteEl = document.getElementById('ghStreamQuote');
+    if (quoteEl) quoteEl.textContent = '"' + aiResult.quote + '"';
+  }
+  var footer = document.getElementById('ghStreamFooter');
+  if (footer) {
+    var h = '';
+    if (aiResult && aiResult.oneLine) {
+      h += '<div style="margin:20px 20px 0;padding:20px;text-align:center;background:linear-gradient(135deg,rgba(139,108,193,0.06),rgba(212,115,139,0.06));border-radius:16px">';
+      h += '<div style="font-size:10px;color:var(--text-muted);letter-spacing:2px;margin-bottom:8px">YOUR RELATIONSHIP IN ONE LINE</div>';
+      h += '<div style="font-size:16px;font-weight:700;color:var(--text-primary);line-height:1.5">' + aiResult.oneLine + '</div>';
+      h += '</div>';
+    }
+    h += '<div style="padding:24px 20px"><button onclick="shareResult()" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#191919;background:#FEE500;border:none;border-radius:14px;margin-bottom:10px">\uD83D\uDCAC 공유하기</button>';
+    h += '<p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted)">참고용 분석이며 의사결정을 대체하지 않습니다.</p></div>';
+    footer.innerHTML = h;
+  }
 }
 
 function fillGhResultProgressive(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,relType){

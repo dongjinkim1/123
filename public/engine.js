@@ -2684,6 +2684,7 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
         if(evt.type === 'content_block_delta' && evt.delta && evt.delta.text) {
           fullText += evt.delta.text;
           chunkCount++;
+          if(callbacks.onChunk) callbacks.onChunk(fullText, chunkCount);
           // ── categories 영역 시작 감지 ──
           if(chunkCount === 1 || chunkCount === 50 || chunkCount === 100 || chunkCount === 200) console.log('[STREAM-DBG] chunk#'+chunkCount+' fullText:'+fullText.length+'자 catStarted:'+_categoriesStarted+' subs:'+_detectedSubs);
           if(!_categoriesStarted && fullText.indexOf('"categories"') >= 0) {
