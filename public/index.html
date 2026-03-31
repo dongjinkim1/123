@@ -6946,7 +6946,7 @@ setTimeout(function(){ checkPopupNotice(); }, 1500);
 /* SW 비활성화 — 캐시 원인 분리 테스트
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
-    navigator.serviceWorker.register('/sw.js').then(function(reg){
+    navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).then(function(reg){
       console.log('[MBTS] SW 등록 완료:', reg.scope);
     }).catch(function(err){
       console.log('[MBTS] SW 등록 실패:', err);
