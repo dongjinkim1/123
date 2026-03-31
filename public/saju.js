@@ -2108,6 +2108,7 @@ window.SJ_getImpactTag         = SJ_getImpactTag;
 window.SJ_buildGaeunText       = SJ_buildGaeunText;
 window.SJ_checkSamhyung        = SJ_checkSamhyung;
 window.SJ_IMPACT_SCORE         = SJ_IMPACT_SCORE;
+window.SJ_countIndividualSS    = SJ_countIndividualSS;
 window.SJ_UNSUNG_MEANING       = SJ_UNSUNG_MEANING;
 window.SJ_buildOsinText        = SJ_buildOsinText;
 window.SJ_buildYukchinText     = SJ_buildYukchinText;
