@@ -6366,35 +6366,29 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var animalA = (typeof getAnimalResult === 'function') ? getAnimalResult(sajuA.dmEl || '토', (ggA && ggA.dominant ? ggA.dominant[0] : '비겁'), condA) : null;
   var aEmojiA = animalA ? animalA.emoji : '👤';
   var aTagA = (animalA && animalA.mod) ? animalA.mod.tag : '';
+  var aTraitsA = (animalA && animalA.mod && animalA.mod.traits) ? animalA.mod.traits.slice(0, 3) : [];
   var aOhA = animalA ? animalA.ohengData : {color:'#8B6CC1'};
+  var aColorA = aOhA.color || '#8B6CC1';
+  var aDarkA = (typeof adjustColor === 'function') ? adjustColor(aColorA, 0.65) : aColorA;
   var condB = '신강';
   if (ggB && (ggB.isJonggyeok || ggB.isHwakyeok)) condB = '특수';
   else if (ggB && (ggB.strengthGrade === '신약' || ggB.strengthGrade === '극신약')) condB = '신약';
   var animalB = (typeof getAnimalResult === 'function') ? getAnimalResult(sajuB.dmEl || '토', (ggB && ggB.dominant ? ggB.dominant[0] : '비겁'), condB) : null;
   var aEmojiB = animalB ? animalB.emoji : '👤';
   var aTagB = (animalB && animalB.mod) ? animalB.mod.tag : '';
-  var aOhB = animalB ? animalB.ohengData : {color:'#8B6CC1'};
+  var aTraitsB = (animalB && animalB.mod && animalB.mod.traits) ? animalB.mod.traits.slice(0, 3) : [];
+  var aOhB = animalB ? animalB.ohengData : {color:'#5B8FD4'};
+  var aColorB = aOhB.color || '#5B8FD4';
+  var aDarkB = (typeof adjustColor === 'function') ? adjustColor(aColorB, 0.65) : aColorB;
 
-  var relBg = {
-    ssom: 'linear-gradient(165deg, #FFF5F9 0%, #FFF0F5 40%, #F8F0FF 100%)',
-    lover: 'linear-gradient(165deg, #FFF5F9 0%, #FFF0F5 40%, #F8F0FF 100%)',
-    friend: 'linear-gradient(165deg, #F5FFF9 0%, #F0FFF5 40%, #F0F5FF 100%)',
-    colleague: 'linear-gradient(165deg, #FFF9F5 0%, #FFF5F9 40%, #F5F3FF 100%)',
-    family: 'linear-gradient(165deg, #FFFAF0 0%, #FFF5F0 40%, #F8F0FF 100%)'
-  };
   var relLabelColor = {
     ssom: '#d4839b', lover: '#d4839b', friend: '#6bab8a',
     colleague: '#b0a0c0', family: '#c4a060'
   };
-  var bgGrad = relBg[relType] || relBg.ssom;
   var labelColor = relLabelColor[relType] || '#b0a0c0';
 
   var h = '';
-  h += '<div style="background:' + bgGrad + ';border-radius:24px;padding:32px 16px 28px;position:relative;overflow:hidden">';
-  h += '<div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(139,108,193,0.06) 0%,transparent 70%);border-radius:50%"></div>';
-  h += '<div style="position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(232,184,75,0.06) 0%,transparent 70%);border-radius:50%"></div>';
-
-  h += '<div style="text-align:center;margin-bottom:24px">';
+  h += '<div style="text-align:center;padding:24px 0 16px">';
   h += '<div style="display:inline-flex;gap:1px">';
   h += '<span style="font-weight:800;font-size:20px;color:#4CAF7D">M</span>';
   h += '<span style="font-weight:800;font-size:20px;color:#5B8FD4">B</span>';
@@ -6402,30 +6396,42 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   h += '<span style="font-weight:800;font-size:20px;color:#E8B84B">S</span>';
   h += '</div></div>';
 
-  h += '<div style="display:flex;align-items:flex-start;justify-content:center;gap:0;margin-bottom:24px">';
-  h += '<div style="text-align:center;flex:1">';
-  h += '<div style="font-size:64px;line-height:1;margin-bottom:8px">' + aEmojiA + '</div>';
-  if (aTagA) h += '<div style="font-size:13px;font-weight:700;color:' + aOhA.color + ';margin-bottom:3px">' + aTagA + '</div>';
-  h += '<div style="font-size:15px;font-weight:800;color:#2C2C2C">나</div>';
-  h += '<div style="font-size:11px;color:#aaa;margin-top:1px">' + sajuA.P[2].s + sajuA.P[2].b + ' · ' + mA + '</div>';
+  h += '<div style="position:relative;margin:0 12px">';
+  h += '<div style="display:flex;gap:8px">';
+
+  h += '<div style="flex:1;background:linear-gradient(135deg,' + aColorA + ',' + aDarkA + ');border-radius:18px;padding:28px 10px 18px;text-align:center">';
+  h += '<div style="font-size:60px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.2));margin-bottom:8px">' + aEmojiA + '</div>';
+  if (aTagA) h += '<div style="display:inline-block;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,.22);color:#fff;margin-bottom:4px">' + aTagA + '</div>';
+  h += '<div style="font-size:14px;font-weight:800;color:#fff;margin-top:2px">나</div>';
+  h += '<div style="font-size:10px;color:rgba(255,255,255,.6)">' + sajuA.P[2].s + sajuA.P[2].b + '\xb7' + mA + '</div>';
+  if (aTraitsA.length > 0) {
+    h += '<div style="display:flex;justify-content:center;gap:3px;margin-top:8px;flex-wrap:wrap">';
+    aTraitsA.forEach(function(t) { h += '<span style="padding:2px 7px;border-radius:100px;font-size:9px;font-weight:600;background:rgba(255,255,255,.18);color:rgba(255,255,255,.8)">#' + t + '</span>'; });
+    h += '</div>';
+  }
   h += '</div>';
 
-  h += '<div style="padding-top:16px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:56px">';
-  h += '<div style="font-size:22px">' + cat.emoji + '</div>';
-  h += '<div style="font-size:10px;color:' + labelColor + ';font-weight:700">' + cat.label + '</div>';
+  h += '<div style="flex:1;background:linear-gradient(135deg,' + aColorB + ',' + aDarkB + ');border-radius:18px;padding:28px 10px 18px;text-align:center">';
+  h += '<div style="font-size:60px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.2));margin-bottom:8px">' + aEmojiB + '</div>';
+  if (aTagB) h += '<div style="display:inline-block;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,.22);color:#fff;margin-bottom:4px">' + aTagB + '</div>';
+  h += '<div style="font-size:14px;font-weight:800;color:#fff;margin-top:2px">상대방</div>';
+  h += '<div style="font-size:10px;color:rgba(255,255,255,.6)">' + sajuB.P[2].s + sajuB.P[2].b + '\xb7' + mB + '</div>';
+  if (aTraitsB.length > 0) {
+    h += '<div style="display:flex;justify-content:center;gap:3px;margin-top:8px;flex-wrap:wrap">';
+    aTraitsB.forEach(function(t) { h += '<span style="padding:2px 7px;border-radius:100px;font-size:9px;font-weight:600;background:rgba(255,255,255,.18);color:rgba(255,255,255,.8)">#' + t + '</span>'; });
+    h += '</div>';
+  }
   h += '</div>';
 
-  h += '<div style="text-align:center;flex:1">';
-  h += '<div style="font-size:64px;line-height:1;margin-bottom:8px">' + aEmojiB + '</div>';
-  if (aTagB) h += '<div style="font-size:13px;font-weight:700;color:' + aOhB.color + ';margin-bottom:3px">' + aTagB + '</div>';
-  h += '<div style="font-size:15px;font-weight:800;color:#2C2C2C">상대방</div>';
-  h += '<div style="font-size:11px;color:#aaa;margin-top:1px">' + sajuB.P[2].s + sajuB.P[2].b + ' · ' + mB + '</div>';
   h += '</div>';
+  h += '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 10px rgba(0,0,0,.1)">' + cat.emoji + '</div>';
   h += '</div>';
 
-  h += '<div style="background:rgba(255,255,255,0.85);border-radius:20px;padding:24px 20px 20px;text-align:center">';
-  h += '<div style="font-size:52px;font-weight:900;color:#8B6CC1;line-height:1;letter-spacing:-2px">' + sc.total + '<span style="font-size:22px;font-weight:700;letter-spacing:0">점</span></div>';
-  h += '<div style="font-size:11px;color:' + labelColor + ';margin-top:4px;margin-bottom:16px;font-weight:600">' + cat.label + ' 종합</div>';
+  h += '<div style="text-align:center;font-size:11px;color:' + labelColor + ';font-weight:600;margin:12px 0">' + cat.emoji + ' ' + cat.label + ' 궁합</div>';
+
+  h += '<div style="background:#fff;border-radius:16px;padding:20px;margin:0 12px;text-align:center;border:0.5px solid rgba(0,0,0,0.06)">';
+  h += '<div style="font-size:48px;font-weight:900;color:#8B6CC1;line-height:1;letter-spacing:-2px">' + sc.total + '<span style="font-size:20px;font-weight:700;letter-spacing:0">점</span></div>';
+  h += '<div style="font-size:11px;color:' + labelColor + ';margin-top:4px;margin-bottom:14px;font-weight:600">' + cat.label + ' 종합</div>';
   var bars = [
     {l:sl.love||'연애', v:sc.love, c1:'#f0a0b8', c2:'#d63384'},
     {l:sl.comm||'소통', v:sc.comm, c1:'#6bc4a0', c2:'#2e8b57'},
@@ -6433,13 +6439,12 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
     {l:sl.work||'업무', v:sc.work, c1:'#7eb3d6', c2:'#4682b4'}
   ];
   bars.forEach(function(b) {
-    h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">';
-    h += '<div style="width:42px;text-align:right;font-size:12px;font-weight:700;color:#999">' + b.l + '</div>';
+    h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">';
+    h += '<div style="width:36px;text-align:right;font-size:11px;font-weight:700;color:#999">' + b.l + '</div>';
     h += '<div style="flex:1;height:6px;background:rgba(0,0,0,0.04);border-radius:3px;overflow:hidden"><div style="height:100%;width:' + b.v + '%;background:linear-gradient(90deg,' + b.c1 + ',' + b.c2 + ');border-radius:3px"></div></div>';
-    h += '<div style="width:24px;font-size:12px;font-weight:700;color:#bbb">' + b.v + '</div>';
+    h += '<div style="width:20px;font-size:11px;font-weight:700;color:#bbb">' + b.v + '</div>';
     h += '</div>';
   });
-  h += '</div>';
   h += '</div>';
   return h;
 }
