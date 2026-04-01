@@ -6384,7 +6384,12 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var labelColor = relLabelColor[relType] || '#b0a0c0';
   var h = '';
   h += '<div style="margin:0 8px;background:#fff;border-radius:20px;padding:24px 16px;border:0.5px solid rgba(0,0,0,0.06)">';
-  h += '<div style="text-align:center;margin-bottom:20px"><div class="logo-sm" style="cursor:pointer" onclick="go(\'pgDash\')"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div></div>';
+  h += '<div style="text-align:center;margin-bottom:20px"><div style="display:flex;justify-content:center;gap:0;cursor:pointer" onclick="go(\'pgDash\')">';
+  h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;line-height:1;color:#4CAF7D">M</span>';
+  h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;line-height:1;color:#5B8FD4">B</span>';
+  h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;line-height:1;color:#E05A5A">T</span>';
+  h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;line-height:1;color:#E8B84B">S</span>';
+  h += '</div></div>';
   h += '<div style="display:flex;align-items:stretch;justify-content:center;gap:8px;margin-bottom:6px;position:relative">';
   h += '<div style="flex:1;background:linear-gradient(135deg,' + aColorA + ',' + aDarkA + ');border-radius:16px;padding:16px 10px 14px;text-align:center">';
   h += '<div style="font-size:60px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.2));line-height:1;margin-bottom:8px">' + aEmojiA + '</div>';
@@ -6402,11 +6407,7 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   h += '</div>';
   h += '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 10px rgba(0,0,0,.1)">' + cat.emoji + '</div>';
   h += '</div>';
-  h += '<div style="display:flex;gap:8px;margin:12px 0">';
-  h += '<button onclick="if(typeof saveResultImage===\'function\')saveResultImage()" style="flex:1;padding:12px;font-size:13px;font-weight:600;color:var(--text-2,#666);background:#fff;border:1px solid var(--border,#e0e0e0);border-radius:14px;cursor:pointer;font-family:inherit">📷 이미지 저장</button>';
-  h += '<button onclick="if(typeof shareResult===\'function\')shareResult();else if(typeof shareKakao===\'function\')shareKakao()" style="flex:1;padding:12px;font-size:13px;font-weight:700;color:#191919;background:#FEE500;border:1px solid #FEE500;border-radius:14px;cursor:pointer;font-family:inherit">💬 카카오톡 공유</button>';
-  h += '</div>';
-  h += '<div style="text-align:center;margin-bottom:12px">';
+  h += '<div style="text-align:center;margin:16px 0 12px">';
   h += '<div style="font-size:48px;font-weight:900;color:#8B6CC1;letter-spacing:-2px;line-height:1">' + sc.total + '<span style="font-size:20px;font-weight:700">점</span></div>';
   h += '<div style="font-size:10px;color:' + labelColor + ';font-weight:600;margin-top:4px">' + cat.label + ' 종합</div>';
   h += '</div>';
@@ -6415,6 +6416,10 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   [{l:sl.love||'연애',v:sc.love,c1:'#f0a0b8',c2:'#d63384'},{l:sl.comm||'소통',v:sc.comm,c1:'#6bc4a0',c2:'#2e8b57'},{l:sl.values||'가치관',v:sc.values,c1:'#e8c86b',c2:'#c99a2e'},{l:sl.work||'업무',v:sc.work,c1:'#7eb3d6',c2:'#4682b4'}].forEach(function(b) {
     h += '<div style="display:flex;align-items:center;gap:10px"><div style="width:36px;text-align:right;font-size:11px;font-weight:700;color:#999">' + b.l + '</div><div style="flex:1;height:6px;background:rgba(0,0,0,0.04);border-radius:3px;overflow:hidden"><div style="height:100%;width:' + b.v + '%;background:linear-gradient(90deg,' + b.c1 + ',' + b.c2 + ');border-radius:3px"></div></div><div style="width:20px;font-size:11px;font-weight:700;color:#bbb">' + b.v + '</div></div>';
   });
+  h += '</div>';
+  h += '<div style="display:flex;gap:8px;margin-top:16px">';
+  h += '<button onclick="if(typeof saveResultImage===\'function\')saveResultImage()" style="flex:1;padding:12px;font-size:13px;font-weight:600;color:#666;background:#fff;border:1px solid #e0e0e0;border-radius:14px;cursor:pointer;font-family:inherit">📷 이미지 저장</button>';
+  h += '<button onclick="if(typeof shareResult===\'function\')shareResult();else if(typeof shareKakao===\'function\')shareKakao()" style="flex:1;padding:12px;font-size:13px;font-weight:700;color:#191919;background:#FEE500;border:1px solid #FEE500;border-radius:14px;cursor:pointer;font-family:inherit">💬 카카오톡 공유</button>';
   h += '</div>';
   h += '</div>';
   return h;
