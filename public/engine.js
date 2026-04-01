@@ -2663,7 +2663,7 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
   var reader = r.body.getReader();
   var decoder = new TextDecoder();
   var fullText = '', buffer = '', chunkCount = 0;
-  var SUB_TITLES = ["나의 성격","나의 장점","고쳐야 할 점","남들이 보는 나","연애 스타일","잘 맞는 타입","연애 지뢰","직장 적성","맞춤 재물 쌓는 법","올해 키워드","올해 조언","대운 흐름","기회의 시기","인생 한줄 마무리"];
+  var SUB_TITLES = (typeof callbacks === 'object' && callbacks.subTitles) ? callbacks.subTitles : ["나의 성격","나의 장점","고쳐야 할 점","남들이 보는 나","연애 스타일","잘 맞는 타입","연애 지뢰","직장 적성","맞춤 재물 쌓는 법","올해 키워드","올해 조언","대운 흐름","기회의 시기","인생 한줄 마무리"];
   var _detectedSubs = 0;
   var _categoriesStarted = false;
   var streamStart = Date.now();

@@ -6319,6 +6319,182 @@ function updateProgressBar(count) {
   }
 }
 
+// ══════════════════════════════════════
+// 궁합 프로그레시브 스트리밍 렌더 (Phase 8)
+// ══════════════════════════════════════
+function initGhProgressivePage(ghR, sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType) {
+  var cat = GH_CATEGORIES[relType];
+  if (!cat) return;
+  var sl = cat.scoreLabels;
+  var sc = ghR.scores;
+  var ghCfg = GH_REL_CONFIG[relType];
+  var totalSubs = 0;
+  if (ghCfg && ghCfg.subs) {
+    totalSubs = ghCfg.subs.length;
+  } else if (ghCfg && ghCfg.categories) {
+    ghCfg.categories.forEach(function(c) { totalSubs += (c.subs || []).length; });
+  }
+  if (totalSubs === 0) totalSubs = 14;
+
+  var pg = document.getElementById('ghResContent');
+  if (!pg) { pg = document.getElementById('pg-gh-res'); }
+  if (!pg) return;
+
+  var mA = (mbtiA && mbtiA.type) ? mbtiA.type : '';
+  var mB = (mbtiB && mbtiB.type) ? mbtiB.type : '';
+
+  var h = '<div class="res-wrap" style="max-width:640px;margin:0 auto;padding:0 0 40px">';
+  h += '<div style="text-align:center;padding:32px 20px 20px;background:linear-gradient(180deg,rgba(136,97,154,.06) 0%,transparent 100%)">';
+  h += '<div style="display:flex;justify-content:center;gap:0;margin-bottom:10px">';
+  h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#4CAF7D">M</span>';
+  h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#5B8FD4">B</span>';
+  h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E05A5A">T</span>';
+  h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E8B84B">S</span>';
+  h += '</div>';
+  h += '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">' + cat.emoji + ' ' + cat.label + ' 궁합</div>';
+  h += '</div>';
+
+  h += '<div style="display:flex;align-items:center;gap:12px;padding:16px 20px;justify-content:center">';
+  h += '<div class="glass-card" style="text-align:center;padding:16px 20px;border-color:var(--accent)">';
+  h += '<div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">나</div>';
+  h += '<div style="font-size:11px;color:var(--text-muted)">' + sajuA.P[2].s + sajuA.P[2].b + ' · ' + mA + '</div></div>';
+  h += '<div style="font-size:28px">' + cat.emoji + '</div>';
+  h += '<div class="glass-card" style="text-align:center;padding:16px 20px;border-color:#E05A5A">';
+  h += '<div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">상대방</div>';
+  h += '<div style="font-size:11px;color:var(--text-muted)">' + sajuB.P[2].s + sajuB.P[2].b + ' · ' + mB + '</div></div>';
+  h += '</div>';
+
+  h += '<div class="glass-card" style="margin:12px 20px;padding:24px">';
+  h += '<div style="text-align:center;margin-bottom:16px">';
+  h += '<div style="font-size:48px;font-weight:900;color:var(--accent)">' + sc.total + '<span style="font-size:24px">점</span></div>';
+  h += '<div style="font-size:13px;color:var(--text-muted)">' + cat.label + ' 종합</div></div>';
+  [{l:sl.love,v:sc.love,c:'#d63384'},{l:sl.comm,v:sc.comm,c:'#2e8b57'},{l:sl.values,v:sc.values,c:'#c99a2e'},{l:sl.work,v:sc.work,c:'#4682b4'}].forEach(function(b) {
+    h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">';
+    h += '<div style="width:50px;text-align:right;font-size:13px;font-weight:600;color:var(--text-secondary)">' + b.l + '</div>';
+    h += '<div style="flex:1;height:10px;background:rgba(0,0,0,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:' + b.v + '%;background:' + b.c + ';border-radius:5px;transition:width 1s"></div></div>';
+    h += '<div style="width:36px;font-size:13px;font-weight:700;color:var(--text-muted)">' + b.v + '%</div></div>';
+  });
+  h += '</div>';
+
+  h += '<div id="gh-prog-sub-container"></div>';
+  h += '<div id="gh-prog-skeleton" class="prog-skeleton">';
+  h += '<div class="prog-skel-line"></div><div class="prog-skel-line"></div>';
+  h += '<div class="prog-skel-line"></div><div class="prog-skel-line"></div>';
+  h += '<div class="prog-skel-line"></div></div>';
+  h += '<div id="gh-prog-complete" style="display:none"></div>';
+  h += '<div style="height:80px"></div></div>';
+
+  h += '<div class="prog-bottom-bar" id="gh-prog-bar"><div class="prog-bottom-pill" id="gh-prog-pill">';
+  h += '<div class="prog-dots" id="gh-prog-dots"></div>';
+  h += '<div class="prog-bottom-text" id="gh-prog-text">1/' + totalSubs + ' 풀이 중</div>';
+  h += '</div></div>';
+
+  pg.innerHTML = h;
+  var dotsEl = document.getElementById('gh-prog-dots');
+  if (dotsEl) { for (var di = 0; di < totalSubs; di++) { var dot = document.createElement('span'); dotsEl.appendChild(dot); } }
+  var bar = document.getElementById('gh-prog-bar');
+  if (bar) bar.classList.add('show');
+
+  window._ghProgState = { ghR: ghR, sajuA: sajuA, sajuB: sajuB, mbtiA: mbtiA, mbtiB: mbtiB, ggA: ggA, ggB: ggB, relType: relType, subCount: 0, totalSubs: totalSubs };
+  goPage('gh-res');
+  window.scrollTo({ top: 0 });
+}
+
+function appendGhSubCard(subObj, index, relType) {
+  if (!window._ghProgState) return;
+  var container = document.getElementById('gh-prog-sub-container');
+  if (!container) return;
+
+  var ghCfg = GH_REL_CONFIG[relType];
+  var catMap = {};
+  if (ghCfg && ghCfg.subs) {
+    catMap[0] = (GH_CATEGORIES[relType] ? GH_CATEGORIES[relType].emoji : '') + ' ' + (ghCfg.title || '궁합 풀이');
+  } else if (ghCfg && ghCfg.categories) {
+    var runIdx = 0;
+    ghCfg.categories.forEach(function(c) {
+      catMap[runIdx] = (GH_CATEGORIES[relType] ? GH_CATEGORIES[relType].emoji : '') + ' ' + c.name;
+      runIdx += (c.subs || []).length;
+    });
+  }
+
+  if (catMap[index] !== undefined) {
+    var catDiv = document.createElement('div');
+    catDiv.className = 'r-cat-head prog-sub-card';
+    var catParts = catMap[index].split(' ');
+    catDiv.innerHTML = '<div class="r-cat-title-row"><span class="r-cat-icon">' + catParts[0] + '</span><span class="r-cat-title">' + catParts.slice(1).join(' ') + '</span></div>';
+    container.appendChild(catDiv);
+    setTimeout(function() { catDiv.classList.add('revealed'); }, 50);
+  }
+
+  var card = document.createElement('div');
+  card.className = 'r-sub prog-sub-card';
+  var bodyHtml = (typeof renderSubBody === 'function') ? renderSubBody(subObj.b || '') : (subObj.b || '').replace(/\n\n/g, '<br><br>');
+  card.innerHTML = '<div class="r-sub-h">' + (subObj.h || '') + '</div><div class="r-sub-b">' + bodyHtml + '</div>';
+  container.appendChild(card);
+  setTimeout(function() { card.classList.add('revealed'); }, 100);
+
+  var skel = document.getElementById('gh-prog-skeleton');
+  if (skel) container.parentNode.insertBefore(skel, container.nextSibling);
+
+  window._ghProgState.subCount = index + 1;
+  var total = window._ghProgState.totalSubs;
+  var text = document.getElementById('gh-prog-text');
+  var dots = document.getElementById('gh-prog-dots');
+  if (text) text.textContent = (index + 1) + '/' + total + ' 풀이 중';
+  if (dots) { var ch = dots.children; for (var i = 0; i < ch.length; i++) { if (i <= index) ch[i].classList.add('filled'); else ch[i].classList.remove('filled'); } }
+}
+
+function finalizeGhProgressivePage(aiResult, ghR, sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, collectedSubs) {
+  var skel = document.getElementById('gh-prog-skeleton');
+  if (skel) skel.remove();
+
+  if (aiResult && aiResult.categories) {
+    var existCount = window._ghProgState ? window._ghProgState.subCount : 0;
+    var allSubs = [];
+    aiResult.categories.forEach(function(cat) {
+      (cat.subs || cat.items || []).forEach(function(sub) {
+        allSubs.push({ h: sub.h || sub.catch || '', b: sub.b || sub.content || '' });
+      });
+    });
+    for (var i = existCount; i < allSubs.length; i++) {
+      appendGhSubCard(allSubs[i], i, relType);
+    }
+  }
+
+  var pill = document.getElementById('gh-prog-pill');
+  var text = document.getElementById('gh-prog-text');
+  var dots = document.getElementById('gh-prog-dots');
+  if (pill) pill.classList.add('done');
+  if (text) text.textContent = '풀이 완성';
+  if (dots) { var ch = dots.children; for (var i = 0; i < ch.length; i++) ch[i].classList.add('filled'); }
+
+  setTimeout(function() {
+    var bar = document.getElementById('gh-prog-bar');
+    if (bar) bar.classList.remove('show');
+  }, 3500);
+
+  var completeEl = document.getElementById('gh-prog-complete');
+  if (completeEl) {
+    var ch = '';
+    var quote = (aiResult && aiResult.quote) ? aiResult.quote : '두 사람만의 특별한 이야기';
+    ch += '<div class="glass-card" style="margin:12px 20px;padding:16px 20px;border-left:4px solid var(--accent);font-size:14px;color:var(--text-secondary);line-height:1.6;font-style:italic">"' + quote + '"</div>';
+    ch += '<div style="margin:24px 16px 20px;text-align:center">';
+    ch += '<button onclick="if(window.MBTS_Chat&&window._ghChatData)MBTS_Chat.openFromGunghap(window._ghChatData.person,window._ghChatData.relType,window._ghChatData.ghResult)" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#8B6CC1,#6B4FA0);border:none;border-radius:14px;cursor:pointer;box-shadow:0 4px 16px rgba(139,108,193,0.25)">🐰 달토한테 이 궁합 더 물어보기</button></div>';
+    ch += '<div style="padding:20px"><button onclick="shareResult()" style="width:100%;padding:14px;font-size:14px;font-weight:700;color:#191919;background:#FEE500;border:none;border-radius:14px;margin-bottom:10px">💬 공유하기</button>';
+    ch += '<p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted)">참고용 분석이며 의사결정을 대체하지 않습니다.</p></div>';
+    completeEl.innerHTML = ch;
+    completeEl.style.display = 'block';
+  }
+
+  var mBtype = (mbtiB && mbtiB.type) ? mbtiB.type : '';
+  window._ghChatData = {
+    person: { name: sajuB.P[2].s + sajuB.P[2].b + ' · ' + mBtype, saju: sajuB, mbtiObj: mbtiB, gg: ggB, ilju: sajuB.P[2].s + sajuB.P[2].b, mbti: mBtype },
+    relType: relType, ghResult: ghR
+  };
+
+  window._ghProgState = null;
+}
+
 function finalizeProgressivePage(result, saju, mt, gg, isAI) {
   // 스켈레톤 제거
   var skel = document.getElementById('prog-skeleton');
