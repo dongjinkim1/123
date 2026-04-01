@@ -6380,71 +6380,63 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var aOhB = animalB ? animalB.ohengData : {color:'#5B8FD4'};
   var aColorB = aOhB.color || '#5B8FD4';
   var aDarkB = (typeof adjustColor === 'function') ? adjustColor(aColorB, 0.65) : aColorB;
-
-  var relLabelColor = {
-    ssom: '#d4839b', lover: '#d4839b', friend: '#6bab8a',
-    colleague: '#b0a0c0', family: '#c4a060'
-  };
+  var relLabelColor = {ssom:'#d4839b',lover:'#d4839b',friend:'#6bab8a',colleague:'#b0a0c0',family:'#c4a060'};
   var labelColor = relLabelColor[relType] || '#b0a0c0';
-
   var h = '';
-  h += '<div style="text-align:center;padding:24px 0 16px">';
+  h += '<div style="margin:0 8px;background:#fff;border-radius:20px;padding:24px 16px;border:0.5px solid rgba(0,0,0,0.06)">';
+  h += '<div style="text-align:center;margin-bottom:20px">';
   h += '<div style="display:inline-flex;gap:1px">';
-  h += '<span style="font-weight:800;font-size:20px;color:#4CAF7D">M</span>';
-  h += '<span style="font-weight:800;font-size:20px;color:#5B8FD4">B</span>';
-  h += '<span style="font-weight:800;font-size:20px;color:#E05A5A">T</span>';
-  h += '<span style="font-weight:800;font-size:20px;color:#E8B84B">S</span>';
+  h += '<span style="font-weight:800;font-size:18px;color:#4CAF7D">M</span>';
+  h += '<span style="font-weight:800;font-size:18px;color:#5B8FD4">B</span>';
+  h += '<span style="font-weight:800;font-size:18px;color:#E05A5A">T</span>';
+  h += '<span style="font-weight:800;font-size:18px;color:#E8B84B">S</span>';
   h += '</div></div>';
-
-  h += '<div style="position:relative;margin:0 12px">';
-  h += '<div style="display:flex;gap:8px">';
-
-  h += '<div style="flex:1;background:linear-gradient(135deg,' + aColorA + ',' + aDarkA + ');border-radius:18px;padding:28px 10px 18px;text-align:center">';
-  h += '<div style="font-size:60px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.2));margin-bottom:8px">' + aEmojiA + '</div>';
+  h += '<div style="display:flex;align-items:stretch;justify-content:center;gap:8px;margin-bottom:6px;position:relative">';
+  h += '<div style="flex:1;background:linear-gradient(135deg,' + aColorA + ',' + aDarkA + ');border-radius:16px;padding:16px 10px 14px;text-align:center">';
+  h += '<div style="font-size:60px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.2));line-height:1;margin-bottom:8px">' + aEmojiA + '</div>';
   if (aTagA) h += '<div style="display:inline-block;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,.22);color:#fff;margin-bottom:4px">' + aTagA + '</div>';
-  h += '<div style="font-size:14px;font-weight:800;color:#fff;margin-top:2px">나</div>';
-  h += '<div style="font-size:10px;color:rgba(255,255,255,.6)">' + sajuA.P[2].s + sajuA.P[2].b + '\xb7' + mA + '</div>';
+  h += '<div style="font-size:13px;font-weight:800;color:#fff">나</div>';
+  h += '<div style="font-size:10px;color:rgba(255,255,255,.55)">' + sajuA.P[2].s + sajuA.P[2].b + '\xb7' + mA + '</div>';
   if (aTraitsA.length > 0) {
     h += '<div style="display:flex;justify-content:center;gap:3px;margin-top:8px;flex-wrap:wrap">';
     aTraitsA.forEach(function(t) { h += '<span style="padding:2px 7px;border-radius:100px;font-size:9px;font-weight:600;background:rgba(255,255,255,.18);color:rgba(255,255,255,.8)">#' + t + '</span>'; });
     h += '</div>';
   }
   h += '</div>';
-
-  h += '<div style="flex:1;background:linear-gradient(135deg,' + aColorB + ',' + aDarkB + ');border-radius:18px;padding:28px 10px 18px;text-align:center">';
-  h += '<div style="font-size:60px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.2));margin-bottom:8px">' + aEmojiB + '</div>';
+  h += '<div style="flex:1;background:linear-gradient(135deg,' + aColorB + ',' + aDarkB + ');border-radius:16px;padding:16px 10px 14px;text-align:center">';
+  h += '<div style="font-size:60px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.2));line-height:1;margin-bottom:8px">' + aEmojiB + '</div>';
   if (aTagB) h += '<div style="display:inline-block;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,.22);color:#fff;margin-bottom:4px">' + aTagB + '</div>';
-  h += '<div style="font-size:14px;font-weight:800;color:#fff;margin-top:2px">상대방</div>';
-  h += '<div style="font-size:10px;color:rgba(255,255,255,.6)">' + sajuB.P[2].s + sajuB.P[2].b + '\xb7' + mB + '</div>';
+  h += '<div style="font-size:13px;font-weight:800;color:#fff">상대방</div>';
+  h += '<div style="font-size:10px;color:rgba(255,255,255,.55)">' + sajuB.P[2].s + sajuB.P[2].b + '\xb7' + mB + '</div>';
   if (aTraitsB.length > 0) {
     h += '<div style="display:flex;justify-content:center;gap:3px;margin-top:8px;flex-wrap:wrap">';
     aTraitsB.forEach(function(t) { h += '<span style="padding:2px 7px;border-radius:100px;font-size:9px;font-weight:600;background:rgba(255,255,255,.18);color:rgba(255,255,255,.8)">#' + t + '</span>'; });
     h += '</div>';
   }
   h += '</div>';
-
+  h += '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 10px rgba(0,0,0,.1)">' + cat.emoji + '</div>';
   h += '</div>';
-  h += '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 10px rgba(0,0,0,.1)">' + cat.emoji + '</div>';
+  h += '<div style="text-align:center;font-size:10px;color:' + labelColor + ';font-weight:600;margin:10px 0 16px">' + cat.emoji + ' ' + cat.label + ' 궁합</div>';
+  h += '<div style="text-align:center;margin-bottom:12px">';
+  h += '<div style="font-size:48px;font-weight:900;color:#8B6CC1;letter-spacing:-2px;line-height:1">' + sc.total + '<span style="font-size:20px;font-weight:700">점</span></div>';
+  h += '<div style="font-size:10px;color:' + labelColor + ';font-weight:600;margin-top:4px">' + cat.label + ' 종합</div>';
   h += '</div>';
-
-  h += '<div style="text-align:center;font-size:11px;color:' + labelColor + ';font-weight:600;margin:12px 0">' + cat.emoji + ' ' + cat.label + ' 궁합</div>';
-
-  h += '<div style="background:#fff;border-radius:16px;padding:20px;margin:0 12px;text-align:center;border:0.5px solid rgba(0,0,0,0.06)">';
-  h += '<div style="font-size:48px;font-weight:900;color:#8B6CC1;line-height:1;letter-spacing:-2px">' + sc.total + '<span style="font-size:20px;font-weight:700;letter-spacing:0">점</span></div>';
-  h += '<div style="font-size:11px;color:' + labelColor + ';margin-top:4px;margin-bottom:14px;font-weight:600">' + cat.label + ' 종합</div>';
+  h += '<div style="height:0.5px;background:#f0f0f0;margin:12px 0"></div>';
   var bars = [
     {l:sl.love||'연애', v:sc.love, c1:'#f0a0b8', c2:'#d63384'},
     {l:sl.comm||'소통', v:sc.comm, c1:'#6bc4a0', c2:'#2e8b57'},
     {l:sl.values||'가치관', v:sc.values, c1:'#e8c86b', c2:'#c99a2e'},
     {l:sl.work||'업무', v:sc.work, c1:'#7eb3d6', c2:'#4682b4'}
   ];
+  h += '<div style="display:flex;flex-direction:column;gap:8px">';
   bars.forEach(function(b) {
-    h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">';
+    h += '<div style="display:flex;align-items:center;gap:10px">';
     h += '<div style="width:36px;text-align:right;font-size:11px;font-weight:700;color:#999">' + b.l + '</div>';
     h += '<div style="flex:1;height:6px;background:rgba(0,0,0,0.04);border-radius:3px;overflow:hidden"><div style="height:100%;width:' + b.v + '%;background:linear-gradient(90deg,' + b.c1 + ',' + b.c2 + ');border-radius:3px"></div></div>';
     h += '<div style="width:20px;font-size:11px;font-weight:700;color:#bbb">' + b.v + '</div>';
     h += '</div>';
   });
+  h += '</div>';
   h += '</div>';
   return h;
 }
