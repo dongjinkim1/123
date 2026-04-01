@@ -6530,7 +6530,7 @@ function finalizeGhProgressivePage(aiResult, ghR, sajuA, sajuB, mbtiA, mbtiB, gg
     var quote = (aiResult && aiResult.quote) ? aiResult.quote : '두 사람만의 특별한 이야기';
     ch += '<div class="r-oneline">';
     ch += '<div class="r-oneline-label">TWO OF US IN ONE LINE</div>';
-    ch += '<div class="r-oneline-text">"' + quote + '"</div>';
+    ch += '<div class="r-oneline-text">' + quote.replace(/\\n/g,'<br>').replace(/\n/g,'<br>') + '</div>';
     ch += '</div>';
     ch += '<div style="margin:24px 16px 20px;text-align:center">';
     ch += '<button onclick="if(window.MBTS_Chat&&window._ghChatData)MBTS_Chat.openFromGunghap(window._ghChatData.person,window._ghChatData.relType,window._ghChatData.ghResult)" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#8B6CC1,#6B4FA0);border:none;border-radius:14px;cursor:pointer;box-shadow:0 4px 16px rgba(139,108,193,0.25)">🐰 달토한테 이 궁합 더 물어보기</button></div>';
