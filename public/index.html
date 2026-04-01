@@ -4788,11 +4788,56 @@ async function _runGunghapAnalysis(){
   }
 
   try{
-    var _ixGhSubCount=0,_ixGhInited=false;
+    // ── subTitles 추출 ──
+    var _ixGhSubTitles = [];
+    var _ixGhCfg = window.GH_REL_CONFIG ? window.GH_REL_CONFIG[ghRel] : null;
+    if (_ixGhCfg && _ixGhCfg.subs) {
+      _ixGhCfg.subs.forEach(function(s) { _ixGhSubTitles.push(s.h); });
+    } else if (_ixGhCfg && _ixGhCfg.categories) {
+      _ixGhCfg.categories.forEach(function(c) {
+        (c.subs || []).forEach(function(s) { _ixGhSubTitles.push(s.h); });
+      });
+    }
+
+    // ── 프로그레시브 상태 변수 ──
+    var _ixGhProgQueue = [];
+    var _ixGhProgInited = false;
+    var _ixGhCollectedSubs = [];
+
     var aiText=await streamSonnet(apiKey, systemPrompt, userPrompt, '💕 궁합', {
-      onMessage:function(m){msg.innerHTML=m+'<span class="load-dots"><span></span><span></span><span></span></span>';},
-      onProgress:function(p){bar.style.width=Math.max(Math.min(p,100),50)+'%';},
-      onChunk:function(fullText,chunkNum){console.log('[GH-STREAM] chunk#'+chunkNum+' len:'+fullText.length+' subsFound:'+(_ixGhSubCount));if(typeof parseGhNewSubs!=='function')return;var ns=parseGhNewSubs(fullText,_ixGhSubCount);if(ns.length>0){if(!_ixGhInited){_ixGhInited=true;go('pgGhRes');if(typeof initGhStreamPage==='function')initGhStreamPage(ghResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);}ns.forEach(function(sub){if(typeof appendGhStreamSub==='function')appendGhStreamSub(sub,_ixGhSubCount);_ixGhSubCount++;});}}
+      subTitles: _ixGhSubTitles,
+      onMessage:function(m){
+        if (!_ixGhProgInited) {
+          msg.innerHTML=m+'<span class="load-dots"><span></span><span></span><span></span></span>';
+        }
+      },
+      onProgress:function(p){
+        if (!_ixGhProgInited) {
+          bar.style.width=Math.max(Math.min(p,100),5)+'%';
+        }
+      },
+      onPercent:function(p){},
+      onBlueprint:function(){
+        console.log('[GH-STREAM] categories 시작 감지');
+      },
+      onSub:function(subObj, idx){
+        console.log('[GH-STREAM] sub #'+(idx+1)+': '+subObj.h);
+        _ixGhProgQueue.push({ sub: subObj, idx: idx });
+        _ixGhCollectedSubs.push(subObj);
+
+        if (_ixGhProgQueue.length === 1 && !_ixGhProgInited) {
+          _ixGhProgInited = true;
+          if (window._ghLoadTimeouts) window._ghLoadTimeouts.forEach(clearTimeout);
+          if (typeof initGhProgressivePage === 'function') {
+            initGhProgressivePage(ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel);
+          }
+          setTimeout(function() { appendGhSubCard(_ixGhProgQueue[0].sub, 0, ghRel); }, 200);
+        }
+
+        if (_ixGhProgInited && _ixGhProgQueue.length > 1) {
+          appendGhSubCard(subObj, idx, ghRel);
+        }
+      }
     }, '/api/gunghap-analyze');
 
     var aiResult=null;
@@ -4847,19 +4892,25 @@ async function _runGunghapAnalysis(){
     }
 
     _isAnalyzing=false;
-    bar.style.width='100%';
-    msg.innerHTML='궁합 분석이 완료되었습니다 ✨';
-    msg.style.fontWeight='600';
-    msg.style.color='var(--rose)';
-    if(ghLogo) ghLogo.style.animation='loadFinish 1s ease both';
-    if(hintBox) hintBox.style.opacity='0';
-    if(window._ghLoadTimeouts) window._ghLoadTimeouts.forEach(clearTimeout);
 
-    await new Promise(function(resolve){setTimeout(resolve,1200);});
-
-    // 결과 렌더링 — 실시간 스트리밍 or 의사 프로그레시브
-    if(_ixGhInited){if(typeof finalizeGhStream==='function')finalizeGhStream(aiResult);}
-    else{go('pgGhRes');fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);}
+    if (_ixGhProgInited) {
+      // 프로그레시브 모드 → finalize
+      if (typeof finalizeGhProgressivePage === 'function') {
+        finalizeGhProgressivePage(aiResult, ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel, _ixGhCollectedSubs);
+      }
+    } else {
+      // 프로그레시브 미진입 → 기존 한방 렌더
+      bar.style.width='100%';
+      msg.innerHTML='궁합 분석이 완료되었습니다 ✨';
+      msg.style.fontWeight='600';
+      msg.style.color='var(--rose)';
+      if(ghLogo) ghLogo.style.animation='loadFinish 1s ease both';
+      if(hintBox) hintBox.style.opacity='0';
+      if(window._ghLoadTimeouts) window._ghLoadTimeouts.forEach(clearTimeout);
+      await new Promise(function(resolve){setTimeout(resolve,1200);});
+      go('pgGhRes');
+      fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);
+    }
 
     // 궁합 결과 localStorage 저장
     if(!window._skipGhHistorySave) try {
