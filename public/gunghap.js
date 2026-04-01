@@ -360,7 +360,7 @@
     if (!R.details.timing) R.details.timing = null;
 
     // ★ 최종 클램핑 (딱 1번!)
-    love=Math.max(20,Math.min(95,love));comm=Math.max(20,Math.min(95,comm));val=Math.max(20,Math.min(95,val));work=Math.max(20,Math.min(95,work));
+    love=Math.max(65,Math.min(95,love));comm=Math.max(65,Math.min(95,comm));val=Math.max(65,Math.min(95,val));work=Math.max(65,Math.min(95,work));
     R.scores={love:love,comm:comm,values:val,work:work,total:Math.round(love*0.35+comm*0.25+val*0.25+work*0.15)};
 
     // AI 키워드

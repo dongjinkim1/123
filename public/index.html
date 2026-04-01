@@ -5591,16 +5591,34 @@ function fillGhResultProgressive(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,relType){
   var title=(aiR&&aiR.title)?aiR.title:(sajuA.P[2].s+sajuA.P[2].b+'×'+sajuB.P[2].s+sajuB.P[2].b);
   var quote=(aiR&&aiR.quote)?aiR.quote:'두 사람만의 이야기';
 
-  // ① 헤더 + 점수 (즉시 표시)
+  // ① 헤더 (동물 카드)
   var h='<div class="res-wrap">';
   h+='<div class="res-header">';
   h+='<div class="logo-sm" style="cursor:pointer" onclick="go(\'pgDash\')"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div>';
-  h+='<p style="font-size:12px;color:var(--text-3);margin-bottom:4px">'+cat.emoji+' '+cat.label+'</p>';
-  h+='<div style="display:flex;align-items:center;justify-content:space-between">';
-  h+='<button onclick="go(\'pgDash\')" style="font-size:14px;font-weight:600;color:var(--purple);cursor:pointer;background:none;border:none;padding:0">← 돌아가기</button>';
-  h+='<div style="font-size:13px;font-weight:600;color:var(--text-2)">'+title+'</div>';
-  h+='<div style="width:80px"></div>';
-  h+='</div></div>';
+  h+='</div>';
+
+  var _condA2='신강',_condB2='신강';
+  try{if(window.analyzeGyeokguk){var _ggA2=analyzeGyeokguk(sajuA),_ggB2=analyzeGyeokguk(sajuB);if(_ggA2&&(_ggA2.isJonggyeok||_ggA2.isHwakyeok))_condA2='특수';else if(_ggA2&&(_ggA2.strengthGrade==='신약'||_ggA2.strengthGrade==='극신약'))_condA2='신약';if(_ggB2&&(_ggB2.isJonggyeok||_ggB2.isHwakyeok))_condB2='특수';else if(_ggB2&&(_ggB2.strengthGrade==='신약'||_ggB2.strengthGrade==='극신약'))_condB2='신약';}}catch(e){}
+  var _anA2=(typeof getAnimalResult==='function')?getAnimalResult(sajuA.dmEl||'토','비겁',_condA2):null;
+  var _anB2=(typeof getAnimalResult==='function')?getAnimalResult(sajuB.dmEl||'토','비겁',_condB2):null;
+  var _eA2=_anA2?_anA2.emoji:'👤',_tA2=(_anA2&&_anA2.mod)?_anA2.mod.tag:'',_oA2=_anA2?_anA2.ohengData:{color:'#8B6CC1',bg:'#F0ECF8'};
+  var _eB2=_anB2?_anB2.emoji:'👤',_tB2=(_anB2&&_anB2.mod)?_anB2.mod.tag:'',_oB2=_anB2?_anB2.ohengData:{color:'#8B6CC1',bg:'#F0ECF8'};
+
+  h+='<div style="display:flex;align-items:flex-start;justify-content:center;gap:12px;padding:16px 20px">';
+  h+='<div style="text-align:center;flex:1;max-width:140px">';
+  h+='<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,'+_oA2.bg+','+(_oA2.bgDark||_oA2.bg)+');margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:36px;border:2px solid '+_oA2.color+'20">'+_eA2+'</div>';
+  if(_tA2)h+='<div style="font-size:11px;font-weight:700;color:'+_oA2.color+';margin-bottom:2px">'+_tA2+'</div>';
+  h+='<div style="font-size:13px;font-weight:700;color:var(--text-primary,#1C1C1E)">나</div>';
+  h+='<div style="font-size:11px;color:var(--text-muted,#999)">'+sajuA.P[2].s+sajuA.P[2].b+' · '+(mbtiA&&mbtiA.type?mbtiA.type:'')+'</div></div>';
+  h+='<div style="padding-top:20px;display:flex;flex-direction:column;align-items:center;gap:2px">';
+  h+='<div style="font-size:20px">'+cat.emoji+'</div>';
+  h+='<div style="font-size:10px;color:var(--text-muted,#999);font-weight:600;letter-spacing:0.3px">'+cat.label+' 궁합</div></div>';
+  h+='<div style="text-align:center;flex:1;max-width:140px">';
+  h+='<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,'+_oB2.bg+','+(_oB2.bgDark||_oB2.bg)+');margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:36px;border:2px solid '+_oB2.color+'20">'+_eB2+'</div>';
+  if(_tB2)h+='<div style="font-size:11px;font-weight:700;color:'+_oB2.color+';margin-bottom:2px">'+_tB2+'</div>';
+  h+='<div style="font-size:13px;font-weight:700;color:var(--text-primary,#1C1C1E)">상대방</div>';
+  h+='<div style="font-size:11px;color:var(--text-muted,#999)">'+sajuB.P[2].s+sajuB.P[2].b+' · '+(mbtiB&&mbtiB.type?mbtiB.type:'')+'</div></div>';
+  h+='</div>';
 
   // ② 점수 카드
   h+='<div class="r-sub prog-sub-card" style="text-align:center;padding:24px">';
@@ -6395,24 +6413,51 @@ function initGhProgressivePage(ghR, sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relTyp
   var mB = (mbtiB && mbtiB.type) ? mbtiB.type : '';
 
   var h = '<div class="res-wrap" style="max-width:640px;margin:0 auto;padding:0 0 40px">';
-  h += '<div style="text-align:center;padding:32px 20px 20px;background:linear-gradient(180deg,rgba(136,97,154,.06) 0%,transparent 100%)">';
-  h += '<div style="display:flex;justify-content:center;gap:0;margin-bottom:10px">';
+
+  // ① MBTS 로고
+  h += '<div style="text-align:center;padding:32px 20px 20px">';
+  h += '<div style="display:flex;justify-content:center;gap:0">';
   h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#4CAF7D">M</span>';
   h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#5B8FD4">B</span>';
   h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E05A5A">T</span>';
   h += '<span style="font-family:Nunito,sans-serif;font-weight:800;font-size:28px;color:#E8B84B">S</span>';
-  h += '</div>';
-  h += '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">' + cat.emoji + ' ' + cat.label + ' 궁합</div>';
-  h += '</div>';
+  h += '</div></div>';
 
-  h += '<div style="display:flex;align-items:center;gap:12px;padding:16px 20px;justify-content:center">';
-  h += '<div class="glass-card" style="text-align:center;padding:16px 20px;border-color:var(--accent)">';
-  h += '<div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">나</div>';
-  h += '<div style="font-size:11px;color:var(--text-muted)">' + sajuA.P[2].s + sajuA.P[2].b + ' · ' + mA + '</div></div>';
-  h += '<div style="font-size:28px">' + cat.emoji + '</div>';
-  h += '<div class="glass-card" style="text-align:center;padding:16px 20px;border-color:#E05A5A">';
-  h += '<div style="font-size:28px">🙋</div><div style="font-size:14px;font-weight:700;margin-top:4px">상대방</div>';
-  h += '<div style="font-size:11px;color:var(--text-muted)">' + sajuB.P[2].s + sajuB.P[2].b + ' · ' + mB + '</div></div>';
+  // ② 동물 계산
+  var condA = '신강';
+  if (ggA && (ggA.isJonggyeok || ggA.isHwakyeok)) condA = '특수';
+  else if (ggA && (ggA.strengthGrade === '신약' || ggA.strengthGrade === '극신약')) condA = '신약';
+  var animalA = (typeof getAnimalResult === 'function') ? getAnimalResult(sajuA.dmEl || '토', (ggA && ggA.dominant ? ggA.dominant[0] : '비겁'), condA) : null;
+  var aEmojiA = animalA ? animalA.emoji : '👤';
+  var aTagA = (animalA && animalA.mod) ? animalA.mod.tag : '';
+  var aOhA = animalA ? animalA.ohengData : (typeof OHENG_DATA !== 'undefined' ? OHENG_DATA[0] : {color:'#8B6CC1',bg:'#F0ECF8'});
+
+  var condB = '신강';
+  if (ggB && (ggB.isJonggyeok || ggB.isHwakyeok)) condB = '특수';
+  else if (ggB && (ggB.strengthGrade === '신약' || ggB.strengthGrade === '극신약')) condB = '신약';
+  var animalB = (typeof getAnimalResult === 'function') ? getAnimalResult(sajuB.dmEl || '토', (ggB && ggB.dominant ? ggB.dominant[0] : '비겁'), condB) : null;
+  var aEmojiB = animalB ? animalB.emoji : '👤';
+  var aTagB = (animalB && animalB.mod) ? animalB.mod.tag : '';
+  var aOhB = animalB ? animalB.ohengData : (typeof OHENG_DATA !== 'undefined' ? OHENG_DATA[0] : {color:'#8B6CC1',bg:'#F0ECF8'});
+
+  // ③ 두 사람 카드 (동물 + 관계 이모지)
+  h += '<div style="display:flex;align-items:flex-start;justify-content:center;gap:12px;padding:16px 20px">';
+  h += '<div style="text-align:center;flex:1;max-width:140px">';
+  h += '<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,' + aOhA.bg + ',' + (aOhA.bgDark || aOhA.bg) + ');margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:36px;border:2px solid ' + aOhA.color + '20">' + aEmojiA + '</div>';
+  if (aTagA) h += '<div style="font-size:11px;font-weight:700;color:' + aOhA.color + ';margin-bottom:2px">' + aTagA + '</div>';
+  h += '<div style="font-size:13px;font-weight:700;color:var(--text-primary,#1C1C1E)">나</div>';
+  h += '<div style="font-size:11px;color:var(--text-muted,#999)">' + sajuA.P[2].s + sajuA.P[2].b + ' · ' + mA + '</div>';
+  h += '</div>';
+  h += '<div style="padding-top:20px;display:flex;flex-direction:column;align-items:center;gap:2px">';
+  h += '<div style="font-size:20px">' + cat.emoji + '</div>';
+  h += '<div style="font-size:10px;color:var(--text-muted,#999);font-weight:600;letter-spacing:0.3px">' + cat.label + ' 궁합</div>';
+  h += '</div>';
+  h += '<div style="text-align:center;flex:1;max-width:140px">';
+  h += '<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,' + aOhB.bg + ',' + (aOhB.bgDark || aOhB.bg) + ');margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:36px;border:2px solid ' + aOhB.color + '20">' + aEmojiB + '</div>';
+  if (aTagB) h += '<div style="font-size:11px;font-weight:700;color:' + aOhB.color + ';margin-bottom:2px">' + aTagB + '</div>';
+  h += '<div style="font-size:13px;font-weight:700;color:var(--text-primary,#1C1C1E)">상대방</div>';
+  h += '<div style="font-size:11px;color:var(--text-muted,#999)">' + sajuB.P[2].s + sajuB.P[2].b + ' · ' + mB + '</div>';
+  h += '</div>';
   h += '</div>';
 
   h += '<div class="glass-card" style="margin:12px 20px;padding:24px">';
