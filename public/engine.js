@@ -2664,6 +2664,7 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
   var decoder = new TextDecoder();
   var fullText = '', buffer = '', chunkCount = 0;
   var SUB_TITLES = (typeof callbacks === 'object' && callbacks.subTitles) ? callbacks.subTitles : ["나의 성격","나의 장점","고쳐야 할 점","남들이 보는 나","연애 스타일","잘 맞는 타입","연애 지뢰","직장 적성","맞춤 재물 쌓는 법","올해 키워드","올해 조언","대운 흐름","기회의 시기","인생 한줄 마무리"];
+  console.log('[DEBUG-GH] SUB_TITLES 길이:' + SUB_TITLES.length + ' 첫번째:' + (SUB_TITLES[0]||'없음') + ' 마지막:' + (SUB_TITLES[SUB_TITLES.length-1]||'없음'));
   var _detectedSubs = 0;
   var _categoriesStarted = false;
   var streamStart = Date.now();
@@ -2691,6 +2692,7 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
             _categoriesStarted = true;
             onBlueprint();
             console.log('[STREAM] categories 시작 감지 — blueprint 완료');
+            console.log('[DEBUG-GH] AI응답 샘플:', fullText.substring(fullText.indexOf('"categories"'), fullText.indexOf('"categories"') + 300));
           }
           // ── 다음 sub 제목 감지 → 이전 sub 완성 ──
           if(_categoriesStarted && _detectedSubs < SUB_TITLES.length) {
