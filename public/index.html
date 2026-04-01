@@ -6366,14 +6366,14 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var animalA = (typeof getAnimalResult === 'function') ? getAnimalResult(sajuA.dmEl || '토', (ggA && ggA.dominant ? ggA.dominant[0] : '비겁'), condA) : null;
   var aEmojiA = animalA ? animalA.emoji : '👤';
   var aTagA = (animalA && animalA.mod) ? animalA.mod.tag : '';
-  var aOhA = animalA ? animalA.ohengData : {color:'#8B6CC1',bg:'#F0ECF8',bgDark:'#F0ECF8'};
+  var aOhA = animalA ? animalA.ohengData : {color:'#8B6CC1'};
   var condB = '신강';
   if (ggB && (ggB.isJonggyeok || ggB.isHwakyeok)) condB = '특수';
   else if (ggB && (ggB.strengthGrade === '신약' || ggB.strengthGrade === '극신약')) condB = '신약';
   var animalB = (typeof getAnimalResult === 'function') ? getAnimalResult(sajuB.dmEl || '토', (ggB && ggB.dominant ? ggB.dominant[0] : '비겁'), condB) : null;
   var aEmojiB = animalB ? animalB.emoji : '👤';
   var aTagB = (animalB && animalB.mod) ? animalB.mod.tag : '';
-  var aOhB = animalB ? animalB.ohengData : {color:'#8B6CC1',bg:'#F0ECF8',bgDark:'#F0ECF8'};
+  var aOhB = animalB ? animalB.ohengData : {color:'#8B6CC1'};
 
   var relBg = {
     ssom: 'linear-gradient(165deg, #FFF5F9 0%, #FFF0F5 40%, #F8F0FF 100%)',
@@ -6390,11 +6390,11 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var labelColor = relLabelColor[relType] || '#b0a0c0';
 
   var h = '';
-  h += '<div style="background:' + bgGrad + ';border-radius:24px;padding:32px 20px 28px;position:relative;overflow:hidden">';
+  h += '<div style="background:' + bgGrad + ';border-radius:24px;padding:32px 16px 28px;position:relative;overflow:hidden">';
   h += '<div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(139,108,193,0.06) 0%,transparent 70%);border-radius:50%"></div>';
   h += '<div style="position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(232,184,75,0.06) 0%,transparent 70%);border-radius:50%"></div>';
 
-  h += '<div style="text-align:center;margin-bottom:28px">';
+  h += '<div style="text-align:center;margin-bottom:24px">';
   h += '<div style="display:inline-flex;gap:1px">';
   h += '<span style="font-weight:800;font-size:20px;color:#4CAF7D">M</span>';
   h += '<span style="font-weight:800;font-size:20px;color:#5B8FD4">B</span>';
@@ -6402,24 +6402,24 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   h += '<span style="font-weight:800;font-size:20px;color:#E8B84B">S</span>';
   h += '</div></div>';
 
-  h += '<div style="display:flex;align-items:flex-start;justify-content:center;gap:6px;margin-bottom:28px">';
+  h += '<div style="display:flex;align-items:flex-start;justify-content:center;gap:0;margin-bottom:24px">';
   h += '<div style="text-align:center;flex:1">';
-  h += '<div style="width:84px;height:84px;border-radius:50%;background:linear-gradient(145deg,' + aOhA.bg + ',' + (aOhA.bgDark || aOhA.bg) + ');margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 2px 12px ' + aOhA.color + '18">' + aEmojiA + '</div>';
-  if (aTagA) h += '<div style="font-size:12px;font-weight:700;color:' + aOhA.color + ';margin-bottom:2px;letter-spacing:-0.3px">' + aTagA + '</div>';
-  h += '<div style="font-size:15px;font-weight:800;color:#2C2C2C;margin-bottom:1px">나</div>';
-  h += '<div style="font-size:11px;color:#aaa;letter-spacing:-0.2px">' + sajuA.P[2].s + sajuA.P[2].b + ' · ' + mA + '</div>';
+  h += '<div style="font-size:64px;line-height:1;margin-bottom:8px">' + aEmojiA + '</div>';
+  if (aTagA) h += '<div style="font-size:13px;font-weight:700;color:' + aOhA.color + ';margin-bottom:3px">' + aTagA + '</div>';
+  h += '<div style="font-size:15px;font-weight:800;color:#2C2C2C">나</div>';
+  h += '<div style="font-size:11px;color:#aaa;margin-top:1px">' + sajuA.P[2].s + sajuA.P[2].b + ' · ' + mA + '</div>';
   h += '</div>';
 
-  h += '<div style="padding-top:24px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:64px">';
-  h += '<div style="font-size:24px">' + cat.emoji + '</div>';
-  h += '<div style="font-size:10px;color:' + labelColor + ';font-weight:700;letter-spacing:0.5px">' + cat.label + '</div>';
+  h += '<div style="padding-top:16px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:56px">';
+  h += '<div style="font-size:22px">' + cat.emoji + '</div>';
+  h += '<div style="font-size:10px;color:' + labelColor + ';font-weight:700">' + cat.label + '</div>';
   h += '</div>';
 
   h += '<div style="text-align:center;flex:1">';
-  h += '<div style="width:84px;height:84px;border-radius:50%;background:linear-gradient(145deg,' + aOhB.bg + ',' + (aOhB.bgDark || aOhB.bg) + ');margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 2px 12px ' + aOhB.color + '18">' + aEmojiB + '</div>';
-  if (aTagB) h += '<div style="font-size:12px;font-weight:700;color:' + aOhB.color + ';margin-bottom:2px;letter-spacing:-0.3px">' + aTagB + '</div>';
-  h += '<div style="font-size:15px;font-weight:800;color:#2C2C2C;margin-bottom:1px">상대방</div>';
-  h += '<div style="font-size:11px;color:#aaa;letter-spacing:-0.2px">' + sajuB.P[2].s + sajuB.P[2].b + ' · ' + mB + '</div>';
+  h += '<div style="font-size:64px;line-height:1;margin-bottom:8px">' + aEmojiB + '</div>';
+  if (aTagB) h += '<div style="font-size:13px;font-weight:700;color:' + aOhB.color + ';margin-bottom:3px">' + aTagB + '</div>';
+  h += '<div style="font-size:15px;font-weight:800;color:#2C2C2C">상대방</div>';
+  h += '<div style="font-size:11px;color:#aaa;margin-top:1px">' + sajuB.P[2].s + sajuB.P[2].b + ' · ' + mB + '</div>';
   h += '</div>';
   h += '</div>';
 
