@@ -1137,6 +1137,7 @@
       ]
     }
   };
+  window.GH_REL_CONFIG = GH_REL_CONFIG;
 
 
   // ── getGHSystemPrompt 오버라이드 ──
