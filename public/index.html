@@ -6352,6 +6352,54 @@ function updateProgressBar(count) {
 // ══════════════════════════════════════
 // 궁합 프로그레시브 스트리밍 렌더 (Phase 8)
 // ══════════════════════════════════════
+var GH_ILJU_LINES = {
+  '합_육합':'노력 안 해도 통하는 사이','합_삼합':'호흡이 저절로 맞는 사이','합_같은':'말 안 해도 아는 사이','합_무관':'왠지 편한 사이','합_충':'끌리는데 부딪히는 사이','합_형':'좋은데 가끔 긁히는 사이','합_원진':'좋은데 왜 자꾸 어긋나는 사이',
+  '충_육합':'싸워도 결국 다시 붙는 사이','충_삼합':'티격태격 팀워크의 사이','충_같은':'밀당이 일상인 사이','충_무관':'긴장감이 감도는 사이','충_충':'만나면 불꽃 튀는 사이','충_형':'자극이 성장이 되는 사이','충_원진':'거리 조절이 필요한 사이',
+  '비견_육합':'취향 공유 가능한 사이','비견_삼합':'같은 방향 보고 걷는 사이','비견_같은':'쌍둥이같이 닮은 사이','비견_무관':'같은 결 다른 방향의 사이','비견_충':'닮아서 더 부딪히는 사이','비견_형':'같은데 왜 긁히는 사이','비견_원진':'닮았는데 어긋나는 사이',
+  '겁재_육합':'한 끗 차이가 매력인 사이','겁재_삼합':'비슷한 듯 다른 리듬의 사이','겁재_같은':'쌍둥이 같은데 성격 다른 사이','겁재_무관':'닮은 듯 미묘하게 다른 사이','겁재_충':'한 끗 차이로 부딪히는 사이','겁재_형':'닮아서 예민해지는 사이','겁재_원진':'가까운데 멀게 느껴지는 사이',
+  '내가생_육합':'같이 있으면 자라나는 사이','내가생_삼합':'키워주는 게 자연스러운 사이','내가생_같은':'뿌리째 품어주는 사이','내가생_무관':'조용히 채워주는 사이','내가생_충':'키워주는데 흔들리는 사이','내가생_형':'성장통이 있는 사이','내가생_원진':'주는데 받는 느낌이 다른 사이',
+  '상대가생_육합':'옆에만 있어도 충전되는 사이','상대가생_삼합':'흐름을 타면 편해지는 사이','상대가생_같은':'기대도 되는 사이','상대가생_무관':'몰래 챙겨주는 사이','상대가생_충':'챙겨주는데 흔들리는 사이','상대가생_형':'잘해주는데 방식이 좀 날카로운 사이','상대가생_원진':'고마운데 어색한 사이',
+  '내가극_육합':'깎아주는데 미워할 수 없는 사이','내가극_삼합':'날카롭지만 흐름은 맞는 사이','내가극_같은':'단단하게 다듬어주는 사이','내가극_무관':'날카롭지만 필요한 사이','내가극_충':'뜨겁게 부딪히는 사이','내가극_형':'서로를 벼리는 사이','내가극_원진':'멀어질수록 생각나는 사이',
+  '상대가극_육합':'아프지만 끌리는 사이','상대가극_삼합':'깎이는데 흐름은 맞는 사이','상대가극_같은':'단련시켜주는 사이','상대가극_무관':'긴장하게 만드는 사이','상대가극_충':'시련이 곧 인연인 사이','상대가극_형':'강해지게 만드는 사이','상대가극_원진':'피하고 싶은데 피할 수 없는 사이'
+};
+
+function _getIljuOneLine(sajuA, sajuB) {
+  var rA = sajuA.raw, rB = sajuB.raw;
+  var dgA = rA.dg, dgB = rB.dg, djA = rA.dj, djB = rB.dj;
+  var ganOh = [0,0,1,1,2,2,3,3,4,4];
+  var ohSang = [[1],[2],[3],[4],[0]];
+  var ohGeuk = [[2],[3],[4],[0],[1]];
+  var ganRel = '무관';
+  var GANHAP = [[0,5],[1,6],[2,7],[3,8],[4,9]];
+  var GANCHUNG = [[0,6],[1,7],[2,8],[3,9]];
+  var isGanHap = false, isGanChung = false;
+  GANHAP.forEach(function(h) { if ((dgA===h[0]&&dgB===h[1])||(dgA===h[1]&&dgB===h[0])) isGanHap = true; });
+  GANCHUNG.forEach(function(c) { if ((dgA===c[0]&&dgB===c[1])||(dgA===c[1]&&dgB===c[0])) isGanChung = true; });
+  if (isGanHap) ganRel = '합';
+  else if (isGanChung) ganRel = '충';
+  else if (dgA === dgB) ganRel = '비견';
+  else if (ganOh[dgA] === ganOh[dgB]) ganRel = '겁재';
+  else if (ohSang[ganOh[dgA]][0] === ganOh[dgB]) ganRel = '내가생';
+  else if (ohSang[ganOh[dgB]][0] === ganOh[dgA]) ganRel = '상대가생';
+  else if (ohGeuk[ganOh[dgA]][0] === ganOh[dgB]) ganRel = '내가극';
+  else if (ohGeuk[ganOh[dgB]][0] === ganOh[dgA]) ganRel = '상대가극';
+  var jiRel = '무관';
+  var YUKHAP = [[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
+  var JICHUNG = [[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]];
+  var HYUNG = [[2,5],[5,8],[8,2],[3,0],[0,3]];
+  var WONJIN = [[0,7],[1,6],[2,9],[3,8],[4,11],[5,10]];
+  var SAMHAP = [[0,4,8],[1,5,9],[2,6,10],[3,7,11]];
+  var found = false;
+  YUKHAP.forEach(function(h) { if (!found && ((djA===h[0]&&djB===h[1])||(djA===h[1]&&djB===h[0]))) { jiRel='육합'; found=true; } });
+  if (!found) JICHUNG.forEach(function(c) { if (!found && ((djA===c[0]&&djB===c[1])||(djA===c[1]&&djB===c[0]))) { jiRel='충'; found=true; } });
+  if (!found) HYUNG.forEach(function(h) { if (!found && ((djA===h[0]&&djB===h[1])||(djA===h[1]&&djB===h[0]))) { jiRel='형'; found=true; } });
+  if (!found) WONJIN.forEach(function(w) { if (!found && ((djA===w[0]&&djB===w[1])||(djA===w[1]&&djB===w[0]))) { jiRel='원진'; found=true; } });
+  if (!found && djA === djB) { jiRel='같은'; found=true; }
+  if (!found) SAMHAP.forEach(function(s) { if (!found && ((djA===s[0]||djA===s[1]||djA===s[2]) && (djB===s[0]||djB===s[1]||djB===s[2]))) { jiRel='삼합'; found=true; } });
+  var key = ganRel + '_' + jiRel;
+  return GH_ILJU_LINES[key] || '함께 만들어가는 사이';
+}
+
 function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var cat = (window.GH_CATEGORIES && window.GH_CATEGORIES[relType]) || {label:'궁합', emoji:'💕', scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'업무'}};
   var sl = cat.scoreLabels || {love:'연애',comm:'소통',values:'가치관',work:'업무'};
@@ -6365,7 +6413,7 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var aEmojiA = animalA ? animalA.emoji : '👤';
   var aTagA = (animalA && animalA.mod) ? animalA.mod.tag : '';
   var aTitleA = (animalA && animalA.mod) ? animalA.mod.title : '';
-  var aTraitsA = (animalA && animalA.mod && animalA.mod.traits) ? animalA.mod.traits.slice(0, 3) : [];
+  var aTraitsA = (animalA && animalA.mod && animalA.mod.traits) ? animalA.mod.traits.slice(0, 2) : [];
   var aOhA = animalA ? animalA.ohengData : {color:'#8B6CC1'};
   var aColorA = aOhA.color || '#8B6CC1';
   var aDarkA = (typeof adjustColor === 'function') ? adjustColor(aColorA, 0.65) : aColorA;
@@ -6376,12 +6424,13 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var aEmojiB = animalB ? animalB.emoji : '👤';
   var aTagB = (animalB && animalB.mod) ? animalB.mod.tag : '';
   var aTitleB = (animalB && animalB.mod) ? animalB.mod.title : '';
-  var aTraitsB = (animalB && animalB.mod && animalB.mod.traits) ? animalB.mod.traits.slice(0, 3) : [];
+  var aTraitsB = (animalB && animalB.mod && animalB.mod.traits) ? animalB.mod.traits.slice(0, 2) : [];
   var aOhB = animalB ? animalB.ohengData : {color:'#5B8FD4'};
   var aColorB = aOhB.color || '#5B8FD4';
   var aDarkB = (typeof adjustColor === 'function') ? adjustColor(aColorB, 0.65) : aColorB;
   var relLabelColor = {ssom:'#d4839b',lover:'#d4839b',friend:'#6bab8a',colleague:'#b0a0c0',family:'#c4a060'};
   var labelColor = relLabelColor[relType] || '#b0a0c0';
+  var oneLine = (typeof _getIljuOneLine === 'function') ? _getIljuOneLine(sajuA, sajuB) : '';
   var h = '';
   h += '<div style="margin:0 8px;background:#fff;border-radius:20px;padding:24px 16px;border:0.5px solid rgba(0,0,0,0.06)">';
   h += '<div style="text-align:center;margin-bottom:20px"><div style="display:flex;justify-content:center;gap:0;cursor:pointer" onclick="go(\'pgDash\')">';
@@ -6407,7 +6456,12 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   h += '</div>';
   h += '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 10px rgba(0,0,0,.1)">' + cat.emoji + '</div>';
   h += '</div>';
-  h += '<div style="text-align:center;margin:16px 0 12px">';
+  if (oneLine) {
+    h += '<div style="text-align:center;margin:14px 0;padding:10px 16px;background:rgba(139,108,193,0.04);border-radius:12px">';
+    h += '<div style="font-size:14px;font-weight:700;color:#8B6CC1;letter-spacing:-0.5px">" ' + oneLine + ' "</div>';
+    h += '</div>';
+  }
+  h += '<div style="text-align:center;margin-bottom:12px">';
   h += '<div style="font-size:48px;font-weight:900;color:#8B6CC1;letter-spacing:-2px;line-height:1">' + sc.total + '<span style="font-size:20px;font-weight:700">점</span></div>';
   h += '<div style="font-size:10px;color:' + labelColor + ';font-weight:600;margin-top:4px">' + cat.label + ' 종합</div>';
   h += '</div>';
