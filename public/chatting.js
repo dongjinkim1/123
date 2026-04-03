@@ -269,10 +269,10 @@
       + 'position:sticky;top:0;z-index:10'
       + '">';
     h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">';
-    h += '<button onclick="MBTS_Chat.renderList()" style="'
+    h += '<button onclick="go(\'pgDash\')" style="'
       + 'background:none;border:none;font-size:14px;color:#8B6CC1;'
       + 'font-weight:600;padding:4px 0;cursor:pointer'
-      + '">\u2190 \ubaa9\ub85d</button>';
+      + '">\u2190 \ud648</button>';
     h += '<div style="font-size:15px;font-weight:700;flex:1">' + ctxLabel + '</div>';
     h += '</div>';
     h += '</div>';
@@ -1255,7 +1255,7 @@
     window.go = function(id, skipPush) {
       _origGo(id, skipPush);
       if (id === 'pgChat') {
-        renderChatList();
+        openChatRoom({ type: 'me' });
       }
     };
   }
