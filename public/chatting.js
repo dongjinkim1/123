@@ -521,10 +521,11 @@
       + 'background:linear-gradient(135deg,' + (currentMode === 'fire' ? '#FFE0E0,#F5C0C0' : '#B8A5D6,#8B6CC1') + ');'
       + 'display:flex;align-items:center;justify-content:center;font-size:18px'
       + '">\ud83d\udc30</div>'
-      + '<div style="'
+      + '<div id="chatTypingBubble" style="'
       + 'background:#fff;border-radius:0 16px 16px 16px;padding:12px 20px;'
       + 'display:flex;gap:4px;align-items:center;'
-      + 'box-shadow:0 1px 4px rgba(0,0,0,0.04)'
+      + 'box-shadow:0 1px 4px rgba(0,0,0,0.04);'
+      + 'transition:opacity 0.15s ease-out'
       + '">'
       + '<span style="width:6px;height:6px;border-radius:50%;background:#8B6CC1;opacity:0.4;animation:typingDot 1.2s ease-in-out infinite"></span>'
       + '<span style="width:6px;height:6px;border-radius:50%;background:#8B6CC1;opacity:0.4;animation:typingDot 1.2s ease-in-out 0.2s infinite"></span>'
@@ -546,6 +547,69 @@
   function hideTypingIndicator() {
     var el = document.getElementById('chatTypingRow');
     if (el) el.remove();
+  }
+
+  // ─── 타이핑 → 메시지 매끄러운 전환 (카톡 스타일) ───
+  function morphTypingToBubble(text, bubbleId) {
+    var row = document.getElementById('chatTypingRow');
+    var bubble = document.getElementById('chatTypingBubble');
+    if (!row || !bubble) {
+      // 폴백: 타이핑 인디케이터 없으면 기존 방식
+      hideTypingIndicator();
+      appendChatBubble('ai', text, bubbleId);
+      return;
+    }
+
+    // 1단계: dots fade-out (150ms)
+    bubble.style.opacity = '0';
+
+    setTimeout(function() {
+      // 2단계: 버블 내용 교체 + 스타일 변경
+      bubble.id = bubbleId || '';
+      bubble.style.cssText = 'background:#fff;border-radius:0 16px 16px 16px;padding:12px 16px;'
+        + 'font-size:14px;line-height:1.6;color:#333;'
+        + 'max-width:75%;box-shadow:0 1px 4px rgba(0,0,0,0.04);'
+        + 'opacity:0;transform:translateY(4px);'
+        + 'transition:opacity 0.25s ease-out,transform 0.25s ease-out';
+      bubble.innerHTML = textToHtml(text);
+
+      // row id 제거 (더 이상 타이핑 row가 아님)
+      row.removeAttribute('id');
+
+      // 3단계: 메시지 fade-in + slide-up (프레임 분리)
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          bubble.style.opacity = '1';
+          bubble.style.transform = 'translateY(0)';
+        });
+      });
+
+      // 4단계: 시간 표시 추가 (100ms 후)
+      setTimeout(function() {
+        var body = document.getElementById('chatBody');
+        if (body) {
+          var now = new Date();
+          var hr = now.getHours(), mn = now.getMinutes();
+          var ampm = hr < 12 ? '\uc624\uc804' : '\uc624\ud6c4';
+          var hh = hr % 12; if (hh === 0) hh = 12;
+          var timeDiv = document.createElement('div');
+          timeDiv.style.cssText = 'font-size:10px;color:#bbb;margin-bottom:8px;padding-left:44px;'
+            + 'opacity:0;transition:opacity 0.2s ease-out';
+          timeDiv.textContent = ampm + ' ' + hh + ':' + String(mn).padStart(2, '0');
+          // row 바로 뒤에 삽입
+          if (row.nextSibling) {
+            body.insertBefore(timeDiv, row.nextSibling);
+          } else {
+            body.appendChild(timeDiv);
+          }
+          requestAnimationFrame(function() {
+            timeDiv.style.opacity = '1';
+          });
+        }
+        scrollChatToBottom();
+      }, 100);
+
+    }, 150); // dots fade-out 대기
   }
 
   // ─── 스크롤 ───
@@ -914,17 +978,14 @@
         // 백그라운드 누적만, 화면 업데이트 안 함
       },
       onComplete: function(fullText) {
-        hideTypingIndicator();
-        appendChatBubble('ai', fullText, bubbleId);
+        morphTypingToBubble(fullText, bubbleId);
         chatHistory.push({ role: 'assistant', content: fullText, mode: currentMode });
         if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
         saveChatContext();
         isChatLoading = false;
-        scrollChatToBottom();
       },
       onError: function(msg) {
-        hideTypingIndicator();
-        appendChatBubble('ai', '앗, 연결에 문제가 생겼어요 🥺 다시 한번 물어봐 주시겠어요?', bubbleId);
+        morphTypingToBubble('앗, 연결에 문제가 생겼어요 🥺 다시 한번 물어봐 주시겠어요?', bubbleId);
         isChatLoading = false;
       }
     });
