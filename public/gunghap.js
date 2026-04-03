@@ -913,8 +913,6 @@
 
     p += '\nMBTS 관계별 가중치\n' + JSON.stringify(MBTS_REL_WEIGHTS) + '\n';
 
-    p += '\nMBTS 바넘 방지\n' + MBTS_BARNUM.text + '\n';
-
     p += '\n★ 위 데이터를 기반으로 궁합 풀이를 JSON으로 작성하세요.\n';
     p += '★ totalScore는 엔진 계산 점수(' + ghResult.scores.total + ')를 그대로 사용하세요.\n';
     p += '★ 개인 분석 결과가 있으면 반드시 참고하되, 문장을 복사하지 말고 두 사람의 맥락으로 재해석하세요.\n';
