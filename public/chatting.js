@@ -326,6 +326,15 @@
 
     h += '</div>'; // chatBody 끝
 
+    h += '<div id="chatNewMsgBtn" onclick="scrollChatToBottom(true);this.style.display=\'none\'" style="'
+      + 'display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);'
+      + 'padding:8px 20px;background:rgba(139,108,193,0.95);color:#fff;'
+      + 'border-radius:100px;font-size:13px;font-weight:600;'
+      + 'box-shadow:0 4px 15px rgba(139,108,193,0.3);cursor:pointer;'
+      + 'z-index:100;backdrop-filter:blur(8px);'
+      + 'animation:fadeInUp .25s ease-out'
+      + '">↓ 새 답변</div>';
+
     // ─── + 메뉴 (슬라이드업) ───
     h += '<div id="chatPlusMenu" style="'
       + 'display:none;'
@@ -387,13 +396,16 @@
       + 'font-size:22px;font-weight:700;'
       + 'cursor:pointer;flex-shrink:0;transition:all 0.2s'
       + '">+</button>';
-    h += '<input type="text" id="chatInput" placeholder="\ub2ec\ud1a0\uc5d0\uac8c \uc9c8\ubb38\ud558\uae30..." '
-      + 'oninput="updateSendBtn()" onkeydown="chatInputKeydown(event)" style="'
+    h += '<textarea id="chatInput" placeholder="\ub2ec\ud1a0\uc5d0\uac8c \uc9c8\ubb38\ud558\uae30..." '
+      + 'oninput="updateSendBtn();autoResizeChatInput()" onkeydown="chatInputKeydown(event)" rows="1" style="'
       + 'flex:1;padding:12px 16px;font-size:14px;'
       + 'border:1.5px solid rgba(0,0,0,0.06);border-radius:24px;'
       + 'background:#fff;outline:none;'
-      + 'transition:border-color 0.2s'
-      + '">';
+      + 'transition:border-color 0.2s;'
+      + 'resize:none;overflow-y:hidden;'
+      + 'max-height:120px;line-height:1.5;'
+      + 'font-family:inherit'
+      + '"></textarea>';
     h += '<button id="chatSendBtn" onclick="sendChatMessage()" style="'
       + 'width:40px;height:40px;border-radius:50%;border:none;'
       + 'background:' + (currentMode === 'fire' ? '#E8453C' : '#8B6CC1') + ';color:#fff;font-size:16px;font-weight:700;'
@@ -415,6 +427,58 @@
       scrollChatToBottom();
       var inp = document.getElementById('chatInput');
       if (inp) inp.focus();
+
+      var _chatBody = document.getElementById('chatBody');
+      if (_chatBody) {
+        _chatBody.addEventListener('scroll', function() {
+          var btn = document.getElementById('chatNewMsgBtn');
+          if (!btn) return;
+          var atBot = (_chatBody.scrollHeight - _chatBody.scrollTop - _chatBody.clientHeight) < 80;
+          if (atBot) btn.style.display = 'none';
+        });
+
+        // 메시지 꾹 누르면 복사
+        var _longPressTimer = null;
+        _chatBody.addEventListener('touchstart', function(e) {
+          var target = e.target.closest('div[style*="line-height:1.6"]');
+          if (!target) return;
+          _longPressTimer = setTimeout(function() {
+            var text = target.innerText || target.textContent || '';
+            if (!text.trim()) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text.trim()).then(function() {
+                if (typeof showToast === 'function') showToast('메시지가 복사되었어요 📋');
+              });
+            } else {
+              var ta = document.createElement('textarea');
+              ta.value = text.trim();
+              ta.style.cssText = 'position:fixed;left:-9999px';
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              ta.remove();
+              if (typeof showToast === 'function') showToast('메시지가 복사되었어요 📋');
+            }
+            if (navigator.vibrate) navigator.vibrate(30);
+          }, 500);
+        }, {passive: true});
+
+        _chatBody.addEventListener('touchend', function() {
+          if (_longPressTimer) { clearTimeout(_longPressTimer); _longPressTimer = null; }
+        }, {passive: true});
+
+        _chatBody.addEventListener('touchmove', function() {
+          if (_longPressTimer) { clearTimeout(_longPressTimer); _longPressTimer = null; }
+        }, {passive: true});
+      }
+
+      // fadeInUp 애니메이션 CSS
+      if (!document.getElementById('chatExtraStyles')) {
+        var s2 = document.createElement('style');
+        s2.id = 'chatExtraStyles';
+        s2.textContent = '@keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
+        document.head.appendChild(s2);
+      }
     }, 100);
   }
 
@@ -549,6 +613,66 @@
     if (el) el.remove();
   }
 
+  // ─── 후속 질문 파싱 ───
+  function parseFollowUpQs(text) {
+    var result = { body: text, questions: [] };
+    var qMatch = text.match(/\[Q1\]/);
+    if (!qMatch) return result;
+
+    result.body = text.substring(0, qMatch.index).trim();
+
+    var qPart = text.substring(qMatch.index);
+    var re = /\[Q\d\]([^\[]*)/g;
+    var m;
+    while ((m = re.exec(qPart)) !== null) {
+      var q = m[1].trim();
+      if (q) result.questions.push(q);
+    }
+    return result;
+  }
+
+  // ─── 후속 질문 버튼 렌더링 ───
+  function renderFollowUpBtns(questions) {
+    if (!questions || questions.length === 0) return;
+    var body = document.getElementById('chatBody');
+    if (!body) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'chat-followup-wrap';
+    wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px 44px;'
+      + 'opacity:0;transform:translateY(6px);'
+      + 'transition:opacity 0.3s ease-out,transform 0.3s ease-out';
+
+    for (var i = 0; i < questions.length; i++) {
+      var btn = document.createElement('button');
+      btn.textContent = questions[i];
+      btn.style.cssText = 'padding:8px 14px;font-size:13px;font-weight:600;'
+        + 'background:#fff;color:#8B6CC1;'
+        + 'border:1.5px solid rgba(139,108,193,0.2);border-radius:20px;'
+        + 'cursor:pointer;transition:all 0.2s;'
+        + 'max-width:90%';
+      (function(qText) {
+        btn.onclick = function() {
+          var wraps = document.querySelectorAll('.chat-followup-wrap');
+          for (var w = 0; w < wraps.length; w++) wraps[w].remove();
+          sendChatMessage(qText);
+        };
+      })(questions[i]);
+      wrap.appendChild(btn);
+    }
+
+    body.appendChild(wrap);
+
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        wrap.style.opacity = '1';
+        wrap.style.transform = 'translateY(0)';
+      });
+    });
+
+    scrollChatToBottom();
+  }
+
   // ─── 타이핑 → 메시지 매끄러운 전환 (카톡 스타일) ───
   function morphTypingToBubble(text, bubbleId) {
     var row = document.getElementById('chatTypingRow');
@@ -616,14 +740,19 @@
   function scrollChatToBottom(force) {
     var body = document.getElementById('chatBody');
     if (!body) return;
+    var newBtn = document.getElementById('chatNewMsgBtn');
     if (force) {
       setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+      if (newBtn) newBtn.style.display = 'none';
       return;
     }
-    // 사용자가 하단 80px 이내에 있을 때만 자동 스크롤
     var atBottom = (body.scrollHeight - body.scrollTop - body.clientHeight) < 80;
     if (atBottom) {
       setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+      if (newBtn) newBtn.style.display = 'none';
+    } else {
+      // 위에서 읽고 있으면 "새 답변" 버튼 표시
+      if (newBtn) newBtn.style.display = 'block';
     }
   }
 
@@ -854,6 +983,10 @@
     var inp = document.getElementById('chatInput');
     isChatLoading = true;
 
+    // 이전 후속 질문 버튼 제거
+    var oldFollowUps = document.querySelectorAll('.chat-followup-wrap');
+    for (var fi = 0; fi < oldFollowUps.length; fi++) oldFollowUps[fi].remove();
+
     // 유저 말풍선 (현재 모드 색상)
     appendChatBubble('user', text, null, currentMode);
     chatHistory.push({ role: 'user', content: text, mode: currentMode });
@@ -972,6 +1105,16 @@
       prompt.systemPrompt += '\uc774\ubbf8 \uad81\ud569 \ubd84\uc11d\uc774 \ub05d\ub09c \uc0c1\ud0dc\uc774\ubbc0\ub85c, \uacb0\uacfc\ub97c \ucc38\uace0\ud558\uba74\uc11c \ub354 \uae4a\uc774 \uc788\ub294 \uc870\uc5b8\uc744 \ud574\uc8fc\uc138\uc694.\n';
     }
 
+    // 후속 질문 추천 지시
+    prompt.systemPrompt += '\n\n## 후속 질문 추천 (필수)\n';
+    prompt.systemPrompt += '답변 맨 끝에 반드시 사용자가 이어서 물어볼 만한 후속 질문 3개를 아래 형식으로 붙이세요.\n';
+    prompt.systemPrompt += '형식: [Q1]질문내용[Q2]질문내용[Q3]질문내용\n';
+    prompt.systemPrompt += '규칙:\n';
+    prompt.systemPrompt += '- 방금 답변 내용과 연결되는 자연스러운 후속 질문\n';
+    prompt.systemPrompt += '- 각 질문은 15자 이내로 짧게\n';
+    prompt.systemPrompt += '- 사주/MBTI 맥락에 맞는 질문\n';
+    prompt.systemPrompt += '- 예시: [Q1]연애운은 어때?[Q2]직장운도 알려줘[Q3]올해 조심할 달은?\n';
+
     // ── engine.js sendChatToAI 호출 ──
     // API에는 role + content만 전달 (mode 필드 제거)
     var apiMessages = chatHistory.map(function(m) {
@@ -987,11 +1130,23 @@
         // 백그라운드 누적만, 화면 업데이트 안 함
       },
       onComplete: function(fullText) {
-        morphTypingToBubble(fullText, bubbleId);
-        chatHistory.push({ role: 'assistant', content: fullText, mode: currentMode });
+        // 후속 질문 파싱
+        var parsed = parseFollowUpQs(fullText);
+        var cleanText = parsed.body;
+
+        morphTypingToBubble(cleanText, bubbleId);
+        // chatHistory에는 질문 태그 제거된 클린 텍스트 저장
+        chatHistory.push({ role: 'assistant', content: cleanText, mode: currentMode });
         if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
         saveChatContext();
         isChatLoading = false;
+
+        // 후속 질문 버튼 표시 (약간의 딜레이로 메시지 먼저 보이게)
+        if (parsed.questions.length > 0) {
+          setTimeout(function() {
+            renderFollowUpBtns(parsed.questions);
+          }, 400);
+        }
       },
       onError: function(msg) {
         morphTypingToBubble('앗, 연결에 문제가 생겼어요 🥺 다시 한번 물어봐 주시겠어요?', bubbleId);
