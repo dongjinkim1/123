@@ -792,10 +792,8 @@
     hideQuickButtons();
     showTypingIndicator();
 
-    // AI 말풍선 (빈 상태로 먼저 추가)
+    // AI 말풍선은 응답 완료 후 생성 (타이핑 인디케이터 유지)
     var bubbleId = 'chat-ai-' + Date.now();
-    appendChatBubble('ai', '', bubbleId);
-    hideTypingIndicator();
 
     // ── engine.js buildChatPrompt 호출 ──
     var _ft = (typeof getFortuneTarget === 'function') ? getFortuneTarget() : null;
@@ -913,10 +911,11 @@
       endpoint: '/api/chat'
     }, {
       onChunk: function(fullText) {
-        updateChatBubble(bubbleId, fullText);
-        scrollChatToBottom();
+        // 백그라운드 누적만, 화면 업데이트 안 함
       },
       onComplete: function(fullText) {
+        hideTypingIndicator();
+        appendChatBubble('ai', fullText, bubbleId);
         chatHistory.push({ role: 'assistant', content: fullText, mode: currentMode });
         if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
         saveChatContext();
@@ -924,7 +923,8 @@
         scrollChatToBottom();
       },
       onError: function(msg) {
-        updateChatBubble(bubbleId, '\uc55e, \uc5f0\uacb0\uc5d0 \ubb38\uc81c\uac00 \uc0dd\uacbc\uc5b4\uc694 \ud83e\udd7a \ub2e4\uc2dc \ud55c\ubc88 \ubb3c\uc5b4\ubd10 \uc8fc\uc2dc\uaca0\uc5b4\uc694?');
+        hideTypingIndicator();
+        appendChatBubble('ai', '앗, 연결에 문제가 생겼어요 🥺 다시 한번 물어봐 주시겠어요?', bubbleId);
         isChatLoading = false;
       }
     });
