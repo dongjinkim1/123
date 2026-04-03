@@ -2853,7 +2853,7 @@ function updateMoreProfile(){
     }
     if(rec){
       var icon=rec.animalIcon||'';
-      if(!icon&&rec.animal&&rec.animal.name&&typeof getAnimalIconUrl==='function'){icon=getAnimalIconUrl(rec.animal.name);}
+      if(!icon&&rec.animal&&typeof getAnimalResult==='function'&&typeof getAnimalIconUrl==='function'){var _aRes=getAnimalResult(rec.animal.oheng,rec.animal.dominant_sipsung,rec.animal.condition);if(_aRes)icon=getAnimalIconUrl(_aRes.name);}
       var mbti=rec.mbti||'';
       var ilju='';
       if(rec.saju&&rec.saju.P&&rec.saju.P[2]) ilju=rec.saju.P[2].s+rec.saju.P[2].b+'일주';
@@ -3121,7 +3121,7 @@ function renderSaveCards(){
   var reversed=hist.slice().reverse();
   reversed.forEach(function(rec,idx){
     var icon=rec.animalIcon||'';
-    if(!icon&&rec.animal&&rec.animal.name&&typeof getAnimalIconUrl==='function'){icon=getAnimalIconUrl(rec.animal.name);}
+    if(!icon&&rec.animal&&typeof getAnimalResult==='function'&&typeof getAnimalIconUrl==='function'){var _aRes=getAnimalResult(rec.animal.oheng,rec.animal.dominant_sipsung,rec.animal.condition);if(_aRes)icon=getAnimalIconUrl(_aRes.name);}
     var tag=rec.animalTag||'';
     var mbti=rec.mbti||'';
     var ilju=rec.animalIlju||'';
@@ -3469,7 +3469,7 @@ function renderGunghapPeopleList(){
   var html='';
   unique.forEach(function(rec){
     var icon=rec.animalIcon||'';
-    if(!icon&&rec.animal&&rec.animal.name&&typeof getAnimalIconUrl==='function'){icon=getAnimalIconUrl(rec.animal.name);}
+    if(!icon&&rec.animal&&typeof getAnimalResult==='function'&&typeof getAnimalIconUrl==='function'){var _aRes=getAnimalResult(rec.animal.oheng,rec.animal.dominant_sipsung,rec.animal.condition);if(_aRes)icon=getAnimalIconUrl(_aRes.name);}
     var name=rec.name||'나';
     var tag=rec.animalTag||'';
     var mbti=rec.mbti||'';
@@ -3989,7 +3989,7 @@ function prefillBirthForm(){
   if(inp.gender)infoStr+=' · '+inp.gender;
 
   var icon=rec.animalIcon||'';
-  if(!icon&&rec.animal&&rec.animal.name&&typeof getAnimalIconUrl==='function'){icon=getAnimalIconUrl(rec.animal.name);}
+  if(!icon&&rec.animal&&typeof getAnimalResult==='function'&&typeof getAnimalIconUrl==='function'){var _aRes=getAnimalResult(rec.animal.oheng,rec.animal.dominant_sipsung,rec.animal.condition);if(_aRes)icon=getAnimalIconUrl(_aRes.name);}
   var isFree=window._svcMode==='free';
   var btnLabel=isFree?'분석하기':'분석하기 🍀15';
 
