@@ -78,7 +78,7 @@ button{font-family:inherit;cursor:pointer}
 @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
 
 /* ===== LAYOUT ===== */
-.page{display:none;min-height:100vh;min-height:100dvh;position:relative}
+.page{display:none;min-height:100vh;min-height:100dvh;position:relative;padding-bottom:max(70px,calc(60px + env(safe-area-inset-bottom)))}
 .page.active{display:block;animation:fade .35s ease}
 
 /* ===== AMBIENT ===== */
@@ -1845,12 +1845,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
     </div>
   </div>
 
-  <div class="bottomnav">
-    <div class="bnav active" onclick="goNav(this,'pgDash')"><div class="bnav-icon">🏠</div><span>홈</span></div>
-    <div class="bnav" onclick="goNav(this,'pgSave')"><div class="bnav-icon">📊</div><span>분석결과</span></div>
-    <div class="bnav" onclick="goNav(this,'pgClover')"><div class="bnav-icon">🍀</div><span>클로버</span></div>
-    <div class="bnav" onclick="goNav(this,'pgMore')"><div class="bnav-icon bnav-more">•••</div><span>더보기</span></div>
-  </div>
+
 </div>
 
 <!-- PAGE 4: 분석결과 -->
@@ -1897,12 +1892,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
     <button class="btn-gunghap" id="btnGunghap" onclick="goGunghapWithSelected()">💕 궁합 보기</button>
   </div>
 
-  <div class="bottomnav">
-    <div class="bnav" onclick="goNav(this,'pgDash')"><div class="bnav-icon">🏠</div><span>홈</span></div>
-    <div class="bnav active" onclick="goNav(this,'pgSave')"><div class="bnav-icon">📊</div><span>분석결과</span></div>
-    <div class="bnav" onclick="goNav(this,'pgClover')"><div class="bnav-icon">🍀</div><span>클로버</span></div>
-    <div class="bnav" onclick="goNav(this,'pgMore')"><div class="bnav-icon bnav-more">•••</div><span>더보기</span></div>
-  </div>
+
 </div>
 
 <!-- PAGE: 운세 -->
@@ -1953,12 +1943,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
     </div>
     <div style="height:100px"></div>
   </div>
-  <div class="bottomnav">
-    <div class="bnav" onclick="goNav(this,'pgDash')"><div class="bnav-icon">🏠</div><span>홈</span></div>
-    <div class="bnav" onclick="goNav(this,'pgSave')"><div class="bnav-icon">📊</div><span>분석결과</span></div>
-    <div class="bnav active" onclick="goNav(this,'pgClover')"><div class="bnav-icon">🍀</div><span>클로버</span></div>
-    <div class="bnav" onclick="goNav(this,'pgMore')"><div class="bnav-icon bnav-more">•••</div><span>더보기</span></div>
-  </div>
+
 </div>
 
 <!-- PAGE 8: 더보기 -->
@@ -2029,12 +2014,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
     </div>
     <div style="height:80px"></div>
   </div>
-  <div class="bottomnav">
-    <div class="bnav" onclick="goNav(this,'pgDash')"><div class="bnav-icon">🏠</div><span>홈</span></div>
-    <div class="bnav" onclick="goNav(this,'pgSave')"><div class="bnav-icon">📊</div><span>분석결과</span></div>
-    <div class="bnav" onclick="goNav(this,'pgClover')"><div class="bnav-icon">🍀</div><span>클로버</span></div>
-    <div class="bnav active" onclick="goNav(this,'pgMore')"><div class="bnav-icon bnav-more">•••</div><span>더보기</span></div>
-  </div>
+
 </div>
 
 <!-- PAGE 9: 프로필 편집 -->
@@ -2641,7 +2621,11 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 <div class="res-wrap">
 
 <div class="res-header">
-  <div class="logo-sm" style="cursor:pointer" onclick="go('pgDash')"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+    <button onclick="history.back()" style="background:none;border:none;font-size:15px;color:var(--purple);cursor:pointer;padding:4px 0;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:4px"><span style="font-size:18px">←</span> 뒤로</button>
+    <div style="flex:1"></div>
+    <div class="logo-sm" style="cursor:pointer" onclick="go('pgDash')"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div>
+  </div>
   <p style="font-size:12px;color:var(--text-3);margin-bottom:4px">1995년 5월 5일 14시 30분 · 남성 · 절기: 입하</p>
   <div style="font-size:13px;font-weight:600;color:var(--text-2)">당신이라는 사람</div>
 </div>
@@ -2838,6 +2822,14 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
   <div id="ghResContent" style="max-width:640px;margin:0 auto;padding:0 0 40px"></div>
 </div>
 
+<!-- ===== 글로벌 하단 네비게이션 ===== -->
+<div class="bottomnav" id="globalBottomNav">
+  <div class="bnav" id="gnav-home" onclick="goNav(this,'pgDash')"><div class="bnav-icon">🏠</div><span>홈</span></div>
+  <div class="bnav" id="gnav-save" onclick="goNav(this,'pgSave')"><div class="bnav-icon">📊</div><span>분석결과</span></div>
+  <div class="bnav" id="gnav-clover" onclick="goNav(this,'pgClover')"><div class="bnav-icon">🍀</div><span>클로버</span></div>
+  <div class="bnav" id="gnav-more" onclick="goNav(this,'pgMore')"><div class="bnav-icon bnav-more">•••</div><span>더보기</span></div>
+</div>
+
 <script>
 // Page navigation
 var pageStack=['pgLanding'];
@@ -2874,6 +2866,24 @@ function go(id,skipPush){
   var flexPages=['pgChat','pgMBTI','pgLoad','pgRes'];
   pg.style.display=flexPages.indexOf(id)>=0?'flex':'block';
   pg.classList.add('active');
+  // ── 글로벌 네비바 show/hide + active 상태 ──
+  var _hideNavPages=['pgLogin','pgBirth','pgMBTI','pgLoad','pgGhLoad','pgChat','pgAnimal','pgLanding'];
+  var _gNav=document.getElementById('globalBottomNav');
+  if(_gNav){
+    _gNav.style.display=_hideNavPages.indexOf(id)>=0?'none':'flex';
+    var _navMap={
+      'pgDash':'gnav-home','pgFortune':'gnav-home','pgGunghap':'gnav-home',
+      'pgSave':'gnav-save','pgRes':'gnav-save','pgGhRes':'gnav-save',
+      'pgClover':'gnav-clover',
+      'pgMore':'gnav-more','pgProfile':'gnav-more','pgAbout':'gnav-more',
+      'pgNotice':'gnav-more','pgTerms':'gnav-more','pgPrivacy':'gnav-more',
+      'pgSupport':'gnav-more','pgInvite':'gnav-more'
+    };
+    var _activeId=_navMap[id]||'gnav-home';
+    _gNav.querySelectorAll('.bnav').forEach(function(b){b.classList.remove('active')});
+    var _activeBtn=document.getElementById(_activeId);
+    if(_activeBtn) _activeBtn.classList.add('active');
+  }
   window.scrollTo({top:0,behavior:'instant'});
   // 비로그인 유저 분석 진입 차단
   if((id==='pgBirth'||id==='pgGunghap')&&typeof isLoggedIn==='function'&&!isLoggedIn()){
@@ -2924,8 +2934,9 @@ window.goPage=goPage;
 })();
 
 function goNav(el,id){
-  document.querySelectorAll('.bnav').forEach(function(b){b.classList.remove('active')});
-  el.classList.add('active');
+  var gNav=document.getElementById('globalBottomNav');
+  if(gNav) gNav.querySelectorAll('.bnav').forEach(function(b){b.classList.remove('active')});
+  if(el) el.classList.add('active');
   go(id);
   if(id==='pgDash') setTab(0);
   if(id==='pgClover'&&typeof loadCloverHistory==='function') loadCloverHistory();
@@ -5503,7 +5514,8 @@ function initGhStreamPage(ghR, sajuA, sajuB, mbtiA, mbtiB, relType) {
   var mA = (mbtiA && mbtiA.type) ? mbtiA.type : '';
   var mB = (mbtiB && mbtiB.type) ? mbtiB.type : '';
   var h = '';
-  h += '<div style="text-align:center;padding:32px 20px 16px">';
+  h += '<div style="padding:16px 20px 0"><button onclick="history.back()" style="background:none;border:none;font-size:15px;color:var(--purple);cursor:pointer;padding:4px 0;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:4px"><span style="font-size:18px">←</span> 뒤로</button></div>';
+  h += '<div style="text-align:center;padding:16px 20px 16px">';
   h += '<div style="display:flex;justify-content:center;gap:0;margin-bottom:8px">';
   h += '<span style="font-weight:800;font-size:24px;color:#4CAF7D">M</span>';
   h += '<span style="font-weight:800;font-size:24px;color:#5B8FD4">B</span>';
@@ -5599,6 +5611,7 @@ function fillGhResultProgressive(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,relType){
 
   // ① 헤더 + 점수 (통일 헬퍼)
   var h='<div class="res-wrap">';
+  h+='<div style="padding:16px 16px 0"><button onclick="history.back()" style="background:none;border:none;font-size:15px;color:var(--purple);cursor:pointer;padding:4px 0;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:4px"><span style="font-size:18px">←</span> 뒤로</button></div>';
   h+=_buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, null, null, relType, sc);
 
   // ③ Quote
@@ -6177,7 +6190,11 @@ function initProgressivePage(saju, mt, gg, params) {
 
   // ① 헤더
   h += '<div class="res-header">';
+  h += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">';
+  h += '<button onclick="history.back()" style="background:none;border:none;font-size:15px;color:var(--purple);cursor:pointer;padding:4px 0;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:4px"><span style="font-size:18px">←</span> 뒤로</button>';
+  h += '<div style="flex:1"></div>';
   h += '<div class="logo-sm" style="cursor:pointer" onclick="go(\'pgDash\')"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div>';
+  h += '</div>';
   h += '<p style="font-size:12px;color:var(--text-3);margin-bottom:4px">';
   h += ST.y+'년 '+ST.m+'월 '+ST.d+'일 '+(ST.h?ST.h+'시':'')+(ST.min?ST.min+'분':'')+' · '+ST.gender;
   h += '</p>';
@@ -6800,7 +6817,11 @@ function renderResult(result,saju,mt,gg,isAI){
 
   /* ① Header */
   h+='<div class="res-header">';
+  h+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">';
+  h+='<button onclick="history.back()" style="background:none;border:none;font-size:15px;color:var(--purple);cursor:pointer;padding:4px 0;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:4px"><span style="font-size:18px">←</span> 뒤로</button>';
+  h+='<div style="flex:1"></div>';
   h+='<div class="logo-sm" style="cursor:pointer" onclick="go(\'pgDash\')"><span style="color:#4CAF7D">M</span><span style="color:#5B8FD4">B</span><span style="color:#E05A5A">T</span><span style="color:#E8B84B">S</span></div>';
+  h+='</div>';
   h+='<p style="font-size:12px;color:var(--text-3);margin-bottom:4px">';
   h+=ST.y+'년 '+ST.m+'월 '+ST.d+'일 '+(ST.h?ST.h+'시':'')+(ST.min?ST.min+'분':'')+' · '+ST.gender;
   h+=(prof.seasonNote?' · '+prof.seasonNote:(saju.currentJeolgi?' · 절기: '+saju.currentJeolgi:''));
