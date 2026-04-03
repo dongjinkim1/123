@@ -6436,6 +6436,11 @@ function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var relLabelColor = {ssom:'#d4839b',lover:'#d4839b',friend:'#6bab8a',colleague:'#b0a0c0',family:'#c4a060'};
   var labelColor = relLabelColor[relType] || '#b0a0c0';
   var oneLine = (typeof _getIljuOneLine === 'function') ? _getIljuOneLine(sajuA, sajuB) : '';
+  var _OH = {'목':'Wo','화':'Fi','토':'Ea','금':'Me','수':'Wa'};
+  var _AN = {'늑대':'Wf','여우':'Fo','다람쥐':'Sq','사슴':'De','고양이':'Ca','사자':'Li','공작새':'Pk','벌':'Be','독수리':'Eg','올빼미':'Ow','곰':'Br','수달':'Ot','소':'Ox','코끼리':'El','거북이':'Tu','치타':'Ch','앵무새':'Pa','악어':'Cr','시바견':'Sb','문어':'Oc','상어':'Sk','돌고래':'Do','비버':'Bv','고래':'Wh','해파리':'Jf'};
+  var _CO = {'신강':'S','신약':'W','특수':'X'};
+  var _imgA = (animalA && animalA.name) ? '/animals/' + (_OH[sajuA.dmEl]||'Fi') + (_AN[animalA.name]||'Li') + (_CO[condA]||'S') + '.png?v=2' : '';
+  var _imgB = (animalB && animalB.name) ? '/animals/' + (_OH[sajuB.dmEl]||'Fi') + (_AN[animalB.name]||'Li') + (_CO[condB]||'S') + '.png?v=2' : '';
   var h = '';
   h += '<div style="margin:0 8px;background:#fff;border-radius:20px;padding:24px 16px;border:0.5px solid rgba(0,0,0,0.06)">';
   h += '<div style="text-align:center;margin-bottom:20px"><div style="display:flex;justify-content:center;gap:0;cursor:pointer" onclick="go(\'pgDash\')">';
