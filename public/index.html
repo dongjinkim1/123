@@ -2844,8 +2844,7 @@ function updateMoreProfile(){
       if(hist.length>0) rec=hist[0];
     }
     if(rec){
-      var icon=rec.animalIcon||'';
-      if(!icon&&rec.animal&&typeof getAnimalResult==='function'&&typeof getAnimalIconUrl==='function'){var _aRes=getAnimalResult(rec.animal.oheng,rec.animal.dominant_sipsung,rec.animal.condition);if(_aRes)icon=getAnimalIconUrl(_aRes.name);}
+      var icon=resolveAnimalIcon(rec);
       var mbti=rec.mbti||'';
       var ilju='';
       if(rec.saju&&rec.saju.P&&rec.saju.P[2]) ilju=rec.saju.P[2].s+rec.saju.P[2].b+'일주';
@@ -2854,7 +2853,7 @@ function updateMoreProfile(){
       if(mbti) parts.push(mbti);
       if(ilju) parts.push(ilju);
       if(tag) parts.push('#'+tag);
-      if(icon) emojiEl.innerHTML='<img src="'+icon+'" style="width:100%;height:100%;object-fit:contain" onerror="this.parentNode.textContent=\'🌟\'">'; else emojiEl.textContent='🌟';
+      if(icon) emojiEl.innerHTML='<img src="'+icon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.parentNode.textContent=\'🌟\'">'; else emojiEl.textContent='🌟';
       infoEl.textContent=parts.length>0?parts.join(' · '):'분석하면 여기에 표시돼요';
     }
   }catch(e){console.warn('[MBTS] 프로필 업데이트 실패:',e);}
@@ -3131,8 +3130,7 @@ function renderSaveCards(){
   if(!currentTarget&&hist.length>0) currentTarget=hist[0].id;
   var reversed=hist.slice().reverse();
   reversed.forEach(function(rec,idx){
-    var icon=rec.animalIcon||'';
-    if(!icon&&rec.animal&&typeof getAnimalResult==='function'&&typeof getAnimalIconUrl==='function'){var _aRes=getAnimalResult(rec.animal.oheng,rec.animal.dominant_sipsung,rec.animal.condition);if(_aRes)icon=getAnimalIconUrl(_aRes.name);}
+    var icon=resolveAnimalIcon(rec);
     var tag=rec.animalTag||'';
     var mbti=rec.mbti||'';
     var ilju=rec.animalIlju||'';
@@ -3156,7 +3154,7 @@ function renderSaveCards(){
     var extraStyle=(idx>=3)?'display:none;':'';
     html+='<div class="animal-card'+extraClass+'" data-record-id="'+rec.id+'" onclick="openHistoryRecord(\''+rec.id+'\')" style="'+extraStyle+'--card-glow:'+glow+'">';
     html+='<div class="animal-card-top">';
-    html+='<div class="animal-emoji-box" style="background:linear-gradient(135deg,'+bg1+')">'+(icon?'<img src="'+icon+'" style="width:100%;height:100%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
+    html+='<div class="animal-emoji-box" style="background:linear-gradient(135deg,'+bg1+')">'+(icon?'<img src="'+icon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
     html+='<div class="animal-info">';
     var isTarget=(rec.id===currentTarget);
     var starBadge=isTarget?' <span class="saju-star" style="color:var(--purple);font-size:13px;" title="더 알아보기 대상">⭐</span>':'';
@@ -3232,10 +3230,10 @@ function renderGhHistoryCards(){
     html+='<div class="gh-history'+extraCls+'" data-record-id="'+rec.id+'" onclick="openGhHistoryRecord(\''+rec.id+'\')" style="cursor:pointer;'+extraStyle+'">';
     html+='<button class="gh-del-btn" onclick="event.stopPropagation();confirmDelGhHistory(this,\''+rec.id+'\')">지우기</button>';
     html+='<div class="gh-pair">';
-    var _ghIconA=pA.icon||(pA.animal&&pA.animal.name?getAnimalIconUrl(pA.animal.name):'');
+    var _ghIconA=resolveGhPersonIcon(pA);
     html+='<div class="gh-pair-unit"><div class="gh-pair-animal" style="background:linear-gradient(135deg,#E8DEFF,#F0E6FF)">'+(_ghIconA?'<img src="'+_ghIconA+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'👤\'))">':'👤')+'</div><div class="gh-pair-name" data-side="a">'+(pA.name||'?')+'</div></div>';
     html+='<div class="gh-pair-heart">💕</div>';
-    var _ghIconB=pB.icon||(pB.animal&&pB.animal.name?getAnimalIconUrl(pB.animal.name):'');
+    var _ghIconB=resolveGhPersonIcon(pB);
     html+='<div class="gh-pair-unit"><div class="gh-pair-animal" style="background:linear-gradient(135deg,#FFE4E8,#FFF0F3)">'+(_ghIconB?'<img src="'+_ghIconB+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'👤\'))">':'👤')+'</div><div class="gh-pair-name" data-side="b">'+(pB.name||'?')+'</div></div>';
     html+='<div class="gh-pair-rel-badge">'+relLabel+' 궁합</div>';
     html+='</div>';
@@ -3479,8 +3477,7 @@ function renderGunghapPeopleList(){
   }
   var html='';
   unique.forEach(function(rec){
-    var icon=rec.animalIcon||'';
-    if(!icon&&rec.animal&&typeof getAnimalResult==='function'&&typeof getAnimalIconUrl==='function'){var _aRes=getAnimalResult(rec.animal.oheng,rec.animal.dominant_sipsung,rec.animal.condition);if(_aRes)icon=getAnimalIconUrl(_aRes.name);}
+    var icon=resolveAnimalIcon(rec);
     var name=rec.name||'나';
     var tag=rec.animalTag||'';
     var mbti=rec.mbti||'';
@@ -3489,7 +3486,7 @@ function renderGunghapPeopleList(){
     /* personMap에도 등록 */
     personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
     html+='<div class="mini-person" data-rec-id="'+rec.id+'" onclick="pickPersonFromHistory(this,\''+rec.id+'\')">';
-    html+='<div class="mini-emoji">'+(icon?'<img src="'+icon+'" style="width:100%;height:100%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
+    html+='<div class="mini-emoji">'+(icon?'<img src="'+icon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
     html+='<div class="mini-info"><div class="mini-name">'+name+'</div><div class="mini-sub">'+sub+'</div></div>';
     html+='</div>';
   });
@@ -3999,8 +3996,7 @@ function prefillBirthForm(){
   if(inp.y)infoStr+=(infoStr?' · ':'')+inp.y+'.'+inp.m+'.'+inp.d;
   if(inp.gender)infoStr+=' · '+inp.gender;
 
-  var icon=rec.animalIcon||'';
-  if(!icon&&rec.animal&&typeof getAnimalResult==='function'&&typeof getAnimalIconUrl==='function'){var _aRes=getAnimalResult(rec.animal.oheng,rec.animal.dominant_sipsung,rec.animal.condition);if(_aRes)icon=getAnimalIconUrl(_aRes.name);}
+  var icon=resolveAnimalIcon(rec);
   var isFree=window._svcMode==='free';
   var btnLabel=isFree?'분석하기':'분석하기 🍀15';
 
@@ -4008,7 +4004,7 @@ function prefillBirthForm(){
   ch+='<div style="background:linear-gradient(135deg,#FAF6FF,#FFF5F9,#F6F4FF);border-radius:16px;border:0.5px solid var(--color-border-tertiary,#eee);overflow:hidden">';
 
   ch+='<div style="padding:16px 20px;display:flex;align-items:center;gap:14px">';
-  ch+='<div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#E8DEFF,#F2EAFF);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">'+(icon?'<img src="'+icon+'" style="width:100%;height:100%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
+  ch+='<div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#E8DEFF,#F2EAFF);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">'+(icon?'<img src="'+icon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
   ch+='<div style="flex:1;min-width:0">';
   ch+='<div style="font-size:16px;font-weight:700;color:var(--color-text-primary,#2E1F4E)">'+nameStr+'</div>';
   ch+='<div style="font-size:13px;color:var(--color-text-secondary,#888);margin-top:1px">'+infoStr+'</div>';
@@ -6382,6 +6378,30 @@ function getAnimalIconUrl(animalName) {
   return code ? '/animals-icon/' + code + '.png' : '';
 }
 
+var EMOJI_TO_NAME={'🐺':'늑대','🦊':'여우','🐿️':'다람쥐','🦌':'사슴','🐱':'고양이','🦁':'사자','🦚':'공작새','🐝':'벌','🦅':'독수리','🦉':'올빼미','🐻':'곰','🦦':'수달','🐂':'소','🐘':'코끼리','🐢':'거북이','🐆':'치타','🦜':'앵무새','🐊':'악어','🐕':'시바견','🐙':'문어','🦈':'상어','🐬':'돌고래','🦫':'비버','🐋':'고래','🪼':'해파리'};
+
+function resolveAnimalIcon(rec) {
+  if (rec.animalIcon) return rec.animalIcon;
+  if (rec.saju && rec.gg && typeof getAnimalResult === 'function') {
+    var c = (rec.gg.isJonggyeok || rec.gg.isHwakyeok) ? '특수' : (rec.gg.strengthGrade === '신약' || rec.gg.strengthGrade === '극신약') ? '신약' : '신강';
+    var a = getAnimalResult(rec.saju.dmEl || '토', rec.gg.dominant ? rec.gg.dominant[0] : '비겁', c);
+    if (a) return getAnimalIconUrl(a.name);
+  }
+  return '';
+}
+
+function resolveGhPersonIcon(p) {
+  if (p.icon) return p.icon;
+  if (p.emoji && p.emoji.indexOf('/') === 0) return p.emoji;
+  if (p.emoji && EMOJI_TO_NAME[p.emoji]) return getAnimalIconUrl(EMOJI_TO_NAME[p.emoji]);
+  if (p.saju && p.gg && typeof getAnimalResult === 'function') {
+    var c = (p.gg.isJonggyeok || p.gg.isHwakyeok) ? '특수' : (p.gg.strengthGrade === '신약' || p.gg.strengthGrade === '극신약') ? '신약' : '신강';
+    var a = getAnimalResult(p.saju.dmEl || '토', p.gg.dominant ? p.gg.dominant[0] : '비겁', c);
+    if (a) return getAnimalIconUrl(a.name);
+  }
+  return '';
+}
+
 var GH_ILJU_LINES = {
   '합_육합':'노력 안 해도 통하는 사이','합_삼합':'호흡이 저절로 맞는 사이','합_같은':'말 안 해도 아는 사이','합_무관':'왠지 편한 사이','합_충':'끌리는데 부딪히는 사이','합_형':'좋은데 가끔 긁히는 사이','합_원진':'좋은데 왜 자꾸 어긋나는 사이',
   '충_육합':'싸워도 결국 다시 붙는 사이','충_삼합':'티격태격 팀워크의 사이','충_같은':'밀당이 일상인 사이','충_무관':'긴장감이 감도는 사이','충_충':'만나면 불꽃 튀는 사이','충_형':'자극이 성장이 되는 사이','충_원진':'거리 조절이 필요한 사이',
@@ -7138,7 +7158,7 @@ function renderResult(result,saju,mt,gg,isAI){
   var meCard=document.querySelector('.gh-people-list .mini-person');
   if(meCard&&meCard.querySelector('.mini-name')&&meCard.querySelector('.mini-name').textContent.trim()==='나'){
     var _meEmojiEl=meCard.querySelector('.mini-emoji');
-    if(myIcon) _meEmojiEl.innerHTML='<img src="'+myIcon+'" style="width:100%;height:100%;object-fit:contain" onerror="this.parentNode.textContent=\'🌟\'">'; else _meEmojiEl.textContent='🌟';
+    if(myIcon) _meEmojiEl.innerHTML='<img src="'+myIcon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.parentNode.textContent=\'🌟\'">'; else _meEmojiEl.textContent='🌟';
     var subEl=meCard.querySelector('.mini-sub');
     if(subEl) subEl.textContent=myTag+(myIlju?' · '+myIlju:'');
     meCard.onclick=function(){pickPerson(meCard,myIcon,'나',myTag);};
