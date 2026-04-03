@@ -7299,5 +7299,25 @@ if('serviceWorker' in navigator){
     </div>
   </div>
 </div>
+<script>
+// 모바일 버튼 중복 클릭 방지
+(function(){
+  var _btnLock=false;
+  var targets=['usePrefill','startGunghap','doCharge','btn-gh-start'];
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('button');
+    if(!btn) return;
+    var fn=btn.getAttribute('onclick')||'';
+    var id=btn.id||'';
+    var match=targets.some(function(t){return fn.indexOf(t)!==-1||id===t;});
+    if(!match) return;
+    if(_btnLock){e.preventDefault();e.stopPropagation();return;}
+    _btnLock=true;
+    btn.style.opacity='0.6';
+    btn.style.pointerEvents='none';
+    setTimeout(function(){_btnLock=false;btn.style.opacity='';btn.style.pointerEvents='';},3000);
+  },true);
+})();
+</script>
 </body>
 </html>

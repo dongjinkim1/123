@@ -500,7 +500,7 @@
     timeDiv.textContent = ampm + ' ' + hh + ':' + String(mn).padStart(2, '0');
     body.appendChild(timeDiv);
 
-    scrollChatToBottom();
+    scrollChatToBottom(type === 'user');
   }
 
   // ─── 스트리밍 중 말풍선 업데이트 ───
@@ -613,9 +613,18 @@
   }
 
   // ─── 스크롤 ───
-  function scrollChatToBottom() {
+  function scrollChatToBottom(force) {
     var body = document.getElementById('chatBody');
-    if (body) setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+    if (!body) return;
+    if (force) {
+      setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+      return;
+    }
+    // 사용자가 하단 80px 이내에 있을 때만 자동 스크롤
+    var atBottom = (body.scrollHeight - body.scrollTop - body.clientHeight) < 80;
+    if (atBottom) {
+      setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+    }
   }
 
   // ─── 퀵 버튼 표시/숨기기 ───
