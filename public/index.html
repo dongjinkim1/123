@@ -6403,7 +6403,12 @@ function _getIljuOneLine(sajuA, sajuB) {
 function _buildGhHeader(sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, relType, scores) {
   var cat = (window.GH_CATEGORIES && window.GH_CATEGORIES[relType]) || {label:'궁합', emoji:'💕', scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'업무'}};
   var sl = cat.scoreLabels || {love:'연애',comm:'소통',values:'가치관',work:'업무'};
-  var sc = scores;
+  var _min = (relType === 'colleague') ? 30 : 50;
+  var _range = 100 - _min;
+  var _remap = function(v) { return Math.round(_min + (Math.max(20, Math.min(95, v)) - 20) * _range / 75); };
+  var sc = { love: _remap(scores.love), comm: _remap(scores.comm), values: _remap(scores.values), work: _remap(scores.work) };
+  var _w = cat.scoreWeights || {love:0.35,comm:0.25,values:0.25,work:0.15};
+  sc.total = Math.round(sc.love * _w.love + sc.comm * _w.comm + sc.values * _w.values + sc.work * _w.work);
   if (!ggA && sajuA && typeof analyzeGyeokguk === 'function') try { ggA = analyzeGyeokguk(sajuA); } catch(e) {}
   if (!ggB && sajuB && typeof analyzeGyeokguk === 'function') try { ggB = analyzeGyeokguk(sajuB); } catch(e) {}
   var condA = '신강';
