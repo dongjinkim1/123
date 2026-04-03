@@ -1310,7 +1310,7 @@ button{font-family:inherit;cursor:pointer}
 .res-header .logo-sm span{font-family:var(--font-main);font-weight:800;font-size:28px;line-height:1}
 .el-fire{color:#E8453C}.el-earth{color:#C49A2A}.el-wood{color:#22A469}.el-water{color:#2D7EB5}.el-metal{color:#6B7B8D}
 .r-animal{margin:0 16px 16px;border-radius:20px;padding:32px 24px;text-align:center;position:relative;overflow:hidden;max-width:100%;box-sizing:border-box}
-.r-animal-emoji{font-size:72px;display:block;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15))}
+.r-animal-emoji{font-size:72px;display:flex;align-items:center;justify-content:center;width:90px;height:90px;margin:0 auto 10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15))}
 .r-animal-tag{display:inline-block;padding:4px 14px;border-radius:100px;font-size:12px;font-weight:700;margin-bottom:8px;background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
 .r-animal-title{font-size:17px;font-weight:800;color:#fff;line-height:1.5;margin-bottom:6px}
 .r-animal-desc{font-size:13px;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:14px;word-break:keep-all}
@@ -1742,7 +1742,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
           <div style="position:absolute;top:-15px;right:-15px;width:80px;height:80px;background:radial-gradient(circle,rgba(232,222,255,0.5) 0%,transparent 70%);border-radius:50%"></div>
           <div style="position:absolute;bottom:-10px;left:20px;width:50px;height:50px;background:radial-gradient(circle,rgba(255,224,236,0.4) 0%,transparent 70%);border-radius:50%"></div>
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;position:relative">
-            <div style="width:60px;height:60px;border-radius:20px;background:linear-gradient(135deg,#FFE0EC,#E8DEFF);display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0"><img src="/animals-icon/Li.png" onerror="this.replaceWith(document.createTextNode('🦁'))" style="width:100%;height:100%;object-fit:contain"></div>
+            <div style="width:60px;height:60px;border-radius:20px;background:linear-gradient(135deg,#FFE0EC,#E8DEFF);display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0"><img src="/animals-icon/Li.png" onerror="this.replaceWith(document.createTextNode('🦁'))" style="width:70%;height:70%;object-fit:contain"></div>
             <div>
               <div style="font-size:17px;font-weight:700;margin-bottom:4px">내 MBTS 동물은 뭘까?</div>
               <div style="font-size:13px;color:#888">MBTI × 사주 조합 · 30초면 끝!</div>
@@ -2853,6 +2853,7 @@ function updateMoreProfile(){
     }
     if(rec){
       var icon=rec.animalIcon||'';
+      if(!icon&&rec.animal&&rec.animal.name&&typeof getAnimalIconUrl==='function'){icon=getAnimalIconUrl(rec.animal.name);}
       var mbti=rec.mbti||'';
       var ilju='';
       if(rec.saju&&rec.saju.P&&rec.saju.P[2]) ilju=rec.saju.P[2].s+rec.saju.P[2].b+'일주';
@@ -3120,6 +3121,7 @@ function renderSaveCards(){
   var reversed=hist.slice().reverse();
   reversed.forEach(function(rec,idx){
     var icon=rec.animalIcon||'';
+    if(!icon&&rec.animal&&rec.animal.name&&typeof getAnimalIconUrl==='function'){icon=getAnimalIconUrl(rec.animal.name);}
     var tag=rec.animalTag||'';
     var mbti=rec.mbti||'';
     var ilju=rec.animalIlju||'';
@@ -3219,9 +3221,11 @@ function renderGhHistoryCards(){
     html+='<div class="gh-history'+extraCls+'" data-record-id="'+rec.id+'" onclick="openGhHistoryRecord(\''+rec.id+'\')" style="cursor:pointer;'+extraStyle+'">';
     html+='<button class="gh-del-btn" onclick="event.stopPropagation();confirmDelGhHistory(this,\''+rec.id+'\')">지우기</button>';
     html+='<div class="gh-pair">';
-    html+='<div class="gh-pair-unit"><div class="gh-pair-animal" style="background:linear-gradient(135deg,#E8DEFF,#F0E6FF)">'+(pA.emoji||'👤')+'</div><div class="gh-pair-name" data-side="a">'+(pA.name||'?')+'</div></div>';
+    var _ghIconA=pA.icon||(pA.animal&&pA.animal.name?getAnimalIconUrl(pA.animal.name):'');
+    html+='<div class="gh-pair-unit"><div class="gh-pair-animal" style="background:linear-gradient(135deg,#E8DEFF,#F0E6FF)">'+(_ghIconA?'<img src="'+_ghIconA+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'👤\'))">':'👤')+'</div><div class="gh-pair-name" data-side="a">'+(pA.name||'?')+'</div></div>';
     html+='<div class="gh-pair-heart">💕</div>';
-    html+='<div class="gh-pair-unit"><div class="gh-pair-animal" style="background:linear-gradient(135deg,#FFE4E8,#FFF0F3)">'+(pB.emoji||'👤')+'</div><div class="gh-pair-name" data-side="b">'+(pB.name||'?')+'</div></div>';
+    var _ghIconB=pB.icon||(pB.animal&&pB.animal.name?getAnimalIconUrl(pB.animal.name):'');
+    html+='<div class="gh-pair-unit"><div class="gh-pair-animal" style="background:linear-gradient(135deg,#FFE4E8,#FFF0F3)">'+(_ghIconB?'<img src="'+_ghIconB+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'👤\'))">':'👤')+'</div><div class="gh-pair-name" data-side="b">'+(pB.name||'?')+'</div></div>';
     html+='<div class="gh-pair-rel-badge">'+relLabel+' 궁합</div>';
     html+='</div>';
     html+='<div class="gh-score-bar">';
@@ -3465,6 +3469,7 @@ function renderGunghapPeopleList(){
   var html='';
   unique.forEach(function(rec){
     var icon=rec.animalIcon||'';
+    if(!icon&&rec.animal&&rec.animal.name&&typeof getAnimalIconUrl==='function'){icon=getAnimalIconUrl(rec.animal.name);}
     var name=rec.name||'나';
     var tag=rec.animalTag||'';
     var mbti=rec.mbti||'';
@@ -3984,6 +3989,7 @@ function prefillBirthForm(){
   if(inp.gender)infoStr+=' · '+inp.gender;
 
   var icon=rec.animalIcon||'';
+  if(!icon&&rec.animal&&rec.animal.name&&typeof getAnimalIconUrl==='function'){icon=getAnimalIconUrl(rec.animal.name);}
   var isFree=window._svcMode==='free';
   var btnLabel=isFree?'분석하기':'분석하기 🍀15';
 
@@ -6186,7 +6192,8 @@ function initProgressivePage(saju, mt, gg, params) {
     var mod = animalInfo.mod;
     var gFrom = ohD.color, gTo = adjustColor(ohD.color, 0.65);
     h += '<div class="r-animal" style="background:linear-gradient(135deg,'+gFrom+','+gTo+')">';
-    h += '<div class="r-animal-emoji">'+animalInfo.emoji+'</div>';
+    var _anIconUrl=getAnimalIconUrl(animalInfo.name);
+    h += '<div class="r-animal-emoji">'+(_anIconUrl?'<img src="'+_anIconUrl+'" style="width:100%;height:100%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(animalInfo.emoji))">':animalInfo.emoji)+'</div>';
     var _aTitle = mod.title;
     if(TITLE_OVERRIDE[_aTitle]) _aTitle = TITLE_OVERRIDE[_aTitle];
     h += '<div class="r-animal-tag">'+mod.tag+'</div>';
@@ -6810,7 +6817,8 @@ function renderResult(result,saju,mt,gg,isAI){
     var mod=animalInfo.mod;
     var gFrom=ohD.color,gTo=adjustColor(ohD.color,0.65);
     h+='<div id="animal-card-capture" class="r-animal" style="background:linear-gradient(135deg,'+gFrom+','+gTo+')">';
-    h+='<div class="r-animal-emoji">'+animalInfo.emoji+'</div>';
+    var _anIconUrl2=getAnimalIconUrl(animalInfo.name);
+    h+='<div class="r-animal-emoji">'+(_anIconUrl2?'<img src="'+_anIconUrl2+'" style="width:100%;height:100%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(animalInfo.emoji))">':animalInfo.emoji)+'</div>';
     var _aTitle=mod.title;
     if(TITLE_OVERRIDE[_aTitle])_aTitle=TITLE_OVERRIDE[_aTitle];
     h+='<div class="r-animal-tag">'+mod.tag+'</div>';
