@@ -5757,6 +5757,13 @@ go=function(id,skipPush){
   if(id==='pgChat')initChatPage();
 };
 
+function generateShareCode() {
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  var code = '';
+  for (var i = 0; i < 8; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+  return code;
+}
+
 // ── 전역 상태 (renderResult 등에서 참조) ──
 var ST={y:"",m:"",d:"",h:"",min:"",gender:"",city:"",cityLng:0,ch:[null,null,null,null],it:[null,null,null,null],cur:0};
 
@@ -6070,7 +6077,7 @@ function showToast(msg){
   setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},2000);
 }
 
-function shareKakao(){
+async function shareKakao(){
   var ohengMap = { '목':'Wo', '화':'Fi', '토':'Ea', '금':'Me', '수':'Wa' };
   var animalMap = { '늑대':'Wf', '여우':'Fo', '다람쥐':'Sq', '사슴':'De', '고양이':'Ca', '사자':'Li', '공작새':'Pk', '벌':'Be', '독수리':'Eg', '올빼미':'Ow', '곰':'Br', '수달':'Ot', '소':'Ox', '코끼리':'El', '거북이':'Tu', '치타':'Ch', '앵무새':'Pa', '악어':'Cr', '시바견':'Sb', '문어':'Oc', '상어':'Sk', '돌고래':'Do', '비버':'Bv', '고래':'Wh', '해파리':'Jf' };
   var condMap = { '신강':'S', '신약':'W', '특수':'X' };
@@ -6095,9 +6102,40 @@ function shareKakao(){
     shareImageUrl = 'https://mbts.kr/animals/' + oh + anName + cond + '.png?v=2';
   }
 
-  var shareUrl = 'https://mbts.kr';
-  if (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) {
-    shareUrl += '?ref=' + mbtsSession.userId;
+  var shareCode = generateShareCode();
+  var shareUrl = 'https://mbts.kr?s=' + shareCode;
+
+  try {
+    if (typeof supabase !== 'undefined' && supabase && supabase.from) {
+      var aInfoShare = null;
+      if (window._lastAIResult && window._lastAIResult.animal) {
+        aInfoShare = getAnimalResult(
+          window._lastAIResult.animal.oheng,
+          window._lastAIResult.animal.dominant_sipsung,
+          window._lastAIResult.animal.condition
+        );
+      }
+      await supabase.from('shared_results').insert({
+        share_code: shareCode,
+        nickname: nickname,
+        mbti: window._lastMBTI || '',
+        animal_key: window._lastAIResult ? (window._lastAIResult.animal.oheng + '_' + window._lastAIResult.animal.dominant_sipsung) : '',
+        animal_emoji: animalIcon,
+        animal_title: animalTitle,
+        animal_desc: animalDesc,
+        animal_traits: aInfoShare && aInfoShare.mod ? aInfoShare.mod.traits : [],
+        animal_rx: aInfoShare && aInfoShare.mod ? aInfoShare.mod.rx : '',
+        animal_tag: aInfoShare && aInfoShare.mod ? aInfoShare.mod.tag : '',
+        oheng: window._lastAIResult ? window._lastAIResult.animal.oheng : '',
+        ai_result: window._lastAIResult || {},
+        saju_summary: window._lastSaju || {},
+        share_image_url: shareImageUrl
+      });
+      console.log('[MBTS] 공유 저장 완료:', shareCode);
+    }
+  } catch(e) {
+    console.warn('[MBTS] 공유 저장 실패, 기본 URL 사용:', e);
+    shareUrl = 'https://mbts.kr';
   }
 
   console.log('[MBTS] shareKakao 디버그:', {
@@ -7377,6 +7415,39 @@ if('serviceWorker' in navigator){
     btn.style.pointerEvents='none';
     setTimeout(function(){_btnLock=false;btn.style.opacity='';btn.style.pointerEvents='';},3000);
   },true);
+})();
+</script>
+<script>
+// ── 공유 코드 감지 → 결과 열람 ──
+(async function checkSharedResult() {
+  var params = new URLSearchParams(window.location.search);
+  var sc = params.get('s');
+  if (!sc) return;
+  try {
+    if (typeof supabase === 'undefined' || !supabase || !supabase.from) { console.warn('[MBTS] Supabase 미초기화'); return; }
+    var res = await supabase.from('shared_results').select('*').eq('share_code', sc).single();
+    if (res.error || !res.data) { console.warn('[MBTS] 공유 결과 없음:', sc); return; }
+    var d = res.data;
+    window._lastAIResult = d.ai_result;
+    window._lastSaju = d.saju_summary;
+    window._lastMBTI = d.mbti;
+    window._lastIsAI = true;
+    window._skipHistorySave = true;
+    renderResult(d.ai_result, d.saju_summary, d.mbti, null, true);
+    window._skipHistorySave = false;
+    go('pgRes');
+    var pgRes = document.getElementById('pgRes');
+    if (pgRes) {
+      var ctaTop = document.createElement('div');
+      ctaTop.style.cssText = 'padding:16px 20px;text-align:center;background:#F8F0FF';
+      ctaTop.innerHTML = '<div style="font-size:13px;color:#888;margin-bottom:8px">' + (d.nickname || '친구') + '님의 분석 결과</div><a href="https://mbts.kr" style="display:inline-block;padding:14px 32px;background:#8B6CC1;color:#fff;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;box-shadow:0 4px 15px rgba(139,108,193,0.3)">✨ 나도 MBTS 분석해보기</a>';
+      pgRes.insertBefore(ctaTop, pgRes.firstChild);
+      var ctaBottom = document.createElement('div');
+      ctaBottom.style.cssText = 'padding:24px 20px 48px;text-align:center;background:linear-gradient(180deg,#fff 0%,#F8F0FF 100%)';
+      ctaBottom.innerHTML = '<div style="font-size:15px;color:#666;margin-bottom:14px">나는 어떤 동물일까? 🤔</div><a href="https://mbts.kr" style="display:inline-block;padding:16px 40px;background:#8B6CC1;color:#fff;border-radius:14px;font-size:16px;font-weight:700;text-decoration:none;box-shadow:0 4px 15px rgba(139,108,193,0.3)">✨ 나도 MBTS 분석해보기</a><div style="margin-top:12px;font-size:12px;color:#aaa">사주 × MBTI × AI 운명 분석</div>';
+      pgRes.appendChild(ctaBottom);
+    }
+  } catch(e) { console.warn('[MBTS] 공유 로드 실패:', e); }
 })();
 </script>
 </body>
