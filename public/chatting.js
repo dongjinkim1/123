@@ -344,6 +344,14 @@
       + 'border-top:1px solid rgba(0,0,0,0.06)'
       + '">';
     h += '<div style="display:flex;flex-direction:column;gap:2px">';
+    // 0. 상담 대상 변경
+    h += '<button onclick="showPersonSwitcher()" style="'
+      + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
+      + 'background:none;border:none;border-radius:12px;cursor:pointer;'
+      + 'font-size:15px;font-weight:600;color:#333;width:100%;text-align:left;'
+      + 'transition:background 0.2s;font-family:inherit'
+      + '" onmouseover="this.style.background=\'rgba(139,108,193,0.06)\'" onmouseout="this.style.background=\'none\'">'
+      + '<span style="font-size:20px">\ud83d\udc64</span> \uc0c1\ub2f4 \ub300\uc0c1 \ubcc0\uacbd</button>';
     // 1. 추천 질문
     h += '<button onclick="showQuickSuggestions()" style="'
       + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
@@ -856,6 +864,225 @@
     }
   }
 
+  function showPersonSwitcher() {
+    togglePlusMenu();
+
+    var old = document.getElementById('personSwitchSheet');
+    if (old) { old.remove(); return; }
+
+    var hist = [];
+    try { hist = JSON.parse(localStorage.getItem('mbts_history') || '[]'); } catch(e) {}
+
+    var seen = {};
+    var people = [];
+    for (var i = hist.length - 1; i >= 0; i--) {
+      var r = hist[i];
+      var key = (r.name || '\ub098') + '_' + (r.mbti || '');
+      if (!seen[key]) {
+        seen[key] = true;
+        var ilju = '';
+        if (r.saju && r.saju.P && r.saju.P[2]) ilju = r.saju.P[2].s + r.saju.P[2].b + '\uc77c\uc8fc';
+        people.push({
+          id: r.id, name: r.name || '\ub098', ilju: ilju, mbti: r.mbti || '',
+          saju: r.saju, gg: r.gg, dw: r.dw, mbtiObj: r.mbtiObj, icon: r.animalIcon || ''
+        });
+      }
+    }
+
+    var ghHist = [];
+    try { ghHist = JSON.parse(localStorage.getItem('mbts_gh_history') || '[]'); } catch(e) {}
+
+    var curType = chatContext ? chatContext.type : 'me';
+    var curPersonId = (chatContext && chatContext.person) ? chatContext.person.id : null;
+
+    var sh = '';
+    sh += '<div id="personSwitchSheet" style="'
+      + 'position:fixed;bottom:0;left:0;width:100%;z-index:200;'
+      + 'animation:sheetUp 0.25s ease-out'
+      + '">';
+    sh += '<div onclick="closePersonSwitcher()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:-1"></div>';
+    sh += '<div style="'
+      + 'background:#fff;border-radius:20px 20px 0 0;'
+      + 'max-height:60vh;overflow-y:auto;'
+      + 'padding:20px 16px max(20px,env(safe-area-inset-bottom));'
+      + 'box-shadow:0 -4px 20px rgba(0,0,0,0.1)'
+      + '">';
+
+    sh += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">';
+    sh += '<div style="font-size:17px;font-weight:700;color:#2E1F4E">\uc0c1\ub2f4 \ub300\uc0c1 \uc120\ud0dd</div>';
+    sh += '<button onclick="closePersonSwitcher()" style="background:none;border:none;font-size:20px;color:#999;cursor:pointer">\u2715</button>';
+    sh += '</div>';
+
+    var meActive = (curType === 'me');
+    sh += '<div onclick="switchChatTarget(\'me\')" style="'
+      + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
+      + 'border-radius:14px;cursor:pointer;margin-bottom:4px;'
+      + 'background:' + (meActive ? 'rgba(139,108,193,0.08)' : 'transparent')
+      + ';border:1.5px solid ' + (meActive ? 'rgba(139,108,193,0.2)' : 'transparent')
+      + '">';
+    sh += '<div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#E8DEFF,#F0E6FF);display:flex;align-items:center;justify-content:center;font-size:20px">';
+    var myIcon = '';
+    for (var mi = 0; mi < people.length; mi++) {
+      if (people[mi].name === '\ub098') { myIcon = people[mi].icon; break; }
+    }
+    if (myIcon) sh += '<img src="' + myIcon + '" style="width:70%;height:70%;object-fit:contain">';
+    else sh += '\ud83d\udc64';
+    sh += '</div>';
+    sh += '<div style="flex:1"><div style="font-size:15px;font-weight:600;color:#2E1F4E">\ub098</div>';
+    var myTarget = (typeof getFortuneTarget === 'function') ? getFortuneTarget() : null;
+    var myIlju2 = '';
+    if (myTarget && myTarget.saju && myTarget.saju.P && myTarget.saju.P[2]) myIlju2 = myTarget.saju.P[2].s + myTarget.saju.P[2].b + '\uc77c\uc8fc';
+    var myMbti2 = (myTarget && myTarget.mbti) ? myTarget.mbti : '';
+    sh += '<div style="font-size:12px;color:#8B6CC1;margin-top:1px">' + [myIlju2, myMbti2].filter(Boolean).join(' \xb7 ') + '</div>';
+    sh += '</div>';
+    if (meActive) sh += '<div style="color:#8B6CC1;font-size:14px;font-weight:600">\u2713</div>';
+    sh += '</div>';
+
+    var others2 = people.filter(function(p) { return p.name !== '\ub098'; });
+    if (others2.length > 0) {
+      sh += '<div style="font-size:12px;color:#999;font-weight:600;padding:12px 12px 6px">\ub0b4 \uc0ac\ub78c\ub4e4</div>';
+      for (var oi = 0; oi < others2.length; oi++) {
+        var op = others2[oi];
+        var isActive = (curType === 'person' && curPersonId === op.id);
+        sh += '<div onclick="switchChatTarget(\'person\',\'' + op.id + '\')" style="'
+          + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
+          + 'border-radius:14px;cursor:pointer;margin-bottom:4px;'
+          + 'background:' + (isActive ? 'rgba(139,108,193,0.08)' : 'transparent')
+          + ';border:1.5px solid ' + (isActive ? 'rgba(139,108,193,0.2)' : 'transparent')
+          + '">';
+        sh += '<div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#E8DEFF,#F0E6FF);display:flex;align-items:center;justify-content:center;font-size:20px">';
+        if (op.icon) sh += '<img src="' + op.icon + '" style="width:70%;height:70%;object-fit:contain">';
+        else sh += '\ud83d\udc64';
+        sh += '</div>';
+        sh += '<div style="flex:1"><div style="font-size:15px;font-weight:600;color:#2E1F4E">' + _esc(op.name) + '</div>';
+        sh += '<div style="font-size:12px;color:#8B6CC1;margin-top:1px">' + [op.ilju, op.mbti].filter(Boolean).join(' \xb7 ') + '</div>';
+        sh += '</div>';
+        if (isActive) sh += '<div style="color:#8B6CC1;font-size:14px;font-weight:600">\u2713</div>';
+        sh += '</div>';
+      }
+    }
+
+    if (ghHist.length > 0) {
+      sh += '<div style="font-size:12px;color:#999;font-weight:600;padding:12px 12px 6px">\uad81\ud569 \uc0c1\ub2f4</div>';
+      var ghSeen = {};
+      for (var gi = ghHist.length - 1; gi >= 0; gi--) {
+        var gh = ghHist[gi];
+        var ghKey = (gh.personA ? gh.personA.name : '') + '_' + (gh.personB ? gh.personB.name : '');
+        if (ghSeen[ghKey]) continue;
+        ghSeen[ghKey] = true;
+        var isGhActive = (curType === 'gunghap' && curPersonId === gh.id);
+        sh += '<div onclick="switchChatTarget(\'gunghap\',\'' + gh.id + '\')" style="'
+          + 'display:flex;align-items:center;gap:12px;padding:14px 12px;'
+          + 'border-radius:14px;cursor:pointer;margin-bottom:4px;'
+          + 'background:' + (isGhActive ? 'rgba(139,108,193,0.08)' : 'transparent')
+          + ';border:1.5px solid ' + (isGhActive ? 'rgba(139,108,193,0.2)' : 'transparent')
+          + '">';
+        sh += '<div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#FFE0EC,#E8DEFF);display:flex;align-items:center;justify-content:center;font-size:16px">\ud83d\udc95</div>';
+        sh += '<div style="flex:1"><div style="font-size:15px;font-weight:600;color:#2E1F4E">' + _esc((gh.personA ? gh.personA.name : '?') + ' \xd7 ' + (gh.personB ? gh.personB.name : '?')) + '</div>';
+        sh += '<div style="font-size:12px;color:#E05A5A;margin-top:1px">' + (gh.relLabel || '\uad81\ud569') + '</div>';
+        sh += '</div>';
+        if (isGhActive) sh += '<div style="color:#8B6CC1;font-size:14px;font-weight:600">\u2713</div>';
+        sh += '</div>';
+      }
+    }
+
+    sh += '</div></div>';
+
+    if (!document.getElementById('sheetUpStyle')) {
+      var st = document.createElement('style');
+      st.id = 'sheetUpStyle';
+      st.textContent = '@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}';
+      document.head.appendChild(st);
+    }
+
+    document.body.insertAdjacentHTML('beforeend', sh);
+  }
+
+  function closePersonSwitcher() {
+    var el = document.getElementById('personSwitchSheet');
+    if (el) el.remove();
+  }
+
+  function switchChatTarget(type, id) {
+    closePersonSwitcher();
+
+    if (type === 'me' && chatContext && chatContext.type === 'me') return;
+    if (type === 'person' && chatContext && chatContext.person && chatContext.person.id === id) return;
+    if (type === 'gunghap' && chatContext && chatContext.type === 'gunghap') return;
+
+    saveChatContext();
+
+    var newContext = { type: type };
+
+    if (type === 'person' && id) {
+      try {
+        var hist2 = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+        for (var i2 = 0; i2 < hist2.length; i2++) {
+          if (hist2[i2].id === id) {
+            var r2 = hist2[i2];
+            newContext.person = {
+              id: r2.id, name: r2.name || '\uc774\ub984 \uc5c6\uc74c',
+              gender: (r2.input && r2.input.gender) ? r2.input.gender : '',
+              ilju: (r2.saju && r2.saju.P && r2.saju.P[2]) ? r2.saju.P[2].s + r2.saju.P[2].b : '',
+              mbti: r2.mbti || '', saju: r2.saju, gg: r2.gg, dw: r2.dw,
+              mbtiObj: r2.mbtiObj, aiResult: r2.aiResult || ''
+            };
+            break;
+          }
+        }
+      } catch(e) {}
+    }
+
+    if (type === 'gunghap' && id) {
+      try {
+        var ghHist2 = JSON.parse(localStorage.getItem('mbts_gh_history') || '[]');
+        for (var gi2 = 0; gi2 < ghHist2.length; gi2++) {
+          if (ghHist2[gi2].id === id) {
+            var gh2 = ghHist2[gi2];
+            newContext.person = gh2.personB || {};
+            newContext.person.id = gh2.id;
+            newContext.relType = gh2.relType || '';
+            newContext.ghResult = gh2.ghResult || {};
+            break;
+          }
+        }
+      } catch(e) {}
+    }
+
+    chatContext = newContext;
+    loadChatContext();
+
+    var body = document.getElementById('chatBody');
+    if (body) {
+      var label = '';
+      if (type === 'me') label = '\ud83d\udc64 \ub098\uc5d0 \ub300\ud574 \uc0c1\ub2f4 \uc2dc\uc791!';
+      else if (type === 'person' && newContext.person) label = '\ud83d\udc64 ' + (newContext.person.name || '') + '\ub2d8\uc5d0 \ub300\ud574 \uc0c1\ub2f4 \uc2dc\uc791!';
+      else if (type === 'gunghap') label = '\ud83d\udc95 \uad81\ud569 \uc0c1\ub2f4 \uc2dc\uc791!';
+
+      var bannerDiv = document.createElement('div');
+      bannerDiv.style.cssText = 'text-align:center;margin:20px 0;';
+      bannerDiv.innerHTML = '<span style="display:inline-block;padding:8px 20px;'
+        + 'background:rgba(139,108,193,0.08);'
+        + 'border-radius:100px;font-size:13px;font-weight:700;'
+        + 'color:#8B6CC1">' + label + '</span>';
+      body.appendChild(bannerDiv);
+      scrollChatToBottom(true);
+    }
+
+    var headerLabel = document.querySelector('#pgChat .chat-page div[style*="font-weight:700"]');
+    if (headerLabel) {
+      if (type === 'me') {
+        var mt = (typeof getFortuneTarget === 'function') ? getFortuneTarget() : null;
+        var mn = (mt && mt.name) ? mt.name : '\ub098';
+        headerLabel.textContent = mn + '\ub2d8\uacfc\uc758 \ub300\ud654';
+      } else if (type === 'person' && newContext.person) {
+        headerLabel.textContent = (newContext.person.name || '\uc0c1\ub300') + '\ub2d8\uacfc\uc758 \ub300\ud654';
+      } else if (type === 'gunghap') {
+        headerLabel.textContent = '\uad81\ud569 \uc0c1\ub2f4';
+      }
+    }
+  }
+
   function showModeToast(text) {
     var existing = document.getElementById('chatModeToast');
     if (existing) existing.remove();
@@ -1262,6 +1489,9 @@
   window.showModeToast = showModeToast;
   window.updateSendBtn = updateSendBtn;
   window.chatInputKeydown = chatInputKeydown;
+  window.showPersonSwitcher = showPersonSwitcher;
+  window.closePersonSwitcher = closePersonSwitcher;
+  window.switchChatTarget = switchChatTarget;
 
   // ══════════════════════════════════
   // PART J: go() 함수 후킹
