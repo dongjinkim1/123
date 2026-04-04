@@ -907,48 +907,34 @@
   // ══════════════════════════════════════
   // 카카오 공유
   // ══════════════════════════════════════
-  function svcShareKakao() {
+  async function svcShareKakao() {
     var r = window._lastAnimalResult;
     if (!r) return;
-    var shareUrl = 'https://mbts.kr';
-    if (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) {
-      shareUrl += '?ref=' + mbtsSession.userId;
-    }
-
-    // 카카오 SDK 공유
-    if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
-      try {
-        Kakao.Share.sendDefault({
-          objectType: 'feed',
-          content: {
-            title: r.emoji + ' ' + r.animal.mod.title,
-            description: r.animal.mod.desc,
-            imageUrl: 'https://mbts.kr' + r.imgUrl.replace('?v=2', '') + '?v=2',
-            imageWidth: 800, imageHeight: 600,
-            link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
-          },
-          buttons: [{ title: '🔮 나도 동물 알아보기', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }]
-        });
-        return;
-      } catch(e) { console.warn('[MBTS] 카카오 공유 실패:', e); }
-    }
-
-    // Web Share API 폴백
-    if (navigator.share) {
-      navigator.share({
-        title: r.emoji + ' ' + r.animal.mod.title,
-        text: r.animal.mod.desc + '\n\n나도 알아보기 👉\n' + shareUrl,
-        url: shareUrl
-      }).catch(function(){});
-      return;
-    }
-
-    // 클립보드 폴백
-    var text = r.emoji + ' ' + r.animal.mod.title + '\n' + r.animal.mod.desc + '\n\n' + shareUrl;
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(function() {
-        if (typeof showToast === 'function') showToast('복사되었어요!');
-      });
+    var preview = {
+      title: r.emoji + ' ' + (r.animal && r.animal.mod ? r.animal.mod.title : 'MBTS 동물 분석'),
+      desc: r.animal && r.animal.mod ? r.animal.mod.desc : '나의 운명 동물을 확인해보세요!',
+      image: 'https://mbts.kr' + (r.imgUrl || '').replace('?v=2', '') + '?v=2',
+      mbti: r.mbti || '', emoji: r.emoji || ''
+    };
+    var renderData = {
+      oheng: r.oheng, condition: r.condition, mbti: r.mbti,
+      dominantSS: (function() {
+        if (!r.animal || !r.animal.name) return '비겁';
+        var keys = Object.keys(typeof ANIMALS !== 'undefined' ? ANIMALS : {});
+        for (var i = 0; i < keys.length; i++) {
+          if (ANIMALS[keys[i]].name === r.animal.name) return keys[i].split('_')[1] || '비겁';
+        }
+        return '비겁';
+      })(),
+      saju: window._lastSaju || {},
+      gg: window._lastGG || {},
+      userName: (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : ''
+    };
+    if (typeof MBTSShare !== 'undefined') {
+      var result = await MBTSShare.save('free', renderData, preview);
+      if (!MBTSShare.sendKakao(result.url, preview)) {
+        MBTSShare.fallbackShare(result.url, preview);
+      }
     }
   }
 
