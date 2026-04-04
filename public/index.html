@@ -7437,6 +7437,9 @@ console.log('[MBTS] index.html bridge loaded — engine.js + UI connected');
 // 세션 초기화
 if (typeof initLogin === 'function') initLogin();
 setTimeout(function() {
+  // ?s= 공유 링크면 로그인 리다이렉트 건너뛰기
+  var _sp = new URLSearchParams(window.location.search);
+  if (_sp.get('s')) return;
   if (typeof isLoggedIn === 'function' && isLoggedIn()) {
     go('pgDash');
     if (typeof updateLoginUI === 'function') updateLoginUI();
