@@ -2894,7 +2894,7 @@ function go(id,skipPush){
   }
   if(id==='pgBirth'&&typeof prefillBirthForm==='function') setTimeout(prefillBirthForm,50);
   if(id==='pgMore') updateMoreProfile();
-  if(id==='pgAnimal'&&typeof renderAnimalPage==='function') renderAnimalPage();
+  if(id==='pgAnimal'&&typeof renderAnimalPage==='function'&&!window._isSharedView) renderAnimalPage();
   if(id==='pgClover'&&typeof loadCloverHistory==='function') loadCloverHistory();
   if(!skipPush){
     var noHistoryPages=['pgLoad','pgGhLoad'];
@@ -7407,6 +7407,8 @@ function startChatFromResult(){ go('pgChat'); }
 })();
 
 // 초기 히스토리 상태 설정
+// ?s= 공유 파라미터 보존
+var _shareParam = new URLSearchParams(window.location.search).get('s');
 history.replaceState({page:'pgLanding'},'','');
 
 // ===== 레퍼럴 코드 저장 =====
@@ -7437,9 +7439,7 @@ console.log('[MBTS] index.html bridge loaded — engine.js + UI connected');
 // 세션 초기화
 if (typeof initLogin === 'function') initLogin();
 setTimeout(function() {
-  // ?s= 공유 링크면 로그인 리다이렉트 건너뛰기
-  var _sp = new URLSearchParams(window.location.search);
-  if (_sp.get('s')) return;
+  if (_shareParam) return;
   if (typeof isLoggedIn === 'function' && isLoggedIn()) {
     go('pgDash');
     if (typeof updateLoginUI === 'function') updateLoginUI();
@@ -7514,11 +7514,14 @@ if('serviceWorker' in navigator){
 <script>
 // ── 공유 코드 감지 → 결과 열람 ──
 (async function checkSharedResult() {
-  var params = new URLSearchParams(window.location.search);
-  var sc = params.get('s');
+  var sc = _shareParam;
+  if (!sc) {
+    sc = new URLSearchParams(window.location.search).get('s');
+  }
   if (!sc) return;
   console.log('[MBTS] 공유코드 감지:', sc);
   try {
+    if (typeof MBTSShare === 'undefined') { console.warn('[MBTS] MBTSShare 미로드'); return; }
     var data = await MBTSShare.load(sc);
     if (!data) { console.warn('[MBTS] 공유 결과 없음:', sc); return; }
     var ok = MBTSShare.render(data);
