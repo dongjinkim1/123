@@ -1203,6 +1203,9 @@
     var inp = document.getElementById('chatInput');
     if (!text && inp) text = inp.value;
     if (!text || !text.trim() || isChatLoading) return;
+    isChatLoading = true;
+    var sendBtn = document.getElementById('chatSendBtn');
+    if (sendBtn) { sendBtn.style.opacity = '0.4'; sendBtn.style.pointerEvents = 'none'; }
     text = text.trim();
 
     // 달토 채팅 무료 3회 체크
@@ -1384,6 +1387,8 @@
         if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
         saveChatContext();
         isChatLoading = false;
+        var sendBtn = document.getElementById('chatSendBtn');
+        if (sendBtn) { sendBtn.style.opacity = ''; sendBtn.style.pointerEvents = ''; }
 
         // 후속 질문 버튼 표시 (약간의 딜레이로 메시지 먼저 보이게)
         if (parsed.questions.length > 0) {
@@ -1395,6 +1400,8 @@
       onError: function(msg) {
         morphTypingToBubble('앗, 연결에 문제가 생겼어요 🥺 다시 한번 물어봐 주시겠어요?', bubbleId);
         isChatLoading = false;
+        var sendBtn = document.getElementById('chatSendBtn');
+        if (sendBtn) { sendBtn.style.opacity = ''; sendBtn.style.pointerEvents = ''; }
       }
     });
   }
