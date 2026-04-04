@@ -432,7 +432,7 @@
 
     // 스크롤 & 포커스
     setTimeout(function() {
-      scrollChatToBottom();
+      scrollChatToBottom(true);
       var inp = document.getElementById('chatInput');
       if (inp) inp.focus();
 
