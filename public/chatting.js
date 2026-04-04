@@ -326,7 +326,7 @@
 
     h += '</div>'; // chatBody 끝
 
-    h += '<div id="chatNewMsgBtn" onclick="scrollChatToBottom(true);this.style.display=\'none\'" style="'
+    h += '<div id="chatNewMsgBtn" style="'
       + 'display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);'
       + 'padding:8px 20px;background:rgba(139,108,193,0.95);color:#fff;'
       + 'border-radius:100px;font-size:13px;font-weight:600;'
@@ -436,6 +436,15 @@
           var atBot = (_chatBody.scrollHeight - _chatBody.scrollTop - _chatBody.clientHeight) < 80;
           if (atBot) btn.style.display = 'none';
         });
+
+        var newBtn = document.getElementById('chatNewMsgBtn');
+        if (newBtn) {
+          newBtn.addEventListener('click', function() {
+            var body = document.getElementById('chatBody');
+            if (body) body.scrollTop = body.scrollHeight;
+            this.style.display = 'none';
+          });
+        }
 
         // 메시지 꾹 누르면 복사
         var _longPressTimer = null;
@@ -653,9 +662,17 @@
         + 'max-width:90%';
       (function(qText) {
         btn.onclick = function() {
+          var qText2 = this.textContent;
           var wraps = document.querySelectorAll('.chat-followup-wrap');
-          for (var w = 0; w < wraps.length; w++) wraps[w].remove();
-          sendChatMessage(qText);
+          for (var w = 0; w < wraps.length; w++) {
+            wraps[w].style.transition = 'opacity 0.15s ease-out';
+            wraps[w].style.opacity = '0';
+            wraps[w].style.pointerEvents = 'none';
+          }
+          setTimeout(function() {
+            for (var w2 = 0; w2 < wraps.length; w2++) wraps[w2].remove();
+            sendChatMessage(qText2);
+          }, 150);
         };
       })(questions[i]);
       wrap.appendChild(btn);
