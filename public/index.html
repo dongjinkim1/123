@@ -5762,9 +5762,7 @@ var ST={y:"",m:"",d:"",h:"",min:"",gender:"",city:"",cityLng:0,ch:[null,null,nul
 
 var _isAnalyzing=false;
 
-var TITLE_OVERRIDE = {
-  'LinkedIn 프로필이 무서운 독수리': '스펙 갑인데 본인은 쫄보인 독수리'
-};
+var TITLE_OVERRIDE = {};
 window.addEventListener('beforeunload',function(e){
   if(_isAnalyzing){e.preventDefault();e.returnValue='';return '';}
 });
