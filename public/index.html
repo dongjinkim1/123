@@ -4820,6 +4820,18 @@ async function _runGunghapAnalysis(){
   }
 
   try{
+    // ── job 생성 (궁합 서버사이드 복원용) ──
+    (async function() {
+      try {
+        var ctx = {
+          ghR: ghResult, sajuA: sajuA, sajuB: sajuB,
+          mbtiA: mbtiObjA, mbtiB: mbtiObjB, ggA: ggA, ggB: ggB, relType: ghRel
+        };
+        var jobId = await MBTSJob.start('gunghap', ctx);
+        if (jobId) window._pendingJobId = jobId;
+      } catch(e) { console.warn('[MBTS] 궁합 job 생성 실패:', e); }
+    })();
+
     // ── subTitles 추출 ──
     var _ixGhSubTitles = [];
     var _ixGhCfg = window.GH_REL_CONFIG ? window.GH_REL_CONFIG[ghRel] : null;
@@ -4924,6 +4936,8 @@ async function _runGunghapAnalysis(){
     }
 
     _isAnalyzing=false;
+    MBTSJob.clearPending();
+    window._pendingJobId = null;
 
     if (_ixGhProgInited) {
       // 프로그레시브 모드 → finalize
@@ -4973,6 +4987,7 @@ async function _runGunghapAnalysis(){
     window._skipGhHistorySave = false;
   }catch(err){
     _isAnalyzing=false;
+    window._pendingJobId = null;
     msg.textContent='분석 중 오류: '+err.message;
     console.error('[MBTS] 궁합 AI 분석 오류:',err);
   }
@@ -5291,6 +5306,112 @@ function applyLoginState(){
       mbtiA: mbtiA, mbtiB: mbtiB, ggA: ggA, ggB: ggB, relType: relType
     };
     return _origRenderGhV2.apply(this, arguments);
+  };
+})();
+
+// ====================================================================
+// MBTSJob: 서버사이드 분석 복원 모듈
+// ====================================================================
+var MBTSJob = {
+
+  start: async function(type, clientContext) {
+    if (typeof supabase === 'undefined' || !supabase || !supabase.from) return null;
+    try {
+      var res = await supabase.from('analysis_jobs').insert({
+        job_type: type,
+        status: 'pending',
+        client_context: clientContext,
+        user_id: (typeof mbtsSession !== 'undefined' && mbtsSession) ? mbtsSession.userId : null
+      }).select('id').single();
+      if (res.error) { console.warn('[MBTSJob] job 생성 실패:', res.error.message); return null; }
+      var jobId = res.data.id;
+      localStorage.setItem('mbts_pendingJob', JSON.stringify({
+        jobId: jobId, type: type, clientContext: clientContext, startedAt: Date.now()
+      }));
+      console.log('[MBTSJob] job 생성:', jobId);
+      return jobId;
+    } catch(e) { console.warn('[MBTSJob] job 생성 예외:', e); return null; }
+  },
+
+  checkPendingJob: async function() {
+    var pending = localStorage.getItem('mbts_pendingJob');
+    if (!pending) return null;
+    try {
+      var job = JSON.parse(pending);
+      if (Date.now() - job.startedAt > 86400000) {
+        localStorage.removeItem('mbts_pendingJob');
+        return null;
+      }
+      if (typeof supabase === 'undefined' || !supabase || !supabase.from) return null;
+      var res = await supabase.from('analysis_jobs').select('*').eq('id', job.jobId).single();
+      if (res.error || !res.data) { localStorage.removeItem('mbts_pendingJob'); return null; }
+      return res.data;
+    } catch(e) { localStorage.removeItem('mbts_pendingJob'); return null; }
+  },
+
+  poll: function(jobId, callback, interval) {
+    interval = interval || 3000;
+    var pollId = setInterval(async function() {
+      try {
+        var res = await supabase.from('analysis_jobs')
+          .select('status, result_json, error_message')
+          .eq('id', jobId).single();
+        if (res.error) return;
+        if (res.data.status === 'done') {
+          clearInterval(pollId);
+          localStorage.removeItem('mbts_pendingJob');
+          callback(null, res.data.result_json);
+        } else if (res.data.status === 'error') {
+          clearInterval(pollId);
+          localStorage.removeItem('mbts_pendingJob');
+          callback(res.data.error_message || '분석 오류');
+        }
+      } catch(e) {}
+    }, interval);
+    setTimeout(function() { clearInterval(pollId); }, 120000);
+    return pollId;
+  },
+
+  renderFromJob: function(jobData) {
+    var ctx = jobData.client_context;
+    var result = jobData.result_json;
+    if (!ctx || !result) return false;
+    if (jobData.job_type === 'premium') {
+      window._lastAIResult = result;
+      window._lastSaju = ctx.saju;
+      window._lastDW = ctx.dw;
+      window._lastGG = ctx.gg;
+      window._lastMBTI = ctx.mbti;
+      window._lastMBTIObj = ctx.mbtiObj;
+      window._lastIsAI = true;
+      renderResult(result, ctx.saju, ctx.mbti, ctx.gg, true);
+      go('pgRes');
+      return true;
+    } else if (jobData.job_type === 'gunghap') {
+      if (typeof renderGunghapResultV2 === 'function') {
+        renderGunghapResultV2(ctx.ghR, result, ctx.sajuA, ctx.sajuB, ctx.mbtiA, ctx.mbtiB, ctx.ggA, ctx.ggB, '', ctx.relType);
+        goPage('gh-res');
+        return true;
+      }
+    }
+    return false;
+  },
+
+  clearPending: function() {
+    localStorage.removeItem('mbts_pendingJob');
+  }
+};
+
+// ── streamSonnet 래핑: jobId를 endpoint 쿼리로 주입 ──
+(function() {
+  var _origStreamSonnet = window.streamSonnet;
+  if (!_origStreamSonnet) return;
+  window.streamSonnet = async function(apiKey, systemPrompt, userMsg, label, callbacks, endpoint) {
+    if (window._pendingJobId) {
+      var base = endpoint || '/api/analyze';
+      endpoint = base + (base.indexOf('?') >= 0 ? '&' : '?') + 'jobId=' + window._pendingJobId;
+    }
+    return _origStreamSonnet.call(this, apiKey, systemPrompt, userMsg, label, callbacks, endpoint);
   };
 })();
 
@@ -5900,6 +6021,19 @@ function startRealAnalysis(params){
     window._loadTimers.push(tid);
   });
 
+  // ── job 생성 (서버사이드 복원용) ──
+  (async function() {
+    try {
+      var ctx = {
+        saju: null, dw: null, gg: null,
+        mbti: null, mbtiObj: null,
+        input: { y: ST.y, m: ST.m, d: ST.d, h: ST.h, min: ST.min, gender: ST.gender, city: ST.city, cityLng: ST.cityLng, ch: ST.ch, it: ST.it }
+      };
+      var jobId = await MBTSJob.start('premium', ctx);
+      if (jobId) window._pendingJobId = jobId;
+    } catch(e) { console.warn('[MBTS] job 생성 실패:', e); }
+  })();
+
   console.log('🔍[13] runSajuAnalysis 호출 직전');
   runSajuAnalysis(params,{
     onProgress:function(pct){
@@ -5930,6 +6064,10 @@ function startRealAnalysis(params){
       window._lastAIResult=data.result;
       window._lastIsAI=data.isAI;
 
+      // 스트리밍 성공 → pendingJob 제거
+      MBTSJob.clearPending();
+      window._pendingJobId = null;
+
       try{
         localStorage.setItem('mbts_lastResult',JSON.stringify({
           input:{y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city,cityLng:ST.cityLng,ch:ST.ch,it:ST.it},
@@ -5945,6 +6083,7 @@ function startRealAnalysis(params){
     },
     onError:function(msg){
       _isAnalyzing=false;
+      window._pendingJobId = null;
       if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
       phase.innerHTML='분석 중 오류가 발생했어요 😢';
       phase.style.fontWeight='600';phase.style.color='#E8453C';
@@ -7445,6 +7584,45 @@ console.log('[MBTS] index.html bridge loaded — engine.js + UI connected');
     if (ok) MBTSShare.insertCTA(data.nickname);
     else console.warn('[MBTS] 공유 결과 렌더링 실패');
   } catch(e) { console.warn('[MBTS] 공유 로드 실패:', e); }
+})();
+
+// ── 미완료 분석 복원 (폰 홈 버튼 → 복귀 시) ──
+(async function checkPendingJob() {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('s')) return; // 공유 링크면 스킵
+  try {
+    var jobData = await MBTSJob.checkPendingJob();
+    if (!jobData) return;
+
+    if (jobData.status === 'done') {
+      console.log('[MBTSJob] 미완료 분석 결과 발견, 렌더링');
+      showToast('✨ 분석이 완료되었어요!');
+      MBTSJob.renderFromJob(jobData);
+    } else if (jobData.status === 'processing' || jobData.status === 'pending') {
+      console.log('[MBTSJob] 분석 진행 중, 폴링 시작');
+      go('pgLoad');
+      var phase = document.getElementById('load-phase');
+      if (phase) phase.innerHTML = '서버에서 분석 중입니다<span class="load-dots"><span></span><span></span><span></span></span>';
+      var bar = document.getElementById('load-bar');
+      if (bar) bar.style.width = '60%';
+
+      MBTSJob.poll(jobData.id, function(err, result) {
+        if (err) {
+          if (phase) phase.innerHTML = '분석 중 오류가 발생했어요 😢';
+          alert('분석 오류: ' + err);
+          go('pgBirth');
+        } else {
+          jobData.result_json = result;
+          jobData.status = 'done';
+          showToast('✨ 분석이 완료되었어요!');
+          MBTSJob.renderFromJob(jobData);
+        }
+      });
+    } else if (jobData.status === 'error') {
+      MBTSJob.clearPending();
+      showToast('이전 분석이 실패했어요. 다시 시도해주세요.');
+    }
+  } catch(e) { console.warn('[MBTSJob] checkPendingJob 실패:', e); }
 })();
 
 // 세션 초기화
