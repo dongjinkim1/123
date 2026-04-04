@@ -1204,9 +1204,15 @@
     if (!text && inp) text = inp.value;
     if (!text || !text.trim() || isChatLoading) return;
     isChatLoading = true;
-    var sendBtn = document.getElementById('chatSendBtn');
-    if (sendBtn) { sendBtn.style.opacity = '0.4'; sendBtn.style.pointerEvents = 'none'; }
     text = text.trim();
+
+    // 전송 버튼 즉시 비활성화
+    var _sendBtn = document.getElementById('chatSendBtn');
+    if (_sendBtn) { _sendBtn.style.opacity = '0.4'; _sendBtn.style.pointerEvents = 'none'; }
+
+    // 퀵/추천/후속 질문 버튼도 즉시 비활성화
+    var _qBtns = document.querySelectorAll('#chatQuickArea button, .chat-followup-wrap button');
+    for (var _qi = 0; _qi < _qBtns.length; _qi++) { _qBtns[_qi].style.pointerEvents = 'none'; _qBtns[_qi].style.opacity = '0.4'; }
 
     // 달토 채팅 무료 3회 체크
     var chatCount = parseInt(localStorage.getItem('mbts_chat_count') || '0');
@@ -1214,7 +1220,7 @@
     if (chatCount >= 3) {
       // 4회부터 클로버 차감
       useClover(3, 'chat', function(success) {
-        if (!success) return;
+        if (!success) { isChatLoading = false; var _sb=document.getElementById('chatSendBtn'); if(_sb){_sb.style.pointerEvents='';} updateSendBtn(); return; }
         localStorage.setItem('mbts_chat_count', String(chatCount + 1));
         _doSendChat(text);
       });
@@ -1387,8 +1393,9 @@
         if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
         saveChatContext();
         isChatLoading = false;
-        var sendBtn = document.getElementById('chatSendBtn');
-        if (sendBtn) { sendBtn.style.opacity = ''; sendBtn.style.pointerEvents = ''; }
+        var _sendBtn2 = document.getElementById('chatSendBtn');
+        if (_sendBtn2) { _sendBtn2.style.pointerEvents = ''; }
+        updateSendBtn();
 
         // 후속 질문 버튼 표시 (약간의 딜레이로 메시지 먼저 보이게)
         if (parsed.questions.length > 0) {
@@ -1400,8 +1407,9 @@
       onError: function(msg) {
         morphTypingToBubble('앗, 연결에 문제가 생겼어요 🥺 다시 한번 물어봐 주시겠어요?', bubbleId);
         isChatLoading = false;
-        var sendBtn = document.getElementById('chatSendBtn');
-        if (sendBtn) { sendBtn.style.opacity = ''; sendBtn.style.pointerEvents = ''; }
+        var _sendBtn3 = document.getElementById('chatSendBtn');
+        if (_sendBtn3) { _sendBtn3.style.pointerEvents = ''; }
+        updateSendBtn();
       }
     });
   }
