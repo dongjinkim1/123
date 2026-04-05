@@ -1726,7 +1726,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
   <div class="dash">
     <div class="topbar">
       <div class="topbar-logo logo" onclick="go('pgDash');setTab(0)"><span class="m">M</span><span class="b">B</span><span class="t">T</span><span class="s">S</span></div>
-      <div class="topbar-profile user-nickname-display">나</div>
+      <div id="homeProfileSlot" onclick="go('pgProfile')" style="cursor:pointer"></div>
     </div>
 
     <div class="tabs">
@@ -2847,6 +2847,43 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 <script>
 // Page navigation
 var pageStack=['pgLanding'];
+function updateHomeProfile() {
+  var slot = document.getElementById('homeProfileSlot');
+  if (!slot) return;
+
+  var hasResult = !!(window._lastAIResult && window._lastAIResult.animal);
+
+  if (hasResult) {
+    var animal = window._lastAIResult.animal;
+    var aInfo = getAnimalResult(animal.oheng, animal.dominant_sipsung, animal.condition);
+    var icon = aInfo ? resolveAnimalIcon({ saju: window._lastSaju, gg: window._lastGG }) : '';
+    var emoji = aInfo ? aInfo.emoji : '🌟';
+    var name = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '나';
+    var mbti = window._lastMBTI || '';
+    var animalName = aInfo ? aInfo.name : '';
+
+    slot.onclick = function() { go('pgProfile'); };
+    var h = '<div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#F8F0FF,#FFF0F5);padding:6px 14px 6px 6px;border-radius:22px;box-shadow:0 2px 8px rgba(139,108,193,0.08);border:1px solid rgba(139,108,193,0.1)">';
+    h += '<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FFE0EC,#E8DEFF);display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden">';
+    if (icon) {
+      h += '<img src="' + icon + '" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'' + emoji + '\'))">';
+    } else {
+      h += emoji;
+    }
+    h += '</div>';
+    h += '<div><div style="font-size:12px;font-weight:700;color:#2E1F4E;line-height:1.2">' + name + '</div>';
+    h += '<div style="font-size:10px;color:#8B6CC1">' + mbti + (animalName ? ' · ' + animalName : '') + '</div></div>';
+    h += '</div>';
+    slot.innerHTML = h;
+  } else {
+    slot.onclick = function(e) { e.stopPropagation(); go('pgAnimal'); };
+    var h2 = '<div style="display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#F0EAFF,#FFE8F0);padding:8px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(139,108,193,0.1)">';
+    h2 += '<span style="font-size:12px;font-weight:700;color:#8B6CC1">내 동물 알아보기</span>';
+    h2 += '</div>';
+    slot.innerHTML = h2;
+  }
+}
+
 function updateMoreProfile(){
   var emojiEl=document.getElementById('moreProfileEmoji');
   var infoEl=document.getElementById('moreProfileInfo');
@@ -2919,6 +2956,9 @@ function go(id,skipPush){
   // pgDash(홈)으로 이동할 때 운세 대상자 UI 갱신
   if(id==='pgDash'&&typeof updateFortuneTargetUI==='function'){
     setTimeout(updateFortuneTargetUI,50);
+  }
+  if(id==='pgDash'&&typeof updateHomeProfile==='function'){
+    setTimeout(updateHomeProfile,50);
   }
   if(id==='pgSave'&&typeof renderSaveCards==='function'){
     setTimeout(renderSaveCards,50);
@@ -6898,6 +6938,7 @@ function finalizeProgressivePage(result, saju, mt, gg, isAI) {
     window._lastAIResult = result;
     window._lastSaju = saju;
     window._lastIsAI = isAI;
+    if (typeof updateHomeProfile === 'function') setTimeout(updateHomeProfile, 100);
 
     var record = {
       id: String(Date.now())+'_'+String(Math.random()).slice(2,8),
@@ -7454,6 +7495,7 @@ setTimeout(function() {
   if (typeof isLoggedIn === 'function' && isLoggedIn()) {
     go('pgDash');
     if (typeof updateLoginUI === 'function') updateLoginUI();
+    if (typeof updateHomeProfile === 'function') setTimeout(updateHomeProfile, 100);
   }
 }, 300);
 
