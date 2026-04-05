@@ -2816,51 +2816,17 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 <script>
 // Page navigation
 var pageStack=['pgLanding'];
-var _profileMBTI = ['E','N','F','P'];
-var _profileData = {};
-
-async function loadProfileFromServer() {
-  if (typeof supabase === 'undefined' || !mbtsSession || !mbtsSession.userId) return null;
-  var res = await supabase.from('users').select('*').eq('id', mbtsSession.userId).single();
-  if (res.error || !res.data) return null;
-  return res.data;
-}
 
 async function renderProfileEdit() {
   var el = document.getElementById('profileEditContent');
   if (!el) return;
 
-  var serverData = await loadProfileFromServer();
-
-  var rec = null;
-  try {
-    var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
-    for (var i = hist.length - 1; i >= 0; i--) {
-      if (hist[i].isMyProfile) { rec = hist[i]; break; }
-    }
-    if (!rec) {
-      for (var j = hist.length - 1; j >= 0; j--) {
-        if (hist[j].input && hist[j].input.y) { rec = hist[j]; break; }
-      }
-    }
-  } catch(e) {}
-
-  var name = (serverData && serverData.nickname) ? serverData.nickname : (mbtsSession ? mbtsSession.nickname : '사용자');
-  var mbti = (serverData && serverData.mbti) ? serverData.mbti : (window._lastMBTI || '');
-  _profileMBTI = mbti && mbti.length === 4 ? mbti.split('') : ['E','N','F','P'];
-
-  var birthYear = (serverData && serverData.birth_year) ? serverData.birth_year : (rec && rec.input ? rec.input.y : '');
-  var birthMonth = (serverData && serverData.birth_month) ? serverData.birth_month : (rec && rec.input ? rec.input.m : '');
-  var birthDay = (serverData && serverData.birth_day) ? serverData.birth_day : (rec && rec.input ? rec.input.d : '');
-  var birthHour = (serverData && serverData.birth_hour !== null && serverData.birth_hour !== undefined) ? serverData.birth_hour : (rec && rec.input ? rec.input.h : '');
-  var birthMin = (serverData && serverData.birth_min !== null && serverData.birth_min !== undefined) ? serverData.birth_min : (rec && rec.input ? rec.input.min : '');
-  var gender = (serverData && serverData.gender) ? serverData.gender : (rec && rec.input ? rec.input.gender : '');
-
-  _profileData = { birthYear: birthYear, birthMonth: birthMonth, birthDay: birthDay, birthHour: birthHour, birthMin: birthMin, gender: gender };
-
-  var animalEmoji = '🌟', animalTitle = '', animalSub = '', animalIcon = '';
+  var name = (mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '사용자';
+  var mbti = window._lastMBTI || '';
   var saju = window._lastSaju;
   var aiResult = window._lastAIResult;
+
+  var animalEmoji = '🌟', animalTitle = '', animalSub = '', animalIcon = '';
   if (aiResult && aiResult.animal) {
     var aInfo = getAnimalResult(aiResult.animal.oheng, aiResult.animal.dominant_sipsung, aiResult.animal.condition);
     if (aInfo && aInfo.mod) {
@@ -2871,54 +2837,52 @@ async function renderProfileEdit() {
     }
   }
 
-  var ilju = (serverData && serverData.ilju) ? serverData.ilju : (saju && saju.P && saju.P[2] ? saju.P[2].s + saju.P[2].b : '');
+  var ilju = (saju && saju.P && saju.P[2]) ? saju.P[2].s + saju.P[2].b : '';
+
+  var birthStr = '';
+  try {
+    var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+    var rec = null;
+    for (var i = hist.length - 1; i >= 0; i--) { if (hist[i].isMyProfile) { rec = hist[i]; break; } }
+    if (!rec) for (var j = hist.length - 1; j >= 0; j--) { if (hist[j].input && hist[j].input.y) { rec = hist[j]; break; } }
+    if (rec && rec.input) {
+      var inp = rec.input;
+      birthStr = inp.y + '년 ' + inp.m + '월 ' + inp.d + '일';
+      if (inp.h) birthStr += ' ' + (inp.h < 12 ? '오전 ' : '오후 ') + (inp.h <= 12 ? inp.h : inp.h - 12) + '시';
+      if (inp.min) birthStr += ' ' + inp.min + '분';
+      if (inp.gender) birthStr += ' · ' + inp.gender;
+    }
+  } catch(e) {}
 
   var h = '';
   h += '<div style="text-align:center;padding:0 16px 24px">';
   h += '<div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#E8DEFF,#F0E6FF);display:flex;align-items:center;justify-content:center;font-size:42px;margin:0 auto 12px;overflow:hidden">';
-  if (animalIcon) {
-    h += '<img src="' + animalIcon + '" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'' + animalEmoji + '\'))">';
-  } else { h += animalEmoji; }
+  if (animalIcon) { h += '<img src="' + animalIcon + '" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'' + animalEmoji + '\'))">'; }
+  else { h += animalEmoji; }
   h += '</div>';
   if (animalTitle) {
     h += '<div style="font-size:14px;font-weight:700;color:var(--purple)">' + animalTitle + '</div>';
     h += '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + animalSub + '</div>';
-  } else {
-    h += '<div style="font-size:13px;color:var(--text-3)">분석하면 나의 동물이 나타나요</div>';
-  }
+  } else { h += '<div style="font-size:13px;color:var(--text-3)">분석하면 나의 동물이 나타나요</div>'; }
   h += '</div>';
   h += '<div style="padding:0 16px">';
 
   h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">이름 (닉네임)</label>';
   h += '<input type="text" id="profileNameInput" value="' + name + '" maxlength="10" style="width:100%;padding:14px 16px;font-size:15px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;box-sizing:border-box"></div>';
 
-  h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">생년월일</label>';
-  h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">';
-  h += '<input type="number" id="profileBirthY" placeholder="년" value="' + (birthYear || '') + '" min="1920" max="2025" style="padding:12px;font-size:14px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;text-align:center;box-sizing:border-box">';
-  h += '<input type="number" id="profileBirthM" placeholder="월" value="' + (birthMonth || '') + '" min="1" max="12" style="padding:12px;font-size:14px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;text-align:center;box-sizing:border-box">';
-  h += '<input type="number" id="profileBirthD" placeholder="일" value="' + (birthDay || '') + '" min="1" max="31" style="padding:12px;font-size:14px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;text-align:center;box-sizing:border-box">';
-  h += '</div></div>';
-
-  h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">태어난 시간 (선택)</label>';
-  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
-  h += '<input type="number" id="profileBirthH" placeholder="시" value="' + (birthHour !== '' && birthHour !== null && birthHour !== undefined ? birthHour : '') + '" min="0" max="23" style="padding:12px;font-size:14px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;text-align:center;box-sizing:border-box">';
-  h += '<input type="number" id="profileBirthMin" placeholder="분" value="' + (birthMin !== '' && birthMin !== null && birthMin !== undefined ? birthMin : '') + '" min="0" max="59" style="padding:12px;font-size:14px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;text-align:center;box-sizing:border-box">';
-  h += '</div></div>';
-
-  h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">성별</label>';
-  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
-  var gM = gender === '남성' ? 'background:rgba(139,108,193,0.1);border-color:var(--purple);color:var(--purple)' : 'background:#fff;border-color:var(--border);color:var(--text-3)';
-  var gF = gender === '여성' ? 'background:rgba(139,108,193,0.1);border-color:var(--purple);color:var(--purple)' : 'background:#fff;border-color:var(--border);color:var(--text-3)';
-  h += '<div onclick="selectProfileGender(\'남성\')" id="profileGenderM" style="text-align:center;padding:12px;border:1.5px solid;border-radius:var(--r-sm);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;' + gM + '">남성</div>';
-  h += '<div onclick="selectProfileGender(\'여성\')" id="profileGenderF" style="text-align:center;padding:12px;border:1.5px solid;border-radius:var(--r-sm);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;' + gF + '">여성</div>';
-  h += '</div></div>';
-
-  h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">MBTI</label>';
-  h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
-  for (var k = 0; k < 4; k++) {
-    h += '<div onclick="toggleProfileMBTI(' + k + ')" style="text-align:center;padding:10px;background:rgba(139,108,193,0.06);border:1.5px solid var(--purple);border-radius:10px;font-size:18px;font-weight:800;color:var(--purple);cursor:pointer;transition:all 0.2s;user-select:none" id="profileMBTI' + k + '">' + _profileMBTI[k] + '</div>';
+  if (birthStr) {
+    h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">생년월일</label>';
+    h += '<div style="padding:14px 16px;background:rgba(0,0,0,0.02);border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:15px;color:var(--text-2)">' + birthStr + '</div></div>';
   }
-  h += '</div><div style="font-size:11px;color:var(--text-3);margin-top:6px;text-align:center">탭하여 변경 (예: E↔I, N↔S, F↔T, P↔J)</div></div>';
+
+  if (mbti) {
+    h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">MBTI</label>';
+    h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
+    for (var k = 0; k < mbti.length; k++) {
+      h += '<div style="text-align:center;padding:10px;background:rgba(139,108,193,0.06);border:1.5px solid var(--purple);border-radius:10px;font-size:18px;font-weight:800;color:var(--purple)">' + mbti[k] + '</div>';
+    }
+    h += '</div></div>';
+  }
 
   if (ilju) {
     h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">일주</label>';
@@ -2926,25 +2890,15 @@ async function renderProfileEdit() {
   }
 
   h += '<button onclick="saveProfile()" id="profileSaveBtn" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--purple);border:none;border-radius:var(--r-sm);margin-top:8px;cursor:pointer">저장하기</button>';
-  h += '<div style="font-size:11px;color:var(--text-3);margin-top:10px;text-align:center">⚠️ 생년월일·성별·MBTI 변경 시 재분석이 필요합니다</div>';
+
+  h += '<div style="text-align:center;margin-top:16px">';
+  h += '<button onclick="window._svcMode=null;go(\'pgBirth\')" style="background:none;border:none;font-size:13px;color:var(--purple);cursor:pointer;font-family:inherit;font-weight:600">정보 변경은 여기서 → 재분석하기</button>';
+  h += '</div>';
+
   h += '</div>';
   el.innerHTML = h;
 }
 
-function toggleProfileMBTI(idx) {
-  var pairs = [['E','I'],['N','S'],['F','T'],['P','J']];
-  _profileMBTI[idx] = (_profileMBTI[idx] === pairs[idx][0]) ? pairs[idx][1] : pairs[idx][0];
-  var el = document.getElementById('profileMBTI' + idx);
-  if (el) { el.textContent = _profileMBTI[idx]; el.style.transform = 'scale(0.85)'; setTimeout(function() { el.style.transform = 'scale(1)'; }, 150); }
-}
-
-function selectProfileGender(g) {
-  _profileData.gender = g;
-  var mEl = document.getElementById('profileGenderM');
-  var fEl = document.getElementById('profileGenderF');
-  if (mEl) { mEl.style.background = g === '남성' ? 'rgba(139,108,193,0.1)' : '#fff'; mEl.style.borderColor = g === '남성' ? 'var(--purple)' : 'var(--border)'; mEl.style.color = g === '남성' ? 'var(--purple)' : 'var(--text-3)'; }
-  if (fEl) { fEl.style.background = g === '여성' ? 'rgba(139,108,193,0.1)' : '#fff'; fEl.style.borderColor = g === '여성' ? 'var(--purple)' : 'var(--border)'; fEl.style.color = g === '여성' ? 'var(--purple)' : 'var(--text-3)'; }
-}
 
 async function saveProfile() {
   var btn = document.getElementById('profileSaveBtn');
@@ -2953,45 +2907,32 @@ async function saveProfile() {
   var newName = (document.getElementById('profileNameInput') || {}).value || '';
   if (!newName.trim()) { showToast('이름을 입력해주세요'); if(btn){btn.disabled=false;btn.textContent='저장하기';} return; }
 
-  var newMBTI = _profileMBTI.join('');
-  var newY = parseInt((document.getElementById('profileBirthY') || {}).value) || null;
-  var newM = parseInt((document.getElementById('profileBirthM') || {}).value) || null;
-  var newD = parseInt((document.getElementById('profileBirthD') || {}).value) || null;
-  var newH = (document.getElementById('profileBirthH') || {}).value;
-  newH = newH !== '' ? parseInt(newH) : null;
-  var newMin = (document.getElementById('profileBirthMin') || {}).value;
-  newMin = newMin !== '' ? parseInt(newMin) : null;
-  var newGender = _profileData.gender || '';
-
-  var oldMBTI = window._lastMBTI || '';
-  var needReanalyze = false;
-  if (newMBTI !== oldMBTI && oldMBTI) needReanalyze = true;
-  if (newY && newY !== _profileData.birthYear) needReanalyze = true;
-  if (newM && newM !== _profileData.birthMonth) needReanalyze = true;
-  if (newD && newD !== _profileData.birthDay) needReanalyze = true;
-
-  var newIlju = '';
-  if (newY && newM && newD && typeof calcSajuForApp === 'function') {
-    try { var tempSaju = calcSajuForApp(newY, newM, newD, newH, newMin, null); if (tempSaju && tempSaju.P && tempSaju.P[2]) newIlju = tempSaju.P[2].s + tempSaju.P[2].b; } catch(e) {}
+  try {
+    if (typeof supabase !== 'undefined' && mbtsSession && mbtsSession.userId) {
+      var res = await supabase.from('users').update({
+        nickname: newName.trim(),
+        updated_at: new Date().toISOString()
+      }).eq('id', mbtsSession.userId);
+      if (res.error) {
+        showToast('저장 실패: ' + res.error.message);
+        if(btn){btn.disabled=false;btn.textContent='저장하기';}
+        return;
+      }
+    }
+  } catch(e) {
+    showToast('저장 실패');
+    if(btn){btn.disabled=false;btn.textContent='저장하기';}
+    return;
   }
 
-  try {
-    if (typeof supabase !== 'undefined' && supabase && supabase.from && mbtsSession && mbtsSession.userId) {
-      var updateData = { nickname: newName.trim(), mbti: newMBTI, birth_year: newY, birth_month: newM, birth_day: newD, birth_hour: newH, birth_min: newMin, gender: newGender, ilju: newIlju, updated_at: new Date().toISOString() };
-      var res = await supabase.from('users').update(updateData).eq('id', mbtsSession.userId);
-      if (res.error) { console.warn('[MBTS] 프로필 저장 실패:', res.error.message); showToast('저장 실패: ' + res.error.message); if(btn){btn.disabled=false;btn.textContent='저장하기';} return; }
-      console.log('[MBTS] 프로필 Supabase 저장 완료');
-    }
-  } catch(e) { console.warn('[MBTS] 프로필 저장 오류:', e); }
-
-  if (mbtsSession) { mbtsSession.nickname = newName.trim(); try { localStorage.setItem('mbts_session', JSON.stringify(mbtsSession)); } catch(e) {} }
-  window._lastMBTI = newMBTI;
+  if (mbtsSession) {
+    mbtsSession.nickname = newName.trim();
+    try { localStorage.setItem('mbts_session', JSON.stringify(mbtsSession)); } catch(e) {}
+  }
 
   if (typeof updateHomeProfile === 'function') updateHomeProfile();
   if (typeof updateMoreProfile === 'function') updateMoreProfile();
-
-  if (needReanalyze) { showToast('저장 완료! 변경사항 반영을 위해 재분석해주세요'); }
-  else { showToast('저장되었어요!'); }
+  showToast('저장되었어요!');
   if(btn){btn.disabled=false;btn.textContent='저장하기';}
 }
 
@@ -5970,6 +5911,44 @@ go=function(id,skipPush){
   if(id==='pgChat')initChatPage();
 };
 
+var MBTSUser = {
+  load: async function() {
+    if (typeof supabase === 'undefined' || !mbtsSession || !mbtsSession.userId) return;
+    if (window._lastSaju) return;
+    try {
+      var res = await supabase.from('users').select('mbti,animal_key,ilju,birth_year,birth_month,birth_day,birth_hour,birth_min,gender').eq('id', mbtsSession.userId).single();
+      if (res.error || !res.data || !res.data.animal_key) return;
+      var d = res.data;
+      window._lastMBTI = d.mbti || '';
+      if (!window._lastAIResult) window._lastAIResult = {};
+      var parts = d.animal_key.split('_');
+      window._lastAIResult.animal = { oheng: parts[0], dominant_sipsung: parts[1], condition: parts[2] || '신강' };
+      console.log('[MBTSUser] 서버에서 복원:', d.ilju, d.mbti, d.animal_key);
+    } catch(e) { console.warn('[MBTSUser] 로드 실패:', e); }
+  },
+
+  sync: function() {
+    if (typeof supabase === 'undefined' || !mbtsSession || !mbtsSession.userId || !window._lastSaju) return;
+    var s = window._lastSaju;
+    var a = (window._lastAIResult && window._lastAIResult.animal) ? window._lastAIResult.animal : {};
+    if (!a.oheng) return;
+    supabase.from('users').update({
+      mbti: window._lastMBTI || '',
+      birth_year: parseInt(ST.y) || null,
+      birth_month: parseInt(ST.m) || null,
+      birth_day: parseInt(ST.d) || null,
+      birth_hour: ST.h ? parseInt(ST.h) : null,
+      birth_min: ST.min ? parseInt(ST.min) : null,
+      gender: ST.gender || '',
+      animal_key: a.oheng + '_' + a.dominant_sipsung + '_' + a.condition,
+      ilju: s.P[2].s + s.P[2].b
+    }).eq('id', mbtsSession.userId).then(function(r) {
+      if (r.error) console.warn('[MBTSUser] 동기화 실패:', r.error.message);
+      else console.log('[MBTSUser] 프로필 동기화 완료');
+    });
+  }
+};
+
 var MBTSShare = {
   generateCode: function() {
     var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
@@ -6276,6 +6255,7 @@ function startRealAnalysis(params){
       window._lastMBTIObj=data.mbtiObj;
       window._lastAIResult=data.result;
       window._lastIsAI=data.isAI;
+      if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
 
       try{
         localStorage.setItem('mbts_lastResult',JSON.stringify({
@@ -7639,9 +7619,12 @@ console.log('[MBTS] index.html bridge loaded — engine.js + UI connected');
 
 // 세션 초기화
 if (typeof initLogin === 'function') initLogin();
-setTimeout(function() {
-  if (_shareParam) return;
+setTimeout(async function() {
+  var _sp = new URLSearchParams(window.location.search);
+  if (_sp.get('s')) return;
+
   if (typeof isLoggedIn === 'function' && isLoggedIn()) {
+    await MBTSUser.load();
     go('pgDash');
     if (typeof updateLoginUI === 'function') updateLoginUI();
     if (typeof updateHomeProfile === 'function') setTimeout(updateHomeProfile, 100);
