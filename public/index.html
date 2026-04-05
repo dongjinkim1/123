@@ -2909,15 +2909,15 @@ async function renderProfileEdit() {
   h += '<div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileYear" type="text" value="' + (birthInput.y || '') + '" placeholder="예: 1995" maxlength="4" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'year\')">▼</span></div>';
   h += '<div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileMonth" type="text" value="' + (birthInput.m || '') + '" placeholder="월" maxlength="2" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'month\')">▼</span></div>';
   h += '<div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileDay" type="text" value="' + (birthInput.d || '') + '" placeholder="일" maxlength="2" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'day\')">▼</span></div></div>';
-  h += '<div class="ap-b-dropdown" id="profileDropYear" style="position:relative"></div><div class="ap-b-dropdown" id="profileDropMonth" style="position:relative"></div><div class="ap-b-dropdown" id="profileDropDay" style="position:relative"></div></div>';
+  h += '<div class="ap-b-dropdown" id="profileDropYear"></div><div class="ap-b-dropdown" id="profileDropMonth"></div><div class="ap-b-dropdown" id="profileDropDay"></div></div>';
   h += '<div style="margin-bottom:14px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><label style="font-size:12px;font-weight:700;color:#7B6B99">태어난 시간</label><span style="font-size:11px;color:#B0A0C8;font-weight:400">선택</span></div><div id="profTimeArea">';
   if (_profTimeUnknown) { h += '<div onclick="restoreProfileTime()" style="padding:13px 16px;border-radius:12px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;font-size:14px;color:#8B6CC1;font-weight:500;display:flex;align-items:center;gap:6px"><span>⏰</span> 시간 모름 <span style="margin-left:auto;font-size:12px;color:#B0A0C8">탭하여 입력</span></div>'; }
   else { h += '<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:6px;align-items:center"><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileHour" type="number" value="' + (birthInput.h || '') + '" placeholder="시" min="0" max="23" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'hour\')">▼</span></div><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileMin" type="number" value="' + (birthInput.min || '') + '" placeholder="분" min="0" max="59" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'min\')">▼</span></div><button onclick="setProfileTimeUnknown()" style="padding:12px 16px;border-radius:12px;border:1.5px solid #E8E4EF;background:#fff;font-size:13px;color:#A99BBF;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap">모름</button></div>'; }
-  h += '<div class="ap-b-dropdown" id="profileDropHour" style="position:relative"></div><div class="ap-b-dropdown" id="profileDropMin" style="position:relative"></div></div></div>';
+  h += '<div class="ap-b-dropdown" id="profileDropHour"></div><div class="ap-b-dropdown" id="profileDropMin"></div></div></div>';
   h += '<div style="margin-bottom:14px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><label style="font-size:12px;font-weight:700;color:#7B6B99">출생지</label><span style="font-size:11px;color:#B0A0C8;font-weight:400">시차 보정</span></div><div id="profCityArea">';
   if (_profCityUnknown) { h += '<div onclick="restoreProfileCity()" style="padding:13px 16px;border-radius:12px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;font-size:14px;color:#8B6CC1;font-weight:500;display:flex;align-items:center;gap:6px"><span>📍</span> 출생지 모름 <span style="margin-left:auto;font-size:12px;color:#B0A0C8">탭하여 입력</span></div>'; }
   else { h += '<div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center"><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileCity" type="text" value="' + (birthInput.city || ST.city || '') + '" placeholder="도시 선택" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'city\')">▼</span></div><button onclick="setProfileCityUnknown()" style="padding:12px 16px;border-radius:12px;border:1.5px solid #E8E4EF;background:#fff;font-size:13px;color:#A99BBF;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap">모름</button></div>'; }
-  h += '<div class="ap-b-dropdown" id="profileDropCity" style="position:relative"></div></div></div>';
+  h += '<div class="ap-b-dropdown" id="profileDropCity"></div></div></div>';
   h += '<div style="margin-bottom:18px"><label style="font-size:12px;font-weight:700;color:#7B6B99;display:block;margin-bottom:6px">성별</label><div class="ap-b-gender-row"><button class="ap-b-gender' + (_profileGender === '남' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'남\')">남성</button><button class="ap-b-gender' + (_profileGender === '여' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'여\')">여성</button></div></div>';
   h += '<div style="height:1px;background:linear-gradient(90deg,transparent,#E8DEFF,transparent);margin:0 0 18px"></div>';
   var mbtiAllDone = _profMbtiCh.every(function(c){return c!==null;}) && _profMbtiIt.every(function(v){return v!==null;});
@@ -2994,23 +2994,29 @@ function restoreProfileCity() { _profCityUnknown = false; var a = document.getEl
 
 function toggleProfileDrop(type) {
   var dropIds = {year:'profileDropYear',month:'profileDropMonth',day:'profileDropDay',hour:'profileDropHour',min:'profileDropMin',city:'profileDropCity'};
-  var dd = document.getElementById(dropIds[type]);
-  if (!dd) return;
-  if (dd.style.display === 'block') { dd.style.display = 'none'; return; }
-  for (var k in dropIds) { var d2 = document.getElementById(dropIds[k]); if (d2) d2.style.display = 'none'; }
+  var inputIds = {year:'profileYear',month:'profileMonth',day:'profileDay',hour:'profileHour',min:'profileMin',city:'profileCity'};
+  var drop = document.getElementById(dropIds[type]);
+  if (!drop) return;
+  var isOpen = drop.classList.contains('show');
+  for (var k in dropIds) { var d = document.getElementById(dropIds[k]); if (d) d.classList.remove('show'); }
+  if (isOpen) return;
   var opts = [];
-  if (type === 'year') { for (var y2 = 2010; y2 >= 1940; y2--) opts.push(y2); }
-  else if (type === 'month') { for (var m2 = 1; m2 <= 12; m2++) opts.push(m2); }
-  else if (type === 'day') { for (var d3 = 1; d3 <= 31; d3++) opts.push(d3); }
-  else if (type === 'hour') { opts.push('모름'); for (var h2 = 0; h2 <= 23; h2++) opts.push(h2); }
-  else if (type === 'min') { opts.push('모름'); for (var m3 = 0; m3 <= 59; m3 += 5) opts.push(m3); }
+  if (type === 'year') { for (var y = 2010; y >= 1940; y--) opts.push(y); }
+  else if (type === 'month') { for (var m = 1; m <= 12; m++) opts.push(m); }
+  else if (type === 'day') { for (var d2 = 1; d2 <= 31; d2++) opts.push(d2); }
+  else if (type === 'hour') { opts.push('모름'); for (var h = 0; h <= 23; h++) opts.push(h); }
+  else if (type === 'min') { opts.push('모름'); for (var m2 = 0; m2 <= 59; m2 += 5) opts.push(m2); }
   else if (type === 'city') { opts = ['모름','서울','부산','대구','인천','광주','대전','울산','세종','수원','창원','청주','전주','포항','제주','천안']; }
+  var inp = document.getElementById(inputIds[type]);
+  var curVal = inp ? inp.value.trim() : '';
   var html = '';
   for (var i = 0; i < opts.length; i++) {
-    html += '<div class="ap-b-dd-item" onclick="selectProfileDrop(\'' + type + '\',\'' + opts[i] + '\')">' + opts[i] + '</div>';
+    var itemVal = String(opts[i]);
+    var selected = (curVal && itemVal === curVal) ? ' selected' : '';
+    html += '<div class="ap-b-drop-item' + selected + '" onclick="selectProfileDrop(\'' + type + '\',\'' + opts[i] + '\')">' + opts[i] + '</div>';
   }
-  dd.innerHTML = html;
-  dd.style.display = 'block';
+  drop.innerHTML = html;
+  drop.classList.add('show');
 }
 
 function selectProfileDrop(type, val) {
@@ -3018,8 +3024,7 @@ function selectProfileDrop(type, val) {
   var dropIds = {year:'profileDropYear',month:'profileDropMonth',day:'profileDropDay',hour:'profileDropHour',min:'profileDropMin',city:'profileDropCity'};
   var inp = document.getElementById(inputIds[type]);
   if (inp) inp.value = (val === '모름') ? '' : val;
-  var dd = document.getElementById(dropIds[type]);
-  if (dd) dd.style.display = 'none';
+  for (var k in dropIds) { var d = document.getElementById(dropIds[k]); if (d) d.classList.remove('show'); }
 }
 
 
