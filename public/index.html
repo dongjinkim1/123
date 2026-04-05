@@ -1659,6 +1659,50 @@ button{font-family:inherit;cursor:pointer}
 .popup-notice-today{font-size:12px;color:#AEAEB2;cursor:pointer;display:flex;align-items:center;gap:4px}
 .popup-notice-today input{margin:0}
 .popup-notice-ok{padding:8px 20px;background:#8B6CC1;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+/* ===== 프로필 편집 바텀시트 ===== */
+.profile-sheet-overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.4);
+  display:none;align-items:flex-end;justify-content:center;
+  animation:fade .2s ease-out;
+}
+.profile-sheet-overlay.open{display:flex}
+.profile-sheet{
+  background:#fff;border-radius:24px 24px 0 0;
+  width:100%;max-width:460px;max-height:85vh;overflow-y:auto;
+  padding:20px 20px max(20px,env(safe-area-inset-bottom));
+  animation:slideUp .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 -8px 32px rgba(0,0,0,0.1);
+}
+.profile-sheet-handle{
+  width:36px;height:4px;background:rgba(0,0,0,0.1);border-radius:2px;
+  margin:0 auto 16px;
+}
+.profile-sheet-title{font-size:18px;font-weight:700;margin-bottom:16px;text-align:center}
+.profile-sheet .field-label{font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px}
+.profile-sheet .field-row{margin-bottom:14px}
+.profile-sheet input,.profile-sheet select{
+  width:100%;padding:12px 14px;font-size:15px;font-family:inherit;
+  border:1.5px solid var(--border);border-radius:var(--r-sm);
+  background:#fff;outline:none;box-sizing:border-box;
+  transition:border-color .2s;
+}
+.profile-sheet input:focus,.profile-sheet select:focus{border-color:var(--purple)}
+.profile-sheet .gender-row{display:flex;gap:8px}
+.profile-sheet .gender-btn{
+  flex:1;padding:12px;text-align:center;border-radius:var(--r-sm);
+  border:1.5px solid var(--border);background:#fff;
+  font-size:14px;font-weight:600;color:var(--text-2);cursor:pointer;
+  transition:all .2s;
+}
+.profile-sheet .gender-btn.selected{
+  border-color:var(--purple);background:rgba(139,108,193,0.06);color:var(--purple);
+}
+.profile-sheet .save-btn{
+  width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;
+  background:var(--purple);border:none;border-radius:var(--r-sm);
+  margin-top:8px;cursor:pointer;transition:opacity .2s;
+}
+.profile-sheet .save-btn:active{opacity:0.8}
 </style>
 
 <!-- Supabase SDK -->
@@ -2368,6 +2412,13 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 
           <h1 style="font-family:'Noto Serif KR',Georgia,serif;font-size:22px;font-weight:700;color:#2E1F4E;line-height:1.5;letter-spacing:-1px;margin:0 0 6px 0">당신의 이야기는 <span style="background:linear-gradient(135deg,#8B6CC1,#B88ED8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">언제</span> 시작되었나요</h1>
           <p style="font-size:12.5px;color:#9B8CB8;font-weight:400;line-height:1.6;margin:0">시간과 출생지까지 입력하면 더 정확한 풀이가 가능해요</p>
+        </div>
+
+        <div id="birthProfileEditSlot" style="display:none;padding:0 0 12px">
+          <div onclick="openProfileSheet()" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;background:rgba(139,108,193,0.06);border:1px solid rgba(139,108,193,0.15);border-radius:12px;cursor:pointer;transition:all .2s">
+            <span style="font-size:13px;font-weight:600;color:var(--purple)">저장된 정보로 수정하기</span>
+            <span style="font-size:11px;color:var(--text-3)">✏️</span>
+          </div>
         </div>
 
         <!-- ━━ 프리필 카드 (본인 데이터 있을 때 표시) ━━ -->
@@ -7807,6 +7858,14 @@ if('serviceWorker' in navigator){
 }
 */
 </script>
+<!-- 프로필 편집 바텀시트 -->
+<div class="profile-sheet-overlay" id="profileSheetOverlay" onclick="if(event.target===this)closeProfileSheet()">
+  <div class="profile-sheet">
+    <div class="profile-sheet-handle"></div>
+    <div class="profile-sheet-title">내 정보 수정</div>
+    <div id="profileSheetBody"></div>
+  </div>
+</div>
 <!-- Popup Notice -->
 <div class="popup-notice-overlay" id="popupNoticeOverlay" onclick="if(event.target===this)closePopupNotice()">
   <div class="popup-notice">
@@ -7862,6 +7921,115 @@ if('serviceWorker' in navigator){
     else console.warn('[MBTS] 공유 결과 렌더링 실패');
   } catch(e) { console.warn('[MBTS] 공유 로드 실패:', e); }
 })();
+
+// ── 프로필 편집 바텀시트 ──
+function openProfileSheet() {
+  var body = document.getElementById('profileSheetBody');
+  if (!body) return;
+
+  var myTarget = (typeof getFortuneTarget === 'function') ? getFortuneTarget() : null;
+  var input = (myTarget && myTarget.input) ? myTarget.input : {};
+  if (!input.y && window._lastSaju) {
+    try {
+      var saved = JSON.parse(localStorage.getItem('mbts_lastResult') || '{}');
+      if (saved.input) input = saved.input;
+    } catch(e) {}
+  }
+
+  var name = (mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '';
+  var gender = input.gender || ST.gender || '';
+
+  var h = '';
+  h += '<div class="field-row"><div class="field-label">이름</div>';
+  h += '<input type="text" id="sheetName" value="' + (name || '') + '" maxlength="10" placeholder="이름 입력"></div>';
+
+  h += '<div class="field-row"><div class="field-label">생년월일</div>';
+  h += '<div style="display:flex;gap:6px">';
+  h += '<input type="number" id="sheetYear" value="' + (input.y || '') + '" placeholder="년" style="flex:2" min="1920" max="2025">';
+  h += '<input type="number" id="sheetMonth" value="' + (input.m || '') + '" placeholder="월" style="flex:1" min="1" max="12">';
+  h += '<input type="number" id="sheetDay" value="' + (input.d || '') + '" placeholder="일" style="flex:1" min="1" max="31">';
+  h += '</div></div>';
+
+  h += '<div class="field-row"><div class="field-label">태어난 시간</div>';
+  h += '<div style="display:flex;gap:6px">';
+  h += '<input type="number" id="sheetHour" value="' + (input.h || '') + '" placeholder="시 (0~23)" style="flex:1" min="0" max="23">';
+  h += '<input type="number" id="sheetMin" value="' + (input.min || '') + '" placeholder="분 (0~59)" style="flex:1" min="0" max="59">';
+  h += '</div></div>';
+
+  h += '<div class="field-row"><div class="field-label">성별</div>';
+  h += '<div class="gender-row">';
+  h += '<div class="gender-btn' + (gender === '남' ? ' selected' : '') + '" onclick="selectSheetGender(this,\'남\')">남자</div>';
+  h += '<div class="gender-btn' + (gender === '여' ? ' selected' : '') + '" onclick="selectSheetGender(this,\'여\')">여자</div>';
+  h += '</div></div>';
+
+  h += '<button class="save-btn" onclick="saveProfileSheet()">저장하고 반영하기</button>';
+  body.innerHTML = h;
+
+  document.getElementById('profileSheetOverlay').classList.add('open');
+}
+
+function closeProfileSheet() {
+  document.getElementById('profileSheetOverlay').classList.remove('open');
+}
+
+var _sheetGender = '';
+function selectSheetGender(el, g) {
+  _sheetGender = g;
+  el.parentElement.querySelectorAll('.gender-btn').forEach(function(b) { b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+function saveProfileSheet() {
+  var y = (document.getElementById('sheetYear') || {}).value || '';
+  var m = (document.getElementById('sheetMonth') || {}).value || '';
+  var d = (document.getElementById('sheetDay') || {}).value || '';
+  var h = (document.getElementById('sheetHour') || {}).value || '';
+  var min = (document.getElementById('sheetMin') || {}).value || '';
+  var name = (document.getElementById('sheetName') || {}).value || '';
+  var gender = _sheetGender || ST.gender || '';
+
+  if (!y || !m || !d) { showToast('생년월일을 입력해주세요'); return; }
+  if (!gender) { showToast('성별을 선택해주세요'); return; }
+
+  ST.y = y; ST.m = m; ST.d = d; ST.h = h; ST.min = min;
+  ST.gender = gender;
+  if (name) ST.name = name;
+
+  var fields = {bYear: y, bMonth: m, bDay: d, bHour: h, bMin: min};
+  for (var key in fields) {
+    var el = document.getElementById(key);
+    if (el) el.value = fields[key];
+    var visMap = {bMonth:'bMonthInput', bDay:'bDayInput', bHour:'bHourInput', bMin:'bMinInput'};
+    if (visMap[key]) {
+      var vis = document.getElementById(visMap[key]);
+      if (vis) vis.value = fields[key];
+    }
+  }
+
+  birthGender = gender;
+  var bm = document.getElementById('bMale');
+  var bf = document.getElementById('bFemale');
+  if (bm && bf) {
+    if (gender === '남') {
+      bm.style.borderColor = 'var(--purple)'; bm.style.background = 'rgba(139,108,193,0.15)'; bm.style.color = 'var(--purple)';
+      bf.style.borderColor = 'rgba(255,255,255,0.6)'; bf.style.background = 'rgba(255,255,255,0.45)'; bf.style.color = '#9B8CB8';
+    } else {
+      bf.style.borderColor = 'var(--purple)'; bf.style.background = 'rgba(139,108,193,0.15)'; bf.style.color = 'var(--purple)';
+      bm.style.borderColor = 'rgba(255,255,255,0.6)'; bm.style.background = 'rgba(255,255,255,0.45)'; bm.style.color = '#9B8CB8';
+    }
+  }
+
+  if (name && mbtsSession) {
+    mbtsSession.nickname = name.trim();
+    try { localStorage.setItem('mbts_session', JSON.stringify(mbtsSession)); } catch(e) {}
+  }
+
+  closeProfileSheet();
+  showToast('정보가 반영되었어요 ✨');
+
+  var btn = document.getElementById('birthNextBtn');
+  if (btn) btn.classList.add('ready');
+}
 </script>
 </body>
 </html>
