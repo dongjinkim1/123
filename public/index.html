@@ -2890,23 +2890,21 @@ async function renderProfileEdit() {
 
   var ilju = (saju && saju.P && saju.P[2]) ? saju.P[2].s + saju.P[2].b : '';
 
-  var birthStr = '';
+  var birthInput = {};
   try {
     var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
     var rec = null;
     for (var i = hist.length - 1; i >= 0; i--) { if (hist[i].isMyProfile) { rec = hist[i]; break; } }
     if (!rec) for (var j = hist.length - 1; j >= 0; j--) { if (hist[j].input && hist[j].input.y) { rec = hist[j]; break; } }
-    if (rec && rec.input) {
-      var inp = rec.input;
-      birthStr = inp.y + '년 ' + inp.m + '월 ' + inp.d + '일';
-      if (inp.h) birthStr += ' ' + (inp.h < 12 ? '오전 ' : '오후 ') + (inp.h <= 12 ? inp.h : inp.h - 12) + '시';
-      if (inp.min) birthStr += ' ' + inp.min + '분';
-      if (inp.gender) birthStr += ' · ' + inp.gender;
-    }
+    if (rec && rec.input) birthInput = rec.input;
   } catch(e) {}
+  if (!birthInput.y) {
+    try { var saved = JSON.parse(localStorage.getItem('mbts_lastResult') || '{}'); if (saved.input) birthInput = saved.input; } catch(e) {}
+  }
 
   var h = '';
-  h += '<div style="text-align:center;padding:0 16px 24px">';
+
+  h += '<div style="text-align:center;padding:0 16px 20px">';
   h += '<div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#E8DEFF,#F0E6FF);display:flex;align-items:center;justify-content:center;font-size:42px;margin:0 auto 12px;overflow:hidden">';
   if (animalIcon) { h += '<img src="' + animalIcon + '" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'' + animalEmoji + '\'))">'; }
   else { h += animalEmoji; }
@@ -2914,42 +2912,61 @@ async function renderProfileEdit() {
   if (animalTitle) {
     h += '<div style="font-size:14px;font-weight:700;color:var(--purple)">' + animalTitle + '</div>';
     h += '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + animalSub + '</div>';
-  } else { h += '<div style="font-size:13px;color:var(--text-3)">분석하면 나의 동물이 나타나요</div>'; }
+  } else { h += '<div style="font-size:13px;color:var(--text-3)">생년월일과 MBTI를 입력하면 동물이 나타나요</div>'; }
+  if (ilju) { h += '<div style="font-size:12px;color:var(--text-2);margin-top:4px;font-weight:600">' + ilju + ' 일주</div>'; }
   h += '</div>';
+
   h += '<div style="padding:0 16px">';
 
-  h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">이름 (닉네임)</label>';
+  h += '<div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">이름 (닉네임)</label>';
   h += '<input type="text" id="profileNameInput" value="' + name + '" maxlength="10" style="width:100%;padding:14px 16px;font-size:15px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;box-sizing:border-box"></div>';
 
-  if (birthStr) {
-    h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">생년월일</label>';
-    h += '<div style="padding:14px 16px;background:rgba(0,0,0,0.02);border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:15px;color:var(--text-2)">' + birthStr + '</div></div>';
-  }
+  h += '<div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">생년월일</label>';
+  h += '<div style="display:flex;gap:6px">';
+  h += '<input type="number" id="profileYear" value="' + (birthInput.y || '') + '" placeholder="년" min="1920" max="2025" style="flex:2;padding:12px;font-size:15px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;box-sizing:border-box;text-align:center">';
+  h += '<input type="number" id="profileMonth" value="' + (birthInput.m || '') + '" placeholder="월" min="1" max="12" style="flex:1;padding:12px;font-size:15px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;box-sizing:border-box;text-align:center">';
+  h += '<input type="number" id="profileDay" value="' + (birthInput.d || '') + '" placeholder="일" min="1" max="31" style="flex:1;padding:12px;font-size:15px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;box-sizing:border-box;text-align:center">';
+  h += '</div></div>';
+
+  h += '<div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">태어난 시간 <span style="font-size:11px;color:var(--text-3);font-weight:400">(선택)</span></label>';
+  h += '<div style="display:flex;gap:6px;align-items:center">';
+  h += '<input type="number" id="profileHour" value="' + (birthInput.h || '') + '" placeholder="시" min="0" max="23" style="flex:1;padding:12px;font-size:15px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;box-sizing:border-box;text-align:center">';
+  h += '<input type="number" id="profileMin" value="' + (birthInput.min || '') + '" placeholder="분" min="0" max="59" style="flex:1;padding:12px;font-size:15px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;outline:none;box-sizing:border-box;text-align:center">';
+  h += '<div onclick="document.getElementById(\'profileHour\').value=\'\';document.getElementById(\'profileMin\').value=\'\';" style="padding:12px 14px;font-size:13px;color:var(--text-3);cursor:pointer;white-space:nowrap">모름</div>';
+  h += '</div></div>';
+
+  var curGender = birthInput.gender || ST.gender || '';
+  _profileGender = curGender;
+  h += '<div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">성별</label>';
+  h += '<div style="display:flex;gap:8px">';
+  h += '<div onclick="selectProfileGender(\'남\')" id="profileGenderM" style="flex:1;padding:12px;text-align:center;border-radius:var(--r-sm);border:1.5px solid ' + (curGender === '남' ? 'var(--purple)' : 'var(--border)') + ';background:' + (curGender === '남' ? 'rgba(139,108,193,0.06)' : '#fff') + ';font-size:14px;font-weight:600;color:' + (curGender === '남' ? 'var(--purple)' : 'var(--text-2)') + ';cursor:pointer;transition:all .2s">남자</div>';
+  h += '<div onclick="selectProfileGender(\'여\')" id="profileGenderF" style="flex:1;padding:12px;text-align:center;border-radius:var(--r-sm);border:1.5px solid ' + (curGender === '여' ? 'var(--purple)' : 'var(--border)') + ';background:' + (curGender === '여' ? 'rgba(139,108,193,0.06)' : '#fff') + ';font-size:14px;font-weight:600;color:' + (curGender === '여' ? 'var(--purple)' : 'var(--text-2)') + ';cursor:pointer;transition:all .2s">여자</div>';
+  h += '</div></div>';
 
   _profileMBTI = mbti && mbti.length === 4 ? mbti.split('') : ['E','N','F','P'];
-  h += '<div style="margin-bottom:16px">';
+  h += '<div style="margin-bottom:14px">';
   h += '<label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">MBTI</label>';
   h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
-  for (var i = 0; i < 4; i++) {
-    h += '<div onclick="toggleProfileMBTI(' + i + ')" id="profileMBTI' + i + '" style="text-align:center;padding:10px;background:rgba(139,108,193,0.06);border:1.5px solid var(--purple);border-radius:10px;font-size:18px;font-weight:800;color:var(--purple);cursor:pointer;transition:all 0.2s;user-select:none">' + _profileMBTI[i] + '</div>';
+  for (var k = 0; k < 4; k++) {
+    h += '<div onclick="toggleProfileMBTI(' + k + ')" id="profileMBTI' + k + '" style="text-align:center;padding:10px;background:rgba(139,108,193,0.06);border:1.5px solid var(--purple);border-radius:10px;font-size:18px;font-weight:800;color:var(--purple);cursor:pointer;transition:all 0.2s;user-select:none">' + _profileMBTI[k] + '</div>';
   }
   h += '</div>';
   h += '<div style="font-size:11px;color:var(--text-3);margin-top:6px;text-align:center">탭하여 변경 (예: E↔I, N↔S, F↔T, P↔J)</div>';
   h += '</div>';
 
-  if (ilju) {
-    h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">일주</label>';
-    h += '<div style="padding:14px 16px;background:rgba(0,0,0,0.02);border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:15px;color:var(--text-1);font-weight:700">' + ilju + ' 일주</div></div>';
-  }
-
-  h += '<button onclick="saveProfile()" id="profileSaveBtn" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--purple);border:none;border-radius:var(--r-sm);margin-top:8px;cursor:pointer">저장하기</button>';
-
-  h += '<div style="text-align:center;margin-top:16px">';
-  h += '<button onclick="window._svcMode=null;go(\'pgBirth\')" style="background:none;border:none;font-size:13px;color:var(--purple);cursor:pointer;font-family:inherit;font-weight:600">정보 변경은 여기서 → 재분석하기</button>';
-  h += '</div>';
+  h += '<button onclick="saveProfileFull()" id="profileSaveBtn" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:var(--purple);border:none;border-radius:var(--r-sm);margin-top:8px;cursor:pointer">저장하기</button>';
 
   h += '</div>';
   el.innerHTML = h;
+}
+
+var _profileGender = '';
+function selectProfileGender(g) {
+  _profileGender = g;
+  var m = document.getElementById('profileGenderM');
+  var f = document.getElementById('profileGenderF');
+  if (m) { m.style.borderColor = g === '남' ? 'var(--purple)' : 'var(--border)'; m.style.background = g === '남' ? 'rgba(139,108,193,0.06)' : '#fff'; m.style.color = g === '남' ? 'var(--purple)' : 'var(--text-2)'; }
+  if (f) { f.style.borderColor = g === '여' ? 'var(--purple)' : 'var(--border)'; f.style.background = g === '여' ? 'rgba(139,108,193,0.06)' : '#fff'; f.style.color = g === '여' ? 'var(--purple)' : 'var(--text-2)'; }
 }
 
 
@@ -3036,6 +3053,127 @@ async function saveProfile() {
   if(btn){btn.disabled=false;btn.textContent='저장하기';}
 
   // 프로필 다시 렌더링
+  setTimeout(function() { if (typeof renderProfileEdit === 'function') renderProfileEdit(); }, 300);
+}
+
+async function saveProfileFull() {
+  var btn = document.getElementById('profileSaveBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '저장 중...'; }
+
+  var newName = (document.getElementById('profileNameInput') || {}).value || '';
+  if (!newName.trim()) { showToast('이름을 입력해주세요'); if(btn){btn.disabled=false;btn.textContent='저장하기';} return; }
+
+  var y = (document.getElementById('profileYear') || {}).value || '';
+  var m = (document.getElementById('profileMonth') || {}).value || '';
+  var d = (document.getElementById('profileDay') || {}).value || '';
+  var ph = (document.getElementById('profileHour') || {}).value || '';
+  var pmin = (document.getElementById('profileMin') || {}).value || '';
+  var gender = _profileGender || '';
+  var newMBTI = _profileMBTI.join('');
+
+  if (!y || !m || !d) { showToast('생년월일을 입력해주세요'); if(btn){btn.disabled=false;btn.textContent='저장하기';} return; }
+  if (!gender) { showToast('성별을 선택해주세요'); if(btn){btn.disabled=false;btn.textContent='저장하기';} return; }
+
+  try {
+    var newSaju = calcSajuForApp(parseInt(y), parseInt(m), parseInt(d), ph ? parseInt(ph) : null, pmin ? parseInt(pmin) : null, null);
+    var newGG = analyzeGyeokguk(newSaju);
+    var newDW = calcDaewoon(newSaju, gender);
+
+    var _dom = newGG.dominant ? newGG.dominant[0] : '비겁';
+    var _cond = '신강';
+    if (newGG.isJonggyeok || newGG.isHwakyeok) _cond = '특수';
+    else if (newGG.strengthGrade === '신약' || newGG.strengthGrade === '극신약') _cond = '신약';
+    var newAnimal = { oheng: newSaju.dmEl || '토', dominant_sipsung: _dom, condition: _cond };
+
+    window._lastSaju = newSaju;
+    window._lastGG = newGG;
+    window._lastDW = newDW;
+    window._lastMBTI = newMBTI;
+    if (!window._lastAIResult) window._lastAIResult = {};
+    window._lastAIResult.animal = newAnimal;
+
+    ST.y = y; ST.m = m; ST.d = d; ST.h = ph; ST.min = pmin; ST.gender = gender;
+    if (newName) ST.name = newName.trim();
+
+    try {
+      localStorage.setItem('mbts_lastResult', JSON.stringify({
+        input: { y:y, m:m, d:d, h:ph, min:pmin, gender:gender, city:ST.city||'', cityLng:ST.cityLng||0, ch:ST.ch||null, it:ST.it||null },
+        saju: newSaju, dw: newDW, gg: newGG, mbti: newMBTI,
+        mbtiObj: window._lastMBTIObj, aiResult: window._lastAIResult, isAI: window._lastIsAI
+      }));
+    } catch(e) {}
+
+    try {
+      var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+      var found = false;
+      var animalInfo = getAnimalResult(newAnimal.oheng, newAnimal.dominant_sipsung, newAnimal.condition);
+      var myIlju = newSaju.P[2].s + newSaju.P[2].b;
+      for (var i = 0; i < hist.length; i++) {
+        if (hist[i].isMyProfile) {
+          hist[i].name = newName.trim();
+          hist[i].input = { y:y, m:m, d:d, h:ph, min:pmin, gender:gender, city:ST.city||'', cityLng:ST.cityLng||0 };
+          hist[i].saju = newSaju; hist[i].dw = newDW; hist[i].gg = newGG; hist[i].mbti = newMBTI;
+          hist[i].animal = newAnimal; hist[i].animalIlju = myIlju;
+          if (animalInfo) {
+            hist[i].animalIcon = getAnimalIconUrl(animalInfo.name);
+            hist[i].animalTag = animalInfo.mod ? animalInfo.mod.tag : '';
+            hist[i].animalOneLine = animalInfo.mod ? animalInfo.mod.oneLine : '';
+          }
+          found = true; break;
+        }
+      }
+      if (!found) {
+        var newRec = {
+          id: String(Date.now()) + '_' + String(Math.random()).slice(2,8),
+          name: newName.trim(), date: new Date().toISOString().slice(0,10),
+          input: { y:y, m:m, d:d, h:ph, min:pmin, gender:gender, city:ST.city||'', cityLng:ST.cityLng||0 },
+          isMyProfile: true, saju: newSaju, dw: newDW, gg: newGG, mbti: newMBTI,
+          mbtiObj: window._lastMBTIObj || null, aiResult: window._lastAIResult || null, isAI: false,
+          animal: newAnimal, animalIcon: animalInfo ? getAnimalIconUrl(animalInfo.name) : '',
+          animalTag: animalInfo && animalInfo.mod ? animalInfo.mod.tag : '',
+          animalIlju: myIlju, animalOneLine: animalInfo && animalInfo.mod ? animalInfo.mod.oneLine : ''
+        };
+        hist.unshift(newRec);
+        localStorage.setItem('mbts_fortuneTarget', newRec.id);
+      }
+      localStorage.setItem('mbts_history', JSON.stringify(hist));
+    } catch(e) { console.warn('[MBTS] 히스토리 갱신 실패:', e); }
+
+    console.log('[MBTS] 프로필 저장 완료 — 사주 재계산:', myIlju, '동물:', animalInfo ? animalInfo.name : 'N/A');
+
+  } catch(calcErr) {
+    console.error('[MBTS] 사주 재계산 실패:', calcErr);
+    showToast('생년월일을 다시 확인해주세요');
+    if(btn){btn.disabled=false;btn.textContent='저장하기';}
+    return;
+  }
+
+  try {
+    if (typeof supabase !== 'undefined' && mbtsSession && mbtsSession.userId) {
+      var _a = window._lastAIResult.animal || {};
+      await supabase.from('users').update({
+        nickname: newName.trim(), mbti: newMBTI,
+        birth_year: parseInt(y) || null, birth_month: parseInt(m) || null, birth_day: parseInt(d) || null,
+        birth_hour: ph ? parseInt(ph) : null, birth_min: pmin ? parseInt(pmin) : null,
+        gender: gender, animal_key: _a.oheng ? (_a.oheng + '_' + _a.dominant_sipsung + '_' + _a.condition) : '',
+        ilju: window._lastSaju.P[2].s + window._lastSaju.P[2].b, updated_at: new Date().toISOString()
+      }).eq('id', mbtsSession.userId);
+    }
+  } catch(e) { console.warn('[MBTS] Supabase 업데이트 실패:', e); }
+
+  if (mbtsSession) {
+    mbtsSession.nickname = newName.trim();
+    try { localStorage.setItem('mbts_session', JSON.stringify(mbtsSession)); } catch(e) {}
+  }
+
+  if (typeof updateHomeProfile === 'function') updateHomeProfile();
+  if (typeof updateMoreProfile === 'function') updateMoreProfile();
+  if (typeof updateLoginUI === 'function') updateLoginUI();
+  if (typeof updateFortuneTargetUI === 'function') setTimeout(updateFortuneTargetUI, 100);
+
+  showToast('저장되었어요! 동물이 업데이트됐어요 ✨');
+  if(btn){btn.disabled=false;btn.textContent='저장하기';}
+
   setTimeout(function() { if (typeof renderProfileEdit === 'function') renderProfileEdit(); }, 300);
 }
 
