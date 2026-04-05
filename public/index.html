@@ -2876,94 +2876,60 @@ async function renderProfileEdit() {
   var mbti = window._lastMBTI || '';
   var saju = window._lastSaju;
   var aiResult = window._lastAIResult;
-
   var animalEmoji = '🌟', animalTitle = '', animalSub = '', animalIcon = '';
   if (aiResult && aiResult.animal) {
     var aInfo = getAnimalResult(aiResult.animal.oheng, aiResult.animal.dominant_sipsung, aiResult.animal.condition);
-    if (aInfo && aInfo.mod) {
-      animalEmoji = aInfo.emoji;
-      animalTitle = aInfo.mod.title;
-      animalSub = aiResult.animal.oheng + ' · ' + aiResult.animal.dominant_sipsung + ' · ' + aiResult.animal.condition;
-      animalIcon = typeof resolveAnimalIcon === 'function' ? resolveAnimalIcon({ saju: saju, gg: window._lastGG }) : '';
-    }
+    if (aInfo && aInfo.mod) { animalEmoji = aInfo.emoji; animalTitle = aInfo.mod.title; animalSub = aiResult.animal.oheng + ' · ' + aiResult.animal.dominant_sipsung + ' · ' + aiResult.animal.condition; animalIcon = typeof resolveAnimalIcon === 'function' ? resolveAnimalIcon({ saju: saju, gg: window._lastGG }) : ''; }
   }
-
   var ilju = (saju && saju.P && saju.P[2]) ? saju.P[2].s + saju.P[2].b : '';
-
   var birthInput = {};
-  try {
-    var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
-    var rec = null;
-    for (var i = hist.length - 1; i >= 0; i--) { if (hist[i].isMyProfile) { rec = hist[i]; break; } }
-    if (!rec) for (var j = hist.length - 1; j >= 0; j--) { if (hist[j].input && hist[j].input.y) { rec = hist[j]; break; } }
-    if (rec && rec.input) birthInput = rec.input;
-  } catch(e) {}
-  if (!birthInput.y) {
-    try { var saved = JSON.parse(localStorage.getItem('mbts_lastResult') || '{}'); if (saved.input) birthInput = saved.input; } catch(e) {}
-  }
-
+  try { var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]'); var rec = null; for (var i = hist.length - 1; i >= 0; i--) { if (hist[i].isMyProfile) { rec = hist[i]; break; } } if (!rec) for (var j = hist.length - 1; j >= 0; j--) { if (hist[j].input && hist[j].input.y) { rec = hist[j]; break; } } if (rec && rec.input) birthInput = rec.input; } catch(e) {}
+  if (!birthInput.y) { try { var saved = JSON.parse(localStorage.getItem('mbts_lastResult') || '{}'); if (saved.input) birthInput = saved.input; } catch(e) {} }
+  if (mbti && mbti.length === 4) { for (var mi = 0; mi < 4; mi++) { _profMbtiCh[mi] = (mbti[mi] === DM_AX[mi].L) ? 'L' : 'R'; } } else { _profMbtiCh = [null,null,null,null]; }
+  if (ST.it && ST.it.length === 4) { _profMbtiIt = ST.it.slice(); } else { _profMbtiIt = mbti ? [68,68,68,68] : [null,null,null,null]; }
+  _profMbtiCur = 0; _profCalType = (birthInput.isLunar || window._isLunarInput) ? 'lunar' : 'solar';
+  _profTimeUnknown = !(birthInput.h && birthInput.h !== '' && birthInput.h !== '모름');
+  _profCityUnknown = !(birthInput.city && birthInput.city !== '' && birthInput.city !== '모름');
+  _profileGender = birthInput.gender || ST.gender || '';
   var h = '';
-
-  // ── 동물 아이콘 영역 ──
-  h += '<div style="text-align:center;padding:0 16px 20px">';
-  h += '<div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#E8DEFF,#F0E6FF);display:flex;align-items:center;justify-content:center;font-size:42px;margin:0 auto 12px;overflow:hidden">';
-  if (animalIcon) { h += '<img src="' + animalIcon + '" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'' + animalEmoji + '\'))">'; }
-  else { h += animalEmoji; }
+  h += '<div style="background:#fff;border-radius:24px;padding:28px 22px;box-shadow:0 4px 24px rgba(139,108,193,0.08);border:1px solid rgba(139,108,193,0.06)">';
+  h += '<div style="text-align:center;margin-bottom:24px"><div style="width:88px;height:88px;border-radius:50%;margin:0 auto 14px;background:linear-gradient(145deg,#F3EDFF,#FFE8F0);display:flex;align-items:center;justify-content:center;font-size:46px;box-shadow:0 6px 20px rgba(139,108,193,0.12);overflow:hidden">';
+  if (animalIcon) { h += '<img src="' + animalIcon + '" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'' + animalEmoji + '\'))">'; } else { h += animalEmoji; }
   h += '</div>';
-  if (animalTitle) {
-    h += '<div style="font-size:14px;font-weight:700;color:var(--purple)">' + animalTitle + '</div>';
-    h += '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + animalSub + '</div>';
-  } else { h += '<div style="font-size:13px;color:var(--text-3)">생년월일과 MBTI를 입력하면 동물이 나타나요</div>'; }
-  if (ilju) { h += '<div style="font-size:12px;color:var(--text-2);margin-top:4px;font-weight:600">' + ilju + ' 일주</div>'; }
+  if (animalTitle) { h += '<div style="font-size:15px;font-weight:700;color:#6B4FA0">' + animalTitle + '</div><div style="font-size:12px;color:#A99BBF;margin-top:3px">' + animalSub + (ilju ? ' · ' + ilju + ' 일주' : '') + '</div>'; }
+  else { h += '<div style="font-size:13px;color:#A99BBF">생년월일과 MBTI를 입력하면 동물이 나타나요</div>'; }
   h += '</div>';
-
-  // ── 폼 영역: addPerson 모달 스타일 재활용 ──
-  h += '<div style="padding:0 16px" class="ap-birth-style">';
-
-  h += '<div class="ap-birth-field" style="margin-bottom:14px">';
-  h += '<label class="ap-b-label">이름 (닉네임)</label>';
-  h += '<input class="ap-input" id="profileNameInput" type="text" value="' + name + '" maxlength="10" placeholder="이름 입력">';
-  h += '</div>';
-
-  h += '<div class="ap-birth-row">';
-  h += '<div class="ap-birth-field" style="flex:2"><label class="ap-b-label">태어난 해</label><div class="ap-b-combo"><input class="ap-b-input" id="profileYear" type="text" value="' + (birthInput.y || '') + '" placeholder="예: 1995" maxlength="4"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'year\')">▼</span></div><div class="ap-b-dropdown" id="profileDropYear"></div></div>';
-  h += '<div class="ap-birth-field"><label class="ap-b-label">월</label><div class="ap-b-combo"><input class="ap-b-input" id="profileMonth" type="text" value="' + (birthInput.m || '') + '" placeholder="월" maxlength="2"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'month\')">▼</span></div><div class="ap-b-dropdown" id="profileDropMonth"></div></div>';
-  h += '<div class="ap-birth-field"><label class="ap-b-label">일</label><div class="ap-b-combo"><input class="ap-b-input" id="profileDay" type="text" value="' + (birthInput.d || '') + '" placeholder="일" maxlength="2"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'day\')">▼</span></div><div class="ap-b-dropdown" id="profileDropDay"></div></div>';
-  h += '</div>';
-
-  h += '<div class="ap-birth-row">';
-  h += '<div class="ap-birth-field"><label class="ap-b-label">시 <span style="font-weight:400;color:#8A7BA0">(선택)</span></label><div class="ap-b-combo"><input class="ap-b-input" id="profileHour" type="number" value="' + (birthInput.h || '') + '" placeholder="모름" min="0" max="23"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'hour\')">▼</span></div><div class="ap-b-dropdown" id="profileDropHour"></div></div>';
-  h += '<div class="ap-birth-field"><label class="ap-b-label">분 <span style="font-weight:400;color:#8A7BA0">(선택)</span></label><div class="ap-b-combo"><input class="ap-b-input" id="profileMin" type="number" value="' + (birthInput.min || '') + '" placeholder="모름" min="0" max="59"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'min\')">▼</span></div><div class="ap-b-dropdown" id="profileDropMin"></div></div>';
-  h += '<div class="ap-birth-field"><label class="ap-b-label">출생지 <span style="font-weight:400;color:#8A7BA0">(선택)</span></label><div class="ap-b-combo"><input class="ap-b-input" id="profileCity" type="text" value="' + (birthInput.city || ST.city || '') + '" placeholder="모름"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'city\')">▼</span></div><div class="ap-b-dropdown" id="profileDropCity"></div></div>';
-  h += '</div>';
-
-  var curGender = birthInput.gender || ST.gender || '';
-  _profileGender = curGender;
-  h += '<label class="ap-b-label">성별</label>';
-  h += '<div class="ap-b-gender-row">';
-  h += '<button class="ap-b-gender' + (curGender === '남' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'남\')">♂ 남성</button>';
-  h += '<button class="ap-b-gender' + (curGender === '여' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'여\')">♀ 여성</button>';
-  h += '</div>';
-
-  _profileMBTI = mbti && mbti.length === 4 ? mbti.split('') : ['E','N','F','P'];
-  h += '<div style="margin-top:14px">';
-  h += '<label class="ap-b-label">MBTI</label>';
-  h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
-  for (var i = 0; i < 4; i++) {
-    h += '<div onclick="toggleProfileMBTI(' + i + ')" id="profileMBTI' + i + '" style="text-align:center;padding:10px;background:rgba(139,108,193,0.06);border:1.5px solid var(--purple);border-radius:10px;font-size:18px;font-weight:800;color:var(--purple);cursor:pointer;transition:all 0.2s;user-select:none">' + _profileMBTI[i] + '</div>';
-  }
-  h += '</div>';
-  h += '<div style="font-size:11px;color:var(--text-3);margin-top:6px;text-align:center">탭하여 변경 (예: E↔I, N↔S, F↔T, P↔J)</div>';
-  h += '</div>';
-
-  h += '<button onclick="saveProfileFull()" id="profileSaveBtn" style="width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--purple),var(--purple-deep));border:none;border-radius:var(--r-sm);margin-top:16px;cursor:pointer;position:relative;overflow:hidden"><span>저장하기</span></button>';
-
-  h += '<div style="text-align:center;margin-top:14px;padding:12px;background:rgba(139,108,193,0.04);border-radius:12px">';
-  h += '<div style="font-size:12px;color:var(--text-2);line-height:1.6">저장하면 사주가 즉시 재계산돼요<br><span style="color:var(--text-3)">프리미엄 AI 풀이는 별도로 분석할 수 있어요</span></div>';
-  h += '</div>';
-
+  h += '<div style="height:1px;background:linear-gradient(90deg,transparent,#E8DEFF,transparent);margin:0 0 20px"></div>';
+  h += '<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center"><label style="font-size:12px;font-weight:700;color:#7B6B99;margin-bottom:6px;display:block">이름</label><span style="font-size:11px;color:#8B6CC1;font-weight:600">✓ 본인</span></div>';
+  h += '<input type="text" id="profileNameInput" value="' + name + '" maxlength="10" style="width:100%;padding:12px 14px;font-size:15px;font-family:inherit;border:1.5px solid #E8E4EF;border-radius:12px;background:#fff;outline:none;box-sizing:border-box;color:#2E1F4E"></div>';
+  h += '<div style="margin-bottom:14px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><label style="font-size:12px;font-weight:700;color:#7B6B99">생년월일</label><div style="display:flex;gap:4px">';
+  h += '<button type="button" id="profCalSolar" onclick="setProfileCalType(\'solar\')" style="padding:4px 12px;border-radius:8px;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;' + (_profCalType === 'solar' ? 'background:#fff;color:#7B5DAF;box-shadow:0 2px 8px rgba(139,108,193,0.1)' : 'background:transparent;color:#B0A0C8;box-shadow:none') + '">양력</button>';
+  h += '<button type="button" id="profCalLunar" onclick="setProfileCalType(\'lunar\')" style="padding:4px 12px;border-radius:8px;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;' + (_profCalType === 'lunar' ? 'background:#fff;color:#7B5DAF;box-shadow:0 2px 8px rgba(139,108,193,0.1)' : 'background:transparent;color:#B0A0C8;box-shadow:none') + '">음력</button></div></div>';
+  h += '<div style="display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:6px">';
+  h += '<div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileYear" type="text" value="' + (birthInput.y || '') + '" placeholder="예: 1995" maxlength="4" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'year\')">▼</span></div>';
+  h += '<div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileMonth" type="text" value="' + (birthInput.m || '') + '" placeholder="월" maxlength="2" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'month\')">▼</span></div>';
+  h += '<div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileDay" type="text" value="' + (birthInput.d || '') + '" placeholder="일" maxlength="2" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'day\')">▼</span></div></div>';
+  h += '<div class="ap-b-dropdown" id="profileDropYear" style="position:relative"></div><div class="ap-b-dropdown" id="profileDropMonth" style="position:relative"></div><div class="ap-b-dropdown" id="profileDropDay" style="position:relative"></div></div>';
+  h += '<div style="margin-bottom:14px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><label style="font-size:12px;font-weight:700;color:#7B6B99">태어난 시간</label><span style="font-size:11px;color:#B0A0C8;font-weight:400">선택</span></div><div id="profTimeArea">';
+  if (_profTimeUnknown) { h += '<div onclick="restoreProfileTime()" style="padding:13px 16px;border-radius:12px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;font-size:14px;color:#8B6CC1;font-weight:500;display:flex;align-items:center;gap:6px"><span>⏰</span> 시간 모름 <span style="margin-left:auto;font-size:12px;color:#B0A0C8">탭하여 입력</span></div>'; }
+  else { h += '<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:6px;align-items:center"><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileHour" type="number" value="' + (birthInput.h || '') + '" placeholder="시" min="0" max="23" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'hour\')">▼</span></div><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileMin" type="number" value="' + (birthInput.min || '') + '" placeholder="분" min="0" max="59" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'min\')">▼</span></div><button onclick="setProfileTimeUnknown()" style="padding:12px 16px;border-radius:12px;border:1.5px solid #E8E4EF;background:#fff;font-size:13px;color:#A99BBF;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap">모름</button></div>'; }
+  h += '<div class="ap-b-dropdown" id="profileDropHour" style="position:relative"></div><div class="ap-b-dropdown" id="profileDropMin" style="position:relative"></div></div></div>';
+  h += '<div style="margin-bottom:14px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><label style="font-size:12px;font-weight:700;color:#7B6B99">출생지</label><span style="font-size:11px;color:#B0A0C8;font-weight:400">시차 보정</span></div><div id="profCityArea">';
+  if (_profCityUnknown) { h += '<div onclick="restoreProfileCity()" style="padding:13px 16px;border-radius:12px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;font-size:14px;color:#8B6CC1;font-weight:500;display:flex;align-items:center;gap:6px"><span>📍</span> 출생지 모름 <span style="margin-left:auto;font-size:12px;color:#B0A0C8">탭하여 입력</span></div>'; }
+  else { h += '<div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center"><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileCity" type="text" value="' + (birthInput.city || ST.city || '') + '" placeholder="도시 선택" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'city\')">▼</span></div><button onclick="setProfileCityUnknown()" style="padding:12px 16px;border-radius:12px;border:1.5px solid #E8E4EF;background:#fff;font-size:13px;color:#A99BBF;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap">모름</button></div>'; }
+  h += '<div class="ap-b-dropdown" id="profileDropCity" style="position:relative"></div></div></div>';
+  h += '<div style="margin-bottom:18px"><label style="font-size:12px;font-weight:700;color:#7B6B99;display:block;margin-bottom:6px">성별</label><div class="ap-b-gender-row"><button class="ap-b-gender' + (_profileGender === '남' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'남\')">남성</button><button class="ap-b-gender' + (_profileGender === '여' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'여\')">여성</button></div></div>';
+  h += '<div style="height:1px;background:linear-gradient(90deg,transparent,#E8DEFF,transparent);margin:0 0 18px"></div>';
+  var mbtiAllDone = _profMbtiCh.every(function(c){return c!==null;}) && _profMbtiIt.every(function(v){return v!==null;});
+  var mbtiStr = _profMbtiCh.map(function(c,idx){return c===null?'?':(c==='L'?DM_AX[idx].L:DM_AX[idx].R);}).join('');
+  h += '<div style="margin-bottom:18px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><label style="font-size:14px;font-weight:700;color:#7B6B99">MBTI</label>';
+  if (mbtiAllDone) h += '<span style="font-size:13px;font-weight:700;color:#2e8b57">' + mbtiStr + ' ✓</span>';
+  h += '</div><div id="profMbtiArea"></div></div>';
+  h += '<button onclick="saveProfileFull()" id="profileSaveBtn" style="width:100%;padding:16px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#8B6CC1,#6B4FA0);border:none;border-radius:16px;cursor:pointer;margin-top:4px;box-shadow:0 4px 16px rgba(107,79,160,0.2)"><span>저장하기</span></button>';
+  h += '<div style="text-align:center;margin-top:14px;font-size:12px;color:#A99BBF;line-height:1.6">저장하면 사주가 즉시 재계산돼요<br><span style="color:#C4B8D8">프리미엄 AI 풀이는 별도로 분석할 수 있어요</span></div>';
   h += '</div>';
   el.innerHTML = h;
+  renderProfileMBTI();
 }
 
 var _profileGender = '';
@@ -2973,6 +2939,58 @@ function pickProfileGender(el, g) {
   for (var i = 0; i < btns.length; i++) btns[i].classList.remove('selected');
   el.classList.add('selected');
 }
+
+function renderProfileMBTI() {
+  var area = document.getElementById('profMbtiArea');
+  if (!area) return;
+  var cur = _profMbtiCur, d = DM_AX[cur], c = _profMbtiCh[cur], iv = _profMbtiIt[cur], ac = DC[cur];
+  var h = '';
+  h += '<div style="display:flex;gap:4px;margin-bottom:14px">';
+  for (var i = 0; i < 4; i++) { h += '<div style="flex:1;height:4px;border-radius:2px;background:' + (i <= cur ? DC[i] : DC[i] + '30') + ';transition:background .3s"></div>'; }
+  h += '</div>';
+  h += '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:16px">';
+  for (var i2 = 0; i2 < 4; i2++) {
+    var lt = _profMbtiCh[i2] === null ? '?' : (_profMbtiCh[i2] === 'L' ? DM_AX[i2].L : DM_AX[i2].R);
+    h += '<div onclick="_profMbtiCur=' + i2 + ';renderProfileMBTI()" style="width:42px;height:48px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;border-radius:10px;cursor:pointer;transition:all .2s;background:' + (i2 === cur ? DC[i2] + '20' : (_profMbtiCh[i2] ? DC[i2] + '10' : 'rgba(0,0,0,0.03)')) + ';border:2.5px solid ' + (i2 === cur ? DC[i2] : 'transparent') + ';color:' + (_profMbtiCh[i2] ? DC[i2] : '#AEAEB2') + '">' + lt + '</div>';
+  }
+  h += '</div>';
+  h += '<div style="font-size:12px;color:#A99BBF;text-align:center;letter-spacing:2px;margin-bottom:6px">STEP ' + (cur + 1) + '/4</div>';
+  h += '<div style="font-size:18px;font-weight:800;text-align:center;margin-bottom:16px;color:#2E1F4E">어느 쪽에 가깝나요?</div>';
+  h += '<div style="display:flex;gap:10px;margin-bottom:14px">';
+  ['L','R'].forEach(function(side) {
+    var lb = side === 'L' ? d.Ll : d.Rl; var ltx = side === 'L' ? d.L : d.R; var ds = side === 'L' ? d.Ld : d.Rd; var sel = c === side;
+    h += '<button onclick="pickProfMbtiSide(\'' + side + '\')" style="flex:1;padding:18px 10px;text-align:center;cursor:pointer;font-family:inherit;border-radius:16px;transition:all .25s;background:' + (sel ? 'linear-gradient(145deg,' + ac + '18,' + ac + '08)' : 'rgba(0,0,0,0.02)') + ';border:' + (sel ? '2.5px solid ' + ac : '2.5px solid #E8E4EF') + ';' + (sel ? 'box-shadow:0 4px 20px ' + ac + '25' : '') + '">';
+    h += '<div style="font-size:32px;font-weight:900;color:' + (sel ? ac : '#AEAEB2') + ';margin-bottom:4px">' + ltx + '</div>';
+    h += '<div style="font-size:12px;font-weight:700;color:' + (sel ? ac : '#636366') + ';margin-bottom:3px">' + lb + '</div>';
+    h += '<div style="font-size:11px;color:#AEAEB2;line-height:1.5">' + ds + '</div></button>';
+  });
+  h += '</div>';
+  if (c !== null) {
+    var selLetter = c === 'L' ? d.L : d.R;
+    h += '<div style="animation:up .3s ease"><div style="font-size:13px;color:#636366;text-align:center;margin-bottom:10px"><strong style="color:' + ac + '">' + selLetter + '</strong> 성향의 강도는?</div><div style="display:flex;gap:7px">';
+    IN_OP.forEach(function(n) {
+      var sel2 = iv === n.v;
+      h += '<button onclick="pickProfIntensity(' + n.v + ')" style="flex:1;padding:11px 6px;text-align:center;cursor:pointer;font-family:inherit;border-radius:11px;transition:all .25s;background:' + (sel2 ? 'linear-gradient(145deg,' + ac + '20,' + ac + '08)' : 'rgba(0,0,0,0.02)') + ';border:' + (sel2 ? '2px solid ' + ac : '2px solid #E8E4EF') + ';' + (sel2 ? 'box-shadow:0 3px 14px ' + ac + '20' : '') + '"><div style="font-size:13px;font-weight:700;color:' + (sel2 ? ac : '#AEAEB2') + ';margin-bottom:2px">' + n.r + '</div><div style="font-size:10.5px;color:#AEAEB2">' + n.d + '</div></button>';
+    });
+    h += '</div></div>';
+  }
+  var ok = c !== null && iv !== null;
+  h += '<div style="display:flex;gap:8px;margin-top:14px">';
+  if (cur > 0) h += '<button onclick="profMbtiBack()" style="padding:12px 20px;font-size:14px;font-weight:600;color:#8B6CC1;background:rgba(139,108,193,0.06);border:1.5px solid rgba(139,108,193,0.15);border-radius:12px;cursor:pointer;font-family:inherit">←</button>';
+  if (cur < 3) { h += '<button onclick="profMbtiNext()" ' + (ok ? '' : 'disabled') + ' style="flex:1;padding:12px;font-size:15px;font-weight:700;border-radius:12px;border:none;font-family:inherit;cursor:' + (ok ? 'pointer' : 'not-allowed') + ';background:' + (ok ? 'linear-gradient(135deg,' + ac + ',' + ac + 'cc)' : 'rgba(0,0,0,0.06)') + ';color:' + (ok ? '#fff' : '#AEAEB2') + ';' + (ok ? 'box-shadow:0 4px 16px ' + ac + '30' : '') + '">다음 →</button>'; }
+  if (cur === 3 && ok) h += '<div style="flex:1;padding:12px 0;font-size:13px;font-weight:600;color:#2e8b57;text-align:center">✓ MBTI 설정 완료</div>';
+  h += '</div>';
+  area.innerHTML = h;
+}
+function pickProfMbtiSide(side) { _profMbtiCh[_profMbtiCur] = side; _profMbtiIt[_profMbtiCur] = null; renderProfileMBTI(); }
+function pickProfIntensity(v) { _profMbtiIt[_profMbtiCur] = v; renderProfileMBTI(); }
+function profMbtiNext() { if (_profMbtiCh[_profMbtiCur] === null || _profMbtiIt[_profMbtiCur] === null) return; if (_profMbtiCur < 3) { _profMbtiCur++; renderProfileMBTI(); } }
+function profMbtiBack() { if (_profMbtiCur > 0) { _profMbtiCur--; renderProfileMBTI(); } }
+function setProfileCalType(type) { _profCalType = type; var s = document.getElementById('profCalSolar'), l = document.getElementById('profCalLunar'); if (s) { s.style.background = type === 'solar' ? '#fff' : 'transparent'; s.style.color = type === 'solar' ? '#7B5DAF' : '#B0A0C8'; s.style.boxShadow = type === 'solar' ? '0 2px 8px rgba(139,108,193,0.1)' : 'none'; } if (l) { l.style.background = type === 'lunar' ? '#fff' : 'transparent'; l.style.color = type === 'lunar' ? '#7B5DAF' : '#B0A0C8'; l.style.boxShadow = type === 'lunar' ? '0 2px 8px rgba(139,108,193,0.1)' : 'none'; } }
+function setProfileTimeUnknown() { _profTimeUnknown = true; var a = document.getElementById('profTimeArea'); if (a) a.innerHTML = '<div onclick="restoreProfileTime()" style="padding:13px 16px;border-radius:12px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;font-size:14px;color:#8B6CC1;font-weight:500;display:flex;align-items:center;gap:6px"><span>⏰</span> 시간 모름 <span style="margin-left:auto;font-size:12px;color:#B0A0C8">탭하여 입력</span></div>'; }
+function restoreProfileTime() { _profTimeUnknown = false; var a = document.getElementById('profTimeArea'); if (a) { var th = '<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:6px;align-items:center"><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileHour" type="number" value="" placeholder="시" min="0" max="23" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'hour\')">▼</span></div><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileMin" type="number" value="" placeholder="분" min="0" max="59" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'min\')">▼</span></div><button onclick="setProfileTimeUnknown()" style="padding:12px 16px;border-radius:12px;border:1.5px solid #E8E4EF;background:#fff;font-size:13px;color:#A99BBF;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap">모름</button></div>'; a.innerHTML = th; } }
+function setProfileCityUnknown() { _profCityUnknown = true; var a = document.getElementById('profCityArea'); if (a) a.innerHTML = '<div onclick="restoreProfileCity()" style="padding:13px 16px;border-radius:12px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;font-size:14px;color:#8B6CC1;font-weight:500;display:flex;align-items:center;gap:6px"><span>📍</span> 출생지 모름 <span style="margin-left:auto;font-size:12px;color:#B0A0C8">탭하여 입력</span></div>'; }
+function restoreProfileCity() { _profCityUnknown = false; var a = document.getElementById('profCityArea'); if (a) { var ch = '<div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center"><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileCity" type="text" value="" placeholder="도시 선택" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'city\')">▼</span></div><button onclick="setProfileCityUnknown()" style="padding:12px 16px;border-radius:12px;border:1.5px solid #E8E4EF;background:#fff;font-size:13px;color:#A99BBF;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap">모름</button></div>'; a.innerHTML = ch; } }
 
 function toggleProfileDrop(type) {
   var dropIds = {year:'profileDropYear',month:'profileDropMonth',day:'profileDropDay',hour:'profileDropHour',min:'profileDropMin',city:'profileDropCity'};
@@ -3025,7 +3043,9 @@ async function saveProfileFull() {
   var cityLng = 127;
   var CITY_LNG = {'서울':127,'부산':129.08,'대구':128.6,'인천':126.7,'광주':126.85,'대전':127.39,'울산':129.31,'세종':127.01,'수원':127.01,'창원':128.68,'청주':127.49,'전주':127.15,'포항':129.37,'제주':126.53,'천안':127.15};
   if (city && CITY_LNG[city]) cityLng = CITY_LNG[city];
-  var newMBTI = _profileMBTI.join('');
+  var newMBTI = _profMbtiCh.map(function(c,i){return c===null?'?':(c==='L'?DM_AX[i].L:DM_AX[i].R);}).join('');
+  var newMbtiIt = _profMbtiIt.slice();
+  var isLunar = (_profCalType === 'lunar');
 
   // 인라인 밸리데이션
   var _valid = true;
@@ -3060,7 +3080,7 @@ async function saveProfileFull() {
   }
 
   try {
-    var newSaju = calcSajuForApp(parseInt(y), parseInt(m), parseInt(d), ph ? parseInt(ph) : null, pmin ? parseInt(pmin) : null, false, cityLng);
+    var newSaju = calcSajuForApp(parseInt(y), parseInt(m), parseInt(d), ph ? parseInt(ph) : null, pmin ? parseInt(pmin) : null, isLunar, cityLng);
     var newGG = analyzeGyeokguk(newSaju);
     var newDW = calcDaewoon(newSaju, parseInt(y), parseInt(m), parseInt(d), ph ? parseInt(ph) : 12, pmin ? parseInt(pmin) : 0, gender);
 
@@ -3078,6 +3098,8 @@ async function saveProfileFull() {
     window._lastAIResult.animal = newAnimal;
 
     ST.y = y; ST.m = m; ST.d = d; ST.h = ph; ST.min = pmin; ST.gender = gender; ST.city = city; ST.cityLng = cityLng;
+    ST.ch = _profMbtiCh.slice();
+    ST.it = newMbtiIt;
     if (newName) ST.name = newName.trim();
 
     try {
@@ -6190,6 +6212,12 @@ go=function(id,skipPush){
 };
 
 var _profileMBTI = ['E','N','F','P'];
+var _profMbtiCur = 0;
+var _profMbtiCh = [null,null,null,null];
+var _profMbtiIt = [null,null,null,null];
+var _profCalType = 'solar';
+var _profTimeUnknown = false;
+var _profCityUnknown = false;
 
 function toggleProfileMBTI(idx) {
   var pairs = [['E','I'],['N','S'],['F','T'],['P','J']];
