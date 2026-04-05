@@ -1459,54 +1459,7 @@
   var _origSHT=window.switchHomeTab;if(typeof _origSHT==='function'){window.switchHomeTab=function(tab){_origSHT(tab);if(tab==='saju')setTimeout(function(){injectPeopleListUI();renderPeopleList();},100);if(tab==='gunghap')setTimeout(function(){injectGHSelectorUI();renderGHSelector();GH_SEL_A=null;GH_SEL_B=null;GP_REL='';},100);};}
   setTimeout(function(){if(window._lastSaju&&window._lastMBTI)saveMyData();injectPeopleListUI();renderPeopleList();},800);
 
-  // ── [DEPRECATED] onSub 방식으로 전환됨. parseGhNewSubs는 더 이상 사용되지 않음 ──
-  /* function parseGhNewSubs(fullText, skipCount) {
-    var subsIdx = fullText.indexOf('"subs"');
-    if (subsIdx < 0) return [];
-    var arrStart = fullText.indexOf('[', subsIdx + 5);
-    if (arrStart < 0) return [];
-    var pos = arrStart + 1;
-    var len = fullText.length;
-    var found = 0;
-    var newSubs = [];
-    while (pos < len) {
-      while (pos < len && ' ,\n\r\t'.indexOf(fullText[pos]) >= 0) pos++;
-      if (pos >= len) break;
-      if (fullText[pos] === ']') break;
-      if (fullText[pos] !== '{') { pos++; continue; }
-      var objStart = pos;
-      var stack = [];
-      var inStr = false;
-      var esc = false;
-      var objEnd = -1;
-      for (var i = objStart; i < len; i++) {
-        var ch = fullText[i];
-        if (esc) { esc = false; continue; }
-        if (ch === '\\') { esc = true; continue; }
-        if (ch === '"') { inStr = !inStr; continue; }
-        if (inStr) continue;
-        if (ch === '{' || ch === '[') stack.push(ch);
-        else if (ch === '}' && stack.length && stack[stack.length-1] === '{') stack.pop();
-        else if (ch === ']' && stack.length && stack[stack.length-1] === '[') stack.pop();
-        if (stack.length === 0) { objEnd = i; break; }
-      }
-      if (objEnd > objStart) {
-        try {
-          var obj = JSON.parse(fullText.substring(objStart, objEnd + 1));
-          if (obj.h && obj.b && Array.isArray(obj.b)) {
-            found++;
-            if (found > skipCount) newSubs.push(obj);
-          }
-        } catch(e) {}
-        pos = objEnd + 1;
-      } else {
-        break;
-      }
-    }
-    return newSubs;
-  } */
-
-  // window.parseGhNewSubs = parseGhNewSubs;
+  // parseGhNewSubs 제거됨 — onSub 콜백 방식으로 전환 완료
 
   console.log('[gunghap.js] v3.0 로드 완료 — V2 시스템프롬프트 + 18레이어 상세전달 + aiResult 연동 + saju.js 5개 연동');
 })();
