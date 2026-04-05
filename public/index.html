@@ -2956,6 +2956,31 @@ async function saveProfile() {
     } catch(e) {}
   }
 
+  // ── 프로필 변경 → localStorage mbts_history의 isMyProfile 레코드도 갱신 ──
+  try {
+    var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+    for (var i = 0; i < hist.length; i++) {
+      if (hist[i].isMyProfile) {
+        hist[i].mbti = newMBTI;
+        hist[i].name = newName.trim();
+        if (window._lastAIResult && window._lastAIResult.animal) {
+          hist[i].animal = window._lastAIResult.animal;
+          var _aInfo = getAnimalResult(window._lastAIResult.animal.oheng, window._lastAIResult.animal.dominant_sipsung, window._lastAIResult.animal.condition);
+          if (_aInfo) {
+            hist[i].animalIcon = getAnimalIconUrl(_aInfo.name);
+            hist[i].animalTag = _aInfo.mod ? _aInfo.mod.tag : '';
+            hist[i].animalOneLine = _aInfo.mod ? _aInfo.mod.oneLine : '';
+          }
+        }
+        break;
+      }
+    }
+    localStorage.setItem('mbts_history', JSON.stringify(hist));
+  } catch(e) {}
+
+  // ── fortune-target도 갱신 ──
+  if (typeof updateFortuneTargetUI === 'function') setTimeout(updateFortuneTargetUI, 100);
+
   showToast('저장되었어요!');
   if(btn){btn.disabled=false;btn.textContent='저장하기';}
 
@@ -3056,9 +3081,21 @@ function go(id,skipPush){
     if(typeof showToast==='function') showToast('로그인이 필요합니다 🍀');
     id='pgLogin';
   }
-  if(id==='pgBirth'&&typeof prefillBirthForm==='function') setTimeout(prefillBirthForm,50);
+  if(id==='pgBirth'&&typeof prefillBirthForm==='function'){
+    setTimeout(prefillBirthForm,50);
+    setTimeout(function(){
+      var editSlot=document.getElementById('birthProfileEditSlot');
+      if(editSlot&&window._lastSaju){
+        editSlot.style.display='block';
+      }
+    },100);
+  }
   if(id==='pgMore') updateMoreProfile();
   if(id==='pgProfile'&&typeof renderProfileEdit==='function') renderProfileEdit();
+  // pgAnimal 진입 시 최신 프로필로 사전 세팅
+  if(id==='pgAnimal'&&!window._isSharedView&&window._lastSaju&&window._lastMBTI){
+    // 이미 데이터 있으면 바로 사용하도록 전역 상태 확인
+  }
   if(id==='pgAnimal'&&typeof renderAnimalPage==='function'&&!window._isSharedView) renderAnimalPage();
   if(id==='pgClover'&&typeof loadCloverHistory==='function') loadCloverHistory();
   if(!skipPush){
