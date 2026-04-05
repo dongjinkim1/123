@@ -2868,9 +2868,67 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 // Page navigation
 var pageStack=['pgLanding'];
 
+function renderProfileView() {
+  var el = document.getElementById('profileEditContent');
+  if (!el) return;
+  var titleEl = el.parentElement.querySelector('.save-title');
+  if (titleEl) titleEl.textContent = '내 프로필';
+  var name = (mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '사용자';
+  var mbti = window._lastMBTI || '';
+  var saju = window._lastSaju;
+  var aiResult = window._lastAIResult;
+  var animalEmoji = '🌟', animalTitle = '', animalSub = '', animalIcon = '';
+  if (aiResult && aiResult.animal) {
+    var aInfo = getAnimalResult(aiResult.animal.oheng, aiResult.animal.dominant_sipsung, aiResult.animal.condition);
+    if (aInfo && aInfo.mod) { animalEmoji = aInfo.emoji; animalTitle = aInfo.mod.title; animalSub = aiResult.animal.oheng + ' · ' + aiResult.animal.dominant_sipsung + ' · ' + aiResult.animal.condition; animalIcon = typeof resolveAnimalIcon === 'function' ? resolveAnimalIcon({ saju: saju, gg: window._lastGG }) : ''; }
+  }
+  var ilju = (saju && saju.P && saju.P[2]) ? saju.P[2].s + saju.P[2].b : '';
+  var birthInput = {};
+  try { var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]'); var rec = null; for (var i = hist.length - 1; i >= 0; i--) { if (hist[i].isMyProfile) { rec = hist[i]; break; } } if (!rec) for (var j = hist.length - 1; j >= 0; j--) { if (hist[j].input && hist[j].input.y) { rec = hist[j]; break; } } if (rec && rec.input) birthInput = rec.input; } catch(e) {}
+  if (!birthInput.y) { try { var saved = JSON.parse(localStorage.getItem('mbts_lastResult') || '{}'); if (saved.input) birthInput = saved.input; } catch(e) {} }
+  var gender = birthInput.gender || ST.gender || '';
+  var isLunar = birthInput.isLunar || false;
+  var birthStr = '';
+  if (birthInput.y) { birthStr = birthInput.y + '년 ' + birthInput.m + '월 ' + birthInput.d + '일'; }
+  var timeStr = '모름';
+  if (birthInput.h && birthInput.h !== '' && birthInput.h !== '모름') { timeStr = birthInput.h + '시'; if (birthInput.min && birthInput.min !== '') timeStr += ' ' + birthInput.min + '분'; }
+  var mbtiLetters = mbti ? mbti.split('') : [];
+  var mbtiDC = ['#5B8FD4','#2e8b57','#88619A','#c99a2e'];
+  var h = '';
+  h += '<div style="background:#fff;border-radius:24px;padding:32px 24px 24px;box-shadow:0 4px 24px rgba(139,108,193,0.08);border:1px solid rgba(139,108,193,0.06)">';
+  h += '<div style="text-align:center;margin-bottom:24px">';
+  h += '<div style="width:96px;height:96px;border-radius:50%;margin:0 auto 16px;background:linear-gradient(145deg,#F3EDFF,#FFE8F0);display:flex;align-items:center;justify-content:center;font-size:50px;box-shadow:0 6px 24px rgba(139,108,193,0.12);overflow:hidden">';
+  if (animalIcon) { h += '<img src="' + animalIcon + '" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'' + animalEmoji + '\'))">'; }
+  else { h += animalEmoji; }
+  h += '</div>';
+  h += '<div style="font-size:17px;font-weight:800;color:#2E1F4E;margin-bottom:4px">' + name + '</div>';
+  if (animalTitle) { h += '<div style="font-size:14px;font-weight:600;color:#6B4FA0;margin-bottom:4px">' + animalTitle + '</div>'; h += '<div style="font-size:12px;color:#A99BBF">' + animalSub + (ilju ? ' · ' + ilju + ' 일주' : '') + '</div>'; }
+  else { h += '<div style="font-size:13px;color:#A99BBF">분석하면 나의 동물이 나타나요</div>'; }
+  h += '</div>';
+  h += '<div style="height:1px;background:linear-gradient(90deg,transparent,#E8DEFF,transparent);margin:0 0 20px"></div>';
+  h += '<div style="display:flex;flex-direction:column;gap:14px">';
+  if (birthStr) { h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">생년월일</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + birthStr + ' <span style="font-size:11px;color:#C4B8D8;margin-left:4px">' + (isLunar ? '음력' : '양력') + '</span></span></div>'; }
+  h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">태어난 시간</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + timeStr + '</span></div>';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">출생지</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + (birthInput.city || '모름') + '</span></div>';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">성별</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + (gender === '남' ? '남성' : gender === '여' ? '여성' : '미설정') + '</span></div>';
+  if (mbtiLetters.length === 4) {
+    h += '<div><div style="font-size:12px;font-weight:600;color:#A99BBF;margin-bottom:8px">MBTI</div><div style="display:flex;gap:6px">';
+    for (var mi = 0; mi < 4; mi++) { h += '<div style="flex:1;text-align:center;padding:10px 0 8px;background:' + mbtiDC[mi] + '10;border-radius:12px;border:1.5px solid ' + mbtiDC[mi] + '30"><div style="font-size:22px;font-weight:900;color:' + mbtiDC[mi] + '">' + mbtiLetters[mi] + '</div></div>'; }
+    h += '</div></div>';
+  }
+  h += '</div>';
+  h += '<button onclick="renderProfileEdit()" style="width:100%;padding:15px;font-size:15px;font-weight:700;color:#6B4FA0;background:rgba(139,108,193,0.08);border:1.5px solid rgba(139,108,193,0.15);border-radius:14px;cursor:pointer;font-family:inherit;margin-top:20px;transition:all .2s">✏️ 프로필 수정하기</button>';
+  h += '</div>';
+  h += '<div style="text-align:center;margin-top:16px;font-size:12px;color:#C4B8D8;line-height:1.6">프로필을 수정하면 사주가 즉시 재계산돼요<br>기존 프리미엄 분석 결과는 유지됩니다</div>';
+  el.innerHTML = h;
+}
+
 async function renderProfileEdit() {
   var el = document.getElementById('profileEditContent');
   if (!el) return;
+  // 페이지 타이틀 변경
+  var titleEl2 = el.parentElement.querySelector('.save-title');
+  if (titleEl2) titleEl2.textContent = '프로필 수정';
 
   var name = (mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '사용자';
   var mbti = window._lastMBTI || '';
@@ -3218,7 +3276,7 @@ async function saveProfileFull() {
   showToast('저장되었어요! 동물이 업데이트됐어요 ✨');
   if(btn){btn.disabled=false;btn.textContent='저장하기';}
 
-  setTimeout(function() { if (typeof renderProfileEdit === 'function') renderProfileEdit(); }, 300);
+  setTimeout(function() { if (typeof renderProfileView === 'function') renderProfileView(); }, 300);
 }
 
 function updateHomeProfile() {
@@ -3324,7 +3382,7 @@ function go(id,skipPush){
     },100);
   }
   if(id==='pgMore') updateMoreProfile();
-  if(id==='pgProfile'&&typeof renderProfileEdit==='function') renderProfileEdit();
+  if(id==='pgProfile'&&typeof renderProfileView==='function') renderProfileView();
   // pgAnimal 진입 시 최신 프로필로 사전 세팅
   if(id==='pgAnimal'&&!window._isSharedView&&window._lastSaju&&window._lastMBTI){
     // 이미 데이터 있으면 바로 사용하도록 전역 상태 확인
