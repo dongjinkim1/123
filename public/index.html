@@ -3050,7 +3050,6 @@ async function saveProfileFull() {
   if (city && CITY_LNG[city]) cityLng = CITY_LNG[city];
   var newMBTI = _profMbtiCh.map(function(c,i){return c===null?'?':(c==='L'?DM_AX[i].L:DM_AX[i].R);}).join('');
   var newMbtiIt = _profMbtiIt.slice();
-  var isLunar = (_profCalType === 'lunar');
 
   // 인라인 밸리데이션
   var _valid = true;
@@ -3085,9 +3084,23 @@ async function saveProfileFull() {
   }
 
   try {
-    var newSaju = calcSajuForApp(parseInt(y), parseInt(m), parseInt(d), ph ? parseInt(ph) : null, pmin ? parseInt(pmin) : null, isLunar, cityLng);
+    // 음력→양력 변환 (pgBirth goToMBTI와 동일한 패턴)
+    var calcY = parseInt(y), calcM = parseInt(m), calcD = parseInt(d);
+    var isLunar = (_profCalType === 'lunar');
+    if (isLunar && typeof lunarToSolar === 'function') {
+      var solar = lunarToSolar(calcY, calcM, calcD, false);
+      if (!solar) {
+        showToast('음력 날짜를 확인해주세요');
+        if(btn){btn.disabled=false;btn.textContent='저장하기';}
+        return;
+      }
+      calcY = solar.year;
+      calcM = solar.month;
+      calcD = solar.day;
+    }
+    var newSaju = calcSajuForApp(calcY, calcM, calcD, ph ? parseInt(ph) : null, pmin ? parseInt(pmin) : null, cityLng);
     var newGG = analyzeGyeokguk(newSaju);
-    var newDW = calcDaewoon(newSaju, parseInt(y), parseInt(m), parseInt(d), ph ? parseInt(ph) : 12, pmin ? parseInt(pmin) : 0, gender);
+    var newDW = calcDaewoon(newSaju, calcY, calcM, calcD, ph ? parseInt(ph) : 12, pmin ? parseInt(pmin) : 0, gender);
 
     var _dom = newGG.dominant ? newGG.dominant[0] : '비겁';
     var _cond = '신강';
@@ -3109,7 +3122,7 @@ async function saveProfileFull() {
 
     try {
       localStorage.setItem('mbts_lastResult', JSON.stringify({
-        input: { y:y, m:m, d:d, h:ph, min:pmin, gender:gender, city:city, cityLng:cityLng, ch:ST.ch||null, it:ST.it||null },
+        input: { y:y, m:m, d:d, h:ph, min:pmin, gender:gender, city:city, cityLng:cityLng, isLunar:isLunar, ch:ST.ch||null, it:ST.it||null },
         saju: newSaju, dw: newDW, gg: newGG, mbti: newMBTI,
         mbtiObj: window._lastMBTIObj, aiResult: window._lastAIResult, isAI: window._lastIsAI
       }));
@@ -3123,7 +3136,7 @@ async function saveProfileFull() {
       for (var i = 0; i < hist.length; i++) {
         if (hist[i].isMyProfile) {
           hist[i].name = newName.trim();
-          hist[i].input = { y:y, m:m, d:d, h:ph, min:pmin, gender:gender, city:city, cityLng:cityLng };
+          hist[i].input = { y:y, m:m, d:d, h:ph, min:pmin, gender:gender, city:city, cityLng:cityLng, isLunar:isLunar };
           hist[i].saju = newSaju; hist[i].dw = newDW; hist[i].gg = newGG; hist[i].mbti = newMBTI;
           hist[i].animal = newAnimal; hist[i].animalIlju = myIlju;
           if (animalInfo) {
@@ -3138,7 +3151,7 @@ async function saveProfileFull() {
         var newRec = {
           id: String(Date.now()) + '_' + String(Math.random()).slice(2,8),
           name: newName.trim(), date: new Date().toISOString().slice(0,10),
-          input: { y:y, m:m, d:d, h:ph, min:pmin, gender:gender, city:city, cityLng:cityLng },
+          input: { y:y, m:m, d:d, h:ph, min:pmin, gender:gender, city:city, cityLng:cityLng, isLunar:isLunar },
           isMyProfile: true, saju: newSaju, dw: newDW, gg: newGG, mbti: newMBTI,
           mbtiObj: window._lastMBTIObj || null, aiResult: window._lastAIResult || null, isAI: false,
           animal: newAnimal, animalIcon: animalInfo ? getAnimalIconUrl(animalInfo.name) : '',
