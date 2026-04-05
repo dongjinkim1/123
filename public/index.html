@@ -3077,7 +3077,7 @@ async function saveProfileFull() {
   try {
     var newSaju = calcSajuForApp(parseInt(y), parseInt(m), parseInt(d), ph ? parseInt(ph) : null, pmin ? parseInt(pmin) : null, null);
     var newGG = analyzeGyeokguk(newSaju);
-    var newDW = calcDaewoon(newSaju, gender);
+    var newDW = calcDaewoon(newSaju, parseInt(y), parseInt(m), parseInt(d), ph ? parseInt(ph) : 12, pmin ? parseInt(pmin) : 0, gender);
 
     var _dom = newGG.dominant ? newGG.dominant[0] : '비겁';
     var _cond = '신강';
