@@ -386,7 +386,7 @@
     h += '📝 MBTS 전체 분석 보기 <span style="font-size:11px;opacity:0.75;margin-left:2px">🍀15</span></button>';
 
     // 궁합
-    h += '<button class="svc-cta" onclick="renderCompatPage()" style="background:rgba(212,115,139,0.06);color:#D4738B;border:1.5px solid rgba(212,115,139,0.12)">';
+    h += '<button class="svc-cta" onclick="renderBestMatchPage()" style="background:rgba(212,115,139,0.06);color:#D4738B;border:1.5px solid rgba(212,115,139,0.12)">';
     h += '💕 나와 맞는 동물은?</button>';
 
     h += '</div>';
@@ -955,6 +955,234 @@
   console.log('[MBTS][DEBUG] ANIMALS 존재:', typeof ANIMALS);
   console.log('[MBTS][DEBUG] getAnimalResult 존재:', typeof getAnimalResult);
   console.log('[MBTS][DEBUG] getFortuneTarget 존재:', typeof getFortuneTarget);
+
+  // ══════════════════════════════════════
+  // "잘 맞는 동물" 1:1 매칭 (Best Match)
+  // ══════════════════════════════════════
+
+  function findBestMatch(myOheng, mySipsung, myCondition) {
+    if (typeof OH_SANG_REV === 'undefined' || typeof ANIMALS === 'undefined') return null;
+    if (typeof SS_COMPAT === 'undefined') return null;
+
+    var ssc = SS_COMPAT[mySipsung];
+    if (!ssc) ssc = SS_COMPAT['비겁'];
+
+    var genMe = OH_SANG_REV[myOheng];
+    var matchKey = genMe + '_' + ssc.best.ss;
+    var matchAnimal = ANIMALS[matchKey];
+    if (!matchAnimal) return null;
+
+    var matchCond = (typeof MATCH_COND !== 'undefined' && MATCH_COND[myCondition]) ? MATCH_COND[myCondition] : '신강';
+    var matchCondLabel = null;
+    for (var mi = 0; mi < matchAnimal.mods.length; mi++) {
+      if (matchAnimal.mods[mi].label === matchCond) { matchCondLabel = matchAnimal.mods[mi]; break; }
+    }
+    if (!matchCondLabel) matchCondLabel = matchAnimal.mods[0];
+
+    var textKey = myOheng + '_' + mySipsung + '_' + myCondition;
+    var matchText = (typeof ANIMAL_MATCH !== 'undefined') ? ANIMAL_MATCH[textKey] : null;
+
+    return {
+      animal: matchAnimal,
+      mod: matchCondLabel,
+      oheng: genMe,
+      sipsung: ssc.best.ss,
+      condition: matchCond,
+      text: matchText
+    };
+  }
+
+  function renderBestMatchPage() {
+    var rec = null;
+    if (typeof getFortuneTarget === 'function') rec = getFortuneTarget();
+    if (!rec) {
+      try {
+        var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+        if (hist.length > 0) rec = hist[hist.length - 1];
+      } catch(e) {}
+    }
+
+    window._compatMode = true;
+    go('pgAnimal');
+    window._compatMode = false;
+
+    if (!rec || !rec.saju) {
+      svcRenderNoResult();
+      return;
+    }
+
+    var info = extractMyAnimalInfo(rec);
+    var match = findBestMatch(info.oheng, info.dominantSS, info.condition);
+    if (!match) {
+      svcRenderNoResult();
+      return;
+    }
+
+    var pg = document.getElementById('pgAnimal');
+    _svcInAnalysis = true;
+    svcShowCompatLoading(pg);
+
+    setTimeout(function() {
+      svcRenderBestMatchResult(pg, info, match);
+      _svcInAnalysis = false;
+    }, 1800);
+  }
+
+  function svcRenderBestMatchResult(pg, info, match) {
+    if (!pg) return;
+
+    var myOc = OC[info.oheng] || OC['화'];
+    var matchOc = OC[match.oheng] || OC['화'];
+    var myImgCode = AN_MAP[info.animalName] || 'Li';
+    var matchImgCode = AN_MAP[match.animal.name] || 'Li';
+    var myIconUrl = '/animals-icon/' + myImgCode + '.png';
+    var matchIconUrl = '/animals-icon/' + matchImgCode + '.png';
+
+    var title = (match.text && match.text.title) ? match.text.title : match.animal.name + '과 잘 맞아요';
+    var paras = (match.text && match.text.text) ? match.text.text : [];
+    var tags = (match.text && match.text.tags) ? match.text.tags : [];
+
+    var h = '';
+    h += '<style>';
+    h += '@keyframes bmFadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}';
+    h += '@keyframes bmFadeL{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}';
+    h += '@keyframes bmFadeR{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}';
+    h += '@keyframes bmHeart{0%,100%{transform:scale(1)}14%{transform:scale(1.2)}28%{transform:scale(1)}42%{transform:scale(1.15)}70%{transform:scale(1)}}';
+    h += '.bm-cta{width:100%;padding:16px;font-size:15px;font-weight:700;border:none;border-radius:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:all .25s}';
+    h += '.bm-cta:hover{transform:translateY(-2px)}.bm-cta:active{transform:translateY(0)}';
+    h += '</style>';
+
+    h += '<div style="min-height:100vh;background:var(--bg)">';
+    h += '<div style="background:linear-gradient(180deg,rgba(212,115,139,0.10) 0%,rgba(255,220,230,0.14) 50%,var(--bg) 100%);padding:0 20px 32px;text-align:center">';
+
+    h += '<div style="padding:14px 0;display:flex;align-items:center">';
+    h += '<button onclick="go(\'pgDash\')" style="background:none;border:none;font-size:14px;font-weight:600;color:var(--rose);cursor:pointer;font-family:inherit">← 돌아가기</button></div>';
+
+    h += '<div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:22px">';
+
+    h += '<div style="text-align:center;animation:bmFadeL .6s ease both">';
+    h += '<div style="width:76px;height:76px;border-radius:50%;background:#fff;border:2.5px solid ' + myOc.m + '30;box-shadow:0 4px 16px ' + myOc.m + '15;overflow:hidden;display:flex;align-items:center;justify-content:center">';
+    h += '<img src="' + myIconUrl + '" style="width:78%;height:78%;object-fit:contain" onerror="this.parentNode.innerHTML=\'<span style=\\\'font-size:38px\\\'>' + info.emoji + '</span>\'">';
+    h += '</div><div style="font-size:11px;font-weight:700;color:' + myOc.m + ';margin-top:8px">' + info.animalName + '</div></div>';
+
+    h += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:-12px">';
+    h += '<div style="font-size:20px;animation:bmHeart 1.5s ease-in-out infinite">💕</div>';
+    h += '<div style="width:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,115,139,0.3),transparent)"></div></div>';
+
+    h += '<div style="text-align:center;animation:bmFadeR .6s ease both">';
+    h += '<div style="width:76px;height:76px;border-radius:50%;background:#fff;border:2.5px solid ' + matchOc.m + '30;box-shadow:0 4px 16px ' + matchOc.m + '15;overflow:hidden;display:flex;align-items:center;justify-content:center">';
+    h += '<img src="' + matchIconUrl + '" style="width:78%;height:78%;object-fit:contain" onerror="this.parentNode.innerHTML=\'<span style=\\\'font-size:38px\\\'>' + match.animal.emoji + '</span>\'">';
+    h += '</div><div style="font-size:11px;font-weight:700;color:' + matchOc.m + ';margin-top:8px">' + match.animal.name + '</div></div>';
+
+    h += '</div>';
+
+    h += '<div style="font-family:\'Noto Serif KR\',serif;font-size:20px;font-weight:700;color:var(--text-1);line-height:1.5;animation:bmFadeUp .6s ease both .2s;opacity:0">"' + title + '"</div>';
+
+    var subParts = [];
+    if (info.name && info.name !== '나') subParts.push(info.name);
+    if (info.birth) subParts.push(info.birth);
+    if (info.mbti) subParts.push(info.mbti);
+    h += '<div style="font-size:12px;color:var(--text-3);margin-top:8px;animation:bmFadeUp .5s ease both .3s;opacity:0">' + subParts.join(' · ') + '</div>';
+
+    h += '</div>';
+
+    h += '<div style="padding:0 16px 24px">';
+    h += '<div style="background:#fff;border-radius:24px;padding:24px 22px;box-shadow:0 2px 20px rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.04);animation:bmFadeUp .6s ease both .35s;opacity:0">';
+
+    h += '<div style="display:flex;align-items:center;gap:14px;margin-bottom:4px">';
+    h += '<div style="width:52px;height:52px;border-radius:50%;background:#fff;border:2.5px solid ' + matchOc.m + '30;box-shadow:0 4px 16px ' + matchOc.m + '15;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0">';
+    h += '<img src="' + matchIconUrl + '" style="width:78%;height:78%;object-fit:contain" onerror="this.parentNode.innerHTML=\'<span style=\\\'font-size:26px\\\'>' + match.animal.emoji + '</span>\'">';
+    h += '</div><div style="flex:1">';
+    h += '<div style="font-size:15px;font-weight:800;color:var(--text-1);line-height:1.4">' + match.mod.title + '</div>';
+    h += '<div style="display:flex;gap:6px;margin-top:5px;flex-wrap:wrap">';
+    h += '<span style="padding:2px 10px;background:' + matchOc.bg + ';border-radius:100px;font-size:10px;font-weight:700;color:' + matchOc.m + '">' + match.oheng + '(' + matchOc.hj + ')</span>';
+    h += '<span style="padding:2px 10px;background:rgba(212,115,139,0.08);border-radius:100px;font-size:10px;font-weight:700;color:var(--rose)">' + match.condition + '</span>';
+    h += '</div></div></div>';
+
+    h += '<div style="height:1px;background:rgba(0,0,0,0.04);margin:16px 0"></div>';
+
+    if (paras.length > 0) {
+      h += '<div style="font-size:14px;line-height:1.85;color:var(--text-2);letter-spacing:-0.2px">';
+      for (var i = 0; i < paras.length; i++) {
+        var delay = (0.45 + i * 0.1).toFixed(2);
+        h += '<p style="margin-bottom:' + (i < paras.length - 1 ? '16px' : '0') + ';animation:bmFadeUp .5s ease both ' + delay + 's;opacity:0">' + paras[i] + '</p>';
+      }
+      h += '</div>';
+    } else {
+      h += '<div style="text-align:center;padding:20px 0;color:var(--text-3);font-size:13px">텍스트 준비 중이에요 🔮</div>';
+    }
+
+    if (tags.length > 0) {
+      var tagColors = ['var(--rose)', '#22A469', '#2D7EB5'];
+      var tagBgs = ['rgba(212,115,139,0.08)', 'rgba(34,164,105,0.08)', 'rgba(45,126,181,0.08)'];
+      h += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;animation:bmFadeUp .5s ease both .75s;opacity:0">';
+      for (var t = 0; t < tags.length; t++) {
+        h += '<span style="padding:6px 14px;background:' + tagBgs[t % 3] + ';border-radius:100px;font-size:12px;font-weight:600;color:' + tagColors[t % 3] + '">' + tags[t] + '</span>';
+      }
+      h += '</div>';
+    }
+
+    h += '</div></div>';
+
+    h += '<div style="padding:0 16px 40px;display:flex;flex-direction:column;gap:10px;animation:bmFadeUp .5s ease both .85s;opacity:0">';
+    h += '<button class="bm-cta" onclick="goToGunghap(\'pgAnimal\')" style="background:linear-gradient(135deg,var(--rose),#C05875);color:#fff;box-shadow:0 4px 20px rgba(212,115,139,0.28)">';
+    h += '💕 이 동물이랑 궁합 자세히 보기 <span style="font-size:11px;opacity:0.75;margin-left:2px">🍀15</span></button>';
+    h += '<button class="bm-cta" onclick="svcShareBestMatchKakao()" style="background:#FEE500;color:#191919;box-shadow:0 4px 16px rgba(254,229,0,0.2)">';
+    h += '💬 카카오톡으로 공유하기</button>';
+    h += '</div>';
+
+    h += '</div>';
+
+    pg.innerHTML = h;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    window._lastBestMatch = { myInfo: info, match: match, title: title, tags: tags };
+  }
+
+  function svcShareBestMatchKakao() {
+    var data = window._lastBestMatch;
+    if (!data) return;
+
+    var shareUrl = 'https://mbts.kr';
+    if (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) {
+      shareUrl += '?ref=' + mbtsSession.userId;
+    }
+
+    var shareTitle = data.myInfo.emoji + ' ' + data.myInfo.animalName + ' × ' + data.match.animal.emoji + ' ' + data.match.animal.name;
+    var shareDesc = '"' + data.title + '"';
+
+    if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
+      try {
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: shareTitle,
+            description: shareDesc,
+            imageUrl: 'https://mbts.kr/animals-icon/' + (AN_MAP[data.match.animal.name] || 'Li') + '.png',
+            imageWidth: 800, imageHeight: 600,
+            link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
+          },
+          buttons: [{ title: '🔮 나도 잘 맞는 동물 알아보기', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }]
+        });
+        return;
+      } catch(e) { console.warn('[MBTS] 카카오 공유 실패:', e); }
+    }
+
+    if (navigator.share) {
+      navigator.share({ title: shareTitle, text: shareDesc + '\n\n나도 알아보기 👉\n' + shareUrl, url: shareUrl }).catch(function(){});
+      return;
+    }
+
+    var text = shareTitle + '\n' + shareDesc + '\n\n' + shareUrl;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() {
+        if (typeof showToast === 'function') showToast('복사되었어요!');
+      });
+    }
+  }
+
+  window.renderBestMatchPage = renderBestMatchPage;
+  window.svcShareBestMatchKakao = svcShareBestMatchKakao;
 
   console.log('[MBTS] service.js v2 loaded (프리미엄 톤 무료 동물 서비스)');
 })();
