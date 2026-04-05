@@ -18,15 +18,9 @@ body{display:flex;align-items:center;justify-content:center;height:100vh;margin:
   <div class="msg">카카오 로그인 처리 중...</div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-var SUPABASE_URL = 'https://amexswkqohkhypywuscp.supabase.co';
-var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtZXhzd2txb2hraHlweXd1c2NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5NTk1NTYsImV4cCI6MjA4NjUzNTU1Nn0.FIhu_kqvdagDuf3ljzsp0-llJJlBfvacpBDIGn__Plw';
-var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 var msgEl = document.querySelector('.msg');
 
-// URL에서 인가 코드 추출
 var urlParams = new URLSearchParams(window.location.search);
 var code = urlParams.get('code');
 var error = urlParams.get('error');
@@ -38,93 +32,49 @@ if (error) {
   msgEl.textContent = '인증 코드를 찾을 수 없습니다.';
   setTimeout(function() { window.location.href = '/'; }, 2000);
 } else {
-  // Netlify Function으로 토큰 교환 + 사용자 정보 조회
   var redirectUri = window.location.origin + '/auth/kakao/callback';
 
+  // 1단계: 카카오 토큰 교환 + 사용자 정보 조회
   fetch('/api/kakao-token?code=' + encodeURIComponent(code) + '&redirect_uri=' + encodeURIComponent(redirectUri))
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (!data.success || !data.kakao_id) {
       throw new Error(data.error || '사용자 정보 조회 실패');
     }
+    console.log('[MBTS] 카카오 사용자:', data.nickname, data.kakao_id);
 
-    var kakaoId = data.kakao_id;
-    var nickname = data.nickname || '사용자';
-    var profileImage = data.profile_image || null;
-    var email = data.email || null;
-
-    console.log('[MBTS] 카카오 사용자:', nickname, kakaoId);
-
-    // Supabase에서 기존 유저 확인
-    return sb.from('users').select('*').eq('kakao_id', kakaoId).maybeSingle()
-      .then(function(result) {
-        if (result.error) {
-          console.error('[MBTS] 유저 조회 에러:', result.error);
-          throw new Error('유저 조회 실패');
-        }
-
-        if (result.data) {
-          // 기존 유저
-          var user = result.data;
-          return sb.from('users')
-            .update({ nickname: nickname, profile_image: profileImage })
-            .eq('id', user.id)
-            .then(function() {
-              return {
-                userId: user.id,
-                kakaoId: kakaoId,
-                nickname: nickname,
-                profileImage: profileImage,
-                provider: 'kakao',
-                cloverBalance: user.clover_balance || 0
-              };
-            });
-        } else {
-          // 신규 유저
-          return sb.from('users')
-            .insert({
-              kakao_id: kakaoId,
-              nickname: nickname,
-              profile_image: profileImage,
-              email: email,
-              clover_balance: 50,
-              role: 'user'
-            })
-            .select()
-            .single()
-            .then(function(insertResult) {
-              if (insertResult.error) {
-                console.error('[MBTS] 유저 생성 에러:', insertResult.error);
-                throw new Error('유저 생성 실패');
-              }
-              var newUser = insertResult.data;
-
-              // 가입 보너스 기록
-              sb.from('clover_history').insert({
-                user_id: newUser.id,
-                amount: 50,
-                balance_after: 50,
-                type: 'signup_bonus',
-                description: '🎉 가입 축하 보너스'
-              });
-
-              return {
-                userId: newUser.id,
-                kakaoId: kakaoId,
-                nickname: nickname,
-                profileImage: profileImage,
-                provider: 'kakao',
-                cloverBalance: 50
-              };
-            });
-        }
-      });
+    // 2단계: 서버 API로 유저 생성/조회 (service role key 사용 → RLS 우회)
+    return fetch('/api/auth-kakao', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        kakaoId: data.kakao_id,
+        nickname: data.nickname || '사용자',
+        profileImage: data.profile_image || null,
+        email: data.email || null
+      })
+    });
   })
-  .then(function(sessionData) {
-    try {
-      localStorage.setItem('mbts_session', JSON.stringify(sessionData));
-    } catch(e) {}
-    msgEl.textContent = '환영합니다, ' + sessionData.nickname + '님! 🍀';
+  .then(function(r) { return r.json(); })
+  .then(function(result) {
+    if (!result.success || !result.user) {
+      throw new Error(result.error || '유저 처리 실패');
+    }
+    var u = result.user;
+    console.log('[MBTS] ' + (result.isNew ? '신규 유저 생성' : '기존 유저 로그인') + ':', u.nickname);
+
+    // 3단계: 세션 저장
+    var sessionData = {
+      userId: u.id,
+      kakaoId: u.kakaoId,
+      nickname: u.nickname,
+      profileImage: u.profileImage || null,
+      provider: 'kakao',
+      cloverBalance: u.cloverBalance || 0
+    };
+    try { localStorage.setItem('mbts_session', JSON.stringify(sessionData)); } catch(e) {}
+
+    msgEl.textContent = '환영합니다, ' + u.nickname + '님!';
     setTimeout(function() { window.location.href = '/'; }, 1000);
   })
   .catch(function(err) {
