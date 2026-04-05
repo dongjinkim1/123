@@ -688,7 +688,7 @@
   // ── 궁합 분석 실행 ──
   function svcStartCompatAnalysis() {
     var rec = window._compatSrc;
-    if (!rec || !rec.saju) { renderCompatPage(); return; }
+    if (!rec || !rec.saju) { renderBestMatchPage(); return; }
 
     _svcInAnalysis = true; // renderAnimalPage 재진입 방지
     var pg = document.getElementById('pgAnimal');
@@ -851,7 +851,7 @@
     h += '</div>';
 
     h += '<div style="text-align:center;margin-top:16px;padding-bottom:24px">';
-    h += '<button onclick="renderCompatPage()" style="background:none;border:none;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit;text-decoration:underline">🔄 다시 분석하기</button>';
+    h += '<button onclick="renderBestMatchPage()" style="background:none;border:none;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit;text-decoration:underline">🔄 다시 분석하기</button>';
     h += '</div>';
 
     h += '</div></div>';
