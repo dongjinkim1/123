@@ -2868,6 +2868,34 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 // Page navigation
 var pageStack=['pgLanding'];
 
+function getMyProfile() {
+  try {
+    var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+    for (var i = 0; i < hist.length; i++) {
+      if (hist[i].isMyProfile) return hist[i];
+    }
+  } catch(e) {}
+  return null;
+}
+
+function cleanupMyProfile() {
+  try {
+    var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
+    var found = false;
+    var changed = false;
+    for (var i = 0; i < hist.length; i++) {
+      if (hist[i].isMyProfile) {
+        if (found) { hist[i].isMyProfile = false; changed = true; }
+        found = true;
+      }
+    }
+    if (changed) {
+      localStorage.setItem('mbts_history', JSON.stringify(hist));
+      console.log('[MBTS] isMyProfile 중복 정리 완료');
+    }
+  } catch(e) {}
+}
+
 function renderProfileView() {
   var el = document.getElementById('profileEditContent');
   if (!el) return;
@@ -3202,7 +3230,9 @@ async function saveProfileFull() {
             hist[i].animalTag = animalInfo.mod ? animalInfo.mod.tag : '';
             hist[i].animalOneLine = animalInfo.mod ? animalInfo.mod.oneLine : '';
           }
-          found = true; break;
+          found = true;
+          localStorage.setItem('mbts_fortuneTarget', hist[i].id);
+          break;
         }
       }
       if (!found) {
@@ -3321,7 +3351,10 @@ function updateMoreProfile(){
   var infoEl=document.getElementById('moreProfileInfo');
   if(!emojiEl||!infoEl) return;
   try{
-    var rec=(typeof getFortuneTarget==='function')?getFortuneTarget():null;
+    var rec=(typeof getMyProfile==='function')?getMyProfile():null;
+    if(!rec){
+      rec=(typeof getFortuneTarget==='function')?getFortuneTarget():null;
+    }
     if(!rec){
       var hist=JSON.parse(localStorage.getItem('mbts_history')||'[]');
       if(hist.length>0) rec=hist[0];
@@ -8091,6 +8124,7 @@ setTimeout(async function() {
   if (typeof isLoggedIn === 'function' && isLoggedIn()) {
     await MBTSUser.load();
     await MBTSUser.loadHistory();
+    cleanupMyProfile();
     go('pgDash');
     if (typeof renderSaveCards === 'function') setTimeout(renderSaveCards, 200);
     if (typeof updateLoginUI === 'function') updateLoginUI();

@@ -13,7 +13,11 @@
         }
       }
       if (!rec) {
-        rec = hist[0];
+        // isMyProfile 레코드 우선
+        for (var j = 0; j < hist.length; j++) {
+          if (hist[j].isMyProfile) { rec = hist[j]; break; }
+        }
+        if (!rec) rec = hist[0];
         localStorage.setItem('mbts_fortuneTarget', rec.id);
       }
       return rec;
