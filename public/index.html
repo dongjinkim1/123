@@ -2875,14 +2875,16 @@ async function renderProfileEdit() {
     h += '<div style="padding:14px 16px;background:rgba(0,0,0,0.02);border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:15px;color:var(--text-2)">' + birthStr + '</div></div>';
   }
 
-  if (mbti) {
-    h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">MBTI</label>';
-    h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
-    for (var k = 0; k < mbti.length; k++) {
-      h += '<div style="text-align:center;padding:10px;background:rgba(139,108,193,0.06);border:1.5px solid var(--purple);border-radius:10px;font-size:18px;font-weight:800;color:var(--purple)">' + mbti[k] + '</div>';
-    }
-    h += '</div></div>';
+  _profileMBTI = mbti && mbti.length === 4 ? mbti.split('') : ['E','N','F','P'];
+  h += '<div style="margin-bottom:16px">';
+  h += '<label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">MBTI</label>';
+  h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
+  for (var i = 0; i < 4; i++) {
+    h += '<div onclick="toggleProfileMBTI(' + i + ')" id="profileMBTI' + i + '" style="text-align:center;padding:10px;background:rgba(139,108,193,0.06);border:1.5px solid var(--purple);border-radius:10px;font-size:18px;font-weight:800;color:var(--purple);cursor:pointer;transition:all 0.2s;user-select:none">' + _profileMBTI[i] + '</div>';
   }
+  h += '</div>';
+  h += '<div style="font-size:11px;color:var(--text-3);margin-top:6px;text-align:center">탭하여 변경 (예: E↔I, N↔S, F↔T, P↔J)</div>';
+  h += '</div>';
 
   if (ilju) {
     h += '<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">일주</label>';
@@ -2932,8 +2934,33 @@ async function saveProfile() {
 
   if (typeof updateHomeProfile === 'function') updateHomeProfile();
   if (typeof updateMoreProfile === 'function') updateMoreProfile();
+  // MBTI 변경 감지 → 동물 재계산
+  var newMBTI = _profileMBTI.join('');
+  var oldMBTI = window._lastMBTI || '';
+  if (newMBTI !== oldMBTI) {
+    window._lastMBTI = newMBTI;
+    if (window._lastSaju && window._lastGG) {
+      var _dom = window._lastGG.dominant ? window._lastGG.dominant[0] : '비겁';
+      var _cond = '신강';
+      if (window._lastGG.isJonggyeok || window._lastGG.isHwakyeok) _cond = '특수';
+      else if (window._lastGG.strengthGrade === '신약' || window._lastGG.strengthGrade === '극신약') _cond = '신약';
+      if (!window._lastAIResult) window._lastAIResult = {};
+      window._lastAIResult.animal = { oheng: window._lastSaju.dmEl, dominant_sipsung: _dom, condition: _cond };
+    }
+    try {
+      if (typeof supabase !== 'undefined' && mbtsSession && mbtsSession.userId) {
+        var _a = (window._lastAIResult && window._lastAIResult.animal) ? window._lastAIResult.animal : {};
+        var _animalKey = _a.oheng ? (_a.oheng + '_' + _a.dominant_sipsung + '_' + _a.condition) : '';
+        await supabase.from('users').update({ mbti: newMBTI, animal_key: _animalKey }).eq('id', mbtsSession.userId);
+      }
+    } catch(e) {}
+  }
+
   showToast('저장되었어요!');
   if(btn){btn.disabled=false;btn.textContent='저장하기';}
+
+  // 프로필 다시 렌더링
+  setTimeout(function() { if (typeof renderProfileEdit === 'function') renderProfileEdit(); }, 300);
 }
 
 function updateHomeProfile() {
@@ -5911,6 +5938,19 @@ go=function(id,skipPush){
   if(id==='pgChat')initChatPage();
 };
 
+var _profileMBTI = ['E','N','F','P'];
+
+function toggleProfileMBTI(idx) {
+  var pairs = [['E','I'],['N','S'],['F','T'],['P','J']];
+  _profileMBTI[idx] = (_profileMBTI[idx] === pairs[idx][0]) ? pairs[idx][1] : pairs[idx][0];
+  var el = document.getElementById('profileMBTI' + idx);
+  if (el) {
+    el.textContent = _profileMBTI[idx];
+    el.style.transform = 'scale(0.85)';
+    setTimeout(function() { el.style.transform = 'scale(1)'; }, 150);
+  }
+}
+
 var MBTSUser = {
   load: async function() {
     if (typeof supabase === 'undefined' || !mbtsSession || !mbtsSession.userId) return;
@@ -5925,6 +5965,75 @@ var MBTSUser = {
       window._lastAIResult.animal = { oheng: parts[0], dominant_sipsung: parts[1], condition: parts[2] || '신강' };
       console.log('[MBTSUser] 서버에서 복원:', d.ilju, d.mbti, d.animal_key);
     } catch(e) { console.warn('[MBTSUser] 로드 실패:', e); }
+  },
+
+  loadHistory: async function() {
+    if (typeof supabase === 'undefined' || !mbtsSession || !mbtsSession.userId) return;
+    try {
+      var sajuRes = await supabase.from('saju_results')
+        .select('full_record, created_at')
+        .eq('user_id', mbtsSession.userId)
+        .not('full_record', 'is', null)
+        .order('created_at', { ascending: true });
+      var ghRes = await supabase.from('gunghap_results')
+        .select('full_record, created_at')
+        .eq('user_id', mbtsSession.userId)
+        .not('full_record', 'is', null)
+        .order('created_at', { ascending: true });
+      if (sajuRes.data && sajuRes.data.length > 0) {
+        var localHist = [];
+        try { localHist = JSON.parse(localStorage.getItem('mbts_history') || '[]'); } catch(e) {}
+        var localIds = {};
+        for (var i = 0; i < localHist.length; i++) { if (localHist[i].id) localIds[localHist[i].id] = true; }
+        var added = 0;
+        for (var j = 0; j < sajuRes.data.length; j++) {
+          try {
+            var rec = typeof sajuRes.data[j].full_record === 'string' ? JSON.parse(sajuRes.data[j].full_record) : sajuRes.data[j].full_record;
+            if (rec && rec.id && !localIds[rec.id]) { localHist.push(rec); localIds[rec.id] = true; added++; }
+          } catch(e2) {}
+        }
+        if (added > 0) {
+          localStorage.setItem('mbts_history', JSON.stringify(localHist));
+          console.log('[MBTSUser] 사주 히스토리 ' + added + '건 동기화 완료');
+        }
+      }
+      if (ghRes.data && ghRes.data.length > 0) {
+        var localGh = [];
+        try { localGh = JSON.parse(localStorage.getItem('mbts_gh_history') || '[]'); } catch(e) {}
+        var ghIds = {};
+        for (var k = 0; k < localGh.length; k++) { if (localGh[k].id) ghIds[localGh[k].id] = true; }
+        var ghAdded = 0;
+        for (var l = 0; l < ghRes.data.length; l++) {
+          try {
+            var ghRec = typeof ghRes.data[l].full_record === 'string' ? JSON.parse(ghRes.data[l].full_record) : ghRes.data[l].full_record;
+            if (ghRec && ghRec.id && !ghIds[ghRec.id]) { localGh.push(ghRec); ghIds[ghRec.id] = true; ghAdded++; }
+          } catch(e3) {}
+        }
+        if (ghAdded > 0) {
+          localStorage.setItem('mbts_gh_history', JSON.stringify(localGh));
+          console.log('[MBTSUser] 궁합 히스토리 ' + ghAdded + '건 동기화 완료');
+        }
+      }
+      if (!window._lastSaju) {
+        var hist = [];
+        try { hist = JSON.parse(localStorage.getItem('mbts_history') || '[]'); } catch(e) {}
+        var myRec = null;
+        for (var m = hist.length - 1; m >= 0; m--) { if (hist[m].isMyProfile) { myRec = hist[m]; break; } }
+        if (!myRec && hist.length > 0) myRec = hist[hist.length - 1];
+        if (myRec && myRec.saju) {
+          window._lastSaju = myRec.saju;
+          window._lastDW = myRec.dw || null;
+          window._lastGG = myRec.gg || null;
+          window._lastMBTI = myRec.mbti || '';
+          window._lastMBTIObj = myRec.mbtiObj || null;
+          window._lastAIResult = myRec.aiResult || null;
+          window._lastIsAI = myRec.isAI || false;
+          console.log('[MBTSUser] 마지막 분석 결과 복원 완료');
+        }
+      }
+    } catch(e) {
+      console.warn('[MBTSUser] 히스토리 동기화 실패:', e);
+    }
   },
 
   sync: function() {
@@ -7625,7 +7734,9 @@ setTimeout(async function() {
 
   if (typeof isLoggedIn === 'function' && isLoggedIn()) {
     await MBTSUser.load();
+    await MBTSUser.loadHistory();
     go('pgDash');
+    if (typeof renderSaveCards === 'function') setTimeout(renderSaveCards, 200);
     if (typeof updateLoginUI === 'function') updateLoginUI();
     if (typeof updateHomeProfile === 'function') setTimeout(updateHomeProfile, 100);
   }
