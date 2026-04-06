@@ -4583,39 +4583,85 @@ function prefillBirthForm(){
   var iconBg=_ohBg[oheng]||'#F2F4F6,#E2E8F0';
   var iconShadow=_ohShadow[oheng]||'rgba(0,0,0,0.08)';
 
-  var ch='';
+  // 동물 정보 조회
+  var animalTitle = '';
+  var animalSub2 = '';
+  var ilju2 = '';
+  if (rec.saju && rec.saju.P && rec.saju.P[2]) { ilju2 = rec.saju.P[2].s + rec.saju.P[2].b; }
+  if (rec.animal || (window._lastAIResult && window._lastAIResult.animal)) {
+    var _an = rec.animal || window._lastAIResult.animal;
+    var _aInfo = getAnimalResult(_an.oheng, _an.dominant_sipsung, _an.condition);
+    if (_aInfo && _aInfo.mod) {
+      animalTitle = _aInfo.mod.title;
+      animalSub2 = _an.oheng + ' · ' + _an.dominant_sipsung + ' · ' + _an.condition + (ilju2 ? ' · ' + ilju2 + ' 일주' : '');
+    }
+  }
 
-  // ── 프로필 카드 (분석하기 버튼 포함) ──
-  ch+='<div style="background:rgba(255,255,255,0.5);border-radius:18px;padding:20px;border:1px solid rgba(139,108,193,0.08);margin-bottom:12px">';
+  var birthStr2 = '';
+  if (inp.y) birthStr2 = inp.y + '년 ' + inp.m + '월 ' + inp.d + '일';
+  var calLabel2 = inp.isLunar ? '음력' : '양력';
+  var timeStr2 = '모름';
+  if (inp.h && inp.h !== '' && inp.h !== '모름') { timeStr2 = inp.h + '시'; if (inp.min && inp.min !== '') timeStr2 += ' ' + inp.min + '분'; }
+  var genderStr2 = inp.gender === '남' ? '남성' : inp.gender === '여' ? '여성' : '미설정';
 
-  // 프로필 영역
-  ch+='<div style="display:flex;align-items:center;gap:16px">';
-  ch+='<div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,'+iconBg+');display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;box-shadow:0 3px 12px '+iconShadow+'">';
-  ch+=(icon?'<img src="'+icon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟');
-  ch+='</div>';
-  ch+='<div style="flex:1;min-width:0">';
-  ch+='<div style="font-size:18px;font-weight:700;color:#2E1F4E">'+nameStr+'</div>';
-  ch+='<div style="font-size:14px;color:#8B6CC1;margin-top:4px">'+infoStr+'</div>';
-  ch+='</div>';
-  ch+='<span onclick="editPrefillForm()" style="font-size:13px;color:#8B6CC1;font-weight:600;flex-shrink:0;cursor:pointer">수정</span>';
-  ch+='</div>';
+  var mbtiLetters2 = mbtiStr ? mbtiStr.split('') : [];
+  var mbtiDC2 = ['#5B8FD4','#2e8b57','#88619A','#c99a2e'];
 
-  ch+='<div style="height:1px;background:rgba(139,108,193,0.08);margin:18px 0"></div>';
+  var ch = '';
 
-  // 분석하기 버튼
-  ch+='<button class="prefill-float" onclick="usePrefill()" style="width:100%;padding:15px 0;background:#8B6CC1;border:none;border-radius:14px;cursor:pointer;font-size:16px;font-weight:700;color:#fff;font-family:inherit;letter-spacing:-0.2px;box-shadow:0 4px 15px rgba(139,108,193,0.25)">'+btnLabel+'</button>';
+  // ── 소프트카드 ──
+  ch += '<div style="background:#fff;border-radius:24px;padding:28px 22px 22px;box-shadow:0 4px 24px rgba(139,108,193,0.08);border:1px solid rgba(139,108,193,0.06);margin-bottom:12px">';
 
-  ch+='</div>';
+  ch += '<div style="text-align:center;margin-bottom:20px">';
+  ch += '<div style="width:88px;height:88px;border-radius:50%;margin:0 auto 14px;background:linear-gradient(145deg,#F3EDFF,#FFE8F0);display:flex;align-items:center;justify-content:center;font-size:46px;box-shadow:0 6px 20px rgba(139,108,193,0.12);overflow:hidden">';
+  if (icon) { ch += '<img src="' + icon + '" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">'; }
+  else { ch += '🌟'; }
+  ch += '</div>';
+  ch += '<div style="font-size:17px;font-weight:800;color:#2E1F4E;margin-bottom:4px">' + nameStr + '</div>';
+  if (animalTitle) {
+    ch += '<div style="font-size:14px;font-weight:600;color:#6B4FA0;margin-bottom:4px">' + animalTitle + '</div>';
+    ch += '<div style="font-size:12px;color:#A99BBF">' + animalSub2 + '</div>';
+  }
+  ch += '</div>';
+
+  ch += '<div style="height:1px;background:linear-gradient(90deg,transparent,#E8DEFF,transparent);margin:0 0 16px"></div>';
+
+  ch += '<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">';
+  if (birthStr2) {
+    ch += '<div style="display:flex;justify-content:space-between"><span style="font-size:12px;font-weight:600;color:#A99BBF">생년월일</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + birthStr2 + ' <span style="font-size:11px;color:#C4B8D8">' + calLabel2 + '</span></span></div>';
+  }
+  ch += '<div style="display:flex;justify-content:space-between"><span style="font-size:12px;font-weight:600;color:#A99BBF">태어난 시간</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + timeStr2 + '</span></div>';
+  ch += '<div style="display:flex;justify-content:space-between"><span style="font-size:12px;font-weight:600;color:#A99BBF">성별</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + genderStr2 + '</span></div>';
+  ch += '</div>';
+
+  if (mbtiLetters2.length === 4) {
+    ch += '<div style="margin-bottom:18px">';
+    ch += '<div style="font-size:12px;font-weight:600;color:#A99BBF;margin-bottom:8px">MBTI</div>';
+    ch += '<div style="display:flex;gap:6px">';
+    for (var mi2 = 0; mi2 < 4; mi2++) {
+      ch += '<div style="flex:1;text-align:center;padding:10px 0 8px;background:' + mbtiDC2[mi2] + '10;border-radius:12px;border:1.5px solid ' + mbtiDC2[mi2] + '30">';
+      ch += '<div style="font-size:22px;font-weight:900;color:' + mbtiDC2[mi2] + '">' + mbtiLetters2[mi2] + '</div>';
+      ch += '</div>';
+    }
+    ch += '</div></div>';
+  }
+
+  ch += '<div style="display:flex;gap:8px">';
+  ch += '<button class="prefill-float" onclick="editPrefillForm()" style="flex:1;padding:14px;font-size:14px;font-weight:600;color:#6B4FA0;background:rgba(139,108,193,0.08);border:1.5px solid rgba(139,108,193,0.15);border-radius:14px;cursor:pointer;font-family:inherit">✏️ 수정</button>';
+  ch += '<button class="prefill-float" onclick="usePrefill()" style="flex:2;padding:14px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#8B6CC1,#6B4FA0);border:none;border-radius:14px;cursor:pointer;font-family:inherit;box-shadow:0 4px 16px rgba(107,79,160,0.2)">🔮 ' + btnLabel + '</button>';
+  ch += '</div>';
+
+  ch += '</div>';
 
   // ── 친구 배너 카드 ──
-  ch+='<div class="prefill-float" onclick="showBirthForm()" style="background:linear-gradient(135deg,#FFE0EC,#E8DEFF);border-radius:16px;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:14px">';
-  ch+='<div style="font-size:28px">✨</div>';
-  ch+='<div style="flex:1">';
-  ch+='<div style="font-size:14px;font-weight:700;color:#2E1F4E">친구 사주도 궁금하지 않으세요?</div>';
-  ch+='<div style="font-size:12px;color:#7B5FB0;margin-top:2px">이름과 생년월일만 입력하면 끝!</div>';
-  ch+='</div>';
-  ch+='<div style="color:rgba(139,108,193,0.4);font-size:18px">›</div>';
-  ch+='</div>';
+  ch += '<div class="prefill-float" onclick="showBirthForm()" style="background:linear-gradient(135deg,#FFE0EC,#E8DEFF);border-radius:16px;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:14px">';
+  ch += '<div style="font-size:28px">✨</div>';
+  ch += '<div style="flex:1">';
+  ch += '<div style="font-size:14px;font-weight:700;color:#2E1F4E">친구 사주도 궁금하지 않으세요?</div>';
+  ch += '<div style="font-size:12px;color:#7B5FB0;margin-top:2px">이름과 생년월일만 입력하면 끝!</div>';
+  ch += '</div>';
+  ch += '<div style="color:rgba(139,108,193,0.4);font-size:18px">›</div>';
+  ch += '</div>';
 
   prefillCard.innerHTML=ch;
   prefillCard.style.display='block';
