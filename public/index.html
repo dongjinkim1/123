@@ -4673,6 +4673,7 @@ function prefillBirthForm(){
 // ── "분석하기" 클릭 — MBTI 3단계 폴백 + 바로 분석 ──
 function usePrefill(){
   if(window._prefillLock)return;
+  window._isEditMode = false;
   window._prefillLock=true;
   setTimeout(function(){window._prefillLock=false;},3000);
 
@@ -4723,6 +4724,7 @@ function usePrefill(){
 
 // ── "수정" 클릭 — 데이터 채운 채로 폼 열기 ──
 function editPrefillForm(){
+  window._isEditMode = true;
   var rec=window._prefillRec;
   if(!rec||!rec.input)return;
   var inp=rec.input;
@@ -4754,6 +4756,7 @@ function editPrefillForm(){
 
 // ── "다른 사람 분석하기" 클릭 — 빈 폼 열기 ──
 function showBirthForm(){
+  window._isEditMode = false;
   var prefillCard=document.getElementById('birthPrefillCard');
   var glassCard=document.querySelector('.birth-glass-card');
   var ctaWrap=document.getElementById('birthCtaWrap');
@@ -4902,7 +4905,7 @@ function renderMBTI(){
   document.getElementById('mbti-intensity').innerHTML=ihtml;
   document.getElementById('mbti-intensity').style.display='block';
   // Next button
-  var ok=c!==null&&iv!==null;var btn=document.getElementById('mbti-next-btn');btn.disabled=!ok;btn.style.background=ok?'linear-gradient(135deg,'+ac+','+ac+'cc)':'rgba(0,0,0,0.08)';btn.style.cursor=ok?'pointer':'not-allowed';btn.textContent=cur<3?'다음 →':'🔮 나의 운명 분석 시작';btn.style.color=ok?'#fff':'var(--text-3)';if(ok)btn.style.boxShadow='0 4px 16px '+ac+'30';else btn.style.boxShadow='none';
+  var ok=c!==null&&iv!==null;var btn=document.getElementById('mbti-next-btn');btn.disabled=!ok;btn.style.background=ok?(window._isEditMode&&cur===3?'linear-gradient(135deg,#22A469,#1A8F58)':'linear-gradient(135deg,'+ac+','+ac+'cc)'):'rgba(0,0,0,0.08)';btn.style.cursor=ok?'pointer':'not-allowed';btn.textContent=cur<3?'다음 →':(window._isEditMode?'💾 저장하기':'🔮 나의 운명 분석 시작');btn.style.color=ok?'#fff':'var(--text-3)';if(ok)btn.style.boxShadow='0 4px 16px '+ac+'30';else btn.style.boxShadow='none';
 }
 function pickMBTI(s){mbtiCh[mbtiCur]=s;mbtiIt[mbtiCur]=null;renderMBTI();}
 function pickIntensity(v){mbtiIt[mbtiCur]=v;renderMBTI();}
@@ -6688,6 +6691,58 @@ function mbtiGoNext(){
   console.log('🔍[1] mbtiGoNext 진입, mbtiCur='+mbtiCur);
   if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null){console.log('❌ 선택값 null → return');return;}
   if(mbtiCur<3){mbtiCur++;renderMBTI();return;}
+  // ── 수정 모드: 분석 안 돌리고 저장만 ──
+  if(window._isEditMode){
+    window._isEditMode=false;
+    var _ey=document.getElementById('bYear').value;
+    var _em=document.getElementById('bMonth').value||document.getElementById('bMonthInput').value;
+    var _ed=document.getElementById('bDay').value||document.getElementById('bDayInput').value;
+    var _eh=document.getElementById('bHour')?document.getElementById('bHour').value:'';
+    var _emin=document.getElementById('bMin')?document.getElementById('bMin').value:'';
+    var _ecity=document.getElementById('bCity')?document.getElementById('bCity').value:'';
+    if(!_ecity) _ecity=document.getElementById('bCityInput')?document.getElementById('bCityInput').value:'';
+    var _ename=document.getElementById('bName')?document.getElementById('bName').value.trim():'';
+    var _embtiResult=mbtiCh.map(function(c,i){return c==='L'?DM_AX[i].L:DM_AX[i].R;}).join('');
+    var _embtiObj={type:_embtiResult,ch:mbtiCh.slice(),it:mbtiIt.slice()};
+    var _ehist=JSON.parse(localStorage.getItem('mbts_history')||'[]');
+    var _erec=window._prefillRec;
+    if(_erec&&_erec.id){
+      for(var _ei=0;_ei<_ehist.length;_ei++){
+        if(_ehist[_ei].id===_erec.id){
+          _ehist[_ei].name=_ename||_ehist[_ei].name;
+          _ehist[_ei].input={y:_ey,m:_em,d:_ed,h:_eh,min:_emin,city:_ecity,gender:birthGender,ch:mbtiCh.slice(),it:mbtiIt.slice()};
+          _ehist[_ei].mbti=_embtiResult;
+          _ehist[_ei].mbtiObj=_embtiObj;
+          if(typeof calcSajuForApp==='function'){
+            try{_ehist[_ei].saju=calcSajuForApp(parseInt(_ey),parseInt(_em),parseInt(_ed),_eh?parseInt(_eh):'',_emin?parseInt(_emin):'',getCityLng(_ecity));}catch(e){}
+          }
+          if(_ehist[_ei].saju){
+            var _egg=typeof analyzeGyeokguk==='function'?analyzeGyeokguk(_ehist[_ei].saju):null;
+            if(_egg){
+              _ehist[_ei].gg=_egg;
+              var _edom=_egg.dominant?_egg.dominant[0]:'비겁';
+              var _econd='신강';
+              if(_egg.isJonggyeok||_egg.isHwakyeok) _econd='특수';
+              else if(_egg.strengthGrade==='신약'||_egg.strengthGrade==='극신약') _econd='신약';
+              _ehist[_ei].animal={oheng:_ehist[_ei].saju.dmEl,dominant_sipsung:_edom,condition:_econd};
+              var _eanimal=typeof getAnimalResult==='function'?getAnimalResult(_ehist[_ei].saju.dmEl,_edom,_econd):null;
+              if(_eanimal){
+                _ehist[_ei].animalIcon=typeof getAnimalIconUrl==='function'?getAnimalIconUrl(_eanimal.name):'';
+                _ehist[_ei].animalTag=_eanimal.mod?_eanimal.mod.tag:'';
+                _ehist[_ei].animalOneLine=_eanimal.mod?_eanimal.mod.oneLine:'';
+              }
+            }
+          }
+          break;
+        }
+      }
+    }
+    localStorage.setItem('mbts_history',JSON.stringify(_ehist));
+    if(typeof showToast==='function') showToast('✅ 저장 완료!');
+    go('pgSave');
+    if(typeof renderSaveCards==='function') setTimeout(renderSaveCards,100);
+    return;
+  }
   console.log('🔍[2] STEP4 완료, 데이터 수집 시작');
   console.log('🔍[3] bYear='+document.getElementById('bYear').value);
   console.log('🔍[4] bMonth='+document.getElementById('bMonth').value+'|'+document.getElementById('bMonthInput').value);
