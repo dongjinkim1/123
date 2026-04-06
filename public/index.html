@@ -8699,6 +8699,90 @@ if('serviceWorker' in navigator){
   } catch(e) { console.warn('[MBTSJob] 복구 실패:', e); }
 })();
 
+// ============================================================
+// streamSonnet → MBTSJob 오버라이드 (서버사이드 분석)
+// 폰 앱 전환/화면 꺼짐에도 분석이 끊기지 않음
+// ============================================================
+(function() {
+  if (typeof MBTSJob === 'undefined') {
+    console.warn('[MBTS] MBTSJob not loaded, skipping streamSonnet override');
+    return;
+  }
+
+  var _origStreamSonnet = window.streamSonnet;
+
+  window.streamSonnet = async function(apiKey, systemPrompt, userMsg, label, callbacks, endpoint) {
+    callbacks = callbacks || {};
+    var onMessage = callbacks.onMessage || function(){};
+    var onProgress = callbacks.onProgress || function(){};
+    var onPercent = callbacks.onPercent || function(){};
+    var onError = callbacks.onError || function(){};
+
+    var type = (endpoint && endpoint.indexOf('gunghap') >= 0) ? 'gunghap' : 'saju';
+    console.log('[MBTS] streamSonnet 오버라이드 → MBTSJob (' + type + ')');
+
+    onMessage(label + ' 준비 중...');
+    onProgress(5);
+
+    try {
+      var jobId = await MBTSJob.create(type, {
+        systemPrompt: systemPrompt,
+        userPrompt: userMsg,
+        model: 'claude-sonnet-4-6',
+        max_tokens: 8000
+      });
+      console.log('[MBTS] Job 생성 완료:', jobId);
+      onMessage(label + ' 서버에서 분석 중...');
+      onProgress(10);
+
+      return new Promise(function(resolve, reject) {
+        var pollStart = Date.now();
+
+        MBTSJob.poll(jobId, {
+          onDone: function(result) {
+            var text = (result && result.text) ? result.text : '';
+            console.log('[MBTS] Job 완료, 결과 길이:', text.length);
+            onMessage('분석 완료!');
+            onProgress(100);
+            onPercent(100);
+            resolve(text);
+          },
+          onFailed: function(err) {
+            console.error('[MBTS] Job 실패:', err);
+            onMessage('분석 실패');
+            console.log('[MBTS] 기존 스트리밍 방식으로 폴백 시도...');
+            onMessage(label + ' 재시도 중...');
+            _origStreamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, endpoint)
+              .then(resolve)
+              .catch(function(fallbackErr) {
+                if (onError) onError(fallbackErr.message || 'UNKNOWN');
+                reject(fallbackErr);
+              });
+          },
+          onProgress: function(status, progress) {
+            var elapsed = Date.now() - pollStart;
+            var fakePercent = Math.min(90, Math.floor(elapsed / 1000));
+            onPercent(fakePercent);
+            if (elapsed < 8000) onMessage(label + ' 사주를 펼칩니다...');
+            else if (elapsed < 16000) onMessage(label + ' 오행과 MBTI를 읽습니다...');
+            else if (elapsed < 25000) onMessage(label + ' MBTS를 엮습니다...');
+            else if (elapsed < 40000) onMessage(label + ' 이야기를 쓰는 중...');
+            else onMessage(label + ' 거의 다 됐어요...');
+          }
+        });
+      });
+
+    } catch (createErr) {
+      console.error('[MBTS] Job 생성 실패:', createErr);
+      console.log('[MBTS] 기존 스트리밍 방식으로 폴백...');
+      onMessage(label + ' 연결 중...');
+      return _origStreamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, endpoint);
+    }
+  };
+
+  console.log('[MBTS] streamSonnet → MBTSJob 오버라이드 완료');
+})();
+
 // ── 프로필 편집 바텀시트 ──
 function openProfileSheet() {
   var body = document.getElementById('profileSheetBody');
