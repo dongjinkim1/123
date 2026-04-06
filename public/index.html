@@ -2881,17 +2881,28 @@ function getMyProfile() {
 function cleanupMyProfile() {
   try {
     var hist = JSON.parse(localStorage.getItem('mbts_history') || '[]');
-    var found = false;
-    var changed = false;
+    var myRecs = [];
     for (var i = 0; i < hist.length; i++) {
-      if (hist[i].isMyProfile) {
-        if (found) { hist[i].isMyProfile = false; changed = true; }
-        found = true;
+      if (hist[i].isMyProfile) myRecs.push(i);
+    }
+    if (myRecs.length <= 1) return;
+
+    var keepIdx = myRecs[0];
+    if (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.nickname) {
+      for (var j = 0; j < myRecs.length; j++) {
+        if (hist[myRecs[j]].name === mbtsSession.nickname) { keepIdx = myRecs[j]; break; }
       }
     }
+
+    var changed = false;
+    for (var k = 0; k < myRecs.length; k++) {
+      if (myRecs[k] !== keepIdx) { hist[myRecs[k]].isMyProfile = false; changed = true; }
+    }
+
     if (changed) {
       localStorage.setItem('mbts_history', JSON.stringify(hist));
-      console.log('[MBTS] isMyProfile 중복 정리 완료');
+      localStorage.setItem('mbts_fortuneTarget', hist[keepIdx].id);
+      console.log('[MBTS] isMyProfile 중복 정리 완료, 유지:', hist[keepIdx].name);
     }
   } catch(e) {}
 }
@@ -3205,6 +3216,10 @@ async function saveProfileFull() {
     ST.ch = _profMbtiCh.slice();
     ST.it = newMbtiIt;
     if (newName) ST.name = newName.trim();
+    if (newName && typeof mbtsSession !== 'undefined' && mbtsSession) {
+      mbtsSession.nickname = newName.trim();
+      try { localStorage.setItem('mbts_session', JSON.stringify(mbtsSession)); } catch(e) {}
+    }
 
     try {
       localStorage.setItem('mbts_lastResult', JSON.stringify({

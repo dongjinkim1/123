@@ -63,6 +63,16 @@ function getCloverTypeLabel(type) {
 function showChargeModal() {
   var modal = document.getElementById('chargeModal');
   if (modal) modal.style.display = 'flex';
+  // "인기" 패키지 자동 선택 (초기값 0 버그 방지)
+  if (selectedChargeAmount <= 0) {
+    var popular = modal ? modal.querySelector('.charge-popular') : null;
+    if (popular) {
+      selectChargePkg(popular);
+    } else {
+      selectedChargeAmount = 50;
+      selectedChargePrice = 4500;
+    }
+  }
 }
 
 function hideChargeModal() {
