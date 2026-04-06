@@ -1,4 +1,5 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { waitUntil } from '@vercel/functions'
 
 export const maxDuration = 300
 
@@ -39,11 +40,15 @@ async function processJob(jobId, type, params) {
     console.log('[job-create] Job done:', jobId, 'tokens:', data.usage?.output_tokens)
   } catch (err) {
     console.error('[job-create] processJob error:', err)
-    await supabase.from('analysis_jobs').update({
-      status: 'failed',
-      error: err.message || 'Unknown error',
-      updated_at: new Date().toISOString()
-    }).eq('id', jobId)
+    try {
+      await supabase.from('analysis_jobs').update({
+        status: 'failed',
+        error: err.message || 'Unknown error',
+        updated_at: new Date().toISOString()
+      }).eq('id', jobId)
+    } catch (dbErr) {
+      console.error('[job-create] Failed to update job status:', dbErr)
+    }
   }
 }
 
@@ -64,7 +69,6 @@ export async function POST(request) {
       user_id: params.userId || null,
       params: { systemPrompt: params.systemPrompt, userPrompt: params.userPrompt, model: params.model, max_tokens: params.max_tokens }
     }
-    // 클라이언트가 보낸 jobId가 있으면 사용 (recovery 보장)
     if (body.jobId) insertObj.id = body.jobId
 
     var { data, error } = await supabase.from('analysis_jobs').insert(insertObj).select('id').single()
@@ -76,13 +80,10 @@ export async function POST(request) {
 
     var jobId = data.id
 
-    // 동기 방식: AI 호출 완료까지 대기 후 응답
-    // maxDuration 300초이므로 충분. 폰 앱 전환해도 서버는 계속 실행.
-    // 클라이언트는 job-create 응답 후 폴링 시작하지만,
-    // 이미 done 상태이므로 첫 폴링에서 바로 결과 수신.
-    await processJob(jobId, type, params)
+    // waitUntil: 응답 반환 후에도 서버에서 processJob 계속 실행
+    waitUntil(processJob(jobId, type, params))
 
-    // 처리 완료 후 응답 (클라이언트는 이 시점에 jobId를 받고 즉시 폴링 → done)
+    // 즉시 응답 (1초 이내)
     return Response.json({ jobId: jobId, status: 'processing' })
   } catch (err) {
     console.error('[job-create] Handler error:', err)
