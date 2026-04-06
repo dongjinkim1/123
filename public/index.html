@@ -8699,6 +8699,7 @@ if('serviceWorker' in navigator){
   } catch(e) { console.warn('[MBTSJob] 복구 실패:', e); }
 })();
 
+/* DISABLED — MBTSJob override 비활성화. 직접 스트리밍 복귀.
 // ============================================================
 // streamSonnet → MBTSJob 오버라이드 (서버사이드 분석)
 // 폰 앱 전환/화면 꺼짐에도 분석이 끊기지 않음
@@ -8782,6 +8783,7 @@ if('serviceWorker' in navigator){
 
   console.log('[MBTS] streamSonnet → MBTSJob 오버라이드 완료');
 })();
+*/
 
 // ── 프로필 편집 바텀시트 ──
 function openProfileSheet() {
