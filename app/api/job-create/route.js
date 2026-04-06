@@ -58,12 +58,16 @@ export async function POST(request) {
 
     var supabase = getServiceSupabase()
 
-    var { data, error } = await supabase.from('analysis_jobs').insert({
+    var insertObj = {
       type: type,
       status: 'pending',
       user_id: params.userId || null,
       params: { systemPrompt: params.systemPrompt, userPrompt: params.userPrompt, model: params.model, max_tokens: params.max_tokens }
-    }).select('id').single()
+    }
+    // 클라이언트가 보낸 jobId가 있으면 사용 (recovery 보장)
+    if (body.jobId) insertObj.id = body.jobId
+
+    var { data, error } = await supabase.from('analysis_jobs').insert(insertObj).select('id').single()
 
     if (error) {
       console.error('[job-create] Insert error:', error)

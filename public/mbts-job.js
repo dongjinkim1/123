@@ -4,18 +4,34 @@ var MBTSJob = (function() {
   var MAX_POLL_TIME = 600000;
   var JOB_STORAGE_KEY = 'mbts_active_job';
 
-  async function create(type, params) {
-    var res = await fetch('/api/job-create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: type, params: params })
+  function generateJobId() {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
-    var data = await res.json();
-    if (!data.jobId) throw new Error(data.error || 'Job creation failed');
+  }
+
+  async function create(type, params) {
+    var jobId = generateJobId();
+    // fetch 전에 localStorage 저장 (fetch 끊겨도 jobId 보존)
     localStorage.setItem(JOB_STORAGE_KEY, JSON.stringify({
-      jobId: data.jobId, type: type, createdAt: Date.now()
+      jobId: jobId, type: type, createdAt: Date.now()
     }));
-    return data.jobId;
+    try {
+      var res = await fetch('/api/job-create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: type, params: params, jobId: jobId })
+      });
+      var data = await res.json();
+      if (data.error) throw new Error(data.error);
+    } catch(e) {
+      console.warn('[MBTSJob] create fetch failed, but job may be processing:', e);
+    }
+    return jobId;
   }
 
   function poll(jobId, callbacks) {
