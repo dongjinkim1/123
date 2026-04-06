@@ -6243,6 +6243,7 @@ function applyLoginState(){
 }
 </script>
 <script src="engine.js"></script>
+<script src="mbts-job.js"></script>
 <script src="saju.js"></script>
 <script src="mbts-logic-v2.js"></script>
 <script src="gunghap.js"></script>
@@ -8646,6 +8647,56 @@ if('serviceWorker' in navigator){
     if (ok) MBTSShare.insertCTA(data.nickname);
     else console.warn('[MBTS] 공유 결과 렌더링 실패');
   } catch(e) { console.warn('[MBTS] 공유 로드 실패:', e); }
+})();
+
+// ── MBTSJob 복구 (앱 재진입 시 미완료 분석 복원) ──
+(async function recoverJob() {
+  if (typeof MBTSJob === 'undefined') return;
+  try {
+    var recovery = await MBTSJob.recover();
+    if (!recovery) return;
+    if (recovery.status === 'done' && recovery.result) {
+      console.log('[MBTSJob] 이전 분석 완료 복구:', recovery.type);
+      if (typeof showToast === 'function') showToast('이전 분석이 완료되었어요! 🎉');
+      if (recovery.type === 'saju' && recovery.result.text) {
+        try {
+          var parsed = JSON.parse(recovery.result.text);
+          if (parsed && typeof renderResult === 'function') {
+            window._lastAIResult = parsed;
+            window._lastIsAI = true;
+            renderResult(parsed, window._lastSaju, window._lastMBTI, window._lastGG, true);
+            go('pgRes');
+          }
+        } catch(pe) { console.warn('[MBTSJob] 결과 파싱 실패:', pe); }
+      }
+    } else if (recovery.status === 'running') {
+      console.log('[MBTSJob] 진행 중인 분석 발견, 폴링 재개:', recovery.jobId);
+      go('pgLoad');
+      if (typeof startLoadAnim === 'function') startLoadAnim();
+      MBTSJob.poll(recovery.jobId, {
+        onDone: function(result) {
+          if (typeof showToast === 'function') showToast('분석 완료! 🎉');
+          if (result && result.text) {
+            try {
+              var p2 = JSON.parse(result.text);
+              if (p2 && typeof renderResult === 'function') {
+                window._lastAIResult = p2;
+                window._lastIsAI = true;
+                renderResult(p2, window._lastSaju, window._lastMBTI, window._lastGG, true);
+                go('pgRes');
+              }
+            } catch(pe2) { console.warn('[MBTSJob] 복구 결과 파싱 실패:', pe2); }
+          }
+        },
+        onFailed: function(err) {
+          if (typeof showToast === 'function') showToast('이전 분석이 실패했어요. 다시 시도해주세요.');
+          go('pgBirth');
+        }
+      });
+    } else if (recovery.status === 'failed') {
+      if (typeof showToast === 'function') showToast('이전 분석이 실패했어요.');
+    }
+  } catch(e) { console.warn('[MBTSJob] 복구 실패:', e); }
 })();
 
 // ── 프로필 편집 바텀시트 ──
