@@ -167,9 +167,9 @@
     var chatPage = pg.querySelector('.chat-page');
     if (chatPage) {
       chatPage.innerHTML = h;
-      chatPage.style.background = '#F8F7F4';
+      chatPage.style.cssText = 'background:#F8F7F4;height:100vh;height:100dvh;display:flex;flex-direction:column';
     } else {
-      pg.innerHTML = '<div class="chat-page" style="background:#F8F7F4">' + h + '</div>';
+      pg.innerHTML = '<div class="chat-page" style="background:#F8F7F4;height:100vh;height:100dvh;display:flex;flex-direction:column">' + h + '</div>';
     }
   }
 
@@ -425,9 +425,9 @@
     var chatPage = pg.querySelector('.chat-page');
     if (chatPage) {
       chatPage.innerHTML = h;
-      chatPage.style.background = '#F8F7F4';
+      chatPage.style.cssText = 'background:#F8F7F4;height:100vh;height:100dvh;display:flex;flex-direction:column';
     } else {
-      pg.innerHTML = '<div class="chat-page" style="background:#F8F7F4">' + h + '</div>';
+      pg.innerHTML = '<div class="chat-page" style="background:#F8F7F4;height:100vh;height:100dvh;display:flex;flex-direction:column">' + h + '</div>';
     }
 
     // 스크롤 & 포커스
@@ -520,8 +520,8 @@
       + '">\ud83d\udc30</div>';
     s += '<div style="'
       + 'background:#fff;border-radius:0 16px 16px 16px;padding:12px 16px;'
-      + 'font-size:14px;line-height:1.6;color:#333;'
-      + 'max-width:75%;box-shadow:0 1px 4px rgba(0,0,0,0.04)'
+      + 'font-size:14.5px;line-height:1.75;color:#333;'
+      + 'max-width:85%;box-shadow:0 1px 4px rgba(0,0,0,0.04)'
       + '">' + textToHtml(text) + '</div>';
     s += '</div>';
     return s;
@@ -534,7 +534,7 @@
     s += '<div style="display:flex;justify-content:flex-end;margin-bottom:12px">';
     s += '<div style="'
       + 'background:' + (m === 'fire' ? '#FFE8E8' : '#E8DEFF') + ';color:#333;border-radius:16px 0 16px 16px;'
-      + 'padding:12px 16px;font-size:14px;line-height:1.6;max-width:75%'
+      + 'padding:12px 16px;font-size:14px;line-height:1.7;max-width:80%'
       + '">' + textToHtml(text) + '</div>';
     s += '</div>';
     return s;
@@ -557,8 +557,8 @@
         + '">\ud83d\udc30</div>'
         + '<div' + (id ? ' id="' + id + '"' : '') + ' style="'
         + 'background:#fff;border-radius:0 16px 16px 16px;padding:12px 16px;'
-        + 'font-size:14px;line-height:1.6;color:#333;'
-        + 'max-width:75%;box-shadow:0 1px 4px rgba(0,0,0,0.04)'
+        + 'font-size:14.5px;line-height:1.75;color:#333;'
+        + 'max-width:85%;box-shadow:0 1px 4px rgba(0,0,0,0.04)'
         + '">' + (text ? textToHtml(text) : '') + '</div>';
       body.appendChild(row);
     } else {
@@ -566,7 +566,7 @@
       urow.style.cssText = 'display:flex;justify-content:flex-end;margin-bottom:12px';
       urow.innerHTML = '<div style="'
         + 'background:' + (m === 'fire' ? '#FFE8E8' : '#E8DEFF') + ';color:#333;border-radius:16px 0 16px 16px;'
-        + 'padding:12px 16px;font-size:14px;line-height:1.6;max-width:75%'
+        + 'padding:12px 16px;font-size:14px;line-height:1.7;max-width:80%'
         + '">' + textToHtml(text) + '</div>';
       body.appendChild(urow);
     }
@@ -716,8 +716,8 @@
       // 2단계: 버블 내용 교체 + 스타일 변경
       bubble.id = bubbleId || '';
       bubble.style.cssText = 'background:#fff;border-radius:0 16px 16px 16px;padding:12px 16px;'
-        + 'font-size:14px;line-height:1.6;color:#333;'
-        + 'max-width:75%;box-shadow:0 1px 4px rgba(0,0,0,0.04);'
+        + 'font-size:14.5px;line-height:1.75;color:#333;'
+        + 'max-width:85%;box-shadow:0 1px 4px rgba(0,0,0,0.04);'
         + 'opacity:0;transform:translateY(4px);'
         + 'transition:opacity 0.25s ease-out,transform 0.25s ease-out';
       bubble.innerHTML = textToHtml(text);

@@ -227,7 +227,8 @@
     h += '<div style="min-height:100vh;background:var(--bg)">';
 
     // ── 프리미엄 스타일 헤더 ──
-    h += '<div style="text-align:center;padding:36px 20px 16px">';
+    h += '<div style="padding:16px 20px 8px"><button onclick="go(\'pgDash\')" style="background:none;border:none;font-size:14px;color:var(--purple);cursor:pointer;padding:4px 0;font-family:inherit;font-weight:600">← 돌아가기</button></div>';
+    h += '<div style="text-align:center;padding:8px 20px 16px">';
     h += '<div onclick="go(\'pgDash\')" style="cursor:pointer;display:flex;justify-content:center;gap:0;margin-bottom:8px">';
     h += '<span style="font-weight:800;font-size:28px;line-height:1;color:#4CAF7D">M</span>';
     h += '<span style="font-weight:800;font-size:28px;line-height:1;color:#5B8FD4">B</span>';
@@ -238,11 +239,11 @@
     h += '</div>';
 
     // ── 동물 카드 + 콘텐츠 영역 (640px) ──
-    h += '<div style="max-width:640px;margin:0 auto;padding:0 16px 32px">';
+    h += '<div style="max-width:480px;margin:0 auto;padding:0 16px 32px">';
 
     // 동물 카드 이미지
     h += '<div style="animation:svcImgIn .7s cubic-bezier(.34,1.56,.64,1) both;margin-bottom:16px">';
-    h += '<div style="border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.08);aspect-ratio:2/1">';
+    h += '<div style="border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.08);aspect-ratio:16/9">';
     h += '<img src="' + imgUrl + '" alt="' + animal.name + '" style="width:100%;height:100%;object-fit:cover;display:block" ';
     h += 'onerror="this.parentNode.innerHTML=\'<div style=\\\'display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/3;font-size:100px;background:' + oc.bg + '\\\'>' + animal.emoji + '</div>\'">';
     h += '</div></div>';

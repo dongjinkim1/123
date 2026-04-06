@@ -1703,6 +1703,14 @@ button{font-family:inherit;cursor:pointer}
   margin-top:8px;cursor:pointer;transition:opacity .2s;
 }
 .profile-sheet .save-btn:active{opacity:0.8}
+/* 프로필 모바일 최적화 */
+#pgProfile .save-page { padding-top:4px !important; }
+#profileEditContent { padding:0 4px; }
+/* 채팅 전체 화면 */
+#pgChat { position:relative; }
+#pgChat .chat-page { max-width:100%; }
+/* pgAnimal 모바일 */
+#pgAnimal { padding-bottom:80px; }
 </style>
 
 <!-- Supabase SDK -->
@@ -3397,7 +3405,7 @@ function go(id,skipPush){
   pg.style.display=flexPages.indexOf(id)>=0?'flex':'block';
   pg.classList.add('active');
   // ── 글로벌 네비바 show/hide + active 상태 ──
-  var _hideNavPages=['pgLogin','pgBirth','pgMBTI','pgLoad','pgGhLoad','pgChat','pgAnimal','pgLanding'];
+  var _hideNavPages=['pgLogin','pgBirth','pgMBTI','pgLoad','pgGhLoad','pgChat','pgLanding'];
   var _gNav=document.getElementById('globalBottomNav');
   if(_gNav){
     _gNav.style.display=_hideNavPages.indexOf(id)>=0?'none':'flex';
