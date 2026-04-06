@@ -72,16 +72,14 @@ export async function POST(request) {
 
     var jobId = data.id
 
-    // Respond immediately, then process in background
-    // Using waitUntil pattern for Vercel Edge/Fluid Compute
-    var responseObj = Response.json({ jobId: jobId, status: 'pending' })
+    // 동기 방식: AI 호출 완료까지 대기 후 응답
+    // maxDuration 300초이므로 충분. 폰 앱 전환해도 서버는 계속 실행.
+    // 클라이언트는 job-create 응답 후 폴링 시작하지만,
+    // 이미 done 상태이므로 첫 폴링에서 바로 결과 수신.
+    await processJob(jobId, type, params)
 
-    // Process job (this runs after response is sent on Vercel with Fluid Compute)
-    processJob(jobId, type, params).catch(function(e) {
-      console.error('[job-create] Background process error:', e)
-    })
-
-    return responseObj
+    // 처리 완료 후 응답 (클라이언트는 이 시점에 jobId를 받고 즉시 폴링 → done)
+    return Response.json({ jobId: jobId, status: 'processing' })
   } catch (err) {
     console.error('[job-create] Handler error:', err)
     return Response.json({ error: 'Internal error' }, { status: 500 })
