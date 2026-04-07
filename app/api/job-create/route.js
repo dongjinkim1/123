@@ -1,92 +1,129 @@
+import Anthropic from '@anthropic-ai/sdk'
 import { getServiceSupabase } from '@/lib/supabase'
-import { waitUntil } from '@vercel/functions'
 
 export const maxDuration = 300
 
-async function processJob(jobId, type, params) {
-  var supabase = getServiceSupabase()
+const client = new Anthropic()
+const MODEL = 'claude-sonnet-4-6'
+
+function isValidJSON(text) {
+  if (!text || text.length < 100) return false
   try {
-    await supabase.from('analysis_jobs').update({ status: 'running', updated_at: new Date().toISOString() }).eq('id', jobId)
-
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: params.model || 'claude-sonnet-4-6',
-        max_tokens: params.max_tokens || 8000,
-        system: params.systemPrompt,
-        messages: [{ role: 'user', content: params.userPrompt }]
-      })
-    })
-
-    if (!response.ok) {
-      var errText = await response.text()
-      throw new Error('Claude API ' + response.status + ': ' + errText.substring(0, 200))
-    }
-
-    var data = await response.json()
-    var aiText = data.content[0].text
-
-    await supabase.from('analysis_jobs').update({
-      status: 'done',
-      result: { text: aiText, model: data.model, usage: data.usage },
-      updated_at: new Date().toISOString()
-    }).eq('id', jobId)
-
-    console.log('[job-create] Job done:', jobId, 'tokens:', data.usage?.output_tokens)
-  } catch (err) {
-    console.error('[job-create] processJob error:', err)
-    try {
-      await supabase.from('analysis_jobs').update({
-        status: 'failed',
-        error: err.message || 'Unknown error',
-        updated_at: new Date().toISOString()
-      }).eq('id', jobId)
-    } catch (dbErr) {
-      console.error('[job-create] Failed to update job status:', dbErr)
-    }
+    const cleaned = text.replace(/```json|```/g, '').trim()
+    let target = cleaned
+    const fb = cleaned.indexOf('{')
+    const lb = cleaned.lastIndexOf('}')
+    if (fb >= 0 && lb > fb) target = cleaned.substring(fb, lb + 1)
+    const obj = JSON.parse(target)
+    return !!(obj && obj.categories && obj.categories.length > 0)
+  } catch (e) {
+    return false
   }
 }
 
 export async function POST(request) {
+  console.log('[job-create] 요청 시작')
+  let jobId = null
+  let inputParams = null
+  let type = 'saju'
+
   try {
-    var body = await request.json()
-    var { type, params } = body
+    const body = await request.json()
+    const { systemPrompt, userPrompt, model } = body
+    jobId = body.jobId || null
+    inputParams = body.inputParams || null
+    type = (inputParams && inputParams.type) || body.type || 'saju'
 
-    if (!type || !params || !params.systemPrompt || !params.userPrompt) {
-      return Response.json({ error: 'Missing type or params' }, { status: 400 })
+    if (!jobId || !systemPrompt || !userPrompt) {
+      return Response.json(
+        { error: 'jobId, systemPrompt, userPrompt가 필요합니다.' },
+        { status: 400 }
+      )
     }
 
-    var supabase = getServiceSupabase()
+    const supabase = getServiceSupabase()
 
-    var insertObj = {
+    // processing 마킹
+    try {
+      await supabase.from('analysis_jobs').upsert({
+        id: jobId,
+        type: type,
+        status: 'processing',
+        params: inputParams || {},
+        updated_at: new Date().toISOString()
+      })
+    } catch (e) {
+      console.warn('[job-create] processing 마킹 실패:', e.message)
+    }
+
+    // ★ analyze/route.js와 동일한 JSON 강제 보강
+    const finalSystemPrompt = systemPrompt +
+      '\n\n[CRITICAL MACHINE-TO-MACHINE INSTRUCTION]\n' +
+      'This is an API endpoint, NOT a chat. Your output is fed directly into JSON.parse().\n' +
+      'Rules:\n' +
+      '1. First character of your response MUST be {\n' +
+      '2. Last character MUST be }\n' +
+      '3. ZERO text before { or after }\n' +
+      '4. NO markdown (```), NO comments, NO apologies, NO preamble\n' +
+      '5. All string values must use proper JSON escaping (\\n for newlines, \\\\ for backslash, \\" for quotes)\n' +
+      '6. Violation = system crash. Comply exactly.'
+
+    const useModel = model || MODEL
+    console.log(`[job-create] 모델: ${useModel}, jobId: ${jobId}`)
+
+    // Anthropic 호출 (비스트리밍, 동기)
+    const message = await client.messages.create({
+      model: useModel,
+      max_tokens: 30000,
+      temperature: 0.6,
+      system: finalSystemPrompt,
+      messages: [{ role: 'user', content: userPrompt }]
+    })
+
+    const fullText = message.content
+      .filter(b => b.type === 'text')
+      .map(b => b.text)
+      .join('')
+
+    console.log('[job-create] Anthropic 완료:', fullText.length, '자')
+
+    // 결과 저장 (analyze와 동일한 isValidJSON 검증)
+    const isComplete = isValidJSON(fullText)
+    await supabase.from('analysis_jobs').upsert({
+      id: jobId,
       type: type,
-      status: 'pending',
-      user_id: params.userId || null,
-      params: { systemPrompt: params.systemPrompt, userPrompt: params.userPrompt, model: params.model, max_tokens: params.max_tokens }
-    }
-    if (body.jobId) insertObj.id = body.jobId
+      status: isComplete ? 'done' : 'partial',
+      params: inputParams || {},
+      result: { text: fullText, length: fullText.length, model: message.model, usage: message.usage },
+      error: isComplete ? null : 'incomplete_response',
+      updated_at: new Date().toISOString()
+    })
 
-    var { data, error } = await supabase.from('analysis_jobs').insert(insertObj).select('id').single()
+    console.log('[job-create] Supabase 저장 완료 (' + (isComplete ? 'done' : 'partial') + ', ' + fullText.length + '자)')
 
-    if (error) {
-      console.error('[job-create] Insert error:', error)
-      return Response.json({ error: error.message }, { status: 500 })
-    }
+    return Response.json({ status: isComplete ? 'done' : 'partial', jobId: jobId })
 
-    var jobId = data.id
-
-    // waitUntil: 응답 반환 후에도 서버에서 processJob 계속 실행
-    waitUntil(processJob(jobId, type, params))
-
-    // 즉시 응답 (1초 이내)
-    return Response.json({ jobId: jobId, status: 'processing' })
   } catch (err) {
-    console.error('[job-create] Handler error:', err)
-    return Response.json({ error: 'Internal error' }, { status: 500 })
+    console.error('[job-create] 에러:', err.message)
+
+    if (jobId) {
+      try {
+        const supabase = getServiceSupabase()
+        await supabase.from('analysis_jobs').upsert({
+          id: jobId,
+          type: type,
+          status: 'failed',
+          params: inputParams || {},
+          error: err.message || 'unknown',
+          updated_at: new Date().toISOString()
+        })
+      } catch (e) {}
+    }
+
+    if (err.status === 529 || (err.error && err.error.type === 'overloaded_error')) {
+      return Response.json({ status: 'failed', error: 'overloaded_error' }, { status: 529 })
+    }
+
+    return Response.json({ status: 'failed', error: err.message || 'unknown' }, { status: 500 })
   }
 }
