@@ -5810,7 +5810,32 @@ async function _runGunghapAnalysis(){
     var _ixGhProgInited = false;
     var _ixGhCollectedSubs = [];
 
+    // ── 중복 요청 방지 ──
+    if (localStorage.getItem('mbts_active_job')) {
+      try {
+        var _ej2 = JSON.parse(localStorage.getItem('mbts_active_job'));
+        if (Date.now() - _ej2.createdAt < 120000) {
+          if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
+          return;
+        }
+      } catch(e) {}
+      localStorage.removeItem('mbts_active_job');
+    }
+
+    var _ghJobId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0;
+          return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+    var _ghInputParams = { relType: ghRel };
+    localStorage.setItem('mbts_active_job', JSON.stringify({
+      jobId: _ghJobId, type: 'gunghap', createdAt: Date.now(), input: _ghInputParams
+    }));
+
     var aiText=await streamSonnet(apiKey, systemPrompt, userPrompt, '💕 궁합', {
+      jobId: _ghJobId,
+      inputParams: _ghInputParams,
       subTitles: _ixGhSubTitles,
       onMessage:function(m){
         if (!_ixGhProgInited) {
@@ -5845,6 +5870,8 @@ async function _runGunghapAnalysis(){
         }
       }
     }, '/api/gunghap-analyze');
+
+    localStorage.removeItem('mbts_active_job');
 
     var aiResult=null;
     try{aiResult=JSON.parse(aiText);}catch(e){
@@ -6243,7 +6270,6 @@ function applyLoginState(){
 }
 </script>
 <script src="engine.js"></script>
-<script src="mbts-job.js"></script>
 <script src="saju.js"></script>
 <script src="mbts-logic-v2.js"></script>
 <script src="gunghap.js"></script>
@@ -7098,6 +7124,39 @@ function mbtiGoNext(){
 function startRealAnalysis(params){
   console.log('🔍[12] startRealAnalysis 진입, params:', JSON.stringify({y:params.y,m:params.m,d:params.d,gender:params.gender,apiKey:params.apiKey}));
   _isAnalyzing=true;
+
+  // ── 중복 요청 방지 ──
+  if (localStorage.getItem('mbts_active_job')) {
+    try {
+      var _ej = JSON.parse(localStorage.getItem('mbts_active_job'));
+      if (Date.now() - _ej.createdAt < 120000) {
+        if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
+        _isAnalyzing = false;
+        return;
+      }
+    } catch(e) {}
+    localStorage.removeItem('mbts_active_job');
+  }
+
+  // ── jobId 생성 ──
+  var _jobId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+    ? crypto.randomUUID()
+    : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+  var _inputParams = {
+    y: params.y, m: params.m, d: params.d,
+    h: params.h, min: params.min,
+    gender: params.gender,
+    mbtiChoices: params.mbtiChoices,
+    mbtiIntensities: params.mbtiIntensities,
+    cityLng: params.cityLng
+  };
+  localStorage.setItem('mbts_active_job', JSON.stringify({
+    jobId: _jobId, type: 'saju', createdAt: Date.now(), input: _inputParams
+  }));
+
   var bar=document.getElementById('load-bar');
   var phase=document.getElementById('load-phase');
   var hintBox=document.getElementById('load-hint-box');
@@ -7151,6 +7210,8 @@ function startRealAnalysis(params){
 
   console.log('🔍[13] runSajuAnalysis 호출 직전');
   runSajuAnalysis(params,{
+    jobId: _jobId,
+    inputParams: _inputParams,
     onProgress:function(pct){
       bar.style.width=Math.min(pct,100)+'%';
     },
@@ -7159,6 +7220,7 @@ function startRealAnalysis(params){
       /* 무시: 자체 타이머 시퀀스로 메시지 관리 */
     },
     onComplete:function(data){
+      localStorage.removeItem('mbts_active_job');
       _isAnalyzing=false;
       /* 타이머 취소 후 완료 표시 */
       if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
@@ -8649,141 +8711,211 @@ if('serviceWorker' in navigator){
   } catch(e) { console.warn('[MBTS] 공유 로드 실패:', e); }
 })();
 
-// ── MBTSJob 복구 (앱 재진입 시 미완료 분석 복원) ──
-(async function recoverJob() {
-  if (typeof MBTSJob === 'undefined') return;
-  try {
-    var recovery = await MBTSJob.recover();
-    if (!recovery) return;
-    if (recovery.status === 'done' && recovery.result) {
-      console.log('[MBTSJob] 이전 분석 완료 복구:', recovery.type);
-      if (typeof showToast === 'function') showToast('이전 분석이 완료되었어요! 🎉');
-      if (recovery.type === 'saju' && recovery.result.text) {
-        try {
-          var parsed = JSON.parse(recovery.result.text);
-          if (parsed && typeof renderResult === 'function') {
-            window._lastAIResult = parsed;
-            window._lastIsAI = true;
-            renderResult(parsed, window._lastSaju, window._lastMBTI, window._lastGG, true);
-            go('pgRes');
-          }
-        } catch(pe) { console.warn('[MBTSJob] 결과 파싱 실패:', pe); }
-      }
-    } else if (recovery.status === 'running') {
-      console.log('[MBTSJob] 진행 중인 분석 발견, 폴링 재개:', recovery.jobId);
-      go('pgLoad');
-      if (typeof startLoadAnim === 'function') startLoadAnim();
-      MBTSJob.poll(recovery.jobId, {
-        onDone: function(result) {
-          if (typeof showToast === 'function') showToast('분석 완료! 🎉');
-          if (result && result.text) {
-            try {
-              var p2 = JSON.parse(result.text);
-              if (p2 && typeof renderResult === 'function') {
-                window._lastAIResult = p2;
-                window._lastIsAI = true;
-                renderResult(p2, window._lastSaju, window._lastMBTI, window._lastGG, true);
-                go('pgRes');
-              }
-            } catch(pe2) { console.warn('[MBTSJob] 복구 결과 파싱 실패:', pe2); }
-          }
-        },
-        onFailed: function(err) {
-          if (typeof showToast === 'function') showToast('이전 분석이 실패했어요. 다시 시도해주세요.');
-          go('pgBirth');
-        }
-      });
-    } else if (recovery.status === 'failed') {
-      if (typeof showToast === 'function') showToast('이전 분석이 실패했어요.');
-    }
-  } catch(e) { console.warn('[MBTSJob] 복구 실패:', e); }
-})();
-
-/* DISABLED — MBTSJob override 비활성화. 직접 스트리밍 복귀.
-// ============================================================
-// streamSonnet → MBTSJob 오버라이드 (서버사이드 분석)
-// 폰 앱 전환/화면 꺼짐에도 분석이 끊기지 않음
-// ============================================================
+// ── MBTS Job 복구 (앱 재진입 시 미완료 분석 복원) ──
 (function() {
-  if (typeof MBTSJob === 'undefined') {
-    console.warn('[MBTS] MBTSJob not loaded, skipping streamSonnet override');
-    return;
-  }
+  var POLL_INTERVAL = 3000;
+  var MAX_POLL_WAIT = 300000;
 
-  var _origStreamSonnet = window.streamSonnet;
+  async function recoverJob() {
+    if (typeof _isAnalyzing !== 'undefined' && _isAnalyzing) {
+      var activeJob = localStorage.getItem('mbts_active_job');
+      if (activeJob) {
+        try {
+          var aj = JSON.parse(activeJob);
+          if (Date.now() - aj.createdAt > 180000) {
+            _isAnalyzing = false;
+            console.log('[MBTS] 복구: _isAnalyzing stuck 해제 (3분 초과)');
+          } else {
+            return;
+          }
+        } catch(e) { return; }
+      } else {
+        return;
+      }
+    }
 
-  window.streamSonnet = async function(apiKey, systemPrompt, userMsg, label, callbacks, endpoint) {
-    callbacks = callbacks || {};
-    var onMessage = callbacks.onMessage || function(){};
-    var onProgress = callbacks.onProgress || function(){};
-    var onPercent = callbacks.onPercent || function(){};
-    var onError = callbacks.onError || function(){};
+    var stored = localStorage.getItem('mbts_active_job');
+    if (!stored) return;
 
-    var type = (endpoint && endpoint.indexOf('gunghap') >= 0) ? 'gunghap' : 'saju';
-    console.log('[MBTS] streamSonnet 오버라이드 → MBTSJob (' + type + ')');
+    var job;
+    try { job = JSON.parse(stored); } catch(e) {
+      localStorage.removeItem('mbts_active_job'); return;
+    }
 
-    onMessage(label + ' 준비 중...');
-    onProgress(5);
+    if (Date.now() - job.createdAt > 600000) {
+      localStorage.removeItem('mbts_active_job');
+      return;
+    }
+
+    console.log('[MBTS] 복구: 미완료 job 발견 (' + job.type + ')');
 
     try {
-      var jobId = await MBTSJob.create(type, {
-        systemPrompt: systemPrompt,
-        userPrompt: userMsg,
-        model: 'claude-sonnet-4-6',
-        max_tokens: 8000
-      });
-      console.log('[MBTS] Job 생성 완료:', jobId);
-      onMessage(label + ' 서버에서 분석 중...');
-      onProgress(10);
+      var res = await fetch('/api/job-status?id=' + job.jobId);
+      var data = await res.json();
 
-      return new Promise(function(resolve, reject) {
-        var pollStart = Date.now();
-
-        MBTSJob.poll(jobId, {
-          onDone: function(result) {
-            var text = (result && result.text) ? result.text : '';
-            console.log('[MBTS] Job 완료, 결과 길이:', text.length);
-            onMessage('분석 완료!');
-            onProgress(100);
-            onPercent(100);
-            resolve(text);
-          },
-          onFailed: function(err) {
-            console.error('[MBTS] Job 실패:', err);
-            onMessage('분석 실패');
-            console.log('[MBTS] 기존 스트리밍 방식으로 폴백 시도...');
-            onMessage(label + ' 재시도 중...');
-            _origStreamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, endpoint)
-              .then(resolve)
-              .catch(function(fallbackErr) {
-                if (onError) onError(fallbackErr.message || 'UNKNOWN');
-                reject(fallbackErr);
-              });
-          },
-          onProgress: function(status, progress) {
-            var elapsed = Date.now() - pollStart;
-            var fakePercent = Math.min(90, Math.floor(elapsed / 1000));
-            onPercent(fakePercent);
-            if (elapsed < 8000) onMessage(label + ' 사주를 펼칩니다...');
-            else if (elapsed < 16000) onMessage(label + ' 오행과 MBTI를 읽습니다...');
-            else if (elapsed < 25000) onMessage(label + ' MBTS를 엮습니다...');
-            else if (elapsed < 40000) onMessage(label + ' 이야기를 쓰는 중...');
-            else onMessage(label + ' 거의 다 됐어요...');
-          }
-        });
-      });
-
-    } catch (createErr) {
-      console.error('[MBTS] Job 생성 실패:', createErr);
-      console.log('[MBTS] 기존 스트리밍 방식으로 폴백...');
-      onMessage(label + ' 연결 중...');
-      return _origStreamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, endpoint);
+      if (data.status === 'done') {
+        handleResult(job, data);
+      } else if (data.status === 'partial') {
+        localStorage.removeItem('mbts_active_job');
+        if (typeof showToast === 'function')
+          showToast('분석이 불완전하게 끝났어요. 다시 시도해주세요 🔄');
+      } else if (data.status === 'failed') {
+        localStorage.removeItem('mbts_active_job');
+        if (typeof showToast === 'function')
+          showToast('백그라운드 분석이 실패했어요. 다시 시도해주세요');
+      } else if (data.status === 'processing' || data.status === 'pending' || data.status === 'running') {
+        if (typeof showToast === 'function')
+          showToast('분석이 아직 진행 중이에요... ⏳');
+        startPolling(job);
+      } else if (data.status === 'not_found' || data.error === 'Job not found') {
+        localStorage.removeItem('mbts_active_job');
+      }
+    } catch(e) {
+      console.warn('[MBTS] 복구 조회 실패:', e);
     }
-  };
+  }
 
-  console.log('[MBTS] streamSonnet → MBTSJob 오버라이드 완료');
+  function startPolling(job) {
+    var start = Date.now();
+    var timer = setInterval(async function() {
+      if (Date.now() - start > MAX_POLL_WAIT) {
+        clearInterval(timer);
+        localStorage.removeItem('mbts_active_job');
+        if (typeof showToast === 'function')
+          showToast('분석 대기 시간이 초과됐어요. 다시 시도해주세요');
+        return;
+      }
+      try {
+        var res = await fetch('/api/job-status?id=' + job.jobId);
+        var data = await res.json();
+        if (data.status === 'done') {
+          clearInterval(timer);
+          handleResult(job, data);
+        } else if (data.status === 'failed' || data.status === 'partial') {
+          clearInterval(timer);
+          localStorage.removeItem('mbts_active_job');
+          if (typeof showToast === 'function')
+            showToast(data.status === 'partial'
+              ? '분석이 불완전해요 🔄' : '분석이 실패했어요');
+        }
+      } catch(e) {}
+    }, POLL_INTERVAL);
+  }
+
+  function handleResult(job, data) {
+    localStorage.removeItem('mbts_active_job');
+    var aiText = (data.result && data.result.text) ? data.result.text : '';
+    var parsed = parseAI(aiText);
+    if (!parsed) {
+      if (typeof showToast === 'function')
+        showToast('결과를 읽지 못했어요. 다시 시도해주세요 😢');
+      return;
+    }
+    if (job.type === 'saju') recoverSaju(parsed, data, job);
+    else if (job.type === 'gunghap') recoverGunghap(parsed, data, job);
+  }
+
+  function recoverSaju(parsed, data, job) {
+    var inp = null;
+    if (data.params && data.params.y) inp = data.params;
+    if (!inp && job.input && job.input.y) inp = job.input;
+    if (!inp) {
+      try {
+        var lr = JSON.parse(localStorage.getItem('mbts_lastResult'));
+        if (lr && lr.input) inp = lr.input;
+      } catch(e) {}
+    }
+    if (!inp) {
+      if (typeof showToast === 'function')
+        showToast('복구 데이터가 부족해요. 다시 분석해주세요');
+      return;
+    }
+    try {
+      var saju = calcSajuForApp(+inp.y, +inp.m, +inp.d,
+        inp.h ? +inp.h : null, inp.min ? +inp.min : null, inp.cityLng || null);
+      var gg = analyzeGyeokguk(saju);
+      var mt = inp.mbtiChoices ? getMBTIFromChoices(inp.mbtiChoices)
+             : (inp.mbti || 'INFP');
+      var dw = calcDaewoon(saju, +inp.y, +inp.m, +inp.d,
+        inp.h ? +inp.h : null, inp.min ? +inp.min : null, inp.gender || '여성');
+      var ti = TY[mt] || { n:'탐험가', cf:'Ni-Te-Fi-Se' };
+      var mbtiObj = {
+        type: mt, cf: ti.cf,
+        axes: inp.mbtiChoices ? [
+          { side: inp.mbtiChoices[0]==='L'?'E':'I', pct: (inp.mbtiIntensities||[])[0]||60 },
+          { side: inp.mbtiChoices[1]==='L'?'S':'N', pct: (inp.mbtiIntensities||[])[1]||60 },
+          { side: inp.mbtiChoices[2]==='L'?'T':'F', pct: (inp.mbtiIntensities||[])[2]||60 },
+          { side: inp.mbtiChoices[3]==='L'?'J':'P', pct: (inp.mbtiIntensities||[])[3]||60 }
+        ] : [], profile: ''
+      };
+      window._lastAIResult = parsed;
+      window._lastSaju = saju; window._lastDW = dw;
+      window._lastGG = gg; window._lastMBTI = mt;
+      window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
+      try {
+        localStorage.setItem('mbts_lastResult', JSON.stringify({
+          input: inp, saju: saju, dw: dw, gg: gg,
+          mbti: mt, mbtiObj: mbtiObj, aiResult: parsed, isAI: true
+        }));
+      } catch(e) {}
+      if (typeof showToast === 'function')
+        showToast('백그라운드에서 분석이 완료됐어요! ✨');
+      setTimeout(function() {
+        if (typeof renderResult === 'function')
+          renderResult(parsed, saju, mt, gg, true);
+        if (typeof go === 'function') go('pgRes');
+      }, 500);
+    } catch(err) {
+      console.error('[MBTS] 복구 재계산 실패:', err);
+      if (typeof showToast === 'function')
+        showToast('복구에 실패했어요. 다시 분석해주세요');
+    }
+  }
+
+  function recoverGunghap(parsed, data, job) {
+    if (typeof showToast === 'function')
+      showToast('백그라운드에서 궁합 분석이 완료됐어요! 💕');
+    if (typeof renderGunghapResultV2 === 'function') {
+      var relType = (data.params && data.params.relType)
+                 || (job.input && job.input.relType)
+                 || '연인';
+      setTimeout(function() {
+        renderGunghapResultV2(parsed, relType);
+        if (typeof go === 'function') go('gh-res');
+      }, 500);
+    }
+  }
+
+  function parseAI(text) {
+    if (!text) return null;
+    var c = text.replace(/```json|```/g, '').trim();
+    try { return JSON.parse(c); } catch(e) {}
+    var fb = c.indexOf('{'), lb = c.lastIndexOf('}');
+    if (fb >= 0 && lb > fb) {
+      try { return JSON.parse(c.substring(fb, lb + 1)); } catch(e) {}
+    }
+    if (fb >= 0) {
+      var s = c.substring(fb, lb + 1).replace(/[\x00-\x1F\x7F]/g,
+        function(ch) { return ch==='\n'||ch==='\r'||ch==='\t'?ch:''; });
+      try { return JSON.parse(s); } catch(e) {}
+    }
+    if (fb >= 0) {
+      var raw = c.substring(fb);
+      var oB=(raw.match(/{/g)||[]).length, cB=(raw.match(/}/g)||[]).length;
+      var oK=(raw.match(/\[/g)||[]).length, cK=(raw.match(/\]/g)||[]).length;
+      while(cK<oK){raw+=']';cK++;}
+      while(cB<oB){raw+='}';cB++;}
+      raw=raw.replace(/,\s*([}\]])/g,'$1');
+      try { return JSON.parse(raw); } catch(e) {}
+    }
+    return null;
+  }
+
+  setTimeout(recoverJob, 2000);
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') setTimeout(recoverJob, 1000);
+  });
 })();
-*/
 
 // ── 프로필 편집 바텀시트 ──
 function openProfileSheet() {
