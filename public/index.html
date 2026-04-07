@@ -7122,30 +7122,83 @@ function mbtiGoNext(){
 // 실제 분석 실행 (pgLoad UI 업데이트 + runSajuAnalysis)
 // ====================================================================
 function startRealAnalysis(params){
-  console.log('🔍[12] startRealAnalysis 진입, params:', JSON.stringify({y:params.y,m:params.m,d:params.d,gender:params.gender,apiKey:params.apiKey}));
-  _isAnalyzing=true;
+  console.log('[MBTS] startRealAnalysis 진입 (job polling 방식)');
+  _isAnalyzing = true;
+  var bar = document.getElementById('load-bar');
+  var phase = document.getElementById('load-phase');
+  var hintBox = document.getElementById('load-hint-box');
+  var logo = document.getElementById('load-logo');
+  bar.style.width = '0%'; if(hintBox) hintBox.innerHTML = '';
+  logo.style.animation = 'logoPulse 2.5s ease-in-out infinite';
+  phase.style.fontWeight = '300'; phase.style.color = 'var(--text-2)';
 
-  // ── 중복 요청 방지 ──
+  /* ── 자체 타이머 헬퍼 ── */
+  function setPhase(text) {
+    phase.style.opacity = '0'; phase.style.transform = 'translateY(-8px)';
+    setTimeout(function() {
+      phase.innerHTML = text + '<span class="load-dots"><span></span><span></span><span></span></span>';
+      phase.style.opacity = '1'; phase.style.transform = 'translateY(0)';
+    }, 200);
+  }
+  function addHint(text) {
+    if(!hintBox) return;
+    var h = document.createElement('div'); h.className = 'load-hint'; h.textContent = text;
+    if(hintBox.children.length >= 2) hintBox.removeChild(hintBox.firstChild);
+    hintBox.appendChild(h);
+  }
+  function clearHints() {
+    if(!hintBox) return;
+    hintBox.style.opacity = '0';
+    setTimeout(function(){ hintBox.innerHTML = ''; hintBox.style.opacity = '1'; }, 400);
+  }
+
+  /* ── 시퀀스 타이머 ── */
+  if(window._loadTimers){ window._loadTimers.forEach(clearTimeout); }
+  window._loadTimers = [];
+  var seq = [
+    {t:0,     fn:function(){ setPhase('사주를 펼칩니다'); }},
+    {t:8000,  fn:function(){ setPhase('오행과 MBTI를 읽습니다'); }},
+    {t:16000, fn:function(){ setPhase('MBTS를 엮습니다'); }},
+    {t:25000, fn:function(){ addHint('사주의 기운이 감지됩니다'); }},
+    {t:28000, fn:function(){ setPhase('천간과 지지를 읽는 중'); }},
+    {t:33000, fn:function(){ addHint('천간과 지지의 흐름을 분석합니다'); }},
+    {t:36000, fn:function(){ setPhase('두 흐름을 잇는 중'); }},
+    {t:42000, fn:function(){ addHint('당신의 MBTI 에너지를 읽습니다'); }},
+    {t:50000, fn:function(){ addHint('오행 균형과 신살을 계산합니다'); }},
+    {t:53000, fn:function(){ setPhase('당신만의 언어를 찾는 중'); }},
+    {t:60000, fn:function(){ addHint('핵심 키워드를 조합합니다'); }},
+    {t:66000, fn:function(){ setPhase('거의 다 읽었습니다'); clearHints(); }},
+    {t:72000, fn:function(){ setPhase('마지막 한 줄을 적는 중'); }}
+  ];
+  seq.forEach(function(s) {
+    var tid = setTimeout(s.fn, s.t);
+    window._loadTimers.push(tid);
+  });
+
+  /* ── 중복 요청 방지 ── */
   if (localStorage.getItem('mbts_active_job')) {
     try {
       var _ej = JSON.parse(localStorage.getItem('mbts_active_job'));
       if (Date.now() - _ej.createdAt < 120000) {
         if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
         _isAnalyzing = false;
+        if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
         return;
       }
     } catch(e) {}
     localStorage.removeItem('mbts_active_job');
   }
 
-  // ── jobId 생성 ──
+  /* ── jobId 생성 ── */
   var _jobId = (typeof crypto !== 'undefined' && crypto.randomUUID)
     ? crypto.randomUUID()
     : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0;
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
+
   var _inputParams = {
+    type: 'saju',
     y: params.y, m: params.m, d: params.d,
     h: params.h, min: params.min,
     gender: params.gender,
@@ -7153,117 +7206,218 @@ function startRealAnalysis(params){
     mbtiIntensities: params.mbtiIntensities,
     cityLng: params.cityLng
   };
+
   localStorage.setItem('mbts_active_job', JSON.stringify({
     jobId: _jobId, type: 'saju', createdAt: Date.now(), input: _inputParams
   }));
 
-  var bar=document.getElementById('load-bar');
-  var phase=document.getElementById('load-phase');
-  var hintBox=document.getElementById('load-hint-box');
-  var logo=document.getElementById('load-logo');
-  bar.style.width='0%';if(hintBox)hintBox.innerHTML='';
-  logo.style.animation='logoPulse 2.5s ease-in-out infinite';
-  phase.style.fontWeight='300';phase.style.color='var(--text-2)';
+  /* ── 사주/MBTI 로컬 계산 (결과 렌더링에 필요) ── */
+  var saju = calcSajuForApp(+params.y, +params.m, +params.d,
+    params.h ? +params.h : null, params.min ? +params.min : null, params.cityLng || null);
+  var gg = analyzeGyeokguk(saju);
+  var mt = getMBTIFromChoices(params.mbtiChoices);
+  var gender = params.gender === '남성' ? '남' : '여';
+  var dw = calcDaewoon(saju, +params.y, +params.m, +params.d,
+    params.h ? +params.h : null, params.min ? +params.min : null, gender);
+  var ti = TY[mt] || { n:'탐험가', cf:'Ni-Te-Fi-Se' };
+  var mbtiObj = {
+    type: mt, cf: ti.cf,
+    axes: [
+      {side: params.mbtiChoices[0]==='L'?'E':'I', pct: (params.mbtiIntensities||[])[0]||60},
+      {side: params.mbtiChoices[1]==='L'?'S':'N', pct: (params.mbtiIntensities||[])[1]||60},
+      {side: params.mbtiChoices[2]==='L'?'T':'F', pct: (params.mbtiIntensities||[])[2]||60},
+      {side: params.mbtiChoices[3]==='L'?'J':'P', pct: (params.mbtiIntensities||[])[3]||60}
+    ], profile: ''
+  };
 
-  /* ── 자체 타이머 헬퍼 ── */
-  function setPhase(text){
-    phase.style.opacity='0';phase.style.transform='translateY(-8px)';
-    setTimeout(function(){
-      phase.innerHTML=text+'<span class="load-dots"><span></span><span></span><span></span></span>';
-      phase.style.opacity='1';phase.style.transform='translateY(0)';
-    },200);
-  }
-  function addHint(text){
-    if(!hintBox) return;
-    var h=document.createElement('div');h.className='load-hint';h.textContent=text;
-    if(hintBox.children.length>=2) hintBox.removeChild(hintBox.firstChild);
-    hintBox.appendChild(h);
-  }
-  function clearHints(){
-    if(!hintBox) return;
-    hintBox.style.opacity='0';
-    setTimeout(function(){hintBox.innerHTML='';hintBox.style.opacity='1';},400);
-  }
+  /* ── 프롬프트 캡처: streamSonnet을 임시 교체 ── */
+  var _capturedSystem = null;
+  var _capturedUser = null;
+  var _origStreamSonnet2 = window.streamSonnet;
 
-  /* ── 시퀀스 타이머 ── */
-  if(window._loadTimers){window._loadTimers.forEach(clearTimeout);}
-  window._loadTimers=[];
-  var seq=[
-    {t:0,     fn:function(){setPhase('사주를 펼칩니다');}},
-    {t:8000,  fn:function(){setPhase('오행과 MBTI를 읽습니다');}},
-    {t:16000, fn:function(){setPhase('MBTS를 엮습니다');}},
-    {t:25000, fn:function(){addHint('사주의 기운이 감지됩니다');}},
-    {t:28000, fn:function(){setPhase('천간과 지지를 읽는 중');}},
-    {t:33000, fn:function(){addHint('천간과 지지의 흐름을 분석합니다');}},
-    {t:36000, fn:function(){setPhase('두 흐름을 잇는 중');}},
-    {t:42000, fn:function(){addHint('당신의 MBTI 에너지를 읽습니다');}},
-    {t:50000, fn:function(){addHint('오행 균형과 신살을 계산합니다');}},
-    {t:53000, fn:function(){setPhase('당신만의 언어를 찾는 중');}},
-    {t:60000, fn:function(){addHint('핵심 키워드를 조합합니다');}},
-    {t:66000, fn:function(){setPhase('거의 다 읽었습니다');clearHints();}},
-    {t:72000, fn:function(){setPhase('마지막 한 줄을 적는 중');}}
-  ];
-  seq.forEach(function(s){
-    var tid=setTimeout(s.fn,s.t);
-    window._loadTimers.push(tid);
-  });
+  window.streamSonnet = function(apiKey, sys, usr, label, callbacks, endpoint) {
+    _capturedSystem = sys;
+    _capturedUser = usr;
+    return Promise.resolve('{"categories":[]}');
+  };
 
-  console.log('🔍[13] runSajuAnalysis 호출 직전');
-  runSajuAnalysis(params,{
-    jobId: _jobId,
-    inputParams: _inputParams,
-    onProgress:function(pct){
-      bar.style.width=Math.min(pct,100)+'%';
-    },
-    onPercent:function(){},
-    onMessage:function(msg){
-      /* 무시: 자체 타이머 시퀀스로 메시지 관리 */
-    },
-    onComplete:function(data){
-      localStorage.removeItem('mbts_active_job');
-      _isAnalyzing=false;
-      /* 타이머 취소 후 완료 표시 */
-      if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
-      bar.style.width='100%';
-      phase.style.opacity='0';phase.style.transform='translateY(-8px)';
-      setTimeout(function(){
-        phase.innerHTML='분석이 완료되었습니다 ✨';
-        phase.style.opacity='1';phase.style.transform='translateY(0)';
-      },200);
-      phase.style.fontWeight='600';phase.style.color='var(--purple)';
-      logo.style.animation='loadFinish 1s ease both';
+  runSajuAnalysis(params, {
+    onProgress: function(){},
+    onPercent: function(){},
+    onMessage: function(){},
+    onComplete: function(data) {
+      window.streamSonnet = _origStreamSonnet2;
 
-      window._lastSaju=data.saju;
-      window._lastDW=data.dw;
-      window._lastGG=data.gg;
-      window._lastMBTI=data.mt;
-      window._lastMBTIObj=data.mbtiObj;
-      window._lastAIResult=data.result;
-      window._lastIsAI=data.isAI;
-      if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
+      if (!_capturedSystem || !_capturedUser) {
+        console.error('[MBTS] 프롬프트 캡처 실패');
+        _isAnalyzing = false;
+        localStorage.removeItem('mbts_active_job');
+        if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+        phase.innerHTML = '분석 준비 중 오류가 발생했어요 😢';
+        phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+        logo.style.animation = 'none';
+        alert('분석 준비 실패. 다시 시도해주세요.');
+        setTimeout(function(){ go('pgBirth'); }, 1000);
+        return;
+      }
 
-      try{
-        localStorage.setItem('mbts_lastResult',JSON.stringify({
-          input:{y:ST.y,m:ST.m,d:ST.d,h:ST.h,min:ST.min,gender:ST.gender,city:ST.city,cityLng:ST.cityLng,ch:ST.ch,it:ST.it},
-          saju:data.saju,dw:data.dw,gg:data.gg,mbti:data.mt,mbtiObj:data.mbtiObj,aiResult:data.result,isAI:data.isAI
-        }));
-      }catch(e){}
+      console.log('[MBTS] 프롬프트 캡처 완료, job-create 호출');
+      bar.style.width = '10%';
 
-      setTimeout(function(){
-        if(!data.result._progressiveRendered) {
-          renderResult(data.result,data.saju,data.mt,data.gg,data.isAI);
+      // ── job-create 호출 (fire-and-forget) ──
+      fetch('/api/job-create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jobId: _jobId,
+          systemPrompt: _capturedSystem,
+          userPrompt: _capturedUser,
+          model: 'claude-sonnet-4-6',
+          inputParams: _inputParams
+        })
+      }).catch(function(e) {
+        console.warn('[MBTS] job-create fetch 에러 (polling이 복구):', e);
+      });
+
+      // ── polling 시작 (3초 간격) ──
+      var _pollStart = Date.now();
+      var _pollTimer = setInterval(async function() {
+        if (Date.now() - _pollStart > 300000) {
+          clearInterval(_pollTimer);
+          _isAnalyzing = false;
+          localStorage.removeItem('mbts_active_job');
+          if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+          phase.innerHTML = '분석 시간이 초과됐어요 😢';
+          phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+          logo.style.animation = 'none';
+          alert('분석 시간 초과. 다시 시도해주세요.');
+          setTimeout(function(){ go('pgBirth'); }, 1000);
+          return;
         }
-      },1200);
+
+        var elapsed = Date.now() - _pollStart;
+        var fakePct = Math.min(90, Math.floor(elapsed / 1000) * 1.5);
+        bar.style.width = Math.max(fakePct, 10) + '%';
+
+        try {
+          var res = await fetch('/api/job-status?id=' + _jobId);
+          var data = await res.json();
+
+          if (data.status === 'done' && data.result && data.result.text) {
+            clearInterval(_pollTimer);
+            localStorage.removeItem('mbts_active_job');
+            if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+            console.log('[MBTS] job 완료! 결과:', data.result.length, '자');
+
+            var aiText = data.result.text;
+            var parsed = null;
+            var cleaned = aiText.replace(/```json|```/g, '').trim();
+            try { parsed = JSON.parse(cleaned); } catch(e) {
+              var fb = cleaned.indexOf('{'), lb = cleaned.lastIndexOf('}');
+              if (fb >= 0 && lb > fb) {
+                try { parsed = JSON.parse(cleaned.substring(fb, lb + 1)); } catch(e2) {}
+              }
+            }
+            if (!parsed) {
+              try {
+                var s = cleaned.substring(cleaned.indexOf('{'), cleaned.lastIndexOf('}') + 1)
+                  .replace(/[\x00-\x1F\x7F]/g, function(ch) { return ch==='\n'||ch==='\r'||ch==='\t'?ch:''; });
+                parsed = JSON.parse(s);
+              } catch(e3) {}
+            }
+            if (!parsed) {
+              try {
+                var raw = cleaned.substring(cleaned.indexOf('{'));
+                var oB=(raw.match(/{/g)||[]).length, cB=(raw.match(/}/g)||[]).length;
+                var oK=(raw.match(/\[/g)||[]).length, cK=(raw.match(/\]/g)||[]).length;
+                while(cK<oK){raw+=']';cK++;}
+                while(cB<oB){raw+='}';cB++;}
+                raw=raw.replace(/,\s*([}\]])/g,'$1');
+                parsed = JSON.parse(raw);
+              } catch(e4) {}
+            }
+
+            if (parsed && parsed.categories) {
+              if (typeof postValidateAI === 'function') {
+                try { parsed = postValidateAI(parsed, dw, saju, gg); } catch(e) {}
+              }
+
+              window._lastAIResult = parsed;
+              window._lastSaju = saju; window._lastDW = dw;
+              window._lastGG = gg; window._lastMBTI = mt;
+              window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
+              if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
+
+              try {
+                localStorage.setItem('mbts_lastResult', JSON.stringify({
+                  input: {y:params.y,m:params.m,d:params.d,h:params.h,min:params.min,
+                    gender:params.gender,city:params.city,cityLng:params.cityLng,
+                    ch:params.mbtiChoices,it:params.mbtiIntensities},
+                  saju:saju,dw:dw,gg:gg,mbti:mt,mbtiObj:mbtiObj,aiResult:parsed,isAI:true
+                }));
+              } catch(e) {}
+
+              _isAnalyzing = false;
+              bar.style.width = '100%';
+              phase.style.opacity = '0'; phase.style.transform = 'translateY(-8px)';
+              setTimeout(function() {
+                phase.innerHTML = '분석이 완료되었습니다 ✨';
+                phase.style.opacity = '1'; phase.style.transform = 'translateY(0)';
+              }, 200);
+              phase.style.fontWeight = '600'; phase.style.color = 'var(--purple)';
+              logo.style.animation = 'loadFinish 1s ease both';
+
+              setTimeout(function() {
+                renderResult(parsed, saju, mt, gg, true);
+              }, 1200);
+
+            } else {
+              _isAnalyzing = false;
+              if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+              phase.innerHTML = '분석 결과를 읽지 못했어요 😢';
+              phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+              logo.style.animation = 'none';
+              alert('AI 응답 파싱 실패. 다시 시도해주세요.');
+              setTimeout(function(){ go('pgBirth'); }, 1000);
+            }
+
+          } else if (data.status === 'failed') {
+            clearInterval(_pollTimer);
+            _isAnalyzing = false;
+            localStorage.removeItem('mbts_active_job');
+            if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+            phase.innerHTML = '분석 중 오류가 발생했어요 😢';
+            phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+            logo.style.animation = 'none';
+            alert('분석 오류: ' + (data.error || '알 수 없는 오류') + '\n\n다시 시도해주세요.');
+            setTimeout(function(){ go('pgBirth'); }, 1000);
+
+          } else if (data.status === 'partial') {
+            clearInterval(_pollTimer);
+            _isAnalyzing = false;
+            localStorage.removeItem('mbts_active_job');
+            if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+            phase.innerHTML = '분석이 불완전하게 끝났어요 😢';
+            phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+            logo.style.animation = 'none';
+            alert('분석이 불완전해요. 다시 시도해주세요.');
+            setTimeout(function(){ go('pgBirth'); }, 1000);
+          }
+        } catch(pollErr) {
+          console.warn('[MBTS] polling 에러:', pollErr);
+        }
+      }, 3000);
     },
-    onError:function(msg){
-      _isAnalyzing=false;
+    onError: function() {
+      window.streamSonnet = _origStreamSonnet2;
+      _isAnalyzing = false;
+      localStorage.removeItem('mbts_active_job');
       if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
-      phase.innerHTML='분석 중 오류가 발생했어요 😢';
-      phase.style.fontWeight='600';phase.style.color='#E8453C';
-      logo.style.animation='none';
-      console.error('[MBTS] Analysis error:',msg);
-      alert('분석 오류: '+msg+'\n\n다시 시도해주세요.');
-      setTimeout(function(){go('pgBirth');},1000);
+      phase.innerHTML = '분석 준비 중 오류가 발생했어요 😢';
+      phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+      logo.style.animation = 'none';
+      alert('분석 준비 실패. 다시 시도해주세요.');
+      setTimeout(function(){ go('pgBirth'); }, 1000);
     }
   });
 }
