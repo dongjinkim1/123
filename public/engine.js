@@ -2633,7 +2633,7 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
     r = await fetch(endpoint, {
       signal: ctrl.signal, method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({systemPrompt: systemPrompt, userPrompt: userMsg, model: currentModel})
+      body: JSON.stringify({systemPrompt: systemPrompt, userPrompt: userMsg, model: currentModel, jobId: callbacks.jobId || null, inputParams: callbacks.inputParams || null})
     });
     clearTimeout(connectTid);
     if(!r.ok) {
@@ -3087,6 +3087,8 @@ async function runSajuAnalysis(params, callbacks){
     var _collectedSubs = [];
     var _progInitDone = false;
     var _progCallbacks = {
+      jobId: callbacks.jobId,
+      inputParams: callbacks.inputParams,
       onMessage: callbacks.onMessage || function(){},
       onProgress: callbacks.onProgress || function(){},
       onPercent: callbacks.onPercent || function(){},
