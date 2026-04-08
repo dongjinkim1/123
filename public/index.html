@@ -5833,45 +5833,67 @@ async function _runGunghapAnalysis(){
       jobId: _ghJobId, type: 'gunghap', createdAt: Date.now(), input: _ghInputParams
     }));
 
-    var aiText=await streamSonnet(apiKey, systemPrompt, userPrompt, '💕 궁합', {
-      jobId: _ghJobId,
-      inputParams: _ghInputParams,
-      subTitles: _ixGhSubTitles,
-      onMessage:function(m){
-        if (!_ixGhProgInited) {
-          msg.innerHTML=m+'<span class="load-dots"><span></span><span></span><span></span></span>';
-        }
-      },
-      onProgress:function(p){
-        if (!_ixGhProgInited) {
-          bar.style.width=Math.max(Math.min(p,100),5)+'%';
-        }
-      },
-      onPercent:function(p){},
-      onBlueprint:function(){
-        console.log('[GH-STREAM] categories 시작 감지');
-      },
-      onSub:function(subObj, idx){
-        console.log('[GH-STREAM] sub #'+(idx+1)+': '+subObj.h);
-        _ixGhProgQueue.push({ sub: subObj, idx: idx });
-        _ixGhCollectedSubs.push(subObj);
+    // ── inputParams에 type: 'gunghap' 추가 ──
+    _ghInputParams.type = 'gunghap';
 
-        if (_ixGhProgQueue.length === 1 && !_ixGhProgInited) {
-          _ixGhProgInited = true;
-          if (window._ghLoadTimeouts) window._ghLoadTimeouts.forEach(clearTimeout);
-          if (typeof initGhProgressivePage === 'function') {
-            initGhProgressivePage(ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel);
+    // ── job-create 호출 (fire-and-forget) ──
+    fetch('/api/job-create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jobId: _ghJobId,
+        systemPrompt: systemPrompt,
+        userPrompt: userPrompt,
+        model: 'claude-sonnet-4-6',
+        inputParams: _ghInputParams
+      })
+    }).catch(function(e) {
+      console.warn('[MBTS] 궁합 job-create fetch 에러:', e);
+    });
+
+    // ── polling ──
+    msg.innerHTML = '궁합을 분석하고 있어요<span class="load-dots"><span></span><span></span><span></span></span>';
+    var _ghPollStart = Date.now();
+    var _ghMsgs = ['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...','오행 보완 관계를 읽습니다...','인지기능 궁합 탐색...','연애 케미를 계산합니다...','갈등 패턴을 분석합니다...','장기 전망을 그립니다...','두 사람의 이야기를 쓰고 있습니다...'];
+
+    var aiText = await new Promise(function(resolve, reject) {
+      var _ghTimer = setInterval(async function() {
+        var elapsed = Date.now() - _ghPollStart;
+
+        var msgIdx = Math.min(Math.floor(elapsed / 8000), _ghMsgs.length - 1);
+        msg.innerHTML = _ghMsgs[msgIdx] + '<span class="load-dots"><span></span><span></span><span></span></span>';
+        var fakePct = Math.min(90, Math.floor(elapsed / 1000) * 1.5);
+        bar.style.width = Math.max(fakePct, 5) + '%';
+
+        if (elapsed > 300000) {
+          clearInterval(_ghTimer);
+          localStorage.removeItem('mbts_active_job');
+          reject(new Error('분석 시간 초과'));
+          return;
+        }
+
+        try {
+          var res = await fetch('/api/job-status?id=' + _ghJobId);
+          var data = await res.json();
+
+          if (data.status === 'done' && data.result && data.result.text) {
+            clearInterval(_ghTimer);
+            localStorage.removeItem('mbts_active_job');
+            resolve(data.result.text);
+          } else if (data.status === 'failed') {
+            clearInterval(_ghTimer);
+            localStorage.removeItem('mbts_active_job');
+            reject(new Error(data.error || '분석 실패'));
+          } else if (data.status === 'partial') {
+            clearInterval(_ghTimer);
+            localStorage.removeItem('mbts_active_job');
+            reject(new Error('분석이 불완전하게 끝났습니다'));
           }
-          setTimeout(function() { appendGhSubCard(_ixGhProgQueue[0].sub, 0, ghRel); }, 200);
+        } catch(e) {
+          console.warn('[MBTS] 궁합 polling 에러:', e);
         }
-
-        if (_ixGhProgInited && _ixGhProgQueue.length > 1) {
-          appendGhSubCard(subObj, idx, ghRel);
-        }
-      }
-    }, '/api/gunghap-analyze');
-
-    localStorage.removeItem('mbts_active_job');
+      }, 3000);
+    });
 
     var aiResult=null;
     try{aiResult=JSON.parse(aiText);}catch(e){

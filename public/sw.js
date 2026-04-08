@@ -9,6 +9,10 @@ self.addEventListener('activate', function(event) {
   self.clients.claim();
 });
 self.addEventListener('fetch', function(event) {
+  // API 요청은 서비스 워커가 관여하지 않음
+  if (event.request.url.indexOf('/api/') >= 0) {
+    return;
+  }
   event.respondWith(
     fetch(event.request).catch(function() {
       return caches.match(event.request);
