@@ -71,8 +71,8 @@ export async function POST(request) {
     const useModel = model || MODEL
     console.log(`[job-create] 모델: ${useModel}, jobId: ${jobId}`)
 
-    // Anthropic 호출 (비스트리밍, 동기)
-    const message = await client.messages.create({
+    // Anthropic 스트리밍 호출 (SDK 제약: max_tokens 큰 경우 stream 필요)
+    const stream = client.messages.stream({
       model: useModel,
       max_tokens: 30000,
       temperature: 0.6,
@@ -80,7 +80,8 @@ export async function POST(request) {
       messages: [{ role: 'user', content: userPrompt }]
     })
 
-    const fullText = message.content
+    const finalMessage = await stream.finalMessage()
+    const fullText = finalMessage.content
       .filter(b => b.type === 'text')
       .map(b => b.text)
       .join('')
@@ -94,7 +95,7 @@ export async function POST(request) {
       type: type,
       status: isComplete ? 'done' : 'partial',
       params: inputParams || {},
-      result: { text: fullText, length: fullText.length, model: message.model, usage: message.usage },
+      result: { text: fullText, length: fullText.length, model: finalMessage.model, usage: finalMessage.usage },
       error: isComplete ? null : 'incomplete_response',
       updated_at: new Date().toISOString()
     })
