@@ -1936,7 +1936,7 @@ function analyzeGunghap(sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiObjA, mbtiObjB) {
 var GUNGHAP_SYSTEM='당신은 대한민국 최정상급 명리학자이자 MBTI 인지기능 전문가입니다.\\n두 사람의 사주팔자와 MBTI를 교차 분석하여 궁합 풀이를 만드세요.\\n\\n## ★ 절대 규칙 ★\\n개인 분석과 동일한 절대규칙을 모두 따르세요:\\n- 전문용어 완전 제거 (십성, 천간지지, 합충형 이름 등 절대 금지)\\n- 행동/체감 먼저, 분석 금지\\n- 사주×MBTI 한 호흡 융합\\n- MBTI 유형 특성 왜곡 금지\\n- MBTI 강도별 차이 반영\\n\\n## 궁합 풀이 특별 규칙\\n\\n### 관계의 스토리를 써라\\n두 사람이 실제로 겪을 장면을 구체적으로 그려라.\\n나쁜 예: \\\"두 사람의 소통 방식이 다릅니다.\\\"\\n좋은 예: \\\"당신이 아이디어 5개를 쏟아내고 있을 때, 상대방은 조용히 그중 하나를 골라 \\\\\\\"이거 해볼까?\\\\\\\"라고 말해요. 그 순간 짜릿하죠?\\\"\\n\\n### \\\"나\\\"와 \\\"상대방\\\"으로 호칭\\n사람A, 사람B가 아니라 \\\"당신(=나)\\\"과 \\\"상대방\\\"으로.\\n\\n### 좋은 점만 쓰지 마라\\n진짜 소름 돋는 궁합 풀이는 \\\"이럴 때 싸워요\\\"를 정확히 짚어주는 것.\\n갈등 패턴 + 해결법을 반드시 포함하세요.\\n\\n### 인지기능 별명 형식\\n내면의 심판관(Fi), 분위기 리더기(Fe), 가능성 탐색기(Ne), 미래 내비게이션(Ni), 추억 저장소(Si), 현장 체험러(Se), 내장 논리회로(Ti), 실행력 엔진(Te)\\n처음 등장 시 별명(약어) 형태로, 이후 짧은 별명만.\\n\\n## 데이터 무결성\\n제공된 점수, 나이, 간지, 연도를 절대 변경하지 마세요.\\nMBTI 유형과 인지기능 스택을 절대 변경하지 마세요.\\n\\n## JSON 출력 형식\\n{\\\"title\\\":\\\"OO일주×XX일주 · XXXX×YYYY 궁합\\\",\\\"quote\\\":\\\"두 사람을 하나의 자연 이미지로 표현한 문장\\\",\\\"totalScore\\\":87,\\\"categories\\\":[{\\\"title\\\":\\\"카테고리명\\\",\\\"icon\\\":\\\"이모지\\\",\\\"items\\\":[{\\\"icon\\\":\\\"이모지\\\",\\\"catch\\\":\\\"감성 소제목\\\",\\\"desc\\\":\\\"한줄 요약\\\",\\\"basis\\\":\\\"분석 근거 (비표시)\\\",\\\"content\\\":\\\"문단1\\\\n\\\\n문단2\\\\n\\\\n문단3\\\",\\\"insightType\\\":\\\"gold|fire|water|purple\\\",\\\"insightIcon\\\":\\\"이모지\\\",\\\"insightText\\\":\\\"맞춤 처방\\\"}]}]}\\n\\n## 구조\\n카테고리 4개: 연애 케미, 소통 방식, 갈등 패턴, 장기 전망\\n카테고리당 2~3개 항목, 총 8~10개\\ncontent: 2~3문단, 각 3~5문장\\n\\nJSON만 출력하세요.';
 
 // ── 궁합 AI 유저 프롬프트 생성 ──
-function buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiA, mbtiB) {
+function buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiA, mbtiB, relType) {
   var cfN={Fi:'내면의 심판관(Fi)',Fe:'분위기 리더기(Fe)',Ne:'가능성 탐색기(Ne)',Ni:'미래 내비게이션(Ni)',Si:'추억 저장소(Si)',Se:'현장 체험러(Se)',Ti:'내장 논리회로(Ti)',Te:'실행력 엔진(Te)'};
   var cfAArr=mbtiA.cf.split('-'), cfBArr=mbtiB.cf.split('-');
 
@@ -1966,6 +1966,37 @@ function buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbti
 
   if(mbtiA.profile) p+='\n### A의 MBTI 강도\n'+mbtiA.profile+'\n';
   if(mbtiB.profile) p+='\n### B의 MBTI 강도\n'+mbtiB.profile+'\n';
+
+  // ── Theory 심층 데이터 주입 (궁합) ──
+  try {
+    if (typeof MT_buildFullContext === 'function') {
+      p += '\n\n## A의 MBTI 이론 심층\n' + MT_buildFullContext(mbtiA.type, null, null, mbtiB.type);
+      p += '\n\n## B의 MBTI 이론 심층\n' + MT_buildFullContext(mbtiB.type, null, null, mbtiA.type);
+    }
+    if (typeof SJ_buildFullContext === 'function') {
+      p += '\n\n## A의 사주 이론 심층\n' + SJ_buildFullContext(sajuA, ggA, dwA, null, sajuB, ggB);
+      p += '\n\n## B의 사주 이론 심층\n' + SJ_buildFullContext(sajuB, ggB, dwB, null, sajuA, ggA);
+    }
+  } catch(e) { console.warn('[MBTS] 궁합 Theory 주입 실패:', e); }
+
+  // ── 궁합 교수 토론 교차 패턴 주입 ──
+  try {
+    if (typeof buildPatternPrompt === 'function') {
+      var ghCatMap = {
+        '썸': 'ssom', 'ssom': 'ssom',
+        '연인': 'lover', 'lover': 'lover',
+        '직장': 'colleague', 'colleague': 'colleague',
+        '친구': 'friend', 'friend': 'friend'
+      };
+      var ghCat = ghCatMap[relType] || 'lover';
+      var ghPatternText = buildPatternPrompt(ghCat);
+      if (ghPatternText) {
+        p += '\n\n## 교수 토론 교차 패턴 (이 커플에게 해당하는 것만 활용)\n' +
+          '두 사람의 사주/MBTI 데이터를 기준으로 해당하는 것만 골라 활용하라.\n\n' +
+          ghPatternText + '\n';
+      }
+    }
+  } catch(e) { console.warn('[MBTS] 궁합 패턴 주입 실패:', e); }
 
   p+='\n위 데이터를 기반으로 궁합 풀이를 JSON으로 작성하세요. 점수를 그대로 사용하세요.\n';
   return p;
@@ -3071,6 +3102,35 @@ async function runSajuAnalysis(params, callbacks){
   if (yearHL.hotMonths) contextSection += '\n핵심 달:\n' + yearHL.hotMonths;
 
   var usr='## 의뢰인\n- 생년월일시: '+params.y+'년 '+params.m+'월 '+params.d+'일 '+(params.h?params.h+'시':'시간미상')+trueSolarTxt+'\n- 성별: '+params.gender+' · 한국나이 '+dw.currentAge+'세\n- MBTI: '+mt+' ('+ti.n+')'+(params.h?'':'\n\n⚠️ 시간 미상 사주입니다. 시주(時柱) 기반 해석(자녀운, 말년운, 시지 궁위, 시지 합충)은 절대 하지 마세요. 년·월·일주만으로 풀이하세요. 항목 수는 10~12개로 조정하세요.')+'\n- 인지기능 스택: '+ti.cf+' (가장 강한: '+strongCF+' / 가장 약한: '+weakCF+')\n- 각 축: '+strArr.join(', ')+'\n\n## MBTI 강도별 행동 프로파일 (풀이에 반드시 반영할 것!)\n'+(function(){var m=miAllParam(params.mbtiChoices, params.mbtiIntensities);var axes=['E/I','S/N','T/F','J/P'];var labels=[strArr[0],strArr[1],strArr[2],strArr[3]];return axes.map(function(a,i){return '- '+labels[i]+': '+m[i].trait+'\n  연애: '+m[i].love+'\n  직업: '+m[i].work+'\n  번아웃: '+m[i].burn;}).join('\n');})()+'\n\n## 사주 원국 (절기: '+saju.currentJeolgi+')\n- 사주: '+saju.P.map(function(p){return p.l+' '+p.s+p.b;}).join(' | ')+'\n- 일주: '+ilju+' · 일간: '+saju.dm+'('+saju.dmEl+')\n- 천간십성: '+saju.ss.map(function(s){return s.pillar+' '+s.stem+'('+s.ss+')';}).join(', ')+'\n- ★궁위십성(지지정기 기준): '+saju.jiSS.map(function(j){return j.pillar+' '+j.branch+'='+j.ss+'('+j.gungwi+')';}).join(' | ')+'\n- 오행(표면 8자): 목='+saju.el['목']+' 화='+saju.el['화']+' 토='+saju.el['토']+' 금='+saju.el['금']+' 수='+saju.el['수']+'\n- ★오행(지장간포함): 목='+saju.elFull['목']+' 화='+saju.elFull['화']+' 토='+saju.elFull['토']+' 금='+saju.elFull['금']+' 수='+saju.elFull['수']+(saju.hiddenOh.length>0?'\n  → 표면상 없지만 지장간에 숨어있는 오행: '+saju.hiddenOh.join(',')+' (겉으로 안 보이지만 속에 잠재력으로 존재)':'')+'\n- 12운성: '+saju.P.map(function(p,i){return p.l+'='+saju.uns[i];}).join(', ')+'\n- 합: '+hapTxt+' | 삼합: '+samhapTxt+'\n- 충: '+chungTxt+' | 천간충: '+cheonganChungTxt+'\n- 형: '+hyungTxt+' | 해: '+jijiHaeTxt+hapChungTxt+'\n'+(saju.amhap.length>0?'- ★암합(숨겨진 합): '+saju.amhap.map(function(a){return a.from+'↔'+a.to+'=합화'+a.hapOh+' ['+a.gungwi+'궁 숨겨진 인연]';}).join(', ')+'\n':'')+'\n※ 합과 충이 동시에 존재할 때: 인접한 합이 충을 해소하는지(탐합망충), 충이 합을 깨뜨리는지 판단하여 유기적으로 해석할 것\n\n## 격국 분석\n- ★격국: '+gg.gyeokgukName+' ('+gg.gyeokgukBasis+')\n  → '+gg.gyeokgukDesc+'\n'+(gg.isJonggyeok?'  ⚠️ 종격(從格) 사주! 용신 방향이 일반 사주와 정반대입니다. 강한 쪽을 따라가야 합니다.\n':'')+(gg.isHwakyeok?'  ⚠️ 화격(化格) 사주! 일간이 본래 오행을 버리고 합화 오행으로 변함.\n':'')+pagyeokTxt+'\n- ★납음: '+(gg.napeumText||'정보없음')+'\n- 십성비중: 비겁='+gg.cnt['비겁'].toFixed(1)+' 식상='+gg.cnt['식상'].toFixed(1)+' 재성='+gg.cnt['재성'].toFixed(1)+' 관성='+gg.cnt['관성'].toFixed(1)+' 인성='+gg.cnt['인성'].toFixed(1)+'\n- ★일간 강도: '+gg.strengthGrade+' '+gg.strengthScore+'점 (자기편='+gg.selfStr.toFixed(1)+' vs 상대편='+gg.otherStr.toFixed(1)+')'+(gg.deukryeong?' [득령]':' [실령]')+johuTxt+'\n- 강한: '+gg.dominant[0]+'('+gg.dominant[1].toFixed(1)+') 약한: '+gg.weak[0]+'('+gg.weak[1].toFixed(1)+')\n- 부족오행: '+(saju.lackFull.length>0?saju.lackFull.join(','):'없음')+'\n- 용신: '+gg.yongshin+' ['+gg.yongshinType+'용신]'+(gg.johuYongshin&&gg.yongshinType!=='조후'?' · 조후참고: '+gg.johuYongshin:'')+'\n- ★오행흐름: '+gg.flowSummary+'\n\n## 참고 힌트 (AI 자율 판단 우선, 반드시 사용할 필요 없음)\n'+dynKWText+'\n\n## 대운 흐름 ('+dw.direction+', '+dw.daewoonAge+'세 시작)\n'+dwTxt+'\n현재 대운: '+(currentDW?currentDW.gan+currentDW.ji+'('+currentDW.ganH+currentDW.jiH+') '+currentDW.ss+'운 ('+currentDW.startAge+'~'+currentDW.endAge+'세)':'대운 전')+pastDWTxt+transitionTxt+'\n세운: '+seTxt+'\n- ★삼재: '+(samjaeTxt||'계산불가')+dwWonTxt+seWonTxt+'\n\n## '+wolunYear+'년 월운 (월별 운세)\n'+wolunTxt+'\n\n## 신살 (참고)\n'+(salSimple||'없음')+'\n- 공망: '+gmTxt+contextSection+'\n\nJSON으로 출력하세요.';
+  // ── Theory 심층 데이터 주입 ──
+  try {
+    var theoryMBTI = (typeof MT_buildFullContext === 'function') ? MT_buildFullContext(mt, params.mbtiIntensities, dw.currentAge) : '';
+    var theorySaju = (typeof SJ_buildFullContext === 'function') ? SJ_buildFullContext(saju, gg, dw, params.gender === '남성' ? '남' : '여') : '';
+    if (theoryMBTI || theorySaju) {
+      usr = usr.replace('JSON으로 출력하세요.',
+        '\n\n## MBTI 이론 심층 데이터 (교차 분석에 반드시 활용)\n' + theoryMBTI +
+        '\n\n## 사주 이론 심층 데이터 (교차 분석에 반드시 활용)\n' + theorySaju +
+        '\n\nJSON으로 출력하세요.');
+    }
+  } catch(e) { console.warn('[MBTS] Theory 주입 실패:', e); }
+
+  // ── 교수 토론 교차 패턴 주입 ──
+  try {
+    if (typeof buildPatternPrompt === 'function') {
+      var patternText = buildPatternPrompt('premium');
+      if (patternText) {
+        usr = usr.replace('JSON으로 출력하세요.',
+          '\n\n## 교수 토론 교차 패턴 (이 사람에게 해당하는 것만 골라서 분석에 활용할 것)\n' +
+          '아래는 사주×MBTI 교수 토론에서 발견된 교차 패턴 목록이다.\n' +
+          '위의 사주 이론 심층 데이터와 MBTI 이론 심층 데이터를 기준으로,\n' +
+          '이 사람의 변수에 실제로 해당하는 패턴만 골라서 분석에 녹여라.\n' +
+          '해당하지 않는 패턴은 무시하라.\n\n' +
+          patternText +
+          '\n\nJSON으로 출력하세요.');
+      }
+    }
+  } catch(e) { console.warn('[MBTS] 패턴 주입 실패:', e); }
+
   /* ====== 1-Pass AI System (v29 복귀) ====== */
   var result;
   var apiError = null;
@@ -3279,7 +3339,7 @@ async function runGunghapAnalysis(paramsA, paramsB, relType, callbacks){
   var p=0,iv=setInterval(function(){p+=Math.random()*1.5+.4;if(p>95)p=95;if(callbacks.onProgress)callbacks.onProgress(p);if(callbacks.onPercent)callbacks.onPercent(Math.round(p));if(callbacks.onMessage)callbacks.onMessage(msgs[Math.min(Math.floor(p/12),7)]);},900);
 
   // AI 프롬프트 생성 + 호출
-  var userPrompt=buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiA, mbtiB);
+  var userPrompt=buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiA, mbtiB, relType);
   var aiResult=null, apiError='';
 
   try{
