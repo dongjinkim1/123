@@ -1981,7 +1981,11 @@ function buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbti
 
   // ── 궁합 교수 토론 교차 패턴 주입 ──
   try {
-    if (typeof buildPatternPrompt === 'function') {
+    if (typeof buildPatternPrompt === 'function' && typeof buildUserTags === 'function') {
+      // A+B 태그 합산
+      var userTagsA = buildUserTags(sajuA, ggA, dwA, mbtiA.type, null);
+      var userTagsB = buildUserTags(sajuB, ggB, dwB, mbtiB.type, null);
+      var combinedTags = userTagsA.concat(userTagsB);
       var ghCatMap = {
         '썸': 'ssom', 'ssom': 'ssom',
         '연인': 'lover', 'lover': 'lover',
@@ -1989,10 +1993,12 @@ function buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbti
         '친구': 'friend', 'friend': 'friend'
       };
       var ghCat = ghCatMap[relType] || 'lover';
-      var ghPatternText = buildPatternPrompt(ghCat);
+      var ghPatternText = buildPatternPrompt(ghCat, combinedTags);
       if (ghPatternText) {
-        p += '\n\n## 교수 토론 교차 패턴 (이 커플에게 해당하는 것만 활용)\n' +
-          '두 사람의 사주/MBTI 데이터를 기준으로 해당하는 것만 골라 활용하라.\n\n' +
+        p += '\n\n## 교수 토론 교차 패턴\n' +
+          '아래는 이 소주제에 대한 교수 토론 중 나온 패턴들이다.\n' +
+          '위 theory 데이터를 기준으로 이 중 실제로 해당하는 3~4개만 골라서 풀이에 녹여라.\n' +
+          '해당하지 않는 것은 무시하라.\n\n' +
           ghPatternText + '\n';
       }
     }
@@ -3116,15 +3122,15 @@ async function runSajuAnalysis(params, callbacks){
 
   // ── 교수 토론 교차 패턴 주입 ──
   try {
-    if (typeof buildPatternPrompt === 'function') {
-      var patternText = buildPatternPrompt('premium');
+    if (typeof buildPatternPrompt === 'function' && typeof buildUserTags === 'function') {
+      var userTags = buildUserTags(saju, gg, dw, mt, params.mbtiIntensities);
+      var patternText = buildPatternPrompt('premium', userTags);
       if (patternText) {
         usr = usr.replace('JSON으로 출력하세요.',
-          '\n\n## 교수 토론 교차 패턴 (이 사람에게 해당하는 것만 골라서 분석에 활용할 것)\n' +
-          '아래는 사주×MBTI 교수 토론에서 발견된 교차 패턴 목록이다.\n' +
-          '위의 사주 이론 심층 데이터와 MBTI 이론 심층 데이터를 기준으로,\n' +
-          '이 사람의 변수에 실제로 해당하는 패턴만 골라서 분석에 녹여라.\n' +
-          '해당하지 않는 패턴은 무시하라.\n\n' +
+          '\n\n## 교수 토론 교차 패턴\n' +
+          '아래는 이 소주제에 대한 교수 토론 중 나온 패턴들이다.\n' +
+          '위 theory 데이터를 기준으로 이 중 실제로 해당하는 3~4개만 골라서 풀이에 녹여라.\n' +
+          '해당하지 않는 것은 무시하라.\n\n' +
           patternText +
           '\n\nJSON으로 출력하세요.');
       }

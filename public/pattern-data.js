@@ -12759,31 +12759,73 @@ function matchPatterns(category, subject, userTags, limit, mode) {
 }
 
 // ── window 등록 ──
-// ── 소주제별 패턴을 AI 프롬프트 텍스트로 변환 ──
-function buildPatternPrompt(category) {
+// ── 소주제별 매칭 TOP 10 패턴을 프롬프트로 변환 ──
+function buildPatternPrompt(category, userTags) {
   if (typeof MBTS_PATTERNS === 'undefined' || !MBTS_PATTERNS[category]) return '';
+
+  // 범용 태그 필터 (점수 계산에서 제외)
+  function isSpecificTag(tag) {
+    return tag.indexOf('uses:') !== 0 && tag.indexOf('ref:') !== 0;
+  }
+
+  // 유저 태그 셋 (구체적 태그만)
+  var userSet = {};
+  if (userTags) {
+    for (var i = 0; i < userTags.length; i++) {
+      if (isSpecificTag(userTags[i])) userSet[userTags[i]] = true;
+    }
+  }
+
+  // 제외 티어
+  var excludeTiers = { 'C': true, 'TRASH': true, 'null': true };
 
   var sections = [];
   var subs = Object.keys(MBTS_PATTERNS[category]);
 
-  for (var i = 0; i < subs.length; i++) {
-    var sub = subs[i];
+  for (var si = 0; si < subs.length; si++) {
+    var sub = subs[si];
     var patterns = MBTS_PATTERNS[category][sub];
     if (!patterns || patterns.length === 0) continue;
 
-    // 셔플 (뒤쪽 편향 방지)
-    var shuffled = patterns.slice();
-    for (var j = shuffled.length - 1; j > 0; j--) {
+    // C/TRASH/null 제외
+    var filtered = [];
+    for (var fi = 0; fi < patterns.length; fi++) {
+      if (!excludeTiers[patterns[fi].tier]) filtered.push(patterns[fi]);
+    }
+    if (filtered.length === 0) continue;
+
+    // 태그 매칭 점수 계산
+    var scored = [];
+    for (var pi = 0; pi < filtered.length; pi++) {
+      var pat = filtered[pi];
+      var overlap = 0;
+      if (pat.tags && userTags) {
+        for (var ti = 0; ti < pat.tags.length; ti++) {
+          if (isSpecificTag(pat.tags[ti]) && userSet[pat.tags[ti]]) overlap++;
+        }
+      }
+      scored.push({ pattern: pat, score: overlap * pat.impact });
+    }
+
+    // 정렬: 점수 높은 순
+    scored.sort(function(a, b) { return b.score - a.score; });
+
+    // 10개 이하면 전부, 초과면 TOP 10
+    var limit = Math.min(scored.length, 10);
+    var selected = scored.slice(0, limit);
+
+    // 선택된 패턴 셔플 (순서 편향 방지)
+    for (var j = selected.length - 1; j > 0; j--) {
       var k = Math.floor(Math.random() * (j + 1));
-      var temp = shuffled[j];
-      shuffled[j] = shuffled[k];
-      shuffled[k] = temp;
+      var temp = selected[j];
+      selected[j] = selected[k];
+      selected[k] = temp;
     }
 
     var lines = [];
-    lines.push('### [' + sub + '] 교차 패턴 (' + shuffled.length + '개)');
-    for (var p = 0; p < shuffled.length; p++) {
-      var pat = shuffled[p];
+    lines.push('### [' + sub + '] (' + selected.length + '개)');
+    for (var p = 0; p < selected.length; p++) {
+      var pat = selected[p].pattern;
       lines.push('- ' + pat.name);
       lines.push('  사주조건: ' + pat.saju);
       lines.push('  MBTI조건: ' + pat.mbti);
