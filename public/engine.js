@@ -542,7 +542,7 @@ function calcDaewoon(saju, birthY, birthM, birthD, birthH, birthMin, gender){
 
   // Step 1: 순행/역행 결정 (양남음녀=순행, 음남양녀=역행)
   var isYangGan=(raw.yg%2===0);
-  var isMale=(gender==='남성');
+  var isMale=(gender==='남성'||gender==='남');
   var isForward=(isYangGan&&isMale)||(!isYangGan&&!isMale);
 
   // Step 2: 전후 절기 찾기 (천문학 계산)
@@ -3105,7 +3105,7 @@ async function runSajuAnalysis(params, callbacks){
   // ── Theory 심층 데이터 주입 ──
   try {
     var theoryMBTI = (typeof MT_buildFullContext === 'function') ? MT_buildFullContext(mt, params.mbtiIntensities, dw.currentAge) : '';
-    var theorySaju = (typeof SJ_buildFullContext === 'function') ? SJ_buildFullContext(saju, gg, dw, params.gender === '남성' ? '남' : '여') : '';
+    var theorySaju = (typeof SJ_buildFullContext === 'function') ? SJ_buildFullContext(saju, gg, dw, (params.gender === '남성' || params.gender === '남') ? '남' : '여') : '';
     if (theoryMBTI || theorySaju) {
       usr = usr.replace('JSON으로 출력하세요.',
         '\n\n## MBTI 이론 심층 데이터 (교차 분석에 반드시 활용)\n' + theoryMBTI +
@@ -3313,7 +3313,7 @@ async function runGunghapAnalysis(paramsA, paramsB, relType, callbacks){
 
   var sajuB=calcSajuForApp(bY,bM,bD,bH,bMin,null);
   var ggB=analyzeGyeokguk(sajuB);
-  var genderB=paramsB.gender==='남성'?'남':'여';
+  var genderB=(paramsB.gender==='남성'||paramsB.gender==='남')?'남':'여';
   var dwB=calcDaewoon(sajuB,bY,bM,bD,bH||12,bMin||0,genderB);
 
   // MBTI B 객체 구성 (강도 없이 기본값)
