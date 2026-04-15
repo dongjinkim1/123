@@ -194,7 +194,7 @@ async function processJob(jobId, prompts, inputParams, ai) {
                   supabase.from('analysis_jobs').update({
                     partial_subs: detectedSubs,
                     progress: Math.round(detectedSubs.length / SUB_TITLES.length * 100)
-                  }).eq('id', jobId).then(() => {}).catch(() => {})
+                  }).eq('id', jobId).then(function() {})
                 } catch (e) { /* partial parse fail — skip */ }
               }
               detectedCount = nextIdx
@@ -247,13 +247,14 @@ async function processJob(jobId, prompts, inputParams, ai) {
 
     await logError('analysis', err.message, { jobId, errorType })
 
-    await supabase.from('analysis_jobs').upsert({
+    const { error: failErr } = await supabase.from('analysis_jobs').upsert({
       id: jobId,
       type: 'saju',
       status: 'failed',
       params: inputParams,
       error: err.message || 'unknown',
       updated_at: new Date().toISOString()
-    }).catch(() => {})
+    })
+    if (failErr) console.error('[analyze-v2] fail upsert error:', failErr.message)
   }
 }

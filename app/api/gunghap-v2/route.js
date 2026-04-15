@@ -157,13 +157,14 @@ async function processJob(jobId, prompts, inputParams, ai) {
 
     await logError('gunghap', err.message, { jobId, errorType })
 
-    await supabase.from('analysis_jobs').upsert({
+    const { error: failErr } = await supabase.from('analysis_jobs').upsert({
       id: jobId,
       type: 'gunghap',
       status: 'failed',
       params: inputParams,
       error: err.message || 'unknown',
       updated_at: new Date().toISOString()
-    }).catch(() => {})
+    })
+    if (failErr) console.error('[gunghap-v2] fail upsert error:', failErr.message)
   }
 }
