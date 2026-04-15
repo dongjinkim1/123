@@ -7147,7 +7147,7 @@ function mbtiGoNext(){
 // 실제 분석 실행 (pgLoad UI 업데이트 + runSajuAnalysis)
 // ====================================================================
 function startRealAnalysis(params){
-  console.log('[MBTS] startRealAnalysis 진입 (job polling 방식)');
+  console.log('[MBTS] startRealAnalysis 진입 (서버 분석 v2)');
   _isAnalyzing = true;
   var bar = document.getElementById('load-bar');
   var phase = document.getElementById('load-phase');
@@ -7157,7 +7157,7 @@ function startRealAnalysis(params){
   logo.style.animation = 'logoPulse 2.5s ease-in-out infinite';
   phase.style.fontWeight = '300'; phase.style.color = 'var(--text-2)';
 
-  /* ── 자체 타이머 헬퍼 ── */
+  /* ── UI 헬퍼 ── */
   function setPhase(text) {
     phase.style.opacity = '0'; phase.style.transform = 'translateY(-8px)';
     setTimeout(function() {
@@ -7196,8 +7196,7 @@ function startRealAnalysis(params){
     {t:72000, fn:function(){ setPhase('마지막 한 줄을 적는 중'); }}
   ];
   seq.forEach(function(s) {
-    var tid = setTimeout(s.fn, s.t);
-    window._loadTimers.push(tid);
+    window._loadTimers.push(setTimeout(s.fn, s.t));
   });
 
   /* ── 중복 요청 방지 ── */
@@ -7214,236 +7213,199 @@ function startRealAnalysis(params){
     localStorage.removeItem('mbts_active_job');
   }
 
-  /* ── jobId 생성 ── */
-  var _jobId = (typeof crypto !== 'undefined' && crypto.randomUUID)
-    ? crypto.randomUUID()
-    : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0;
-        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-      });
+  /* ── 서버에 raw 입력 전송 (프롬프트가 아닌 생년월일+MBTI) ── */
+  fetch('/api/analyze-v2', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      y: params.y, m: params.m, d: params.d,
+      h: params.h, min: params.min,
+      gender: params.gender,
+      mbtiChoices: params.mbtiChoices,
+      mbtiIntensities: params.mbtiIntensities,
+      cityLng: params.cityLng
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (!data.jobId) {
+      throw new Error(data.error || 'job 생성 실패');
+    }
 
-  var _inputParams = {
-    type: 'saju',
-    y: params.y, m: params.m, d: params.d,
-    h: params.h, min: params.min,
-    gender: params.gender,
-    mbtiChoices: params.mbtiChoices,
-    mbtiIntensities: params.mbtiIntensities,
-    cityLng: params.cityLng
-  };
+    var _jobId = data.jobId;
+    localStorage.setItem('mbts_active_job', JSON.stringify({
+      jobId: _jobId, type: 'saju', createdAt: Date.now(),
+      input: {
+        y:params.y, m:params.m, d:params.d, h:params.h, min:params.min,
+        gender:params.gender, mbtiChoices:params.mbtiChoices,
+        mbtiIntensities:params.mbtiIntensities, cityLng:params.cityLng
+      }
+    }));
 
-  localStorage.setItem('mbts_active_job', JSON.stringify({
-    jobId: _jobId, type: 'saju', createdAt: Date.now(), input: _inputParams
-  }));
+    console.log('[MBTS] job 생성 완료:', _jobId);
+    bar.style.width = '10%';
 
-  /* ── 사주/MBTI 로컬 계산 (결과 렌더링에 필요) ── */
-  var saju = calcSajuForApp(+params.y, +params.m, +params.d,
-    params.h ? +params.h : null, params.min ? +params.min : null, params.cityLng || null);
-  var gg = analyzeGyeokguk(saju);
-  var mt = getMBTIFromChoices(params.mbtiChoices);
-  var gender = params.gender === '남성' ? '남' : '여';
-  var dw = calcDaewoon(saju, +params.y, +params.m, +params.d,
-    params.h ? +params.h : null, params.min ? +params.min : null, gender);
-  var ti = TY[mt] || { n:'탐험가', cf:'Ni-Te-Fi-Se' };
-  var mbtiObj = {
-    type: mt, cf: ti.cf,
-    axes: [
-      {side: params.mbtiChoices[0]==='L'?'E':'I', pct: (params.mbtiIntensities||[])[0]||60},
-      {side: params.mbtiChoices[1]==='L'?'S':'N', pct: (params.mbtiIntensities||[])[1]||60},
-      {side: params.mbtiChoices[2]==='L'?'T':'F', pct: (params.mbtiIntensities||[])[2]||60},
-      {side: params.mbtiChoices[3]==='L'?'J':'P', pct: (params.mbtiIntensities||[])[3]||60}
-    ], profile: ''
-  };
-
-  /* ── 프롬프트 캡처: streamSonnet을 임시 교체 ── */
-  var _capturedSystem = null;
-  var _capturedUser = null;
-  var _origStreamSonnet2 = window.streamSonnet;
-
-  window.streamSonnet = function(apiKey, sys, usr, label, callbacks, endpoint) {
-    _capturedSystem = sys;
-    _capturedUser = usr;
-    return Promise.resolve('{"categories":[]}');
-  };
-
-  runSajuAnalysis(params, {
-    onProgress: function(){},
-    onPercent: function(){},
-    onMessage: function(){},
-    onComplete: function(data) {
-      window.streamSonnet = _origStreamSonnet2;
-
-      if (!_capturedSystem || !_capturedUser) {
-        console.error('[MBTS] 프롬프트 캡처 실패');
+    /* ── polling (3초 간격) ── */
+    var _pollStart = Date.now();
+    var _pollTimer = setInterval(async function() {
+      // timeout
+      if (Date.now() - _pollStart > 300000) {
+        clearInterval(_pollTimer);
         _isAnalyzing = false;
         localStorage.removeItem('mbts_active_job');
         if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
-        phase.innerHTML = '분석 준비 중 오류가 발생했어요 😢';
+        phase.innerHTML = '분석 시간이 초과됐어요 😢';
         phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
         logo.style.animation = 'none';
-        alert('분석 준비 실패. 다시 시도해주세요.');
+        alert('분석 시간 초과. 다시 시도해주세요.');
         setTimeout(function(){ go('pgBirth'); }, 1000);
         return;
       }
 
-      console.log('[MBTS] 프롬프트 캡처 완료, job-create 호출');
-      bar.style.width = '10%';
+      // progress bar
+      var elapsed = Date.now() - _pollStart;
+      var fakePct = Math.min(90, Math.floor(elapsed / 1000) * 1.5);
+      bar.style.width = Math.max(fakePct, 10) + '%';
 
-      // ── job-create 호출 (fire-and-forget) ──
-      fetch('/api/job-create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          jobId: _jobId,
-          systemPrompt: _capturedSystem,
-          userPrompt: _capturedUser,
-          model: 'claude-sonnet-4-6',
-          inputParams: _inputParams
-        })
-      }).catch(function(e) {
-        console.warn('[MBTS] job-create fetch 에러 (polling이 복구):', e);
-      });
+      try {
+        var res = await fetch('/api/job-status?id=' + _jobId);
+        var statusData = await res.json();
 
-      // ── polling 시작 (3초 간격) ──
-      var _pollStart = Date.now();
-      var _pollTimer = setInterval(async function() {
-        if (Date.now() - _pollStart > 300000) {
+        if (statusData.status === 'done' && statusData.result && statusData.result.text) {
+          clearInterval(_pollTimer);
+          localStorage.removeItem('mbts_active_job');
+          if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+          console.log('[MBTS] job 완료!');
+
+          /* ── JSON 파싱 (기존 로직 그대로) ── */
+          var aiText = statusData.result.text;
+          var parsed = null;
+          var cleaned = aiText.replace(/```json|```/g, '').trim();
+          try { parsed = JSON.parse(cleaned); } catch(e) {
+            var fb = cleaned.indexOf('{'), lb = cleaned.lastIndexOf('}');
+            if (fb >= 0 && lb > fb) {
+              try { parsed = JSON.parse(cleaned.substring(fb, lb + 1)); } catch(e2) {}
+            }
+          }
+          if (!parsed) {
+            try {
+              var s = cleaned.substring(cleaned.indexOf('{'), cleaned.lastIndexOf('}') + 1)
+                .replace(/[\x00-\x1F\x7F]/g, function(ch) { return ch==='\n'||ch==='\r'||ch==='\t'?ch:''; });
+              parsed = JSON.parse(s);
+            } catch(e3) {}
+          }
+          if (!parsed) {
+            try {
+              var raw = cleaned.substring(cleaned.indexOf('{'));
+              var oB=(raw.match(/{/g)||[]).length, cB=(raw.match(/}/g)||[]).length;
+              var oK=(raw.match(/\[/g)||[]).length, cK=(raw.match(/\]/g)||[]).length;
+              while(cK<oK){raw+=']';cK++;}
+              while(cB<oB){raw+='}';cB++;}
+              raw=raw.replace(/,\s*([}\]])/g,'$1');
+              parsed = JSON.parse(raw);
+            } catch(e4) {}
+          }
+
+          if (parsed && parsed.categories) {
+            /* ── 로컬 사주 계산 (렌더링용) ── */
+            var saju = calcSajuForApp(+params.y, +params.m, +params.d,
+              params.h ? +params.h : null, params.min ? +params.min : null,
+              params.cityLng || null);
+            var gg = analyzeGyeokguk(saju);
+            var mt = getMBTIFromChoices(params.mbtiChoices);
+            var gender = params.gender === '남성' ? '남' : '여';
+            var dw = calcDaewoon(saju, +params.y, +params.m, +params.d,
+              params.h ? +params.h : null, params.min ? +params.min : null, gender);
+            var ti = TY[mt] || { n:'탐험가', cf:'Ni-Te-Fi-Se' };
+            var mbtiObj = {
+              type: mt, cf: ti.cf,
+              axes: [
+                {side:params.mbtiChoices[0]==='L'?'E':'I',pct:(params.mbtiIntensities||[])[0]||60},
+                {side:params.mbtiChoices[1]==='L'?'S':'N',pct:(params.mbtiIntensities||[])[1]||60},
+                {side:params.mbtiChoices[2]==='L'?'T':'F',pct:(params.mbtiIntensities||[])[2]||60},
+                {side:params.mbtiChoices[3]==='L'?'J':'P',pct:(params.mbtiIntensities||[])[3]||60}
+              ], profile: ''
+            };
+
+            if (typeof postValidateAI === 'function') {
+              try { parsed = postValidateAI(parsed, dw, saju, gg); } catch(e) {}
+            }
+
+            window._lastAIResult = parsed;
+            window._lastSaju = saju; window._lastDW = dw;
+            window._lastGG = gg; window._lastMBTI = mt;
+            window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
+            if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
+
+            try {
+              localStorage.setItem('mbts_lastResult', JSON.stringify({
+                input: {y:params.y,m:params.m,d:params.d,h:params.h,min:params.min,
+                  gender:params.gender,city:params.city,cityLng:params.cityLng,
+                  ch:params.mbtiChoices,it:params.mbtiIntensities},
+                saju:saju,dw:dw,gg:gg,mbti:mt,mbtiObj:mbtiObj,aiResult:parsed,isAI:true
+              }));
+            } catch(e) {}
+
+            _isAnalyzing = false;
+            bar.style.width = '100%';
+            phase.style.opacity = '0'; phase.style.transform = 'translateY(-8px)';
+            setTimeout(function() {
+              phase.innerHTML = '분석이 완료되었습니다 ✨';
+              phase.style.opacity = '1'; phase.style.transform = 'translateY(0)';
+            }, 200);
+            phase.style.fontWeight = '600'; phase.style.color = 'var(--purple)';
+            logo.style.animation = 'loadFinish 1s ease both';
+            setTimeout(function() {
+              renderResult(parsed, saju, mt, gg, true);
+            }, 1200);
+
+          } else {
+            _isAnalyzing = false;
+            if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+            phase.innerHTML = '분석 결과를 읽지 못했어요 😢';
+            phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+            logo.style.animation = 'none';
+            alert('AI 응답 파싱 실패. 다시 시도해주세요.');
+            setTimeout(function(){ go('pgBirth'); }, 1000);
+          }
+
+        } else if (statusData.status === 'failed') {
           clearInterval(_pollTimer);
           _isAnalyzing = false;
           localStorage.removeItem('mbts_active_job');
           if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
-          phase.innerHTML = '분석 시간이 초과됐어요 😢';
+          phase.innerHTML = '분석 중 오류가 발생했어요 😢';
           phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
           logo.style.animation = 'none';
-          alert('분석 시간 초과. 다시 시도해주세요.');
+          alert('분석 오류: ' + (statusData.error || '알 수 없는 오류'));
           setTimeout(function(){ go('pgBirth'); }, 1000);
-          return;
+
+        } else if (statusData.status === 'partial') {
+          clearInterval(_pollTimer);
+          _isAnalyzing = false;
+          localStorage.removeItem('mbts_active_job');
+          if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+          phase.innerHTML = '분석이 불완전하게 끝났어요 😢';
+          phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+          logo.style.animation = 'none';
+          alert('분석이 불완전해요. 다시 시도해주세요.');
+          setTimeout(function(){ go('pgBirth'); }, 1000);
         }
-
-        var elapsed = Date.now() - _pollStart;
-        var fakePct = Math.min(90, Math.floor(elapsed / 1000) * 1.5);
-        bar.style.width = Math.max(fakePct, 10) + '%';
-
-        try {
-          var res = await fetch('/api/job-status?id=' + _jobId);
-          var data = await res.json();
-
-          if (data.status === 'done' && data.result && data.result.text) {
-            clearInterval(_pollTimer);
-            localStorage.removeItem('mbts_active_job');
-            if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
-            console.log('[MBTS] job 완료! 결과:', data.result.length, '자');
-
-            var aiText = data.result.text;
-            var parsed = null;
-            var cleaned = aiText.replace(/```json|```/g, '').trim();
-            try { parsed = JSON.parse(cleaned); } catch(e) {
-              var fb = cleaned.indexOf('{'), lb = cleaned.lastIndexOf('}');
-              if (fb >= 0 && lb > fb) {
-                try { parsed = JSON.parse(cleaned.substring(fb, lb + 1)); } catch(e2) {}
-              }
-            }
-            if (!parsed) {
-              try {
-                var s = cleaned.substring(cleaned.indexOf('{'), cleaned.lastIndexOf('}') + 1)
-                  .replace(/[\x00-\x1F\x7F]/g, function(ch) { return ch==='\n'||ch==='\r'||ch==='\t'?ch:''; });
-                parsed = JSON.parse(s);
-              } catch(e3) {}
-            }
-            if (!parsed) {
-              try {
-                var raw = cleaned.substring(cleaned.indexOf('{'));
-                var oB=(raw.match(/{/g)||[]).length, cB=(raw.match(/}/g)||[]).length;
-                var oK=(raw.match(/\[/g)||[]).length, cK=(raw.match(/\]/g)||[]).length;
-                while(cK<oK){raw+=']';cK++;}
-                while(cB<oB){raw+='}';cB++;}
-                raw=raw.replace(/,\s*([}\]])/g,'$1');
-                parsed = JSON.parse(raw);
-              } catch(e4) {}
-            }
-
-            if (parsed && parsed.categories) {
-              if (typeof postValidateAI === 'function') {
-                try { parsed = postValidateAI(parsed, dw, saju, gg); } catch(e) {}
-              }
-
-              window._lastAIResult = parsed;
-              window._lastSaju = saju; window._lastDW = dw;
-              window._lastGG = gg; window._lastMBTI = mt;
-              window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
-              if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
-
-              try {
-                localStorage.setItem('mbts_lastResult', JSON.stringify({
-                  input: {y:params.y,m:params.m,d:params.d,h:params.h,min:params.min,
-                    gender:params.gender,city:params.city,cityLng:params.cityLng,
-                    ch:params.mbtiChoices,it:params.mbtiIntensities},
-                  saju:saju,dw:dw,gg:gg,mbti:mt,mbtiObj:mbtiObj,aiResult:parsed,isAI:true
-                }));
-              } catch(e) {}
-
-              _isAnalyzing = false;
-              bar.style.width = '100%';
-              phase.style.opacity = '0'; phase.style.transform = 'translateY(-8px)';
-              setTimeout(function() {
-                phase.innerHTML = '분석이 완료되었습니다 ✨';
-                phase.style.opacity = '1'; phase.style.transform = 'translateY(0)';
-              }, 200);
-              phase.style.fontWeight = '600'; phase.style.color = 'var(--purple)';
-              logo.style.animation = 'loadFinish 1s ease both';
-
-              setTimeout(function() {
-                renderResult(parsed, saju, mt, gg, true);
-              }, 1200);
-
-            } else {
-              _isAnalyzing = false;
-              if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
-              phase.innerHTML = '분석 결과를 읽지 못했어요 😢';
-              phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
-              logo.style.animation = 'none';
-              alert('AI 응답 파싱 실패. 다시 시도해주세요.');
-              setTimeout(function(){ go('pgBirth'); }, 1000);
-            }
-
-          } else if (data.status === 'failed') {
-            clearInterval(_pollTimer);
-            _isAnalyzing = false;
-            localStorage.removeItem('mbts_active_job');
-            if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
-            phase.innerHTML = '분석 중 오류가 발생했어요 😢';
-            phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
-            logo.style.animation = 'none';
-            alert('분석 오류: ' + (data.error || '알 수 없는 오류') + '\n\n다시 시도해주세요.');
-            setTimeout(function(){ go('pgBirth'); }, 1000);
-
-          } else if (data.status === 'partial') {
-            clearInterval(_pollTimer);
-            _isAnalyzing = false;
-            localStorage.removeItem('mbts_active_job');
-            if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
-            phase.innerHTML = '분석이 불완전하게 끝났어요 😢';
-            phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
-            logo.style.animation = 'none';
-            alert('분석이 불완전해요. 다시 시도해주세요.');
-            setTimeout(function(){ go('pgBirth'); }, 1000);
-          }
-        } catch(pollErr) {
-          console.warn('[MBTS] polling 에러:', pollErr);
-        }
-      }, 3000);
-    },
-    onError: function() {
-      window.streamSonnet = _origStreamSonnet2;
-      _isAnalyzing = false;
-      localStorage.removeItem('mbts_active_job');
-      if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
-      phase.innerHTML = '분석 준비 중 오류가 발생했어요 😢';
-      phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
-      logo.style.animation = 'none';
-      alert('분석 준비 실패. 다시 시도해주세요.');
-      setTimeout(function(){ go('pgBirth'); }, 1000);
-    }
+      } catch(pollErr) {
+        console.warn('[MBTS] polling 에러:', pollErr);
+      }
+    }, 3000);
+  })
+  .catch(function(err) {
+    console.error('[MBTS] analyze-v2 호출 실패:', err);
+    _isAnalyzing = false;
+    localStorage.removeItem('mbts_active_job');
+    if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+    phase.innerHTML = '분석 요청 실패 😢';
+    phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+    logo.style.animation = 'none';
+    alert('서버 연결 실패. 다시 시도해주세요.');
+    setTimeout(function(){ go('pgBirth'); }, 1000);
   });
 }
 
