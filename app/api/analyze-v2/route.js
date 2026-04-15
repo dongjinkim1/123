@@ -10,14 +10,20 @@ const MODEL = 'claude-sonnet-4-6'
 // CJS modules — dynamic import
 let _pb = null
 let _ai = null
+let _val = null
+let _rl = null
 async function getModules() {
   if (!_pb) {
     const pbMod = await import('@/lib/prompt-builder.js')
     _pb = pbMod.default || pbMod
     const aiMod = await import('@/lib/ai-client.js')
     _ai = aiMod.default || aiMod
+    const valMod = await import('@/lib/validators.js')
+    _val = valMod.default || valMod
+    const rlMod = await import('@/lib/rate-limiter.js')
+    _rl = rlMod.default || rlMod
   }
-  return { pb: _pb, ai: _ai }
+  return { pb: _pb, ai: _ai, val: _val, rl: _rl }
 }
 
 export async function POST(request) {
@@ -25,15 +31,38 @@ export async function POST(request) {
 
   try {
     const body = await request.json()
-    const { y, m, d, h, min, gender, mbtiChoices, mbtiIntensities, cityLng } = body
+    const { y, m, d, h, min, gender, mbtiChoices, mbtiIntensities, cityLng, userId } = body
 
-    // input validation
-    if (!y || !m || !d || !mbtiChoices || !Array.isArray(mbtiChoices) || mbtiChoices.length !== 4) {
-      return Response.json({ error: 'Missing required fields' }, { status: 400 })
+    const { pb, ai, val, rl } = await getModules()
+    const supabase = getServiceSupabase()
+
+    // input validation (strengthened)
+    const validationError = val.validateInput({ y, m, d, h, min, gender, mbtiChoices, mbtiIntensities })
+    if (validationError) {
+      return Response.json({ error: validationError }, { status: 400 })
     }
 
-    // server-side prompt build (no more mock streamSonnet hack)
-    const { pb, ai } = await getModules()
+    // rate limiting
+    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
+    const identifier = userId || ip
+    const { allowed, retryAfter } = await rl.checkRateLimit(supabase, identifier, 'analyze', 60000, 5)
+    if (!allowed) {
+      return Response.json({ error: '요청 한도 초과', retryAfter }, { status: 429 })
+    }
+
+    // server-side clover check (if userId provided)
+    if (userId) {
+      const { data: user } = await supabase
+        .from('users')
+        .select('clover_balance')
+        .eq('id', userId)
+        .maybeSingle()
+      if (user && user.clover_balance < 15) {
+        return Response.json({ error: '클로버 부족', balance: user.clover_balance }, { status: 402 })
+      }
+    }
+
+    // server-side prompt build
     const prompts = pb.buildSajuPrompt({
       y: +y, m: +m, d: +d,
       h: h ? +h : null, min: min ? +min : null,
@@ -52,7 +81,6 @@ export async function POST(request) {
 
     // create job
     const jobId = crypto.randomUUID()
-    const supabase = getServiceSupabase()
     const inputParams = {
       type: 'saju', y, m, d, h, min,
       gender, mbtiChoices, mbtiIntensities, cityLng

@@ -10,14 +10,20 @@ const MODEL = 'claude-sonnet-4-6'
 // CJS modules -- dynamic import
 let _gp = null
 let _ai = null
+let _val = null
+let _rl = null
 async function getModules() {
   if (!_gp) {
     const gpMod = await import('@/lib/gunghap-prompt.js')
     _gp = gpMod.default || gpMod
     const aiMod = await import('@/lib/ai-client.js')
     _ai = aiMod.default || aiMod
+    const valMod = await import('@/lib/validators.js')
+    _val = valMod.default || valMod
+    const rlMod = await import('@/lib/rate-limiter.js')
+    _rl = rlMod.default || rlMod
   }
-  return { gp: _gp, ai: _ai }
+  return { gp: _gp, ai: _ai, val: _val, rl: _rl }
 }
 
 export async function POST(request) {
@@ -25,19 +31,36 @@ export async function POST(request) {
 
   try {
     const body = await request.json()
-    const { paramsA, paramsB, relType } = body
+    const { paramsA, paramsB, relType, userId } = body
 
-    if (!paramsA || !paramsB || !relType) {
-      return Response.json({ error: 'Missing required fields' }, { status: 400 })
-    }
-    if (!paramsA.y || !paramsA.m || !paramsA.d || !paramsA.mbtiType) {
-      return Response.json({ error: 'Invalid paramsA' }, { status: 400 })
-    }
-    if (!paramsB.y || !paramsB.m || !paramsB.d || !paramsB.mbtiType) {
-      return Response.json({ error: 'Invalid paramsB' }, { status: 400 })
+    const { gp, ai, val, rl } = await getModules()
+    const supabase = getServiceSupabase()
+
+    // input validation (strengthened)
+    const validationError = val.validateGunghapInput(paramsA, paramsB, relType)
+    if (validationError) {
+      return Response.json({ error: validationError }, { status: 400 })
     }
 
-    const { gp, ai } = await getModules()
+    // rate limiting
+    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
+    const identifier = userId || ip
+    const { allowed, retryAfter } = await rl.checkRateLimit(supabase, identifier, 'gunghap', 60000, 5)
+    if (!allowed) {
+      return Response.json({ error: '요청 한도 초과', retryAfter }, { status: 429 })
+    }
+
+    // server-side clover check
+    if (userId) {
+      const { data: user } = await supabase
+        .from('users')
+        .select('clover_balance')
+        .eq('id', userId)
+        .maybeSingle()
+      if (user && user.clover_balance < 15) {
+        return Response.json({ error: '클로버 부족', balance: user.clover_balance }, { status: 402 })
+      }
+    }
     const prompts = gp.buildGunghapPrompt(paramsA, paramsB, relType)
 
     if (!prompts || !prompts.systemPrompt) {
@@ -48,7 +71,6 @@ export async function POST(request) {
       prompts.systemPrompt.length, prompts.userPrompt.length)
 
     const jobId = crypto.randomUUID()
-    const supabase = getServiceSupabase()
     const inputParams = { type: 'gunghap', paramsA, paramsB, relType }
 
     const { error: dbError } = await supabase.from('analysis_jobs').upsert({
