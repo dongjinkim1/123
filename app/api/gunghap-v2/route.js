@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { getServiceSupabase } from '@/lib/supabase'
 import { waitUntil } from '@vercel/functions'
+import { logError } from '@/lib/errorLog'
 
 export const maxDuration = 300
 
@@ -141,8 +142,21 @@ async function processJob(jobId, prompts, inputParams, ai) {
       updated_at: new Date().toISOString()
     })
 
+    if (!isComplete) {
+      await logError('gunghap', 'Incomplete AI response', {
+        jobId, errorType: 'json_parse', length: fullText.length
+      })
+    }
+
   } catch (err) {
     console.error('[gunghap-v2] processJob error:', err.message)
+
+    const errorType = err.message.includes('timeout') || err.message.includes('Timeout') ? 'ai_timeout'
+      : err.status === 529 || err.message.includes('overloaded') ? 'ai_overload'
+      : 'unknown'
+
+    await logError('gunghap', err.message, { jobId, errorType })
+
     await supabase.from('analysis_jobs').upsert({
       id: jobId,
       type: 'gunghap',

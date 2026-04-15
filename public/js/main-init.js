@@ -1,4 +1,20 @@
 // main-init.js — shared result, job recovery IIFE, profile sheet
+
+// ── client error reporting ──
+window.onerror = function(msg, url, line, col, err) {
+  try {
+    fetch('/api/log-error', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        type: 'client_js',
+        message: String(msg).slice(0, 300),
+        context: { url: url, line: line, col: col, stack: err && err.stack ? err.stack.slice(0, 500) : null }
+      })
+    }).catch(function(){});
+  } catch(e) {}
+};
+
 // ── 공유 코드 감지 → 결과 열람 ──
 (async function checkSharedResult() {
   var sc = _shareParam;
