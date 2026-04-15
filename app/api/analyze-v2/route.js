@@ -7,30 +7,17 @@ export const maxDuration = 300
 const client = new Anthropic()
 const MODEL = 'claude-sonnet-4-6'
 
-// engine.js is CJS — dynamic import at call time
-let _engine = null
-async function getEngine() {
-  if (!_engine) {
-    _engine = await import('@/lib/saju-engine.js')
-    // CJS default export
-    if (_engine.default) _engine = _engine.default
+// CJS modules — dynamic import
+let _pb = null
+let _ai = null
+async function getModules() {
+  if (!_pb) {
+    const pbMod = await import('@/lib/prompt-builder.js')
+    _pb = pbMod.default || pbMod
+    const aiMod = await import('@/lib/ai-client.js')
+    _ai = aiMod.default || aiMod
   }
-  return _engine
-}
-
-function isValidJSON(text) {
-  if (!text || text.length < 100) return false
-  try {
-    const cleaned = text.replace(/```json|```/g, '').trim()
-    let target = cleaned
-    const fb = cleaned.indexOf('{')
-    const lb = cleaned.lastIndexOf('}')
-    if (fb >= 0 && lb > fb) target = cleaned.substring(fb, lb + 1)
-    const obj = JSON.parse(target)
-    return !!(obj && obj.categories && obj.categories.length > 0)
-  } catch (e) {
-    return false
-  }
+  return { pb: _pb, ai: _ai }
 }
 
 export async function POST(request) {
@@ -45,37 +32,23 @@ export async function POST(request) {
       return Response.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // server-side saju calculation + prompt build
-    const engine = await getEngine()
-    let capturedPrompts = null
+    // server-side prompt build (no more mock streamSonnet hack)
+    const { pb, ai } = await getModules()
+    const prompts = pb.buildSajuPrompt({
+      y: +y, m: +m, d: +d,
+      h: h ? +h : null, min: min ? +min : null,
+      cityLng: cityLng || null,
+      gender: gender || '여성',
+      mbtiChoices: mbtiChoices,
+      mbtiIntensities: mbtiIntensities || [60, 60, 60, 60]
+    })
 
-    try {
-      await engine.runSajuAnalysis({
-        y: +y, m: +m, d: +d,
-        h: h ? +h : null, min: min ? +min : null,
-        cityLng: cityLng || null,
-        gender: gender || '여성',
-        mbtiChoices: mbtiChoices,
-        mbtiIntensities: mbtiIntensities || [60, 60, 60, 60],
-        apiKey: 'server-managed'
-      }, {
-        onProgress: function() {},
-        onPercent: function() {},
-        onMessage: function() {},
-        onComplete: function() {},
-        onError: function() {}
-      })
-      capturedPrompts = engine.getCapturedPrompts()
-    } catch (e) {
-      capturedPrompts = engine.getCapturedPrompts()
-    }
-
-    if (!capturedPrompts || !capturedPrompts.systemPrompt) {
+    if (!prompts || !prompts.systemPrompt) {
       return Response.json({ error: 'Prompt build failed' }, { status: 500 })
     }
 
-    console.log('[analyze-v2] prompts captured: sys=%d usr=%d',
-      capturedPrompts.systemPrompt.length, capturedPrompts.userPrompt.length)
+    console.log('[analyze-v2] prompts built: sys=%d usr=%d',
+      prompts.systemPrompt.length, prompts.userPrompt.length)
 
     // create job
     const jobId = crypto.randomUUID()
@@ -101,7 +74,7 @@ export async function POST(request) {
     console.log('[analyze-v2] job created:', jobId)
 
     // return immediately, process in background
-    waitUntil(processJob(jobId, capturedPrompts, inputParams))
+    waitUntil(processJob(jobId, prompts, inputParams, ai))
 
     return Response.json({ jobId, status: 'created' })
 
@@ -111,7 +84,7 @@ export async function POST(request) {
   }
 }
 
-async function processJob(jobId, prompts, inputParams) {
+async function processJob(jobId, prompts, inputParams, ai) {
   const supabase = getServiceSupabase()
 
   try {
@@ -145,7 +118,7 @@ async function processJob(jobId, prompts, inputParams) {
 
     console.log('[analyze-v2] Claude done:', fullText.length, 'chars')
 
-    const isComplete = isValidJSON(fullText)
+    const isComplete = ai.isValidJSON(fullText)
     await supabase.from('analysis_jobs').upsert({
       id: jobId,
       type: 'saju',
