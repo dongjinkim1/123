@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "node prebuild.js && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:saju": "node tests/saju-core.test.js",
+    "test:pattern": "node tests/pattern-matcher.test.js",
+    "test:prompt": "node tests/prompt-builder.test.js",
+    "test": "node tests/saju-core.test.js && node tests/pattern-matcher.test.js && node tests/prompt-builder.test.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
