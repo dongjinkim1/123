@@ -910,6 +910,58 @@ function startRealAnalysis(params){
       throw new Error(data.error || 'job 생성 실패');
     }
 
+    // cached result — instant render, no polling needed
+    if (data.cached && data.status === 'done' && data.result && data.result.text) {
+      console.log('[MBTS] 캐시 히트! 즉시 렌더링');
+      if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+
+      var aiText = data.result.text;
+      var parsed = null;
+      var cleaned = aiText.replace(/```json|```/g, '').trim();
+      try { parsed = JSON.parse(cleaned); } catch(e) {
+        var fb = cleaned.indexOf('{'), lb = cleaned.lastIndexOf('}');
+        if (fb >= 0 && lb > fb) try { parsed = JSON.parse(cleaned.substring(fb, lb + 1)); } catch(e2) {}
+      }
+      if (parsed && parsed.categories) {
+        var saju = calcSajuForApp(+params.y, +params.m, +params.d,
+          params.h ? +params.h : null, params.min ? +params.min : null, params.cityLng || null);
+        var gg = analyzeGyeokguk(saju);
+        var mt = getMBTIFromChoices(params.mbtiChoices);
+        var gender = params.gender === '남성' ? '남' : '여';
+        var dw = calcDaewoon(saju, +params.y, +params.m, +params.d,
+          params.h ? +params.h : null, params.min ? +params.min : null, gender);
+        var ti = TY[mt] || { n:'탐험가', cf:'Ni-Te-Fi-Se' };
+        var mbtiObj = {
+          type: mt, cf: ti.cf,
+          axes: [
+            {side:params.mbtiChoices[0]==='L'?'E':'I',pct:(params.mbtiIntensities||[])[0]||60},
+            {side:params.mbtiChoices[1]==='L'?'S':'N',pct:(params.mbtiIntensities||[])[1]||60},
+            {side:params.mbtiChoices[2]==='L'?'T':'F',pct:(params.mbtiIntensities||[])[2]||60},
+            {side:params.mbtiChoices[3]==='L'?'J':'P',pct:(params.mbtiIntensities||[])[3]||60}
+          ], profile: ''
+        };
+        if (typeof postValidateAI === 'function') {
+          try { parsed = postValidateAI(parsed, dw, saju, gg); } catch(e) {}
+        }
+        window._lastAIResult = parsed;
+        window._lastSaju = saju; window._lastDW = dw;
+        window._lastGG = gg; window._lastMBTI = mt;
+        window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
+        if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
+        _isAnalyzing = false;
+        bar.style.width = '100%';
+        phase.style.fontWeight = '600'; phase.style.color = 'var(--purple)';
+        phase.innerHTML = '분석이 완료되었습니다 ✨';
+        logo.style.animation = 'loadFinish 1s ease both';
+        setTimeout(function() { renderResult(parsed, saju, mt, gg, true); }, 800);
+      } else {
+        _isAnalyzing = false;
+        alert('캐시 데이터 파싱 실패. 다시 시도해주세요.');
+        setTimeout(function(){ go('pgBirth'); }, 500);
+      }
+      return;
+    }
+
     var _jobId = data.jobId;
     localStorage.setItem('mbts_active_job', JSON.stringify({
       jobId: _jobId, type: 'saju', createdAt: Date.now(),
@@ -925,6 +977,7 @@ function startRealAnalysis(params){
 
     /* ── polling (3초 간격) ── */
     var _pollStart = Date.now();
+    var _renderedSubCount = 0;
     var _pollTimer = setInterval(async function() {
       // timeout
       if (Date.now() - _pollStart > 300000) {
@@ -940,7 +993,7 @@ function startRealAnalysis(params){
         return;
       }
 
-      // progress bar
+      // progress bar (use server progress if available)
       var elapsed = Date.now() - _pollStart;
       var fakePct = Math.min(90, Math.floor(elapsed / 1000) * 1.5);
       bar.style.width = Math.max(fakePct, 10) + '%';
@@ -948,6 +1001,31 @@ function startRealAnalysis(params){
       try {
         var res = await fetch('/api/job-status?id=' + _jobId);
         var statusData = await res.json();
+
+        // progressive rendering: render completed subs as they arrive
+        if (statusData.partial_subs && statusData.partial_subs.length > _renderedSubCount) {
+          if (_renderedSubCount === 0) {
+            // first sub arrived — compute saju for rendering and switch to result page
+            var _pSaju = calcSajuForApp(+params.y, +params.m, +params.d,
+              params.h ? +params.h : null, params.min ? +params.min : null, params.cityLng || null);
+            var _pMt = getMBTIFromChoices(params.mbtiChoices);
+            var _pGg = analyzeGyeokguk(_pSaju);
+            if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+            if (typeof initProgressivePage === 'function') {
+              initProgressivePage(_pSaju, _pMt, _pGg, params);
+            }
+          }
+          for (var _pi = _renderedSubCount; _pi < statusData.partial_subs.length; _pi++) {
+            if (typeof appendSubCard === 'function') {
+              appendSubCard(statusData.partial_subs[_pi], _pi);
+            }
+          }
+          _renderedSubCount = statusData.partial_subs.length;
+          // update progress bar with server progress
+          if (statusData.progress) {
+            bar.style.width = Math.max(statusData.progress, fakePct) + '%';
+          }
+        }
 
         if (statusData.status === 'done' && statusData.result && statusData.result.text) {
           clearInterval(_pollTimer);
@@ -1026,16 +1104,23 @@ function startRealAnalysis(params){
 
             _isAnalyzing = false;
             bar.style.width = '100%';
-            phase.style.opacity = '0'; phase.style.transform = 'translateY(-8px)';
-            setTimeout(function() {
-              phase.innerHTML = '분석이 완료되었습니다 ✨';
-              phase.style.opacity = '1'; phase.style.transform = 'translateY(0)';
-            }, 200);
-            phase.style.fontWeight = '600'; phase.style.color = 'var(--purple)';
-            logo.style.animation = 'loadFinish 1s ease both';
-            setTimeout(function() {
-              renderResult(parsed, saju, mt, gg, true);
-            }, 1200);
+
+            if (_renderedSubCount > 0 && typeof finalizeProgressivePage === 'function') {
+              // progressive mode — finalize with full result
+              finalizeProgressivePage(parsed, saju, mt, gg, true);
+            } else {
+              // standard mode — full render
+              phase.style.opacity = '0'; phase.style.transform = 'translateY(-8px)';
+              setTimeout(function() {
+                phase.innerHTML = '분석이 완료되었습니다 ✨';
+                phase.style.opacity = '1'; phase.style.transform = 'translateY(0)';
+              }, 200);
+              phase.style.fontWeight = '600'; phase.style.color = 'var(--purple)';
+              logo.style.animation = 'loadFinish 1s ease both';
+              setTimeout(function() {
+                renderResult(parsed, saju, mt, gg, true);
+              }, 1200);
+            }
 
           } else {
             _isAnalyzing = false;

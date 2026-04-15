@@ -10,7 +10,7 @@ export async function GET(request) {
 
   var { data, error } = await supabase
     .from('analysis_jobs')
-    .select('id, type, status, result, error, params, created_at, updated_at')
+    .select('id, type, status, result, error, params, partial_subs, progress, created_at, updated_at')
     .eq('id', id)
     .single()
 
@@ -23,6 +23,8 @@ export async function GET(request) {
     result: data.result || null,
     error: data.error || null,
     params: data.params || null,
+    partial_subs: data.partial_subs || null,
+    progress: data.progress || null,
     createdAt: data.created_at,
     updatedAt: data.updated_at
   })

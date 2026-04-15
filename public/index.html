@@ -1204,7 +1204,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
   <div class="bnav" id="gnav-more" onclick="goNav(this,'pgMore')"><div class="bnav-icon bnav-more">•••</div><span>더보기</span></div>
 </div>
 
-<script src="/js/main-nav.js"></script>
+<script src="/js/bundle.js"></script>
 
 <!-- 새 사람 입력 블러+카드 모달 (2스텝) -->
 <div id="addPersonModal" class="add-person-overlay" onclick="if(event.target===this)closeAddPerson()">
@@ -1362,7 +1362,7 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
     <button onclick="doCharge()" style="width:100%;padding:16px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#3DB88A,#2D9D78,#238C6A);border:none;border-radius:var(--r-sm);box-shadow:0 4px 12px rgba(45,157,120,0.25);cursor:pointer">충전하기</button>
   </div>
 </div>
-<script src="/js/main-gunghap.js"></script>
+<!-- bundled -->
 <script src="login.js"></script>
 <script src="sync.js"></script>
 <script src="payment.js"></script>
@@ -1428,7 +1428,7 @@ function applyLoginState(){
 <script src="animal_match.js"></script>
 <script src="mbts_points.js"></script>
 <script src="service.js"></script>
-<script src="/js/main-results.js"></script>
+<!-- bundled -->
 <script>
 /* SW 비활성화 — 캐시 원인 분리 테스트
 if('serviceWorker' in navigator){
@@ -1487,6 +1487,6 @@ if('serviceWorker' in navigator){
   },true);
 })();
 </script>
-<script src="/js/main-init.js"></script>
+<!-- bundled -->
 </body>
 </html>
