@@ -4,7 +4,7 @@ export async function GET(request) {
   var { searchParams } = new URL(request.url)
   var id = searchParams.get('id')
 
-  if (!id) return Response.json({ error: 'Missing job id' }, { status: 400 })
+  if (!id || id.length > 128 || !/^[a-zA-Z0-9_-]+$/.test(id)) return Response.json({ error: 'Invalid job id' }, { status: 400 })
 
   var supabase = getServiceSupabase()
 

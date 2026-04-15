@@ -163,13 +163,16 @@ function goChatFromGh(el){
 }
 
 // ===== 궁합 시작 버튼에 실제 AI 분석 연결 =====
-document.getElementById('ghStart')?.addEventListener('click', function(){
+document.addEventListener('DOMContentLoaded', function() {
+  var ghStartBtn = document.getElementById('ghStart');
+  if (ghStartBtn) ghStartBtn.addEventListener('click', function(){
   if(!ghA || !ghB || !ghRel) return;
 
   // 클로버 차감 후 궁합 분석 진행
   useClover(15, 'gunghap', function(success) {
     if (!success) return;
     _runGunghapAnalysis();
+  });
   });
 });
 

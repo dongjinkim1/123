@@ -31,7 +31,8 @@ export async function POST(request) {
   console.log('[gunghap-v2] request received')
 
   try {
-    const body = await request.json()
+    let body
+    try { body = await request.json() } catch { return Response.json({ error: 'Invalid JSON body' }, { status: 400 }) }
     const { paramsA, paramsB, relType, userId } = body
 
     const { gp, ai, val, rl } = await getModules()
@@ -64,7 +65,7 @@ export async function POST(request) {
     }
     const prompts = gp.buildGunghapPrompt(paramsA, paramsB, relType)
 
-    if (!prompts || !prompts.systemPrompt) {
+    if (!prompts || !prompts.systemPrompt || !prompts.userPrompt) {
       return Response.json({ error: 'Prompt build failed' }, { status: 500 })
     }
 

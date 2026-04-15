@@ -1,4 +1,4 @@
-// MBTS Bundle — 20260415_2307
+// MBTS Bundle — 20260415_2340
 
 // ═══ main-nav.js (2381L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
@@ -2383,7 +2383,7 @@ function mbtiGoNext(){if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null)return;i
 function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
 
 
-// ═══ main-gunghap.js (719L) ═══
+// ═══ main-gunghap.js (722L) ═══
 // main-gunghap.js — gunghap load animation, analysis execution, result filling
 function toggleExtraGh(){
   var items=document.querySelectorAll('.extra-gh');
@@ -2549,13 +2549,16 @@ function goChatFromGh(el){
 }
 
 // ===== 궁합 시작 버튼에 실제 AI 분석 연결 =====
-document.getElementById('ghStart')?.addEventListener('click', function(){
+document.addEventListener('DOMContentLoaded', function() {
+  var ghStartBtn = document.getElementById('ghStart');
+  if (ghStartBtn) ghStartBtn.addEventListener('click', function(){
   if(!ghA || !ghB || !ghRel) return;
 
   // 클로버 차감 후 궁합 분석 진행
   useClover(15, 'gunghap', function(success) {
     if (!success) return;
     _runGunghapAnalysis();
+  });
   });
 });
 
@@ -5694,7 +5697,7 @@ window.onerror = function(msg, url, line, col, err) {
         try {
           var aj = JSON.parse(activeJob);
           if (Date.now() - aj.createdAt > 180000) {
-            _isAnalyzing = false;
+            if (typeof _isAnalyzing !== 'undefined') _isAnalyzing = false;
             console.log('[MBTS] 복구: _isAnalyzing stuck 해제 (3분 초과)');
           } else {
             return;
@@ -5852,7 +5855,7 @@ window.onerror = function(msg, url, line, col, err) {
                  || '연인';
       setTimeout(function() {
         renderGunghapResultV2(parsed, relType);
-        if (typeof go === 'function') go('gh-res');
+        if (typeof go === 'function') go('pgGhRes');
       }, 500);
     }
   }

@@ -45,7 +45,7 @@ window.onerror = function(msg, url, line, col, err) {
         try {
           var aj = JSON.parse(activeJob);
           if (Date.now() - aj.createdAt > 180000) {
-            _isAnalyzing = false;
+            if (typeof _isAnalyzing !== 'undefined') _isAnalyzing = false;
             console.log('[MBTS] 복구: _isAnalyzing stuck 해제 (3분 초과)');
           } else {
             return;
@@ -203,7 +203,7 @@ window.onerror = function(msg, url, line, col, err) {
                  || '연인';
       setTimeout(function() {
         renderGunghapResultV2(parsed, relType);
-        if (typeof go === 'function') go('gh-res');
+        if (typeof go === 'function') go('pgGhRes');
       }, 500);
     }
   }

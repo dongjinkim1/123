@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { createHash } from 'crypto'
 import { getServiceSupabase } from '@/lib/supabase'
 import { waitUntil } from '@vercel/functions'
 import { logError } from '@/lib/errorLog'
@@ -31,7 +32,8 @@ export async function POST(request) {
   console.log('[analyze-v2] request received')
 
   try {
-    const body = await request.json()
+    let body
+    try { body = await request.json() } catch { return Response.json({ error: 'Invalid JSON body' }, { status: 400 }) }
     const { y, m, d, h, min, gender, mbtiChoices, mbtiIntensities, cityLng, userId } = body
 
     const { pb, ai, val, rl } = await getModules()
@@ -65,9 +67,7 @@ export async function POST(request) {
 
     // result caching — same input within 7 days returns cached result
     const inputKey = JSON.stringify({y:+y,m:+m,d:+d,h:h?+h:null,min:min?+min:null,gender,mbtiChoices,mbtiIntensities:mbtiIntensities||[60,60,60,60]})
-    const inputHash = Array.from(new Uint8Array(
-      await crypto.subtle.digest('SHA-256', new TextEncoder().encode(inputKey))
-    )).map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32)
+    const inputHash = createHash('sha256').update(inputKey).digest('hex').slice(0, 32)
 
     const { data: cached } = await supabase
       .from('analysis_jobs')
@@ -94,7 +94,7 @@ export async function POST(request) {
       mbtiIntensities: mbtiIntensities || [60, 60, 60, 60]
     })
 
-    if (!prompts || !prompts.systemPrompt) {
+    if (!prompts || !prompts.systemPrompt || !prompts.userPrompt) {
       return Response.json({ error: 'Prompt build failed' }, { status: 500 })
     }
 
@@ -167,7 +167,7 @@ async function processJob(jobId, prompts, inputParams, ai) {
     let detectedCount = 0
     const detectedSubs = []
 
-    stream.on('text', async (text) => {
+    stream.on('text', (text) => {
       fullText += text
 
       // detect completed subs for progressive rendering
@@ -194,7 +194,7 @@ async function processJob(jobId, prompts, inputParams, ai) {
                   supabase.from('analysis_jobs').update({
                     partial_subs: detectedSubs,
                     progress: Math.round(detectedSubs.length / SUB_TITLES.length * 100)
-                  }).eq('id', jobId).then(function() {})
+                  }).eq('id', jobId).then(function() {}).catch(function(e) { console.error('[analyze-v2] partial update error:', e.message) })
                 } catch (e) { /* partial parse fail — skip */ }
               }
               detectedCount = nextIdx
