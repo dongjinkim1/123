@@ -5770,15 +5770,8 @@ async function _runGunghapAnalysis(){
     window._ghLoadTimeouts.push(tid);
   });
 
-  // engine.js의 궁합 엔진 호출
+  // 궁합 엔진 호출 (로컬 — 렌더링용)
   var ghResult = analyzeGunghap(sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiObjA, mbtiObjB);
-
-  // AI 풀이 요청
-  var apiKey='server-managed';
-  var userPrompt=buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbtiObjA, mbtiObjB);
-  var systemPrompt=typeof GUNGHAP_SYSTEM!=='undefined'?GUNGHAP_SYSTEM:'';
-
-  // 관계 유형 반영
   if(window.GH_CATEGORIES && window.GH_CATEGORIES[ghRel]){
     var cat=window.GH_CATEGORIES[ghRel];
     var w=cat.scoreWeights;
@@ -5786,30 +5779,9 @@ async function _runGunghapAnalysis(){
       ghResult.scores.love*w.love + ghResult.scores.comm*w.comm +
       ghResult.scores.values*w.values + ghResult.scores.work*w.work
     );
-    userPrompt+='\n### 관계: '+cat.label;
-    userPrompt+='\n카테고리:\n';
-    cat.categories.forEach(function(c,i){userPrompt+=(i+1)+'. '+c+'\n';});
-    if(cat.tone) userPrompt+='\n톤: '+cat.tone;
-    if(window.getGHSystemPrompt) systemPrompt=getGHSystemPrompt(ghRel);
   }
 
   try{
-    // ── subTitles 추출 ──
-    var _ixGhSubTitles = [];
-    var _ixGhCfg = window.GH_REL_CONFIG ? window.GH_REL_CONFIG[ghRel] : null;
-    if (_ixGhCfg && _ixGhCfg.subs) {
-      _ixGhCfg.subs.forEach(function(s) { _ixGhSubTitles.push(s.h); });
-    } else if (_ixGhCfg && _ixGhCfg.categories) {
-      _ixGhCfg.categories.forEach(function(c) {
-        (c.subs || []).forEach(function(s) { _ixGhSubTitles.push(s.h); });
-      });
-    }
-
-    // ── 프로그레시브 상태 변수 ──
-    var _ixGhProgQueue = [];
-    var _ixGhProgInited = false;
-    var _ixGhCollectedSubs = [];
-
     // ── 중복 요청 방지 ──
     if (localStorage.getItem('mbts_active_job')) {
       try {
@@ -5822,34 +5794,41 @@ async function _runGunghapAnalysis(){
       localStorage.removeItem('mbts_active_job');
     }
 
-    var _ghJobId = (typeof crypto !== 'undefined' && crypto.randomUUID)
-      ? crypto.randomUUID()
-      : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-          var r = Math.random() * 16 | 0;
-          return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-        });
-    var _ghInputParams = { relType: ghRel };
-    localStorage.setItem('mbts_active_job', JSON.stringify({
-      jobId: _ghJobId, type: 'gunghap', createdAt: Date.now(), input: _ghInputParams
-    }));
+    // ── 서버에 raw 입력 전송 (프롬프트 아님) ──
+    var _ghBirthA = ghA._birthInfo || {};
+    var _ghBirthB = ghB._birthInfo || {};
+    var _ghParamsA = {
+      y: _ghBirthA.y, m: _ghBirthA.m, d: _ghBirthA.d,
+      h: _ghBirthA.h, min: _ghBirthA.min,
+      gender: ghA.gender || '여성',
+      mbtiType: mbtiObjA.type || 'INFJ',
+      mbtiAxes: mbtiObjA.axes || null
+    };
+    var _ghParamsB = {
+      y: _ghBirthB.y, m: _ghBirthB.m, d: _ghBirthB.d,
+      h: _ghBirthB.h, min: _ghBirthB.min,
+      gender: ghB.gender || '남성',
+      mbtiType: mbtiObjB.type || 'INFJ',
+      mbtiAxes: mbtiObjB.axes || null
+    };
 
-    // ── inputParams에 type: 'gunghap' 추가 ──
-    _ghInputParams.type = 'gunghap';
-
-    // ── job-create 호출 (fire-and-forget) ──
-    fetch('/api/job-create', {
+    var _ghResp = await fetch('/api/gunghap-v2', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        jobId: _ghJobId,
-        systemPrompt: systemPrompt,
-        userPrompt: userPrompt,
-        model: 'claude-sonnet-4-6',
-        inputParams: _ghInputParams
+        paramsA: _ghParamsA,
+        paramsB: _ghParamsB,
+        relType: ghRel
       })
-    }).catch(function(e) {
-      console.warn('[MBTS] 궁합 job-create fetch 에러:', e);
     });
+    var _ghData = await _ghResp.json();
+    if (!_ghData.jobId) throw new Error(_ghData.error || 'job 생성 실패');
+
+    var _ghJobId = _ghData.jobId;
+    localStorage.setItem('mbts_active_job', JSON.stringify({
+      jobId: _ghJobId, type: 'gunghap', createdAt: Date.now(), input: { relType: ghRel }
+    }));
+    console.log('[MBTS] 궁합 job 생성 완료:', _ghJobId);
 
     // ── polling ──
     msg.innerHTML = '궁합을 분석하고 있어요<span class="load-dots"><span></span><span></span><span></span></span>';
