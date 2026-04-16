@@ -4095,6 +4095,12 @@ function startRealAnalysis(params){
         _isAnalyzing = false;
         localStorage.removeItem('mbts_active_job');
         if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+        // partial fallback: 5개 이상 sub가 렌더링됐으면 그걸로 결과 보여주기
+        if (_renderedSubCount >= 5 && typeof finalizeProgressivePage === 'function') {
+          finalizeProgressivePage(null, null, null, null, false);
+          if (typeof showToast === 'function') showToast('일부 항목이 아직 준비 중이에요 🔄');
+          return;
+        }
         phase.innerHTML = '분석 시간이 초과됐어요 😢';
         phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
         logo.style.animation = 'none';
@@ -4131,6 +4137,7 @@ function startRealAnalysis(params){
             }
           }
           _renderedSubCount = statusData.partial_subs.length;
+          _pollStart = Date.now(); // sub arriving = server alive, reset timeout
           // update progress bar with server progress
           if (statusData.progress) {
             bar.style.width = Math.max(statusData.progress, fakePct) + '%';
