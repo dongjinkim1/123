@@ -2669,19 +2669,23 @@ async function _runGunghapAnalysis(){
     // ── 서버에 raw 입력 전송 (프롬프트 아님) ──
     var _ghBirthA = ghA._birthInfo || {};
     var _ghBirthB = ghB._birthInfo || {};
+    // Bug 4 fix: mbtiType whitelist — '사주분석' bypasses '|| INFJ' fallback
+    var _VALID_MBTI = ['INFP','ENFP','INFJ','ENFJ','INTP','ENTP','INTJ','ENTJ','ISFP','ESFP','ISFJ','ESFJ','ISTP','ESTP','ISTJ','ESTJ'];
+    var _mbtiTypeA = (mbtiObjA && _VALID_MBTI.indexOf(mbtiObjA.type) !== -1) ? mbtiObjA.type : 'INFJ';
+    var _mbtiTypeB = (mbtiObjB && _VALID_MBTI.indexOf(mbtiObjB.type) !== -1) ? mbtiObjB.type : 'INFJ';
     var _ghParamsA = {
       y: _ghBirthA.y, m: _ghBirthA.m, d: _ghBirthA.d,
       h: _ghBirthA.h, min: _ghBirthA.min,
       gender: ghA.gender || '여성',
-      mbtiType: mbtiObjA.type || 'INFJ',
-      mbtiAxes: mbtiObjA.axes || null
+      mbtiType: _mbtiTypeA,
+      mbtiAxes: (mbtiObjA && mbtiObjA.axes) || null
     };
     var _ghParamsB = {
       y: _ghBirthB.y, m: _ghBirthB.m, d: _ghBirthB.d,
       h: _ghBirthB.h, min: _ghBirthB.min,
       gender: ghB.gender || '남성',
-      mbtiType: mbtiObjB.type || 'INFJ',
-      mbtiAxes: mbtiObjB.axes || null
+      mbtiType: _mbtiTypeB,
+      mbtiAxes: (mbtiObjB && mbtiObjB.axes) || null
     };
 
     var _ghResp = await fetch('/api/gunghap-v2', {
@@ -3105,7 +3109,8 @@ function finishAddPerson(mbtiStr){
         var tiB=TY[mbtiStr]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
         mbtiB={type:mbtiStr,cf:tiB.cf,axes:[{side:mbtiStr[0],pct:60},{side:mbtiStr[1],pct:60},{side:mbtiStr[2],pct:60},{side:mbtiStr[3],pct:60}],profile:''};
       }
-      extraData={saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB};
+      // Bug 4 fix: include _birthInfo so gunghap-v2 receives valid y/m/d
+      extraData={saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,_birthInfo:{y:parseInt(y),m:parseInt(m),d:parseInt(d),h:bH,min:bMin,city:cityRaw}};
     }catch(e){console.warn('[MBTS] 새 사람 사주 계산 실패:',e);}
   }
 
@@ -3940,9 +3945,11 @@ function mbtiGoNext(){
     apiKey:apiKey
   };
 
+  // Bug 1 fix: 동기 lock — 모바일 touchend+click 이중 발화 race 방지
+  _isAnalyzing = true;
   // 클로버 차감 후 분석 진행
   useClover(15, 'saju', function(success) {
-    if (!success) return;
+    if (!success) { _isAnalyzing = false; return; }
     console.log('🔍[9] go(pgLoad) 호출 직전');
     go('pgLoad');
     console.log('🔍[10] go(pgLoad) 성공, startRealAnalysis 호출');
@@ -4270,12 +4277,14 @@ function startRealAnalysis(params){
             bar.style.width = '100%';
 
             if (_renderedSubCount > 0 && typeof finalizeProgressivePage === 'function') {
-              // progressive mode — render any missing subs (server detection misses last sub)
-              if (parsed.categories && parsed.categories.length > _renderedSubCount && typeof appendSubCard === 'function') {
-                for (var _fi = _renderedSubCount; _fi < parsed.categories.length; _fi++) {
-                  try { appendSubCard(parsed.categories[_fi], _fi); } catch(e) {}
+              // Bug 2 fix: flatten categories[].subs[] for accurate catch-up
+              var _allSubs = [];
+              (parsed.categories || []).forEach(function(c) { (c.subs || []).forEach(function(s) { _allSubs.push(s); }); });
+              if (_allSubs.length > _renderedSubCount && typeof appendSubCard === 'function') {
+                for (var _fi = _renderedSubCount; _fi < _allSubs.length; _fi++) {
+                  try { appendSubCard(_allSubs[_fi], _fi); } catch(e) {}
                 }
-                _renderedSubCount = parsed.categories.length;
+                _renderedSubCount = _allSubs.length;
               }
               // progressive mode — finalize with full result
               finalizeProgressivePage(parsed, saju, mt, gg, true);

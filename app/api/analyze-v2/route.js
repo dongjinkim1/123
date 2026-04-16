@@ -212,9 +212,19 @@ async function processJob(jobId, prompts, inputParams, ai) {
             const nmPos = fullText.indexOf(nextMarker) >= 0 ? fullText.indexOf(nextMarker) : fullText.indexOf(nextMarkerWs)
             if (pmPos >= 0 && nmPos > pmPos) {
               const prevStart = fullText.lastIndexOf('{', pmPos)
-              const nextStart = fullText.lastIndexOf('{', nmPos)
+              // Bug 2 fix: find the {"h"...} brace (skip category {"id":...} boundary)
+              let nextStart = -1
+              const hPos1 = fullText.lastIndexOf('{"h"', nmPos)
+              const hPos2 = fullText.lastIndexOf('{"h": ', nmPos)
+              const hPos3 = fullText.lastIndexOf('{"h":"', nmPos)
+              nextStart = Math.max(hPos1, hPos2, hPos3)
+              if (nextStart < 0) nextStart = fullText.lastIndexOf('{', nmPos)
               if (prevStart >= 0 && nextStart > prevStart) {
-                const subText = fullText.substring(prevStart, nextStart).replace(/,\s*$/, '')
+                let subText = fullText.substring(prevStart, nextStart).replace(/,\s*$/, '')
+                // Bug 2 fix: trim category boundary artifacts e.g. "}]}, {\"id\":\"love\"..."
+                // subText might already end with the sub's closing "}" before the "]}" — cut at "]" and strip trailing comma/whitespace.
+                const boundaryIdx = subText.search(/\]\s*\}/)
+                if (boundaryIdx >= 0) subText = subText.substring(0, boundaryIdx).replace(/[,\s]+$/, '')
                 try {
                   const subObj = JSON.parse(subText)
                   detectedSubs.push(subObj)
@@ -268,27 +278,4 @@ async function processJob(jobId, prompts, inputParams, ai) {
     // log partial responses
     if (!isComplete) {
       await logError('analysis', 'Incomplete AI response', {
-        jobId, errorType: 'json_parse', length: fullText.length
-      })
-    }
-
-  } catch (err) {
-    console.error('[analyze-v2] processJob error:', err.message)
-
-    const errorType = err.message.includes('timeout') || err.message.includes('Timeout') ? 'ai_timeout'
-      : err.status === 529 || err.message.includes('overloaded') ? 'ai_overload'
-      : 'unknown'
-
-    await logError('analysis', err.message, { jobId, errorType })
-
-    const { error: failErr } = await supabase.from('analysis_jobs').upsert({
-      id: jobId,
-      type: 'saju',
-      status: 'failed',
-      params: inputParams,
-      error: err.message || 'unknown',
-      updated_at: new Date().toISOString()
-    })
-    if (failErr) console.error('[analyze-v2] fail upsert error:', failErr.message)
-  }
-}
+      

@@ -810,9 +810,11 @@ function mbtiGoNext(){
     apiKey:apiKey
   };
 
+  // Bug 1 fix: 동기 lock — 모바일 touchend+click 이중 발화 race 방지
+  _isAnalyzing = true;
   // 클로버 차감 후 분석 진행
   useClover(15, 'saju', function(success) {
-    if (!success) return;
+    if (!success) { _isAnalyzing = false; return; }
     console.log('🔍[9] go(pgLoad) 호출 직전');
     go('pgLoad');
     console.log('🔍[10] go(pgLoad) 성공, startRealAnalysis 호출');
@@ -1138,12 +1140,14 @@ function startRealAnalysis(params){
             bar.style.width = '100%';
 
             if (_renderedSubCount > 0 && typeof finalizeProgressivePage === 'function') {
-              // progressive mode — render any missing subs (server detection misses last sub)
-              if (parsed.categories && parsed.categories.length > _renderedSubCount && typeof appendSubCard === 'function') {
-                for (var _fi = _renderedSubCount; _fi < parsed.categories.length; _fi++) {
-                  try { appendSubCard(parsed.categories[_fi], _fi); } catch(e) {}
+              // Bug 2 fix: flatten categories[].subs[] for accurate catch-up (see bundle.js twin)
+              var _allSubs = [];
+              (parsed.categories || []).forEach(function(c) { (c.subs || []).forEach(function(s) { _allSubs.push(s); }); });
+              if (_allSubs.length > _renderedSubCount && typeof appendSubCard === 'function') {
+                for (var _fi = _renderedSubCount; _fi < _allSubs.length; _fi++) {
+                  try { appendSubCard(_allSubs[_fi], _fi); } catch(e) {}
                 }
-                _renderedSubCount = parsed.categories.length;
+                _renderedSubCount = _allSubs.length;
               }
               // progressive mode — finalize with full result
               finalizeProgressivePage(parsed, saju, mt, gg, true);

@@ -49,40 +49,26 @@
   };
 
   function syncToSupabase(type, record) {
-    if (typeof supabase === 'undefined') return;
-
+    // Bug 3 fix: route through /api/save-result (service role, correct project B)
+    // Eliminates "input_data column not found" errors from anon→project A direct writes.
     var userId = null;
     if (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) {
       userId = mbtsSession.userId;
     }
 
-    if (type === 'saju') {
-      supabase.from('saju_results').insert({
-        user_id: userId,
-        name: record.name || '나',
-        input_data: JSON.stringify(record.input || {}),
-        saju_data: JSON.stringify(record.saju || {}),
-        mbti_data: JSON.stringify(record.mbtiObj || {}),
-        result_json: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {}),
-        full_record: JSON.stringify(record)
-      }).then(function(res) {
-        if (res.error) console.warn('[sync.js] saju 저장 실패:', res.error.message);
-        else console.log('[sync.js] saju 결과 Supabase 저장 완료');
-      });
-    } else if (type === 'gunghap') {
-      supabase.from('gunghap_results').insert({
-        user_id: userId,
-        person_a: JSON.stringify(record.personA || {}),
-        person_b: JSON.stringify(record.personB || {}),
-        rel_type: record.relType || record.relLabel || '',
-        scores: JSON.stringify(record.scores || {}),
-        result_json: typeof record.aiResult === 'string' ? record.aiResult : JSON.stringify(record.aiResult || {}),
-        full_record: JSON.stringify(record)
-      }).then(function(res) {
-        if (res.error) console.warn('[sync.js] gunghap 저장 실패:', res.error.message);
-        else console.log('[sync.js] gunghap 결과 Supabase 저장 완료');
-      });
-    }
+    fetch('/api/save-result', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: userId, type: type, data: record })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(json) {
+      if (!json.success) console.warn('[sync.js] ' + type + ' 저장 실패:', json.error);
+      else console.log('[sync.js] ' + type + ' 결과 저장 완료, id:', json.id);
+    })
+    .catch(function(err) {
+      console.warn('[sync.js] ' + type + ' 저장 오류:', err && err.message);
+    });
   }
 
   console.log('[sync.js] Supabase 자동 동기화 활성화');
