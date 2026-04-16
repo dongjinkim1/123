@@ -166,6 +166,8 @@ async function processJob(jobId, prompts, inputParams, ai) {
     let fullText = ''
     let detectedCount = 0
     const detectedSubs = []
+    // serialize partial updates to prevent races with the final upsert
+    let partialUpdateChain = Promise.resolve()
 
     stream.on('text', (text) => {
       fullText += text
@@ -190,11 +192,15 @@ async function processJob(jobId, prompts, inputParams, ai) {
                 try {
                   const subObj = JSON.parse(subText)
                   detectedSubs.push(subObj)
-                  // update DB with partial progress (fire-and-forget)
-                  supabase.from('analysis_jobs').update({
-                    partial_subs: detectedSubs,
-                    progress: Math.round(detectedSubs.length / SUB_TITLES.length * 100)
-                  }).eq('id', jobId).then(function() {}).catch(function(e) { console.error('[analyze-v2] partial update error:', e.message) })
+                  // queue partial update (serialized) to avoid races with final upsert
+                  const snapshot = detectedSubs.slice()
+                  const progress = Math.round(snapshot.length / SUB_TITLES.length * 100)
+                  partialUpdateChain = partialUpdateChain.then(function() {
+                    return supabase.from('analysis_jobs').update({
+                      partial_subs: snapshot,
+                      progress: progress
+                    }).eq('id', jobId)
+                  }).catch(function(e) { console.error('[analyze-v2] partial update error:', e.message) })
                 } catch (e) { /* partial parse fail — skip */ }
               }
               detectedCount = nextIdx
@@ -205,6 +211,8 @@ async function processJob(jobId, prompts, inputParams, ai) {
     })
 
     const finalMessage = await stream.finalMessage()
+    // wait for all partial updates to settle before writing the final row
+    await partialUpdateChain
     // ensure fullText has final content
     fullText = finalMessage.content
       .filter(b => b.type === 'text')

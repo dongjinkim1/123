@@ -949,13 +949,7 @@
   window.svcShareCompatKakao = svcShareCompatKakao;
   window.svcShareKakao = svcShareKakao;
 
-  // ── 디버그 체크리스트 ──
-  console.log('[MBTS][DEBUG] renderCompatPage 존재:', typeof renderCompatPage);
-  console.log('[MBTS][DEBUG] renderAnimalPage 존재:', typeof renderAnimalPage);
-  console.log('[MBTS][DEBUG] OH_SANG 존재:', typeof OH_SANG);
-  console.log('[MBTS][DEBUG] ANIMALS 존재:', typeof ANIMALS);
-  console.log('[MBTS][DEBUG] getAnimalResult 존재:', typeof getAnimalResult);
-  console.log('[MBTS][DEBUG] getFortuneTarget 존재:', typeof getFortuneTarget);
+  // (debug check removed — production cleanup)
 
   // ══════════════════════════════════════
   // "잘 맞는 동물" 1:1 매칭 (Best Match)

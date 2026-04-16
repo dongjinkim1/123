@@ -321,6 +321,7 @@ async function _runGunghapAnalysis(){
     var _ghPollStart = Date.now();
     var _ghMsgs = ['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...','오행 보완 관계를 읽습니다...','인지기능 궁합 탐색...','연애 케미를 계산합니다...','갈등 패턴을 분석합니다...','장기 전망을 그립니다...','두 사람의 이야기를 쓰고 있습니다...'];
 
+    var _ghLastProgress = 0;
     var aiText = await new Promise(function(resolve, reject) {
       var _ghTimer = setInterval(async function() {
         var elapsed = Date.now() - _ghPollStart;
@@ -341,6 +342,12 @@ async function _runGunghapAnalysis(){
           var res = await fetch('/api/job-status?id=' + _ghJobId);
           var data = await res.json();
 
+          // progress advanced = server alive, reset timeout
+          if (typeof data.progress === 'number' && data.progress > _ghLastProgress) {
+            _ghLastProgress = data.progress;
+            _ghPollStart = Date.now();
+          }
+
           if (data.status === 'done' && data.result && data.result.text) {
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
@@ -352,7 +359,12 @@ async function _runGunghapAnalysis(){
           } else if (data.status === 'partial') {
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
-            reject(new Error('분석이 불완전하게 끝났습니다'));
+            // partial fallback: try to use incomplete text if any
+            if (data.result && data.result.text) {
+              resolve(data.result.text);
+            } else {
+              reject(new Error('분석이 불완전하게 끝났습니다'));
+            }
           }
         } catch(e) {
           console.warn('[MBTS] 궁합 polling 에러:', e);

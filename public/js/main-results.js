@@ -1113,6 +1113,13 @@ function startRealAnalysis(params){
             bar.style.width = '100%';
 
             if (_renderedSubCount > 0 && typeof finalizeProgressivePage === 'function') {
+              // progressive mode — render any missing subs (server detection misses last sub)
+              if (parsed.categories && parsed.categories.length > _renderedSubCount && typeof appendSubCard === 'function') {
+                for (var _fi = _renderedSubCount; _fi < parsed.categories.length; _fi++) {
+                  try { appendSubCard(parsed.categories[_fi], _fi); } catch(e) {}
+                }
+                _renderedSubCount = parsed.categories.length;
+              }
               // progressive mode — finalize with full result
               finalizeProgressivePage(parsed, saju, mt, gg, true);
             } else {
