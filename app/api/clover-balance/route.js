@@ -20,6 +20,11 @@ export async function POST(request) {
       return Response.json({ success: true, balance: 0, nickname: '' })
     }
 
+    // ⚠️ TEST BYPASS: "김동진" 닉네임은 무한 잔액 반환 — production에서 제거 필요
+    if (data.nickname === '김동진') {
+      return Response.json({ success: true, balance: 999, nickname: data.nickname, testBypass: true })
+    }
+
     return Response.json({ success: true, balance: data.clover_balance || 0, nickname: data.nickname || '' })
   } catch (err) {
     console.error('[clover-balance] Error:', err)

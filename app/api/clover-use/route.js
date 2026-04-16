@@ -37,15 +37,22 @@ export async function POST(request) {
       return Response.json({ error: '요청 한도 초과', retryAfter: rl.retryAfter }, { status: 429 })
     }
 
-    // 1. 최신 잔액 조회
+    // 1. 최신 잔액 조회 (nickname도 가져옴 — TEST BYPASS용)
     var { data: user, error: fetchError } = await supabase
       .from('users')
-      .select('clover_balance')
+      .select('clover_balance, nickname')
       .eq('id', userId)
       .maybeSingle()
 
     if (fetchError || !user) {
       return Response.json({ error: 'User not found', balance: 0 })
+    }
+
+    // ⚠️ TEST BYPASS: "김동진" 닉네임은 클로버 차감 면제 + 무한 잔액 반환
+    // TODO: production에서 반드시 제거
+    if (user.nickname === '김동진') {
+      console.log('[clover-use] TEST BYPASS for 김동진 — skipping deduction')
+      return Response.json({ success: true, balance: 999, testBypass: true })
     }
 
     var balance = user.clover_balance || 0

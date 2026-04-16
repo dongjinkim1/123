@@ -60,10 +60,12 @@ export async function POST(request) {
     if (userId) {
       const { data: user } = await supabase
         .from('users')
-        .select('clover_balance')
+        .select('clover_balance, nickname')
         .eq('id', userId)
         .maybeSingle()
-      if (user && user.clover_balance < 15) {
+      // ⚠️ TEST BYPASS: "김동진" 잔액 체크 면제 — production에서 제거 필요
+      const isTestUser = user && user.nickname === '김동진'
+      if (user && !isTestUser && user.clover_balance < 15) {
         return Response.json({ error: '클로버 부족', balance: user.clover_balance }, { status: 402 })
       }
     }
