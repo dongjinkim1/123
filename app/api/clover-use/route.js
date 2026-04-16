@@ -1,14 +1,41 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { checkRateLimit } from '@/lib/rate-limiter'
+
+// NOTE: C6 hardening (no session auth yet — see TIER 2 report).
+// Until session-based auth is deployed, we defense-in-depth via:
+//   - strict input validation (uuid shape, amount bounds, type whitelist)
+//   - per-userId rate limit (20 req/min) — prevents burst draining
+//   - positive-amount enforcement
+const VALID_TYPES = ['saju', 'gunghap', 'chat']
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export async function POST(request) {
   try {
-    var { userId, amount, type } = await request.json()
+    var body
+    try { body = await request.json() } catch { return Response.json({ error: 'Invalid JSON' }, { status: 400 }) }
+    var { userId, amount, type } = body
 
     if (!userId || !amount || !type) {
       return Response.json({ error: 'Missing parameters' }, { status: 400 })
     }
+    if (typeof userId !== 'string' || !UUID_RE.test(userId)) {
+      return Response.json({ error: 'Invalid userId' }, { status: 400 })
+    }
+    amount = +amount
+    if (!Number.isFinite(amount) || amount <= 0 || amount > 1000 || !Number.isInteger(amount)) {
+      return Response.json({ error: 'Invalid amount' }, { status: 400 })
+    }
+    if (VALID_TYPES.indexOf(type) === -1) {
+      return Response.json({ error: 'Invalid type' }, { status: 400 })
+    }
 
     var supabase = getServiceSupabase()
+
+    // rate limit per userId — 20 calls per minute
+    var rl = await checkRateLimit(supabase, userId, 'clover-use', 60000, 20)
+    if (!rl.allowed) {
+      return Response.json({ error: '요청 한도 초과', retryAfter: rl.retryAfter }, { status: 429 })
+    }
 
     // 1. 최신 잔액 조회
     var { data: user, error: fetchError } = await supabase

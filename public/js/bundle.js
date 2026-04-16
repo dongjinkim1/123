@@ -2708,6 +2708,8 @@ async function _runGunghapAnalysis(){
     var _ghMsgs = ['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...','오행 보완 관계를 읽습니다...','인지기능 궁합 탐색...','연애 케미를 계산합니다...','갈등 패턴을 분석합니다...','장기 전망을 그립니다...','두 사람의 이야기를 쓰고 있습니다...'];
 
     var _ghLastProgress = 0;
+    var _ghHardDeadline = Date.now() + 900000; // M12: 15-min hard cap
+    var _ghUidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var aiText = await new Promise(function(resolve, reject) {
       var _ghTimer = setInterval(async function() {
         var elapsed = Date.now() - _ghPollStart;
@@ -2717,6 +2719,12 @@ async function _runGunghapAnalysis(){
         var fakePct = Math.min(90, Math.floor(elapsed / 1000) * 1.5);
         bar.style.width = Math.max(fakePct, 5) + '%';
 
+        if (Date.now() > _ghHardDeadline) {
+          clearInterval(_ghTimer);
+          localStorage.removeItem('mbts_active_job');
+          reject(new Error('분석 시간 초과 (15분 한도)'));
+          return;
+        }
         if (elapsed > 300000) {
           clearInterval(_ghTimer);
           localStorage.removeItem('mbts_active_job');
@@ -2725,7 +2733,7 @@ async function _runGunghapAnalysis(){
         }
 
         try {
-          var res = await fetch('/api/job-status?id=' + _ghJobId);
+          var res = await fetch('/api/job-status?id=' + _ghJobId + _ghUidQs);
           var data = await res.json();
 
           // progress advanced = server alive, reset timeout
@@ -3999,11 +4007,17 @@ function startRealAnalysis(params){
     window._loadTimers.push(setTimeout(s.fn, s.t));
   });
 
-  /* ── 중복 요청 방지 ── */
+  /* ── 중복 요청 방지 (M10 강화) ── */
+  // Clear any previously-active poller (from recoverJob or prior run) before starting new one.
+  if (window._MBTS_activePollTimer) {
+    try { clearInterval(window._MBTS_activePollTimer); } catch(e) {}
+    window._MBTS_activePollTimer = null;
+  }
   if (localStorage.getItem('mbts_active_job')) {
     try {
       var _ej = JSON.parse(localStorage.getItem('mbts_active_job'));
-      if (Date.now() - _ej.createdAt < 120000) {
+      // Align duplicate window with server maxDuration (300s) + grace (30s)
+      if (Date.now() - _ej.createdAt < 330000) {
         if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
         _isAnalyzing = false;
         if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
@@ -4099,9 +4113,30 @@ function startRealAnalysis(params){
 
     /* ── polling (3초 간격) ── */
     var _pollStart = Date.now();
+    var _pollHardDeadline = Date.now() + 900000; // M12: 15-min hard cap (cannot be extended by partial_subs)
     var _renderedSubCount = 0;
+    var _uidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var _pollTimer = setInterval(async function() {
-      // timeout
+      // M12 hard deadline check — absolute, regardless of partial_subs resets
+      if (Date.now() > _pollHardDeadline) {
+        clearInterval(_pollTimer);
+        window._MBTS_activePollTimer = null;
+        _isAnalyzing = false;
+        localStorage.removeItem('mbts_active_job');
+        if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+        if (_renderedSubCount >= 5 && typeof finalizeProgressivePage === 'function') {
+          finalizeProgressivePage(null, null, null, null, false);
+          if (typeof showToast === 'function') showToast('분석이 오래 걸려 중단됐어요 🔄');
+          return;
+        }
+        phase.innerHTML = '분석 시간이 초과됐어요 😢';
+        phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+        logo.style.animation = 'none';
+        alert('분석 시간 초과 (15분). 다시 시도해주세요.');
+        setTimeout(function(){ go('pgBirth'); }, 1000);
+        return;
+      }
+      // idle timeout (no progress for 5 minutes)
       if (Date.now() - _pollStart > 300000) {
         clearInterval(_pollTimer);
         _isAnalyzing = false;
@@ -4127,7 +4162,7 @@ function startRealAnalysis(params){
       bar.style.width = Math.max(fakePct, 10) + '%';
 
       try {
-        var res = await fetch('/api/job-status?id=' + _jobId);
+        var res = await fetch('/api/job-status?id=' + _jobId + _uidQs);
         var statusData = await res.json();
 
         // progressive rendering: render completed subs as they arrive
@@ -4294,6 +4329,7 @@ function startRealAnalysis(params){
         console.warn('[MBTS] polling 에러:', pollErr);
       }
     }, 3000);
+    window._MBTS_activePollTimer = _pollTimer; // M10: register active poller
   })
   .catch(function(err) {
     console.error('[MBTS] analyze-v2 호출 실패:', err);
@@ -5749,8 +5785,9 @@ window.onerror = function(msg, url, line, col, err) {
 
     console.log('[MBTS] 복구: 미완료 job 발견 (' + job.type + ')');
 
+    var _uidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     try {
-      var res = await fetch('/api/job-status?id=' + job.jobId);
+      var res = await fetch('/api/job-status?id=' + job.jobId + _uidQs);
       var data = await res.json();
 
       if (data.status === 'done') {
@@ -5776,23 +5813,31 @@ window.onerror = function(msg, url, line, col, err) {
   }
 
   function startPolling(job) {
+    // M10: stop any previously-registered poller before starting a new one
+    if (window._MBTS_activePollTimer) {
+      try { clearInterval(window._MBTS_activePollTimer); } catch(e) {}
+      window._MBTS_activePollTimer = null;
+    }
     var start = Date.now();
+    var _uidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var timer = setInterval(async function() {
       if (Date.now() - start > MAX_POLL_WAIT) {
         clearInterval(timer);
+        window._MBTS_activePollTimer = null;
         localStorage.removeItem('mbts_active_job');
         if (typeof showToast === 'function')
           showToast('분석 대기 시간이 초과됐어요. 다시 시도해주세요');
         return;
       }
       try {
-        var res = await fetch('/api/job-status?id=' + job.jobId);
+        var res = await fetch('/api/job-status?id=' + job.jobId + _uidQs);
         var data = await res.json();
         if (data.status === 'done') {
           clearInterval(timer);
           handleResult(job, data);
         } else if (data.status === 'failed' || data.status === 'partial') {
           clearInterval(timer);
+          window._MBTS_activePollTimer = null;
           localStorage.removeItem('mbts_active_job');
           if (typeof showToast === 'function')
             showToast(data.status === 'partial'
@@ -5800,6 +5845,7 @@ window.onerror = function(msg, url, line, col, err) {
         }
       } catch(e) {}
     }, POLL_INTERVAL);
+    window._MBTS_activePollTimer = timer;
   }
 
   function handleResult(job, data) {

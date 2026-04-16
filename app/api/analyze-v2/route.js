@@ -45,9 +45,12 @@ export async function POST(request) {
       return Response.json({ error: validationError }, { status: 400 })
     }
 
-    // rate limiting
-    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
-    const identifier = userId || ip
+    // rate limiting — prefer userId; fall back to IP from TRUSTED proxy only (M4).
+    // In Vercel runtime, 'x-vercel-forwarded-for' is trusted; 'x-forwarded-for' can be spoofed from other infra.
+    const vercelIp = request.headers.get('x-vercel-forwarded-for')
+    const realIp = request.headers.get('x-real-ip')
+    const trustedIp = vercelIp || realIp || 'unknown'
+    const identifier = userId || trustedIp
     const { allowed, retryAfter } = await rl.checkRateLimit(supabase, identifier, 'analyze', 60000, 5)
     if (!allowed) {
       return Response.json({ error: '요청 한도 초과', retryAfter }, { status: 429 })
@@ -66,8 +69,28 @@ export async function POST(request) {
     }
 
     // result caching — same input within 7 days returns cached result
-    const inputKey = JSON.stringify({y:+y,m:+m,d:+d,h:h?+h:null,min:min?+min:null,gender,mbtiChoices,mbtiIntensities:mbtiIntensities||[60,60,60,60]})
+    // M6: include userId in the hash so users never read each other's job rows.
+    // Guest (no userId) cache is still shared but scoped under 'guest'.
+    const cacheUser = userId || 'guest'
+    const inputKey = JSON.stringify({u:cacheUser,y:+y,m:+m,d:+d,h:h?+h:null,min:min?+min:null,gender,mbtiChoices,mbtiIntensities:mbtiIntensities||[60,60,60,60]})
     const inputHash = createHash('sha256').update(inputKey).digest('hex').slice(0, 32)
+
+    // M9: dedupe concurrent requests — same inputHash already processing in last 30s
+    const since30s = new Date(Date.now() - 30*1000).toISOString()
+    const { data: pending } = await supabase
+      .from('analysis_jobs')
+      .select('id, status')
+      .eq('input_hash', inputHash)
+      .in('status', ['processing','pending'])
+      .gte('created_at', since30s)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (pending && pending.id) {
+      console.log('[analyze-v2] dedupe hit — returning existing jobId:', pending.id)
+      return Response.json({ jobId: pending.id, status: 'created', dedup: true })
+    }
 
     const { data: cached } = await supabase
       .from('analysis_jobs')
@@ -105,7 +128,8 @@ export async function POST(request) {
     const jobId = crypto.randomUUID()
     const inputParams = {
       type: 'saju', y, m, d, h, min,
-      gender, mbtiChoices, mbtiIntensities, cityLng
+      gender, mbtiChoices, mbtiIntensities, cityLng,
+      userId: userId || null // M7: store owner for job-status ownership check
     }
 
     const { error: dbError } = await supabase.from('analysis_jobs').upsert({

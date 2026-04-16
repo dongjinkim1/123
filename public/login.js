@@ -64,10 +64,26 @@ function doKakaoLogin() {
   var REST_API_KEY = '951d6c9e38404e6e1086ac9f388d5a90';
   var redirectUri = window.location.origin + '/auth/kakao/callback';
 
+  // C5: CSRF state — generate random, persist in sessionStorage, verify on callback
+  var state;
+  try {
+    if (window.crypto && window.crypto.getRandomValues) {
+      var buf = new Uint8Array(16);
+      window.crypto.getRandomValues(buf);
+      state = Array.prototype.map.call(buf, function(b) { return ('0' + b.toString(16)).slice(-2); }).join('');
+    } else {
+      state = String(Date.now()) + Math.random().toString(36).slice(2, 12);
+    }
+    sessionStorage.setItem('mbts_oauth_state', state);
+  } catch(e) {
+    state = String(Date.now());
+  }
+
   var kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize'
     + '?client_id=' + REST_API_KEY
     + '&redirect_uri=' + encodeURIComponent(redirectUri)
     + '&response_type=code'
+    + '&state=' + encodeURIComponent(state)
     + '&scope=profile_nickname,profile_image';
 
   window.location.href = kakaoAuthUrl;
@@ -109,9 +125,12 @@ function upsertKakaoUser(kakaoId, nickname, profileImage, email) {
 function onLoginSuccess() {
   updateLoginUI();
   // 레퍼럴 보상 처리 (A:추천인 +2, B:신규유저 +2)
+  // M13: remove the key BEFORE the fetch so interrupted/failed calls can't re-fire on next login.
+  // Server still needs idempotency (TIER 2), but this closes the client-side duplication vector.
   try {
     var ref = localStorage.getItem('mbts_referrer');
     if (ref && ref !== mbtsSession.userId) {
+      localStorage.removeItem('mbts_referrer'); // consume immediately (M13)
       fetch('/api/referral-reward', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -129,7 +148,6 @@ function onLoginSuccess() {
         }
       })
       .catch(function(e) { console.warn('[MBTS] 레퍼럴 처리 실패:', e); });
-      localStorage.removeItem('mbts_referrer');
     }
   } catch(e) {}
   if (typeof go === 'function') go('pgDash');

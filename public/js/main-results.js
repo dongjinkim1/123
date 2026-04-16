@@ -877,11 +877,15 @@ function startRealAnalysis(params){
     window._loadTimers.push(setTimeout(s.fn, s.t));
   });
 
-  /* ── 중복 요청 방지 ── */
+  /* ── 중복 요청 방지 (M10 강화) ── */
+  if (window._MBTS_activePollTimer) {
+    try { clearInterval(window._MBTS_activePollTimer); } catch(e) {}
+    window._MBTS_activePollTimer = null;
+  }
   if (localStorage.getItem('mbts_active_job')) {
     try {
       var _ej = JSON.parse(localStorage.getItem('mbts_active_job'));
-      if (Date.now() - _ej.createdAt < 120000) {
+      if (Date.now() - _ej.createdAt < 330000) {
         if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
         _isAnalyzing = false;
         if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
@@ -977,9 +981,30 @@ function startRealAnalysis(params){
 
     /* ── polling (3초 간격) ── */
     var _pollStart = Date.now();
+    var _pollHardDeadline = Date.now() + 900000; // M12: 15-min hard cap
     var _renderedSubCount = 0;
+    var _uidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var _pollTimer = setInterval(async function() {
-      // timeout
+      // M12 hard deadline
+      if (Date.now() > _pollHardDeadline) {
+        clearInterval(_pollTimer);
+        window._MBTS_activePollTimer = null;
+        _isAnalyzing = false;
+        localStorage.removeItem('mbts_active_job');
+        if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
+        if (_renderedSubCount >= 5 && typeof finalizeProgressivePage === 'function') {
+          finalizeProgressivePage(null, null, null, null, false);
+          if (typeof showToast === 'function') showToast('분석이 오래 걸려 중단됐어요 🔄');
+          return;
+        }
+        phase.innerHTML = '분석 시간이 초과됐어요 😢';
+        phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
+        logo.style.animation = 'none';
+        alert('분석 시간 초과 (15분). 다시 시도해주세요.');
+        setTimeout(function(){ go('pgBirth'); }, 1000);
+        return;
+      }
+      // idle timeout (no progress for 5 minutes)
       if (Date.now() - _pollStart > 300000) {
         clearInterval(_pollTimer);
         _isAnalyzing = false;
@@ -1005,7 +1030,7 @@ function startRealAnalysis(params){
       bar.style.width = Math.max(fakePct, 10) + '%';
 
       try {
-        var res = await fetch('/api/job-status?id=' + _jobId);
+        var res = await fetch('/api/job-status?id=' + _jobId + _uidQs);
         var statusData = await res.json();
 
         // progressive rendering: render completed subs as they arrive
@@ -1172,6 +1197,7 @@ function startRealAnalysis(params){
         console.warn('[MBTS] polling 에러:', pollErr);
       }
     }, 3000);
+    window._MBTS_activePollTimer = _pollTimer; // M10: register active poller
   })
   .catch(function(err) {
     console.error('[MBTS] analyze-v2 호출 실패:', err);

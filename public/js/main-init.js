@@ -71,8 +71,9 @@ window.onerror = function(msg, url, line, col, err) {
 
     console.log('[MBTS] 복구: 미완료 job 발견 (' + job.type + ')');
 
+    var _uidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     try {
-      var res = await fetch('/api/job-status?id=' + job.jobId);
+      var res = await fetch('/api/job-status?id=' + job.jobId + _uidQs);
       var data = await res.json();
 
       if (data.status === 'done') {
@@ -98,23 +99,32 @@ window.onerror = function(msg, url, line, col, err) {
   }
 
   function startPolling(job) {
+    // M10: stop any previously-registered poller before starting a new one
+    if (window._MBTS_activePollTimer) {
+      try { clearInterval(window._MBTS_activePollTimer); } catch(e) {}
+      window._MBTS_activePollTimer = null;
+    }
     var start = Date.now();
+    var _uidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var timer = setInterval(async function() {
       if (Date.now() - start > MAX_POLL_WAIT) {
         clearInterval(timer);
+        window._MBTS_activePollTimer = null;
         localStorage.removeItem('mbts_active_job');
         if (typeof showToast === 'function')
           showToast('분석 대기 시간이 초과됐어요. 다시 시도해주세요');
         return;
       }
       try {
-        var res = await fetch('/api/job-status?id=' + job.jobId);
+        var res = await fetch('/api/job-status?id=' + job.jobId + _uidQs);
         var data = await res.json();
         if (data.status === 'done') {
           clearInterval(timer);
+          window._MBTS_activePollTimer = null;
           handleResult(job, data);
         } else if (data.status === 'failed' || data.status === 'partial') {
           clearInterval(timer);
+          window._MBTS_activePollTimer = null;
           localStorage.removeItem('mbts_active_job');
           if (typeof showToast === 'function')
             showToast(data.status === 'partial'
@@ -122,6 +132,7 @@ window.onerror = function(msg, url, line, col, err) {
         }
       } catch(e) {}
     }, POLL_INTERVAL);
+    window._MBTS_activePollTimer = timer;
   }
 
   function handleResult(job, data) {

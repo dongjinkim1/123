@@ -114,9 +114,17 @@ function doCharge() {
 
   // ========================================
   // TODO: 실결제 연동 (토스페이먼츠 or 카카오페이)
-  // 아래는 테스트용 즉시 충전 — 결제 연동 후 교체
+  // C9: production guard — only allow free-charge test flow on localhost/dev hosts.
+  //   Prevents test-mode dialog from reaching real users in production.
+  //   Full payment integration is TIER 2.
   // ========================================
-  if (!confirm('🍀 ' + selectedChargeAmount + '잎 충전 (₩' + selectedChargePrice.toLocaleString() + ')\n\n⚠️ 현재 테스트 모드: 무료 충전됩니다.')) return;
+  var host = (window.location && window.location.hostname) || '';
+  var isDev = host === 'localhost' || host === '127.0.0.1' || host.indexOf('.local') >= 0 || /^192\.168\./.test(host);
+  if (!isDev) {
+    if (typeof showToast === 'function') showToast('결제 시스템 준비 중이에요. 곧 이용 가능합니다 🙏');
+    return;
+  }
+  if (!confirm('[DEV MODE] 🍀 ' + selectedChargeAmount + '잎 무료 충전 (₩' + selectedChargePrice.toLocaleString() + ' 결제 생략)\n\n⚠️ 개발 환경에서만 동작합니다.')) return;
 
   fetch('/api/clover-charge', {
     method: 'POST',

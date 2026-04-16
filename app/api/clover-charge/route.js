@@ -1,14 +1,37 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { checkRateLimit } from '@/lib/rate-limiter'
+
+// NOTE: C7 hardening (no session auth / no payment verification yet — see TIER 2 report).
+// Defense-in-depth:
+//   - strict UUID / amount validation
+//   - amount cap (≤ 5000 leaves per charge call)
+//   - per-userId rate limit (5 req/min) — prevents double-click duplication
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export async function POST(request) {
   try {
-    var { userId, amount, price } = await request.json()
+    var body
+    try { body = await request.json() } catch { return Response.json({ error: 'Invalid JSON' }, { status: 400 }) }
+    var { userId, amount, price } = body
 
     if (!userId || !amount) {
       return Response.json({ error: 'Missing parameters' }, { status: 400 })
     }
+    if (typeof userId !== 'string' || !UUID_RE.test(userId)) {
+      return Response.json({ error: 'Invalid userId' }, { status: 400 })
+    }
+    amount = +amount
+    if (!Number.isFinite(amount) || amount <= 0 || amount > 5000 || !Number.isInteger(amount)) {
+      return Response.json({ error: 'Invalid amount' }, { status: 400 })
+    }
 
     var supabase = getServiceSupabase()
+
+    // rate limit per userId — 5 charge calls per minute
+    var rl = await checkRateLimit(supabase, userId, 'clover-charge', 60000, 5)
+    if (!rl.allowed) {
+      return Response.json({ error: '요청 한도 초과', retryAfter: rl.retryAfter }, { status: 429 })
+    }
 
     // 유저 최신 잔액 조회
     var { data: user, error: fetchError } = await supabase

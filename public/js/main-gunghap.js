@@ -322,6 +322,8 @@ async function _runGunghapAnalysis(){
     var _ghMsgs = ['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...','오행 보완 관계를 읽습니다...','인지기능 궁합 탐색...','연애 케미를 계산합니다...','갈등 패턴을 분석합니다...','장기 전망을 그립니다...','두 사람의 이야기를 쓰고 있습니다...'];
 
     var _ghLastProgress = 0;
+    var _ghHardDeadline = Date.now() + 900000; // M12: 15-min hard cap
+    var _ghUidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var aiText = await new Promise(function(resolve, reject) {
       var _ghTimer = setInterval(async function() {
         var elapsed = Date.now() - _ghPollStart;
@@ -331,6 +333,12 @@ async function _runGunghapAnalysis(){
         var fakePct = Math.min(90, Math.floor(elapsed / 1000) * 1.5);
         bar.style.width = Math.max(fakePct, 5) + '%';
 
+        if (Date.now() > _ghHardDeadline) {
+          clearInterval(_ghTimer);
+          localStorage.removeItem('mbts_active_job');
+          reject(new Error('분석 시간 초과 (15분 한도)'));
+          return;
+        }
         if (elapsed > 300000) {
           clearInterval(_ghTimer);
           localStorage.removeItem('mbts_active_job');
@@ -339,7 +347,7 @@ async function _runGunghapAnalysis(){
         }
 
         try {
-          var res = await fetch('/api/job-status?id=' + _ghJobId);
+          var res = await fetch('/api/job-status?id=' + _ghJobId + _ghUidQs);
           var data = await res.json();
 
           // progress advanced = server alive, reset timeout

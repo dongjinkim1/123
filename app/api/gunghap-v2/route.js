@@ -73,7 +73,7 @@ export async function POST(request) {
       prompts.systemPrompt.length, prompts.userPrompt.length)
 
     const jobId = crypto.randomUUID()
-    const inputParams = { type: 'gunghap', paramsA, paramsB, relType }
+    const inputParams = { type: 'gunghap', paramsA, paramsB, relType, userId: userId || null } // M7: owner
 
     const { error: dbError } = await supabase.from('analysis_jobs').upsert({
       id: jobId,

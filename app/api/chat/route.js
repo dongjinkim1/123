@@ -1,22 +1,62 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { logError } from '@/lib/errorLog'
+import { getServiceSupabase } from '@/lib/supabase'
+import { checkRateLimit } from '@/lib/rate-limiter'
 
 export const maxDuration = 300
 
 const client = new Anthropic()
 const MODEL = 'claude-sonnet-4-6'
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+// C11 hardening: rate limit + input shape validation + message count cap.
+// Full session auth is TIER 2 — for now we accept optional userId and rate-limit on
+// whatever identifier we have (userId if present, else trusted proxy IP).
+// This does NOT yet enforce clover deduction — see TIER 2 report.
+const MAX_MESSAGES = 40
+const MAX_MESSAGE_CHARS = 8000
+const MAX_SYSTEM_CHARS = 40000
 
 export async function POST(request) {
   console.log('[chat] 요청 시작')
 
   try {
-    const { systemPrompt, messages, model } = await request.json()
+    let body
+    try { body = await request.json() } catch { return Response.json({ error: 'Invalid JSON' }, { status: 400 }) }
+    const { systemPrompt, messages, model, userId } = body
 
     if (!systemPrompt || !messages) {
       return Response.json(
         { error: 'systemPrompt와 messages가 필요합니다.' },
         { status: 400 }
       )
+    }
+    if (typeof systemPrompt !== 'string' || systemPrompt.length > MAX_SYSTEM_CHARS) {
+      return Response.json({ error: 'systemPrompt invalid' }, { status: 400 })
+    }
+    if (!Array.isArray(messages) || messages.length === 0 || messages.length > MAX_MESSAGES) {
+      return Response.json({ error: 'messages invalid' }, { status: 400 })
+    }
+    for (let i = 0; i < messages.length; i++) {
+      const m = messages[i]
+      if (!m || typeof m !== 'object') return Response.json({ error: 'message shape' }, { status: 400 })
+      if (m.role !== 'user' && m.role !== 'assistant') return Response.json({ error: 'invalid role' }, { status: 400 })
+      if (typeof m.content !== 'string' || m.content.length > MAX_MESSAGE_CHARS) {
+        return Response.json({ error: 'content too long' }, { status: 400 })
+      }
+    }
+    if (userId && (typeof userId !== 'string' || !UUID_RE.test(userId))) {
+      return Response.json({ error: 'Invalid userId' }, { status: 400 })
+    }
+
+    // rate limit — 30 req/min per identifier (userId or trusted proxy IP)
+    const supabase = getServiceSupabase()
+    const vercelIp = request.headers.get('x-vercel-forwarded-for')
+    const realIp = request.headers.get('x-real-ip')
+    const identifier = userId || vercelIp || realIp || 'unknown'
+    const rl = await checkRateLimit(supabase, identifier, 'chat', 60000, 30)
+    if (!rl.allowed) {
+      return Response.json({ error: '요청 한도 초과', retryAfter: rl.retryAfter }, { status: 429 })
     }
 
     const useModel = model || MODEL
