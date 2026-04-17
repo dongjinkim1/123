@@ -1462,6 +1462,9 @@ function openHistoryRecord(recordId){
   window._lastMBTIObj=rec.mbtiObj||null;
   window._lastAIResult=rec.aiResult||null;
   window._lastIsAI=rec.isAI||false;
+  // Bug 4 complete: restore birth info + gender from history record
+  window._lastBirthInfo=rec.input?{y:+rec.input.y,m:+rec.input.m,d:+rec.input.d,h:rec.input.h?+rec.input.h:null,min:rec.input.min?+rec.input.min:null,city:rec.input.city||null}:null;
+  window._lastGender=(rec.input&&rec.input.gender)||null;
   window._skipHistorySave=true;
   renderResult(rec.aiResult,rec.saju,rec.mbti,rec.gg,rec.isAI);
   window._skipHistorySave=false;
@@ -1588,11 +1591,13 @@ function emptySlot(slotId,isWaiting){
 
 function pickPerson(el,emoji,name,tag,extraData){
   var data={emoji:emoji,name:name,tag:tag};
-  // saju 데이터 연결: extraData가 있으면 사용, 없으면 '나'면 _last* 사용
+  // Bug 4 complete: propagate _birthInfo + gender for gunghap params
   if(extraData){
     data.saju=extraData.saju;data.dw=extraData.dw;data.gg=extraData.gg;data.mbtiObj=extraData.mbtiObj;
+    data._birthInfo=extraData._birthInfo;data.gender=extraData.gender;
   } else if(name==='나' && window._lastSaju){
     data.saju=window._lastSaju;data.dw=window._lastDW;data.gg=window._lastGG;data.mbtiObj=window._lastMBTIObj;
+    data._birthInfo=window._lastBirthInfo;data.gender=window._lastGender;
   }
 
   // 이미 A에 있으면 → A 해제
@@ -1639,6 +1644,8 @@ function pickPersonById(el,id,emoji,name,tag,extraData){
   var data={emoji:emoji,name:name,tag:tag,_id:id};
   if(extraData){
     data.saju=extraData.saju;data.dw=extraData.dw;data.gg=extraData.gg;data.mbtiObj=extraData.mbtiObj;
+    // Bug 4 complete
+    data._birthInfo=extraData._birthInfo;data.gender=extraData.gender;
   }
 
   // 이미 A에 있으면 → A 해제 (_id로 비교)
@@ -3109,8 +3116,8 @@ function finishAddPerson(mbtiStr){
         var tiB=TY[mbtiStr]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
         mbtiB={type:mbtiStr,cf:tiB.cf,axes:[{side:mbtiStr[0],pct:60},{side:mbtiStr[1],pct:60},{side:mbtiStr[2],pct:60},{side:mbtiStr[3],pct:60}],profile:''};
       }
-      // Bug 4 fix: include _birthInfo so gunghap-v2 receives valid y/m/d
-      extraData={saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,_birthInfo:{y:parseInt(y),m:parseInt(m),d:parseInt(d),h:bH,min:bMin,city:cityRaw}};
+      // Bug 4 fix: include _birthInfo + gender so gunghap-v2 receives valid y/m/d/gender
+      extraData={saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,_birthInfo:{y:parseInt(y),m:parseInt(m),d:parseInt(d),h:bH,min:bMin,city:cityRaw},gender:gStr==='남'?'남성':'여성'};
     }catch(e){console.warn('[MBTS] 새 사람 사주 계산 실패:',e);}
   }
 
@@ -3122,9 +3129,11 @@ function finishAddPerson(mbtiStr){
   var card=document.createElement('div');
   card.className='mini-person';
   card.onclick=function(){pickPerson(card,emoji,name,'#새로입력 · '+mbtiStr,extraData)};
-  card.innerHTML='<div class="mini-emoji">'+emoji+'</div>'
-    +'<div class="mini-info"><div class="mini-name">'+name+' <span class="new-badge">NEW</span></div>'
-    +'<div class="mini-sub">'+sub+'</div></div>';
+  // L1 XSS fix: escape name + sub (user-controlled input) before innerHTML
+  var _escGh=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+  card.innerHTML='<div class="mini-emoji">'+_escGh(emoji)+'</div>'
+    +'<div class="mini-info"><div class="mini-name">'+_escGh(name)+' <span class="new-badge">NEW</span></div>'
+    +'<div class="mini-sub">'+_escGh(sub)+'</div></div>';
   list.appendChild(card);
 
   closeAddPerson();
@@ -4090,6 +4099,9 @@ function startRealAnalysis(params){
         window._lastSaju = saju; window._lastDW = dw;
         window._lastGG = gg; window._lastMBTI = mt;
         window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
+        // Bug 4 complete: save birth info + gender for pickPerson('나') path
+        window._lastBirthInfo = { y: +params.y, m: +params.m, d: +params.d, h: params.h ? +params.h : null, min: params.min ? +params.min : null, city: params.city || null };
+        window._lastGender = params.gender || null;
         if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
         _isAnalyzing = false;
         bar.style.width = '100%';
@@ -4122,6 +4134,8 @@ function startRealAnalysis(params){
     var _pollStart = Date.now();
     var _pollHardDeadline = Date.now() + 900000; // M12: 15-min hard cap (cannot be extended by partial_subs)
     var _renderedSubCount = 0;
+    // Bug 2: track rendered titles (h) to avoid duplicate appends during done-catchup
+    window._renderedSubTitles = new Set();
     var _uidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var _pollTimer = setInterval(async function() {
       // M12 hard deadline check — absolute, regardless of partial_subs resets
@@ -4189,6 +4203,8 @@ function startRealAnalysis(params){
             if (typeof appendSubCard === 'function') {
               appendSubCard(statusData.partial_subs[_pi], _pi);
             }
+            // Bug 2: record title for dedupe
+            try { if (statusData.partial_subs[_pi] && statusData.partial_subs[_pi].h) window._renderedSubTitles.add(statusData.partial_subs[_pi].h); } catch(e){}
           }
           _renderedSubCount = statusData.partial_subs.length;
           _pollStart = Date.now(); // sub arriving = server alive, reset timeout
@@ -4262,6 +4278,9 @@ function startRealAnalysis(params){
             window._lastSaju = saju; window._lastDW = dw;
             window._lastGG = gg; window._lastMBTI = mt;
             window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
+            // Bug 4 complete
+            window._lastBirthInfo = { y: +params.y, m: +params.m, d: +params.d, h: params.h ? +params.h : null, min: params.min ? +params.min : null, city: params.city || null };
+            window._lastGender = params.gender || null;
             if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
 
             try {
@@ -4277,12 +4296,16 @@ function startRealAnalysis(params){
             bar.style.width = '100%';
 
             if (_renderedSubCount > 0 && typeof finalizeProgressivePage === 'function') {
-              // Bug 2 fix: flatten categories[].subs[] for accurate catch-up
+              // Bug 2: dedupe catchup by title (h) — server may have skipped some subs so index-based compare fails
               var _allSubs = [];
               (parsed.categories || []).forEach(function(c) { (c.subs || []).forEach(function(s) { _allSubs.push(s); }); });
-              if (_allSubs.length > _renderedSubCount && typeof appendSubCard === 'function') {
-                for (var _fi = _renderedSubCount; _fi < _allSubs.length; _fi++) {
-                  try { appendSubCard(_allSubs[_fi], _fi); } catch(e) {}
+              if (typeof appendSubCard === 'function') {
+                window._renderedSubTitles = window._renderedSubTitles || new Set();
+                for (var _fi = 0; _fi < _allSubs.length; _fi++) {
+                  var _s = _allSubs[_fi];
+                  if (!_s || !_s.h) continue;
+                  if (window._renderedSubTitles.has(_s.h)) continue;
+                  try { appendSubCard(_s, _fi); window._renderedSubTitles.add(_s.h); } catch(e) {}
                 }
                 _renderedSubCount = _allSubs.length;
               }

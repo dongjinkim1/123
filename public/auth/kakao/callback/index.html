@@ -36,11 +36,11 @@ if (error) {
 } else if (!code) {
   msgEl.textContent = '인증 코드를 찾을 수 없습니다.';
   setTimeout(function() { window.location.href = '/'; }, 2000);
-} else if (savedState && returnedState !== savedState) {
-  console.error('[MBTS] OAuth state mismatch:', returnedState, 'vs', savedState);
+} else if (!savedState || returnedState !== savedState) {
+  console.error('[MBTS] OAuth state mismatch or missing:', returnedState, 'vs', savedState);
   msgEl.textContent = '보안 검증 실패 — 다시 로그인해주세요.';
   try { sessionStorage.removeItem('mbts_oauth_state'); } catch(e) {}
-  setTimeout(function() { window.location.href = '/'; }, 2000);
+  setTimeout(function() { window.location.href = '/?error=csrf'; }, 2000);
 } else {
   // state 검증 통과 — 사용한 state 제거
   try { sessionStorage.removeItem('mbts_oauth_state'); } catch(e) {}
@@ -85,6 +85,30 @@ if (error) {
       cloverBalance: u.cloverBalance || 0
     };
     try { localStorage.setItem('mbts_session', JSON.stringify(sessionData)); } catch(e) {}
+
+    // 추천인 리워드 처리 (callback에서 onLoginSuccess()를 거치지 않으므로 직접 호출)
+    try {
+      var ref = localStorage.getItem('mbts_referrer');
+      if (ref && ref !== u.id) {
+        localStorage.removeItem('mbts_referrer');
+        fetch('/api/referral-reward', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ referrerId: ref, newUserId: u.id })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d && d.success) {
+            // Reflect +2 balance in the already-saved session
+            try {
+              var s = JSON.parse(localStorage.getItem('mbts_session') || 'null');
+              if (s) { s.cloverBalance = (s.cloverBalance || 0) + 2; localStorage.setItem('mbts_session', JSON.stringify(s)); }
+            } catch(e) {}
+          }
+        })
+        .catch(function(e) { console.warn('[callback] referral:', e); });
+      }
+    } catch(e) {}
 
     msgEl.textContent = '환영합니다, ' + u.nickname + '님!';
     setTimeout(function() { window.location.href = '/'; }, 1000);

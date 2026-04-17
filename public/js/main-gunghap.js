@@ -122,7 +122,7 @@ function initGhResult(){
     if(p<1) requestAnimationFrame(update);
   }
   setTimeout(function(){requestAnimationFrame(update)},800);
-  
+
   // 스파클
   var container=document.getElementById('ghSparkles');
   if(container){
@@ -141,7 +141,7 @@ function initGhResult(){
       container.appendChild(s);
     }
   }
-  
+
   // stagger 애니메이션 리셋
   document.querySelectorAll('.stagger-gh').forEach(function(el){
     el.style.animation='none';el.offsetHeight;
@@ -283,19 +283,23 @@ async function _runGunghapAnalysis(){
     // ── 서버에 raw 입력 전송 (프롬프트 아님) ──
     var _ghBirthA = ghA._birthInfo || {};
     var _ghBirthB = ghB._birthInfo || {};
+    // Bug 4 fix: mbtiType whitelist — '사주분석' bypasses '|| INFJ' fallback
+    var _VALID_MBTI = ['INFP','ENFP','INFJ','ENFJ','INTP','ENTP','INTJ','ENTJ','ISFP','ESFP','ISFJ','ESFJ','ISTP','ESTP','ISTJ','ESTJ'];
+    var _mbtiTypeA = (mbtiObjA && _VALID_MBTI.indexOf(mbtiObjA.type) !== -1) ? mbtiObjA.type : 'INFJ';
+    var _mbtiTypeB = (mbtiObjB && _VALID_MBTI.indexOf(mbtiObjB.type) !== -1) ? mbtiObjB.type : 'INFJ';
     var _ghParamsA = {
       y: _ghBirthA.y, m: _ghBirthA.m, d: _ghBirthA.d,
       h: _ghBirthA.h, min: _ghBirthA.min,
       gender: ghA.gender || '여성',
-      mbtiType: mbtiObjA.type || 'INFJ',
-      mbtiAxes: mbtiObjA.axes || null
+      mbtiType: _mbtiTypeA,
+      mbtiAxes: (mbtiObjA && mbtiObjA.axes) || null
     };
     var _ghParamsB = {
       y: _ghBirthB.y, m: _ghBirthB.m, d: _ghBirthB.d,
       h: _ghBirthB.h, min: _ghBirthB.min,
       gender: ghB.gender || '남성',
-      mbtiType: mbtiObjB.type || 'INFJ',
-      mbtiAxes: mbtiObjB.axes || null
+      mbtiType: _mbtiTypeB,
+      mbtiAxes: (mbtiObjB && mbtiObjB.axes) || null
     };
 
     var _ghResp = await fetch('/api/gunghap-v2', {
@@ -304,8 +308,7 @@ async function _runGunghapAnalysis(){
       body: JSON.stringify({
         paramsA: _ghParamsA,
         paramsB: _ghParamsB,
-        relType: ghRel,
-        userId: (typeof mbtsSession!=='undefined' && mbtsSession.userId) ? mbtsSession.userId : null
+        relType: ghRel
       })
     });
     var _ghData = await _ghResp.json();
@@ -718,4 +721,26 @@ function finishAddPerson(mbtiStr){
       var mbtiB=null;
       if(mbtiStr!=='사주분석'&&typeof TY!=='undefined'){
         var tiB=TY[mbtiStr]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
-        mbtiB={type:mbtiStr,cf:tiB.cf,axes:[{side:mbtiStr[0],pct:60
+        mbtiB={type:mbtiStr,cf:tiB.cf,axes:[{side:mbtiStr[0],pct:60},{side:mbtiStr[1],pct:60},{side:mbtiStr[2],pct:60},{side:mbtiStr[3],pct:60}],profile:''};
+      }
+      // Bug 4 fix: include _birthInfo so gunghap-v2 receives valid y/m/d
+      extraData={saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,_birthInfo:{y:parseInt(y),m:parseInt(m),d:parseInt(d),h:bH,min:bMin,city:cityRaw}};
+    }catch(e){console.warn('[MBTS] 새 사람 사주 계산 실패:',e);}
+  }
+
+  var emojis=['🌟','💫','⭐','🌙','☀️','🪐','✨','🌸'];
+  var emoji=emojis[addedPersonCount%emojis.length];
+  addedPersonCount++;
+
+  var list=document.querySelector('.gh-people-list');
+  var card=document.createElement('div');
+  card.className='mini-person';
+  card.onclick=function(){pickPerson(card,emoji,name,'#새로입력 · '+mbtiStr,extraData)};
+  card.innerHTML='<div class="mini-emoji">'+emoji+'</div>'
+    +'<div class="mini-info"><div class="mini-name">'+name+' <span class="new-badge">NEW</span></div>'
+    +'<div class="mini-sub">'+sub+'</div></div>';
+  list.appendChild(card);
+
+  closeAddPerson();
+  pickPerson(card,emoji,name,'#새로입력 · '+mbtiStr,extraData);
+}

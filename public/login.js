@@ -221,6 +221,15 @@ function doLogout() {
     try { Kakao.Auth.logout(function() { console.log('[MBTS] 카카오 로그아웃'); }); } catch(e) {}
   }
   clearSession();
+  // Extended cleanup for shared-device privacy
+  try { sessionStorage.removeItem('mbts_oauth_state'); } catch(e) {}
+  try { localStorage.removeItem('mbts_referrer'); } catch(e) {}
+  try { localStorage.removeItem('mbts_history'); } catch(e) {}
+  try { localStorage.removeItem('mbts_gh_history'); } catch(e) {}
+  try { localStorage.removeItem('mbts_active_job'); } catch(e) {}
+  try { localStorage.removeItem('mbts_lastResult'); } catch(e) {}
+  try { localStorage.removeItem('mbts_chat_me'); } catch(e) {}
+  try { localStorage.removeItem('mbts_chat_count'); } catch(e) {}
   updateLoginUI();
   if (typeof go === 'function') go('pgLanding');
   console.log('[MBTS] 로그아웃 완료');

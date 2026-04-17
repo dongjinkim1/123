@@ -15,7 +15,7 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 // This does NOT yet enforce clover deduction — see TIER 2 report.
 const MAX_MESSAGES = 40
 const MAX_MESSAGE_CHARS = 8000
-const MAX_SYSTEM_CHARS = 40000
+const MAX_SYSTEM_CHARS = 10000
 
 export async function POST(request) {
   console.log('[chat] 요청 시작')

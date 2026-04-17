@@ -1140,12 +1140,16 @@ function startRealAnalysis(params){
             bar.style.width = '100%';
 
             if (_renderedSubCount > 0 && typeof finalizeProgressivePage === 'function') {
-              // Bug 2 fix: flatten categories[].subs[] for accurate catch-up (see bundle.js twin)
+              // Bug 2: dedupe catchup by title (h) — server may skip boundary subs so index compare fails
               var _allSubs = [];
               (parsed.categories || []).forEach(function(c) { (c.subs || []).forEach(function(s) { _allSubs.push(s); }); });
-              if (_allSubs.length > _renderedSubCount && typeof appendSubCard === 'function') {
-                for (var _fi = _renderedSubCount; _fi < _allSubs.length; _fi++) {
-                  try { appendSubCard(_allSubs[_fi], _fi); } catch(e) {}
+              if (typeof appendSubCard === 'function') {
+                window._renderedSubTitles = window._renderedSubTitles || new Set();
+                for (var _fi = 0; _fi < _allSubs.length; _fi++) {
+                  var _s = _allSubs[_fi];
+                  if (!_s || !_s.h) continue;
+                  if (window._renderedSubTitles.has(_s.h)) continue;
+                  try { appendSubCard(_s, _fi); window._renderedSubTitles.add(_s.h); } catch(e) {}
                 }
                 _renderedSubCount = _allSubs.length;
               }

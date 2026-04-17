@@ -47,14 +47,33 @@ export async function POST(request) {
     var currentBalance = user.clover_balance || 0
     var newBalance = currentBalance + amount
 
-    // 잔액 업데이트
-    var { error: updateError } = await supabase
+    // Optimistic concurrency control — C8 race mitigation.
+    // Conditional update: only succeeds if balance hasn't changed since read.
+    var { data: updated, error: updateError } = await supabase
       .from('users')
       .update({ clover_balance: newBalance })
       .eq('id', userId)
+      .eq('clover_balance', currentBalance)
+      .select('clover_balance')
+      .maybeSingle()
 
-    if (updateError) {
-      return Response.json({ error: 'Failed to update balance' }, { status: 500 })
+    if (updateError || !updated) {
+      // Conflict — retry once with fresh balance
+      var { data: user2 } = await supabase.from('users').select('clover_balance').eq('id', userId).maybeSingle()
+      if (!user2) return Response.json({ error: 'User not found' }, { status: 404 })
+      var currentBalance2 = user2.clover_balance || 0
+      var newBalance2 = currentBalance2 + amount
+      var { data: updated2, error: retryErr } = await supabase
+        .from('users')
+        .update({ clover_balance: newBalance2 })
+        .eq('id', userId)
+        .eq('clover_balance', currentBalance2)
+        .select('clover_balance')
+        .maybeSingle()
+      if (retryErr || !updated2) {
+        return Response.json({ error: 'Charge conflict — retry', code: 'race' }, { status: 409 })
+      }
+      newBalance = newBalance2
     }
 
     // 충전 내역 기록

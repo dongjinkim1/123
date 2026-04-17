@@ -1,8 +1,20 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { checkRateLimit } from '@/lib/rate-limiter'
 
 export async function POST(request) {
   try {
     var supabase = getServiceSupabase()
+
+    // Rate limit: 100 req/hour per trusted-proxy IP (prevents table flood)
+    var vercelIp = request.headers.get('x-vercel-forwarded-for')
+    var realIp = request.headers.get('x-real-ip')
+    var identifier = vercelIp || realIp || 'unknown'
+    var rl = await checkRateLimit(supabase, identifier, 'visitor-track', 3600000, 100)
+    if (!rl.allowed) {
+      // Silent drop — tracking failures must not surface errors to users
+      return Response.json({ success: true })
+    }
+
     var body = await request.json()
     var page = body.page || '/'
     var referrer = body.referrer || 'direct'

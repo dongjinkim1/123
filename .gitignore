@@ -45,3 +45,15 @@ v4_patch*.txt
 _*.js
 *.bak
 nul
+
+# Premium pattern source files (internal only — must NOT be in public/)
+/scripts/patterns/
+/public/all_patterns_full.txt
+
+# Claude Code local configs
+/.claude/launch.json
+/public/.claude/
+
+# Local dev artifacts
+/public/animals/animals-icon.zip
+/public/animals-icon/*.zip
