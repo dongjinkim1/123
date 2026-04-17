@@ -83,7 +83,7 @@ function renderProfileView() {
   if (birthStr) { h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">생년월일</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + birthStr + ' <span style="font-size:11px;color:#C4B8D8;margin-left:4px">' + (isLunar ? '음력' : '양력') + '</span></span></div>'; }
   h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">태어난 시간</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + timeStr + '</span></div>';
   h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">출생지</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + (birthInput.city || '모름') + '</span></div>';
-  h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">성별</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + (gender === '남' ? '남성' : gender === '여' ? '여성' : '미설정') + '</span></div>';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">성별</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + (gender === '남' || gender === '남성' ? '남성' : gender === '여' || gender === '여성' ? '여성' : '미설정') + '</span></div>';
   if (mbtiLetters.length === 4) {
     h += '<div><div style="font-size:12px;font-weight:600;color:#A99BBF;margin-bottom:8px">MBTI</div><div style="display:flex;gap:6px">';
     for (var mi = 0; mi < 4; mi++) { h += '<div style="flex:1;text-align:center;padding:10px 0 8px;background:' + mbtiDC[mi] + '10;border-radius:12px;border:1.5px solid ' + mbtiDC[mi] + '30"><div style="font-size:22px;font-weight:900;color:' + mbtiDC[mi] + '">' + mbtiLetters[mi] + '</div></div>'; }
@@ -149,7 +149,7 @@ async function renderProfileEdit() {
   if (_profCityUnknown) { h += '<div onclick="restoreProfileCity()" style="padding:13px 16px;border-radius:12px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;font-size:14px;color:#8B6CC1;font-weight:500;display:flex;align-items:center;gap:6px"><span>📍</span> 출생지 모름 <span style="margin-left:auto;font-size:12px;color:#B0A0C8">탭하여 입력</span></div>'; }
   else { h += '<div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center"><div style="position:relative"><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileCity" type="text" value="' + (birthInput.city || ST.city || '') + '" placeholder="도시 선택" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'city\')">▼</span></div><div class="ap-b-dropdown" id="profileDropCity"></div></div><button onclick="setProfileCityUnknown()" style="padding:12px 16px;border-radius:12px;border:1.5px solid #E8E4EF;background:#fff;font-size:13px;color:#A99BBF;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap">모름</button></div>'; }
   h += '</div></div>';
-  h += '<div style="margin-bottom:18px"><label style="font-size:12px;font-weight:700;color:#7B6B99;display:block;margin-bottom:6px">성별</label><div class="ap-b-gender-row"><button class="ap-b-gender' + (_profileGender === '남' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'남\')">남성</button><button class="ap-b-gender' + (_profileGender === '여' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'여\')">여성</button></div></div>';
+  h += '<div style="margin-bottom:18px"><label style="font-size:12px;font-weight:700;color:#7B6B99;display:block;margin-bottom:6px">성별</label><div class="ap-b-gender-row"><button class="ap-b-gender' + (_profileGender === '남' || _profileGender === '남성' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'남\')">남성</button><button class="ap-b-gender' + (_profileGender === '여' || _profileGender === '여성' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'여\')">여성</button></div></div>';
   h += '<div style="height:1px;background:linear-gradient(90deg,transparent,#E8DEFF,transparent);margin:0 0 18px"></div>';
   var mbtiAllDone = _profMbtiCh.every(function(c){return c!==null;}) && _profMbtiIt.every(function(v){return v!==null;});
   var mbtiStr = _profMbtiCh.map(function(c,idx){return c===null?'?':(c==='L'?DM_AX[idx].L:DM_AX[idx].R);}).join('');
@@ -923,12 +923,7 @@ function go(id,skipPush){
   }
   if(id==='pgBirth'&&typeof prefillBirthForm==='function'){
     setTimeout(prefillBirthForm,50);
-    setTimeout(function(){
-      var editSlot=document.getElementById('birthProfileEditSlot');
-      if(editSlot&&window._lastSaju){
-        editSlot.style.display='block';
-      }
-    },100);
+    // birthProfileEditSlot 제거됨 — 불필요 코드 정리
   }
   if(id==='pgMore') updateMoreProfile();
   if(id==='pgProfile'&&typeof renderProfileView==='function') renderProfileView();
@@ -1556,7 +1551,9 @@ function renderGunghapPeopleList(){
     personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
     html+='<div class="mini-person" data-rec-id="'+rec.id+'" onclick="pickPersonFromHistory(this,\''+rec.id+'\')">';
     html+='<div class="mini-emoji">'+(icon?'<img src="'+icon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
-    html+='<div class="mini-info"><div class="mini-name">'+name+'</div><div class="mini-sub">'+sub+'</div></div>';
+    var _eName=name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    var _eSub=sub.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    html+='<div class="mini-info"><div class="mini-name">'+_eName+'</div><div class="mini-sub">'+_eSub+'</div></div>';
     html+='</div>';
   });
   list.innerHTML=html;
@@ -2214,12 +2211,34 @@ function usePrefill(){
   }
 }
 
-// ── "수정" 클릭 — 데이터 채운 채로 폼 열기 ──
+// ── "수정" 클릭 — 프리필 카드 숨기고 기존 입력폼에 데이터 채워서 열기 ──
 function editPrefillForm(){
   var rec = window._prefillRec;
-  if(!rec) return;
-  go('pgEditProfile');
-  renderEditProfile(rec);
+  if(!rec||!rec.input) return;
+  var inp=rec.input;
+
+  // 프리필 카드 숨기고 입력 폼 표시
+  var prefillCard=document.getElementById('birthPrefillCard');
+  var glassCard=document.querySelector('.birth-glass-card');
+  var ctaWrap=document.getElementById('birthCtaWrap');
+  if(prefillCard)prefillCard.style.display='none';
+  if(glassCard)glassCard.style.display='';
+  if(ctaWrap)ctaWrap.style.display='';
+
+  // 기존 정보로 폼 프리필
+  document.getElementById('bName').value=rec.name||'';
+  document.getElementById('bYear').value=inp.y||'';
+  document.getElementById('bMonthInput').value=inp.m||'';document.getElementById('bMonth').value=inp.m||'';
+  document.getElementById('bDayInput').value=inp.d||'';document.getElementById('bDay').value=inp.d||'';
+  if(inp.h&&inp.h!=='모름'&&inp.h!==''){document.getElementById('bHourInput').value=inp.h;document.getElementById('bHour').value=inp.h;}
+  if(inp.min&&inp.min!==''){document.getElementById('bMinInput').value=inp.min;document.getElementById('bMin').value=inp.min;}
+  if(inp.city&&inp.city!=='모름'&&inp.city!==''){document.getElementById('bCityInput').value=inp.city;document.getElementById('bCity').value=inp.city;}
+  if(inp.gender)pickBirthGender(inp.gender);
+
+  window._isMyProfile=true;
+  var icon=document.getElementById('myProfileIcon');
+  if(icon){icon.style.background='linear-gradient(135deg,#8B6CC1,#A07DD6)';icon.style.border='none';icon.style.boxShadow='0 2px 8px rgba(139,108,193,0.25)';icon.innerHTML='✓';}
+  checkBirthReady();
 }
 
 // ── "다른 사람 분석하기" 클릭 — 빈 폼 열기 ──

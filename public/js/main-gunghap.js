@@ -304,7 +304,8 @@ async function _runGunghapAnalysis(){
       body: JSON.stringify({
         paramsA: _ghParamsA,
         paramsB: _ghParamsB,
-        relType: ghRel
+        relType: ghRel,
+        userId: (typeof mbtsSession!=='undefined' && mbtsSession.userId) ? mbtsSession.userId : null
       })
     });
     var _ghData = await _ghResp.json();
@@ -717,25 +718,4 @@ function finishAddPerson(mbtiStr){
       var mbtiB=null;
       if(mbtiStr!=='사주분석'&&typeof TY!=='undefined'){
         var tiB=TY[mbtiStr]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
-        mbtiB={type:mbtiStr,cf:tiB.cf,axes:[{side:mbtiStr[0],pct:60},{side:mbtiStr[1],pct:60},{side:mbtiStr[2],pct:60},{side:mbtiStr[3],pct:60}],profile:''};
-      }
-      extraData={saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB};
-    }catch(e){console.warn('[MBTS] 새 사람 사주 계산 실패:',e);}
-  }
-
-  var emojis=['🌟','💫','⭐','🌙','☀️','🪐','✨','🌸'];
-  var emoji=emojis[addedPersonCount%emojis.length];
-  addedPersonCount++;
-
-  var list=document.querySelector('.gh-people-list');
-  var card=document.createElement('div');
-  card.className='mini-person';
-  card.onclick=function(){pickPerson(card,emoji,name,'#새로입력 · '+mbtiStr,extraData)};
-  card.innerHTML='<div class="mini-emoji">'+emoji+'</div>'
-    +'<div class="mini-info"><div class="mini-name">'+name+' <span class="new-badge">NEW</span></div>'
-    +'<div class="mini-sub">'+sub+'</div></div>';
-  list.appendChild(card);
-
-  closeAddPerson();
-  pickPerson(card,emoji,name,'#새로입력 · '+mbtiStr,extraData);
-}
+        mbtiB={type:mbtiStr,cf:tiB.cf,axes:[{side:mbtiStr[0],pct:60

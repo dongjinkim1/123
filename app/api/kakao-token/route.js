@@ -7,7 +7,13 @@ export async function GET(request) {
     return Response.json({ error: 'code is required' }, { status: 400 })
   }
 
-  var REST_API_KEY = '951d6c9e38404e6e1086ac9f388d5a90'
+  var REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY
+  var CLIENT_SECRET = process.env.KAKAO_CLIENT_SECRET
+
+  if (!REST_API_KEY || !CLIENT_SECRET) {
+    console.error('[kakao-token] 환경변수 누락: KAKAO_REST_API_KEY 또는 KAKAO_CLIENT_SECRET')
+    return Response.json({ error: 'server_config_error' }, { status: 500 })
+  }
 
   try {
     // 인가 코드로 토큰 교환
@@ -19,7 +25,7 @@ export async function GET(request) {
         client_id: REST_API_KEY,
         redirect_uri: redirect_uri || '',
         code: code,
-        client_secret: '9D7mNupeZNAZTd9rbgkWOzBN4sS4R0hp'
+        client_secret: CLIENT_SECRET
       }).toString()
     })
 

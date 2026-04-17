@@ -25,13 +25,25 @@ var urlParams = new URLSearchParams(window.location.search);
 var code = urlParams.get('code');
 var error = urlParams.get('error');
 
+// C5: OAuth CSRF state 검증
+var returnedState = urlParams.get('state');
+var savedState = null;
+try { savedState = sessionStorage.getItem('mbts_oauth_state'); } catch(e) {}
+
 if (error) {
   msgEl.textContent = '카카오 로그인이 취소되었습니다.';
   setTimeout(function() { window.location.href = '/'; }, 1500);
 } else if (!code) {
   msgEl.textContent = '인증 코드를 찾을 수 없습니다.';
   setTimeout(function() { window.location.href = '/'; }, 2000);
+} else if (savedState && returnedState !== savedState) {
+  console.error('[MBTS] OAuth state mismatch:', returnedState, 'vs', savedState);
+  msgEl.textContent = '보안 검증 실패 — 다시 로그인해주세요.';
+  try { sessionStorage.removeItem('mbts_oauth_state'); } catch(e) {}
+  setTimeout(function() { window.location.href = '/'; }, 2000);
 } else {
+  // state 검증 통과 — 사용한 state 제거
+  try { sessionStorage.removeItem('mbts_oauth_state'); } catch(e) {}
   var redirectUri = window.location.origin + '/auth/kakao/callback';
 
   // 1단계: 카카오 토큰 교환 + 사용자 정보 조회
