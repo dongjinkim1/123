@@ -74,7 +74,11 @@
       var min = (minEl && minEl.value) ? minEl.value : '';
       var nameEl = document.getElementById('bName');
       var nameVal = (nameEl && nameEl.value) ? nameEl.value.trim() : '';
-      var gender = (typeof birthGender !== 'undefined') ? birthGender : '남성';
+      var gender = (typeof birthGender !== 'undefined' && birthGender) ? birthGender : null;
+      if (!gender) {
+        if (typeof showToast === 'function') showToast('성별을 선택해주세요');
+        return;
+      }
 
       var mbtiStr = mbtiCh.map(function(c, i) {
         return c === 'L' ? DM_AX[i].L : DM_AX[i].R;
