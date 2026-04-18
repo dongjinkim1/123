@@ -828,6 +828,15 @@ function mbtiGoNext(){
 // ====================================================================
 function startRealAnalysis(params){
   console.log('[MBTS] startRealAnalysis 진입 (서버 분석 v2)');
+  // race guard: block startRealAnalysis re-entry during analyze-v2 in-flight window.
+  // _isAnalyzing is pre-set by mbtiGoNext:814, so use a dedicated flag here.
+  if (window._MBTS_analyzeInFlight) {
+    console.log('[MBTS] startRealAnalysis 이미 실행 중 — 중복 호출 차단');
+    return;
+  }
+  window._MBTS_analyzeInFlight = true;
+  // new analysis: reset sub-title dedup Set
+  window._renderedSubTitles = new Set();
   _isAnalyzing = true;
   var bar = document.getElementById('load-bar');
   var phase = document.getElementById('load-phase');
@@ -890,6 +899,7 @@ function startRealAnalysis(params){
       if (Date.now() - _ej.createdAt < 330000) {
         if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
         _isAnalyzing = false;
+        window._MBTS_analyzeInFlight = false;
         if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
         return;
       }
@@ -955,6 +965,7 @@ function startRealAnalysis(params){
         window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
         if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
         _isAnalyzing = false;
+        window._MBTS_analyzeInFlight = false;
         bar.style.width = '100%';
         phase.style.fontWeight = '600'; phase.style.color = 'var(--purple)';
         phase.innerHTML = '분석이 완료되었습니다 ✨';
@@ -962,6 +973,7 @@ function startRealAnalysis(params){
         setTimeout(function() { renderResult(parsed, saju, mt, gg, true); }, 800);
       } else {
         _isAnalyzing = false;
+        window._MBTS_analyzeInFlight = false;
         alert('캐시 데이터 파싱 실패. 다시 시도해주세요.');
         setTimeout(function(){ go('pgBirth'); }, 500);
       }
@@ -986,12 +998,18 @@ function startRealAnalysis(params){
     var _pollHardDeadline = Date.now() + 900000; // M12: 15-min hard cap
     var _renderedSubCount = 0;
     var _uidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
+    // final race guard: clear any poller that slipped past entry-time guards
+    if (window._MBTS_activePollTimer) {
+      clearInterval(window._MBTS_activePollTimer);
+      window._MBTS_activePollTimer = null;
+    }
     var _pollTimer = setInterval(async function() {
       // M12 hard deadline
       if (Date.now() > _pollHardDeadline) {
         clearInterval(_pollTimer);
         window._MBTS_activePollTimer = null;
         _isAnalyzing = false;
+        window._MBTS_analyzeInFlight = false;
         localStorage.removeItem('mbts_active_job');
         if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
         if (_renderedSubCount >= 5 && typeof finalizeProgressivePage === 'function') {
@@ -1009,7 +1027,9 @@ function startRealAnalysis(params){
       // idle timeout (no progress for 5 minutes)
       if (Date.now() - _pollStart > 300000) {
         clearInterval(_pollTimer);
+        window._MBTS_activePollTimer = null;
         _isAnalyzing = false;
+        window._MBTS_analyzeInFlight = false;
         localStorage.removeItem('mbts_active_job');
         if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
         // partial fallback: 5개 이상 sub가 렌더링됐으면 그걸로 결과 보여주기
@@ -1137,6 +1157,7 @@ function startRealAnalysis(params){
             } catch(e) {}
 
             _isAnalyzing = false;
+            window._MBTS_analyzeInFlight = false;
             bar.style.width = '100%';
 
             if (_renderedSubCount > 0 && typeof finalizeProgressivePage === 'function') {
@@ -1171,6 +1192,7 @@ function startRealAnalysis(params){
 
           } else {
             _isAnalyzing = false;
+            window._MBTS_analyzeInFlight = false;
             if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
             phase.innerHTML = '분석 결과를 읽지 못했어요 😢';
             phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
@@ -1181,7 +1203,9 @@ function startRealAnalysis(params){
 
         } else if (statusData.status === 'failed') {
           clearInterval(_pollTimer);
+          window._MBTS_activePollTimer = null;
           _isAnalyzing = false;
+          window._MBTS_analyzeInFlight = false;
           localStorage.removeItem('mbts_active_job');
           if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
           phase.innerHTML = '분석 중 오류가 발생했어요 😢';
@@ -1192,7 +1216,9 @@ function startRealAnalysis(params){
 
         } else if (statusData.status === 'partial') {
           clearInterval(_pollTimer);
+          window._MBTS_activePollTimer = null;
           _isAnalyzing = false;
+          window._MBTS_analyzeInFlight = false;
           localStorage.removeItem('mbts_active_job');
           if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
           phase.innerHTML = '분석이 불완전하게 끝났어요 😢';
@@ -1210,6 +1236,8 @@ function startRealAnalysis(params){
   .catch(function(err) {
     console.error('[MBTS] analyze-v2 호출 실패:', err);
     _isAnalyzing = false;
+    window._MBTS_analyzeInFlight = false;
+    window._MBTS_activePollTimer = null;
     localStorage.removeItem('mbts_active_job');
     if(window._loadTimers){window._loadTimers.forEach(clearTimeout);window._loadTimers=[];}
     phase.innerHTML = '분석 요청 실패 😢';
@@ -1558,6 +1586,12 @@ function initProgressivePage(saju, mt, gg, params) {
 }
 
 function appendSubCard(subObj, index) {
+  // h-based dedup: prevent DOM duplication across paths (streaming poll / done catchup / finalize)
+  if (subObj && subObj.h) {
+    window._renderedSubTitles = window._renderedSubTitles || new Set();
+    if (window._renderedSubTitles.has(subObj.h)) return;
+    window._renderedSubTitles.add(subObj.h);
+  }
   if(!_progState) return;
   var container = document.getElementById('prog-sub-container');
   if(!container) return;
