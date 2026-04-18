@@ -37,6 +37,8 @@ function loadSession() {
       mbtsSession.profileImage = parsed.profileImage || null;
       mbtsSession.provider = parsed.provider || 'kakao';
       mbtsSession.cloverBalance = parsed.cloverBalance || 0;
+      mbtsSession.signedUpAt = parsed.signedUpAt || null;
+      mbtsSession.isNew = parsed.isNew === true;
       return mbtsSession.userId ? true : false;
     }
   } catch (e) {
@@ -191,6 +193,9 @@ function checkSession(callback) {
     return;
   }
 
+  // 신규 가입 직후 10초간 Supabase replica 지연으로 success:false 올 수 있음 → 세션 유지
+  var isGracePeriod = !!(mbtsSession.signedUpAt && (Date.now() - mbtsSession.signedUpAt < 10000));
+
   fetch('/api/clover-balance', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -205,11 +210,20 @@ function checkSession(callback) {
       updateLoginUI();
       if (callback) callback(true);
     } else {
+      if (isGracePeriod) {
+        console.log('[MBTS] 신규 가입 grace period — 세션 유지');
+        if (callback) callback(true);
+        return;
+      }
       clearSession();
       if (callback) callback(false);
     }
   })
   .catch(function() {
+    if (isGracePeriod) {
+      if (callback) callback(true);
+      return;
+    }
     if (callback) callback(false);
   });
 }

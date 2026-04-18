@@ -82,7 +82,9 @@ if (error) {
       nickname: u.nickname,
       profileImage: u.profileImage || null,
       provider: 'kakao',
-      cloverBalance: u.cloverBalance || 0
+      cloverBalance: u.cloverBalance || 0,
+      isNew: (result && result.isNew === true),
+      signedUpAt: Date.now()
     };
     try { localStorage.setItem('mbts_session', JSON.stringify(sessionData)); } catch(e) {}
 
