@@ -1,6 +1,6 @@
-// MBTS Bundle — 20260415_2340
+// MBTS Bundle — 20260418_1459
 
-// ═══ main-nav.js (2381L) ═══
+// ═══ main-nav.js (2400L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
 // Page navigation
 var pageStack=['pgLanding'];
@@ -86,7 +86,7 @@ function renderProfileView() {
   if (birthStr) { h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">생년월일</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + birthStr + ' <span style="font-size:11px;color:#C4B8D8;margin-left:4px">' + (isLunar ? '음력' : '양력') + '</span></span></div>'; }
   h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">태어난 시간</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + timeStr + '</span></div>';
   h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">출생지</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + (birthInput.city || '모름') + '</span></div>';
-  h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">성별</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + (gender === '남' ? '남성' : gender === '여' ? '여성' : '미설정') + '</span></div>';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:#A99BBF">성별</span><span style="font-size:14px;font-weight:600;color:#2E1F4E">' + (gender === '남' || gender === '남성' ? '남성' : gender === '여' || gender === '여성' ? '여성' : '미설정') + '</span></div>';
   if (mbtiLetters.length === 4) {
     h += '<div><div style="font-size:12px;font-weight:600;color:#A99BBF;margin-bottom:8px">MBTI</div><div style="display:flex;gap:6px">';
     for (var mi = 0; mi < 4; mi++) { h += '<div style="flex:1;text-align:center;padding:10px 0 8px;background:' + mbtiDC[mi] + '10;border-radius:12px;border:1.5px solid ' + mbtiDC[mi] + '30"><div style="font-size:22px;font-weight:900;color:' + mbtiDC[mi] + '">' + mbtiLetters[mi] + '</div></div>'; }
@@ -152,7 +152,7 @@ async function renderProfileEdit() {
   if (_profCityUnknown) { h += '<div onclick="restoreProfileCity()" style="padding:13px 16px;border-radius:12px;background:rgba(139,108,193,0.04);border:1.5px solid rgba(139,108,193,0.1);cursor:pointer;font-size:14px;color:#8B6CC1;font-weight:500;display:flex;align-items:center;gap:6px"><span>📍</span> 출생지 모름 <span style="margin-left:auto;font-size:12px;color:#B0A0C8">탭하여 입력</span></div>'; }
   else { h += '<div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center"><div style="position:relative"><div class="ap-b-combo" style="border-radius:12px"><input class="ap-b-input" id="profileCity" type="text" value="' + (birthInput.city || ST.city || '') + '" placeholder="도시 선택" style="border-radius:12px"><span class="ap-b-arrow" onclick="toggleProfileDrop(\'city\')">▼</span></div><div class="ap-b-dropdown" id="profileDropCity"></div></div><button onclick="setProfileCityUnknown()" style="padding:12px 16px;border-radius:12px;border:1.5px solid #E8E4EF;background:#fff;font-size:13px;color:#A99BBF;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap">모름</button></div>'; }
   h += '</div></div>';
-  h += '<div style="margin-bottom:18px"><label style="font-size:12px;font-weight:700;color:#7B6B99;display:block;margin-bottom:6px">성별</label><div class="ap-b-gender-row"><button class="ap-b-gender' + (_profileGender === '남' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'남\')">남성</button><button class="ap-b-gender' + (_profileGender === '여' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'여\')">여성</button></div></div>';
+  h += '<div style="margin-bottom:18px"><label style="font-size:12px;font-weight:700;color:#7B6B99;display:block;margin-bottom:6px">성별</label><div class="ap-b-gender-row"><button class="ap-b-gender' + (_profileGender === '남' || _profileGender === '남성' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'남\')">남성</button><button class="ap-b-gender' + (_profileGender === '여' || _profileGender === '여성' ? ' selected' : '') + '" onclick="pickProfileGender(this,\'여\')">여성</button></div></div>';
   h += '<div style="height:1px;background:linear-gradient(90deg,transparent,#E8DEFF,transparent);margin:0 0 18px"></div>';
   var mbtiAllDone = _profMbtiCh.every(function(c){return c!==null;}) && _profMbtiIt.every(function(v){return v!==null;});
   var mbtiStr = _profMbtiCh.map(function(c,idx){return c===null?'?':(c==='L'?DM_AX[idx].L:DM_AX[idx].R);}).join('');
@@ -926,12 +926,7 @@ function go(id,skipPush){
   }
   if(id==='pgBirth'&&typeof prefillBirthForm==='function'){
     setTimeout(prefillBirthForm,50);
-    setTimeout(function(){
-      var editSlot=document.getElementById('birthProfileEditSlot');
-      if(editSlot&&window._lastSaju){
-        editSlot.style.display='block';
-      }
-    },100);
+    // birthProfileEditSlot 제거됨 — 불필요 코드 정리
   }
   if(id==='pgMore') updateMoreProfile();
   if(id==='pgProfile'&&typeof renderProfileView==='function') renderProfileView();
@@ -1462,9 +1457,6 @@ function openHistoryRecord(recordId){
   window._lastMBTIObj=rec.mbtiObj||null;
   window._lastAIResult=rec.aiResult||null;
   window._lastIsAI=rec.isAI||false;
-  // Bug 4 complete: restore birth info + gender from history record
-  window._lastBirthInfo=rec.input?{y:+rec.input.y,m:+rec.input.m,d:+rec.input.d,h:rec.input.h?+rec.input.h:null,min:rec.input.min?+rec.input.min:null,city:rec.input.city||null}:null;
-  window._lastGender=(rec.input&&rec.input.gender)||null;
   window._skipHistorySave=true;
   renderResult(rec.aiResult,rec.saju,rec.mbti,rec.gg,rec.isAI);
   window._skipHistorySave=false;
@@ -1562,7 +1554,9 @@ function renderGunghapPeopleList(){
     personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
     html+='<div class="mini-person" data-rec-id="'+rec.id+'" onclick="pickPersonFromHistory(this,\''+rec.id+'\')">';
     html+='<div class="mini-emoji">'+(icon?'<img src="'+icon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
-    html+='<div class="mini-info"><div class="mini-name">'+name+'</div><div class="mini-sub">'+sub+'</div></div>';
+    var _eName=name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    var _eSub=sub.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    html+='<div class="mini-info"><div class="mini-name">'+_eName+'</div><div class="mini-sub">'+_eSub+'</div></div>';
     html+='</div>';
   });
   list.innerHTML=html;
@@ -1591,13 +1585,11 @@ function emptySlot(slotId,isWaiting){
 
 function pickPerson(el,emoji,name,tag,extraData){
   var data={emoji:emoji,name:name,tag:tag};
-  // Bug 4 complete: propagate _birthInfo + gender for gunghap params
+  // saju 데이터 연결: extraData가 있으면 사용, 없으면 '나'면 _last* 사용
   if(extraData){
     data.saju=extraData.saju;data.dw=extraData.dw;data.gg=extraData.gg;data.mbtiObj=extraData.mbtiObj;
-    data._birthInfo=extraData._birthInfo;data.gender=extraData.gender;
   } else if(name==='나' && window._lastSaju){
     data.saju=window._lastSaju;data.dw=window._lastDW;data.gg=window._lastGG;data.mbtiObj=window._lastMBTIObj;
-    data._birthInfo=window._lastBirthInfo;data.gender=window._lastGender;
   }
 
   // 이미 A에 있으면 → A 해제
@@ -1644,8 +1636,6 @@ function pickPersonById(el,id,emoji,name,tag,extraData){
   var data={emoji:emoji,name:name,tag:tag,_id:id};
   if(extraData){
     data.saju=extraData.saju;data.dw=extraData.dw;data.gg=extraData.gg;data.mbtiObj=extraData.mbtiObj;
-    // Bug 4 complete
-    data._birthInfo=extraData._birthInfo;data.gender=extraData.gender;
   }
 
   // 이미 A에 있으면 → A 해제 (_id로 비교)
@@ -2105,7 +2095,7 @@ function prefillBirthForm(){
   var calLabel2 = inp.isLunar ? '음력' : '양력';
   var timeStr2 = '모름';
   if (inp.h && inp.h !== '' && inp.h !== '모름') { timeStr2 = inp.h + '시'; if (inp.min && inp.min !== '') timeStr2 += ' ' + inp.min + '분'; }
-  var genderStr2 = inp.gender === '남' ? '남성' : inp.gender === '여' ? '여성' : '미설정';
+  var genderStr2 = (inp.gender === '남' || inp.gender === '남성') ? '남성' : (inp.gender === '여' || inp.gender === '여성') ? '여성' : '미설정';
 
   var mbtiLetters2 = mbtiStr ? mbtiStr.split('') : [];
   var mbtiDC2 = ['#5B8FD4','#2e8b57','#88619A','#c99a2e'];
@@ -2224,12 +2214,34 @@ function usePrefill(){
   }
 }
 
-// ── "수정" 클릭 — 데이터 채운 채로 폼 열기 ──
+// ── "수정" 클릭 — 프리필 카드 숨기고 기존 입력폼에 데이터 채워서 열기 ──
 function editPrefillForm(){
   var rec = window._prefillRec;
-  if(!rec) return;
-  go('pgEditProfile');
-  renderEditProfile(rec);
+  if(!rec||!rec.input) return;
+  var inp=rec.input;
+
+  // 프리필 카드 숨기고 입력 폼 표시
+  var prefillCard=document.getElementById('birthPrefillCard');
+  var glassCard=document.querySelector('.birth-glass-card');
+  var ctaWrap=document.getElementById('birthCtaWrap');
+  if(prefillCard)prefillCard.style.display='none';
+  if(glassCard)glassCard.style.display='';
+  if(ctaWrap)ctaWrap.style.display='';
+
+  // 기존 정보로 폼 프리필
+  document.getElementById('bName').value=rec.name||'';
+  document.getElementById('bYear').value=inp.y||'';
+  document.getElementById('bMonthInput').value=inp.m||'';document.getElementById('bMonth').value=inp.m||'';
+  document.getElementById('bDayInput').value=inp.d||'';document.getElementById('bDay').value=inp.d||'';
+  if(inp.h&&inp.h!=='모름'&&inp.h!==''){document.getElementById('bHourInput').value=inp.h;document.getElementById('bHour').value=inp.h;}
+  if(inp.min&&inp.min!==''){document.getElementById('bMinInput').value=inp.min;document.getElementById('bMin').value=inp.min;}
+  if(inp.city&&inp.city!=='모름'&&inp.city!==''){document.getElementById('bCityInput').value=inp.city;document.getElementById('bCity').value=inp.city;}
+  if(inp.gender)pickBirthGender(inp.gender);
+
+  window._isMyProfile=true;
+  var icon=document.getElementById('myProfileIcon');
+  if(icon){icon.style.background='linear-gradient(135deg,#8B6CC1,#A07DD6)';icon.style.border='none';icon.style.boxShadow='0 2px 8px rgba(139,108,193,0.25)';icon.innerHTML='✓';}
+  checkBirthReady();
 }
 
 // ── "다른 사람 분석하기" 클릭 — 빈 폼 열기 ──
@@ -2390,7 +2402,7 @@ function mbtiGoNext(){if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null)return;i
 function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
 
 
-// ═══ main-gunghap.js (722L) ═══
+// ═══ main-gunghap.js (747L) ═══
 // main-gunghap.js — gunghap load animation, analysis execution, result filling
 function toggleExtraGh(){
   var items=document.querySelectorAll('.extra-gh');
@@ -2515,7 +2527,7 @@ function initGhResult(){
     if(p<1) requestAnimationFrame(update);
   }
   setTimeout(function(){requestAnimationFrame(update)},800);
-  
+
   // 스파클
   var container=document.getElementById('ghSparkles');
   if(container){
@@ -2534,7 +2546,7 @@ function initGhResult(){
       container.appendChild(s);
     }
   }
-  
+
   // stagger 애니메이션 리셋
   document.querySelectorAll('.stagger-gh').forEach(function(el){
     el.style.animation='none';el.offsetHeight;
@@ -3116,8 +3128,8 @@ function finishAddPerson(mbtiStr){
         var tiB=TY[mbtiStr]||{n:"탐험가",cf:"Ni-Te-Fi-Se"};
         mbtiB={type:mbtiStr,cf:tiB.cf,axes:[{side:mbtiStr[0],pct:60},{side:mbtiStr[1],pct:60},{side:mbtiStr[2],pct:60},{side:mbtiStr[3],pct:60}],profile:''};
       }
-      // Bug 4 fix: include _birthInfo + gender so gunghap-v2 receives valid y/m/d/gender
-      extraData={saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,_birthInfo:{y:parseInt(y),m:parseInt(m),d:parseInt(d),h:bH,min:bMin,city:cityRaw},gender:gStr==='남'?'남성':'여성'};
+      // Bug 4 fix: include _birthInfo so gunghap-v2 receives valid y/m/d
+      extraData={saju:sajuB,dw:dwB,gg:ggB,mbtiObj:mbtiB,_birthInfo:{y:parseInt(y),m:parseInt(m),d:parseInt(d),h:bH,min:bMin,city:cityRaw}};
     }catch(e){console.warn('[MBTS] 새 사람 사주 계산 실패:',e);}
   }
 
@@ -3129,11 +3141,9 @@ function finishAddPerson(mbtiStr){
   var card=document.createElement('div');
   card.className='mini-person';
   card.onclick=function(){pickPerson(card,emoji,name,'#새로입력 · '+mbtiStr,extraData)};
-  // L1 XSS fix: escape name + sub (user-controlled input) before innerHTML
-  var _escGh=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
-  card.innerHTML='<div class="mini-emoji">'+_escGh(emoji)+'</div>'
-    +'<div class="mini-info"><div class="mini-name">'+_escGh(name)+' <span class="new-badge">NEW</span></div>'
-    +'<div class="mini-sub">'+_escGh(sub)+'</div></div>';
+  card.innerHTML='<div class="mini-emoji">'+emoji+'</div>'
+    +'<div class="mini-info"><div class="mini-name">'+name+' <span class="new-badge">NEW</span></div>'
+    +'<div class="mini-sub">'+sub+'</div></div>';
   list.appendChild(card);
 
   closeAddPerson();
@@ -3141,7 +3151,7 @@ function finishAddPerson(mbtiStr){
 }
 
 
-// ═══ main-results.js (2540L) ═══
+// ═══ main-results.js (2588L) ═══
 // main-results.js — result rendering, analysis, showToast, job recovery
 // ====================================================================
 // MBTS Bridge: engine.js ↔ 파이널 UI
@@ -4024,7 +4034,6 @@ function startRealAnalysis(params){
   });
 
   /* ── 중복 요청 방지 (M10 강화) ── */
-  // Clear any previously-active poller (from recoverJob or prior run) before starting new one.
   if (window._MBTS_activePollTimer) {
     try { clearInterval(window._MBTS_activePollTimer); } catch(e) {}
     window._MBTS_activePollTimer = null;
@@ -4032,7 +4041,6 @@ function startRealAnalysis(params){
   if (localStorage.getItem('mbts_active_job')) {
     try {
       var _ej = JSON.parse(localStorage.getItem('mbts_active_job'));
-      // Align duplicate window with server maxDuration (300s) + grace (30s)
       if (Date.now() - _ej.createdAt < 330000) {
         if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
         _isAnalyzing = false;
@@ -4099,9 +4107,6 @@ function startRealAnalysis(params){
         window._lastSaju = saju; window._lastDW = dw;
         window._lastGG = gg; window._lastMBTI = mt;
         window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
-        // Bug 4 complete: save birth info + gender for pickPerson('나') path
-        window._lastBirthInfo = { y: +params.y, m: +params.m, d: +params.d, h: params.h ? +params.h : null, min: params.min ? +params.min : null, city: params.city || null };
-        window._lastGender = params.gender || null;
         if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
         _isAnalyzing = false;
         bar.style.width = '100%';
@@ -4132,13 +4137,11 @@ function startRealAnalysis(params){
 
     /* ── polling (3초 간격) ── */
     var _pollStart = Date.now();
-    var _pollHardDeadline = Date.now() + 900000; // M12: 15-min hard cap (cannot be extended by partial_subs)
+    var _pollHardDeadline = Date.now() + 900000; // M12: 15-min hard cap
     var _renderedSubCount = 0;
-    // Bug 2: track rendered titles (h) to avoid duplicate appends during done-catchup
-    window._renderedSubTitles = new Set();
     var _uidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var _pollTimer = setInterval(async function() {
-      // M12 hard deadline check — absolute, regardless of partial_subs resets
+      // M12 hard deadline
       if (Date.now() > _pollHardDeadline) {
         clearInterval(_pollTimer);
         window._MBTS_activePollTimer = null;
@@ -4203,8 +4206,6 @@ function startRealAnalysis(params){
             if (typeof appendSubCard === 'function') {
               appendSubCard(statusData.partial_subs[_pi], _pi);
             }
-            // Bug 2: record title for dedupe
-            try { if (statusData.partial_subs[_pi] && statusData.partial_subs[_pi].h) window._renderedSubTitles.add(statusData.partial_subs[_pi].h); } catch(e){}
           }
           _renderedSubCount = statusData.partial_subs.length;
           _pollStart = Date.now(); // sub arriving = server alive, reset timeout
@@ -4278,9 +4279,6 @@ function startRealAnalysis(params){
             window._lastSaju = saju; window._lastDW = dw;
             window._lastGG = gg; window._lastMBTI = mt;
             window._lastMBTIObj = mbtiObj; window._lastIsAI = true;
-            // Bug 4 complete
-            window._lastBirthInfo = { y: +params.y, m: +params.m, d: +params.d, h: params.h ? +params.h : null, min: params.min ? +params.min : null, city: params.city || null };
-            window._lastGender = params.gender || null;
             if (typeof MBTSUser !== 'undefined') MBTSUser.sync();
 
             try {
@@ -4296,7 +4294,7 @@ function startRealAnalysis(params){
             bar.style.width = '100%';
 
             if (_renderedSubCount > 0 && typeof finalizeProgressivePage === 'function') {
-              // Bug 2: dedupe catchup by title (h) — server may have skipped some subs so index-based compare fails
+              // Bug 2: dedupe catchup by title (h) — server may skip boundary subs so index compare fails
               var _allSubs = [];
               (parsed.categories || []).forEach(function(c) { (c.subs || []).forEach(function(s) { _allSubs.push(s); }); });
               if (typeof appendSubCard === 'function') {
@@ -5743,7 +5741,7 @@ function closePopupNotice(){
 setTimeout(function(){ checkPopupNotice(); }, 1500);
 
 
-// ═══ main-init.js (350L) ═══
+// ═══ main-init.js (363L) ═══
 // main-init.js — shared result, job recovery IIFE, profile sheet
 
 // ── client error reporting ──
@@ -5866,6 +5864,7 @@ window.onerror = function(msg, url, line, col, err) {
         var data = await res.json();
         if (data.status === 'done') {
           clearInterval(timer);
+          window._MBTS_activePollTimer = null;
           handleResult(job, data);
         } else if (data.status === 'failed' || data.status === 'partial') {
           clearInterval(timer);
@@ -6011,6 +6010,8 @@ function openProfileSheet() {
 
   var name = (mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '';
   var gender = input.gender || ST.gender || '';
+  var isMale = (gender === '남' || gender === '남성');
+  var isFemale = (gender === '여' || gender === '여성');
 
   var h = '';
   h += '<div class="field-row"><div class="field-label">이름</div>';
@@ -6031,8 +6032,8 @@ function openProfileSheet() {
 
   h += '<div class="field-row"><div class="field-label">성별</div>';
   h += '<div class="gender-row">';
-  h += '<div class="gender-btn' + (gender === '남' ? ' selected' : '') + '" onclick="selectSheetGender(this,\'남\')">남자</div>';
-  h += '<div class="gender-btn' + (gender === '여' ? ' selected' : '') + '" onclick="selectSheetGender(this,\'여\')">여자</div>';
+  h += '<div class="gender-btn' + (isMale ? ' selected' : '') + '" onclick="selectSheetGender(this,\'남\')">남자</div>';
+  h += '<div class="gender-btn' + (isFemale ? ' selected' : '') + '" onclick="selectSheetGender(this,\'여\')">여자</div>';
   h += '</div></div>';
 
   h += '<button class="save-btn" onclick="saveProfileSheet()">저장하고 반영하기</button>';
@@ -6083,7 +6084,7 @@ function saveProfileSheet() {
   var bm = document.getElementById('bMale');
   var bf = document.getElementById('bFemale');
   if (bm && bf) {
-    if (gender === '남') {
+    if (gender === '남' || gender === '남성') {
       bm.style.borderColor = 'var(--purple)'; bm.style.background = 'rgba(139,108,193,0.15)'; bm.style.color = 'var(--purple)';
       bf.style.borderColor = 'rgba(255,255,255,0.6)'; bf.style.background = 'rgba(255,255,255,0.45)'; bf.style.color = '#9B8CB8';
     } else {

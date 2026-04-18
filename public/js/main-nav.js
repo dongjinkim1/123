@@ -2092,7 +2092,7 @@ function prefillBirthForm(){
   var calLabel2 = inp.isLunar ? '음력' : '양력';
   var timeStr2 = '모름';
   if (inp.h && inp.h !== '' && inp.h !== '모름') { timeStr2 = inp.h + '시'; if (inp.min && inp.min !== '') timeStr2 += ' ' + inp.min + '분'; }
-  var genderStr2 = inp.gender === '남' ? '남성' : inp.gender === '여' ? '여성' : '미설정';
+  var genderStr2 = (inp.gender === '남' || inp.gender === '남성') ? '남성' : (inp.gender === '여' || inp.gender === '여성') ? '여성' : '미설정';
 
   var mbtiLetters2 = mbtiStr ? mbtiStr.split('') : [];
   var mbtiDC2 = ['#5B8FD4','#2e8b57','#88619A','#c99a2e'];

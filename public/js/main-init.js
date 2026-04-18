@@ -266,6 +266,8 @@ function openProfileSheet() {
 
   var name = (mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '';
   var gender = input.gender || ST.gender || '';
+  var isMale = (gender === '남' || gender === '남성');
+  var isFemale = (gender === '여' || gender === '여성');
 
   var h = '';
   h += '<div class="field-row"><div class="field-label">이름</div>';
@@ -286,8 +288,8 @@ function openProfileSheet() {
 
   h += '<div class="field-row"><div class="field-label">성별</div>';
   h += '<div class="gender-row">';
-  h += '<div class="gender-btn' + (gender === '남' ? ' selected' : '') + '" onclick="selectSheetGender(this,\'남\')">남자</div>';
-  h += '<div class="gender-btn' + (gender === '여' ? ' selected' : '') + '" onclick="selectSheetGender(this,\'여\')">여자</div>';
+  h += '<div class="gender-btn' + (isMale ? ' selected' : '') + '" onclick="selectSheetGender(this,\'남\')">남자</div>';
+  h += '<div class="gender-btn' + (isFemale ? ' selected' : '') + '" onclick="selectSheetGender(this,\'여\')">여자</div>';
   h += '</div></div>';
 
   h += '<button class="save-btn" onclick="saveProfileSheet()">저장하고 반영하기</button>';
@@ -338,7 +340,7 @@ function saveProfileSheet() {
   var bm = document.getElementById('bMale');
   var bf = document.getElementById('bFemale');
   if (bm && bf) {
-    if (gender === '남') {
+    if (gender === '남' || gender === '남성') {
       bm.style.borderColor = 'var(--purple)'; bm.style.background = 'rgba(139,108,193,0.15)'; bm.style.color = 'var(--purple)';
       bf.style.borderColor = 'rgba(255,255,255,0.6)'; bf.style.background = 'rgba(255,255,255,0.45)'; bf.style.color = '#9B8CB8';
     } else {
