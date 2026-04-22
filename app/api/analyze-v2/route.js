@@ -42,6 +42,17 @@ export async function POST(request) {
     // input validation (strengthened)
     const validationError = val.validateInput({ y, m, d, h, min, gender, mbtiChoices, mbtiIntensities })
     if (validationError) {
+      // TEMP DEBUG: 검증 실패 원인 추적용 (원인 확정 후 제거 예정)
+      console.log('[analyze-v2] 검증 실패:', {
+        errors: validationError,
+        receivedGender: body.gender,
+        genderType: typeof body.gender,
+        genderLength: body.gender ? body.gender.length : null,
+        genderCharCodes: body.gender ? Array.from(String(body.gender)).map(function(c){ return c.charCodeAt(0) }) : null,
+        bodyKeys: Object.keys(body),
+        mbtiChoicesType: Array.isArray(body.mbtiChoices) ? 'array(' + body.mbtiChoices.length + ')' : typeof body.mbtiChoices,
+        mbtiIntensitiesType: Array.isArray(body.mbtiIntensities) ? 'array(' + body.mbtiIntensities.length + ')' : typeof body.mbtiIntensities
+      })
       return Response.json({ error: validationError }, { status: 400 })
     }
 

@@ -1,4 +1,4 @@
-// MBTS Bundle — 20260422_2138
+// MBTS Bundle — 20260423_0109
 
 // ═══ main-nav.js (2371L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
@@ -3122,7 +3122,7 @@ function finishAddPerson(mbtiStr){
 }
 
 
-// ═══ main-results.js (2622L) ═══
+// ═══ main-results.js (2623L) ═══
 // main-results.js — result rendering, analysis, showToast, job recovery
 // ====================================================================
 // MBTS Bridge: engine.js ↔ 파이널 UI
@@ -4359,6 +4359,7 @@ function startRealAnalysis(params){
     window._MBTS_activePollTimer = _pollTimer; // M10: register active poller
   })
   .catch(function(err) {
+    var msg = (err && err.message) ? err.message : '서버 연결 오류';
     console.error('[MBTS] analyze-v2 호출 실패:', err);
     _isAnalyzing = false;
     window._MBTS_analyzeInFlight = false;
@@ -4368,7 +4369,7 @@ function startRealAnalysis(params){
     phase.innerHTML = '분석 요청 실패 😢';
     phase.style.fontWeight = '600'; phase.style.color = '#E8453C';
     logo.style.animation = 'none';
-    alert('서버 연결 실패. 다시 시도해주세요.');
+    alert('분석 요청 실패: ' + msg + '\n다시 시도해주세요.');
     setTimeout(function(){ go('pgBirth'); }, 1000);
   });
 }
