@@ -567,3 +567,19 @@ LocalStorage 키: `mbts_active_job` · `mbts_lastResult` · `mbts_session`
 - "뭔가 작동 안 함" 은 먼저 브라우저 콘솔 → `main-init.js` 의 Job 복구 로그 → Supabase `analysis_jobs`
   해당 row → Anthropic 응답 길이 순서로 파보면 99% 해결.
 - 수정 전엔 **반드시 사용자와 한 번 더 방향 합의**하고 들어갈 것.
+
+---
+
+## Post-launch: Gen 3 스키마 마이그레이션 후속 작업
+
+DB 스키마가 payload jsonb 단일 컬럼으로 통일된 뒤 후속으로 처리할 작업:
+
+- [ ] app/api/admin/stats/route.js — 새 스키마 기준으로 쿼리 재작성
+- [ ] app/api/admin/stats/chart/route.js — 동일
+- [ ] app/api/admin/analytics/route.js — 동일
+- [ ] app/api/admin/seed/route.js — seed 데이터 payload 기반으로 재작성 또는 제거
+- [ ] app/api/admin/dashboard/route.js — 동일
+- [ ] app/api/my-results/route.js — payload 기반 select 로 변경
+- [ ] scripts/e2e-test.js — Gen 3 기준으로 수정
+- [ ] MBTS 구 프로젝트(amexswkqohkhypywuscp) — Supabase 대시보드에서 Pause 또는 삭제 검토
+- [ ] 저장된 payload 실제 구조 검증 — generated 컬럼(mbti/ilju/name/relation_type 등)이 null 이 아닌 값으로 채워지는지 확인. 만약 null 이면 payload 내 실제 키 경로와 generated 정의 불일치이므로 DDL 재조정 필요.

@@ -14,11 +14,7 @@ export async function POST(request) {
         .from('saju_results')
         .insert({
           user_id: userId,
-          name: data.name || null,
-          input_data: data.input || null,
-          saju_data: data.saju || null,
-          mbti_data: data.mbtiObj || null,
-          ai_result: data.aiResult || null
+          payload: data
         })
         .select('id')
         .single()
@@ -34,11 +30,7 @@ export async function POST(request) {
         .from('gunghap_results')
         .insert({
           user_id: userId,
-          person_a: data.personA || null,
-          person_b: data.personB || null,
-          rel_type: data.relType || null,
-          scores: data.scores || null,
-          ai_result: data.aiResult || null
+          payload: data
         })
         .select('id')
         .single()

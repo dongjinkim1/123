@@ -514,14 +514,14 @@ var MBTSUser = {
     if (typeof supabase === 'undefined' || !mbtsSession || !mbtsSession.userId) return;
     try {
       var sajuRes = await supabase.from('saju_results')
-        .select('full_record, created_at')
+        .select('payload, created_at')
         .eq('user_id', mbtsSession.userId)
-        .not('full_record', 'is', null)
+        .not('payload', 'is', null)
         .order('created_at', { ascending: true });
       var ghRes = await supabase.from('gunghap_results')
-        .select('full_record, created_at')
+        .select('payload, created_at')
         .eq('user_id', mbtsSession.userId)
-        .not('full_record', 'is', null)
+        .not('payload', 'is', null)
         .order('created_at', { ascending: true });
       if (sajuRes.data && sajuRes.data.length > 0) {
         var localHist = [];
@@ -531,7 +531,7 @@ var MBTSUser = {
         var added = 0;
         for (var j = 0; j < sajuRes.data.length; j++) {
           try {
-            var rec = typeof sajuRes.data[j].full_record === 'string' ? JSON.parse(sajuRes.data[j].full_record) : sajuRes.data[j].full_record;
+            var rec = sajuRes.data[j].payload;
             if (rec && rec.id && !localIds[rec.id]) { localHist.push(rec); localIds[rec.id] = true; added++; }
           } catch(e2) {}
         }
@@ -548,7 +548,7 @@ var MBTSUser = {
         var ghAdded = 0;
         for (var l = 0; l < ghRes.data.length; l++) {
           try {
-            var ghRec = typeof ghRes.data[l].full_record === 'string' ? JSON.parse(ghRes.data[l].full_record) : ghRes.data[l].full_record;
+            var ghRec = ghRes.data[l].payload;
             if (ghRec && ghRec.id && !ghIds[ghRec.id]) { localGh.push(ghRec); ghIds[ghRec.id] = true; ghAdded++; }
           } catch(e3) {}
         }

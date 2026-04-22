@@ -787,25 +787,7 @@ async function saveProfileFull() {
         gender: gender, animal_key: _a.oheng ? (_a.oheng + '_' + _a.dominant_sipsung + '_' + _a.condition) : '',
         ilju: window._lastSaju.P[2].s + window._lastSaju.P[2].b, updated_at: new Date().toISOString()
       }).eq('id', mbtsSession.userId);
-
-      // saju_results에서 isMyProfile 레코드의 full_record도 갱신
-      try {
-        var hist2 = JSON.parse(localStorage.getItem('mbts_history') || '[]');
-        var myRec2 = null;
-        for (var k2 = 0; k2 < hist2.length; k2++) { if (hist2[k2].isMyProfile) { myRec2 = hist2[k2]; break; } }
-        if (myRec2 && myRec2.id) {
-          supabase.from('saju_results').update({
-            full_record: JSON.stringify(myRec2),
-            name: newName.trim(),
-            input_data: JSON.stringify(myRec2.input || {}),
-            saju_data: JSON.stringify(myRec2.saju || {}),
-            mbti_data: JSON.stringify(myRec2.mbtiObj || {})
-          }).eq('user_id', mbtsSession.userId).eq('name', myRec2.name).then(function(r2) {
-            if (r2.error) console.warn('[MBTS] saju_results 갱신 실패:', r2.error.message);
-            else console.log('[MBTS] saju_results full_record 갱신 완료');
-          });
-        }
-      } catch(e2) { console.warn('[MBTS] saju_results 갱신 에러:', e2); }
+      // (saju_results payload 내부 name 은 다음 분석/저장 시 자연 동기화 — Gen 3)
     }
   } catch(e) { console.warn('[MBTS] Supabase 업데이트 실패:', e); }
 
@@ -1121,26 +1103,15 @@ function confirmDelHistory(btn,recordId){
       if(typeof onFortuneTargetHistoryDelete==='function'){
         onFortuneTargetHistoryDelete(recordId);
       }
-      // Supabase에서도 삭제 동기화
-      if (typeof supabase !== 'undefined' && mbtsSession && mbtsSession.userId) {
-        supabase.from('saju_results').delete().eq('user_id', mbtsSession.userId).then(function(delRes) {
-          var currentHist = [];
-          try { currentHist = JSON.parse(localStorage.getItem('mbts_history') || '[]'); } catch(e2) {}
-          currentHist.forEach(function(rec) {
-            if (rec && rec.id) {
-              supabase.from('saju_results').insert({
-                user_id: mbtsSession.userId,
-                name: rec.name || '나',
-                input_data: JSON.stringify(rec.input || {}),
-                saju_data: JSON.stringify(rec.saju || {}),
-                mbti_data: JSON.stringify(rec.mbtiObj || {}),
-                result_json: typeof rec.aiResult === 'string' ? rec.aiResult : JSON.stringify(rec.aiResult || {}),
-                full_record: JSON.stringify(rec)
-              }).then(function() {});
-            }
-          });
-          console.log('[MBTS] Supabase 히스토리 삭제 동기화 완료');
-        });
+      // Supabase에서도 삭제 동기화 (/api/delete-result 경유)
+      if (mbtsSession && mbtsSession.userId) {
+        fetch('/api/delete-result', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: mbtsSession.userId, type: 'saju', recordId: recordId })
+        }).then(function(r){ return r.json(); })
+          .then(function(j){ if (!j.success) console.warn('[MBTS] 삭제 동기화 실패:', j.error); })
+          .catch(function(e){ console.warn('[MBTS] 삭제 동기화 에러:', e && e.message); });
       }
     }catch(e){}
     card.style.transition='all .3s';
