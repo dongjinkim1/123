@@ -1,4 +1,4 @@
-// MBTS Bundle — 20260421_0135
+// MBTS Bundle — 20260422_1725
 
 // ═══ main-nav.js (2400L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
