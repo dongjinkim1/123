@@ -496,33 +496,32 @@ function toggleProfileMBTI(idx) {
 
 var MBTSUser = {
   load: async function() {
-    if (typeof supabase === 'undefined' || !mbtsSession || !mbtsSession.userId) return;
+    if (!mbtsSession || !mbtsSession.userId) return;
     if (window._lastSaju) return;
     try {
-      var res = await supabase.from('users').select('mbti,animal_key,ilju,birth_year,birth_month,birth_day,birth_hour,birth_min,gender').eq('id', mbtsSession.userId).single();
-      if (res.error || !res.data || !res.data.animal_key) return;
-      var d = res.data;
+      // users 프로필 조회 (API 경유 — service_role + 민감 필드 제외)
+      var res = await fetch('/api/user-profile?userId=' + encodeURIComponent(mbtsSession.userId)).then(function(r){ return r.json(); });
+      if (!res.success || !res.user || !res.user.animal_key) return;
+      var d = res.user;
       window._lastMBTI = d.mbti || '';
       if (!window._lastAIResult) window._lastAIResult = {};
       var parts = d.animal_key.split('_');
       window._lastAIResult.animal = { oheng: parts[0], dominant_sipsung: parts[1], condition: parts[2] || '신강' };
       console.log('[MBTSUser] 서버에서 복원:', d.ilju, d.mbti, d.animal_key);
-    } catch(e) { console.warn('[MBTSUser] 로드 실패:', e); }
+    } catch(e) { console.warn('[MBTSUser] 로드 실패:', e && e.message); }
   },
 
   loadHistory: async function() {
-    if (typeof supabase === 'undefined' || !mbtsSession || !mbtsSession.userId) return;
+    if (!mbtsSession || !mbtsSession.userId) return;
     try {
-      var sajuRes = await supabase.from('saju_results')
-        .select('payload, created_at')
-        .eq('user_id', mbtsSession.userId)
-        .not('payload', 'is', null)
-        .order('created_at', { ascending: true });
-      var ghRes = await supabase.from('gunghap_results')
-        .select('payload, created_at')
-        .eq('user_id', mbtsSession.userId)
-        .not('payload', 'is', null)
-        .order('created_at', { ascending: true });
+      // API 경유 조회 (service_role + RLS 대비)
+      var _uid = encodeURIComponent(mbtsSession.userId);
+      var sajuRes = await fetch('/api/my-saju-results?userId=' + _uid).then(function(r){ return r.json(); });
+      var ghRes = await fetch('/api/my-gunghap-results?userId=' + _uid).then(function(r){ return r.json(); });
+      // 응답 shape: { success, rows: [{id, payload, created_at, ...}] }
+      // 기존 로직 호환: sajuRes.data → sajuRes.rows 로 rebinding
+      if (sajuRes && sajuRes.success) sajuRes.data = sajuRes.rows || [];
+      if (ghRes && ghRes.success) ghRes.data = ghRes.rows || [];
       if (sajuRes.data && sajuRes.data.length > 0) {
         var localHist = [];
         try { localHist = JSON.parse(localStorage.getItem('mbts_history') || '[]'); } catch(e) {}
