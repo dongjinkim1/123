@@ -163,23 +163,18 @@ function loadCloverHistory() {
   var historyEl = document.getElementById('cloverHistoryList');
   if (!historyEl) return;
 
-  if (typeof supabase === 'undefined') return;
-
-  supabase
-    .from('clover_history')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('id', { ascending: false })
-    .limit(20)
+  // API 경유 (service_role + RLS 대비)
+  fetch('/api/clover/history?userId=' + encodeURIComponent(user.id))
+    .then(function(res) { return res.json(); })
     .then(function(result) {
-      if (!result.data || result.data.length === 0) {
+      if (!result.success || !result.history || result.history.length === 0) {
         historyEl.innerHTML = '<div style="text-align:center;color:var(--text-3);padding:20px;font-size:13px">아직 내역이 없어요</div>';
         return;
       }
 
       var html = '';
-      for (var i = 0; i < result.data.length; i++) {
-        var h = result.data[i];
+      for (var i = 0; i < result.history.length; i++) {
+        var h = result.history[i];
         var isPlus = h.amount > 0;
         html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border)">';
         html += '<div><div style="font-size:14px;font-weight:600">' + (h.description || (isPlus ? '클로버 충전' : '클로버 사용')) + '</div>';
@@ -188,6 +183,9 @@ function loadCloverHistory() {
         html += '</div>';
       }
       historyEl.innerHTML = html;
+    })
+    .catch(function(e) {
+      console.warn('[MBTS] clover history 로드 실패:', e && e.message);
     });
 }
 

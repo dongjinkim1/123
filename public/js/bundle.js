@@ -1,4 +1,4 @@
-// MBTS Bundle — 20260423_1421
+// MBTS Bundle — 20260423_1504
 
 // ═══ main-nav.js (2395L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
@@ -3146,7 +3146,7 @@ function finishAddPerson(mbtiStr){
 }
 
 
-// ═══ main-results.js (2630L) ═══
+// ═══ main-results.js (2637L) ═══
 // main-results.js — result rendering, analysis, showToast, job recovery
 // ====================================================================
 // MBTS Bridge: engine.js ↔ 파이널 UI
@@ -3766,43 +3766,50 @@ var MBTSShare = {
   },
 
   save: async function(type, renderData, preview) {
-    var code = MBTSShare.generateCode();
-    var url = 'https://mbts.kr?s=' + code;
+    // API 경유 (service_role + rate-limiter)
+    var code = null;
+    var url = 'https://mbts.kr';
     try {
-      if (typeof supabase !== 'undefined' && supabase && supabase.from) {
-        var nickname = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '';
-        await supabase.from('shared_results').insert({
-          share_code: code,
-          result_type: type,
-          render_data: renderData,
+      var nickname = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.nickname) ? mbtsSession.nickname : '';
+      var userId = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? mbtsSession.userId : null;
+      var res = await fetch('/api/save-share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: type,
+          renderData: renderData,
+          preview: preview || {},
           nickname: nickname,
-          mbti: preview.mbti || '',
-          animal_emoji: preview.emoji || '',
-          animal_title: preview.title || '',
-          animal_desc: preview.desc || '',
-          share_image_url: preview.image || '',
-          ai_result: {},
-          saju_summary: {},
-          animal_traits: [],
-          animal_rx: '',
-          animal_tag: '',
-          animal_key: '',
-          oheng: ''
-        });
+          userId: userId
+        })
+      });
+      var json = await res.json();
+      if (json.success) {
+        code = json.code;
+        url = json.url;
         console.log('[MBTS] 공유 저장 완료:', type, code);
+      } else {
+        console.warn('[MBTS] 공유 저장 실패:', json.error);
       }
     } catch(e) {
-      console.warn('[MBTS] 공유 저장 실패:', e);
-      url = 'https://mbts.kr';
+      console.warn('[MBTS] 공유 저장 실패:', e && e.message);
     }
+    // code 가 없을 때 fallback — 로컬 임시 코드 (서버 저장 안 됨, URL 만 생성)
+    if (!code) code = MBTSShare.generateCode();
     return { code: code, url: url };
   },
 
   load: async function(code) {
-    if (typeof supabase === 'undefined' || !supabase || !supabase.from) return null;
-    var res = await supabase.from('shared_results').select('*').eq('share_code', code).single();
-    if (res.error || !res.data) return null;
-    return res.data;
+    // API 경유 (legacy shape 으로 변환된 응답)
+    try {
+      var res = await fetch('/api/get-share?code=' + encodeURIComponent(code));
+      var json = await res.json();
+      if (!json.success || !json.data) return null;
+      return json.data;
+    } catch(e) {
+      console.warn('[MBTS] 공유 로드 실패:', e && e.message);
+      return null;
+    }
   },
 
   render: function(data) {

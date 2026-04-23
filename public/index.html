@@ -34,14 +34,7 @@ gtag('config','G-6N9EXJT7YW');
 <link rel="stylesheet" href="/css/styles.css">
 <!-- STYLES_EXTRACTED -->
 
-<!-- Supabase SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script>
-var SUPABASE_URL = 'https://iryncqfmjqnxckazgkzp.supabase.co';
-var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyeW5jcWZtanFueGNrYXpna3pwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyNzAwMzEsImV4cCI6MjA4Nzg0NjAzMX0._lVa8820rASSkztLCH8y2n2GWAWz-dOfegB3qVQ2pxY';
-var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-console.log('[MBTS] Supabase 클라이언트 초기화 완료');
-</script>
+<!-- Supabase 전역 객체 제거됨 (Phase 6): 모든 DB 접근은 /api/* 경유 service_role -->
 
 <!-- Kakao SDK -->
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"></script>
