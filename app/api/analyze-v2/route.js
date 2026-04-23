@@ -9,6 +9,8 @@ export const maxDuration = 300
 const client = new Anthropic()
 const MODEL = 'claude-sonnet-4-6'
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 // CJS modules — dynamic import
 let _pb = null
 let _ai = null
@@ -36,6 +38,14 @@ export async function POST(request) {
     try { body = await request.json() } catch { return Response.json({ error: 'Invalid JSON body' }, { status: 400 }) }
     const { y, m, d, h, min, gender, mbtiChoices, mbtiIntensities, cityLng, userId } = body
 
+    // userId 필수 + UUID 형식 검증 (Stage 2A — anonymous 우회 차단)
+    if (!userId) {
+      return Response.json({ error: '로그인이 필요합니다.' }, { status: 401 })
+    }
+    if (typeof userId !== 'string' || !UUID_RE.test(userId)) {
+      return Response.json({ error: 'Invalid userId' }, { status: 400 })
+    }
+
     const { pb, ai, val, rl } = await getModules()
     const supabase = getServiceSupabase()
 
@@ -56,19 +66,11 @@ export async function POST(request) {
       return Response.json({ error: '요청 한도 초과', retryAfter }, { status: 429 })
     }
 
-    // server-side clover check (if userId provided)
-    if (userId) {
-      const { data: user } = await supabase
-        .from('users')
-        .select('clover_balance, nickname')
-        .eq('id', userId)
-        .maybeSingle()
-      // ⚠️ TEST BYPASS: "김동진" 잔액 체크 면제 — production에서 제거 필요
-      const isTestUser = user && user.nickname === '김동진'
-      if (user && !isTestUser && user.clover_balance < 15) {
-        return Response.json({ error: '클로버 부족', balance: user.clover_balance }, { status: 402 })
-      }
-    }
+    // Stage 2A 주의: balance 사전 체크는 일시 제거.
+    // 이유: 프론트가 useClover 로 먼저 15잎 차감하므로, 여기서 balance < 15 체크하면
+    // useClover 성공 후에도 analyze-v2 가 402 뱉는 버그 발생.
+    // Stage 2B 에서 서버측 atomic 차감 통합 시 복원 예정.
+    // 현재 방어: 프론트 useClover + rate-limiter (60s/5req per userId).
 
     // result caching — same input within 7 days returns cached result
     // M6: include userId in the hash so users never read each other's job rows.

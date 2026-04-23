@@ -931,7 +931,8 @@ function startRealAnalysis(params){
       gender: params.gender,
       mbtiChoices: params.mbtiChoices,
       mbtiIntensities: params.mbtiIntensities,
-      cityLng: params.cityLng
+      cityLng: params.cityLng,
+      userId: (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) || null
     })
   })
   .then(function(r) { return r.json(); })

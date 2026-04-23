@@ -308,7 +308,8 @@ async function _runGunghapAnalysis(){
       body: JSON.stringify({
         paramsA: _ghParamsA,
         paramsB: _ghParamsB,
-        relType: ghRel
+        relType: ghRel,
+        userId: (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) || null
       })
     });
     var _ghData = await _ghResp.json();

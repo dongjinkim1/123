@@ -1,4 +1,4 @@
-// MBTS Bundle — 20260423_1707
+// MBTS Bundle — 20260423_1719
 
 // ═══ main-nav.js (2395L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
@@ -2397,7 +2397,7 @@ function mbtiGoNext(){if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null)return;i
 function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
 
 
-// ═══ main-gunghap.js (747L) ═══
+// ═══ main-gunghap.js (748L) ═══
 // main-gunghap.js — gunghap load animation, analysis execution, result filling
 function toggleExtraGh(){
   var items=document.querySelectorAll('.extra-gh');
@@ -2708,7 +2708,8 @@ async function _runGunghapAnalysis(){
       body: JSON.stringify({
         paramsA: _ghParamsA,
         paramsB: _ghParamsB,
-        relType: ghRel
+        relType: ghRel,
+        userId: (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) || null
       })
     });
     var _ghData = await _ghResp.json();
@@ -3146,7 +3147,7 @@ function finishAddPerson(mbtiStr){
 }
 
 
-// ═══ main-results.js (2637L) ═══
+// ═══ main-results.js (2638L) ═══
 // main-results.js — result rendering, analysis, showToast, job recovery
 // ====================================================================
 // MBTS Bridge: engine.js ↔ 파이널 UI
@@ -4080,7 +4081,8 @@ function startRealAnalysis(params){
       gender: params.gender,
       mbtiChoices: params.mbtiChoices,
       mbtiIntensities: params.mbtiIntensities,
-      cityLng: params.cityLng
+      cityLng: params.cityLng,
+      userId: (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) || null
     })
   })
   .then(function(r) { return r.json(); })

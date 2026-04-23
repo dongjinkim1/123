@@ -8,6 +8,8 @@ export const maxDuration = 300
 const client = new Anthropic()
 const MODEL = 'claude-sonnet-4-6'
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 // CJS modules -- dynamic import
 let _gp = null
 let _ai = null
@@ -35,6 +37,14 @@ export async function POST(request) {
     try { body = await request.json() } catch { return Response.json({ error: 'Invalid JSON body' }, { status: 400 }) }
     const { paramsA, paramsB, relType, userId } = body
 
+    // userId 필수 + UUID 검증 (Stage 2A)
+    if (!userId) {
+      return Response.json({ error: '로그인이 필요합니다.' }, { status: 401 })
+    }
+    if (typeof userId !== 'string' || !UUID_RE.test(userId)) {
+      return Response.json({ error: 'Invalid userId' }, { status: 400 })
+    }
+
     const { gp, ai, val, rl } = await getModules()
     const supabase = getServiceSupabase()
 
@@ -52,19 +62,7 @@ export async function POST(request) {
       return Response.json({ error: '요청 한도 초과', retryAfter }, { status: 429 })
     }
 
-    // server-side clover check
-    if (userId) {
-      const { data: user } = await supabase
-        .from('users')
-        .select('clover_balance, nickname')
-        .eq('id', userId)
-        .maybeSingle()
-      // ⚠️ TEST BYPASS: "김동진" 잔액 체크 면제 — production에서 제거 필요
-      const isTestUser = user && user.nickname === '김동진'
-      if (user && !isTestUser && user.clover_balance < 15) {
-        return Response.json({ error: '클로버 부족', balance: user.clover_balance }, { status: 402 })
-      }
-    }
+    // Stage 2A: balance 체크 일시 제거 (Stage 2B 에서 atomic 차감 통합 시 복원)
     const prompts = gp.buildGunghapPrompt(paramsA, paramsB, relType)
 
     if (!prompts || !prompts.systemPrompt || !prompts.userPrompt) {
