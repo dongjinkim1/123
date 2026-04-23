@@ -10,6 +10,17 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 export async function POST(request) {
   try {
+    // C9 서버측 가드: 결제 검증 연동 전까지 프로덕션에서 비활성화.
+    // 프론트 payment.js 의 C9 가드와 대칭. 실결제 (토스/카카오페이) 붙일 때 이 블록 제거.
+    const host = request.headers.get('host') || ''
+    const isDev = host.startsWith('localhost') || host.startsWith('127.0.0.1') || host.includes('.local')
+    if (!isDev) {
+      return Response.json(
+        { error: '결제 시스템 준비 중이에요. 곧 이용 가능합니다.' },
+        { status: 503 }
+      )
+    }
+
     var body
     try { body = await request.json() } catch { return Response.json({ error: 'Invalid JSON' }, { status: 400 }) }
     var { userId, amount, price } = body

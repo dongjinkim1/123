@@ -2,8 +2,10 @@ import { getServiceSupabase } from '@/lib/supabase'
 import { logError } from '@/lib/errorLog'
 
 // 유저 프로필 조회 (RLS 활성화 대비 — service_role 경유)
-// 민감 필드 (role, is_blocked, email, provider, last_login) 제외
-// 응답: { success, user: {id, mbti, animal_key, ilju, birth_*, gender, nickname, clover_balance, kakao_id} }
+// 응답: { success, user: {id, mbti, animal_key, ilju, birth_*, gender, nickname} }
+// - kakao_id 는 민감 식별자라 응답에서 제외 (OAuth 2차 공격 예방)
+// - clover_balance 는 /api/clover-balance 로 분리 조회
+// - role, is_blocked, email, provider, last_login 도 응답 제외
 
 export async function GET(request) {
   try {
@@ -28,7 +30,7 @@ export async function GET(request) {
 
     var { data, error } = await supabase
       .from('users')
-      .select('id, mbti, animal_key, ilju, birth_year, birth_month, birth_day, birth_hour, birth_min, gender, nickname, clover_balance, kakao_id')
+      .select('id, mbti, animal_key, ilju, birth_year, birth_month, birth_day, birth_hour, birth_min, gender, nickname')
       .eq('id', userId)
       .maybeSingle()
 
