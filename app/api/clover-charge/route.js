@@ -2,6 +2,15 @@ import { getServiceSupabase } from '@/lib/supabase'
 
 export async function POST(request) {
   try {
+    var host = request.headers.get('host') || ''
+    var isDev = host.startsWith('localhost') || host.startsWith('127.0.0.1') || host.includes('.local')
+    if (!isDev) {
+      return Response.json(
+        { error: '결제 시스템 준비 중이에요. 곧 이용 가능합니다.' },
+        { status: 503 }
+      )
+    }
+
     var { userId, amount, price } = await request.json()
 
     if (!userId || !amount) {

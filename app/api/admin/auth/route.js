@@ -1,8 +1,22 @@
 import { generateToken, validateToken } from '@/lib/adminAuth'
 import { logError } from '@/lib/errorLog'
+import { getServiceSupabase } from '@/lib/supabase'
+import { checkRateLimit } from '@/lib/rate-limiter'
 
 export async function POST(request) {
   try {
+    const supabase = getServiceSupabase()
+    const vercelIp = request.headers.get('x-vercel-forwarded-for')
+    const realIp = request.headers.get('x-real-ip')
+    const identifier = vercelIp || realIp || 'unknown'
+    const rl = await checkRateLimit(supabase, identifier, 'admin-login', 60000, 5)
+    if (!rl.allowed) {
+      return Response.json(
+        { error: '로그인 시도 초과. 잠시 후 다시 시도하세요.', retryAfter: rl.retryAfter },
+        { status: 429 }
+      )
+    }
+
     const { password } = await request.json()
 
     if (!password || password !== process.env.ADMIN_PASSWORD) {

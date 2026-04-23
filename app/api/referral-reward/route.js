@@ -1,4 +1,7 @@
 import { getServiceSupabase } from '@/lib/supabase'
+import { checkRateLimit } from '@/lib/rate-limiter'
+
+var UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export async function POST(request) {
   try {
@@ -8,17 +11,36 @@ export async function POST(request) {
       return Response.json({ error: 'Missing parameters' }, { status: 400 })
     }
 
-    // 자기 자신 추천 방지
     if (referrerId === newUserId) {
       return Response.json({ error: 'Self referral' }, { status: 400 })
     }
 
+    if (!UUID_RE.test(referrerId) || !UUID_RE.test(newUserId)) {
+      return Response.json({ error: 'Invalid UUID format' }, { status: 400 })
+    }
+
     var supabase = getServiceSupabase()
 
-    // 추천인 존재 확인 + 잔액 조회
+    var rl = await checkRateLimit(supabase, referrerId, 'referral-reward', 60000, 3)
+    if (!rl.allowed) {
+      return Response.json({ error: '요청 한도 초과', retryAfter: rl.retryAfter }, { status: 429 })
+    }
+
+    var { data: existingBonus } = await supabase
+      .from('clover_history')
+      .select('id')
+      .eq('user_id', newUserId)
+      .eq('type', 'referral_bonus')
+      .limit(1)
+      .maybeSingle()
+
+    if (existingBonus) {
+      return Response.json({ error: 'Already rewarded', success: false }, { status: 409 })
+    }
+
     var { data: referrer, error: fetchError } = await supabase
       .from('users')
-      .select('id, clover_balance, nickname')
+      .select('id, clover_balance')
       .eq('id', referrerId)
       .maybeSingle()
 
@@ -26,7 +48,6 @@ export async function POST(request) {
       return Response.json({ error: 'Referrer not found', success: false })
     }
 
-    // 추천인에게 클로버 2잎 지급
     var REWARD = 2
     var newBalance = (referrer.clover_balance || 0) + REWARD
 
@@ -39,7 +60,6 @@ export async function POST(request) {
       return Response.json({ error: 'Failed to reward referrer' }, { status: 500 })
     }
 
-    // 내역 기록
     await supabase.from('clover_history').insert({
       user_id: referrerId,
       amount: REWARD,
@@ -48,7 +68,6 @@ export async function POST(request) {
       description: '🎁 친구 초대 보상',
     })
 
-    // B(신규유저)에게도 2잎 지급
     var { data: newUser } = await supabase
       .from('users')
       .select('clover_balance')

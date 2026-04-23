@@ -1,4 +1,4 @@
-// MBTS Service Worker — network-first (BUILD_TIME 불필요)
+var BUILD_TIME = '20260423_1634';
 self.addEventListener('install', function() { self.skipWaiting(); });
 self.addEventListener('activate', function(event) {
   event.waitUntil(
