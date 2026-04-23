@@ -3,9 +3,14 @@ import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
 import { logError } from '@/lib/errorLog'
 
-export async function POST(request) {
+function authCheck(request) {
   var authHeader = request.headers.get('Authorization')
-  if (!authHeader || !authHeader.startsWith('Bearer ') || !validateToken(authHeader.replace('Bearer ', ''))) {
+  if (!authHeader || !authHeader.startsWith('Bearer ')) return false
+  return validateToken(authHeader.replace('Bearer ', ''))
+}
+
+export async function POST(request) {
+  if (!authCheck(request)) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 
@@ -224,8 +229,7 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
-  var authHeader = request.headers.get('Authorization')
-  if (!authHeader || !authHeader.startsWith('Bearer ') || !validateToken(authHeader.replace('Bearer ', ''))) {
+  if (!authCheck(request)) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 

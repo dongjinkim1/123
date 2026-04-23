@@ -2,18 +2,18 @@ import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
 import { logError } from '@/lib/errorLog'
 
-export async function GET(request) {
-  try {
-    // 토큰 검증
-    const authHeader = request.headers.get('Authorization')
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return Response.json({ error: '인증 필요' }, { status: 401 })
-    }
-    const token = authHeader.replace('Bearer ', '')
-    if (!validateToken(token)) {
-      return Response.json({ error: '토큰 만료' }, { status: 401 })
-    }
+function authCheck(request) {
+  var authHeader = request.headers.get('Authorization')
+  if (!authHeader || !authHeader.startsWith('Bearer ')) return false
+  return validateToken(authHeader.replace('Bearer ', ''))
+}
 
+export async function GET(request) {
+  if (!authCheck(request)) {
+    return Response.json({ error: '인증 필요' }, { status: 401 })
+  }
+
+  try {
     const supabase = getServiceSupabase()
 
     // 날짜 파라미터 (기본: 오늘)
