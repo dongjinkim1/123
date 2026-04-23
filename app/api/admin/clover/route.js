@@ -2,15 +2,15 @@ import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
 import { logError } from '@/lib/errorLog'
 
-function authCheck(request) {
+async function authCheck(request) {
   var authHeader = request.headers.get('Authorization')
   if (!authHeader || !authHeader.startsWith('Bearer ')) return false
-  return validateToken(authHeader.replace('Bearer ', ''))
+  return await validateToken(authHeader.replace('Bearer ', ''))
 }
 
 // GET: 클로버 내역 조회
 export async function GET(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 
@@ -63,7 +63,7 @@ export async function GET(request) {
 
 // POST: 클로버 지급/차감
 export async function POST(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 
@@ -143,7 +143,7 @@ export async function POST(request) {
 
 // PUT: 클로버 일괄 지급
 export async function PUT(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 
@@ -221,7 +221,7 @@ export async function PUT(request) {
 
 // DELETE: 클로버 일괄 회수
 export async function DELETE(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 

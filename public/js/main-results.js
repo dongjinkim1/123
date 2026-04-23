@@ -826,15 +826,12 @@ function mbtiGoNext(){
 
   // Bug 1 fix: 동기 lock — 모바일 touchend+click 이중 발화 race 방지
   _isAnalyzing = true;
-  // 클로버 차감 후 분석 진행
-  useClover(15, 'saju', function(success) {
-    if (!success) { _isAnalyzing = false; return; }
-    console.log('🔍[9] go(pgLoad) 호출 직전');
-    go('pgLoad');
-    console.log('🔍[10] go(pgLoad) 성공, startRealAnalysis 호출');
-    startRealAnalysis(_analysisParams);
-    console.log('🔍[11] startRealAnalysis 호출 완료');
-  });
+  // 분석 시작 — 클로버 차감은 analyze-v2 가 서버측에서 atomic 처리 (Stage 2B)
+  console.log('🔍[9] go(pgLoad) 호출 직전');
+  go('pgLoad');
+  console.log('🔍[10] go(pgLoad) 성공, startRealAnalysis 호출');
+  startRealAnalysis(_analysisParams);
+  console.log('🔍[11] startRealAnalysis 호출 완료');
 }
 
 // ====================================================================
@@ -937,6 +934,22 @@ function startRealAnalysis(params){
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
+    // 클로버 부족 (Stage 2B 서버측 차감 실패)
+    if (data.error === '클로버 부족') {
+      _isAnalyzing = false;
+      window._MBTS_analyzeInFlight = false;
+      if (typeof showToast === 'function') showToast('클로버가 부족합니다 🍀');
+      if (typeof showChargeModal === 'function') showChargeModal();
+      if (typeof go === 'function') go('home');
+      return;
+    }
+    // 로그인 필요 (userId 전송 실패)
+    if (data.error === '로그인이 필요합니다.') {
+      _isAnalyzing = false;
+      window._MBTS_analyzeInFlight = false;
+      if (typeof showToast === 'function') showToast('로그인이 필요해요');
+      return;
+    }
     if (!data.jobId) {
       throw new Error(data.error || 'job 생성 실패');
     }

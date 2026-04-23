@@ -168,11 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (ghStartBtn) ghStartBtn.addEventListener('click', function(){
   if(!ghA || !ghB || !ghRel) return;
 
-  // 클로버 차감 후 궁합 분석 진행
-  useClover(15, 'gunghap', function(success) {
-    if (!success) return;
-    _runGunghapAnalysis();
-  });
+  // 분석 시작 — 클로버 차감은 gunghap-v2 가 서버측 atomic 처리 (Stage 2B)
+  _runGunghapAnalysis();
   });
 });
 
@@ -313,6 +310,18 @@ async function _runGunghapAnalysis(){
       })
     });
     var _ghData = await _ghResp.json();
+    if (_ghData.error === '클로버 부족') {
+      _isAnalyzing = false;
+      if (typeof showToast === 'function') showToast('클로버가 부족합니다 🍀');
+      if (typeof showChargeModal === 'function') showChargeModal();
+      if (typeof go === 'function') go('home');
+      return;
+    }
+    if (_ghData.error === '로그인이 필요합니다.') {
+      _isAnalyzing = false;
+      if (typeof showToast === 'function') showToast('로그인이 필요해요');
+      return;
+    }
     if (!_ghData.jobId) throw new Error(_ghData.error || 'job 생성 실패');
 
     var _ghJobId = _ghData.jobId;

@@ -66,11 +66,72 @@ export async function POST(request) {
       return Response.json({ error: '요청 한도 초과', retryAfter }, { status: 429 })
     }
 
-    // Stage 2A 주의: balance 사전 체크는 일시 제거.
-    // 이유: 프론트가 useClover 로 먼저 15잎 차감하므로, 여기서 balance < 15 체크하면
-    // useClover 성공 후에도 analyze-v2 가 402 뱉는 버그 발생.
-    // Stage 2B 에서 서버측 atomic 차감 통합 시 복원 예정.
-    // 현재 방어: 프론트 useClover + rate-limiter (60s/5req per userId).
+    // Stage 2B — 서버측 atomic 차감 (optimistic concurrency)
+    // 김동진 TEST BYPASS 유지 (테스트 편의). 런칭 직전 별도 제거 예정.
+    const COST = 15
+
+    const { data: userRow, error: userFetchErr } = await supabase
+      .from('users')
+      .select('clover_balance, nickname')
+      .eq('id', userId)
+      .maybeSingle()
+
+    if (userFetchErr || !userRow) {
+      return Response.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    const isTestUser = userRow.nickname === '김동진'
+    const currentBalance = userRow.clover_balance || 0
+
+    if (!isTestUser) {
+      if (currentBalance < COST) {
+        return Response.json({ error: '클로버 부족', balance: currentBalance }, { status: 402 })
+      }
+
+      // atomic 차감: balance = current - COST WHERE balance = current (조건부)
+      const newBalance = currentBalance - COST
+      const { data: updated, error: updErr } = await supabase
+        .from('users')
+        .update({ clover_balance: newBalance })
+        .eq('id', userId)
+        .eq('clover_balance', currentBalance)
+        .select('clover_balance')
+        .maybeSingle()
+
+      let finalBalance = null
+      if (updErr || !updated) {
+        // 충돌 — 1회 재시도
+        const { data: u2 } = await supabase.from('users').select('clover_balance').eq('id', userId).maybeSingle()
+        if (!u2) return Response.json({ error: 'User not found' }, { status: 404 })
+        const cb2 = u2.clover_balance || 0
+        if (cb2 < COST) {
+          return Response.json({ error: '클로버 부족', balance: cb2 }, { status: 402 })
+        }
+        const nb2 = cb2 - COST
+        const { data: updated2, error: retryErr } = await supabase
+          .from('users')
+          .update({ clover_balance: nb2 })
+          .eq('id', userId)
+          .eq('clover_balance', cb2)
+          .select('clover_balance')
+          .maybeSingle()
+        if (retryErr || !updated2) {
+          return Response.json({ error: 'Charge conflict — retry', code: 'race' }, { status: 409 })
+        }
+        finalBalance = updated2.clover_balance
+      } else {
+        finalBalance = updated.clover_balance
+      }
+
+      // 차감 내역 기록
+      await supabase.from('clover_history').insert({
+        user_id: userId,
+        amount: -COST,
+        balance_after: finalBalance,
+        type: 'saju',
+        description: '사주 분석',
+      })
+    }
 
     // result caching — same input within 7 days returns cached result
     // M6: include userId in the hash so users never read each other's job rows.

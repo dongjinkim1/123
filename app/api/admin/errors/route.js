@@ -2,15 +2,15 @@ import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
 import { logError } from '@/lib/errorLog'
 
-function authCheck(request) {
+async function authCheck(request) {
   var authHeader = request.headers.get('Authorization')
   if (!authHeader || !authHeader.startsWith('Bearer ')) return false
-  return validateToken(authHeader.replace('Bearer ', ''))
+  return await validateToken(authHeader.replace('Bearer ', ''))
 }
 
 // GET: 에러 목록 조회
 export async function GET(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 
@@ -73,7 +73,7 @@ export async function GET(request) {
 
 // PATCH: 에러 해결 처리
 export async function PATCH(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 

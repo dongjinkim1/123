@@ -27,7 +27,7 @@ export async function POST(request) {
       )
     }
 
-    const token = generateToken()
+    const token = await generateToken()
     return Response.json({ success: true, token: token })
   } catch (error) {
     logError('admin', error.message, { endpoint: '/api/admin/auth POST' })
@@ -50,7 +50,7 @@ export async function GET(request) {
     }
 
     const token = authHeader.replace('Bearer ', '')
-    if (!validateToken(token)) {
+    if (!(await validateToken(token))) {
       return Response.json(
         { error: '토큰이 만료되었거나 유효하지 않습니다' },
         { status: 401 }

@@ -2,15 +2,15 @@ import { validateToken } from '@/lib/adminAuth'
 import { getServiceSupabase } from '@/lib/supabase'
 import { logError } from '@/lib/errorLog'
 
-function authCheck(request) {
+async function authCheck(request) {
   var authHeader = request.headers.get('Authorization')
   if (!authHeader || !authHeader.startsWith('Bearer ')) return false
-  return validateToken(authHeader.replace('Bearer ', ''))
+  return await validateToken(authHeader.replace('Bearer ', ''))
 }
 
 // GET: 공지 목록
 export async function GET(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 
@@ -57,7 +57,7 @@ export async function GET(request) {
 
 // POST: 공지 생성
 export async function POST(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 
@@ -114,7 +114,7 @@ export async function POST(request) {
 
 // PATCH: 공지 수정
 export async function PATCH(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 
@@ -165,7 +165,7 @@ export async function PATCH(request) {
 
 // DELETE: 공지 삭제
 export async function DELETE(request) {
-  if (!authCheck(request)) {
+  if (!(await authCheck(request))) {
     return Response.json({ error: '인증 필요' }, { status: 401 })
   }
 

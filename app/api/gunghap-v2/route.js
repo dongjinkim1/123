@@ -62,7 +62,72 @@ export async function POST(request) {
       return Response.json({ error: '요청 한도 초과', retryAfter }, { status: 429 })
     }
 
-    // Stage 2A: balance 체크 일시 제거 (Stage 2B 에서 atomic 차감 통합 시 복원)
+    // Stage 2B — 서버측 atomic 차감 (optimistic concurrency)
+    // 김동진 TEST BYPASS 유지 (테스트 편의). 런칭 직전 별도 제거 예정.
+    const COST = 15
+
+    const { data: userRow, error: userFetchErr } = await supabase
+      .from('users')
+      .select('clover_balance, nickname')
+      .eq('id', userId)
+      .maybeSingle()
+
+    if (userFetchErr || !userRow) {
+      return Response.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    const isTestUser = userRow.nickname === '김동진'
+    const currentBalance = userRow.clover_balance || 0
+
+    if (!isTestUser) {
+      if (currentBalance < COST) {
+        return Response.json({ error: '클로버 부족', balance: currentBalance }, { status: 402 })
+      }
+
+      // atomic 차감: balance = current - COST WHERE balance = current (조건부)
+      const newBalance = currentBalance - COST
+      const { data: updated, error: updErr } = await supabase
+        .from('users')
+        .update({ clover_balance: newBalance })
+        .eq('id', userId)
+        .eq('clover_balance', currentBalance)
+        .select('clover_balance')
+        .maybeSingle()
+
+      let finalBalance = null
+      if (updErr || !updated) {
+        // 충돌 — 1회 재시도
+        const { data: u2 } = await supabase.from('users').select('clover_balance').eq('id', userId).maybeSingle()
+        if (!u2) return Response.json({ error: 'User not found' }, { status: 404 })
+        const cb2 = u2.clover_balance || 0
+        if (cb2 < COST) {
+          return Response.json({ error: '클로버 부족', balance: cb2 }, { status: 402 })
+        }
+        const nb2 = cb2 - COST
+        const { data: updated2, error: retryErr } = await supabase
+          .from('users')
+          .update({ clover_balance: nb2 })
+          .eq('id', userId)
+          .eq('clover_balance', cb2)
+          .select('clover_balance')
+          .maybeSingle()
+        if (retryErr || !updated2) {
+          return Response.json({ error: 'Charge conflict — retry', code: 'race' }, { status: 409 })
+        }
+        finalBalance = updated2.clover_balance
+      } else {
+        finalBalance = updated.clover_balance
+      }
+
+      // 차감 내역 기록
+      await supabase.from('clover_history').insert({
+        user_id: userId,
+        amount: -COST,
+        balance_after: finalBalance,
+        type: 'gunghap',
+        description: '궁합 분석',
+      })
+    }
     const prompts = gp.buildGunghapPrompt(paramsA, paramsB, relType)
 
     if (!prompts || !prompts.systemPrompt || !prompts.userPrompt) {
