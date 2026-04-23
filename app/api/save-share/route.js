@@ -35,29 +35,35 @@ export async function POST(request) {
     }
 
     // share_code 생성 + UNIQUE 충돌 재시도 3회
-    var payload = {
-      type: type,
-      renderData: renderData,
-      preview: preview,
+    // 현 shared_results 스키마: 레거시 18컬럼 (payload/user_id 없음 — Hand Phase 6 A단계 확인).
+    // userId 는 rate-limiter identifier 로만 사용, insert 시 무시.
+    var row = {
+      share_code: null, // per-attempt
       nickname: nickname,
       mbti: preview.mbti || '',
+      animal_key: '',
       animal_emoji: preview.emoji || '',
       animal_title: preview.title || '',
       animal_desc: preview.desc || '',
-      share_image_url: preview.image || ''
+      animal_traits: [],
+      animal_rx: '',
+      animal_tag: '',
+      oheng: '',
+      ai_result: {},
+      saju_summary: {},
+      share_image_url: preview.image || '',
+      result_type: type,
+      render_data: renderData || {}
     }
 
     var code = null
     var lastErr = null
     for (var attempt = 0; attempt < 3; attempt++) {
       var candidate = gen6()
+      row.share_code = candidate
       var { error: insertErr } = await supabase
         .from('shared_results')
-        .insert({
-          share_code: candidate,
-          user_id: userId,
-          payload: payload
-        })
+        .insert(row)
 
       if (!insertErr) {
         code = candidate
