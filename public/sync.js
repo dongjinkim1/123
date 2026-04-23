@@ -63,8 +63,25 @@
     })
     .then(function(res) { return res.json(); })
     .then(function(json) {
-      if (!json.success) console.warn('[sync.js] ' + type + ' 저장 실패:', json.error);
-      else console.log('[sync.js] ' + type + ' 결과 저장 완료, id:', json.id);
+      if (!json.success) { console.warn('[sync.js] ' + type + ' 저장 실패:', json.error); return; }
+      console.log('[sync.js] ' + type + ' 결과 저장 완료, id:', json.id);
+
+      // DB uuid 를 localStorage history 에 매핑 (delete-result 호환용)
+      // 래핑된 setItem 사용 시 syncToSupabase 재호출 위험 → _origSetItem 직접 호출
+      try {
+        var histKey = (type === 'saju') ? SAJU_KEY : GH_KEY;
+        var hist = JSON.parse(localStorage.getItem(histKey) || '[]');
+        var localId = record && record.id;
+        if (localId) {
+          for (var i = hist.length - 1; i >= 0; i--) {
+            if (hist[i].id === localId) {
+              hist[i].dbId = json.id;
+              break;
+            }
+          }
+          _origSetItem.call(localStorage, histKey, JSON.stringify(hist));
+        }
+      } catch(e) { console.warn('[sync.js] dbId 매핑 실패:', e && e.message); }
     })
     .catch(function(err) {
       console.warn('[sync.js] ' + type + ' 저장 오류:', err && err.message);

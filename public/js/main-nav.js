@@ -1098,6 +1098,10 @@ function confirmDelHistory(btn,recordId){
   showDelDialog(name,function(){
     try{
       var hist=JSON.parse(localStorage.getItem('mbts_history'))||[];
+      // dbId 우선: 로컬 record 의 DB uuid 찾기 (filter 전에 확보)
+      var _delRec = null;
+      for (var _di = 0; _di < hist.length; _di++) { if (hist[_di].id === recordId) { _delRec = hist[_di]; break; } }
+      var _serverRecId = (_delRec && _delRec.dbId) ? _delRec.dbId : recordId;
       hist=hist.filter(function(r){return r.id!==recordId;});
       localStorage.setItem('mbts_history',JSON.stringify(hist));
       if(typeof onFortuneTargetHistoryDelete==='function'){
@@ -1108,7 +1112,7 @@ function confirmDelHistory(btn,recordId){
         fetch('/api/delete-result', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: mbtsSession.userId, type: 'saju', recordId: recordId })
+          body: JSON.stringify({ userId: mbtsSession.userId, type: 'saju', recordId: _serverRecId })
         }).then(function(r){ return r.json(); })
           .then(function(j){ if (!j.success) console.warn('[MBTS] 삭제 동기화 실패:', j.error); })
           .catch(function(e){ console.warn('[MBTS] 삭제 동기화 에러:', e && e.message); });
