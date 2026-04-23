@@ -42,22 +42,24 @@ export async function GET(request) {
 
     console.log('[my-results] 유저 확인:', user.id)
 
-    // 사주 결과 조회
+    // 사주 결과 조회 (Gen 3: payload jsonb 기반)
     const { data: sajuResults, error: sajuError } = await supabase
       .from('saju_results')
-      .select('*')
+      .select('id, payload, created_at')
       .eq('user_id', user.id)
+      .not('payload', 'is', null)
       .order('created_at', { ascending: false })
 
     if (sajuError) {
       console.error('[my-results] saju_results 조회 에러:', sajuError)
     }
 
-    // 궁합 결과 조회
+    // 궁합 결과 조회 (Gen 3: payload jsonb 기반)
     const { data: gunghapResults, error: gunghapError } = await supabase
       .from('gunghap_results')
-      .select('*')
+      .select('id, payload, created_at')
       .eq('user_id', user.id)
+      .not('payload', 'is', null)
       .order('created_at', { ascending: false })
 
     if (gunghapError) {

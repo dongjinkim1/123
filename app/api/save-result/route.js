@@ -9,6 +9,17 @@ export async function POST(request) {
     var type = body.type
     var data = body.data || {}
 
+    // Rate limiting (60s / 20 req per identifier) — analyze-v2 와 동일 패턴
+    var rlMod = await import('@/lib/rate-limiter.js')
+    var rl = rlMod.default || rlMod
+    var vercelIp = request.headers.get('x-vercel-forwarded-for')
+    var realIp = request.headers.get('x-real-ip')
+    var rlIdentifier = userId || vercelIp || realIp || 'unknown'
+    var rlResult = await rl.checkRateLimit(supabase, rlIdentifier, 'save-result', 60000, 20)
+    if (!rlResult.allowed) {
+      return Response.json({ error: '요청 한도 초과', retryAfter: rlResult.retryAfter }, { status: 429 })
+    }
+
     if (type === 'saju') {
       var { data: result, error: insertErr } = await supabase
         .from('saju_results')

@@ -15,6 +15,17 @@ export async function POST(request) {
       return Response.json({ success: false, error: 'type과 recordId는 필수입니다' }, { status: 400 })
     }
 
+    // Rate limiting (60s / 10 req per identifier) — save-result 와 동일 패턴
+    var rlMod = await import('@/lib/rate-limiter.js')
+    var rl = rlMod.default || rlMod
+    var vercelIp = request.headers.get('x-vercel-forwarded-for')
+    var realIp = request.headers.get('x-real-ip')
+    var rlIdentifier = userId || vercelIp || realIp || 'unknown'
+    var rlResult = await rl.checkRateLimit(supabase, rlIdentifier, 'delete-result', 60000, 10)
+    if (!rlResult.allowed) {
+      return Response.json({ success: false, error: '요청 한도 초과', retryAfter: rlResult.retryAfter }, { status: 429 })
+    }
+
     var tableName
     if (type === 'saju') {
       tableName = 'saju_results'
