@@ -592,20 +592,30 @@ async function saveEditProfile() {
     return;
   }
 
-  // isMyProfile인 경우 Supabase 및 UI 업데이트
+  // isMyProfile인 경우 users 프로필 업데이트 (API 경유 — service_role + 화이트리스트)
   if (rec.isMyProfile) {
     try {
-      if (typeof supabase !== 'undefined' && mbtsSession && mbtsSession.userId) {
+      if (mbtsSession && mbtsSession.userId) {
         var _a = window._lastAIResult.animal || {};
-        await supabase.from('users').update({
-          nickname: newName.trim(), mbti: newMBTI,
-          birth_year: parseInt(y) || null, birth_month: parseInt(m) || null, birth_day: parseInt(d) || null,
-          birth_hour: ph ? parseInt(ph) : null, birth_min: pmin ? parseInt(pmin) : null,
-          gender: gender, animal_key: _a.oheng ? (_a.oheng + '_' + _a.dominant_sipsung + '_' + _a.condition) : '',
-          ilju: window._lastSaju.P[2].s + window._lastSaju.P[2].b, updated_at: new Date().toISOString()
-        }).eq('id', mbtsSession.userId);
+        var _res = await fetch('/api/update-user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: mbtsSession.userId,
+            fields: {
+              nickname: newName.trim(), mbti: newMBTI,
+              birth_year: parseInt(y) || null, birth_month: parseInt(m) || null, birth_day: parseInt(d) || null,
+              birth_hour: ph ? parseInt(ph) : null, birth_min: pmin ? parseInt(pmin) : null,
+              gender: gender,
+              animal_key: _a.oheng ? (_a.oheng + '_' + _a.dominant_sipsung + '_' + _a.condition) : '',
+              ilju: window._lastSaju.P[2].s + window._lastSaju.P[2].b
+            }
+          })
+        });
+        var _j = await _res.json();
+        if (!_j.success) console.warn('[MBTS] users 업데이트 실패:', _j.error);
       }
-    } catch(e) { console.warn('[MBTS] Supabase 업데이트 실패:', e); }
+    } catch(e) { console.warn('[MBTS] users 업데이트 에러:', e && e.message); }
 
     if (mbtsSession) {
       mbtsSession.nickname = newName.trim();
@@ -778,18 +788,28 @@ async function saveProfileFull() {
   }
 
   try {
-    if (typeof supabase !== 'undefined' && mbtsSession && mbtsSession.userId) {
+    if (mbtsSession && mbtsSession.userId) {
       var _a = window._lastAIResult.animal || {};
-      await supabase.from('users').update({
-        nickname: newName.trim(), mbti: newMBTI,
-        birth_year: parseInt(y) || null, birth_month: parseInt(m) || null, birth_day: parseInt(d) || null,
-        birth_hour: ph ? parseInt(ph) : null, birth_min: pmin ? parseInt(pmin) : null,
-        gender: gender, animal_key: _a.oheng ? (_a.oheng + '_' + _a.dominant_sipsung + '_' + _a.condition) : '',
-        ilju: window._lastSaju.P[2].s + window._lastSaju.P[2].b, updated_at: new Date().toISOString()
-      }).eq('id', mbtsSession.userId);
+      var _res = await fetch('/api/update-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: mbtsSession.userId,
+          fields: {
+            nickname: newName.trim(), mbti: newMBTI,
+            birth_year: parseInt(y) || null, birth_month: parseInt(m) || null, birth_day: parseInt(d) || null,
+            birth_hour: ph ? parseInt(ph) : null, birth_min: pmin ? parseInt(pmin) : null,
+            gender: gender,
+            animal_key: _a.oheng ? (_a.oheng + '_' + _a.dominant_sipsung + '_' + _a.condition) : '',
+            ilju: window._lastSaju.P[2].s + window._lastSaju.P[2].b
+          }
+        })
+      });
+      var _j = await _res.json();
+      if (!_j.success) console.warn('[MBTS] users 업데이트 실패:', _j.error);
       // (saju_results payload 내부 name 은 다음 분석/저장 시 자연 동기화 — Gen 3)
     }
-  } catch(e) { console.warn('[MBTS] Supabase 업데이트 실패:', e); }
+  } catch(e) { console.warn('[MBTS] users 업데이트 에러:', e && e.message); }
 
   if (mbtsSession) {
     mbtsSession.nickname = newName.trim();

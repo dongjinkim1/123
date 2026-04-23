@@ -74,19 +74,27 @@ export async function POST(request) {
       }
     }
 
-    // ===== 2. 사주 결과 =====
+    // ===== 2. 사주 결과 (Gen 3: payload jsonb 기반) =====
     var sajuCount = 0
     var mbtiList = ['INTJ', 'ENFP', 'ISTP', 'ESFJ', 'INFP']
+    var iljuList = ['갑자', '을축', '병인', '정묘', '무진']
     for (var s = 0; s < Math.min(5, userIds.length); s++) {
       try {
         var { error: sErr } = await supabase.from('saju_results').insert({
           user_id: userIds[s],
-          birth_year: 1990 + s,
-          birth_month: (s % 12) + 1,
-          birth_day: (s * 5 % 28) + 1,
-          gender: s % 2 === 0 ? '남' : '여',
-          mbti_type: mbtiList[s],
-          result_summary: mbtiList[s] + ' 사주 분석 (시드)',
+          payload: {
+            mbti: mbtiList[s],
+            ilju: iljuList[s],
+            name: '시드 ' + (s + 1),
+            isMyProfile: false,
+            saju_summary: mbtiList[s] + ' 사주 분석 (시드)',
+            birth: {
+              year: 1990 + s,
+              month: (s % 12) + 1,
+              day: (s * 5 % 28) + 1
+            },
+            gender: s % 2 === 0 ? '남' : '여'
+          },
           created_at: new Date(Date.now() - s * 2 * 86400000).toISOString()
         })
         if (!sErr) sajuCount++
@@ -96,16 +104,18 @@ export async function POST(request) {
       }
     }
 
-    // ===== 3. 궁합 결과 =====
+    // ===== 3. 궁합 결과 (Gen 3: payload jsonb 기반) =====
     var ghCount = 0
     if (userIds.length >= 2) {
       try {
         var { error: gErr } = await supabase.from('gunghap_results').insert({
           user_id: userIds[0],
-          partner_name: '달빛산책자',
-          relation_type: 'lover',
-          total_score: 82,
-          result_summary: '연인 궁합 (시드)',
+          payload: {
+            relType: 'lover',
+            partner: { name: '달빛산책자' },
+            total_score: 82,
+            saju_summary: '연인 궁합 (시드)'
+          },
           created_at: new Date().toISOString()
         })
         if (!gErr) ghCount++

@@ -580,22 +580,30 @@ var MBTSUser = {
   },
 
   sync: function() {
-    if (typeof supabase === 'undefined' || !mbtsSession || !mbtsSession.userId || !window._lastSaju) return;
+    if (!mbtsSession || !mbtsSession.userId || !window._lastSaju) return;
     var s = window._lastSaju;
     var a = (window._lastAIResult && window._lastAIResult.animal) ? window._lastAIResult.animal : {};
     if (!a.oheng) return;
-    supabase.from('users').update({
-      mbti: window._lastMBTI || '',
-      birth_year: parseInt(ST.y) || null,
-      birth_month: parseInt(ST.m) || null,
-      birth_day: parseInt(ST.d) || null,
-      birth_hour: ST.h ? parseInt(ST.h) : null,
-      birth_min: ST.min ? parseInt(ST.min) : null,
-      gender: ST.gender || '',
-      animal_key: a.oheng + '_' + a.dominant_sipsung + '_' + a.condition,
-      ilju: s.P[2].s + s.P[2].b
-    }).eq('id', mbtsSession.userId).then(function(r) {
-      if (r.error) console.warn('[MBTSUser] 동기화 실패:', r.error.message);
+    // users 프로필 동기화 (API 경유 — service_role + 화이트리스트)
+    fetch('/api/update-user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: mbtsSession.userId,
+        fields: {
+          mbti: window._lastMBTI || '',
+          birth_year: parseInt(ST.y) || null,
+          birth_month: parseInt(ST.m) || null,
+          birth_day: parseInt(ST.d) || null,
+          birth_hour: ST.h ? parseInt(ST.h) : null,
+          birth_min: ST.min ? parseInt(ST.min) : null,
+          gender: ST.gender || '',
+          animal_key: a.oheng + '_' + a.dominant_sipsung + '_' + a.condition,
+          ilju: s.P[2].s + s.P[2].b
+        }
+      })
+    }).then(function(r){ return r.json(); }).then(function(j) {
+      if (!j.success) console.warn('[MBTSUser] 동기화 실패:', j.error);
       else console.log('[MBTSUser] 프로필 동기화 완료');
     });
   }
