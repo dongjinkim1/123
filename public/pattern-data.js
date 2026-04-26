@@ -12605,93 +12605,194 @@ var MBTS_PATTERNS = {
 function buildUserTags(saju, gg, dw, mbtiType, intensities) {
   var tags = [];
 
-  // 일간
-  var tgans = ['갑','을','병','정','무','기','경','신','임','계'];
-  if (saju && saju.raw && typeof saju.raw.dg === 'number') {
-    tags.push('dm:' + tgans[saju.raw.dg]);
+  // 1. 일간 (engine.js TGAN_KR 글로벌 사용 — 단일 진실 소스)
+  if (saju && saju.raw && typeof saju.raw.dg === 'number' &&
+      typeof TGAN_KR !== 'undefined') {
+    tags.push('dm:' + TGAN_KR[saju.raw.dg]);
   }
 
-  // 신강도
+  // 2. 신강도 (중화/극신강/극신약 자동 포함)
   if (gg && gg.strengthGrade) {
     var g = gg.strengthGrade;
     tags.push('strength:' + g);
     if (g === '신강' || g === '극신강') tags.push('strength:신강+');
     if (g === '신약' || g === '극신약') tags.push('strength:신약+');
+    tags.push('uses:strength');
   }
 
-  // 격국
+  // 3. 격국 + 종격/패격 (화격은 패턴 데이터 미사용이라 push 안 함)
   if (gg && gg.gyeokgukName) {
     tags.push('gyeokguk:' + gg.gyeokgukName);
     tags.push('uses:gyeokguk');
   }
+  if (gg && gg.isJonggyeok) tags.push('condition:종격');
+  if (gg && gg.isPagyeok) tags.push('condition:패격');
 
-  // 십성 비중
+  // 4. 십성 비중 + 과다·부족 (gg.cnt는 Korean key)
   if (gg && gg.cnt) {
     var ssNames = ['비겁','식상','재성','관성','인성'];
     for (var i = 0; i < ssNames.length; i++) {
-      if (gg.cnt[ssNames[i]] >= 1.5) tags.push('ss:' + ssNames[i]);
-    }
-    // 과다/부족
-    for (var i = 0; i < ssNames.length; i++) {
-      if (gg.cnt[ssNames[i]] >= 3.0) tags.push('condition:excess');
-      if (gg.cnt[ssNames[i]] === 0) tags.push('condition:lack');
+      var c = gg.cnt[ssNames[i]];
+      if (c >= 1.5) tags.push('ss:' + ssNames[i]);
+      if (c >= 3.0) tags.push('condition:excess');
+      if (c === 0) tags.push('condition:lack');
     }
   }
 
-  // 일지 십성
-  if (saju && saju.jiSS && saju.jiSS[2]) {
-    tags.push('pillar:일지');
-    tags.push('ss:' + saju.jiSS[2].ss);
+  // 5. pillar — 4기둥 빈도순 unconditional push (패턴: 시주14/일지90/월지33/년주16)
+  //    + ss는 saju.jiSS 정확한 인덱스로 push (engine.js:471 P 순서 = 년월일시)
+  var pillarMap = ['시주','일지','월지','년주'];
+  for (var i = 0; i < pillarMap.length; i++) {
+    tags.push('pillar:' + pillarMap[i]);
+  }
+  if (saju && saju.jiSS && saju.jiSS.length === 4) {
+    for (var i = 0; i < 4; i++) {
+      if (saju.jiSS[i] && saju.jiSS[i].ss) tags.push('ss:' + saju.jiSS[i].ss);
+    }
+  }
+  // 5b. 월간 (saju.ss[1] = 월간 천간십성 — 패턴 데이터 'pillar:월간' 21회)
+  if (saju && saju.ss && saju.ss[1] && saju.ss[1].ss) {
+    tags.push('pillar:월간');
+    tags.push('ss:' + saju.ss[1].ss);
   }
 
-  // MBTI
+  // 6. unsung (12운성, 4기둥 중복 제거)
+  if (saju && saju.uns && saju.uns.length === 4) {
+    var unsSet = {};
+    for (var i = 0; i < 4; i++) {
+      if (saju.uns[i]) unsSet[saju.uns[i]] = true;
+    }
+    for (var u in unsSet) tags.push('unsung:' + u);
+    tags.push('uses:unsung');
+  }
+
+  // 7. sinsal (이름 정규화: '살' 접미사 제거 — 도화/양인/역마/화개)
+  if (saju && saju.specialSals && saju.specialSals.length > 0) {
+    var sinsalSet = {};
+    for (var i = 0; i < saju.specialSals.length; i++) {
+      var sname = saju.specialSals[i].name;
+      if (!sname) continue;
+      sinsalSet[sname.replace(/살$/, '')] = true;
+    }
+    for (var s in sinsalSet) tags.push('sinsal:' + s);
+  }
+
+  // 8. relation (calcRelations 직접 호출 — engine.js:2050)
+  if (typeof calcRelations === 'function' && saju) {
+    try {
+      var rel = calcRelations(saju);
+      if (rel.cheonganHap && rel.cheonganHap.length > 0) tags.push('relation:천간합');
+      if (rel.jijiHap && rel.jijiHap.length > 0) tags.push('relation:육합');
+      if (rel.jijiSamhap && rel.jijiSamhap.length > 0) tags.push('relation:삼합');
+      if (rel.jijiChung && rel.jijiChung.length > 0) tags.push('relation:충');
+      if (rel.jijiHyung && rel.jijiHyung.length > 0) tags.push('relation:형');
+      if (rel.jijiHae && rel.jijiHae.length > 0) tags.push('relation:해');
+      if (saju.amhap && saju.amhap.length > 0) tags.push('relation:암합');
+    } catch (e) {}
+  }
+
+  // 9. tongbyeon (saju-theory.js:265 + 772의 ssIndiv 정확히 채워서 호출)
+  if (typeof SJ_detectTongbyeon === 'function' && gg && saju) {
+    try {
+      var ssIndiv = (typeof SJ_countIndividualSS === 'function')
+        ? SJ_countIndividualSS(saju)
+        : {};
+      var tongbyeons = SJ_detectTongbyeon(gg, ssIndiv);
+      if (tongbyeons && tongbyeons.length > 0) {
+        for (var i = 0; i < tongbyeons.length; i++) {
+          if (tongbyeons[i].name) tags.push('tongbyeon:' + tongbyeons[i].name);
+        }
+        tags.push('uses:tongbyeon');
+      }
+    } catch (e) {}
+  }
+
+  // 10. 격국 패격 — 효신탈식 텍스트 매처 (engine.js:1083, 1103)
+  if (gg && gg.pagyeokInfo && gg.pagyeokInfo.indexOf('효신탈식') >= 0) {
+    tags.push('tongbyeon:효신탈식');
+  }
+
+  // 11. yongshin (+ 부속 osin/johu uses)
+  if (gg && gg.yongshin) {
+    tags.push('yongshin:' + gg.yongshin);
+    if (gg.yongshinType) tags.push('yongshin_type:' + gg.yongshinType);
+    tags.push('uses:yongshin');
+    tags.push('uses:osin');
+  }
+  if (gg && gg.johuYongshin) tags.push('uses:johu');
+
+  // 12. 교운기 (saju-theory.js:438 SJ_findGyowoongi의 ⚡지금! 마커)
+  if (typeof SJ_findGyowoongi === 'function' && dw && dw.currentAge) {
+    try {
+      var gyo = SJ_findGyowoongi(dw, dw.currentAge);
+      if (gyo && gyo.indexOf('⚡지금!') >= 0) tags.push('condition:교운기');
+    } catch (e) {}
+  }
+
+  // 13. MBTI 기질 + 인지기능 4개 (engine.js:808 TY 글로벌) + 4축 페어 + stress
   if (mbtiType) {
-    // 기질
-    var tmp = mbtiType.substring(1, 3); // NF, NT, SP, SJ
+    var tmp = mbtiType.substring(1, 3);
     if (['NF','NT','SP','SJ'].indexOf(tmp) !== -1) tags.push('temperament:' + tmp);
 
-    // 인지기능 스택 (간이)
-    var stacks = {
-      'INFP':['Fi','Ne','Si','Te'],'ENFP':['Ne','Fi','Te','Si'],
-      'INFJ':['Ni','Fe','Ti','Se'],'ENFJ':['Fe','Ni','Se','Ti'],
-      'INTP':['Ti','Ne','Si','Fe'],'ENTP':['Ne','Ti','Fe','Si'],
-      'INTJ':['Ni','Te','Fi','Se'],'ENTJ':['Te','Ni','Se','Fi'],
-      'ISFP':['Fi','Se','Ni','Te'],'ESFP':['Se','Fi','Te','Ni'],
-      'ISFJ':['Si','Fe','Ti','Ne'],'ESFJ':['Fe','Si','Ne','Ti'],
-      'ISTP':['Ti','Se','Ni','Fe'],'ESTP':['Se','Ti','Fe','Ni'],
-      'ISTJ':['Si','Te','Fi','Ne'],'ESTJ':['Te','Si','Ne','Fi']
-    };
-    var stack = stacks[mbtiType];
-    if (stack) {
-      tags.push('cf:' + stack[0]); // dominant
-      tags.push('cf:' + stack[1]); // auxiliary
+    // 인지기능: TY[type].cf = "Fi-Ne-Si-Te" → split
+    if (typeof TY !== 'undefined' && TY[mbtiType] && TY[mbtiType].cf) {
+      var stack = TY[mbtiType].cf.split('-');
+      tags.push('cf:' + stack[0]);
+      tags.push('cf:' + stack[1]);
+      tags.push('cf:' + stack[2]);
+      tags.push('cf:' + stack[3]);
       tags.push('uses:dominant');
       tags.push('uses:auxiliary');
+      tags.push('uses:tertiary');
+      tags.push('uses:inferior');
     }
 
-    // E/I
+    // 4축 페어 unconditional (단일축 E/I는 패턴 0회 — 제거)
     tags.push('axis:EI');
-    tags.push(mbtiType[0] === 'E' ? 'axis:E' : 'axis:I');
-  }
+    tags.push('axis:SN');
+    tags.push('axis:TF');
+    tags.push('axis:JP');
 
-  // 강도
-  if (intensities) {
-    var axes = ['E','I','S','N','T','F','J','P'];
-    for (var i = 0; i < axes.length; i++) {
-      if (intensities[axes[i]]) {
-        tags.push('uses:intensity');
-        if (intensities[axes[i]] === 88) tags.push('intensity:88');
-        if (intensities[axes[i]] === 68) tags.push('intensity:68');
-        if (intensities[axes[i]] === 55) tags.push('intensity:55');
+    // stress (강도 80%+ 시 grip + loop 동시 push)
+    if (intensities) {
+      var stressAxes = ['E','I','S','N','T','F','J','P'];
+      for (var i = 0; i < stressAxes.length; i++) {
+        if (intensities[stressAxes[i]] && intensities[stressAxes[i]] >= 80) {
+          tags.push('stress:grip');
+          tags.push('stress:loop');
+          break;
+        }
       }
     }
   }
 
-  // 대운
-  if (dw) {
-    tags.push('uses:daewoon');
+  // 14. intensity (패턴은 'intensity:88'만 사용)
+  if (intensities) {
+    var intAxes = ['E','I','S','N','T','F','J','P'];
+    for (var i = 0; i < intAxes.length; i++) {
+      if (intensities[intAxes[i]] && intensities[intAxes[i]] >= 80) {
+        tags.push('intensity:88');
+        tags.push('uses:intensity');
+        break;
+      }
+    }
   }
 
+  // 15. 일주 컨텍스트 (uses:ilju)
+  if (saju && saju.raw &&
+      typeof saju.raw.dg === 'number' && typeof saju.raw.dj === 'number') {
+    tags.push('uses:ilju');
+  }
+
+  // 16. 육친 컨텍스트 (4기둥 천간 ss 모두 있을 때)
+  if (saju && saju.ss && saju.ss.length === 4) {
+    tags.push('uses:yukchin');
+  }
+
+  // 17. 대운 마커
+  if (dw) tags.push('uses:daewoon');
+
+  if (typeof console !== 'undefined') console.log('[TAG-V2]', tags.length, tags);
   return tags;
 }
 
