@@ -12930,6 +12930,7 @@ function buildPatternPrompt(category, userTags) {
       lines.push('- ' + pat.name);
       lines.push('  사주조건: ' + pat.saju);
       lines.push('  MBTI조건: ' + pat.mbti);
+      if (pat.cross) lines.push('  교차해설: ' + pat.cross);
     }
     sections.push(lines.join('\n'));
   }
