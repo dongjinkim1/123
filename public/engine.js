@@ -1408,6 +1408,8 @@ var PREMIUM_SYSTEM = `당신은 대한민국 최정상급 명리학자(실전 60
 단, profile.specialStars 배열에는 전문용어를 그대로 넣으세요. 금지는 본문(b)에만 적용.
 물상 비유는 자유: 촛불, 이슬, 칼날, 바위, 호수, 씨앗, 모닥불 등
 
+전문용어 옆 괄호는 뉘앙스 힌트일 뿐입니다. 그대로 옮기지 마세요. 해당 카드의 맥락과 흐름에 맞게 자기 말로 풀어쓰세요. 같은 용어라도 성격 카드에서와 연애 카드에서 다르게 표현하세요.
+
 ## 카드별 균형 (절대 규칙)
 각 카드 본문에 사주 재료와 MBTI 재료가 자연스럽게 어우러져야 함. 한 카드가 사주만 또는 MBTI만으로 채워지는 것 금지.
 
@@ -2711,6 +2713,53 @@ async function streamSonnet(apiKey, systemPrompt, userMsg, label, callbacks, end
 }
 
 // --- runSajuAnalysis (startAnalysis 변환: ST→params, DOM→callbacks) ---
+var TERM_HINTS = {
+  '편재격': '큰 돈/사업형', '정재격': '안정 관리형',
+  '식신격': '재능/표현형', '상관격': '창의/혁신형',
+  '편관격': '리더/카리스마형', '정관격': '안정 질서형',
+  '편인격': '독창/영감형', '정인격': '학습/보호형',
+  '비견격': '독립/개척형', '겁재격': '승부사/경쟁형',
+  '극신강': '자기 에너지가 압도적',
+  '극신약': '자기 에너지가 매우 약함',
+  '신강': '자기 에너지가 강함',
+  '신약': '자기 에너지가 약함',
+  '중화': '에너지 균형',
+  '재관쌍미': '돈과 명예를 동시에 잡는 구조',
+  '비겁탈재': '경쟁자가 재물을 빼앗는 흐름',
+  '재다신약': '기회는 많은데 잡을 힘이 부족',
+  '식상생재': '재능이 돈으로 연결되는 흐름',
+  '관인상생': '명예와 학습이 서로 도와주는 흐름',
+  '천간충': '에너지 정면충돌/방향 갈등',
+  '음양차착': '겉과 속이 반대인 기운',
+  '무은지형': '은혜가 원수로 돌아오는 구조',
+  '탐합망충': '합이 충을 무력화',
+  '교운기': '대운 전환기/인생 변곡점',
+  '비견': '동료/자기 힘/독립',
+  '겁재': '라이벌/경쟁/승부',
+  '식신': '재능/여유/표현력',
+  '상관': '창의/날카로움/반항',
+  '편재': '큰 돈/투자/사업 감각',
+  '정재': '안정 수입/저축/관리',
+  '편관': '카리스마/압박/강한 힘',
+  '정관': '안정/질서/책임감',
+  '편인': '독창성/영감/비주류',
+  '정인': '학습/보호/멘토',
+  '종격': '한 방향으로 완전히 쏠린 에너지',
+  '공망': '비어있는 자리/허무한 에너지',
+  '득령': '계절의 도움을 받는 상태',
+  '실령': '계절의 도움을 못 받는 상태',
+  '암합': '숨겨진 인연/보이지 않는 연결'
+};
+
+function applyTermHints(text) {
+  var keys = Object.keys(TERM_HINTS).sort(function(a, b) { return b.length - a.length; });
+  keys.forEach(function(term) {
+    var re = new RegExp(term + '(?!\\()', 'g');
+    text = text.replace(re, term + '(' + TERM_HINTS[term] + ')');
+  });
+  return text;
+}
+
 async function runSajuAnalysis(params, callbacks){
   var apiKey = params.apiKey;
   if(!apiKey){ if(callbacks.onError) callbacks.onError("API_KEY_MISSING"); return; }
@@ -3020,6 +3069,8 @@ async function runSajuAnalysis(params, callbacks){
       }
     }
   } catch(e) { console.warn('[MBTS] 패턴 주입 실패:', e); }
+
+  usr = applyTermHints(usr);
 
   /* ====== 1-Pass AI System (v29 복귀) ====== */
   var result;
