@@ -269,35 +269,35 @@ function SJ_detectTongbyeon(gg, ssIndiv) {
 
   // 길(吉)
   if (cnt['식상'] >= 1.5 && cnt['재성'] >= 1.5)
-    result.push({ name:'식상생재', type:'길', desc:'재능을 돈으로 바꾸는 구조. 창작/기술/콘텐츠로 수입' });
+    result.push({ name:'식상생재', type:'길', desc:'표현력→수입 파이프라인/창작·콘텐츠·교육으로 전환 가능' });
   if (cnt['관성'] >= 1.5 && cnt['인성'] >= 1.5)
-    result.push({ name:'살인상생', type:'길', desc:'압박이 지혜로 변하는 구조. 학자·전문가 적성' });
+    result.push({ name:'살인상생', type:'길', desc:'시련→지혜 전환 체질/전문가·학자형 성장 회로' });
   if (cnt['재성'] >= 1.5 && cnt['관성'] >= 1.5)
-    result.push({ name:'재관쌍미', type:'길', desc:'돈과 명예를 동시에 잡는 구조' });
+    result.push({ name:'재관쌍미', type:'길', desc:'재물+명예 동시 포착 가능/두 트랙 병행 체질' });
   if (cnt['인성'] >= 1.5 && cnt['비겁'] >= 1.5)
-    result.push({ name:'인수생비', type:'길', desc:'배움이 힘이 되는 구조' });
+    result.push({ name:'인수생비', type:'길', desc:'학습→내면 강화 회로/배울수록 단단해지는 구조' });
   if ((ssIndiv['식신'] || 0) >= 1 && cnt['관성'] >= 1.5)
-    result.push({ name:'식신제살', type:'길', desc:'재능으로 위기를 넘기는 구조' });
+    result.push({ name:'식신제살', type:'길', desc:'재능이 방패/위기 상황에서 표현력이 돌파구' });
 
   // 흉(凶)
   if (cnt['비겁'] >= 2.0 && cnt['재성'] >= 1.0)
-    result.push({ name:'비겁탈재', type:'흉', desc:'돈이 새는 구조. 동업·보증 절대 금지' });
+    result.push({ name:'비겁탈재', type:'흉', desc:'재물 유출 패턴/공동 사업·보증 리스크 높음/독립 수익 유리' });
   if (cnt['재성'] >= 2.5 && selfRatio < 0.35)
-    result.push({ name:'재다신약', type:'흉', desc:'돈은 보이는데 잡을 힘이 없는 구조' });
+    result.push({ name:'재다신약', type:'흉', desc:'기회 과다+체력 부족/선택과 집중 필수/파트너 활용' });
   if ((ssIndiv['편관'] || 0) >= 1 && (ssIndiv['정관'] || 0) >= 1)
-    result.push({ name:'관살혼잡', type:'흉', desc:'이중 압박. 결단력 필요' });
+    result.push({ name:'관살혼잡', type:'흉', desc:'이중 압박 구조/방향 정리가 핵심 과제' });
   if (cnt['인성'] >= 3.0)
-    result.push({ name:'인성태과', type:'흉', desc:'생각이 너무 많아 행동이 늦음' });
+    result.push({ name:'인성태과', type:'흉', desc:'사고 과잉→행동 지연/실행 트리거 필요' });
   if (cnt['식상'] >= 3.0)
-    result.push({ name:'식상태과', type:'흉', desc:'말/표현이 과해 화를 부름' });
+    result.push({ name:'식상태과', type:'흉', desc:'표현 과잉→구설 리스크/절제가 무기' });
   if (cnt['비겁'] >= 3.0)
-    result.push({ name:'비겁태과', type:'흉', desc:'자존심 과잉. 양보를 모름' });
+    result.push({ name:'비겁태과', type:'흉', desc:'자존심 과열/협업에서 마찰/양보가 성장 포인트' });
   if (cnt['재성'] >= 3.0)
-    result.push({ name:'재성태과', type:'흉', desc:'돈에 집착. 인간관계 소홀' });
+    result.push({ name:'재성태과', type:'흉', desc:'재물 집착 경향/관계 균형 필요' });
   if (cnt['관성'] >= 3.0)
-    result.push({ name:'관성태과', type:'흉', desc:'스트레스 과다. 자유 억압' });
+    result.push({ name:'관성태과', type:'흉', desc:'외부 압박 과다/자기 공간 확보가 생존 전략' });
   if ((ssIndiv['상관'] || 0) >= 1 && (ssIndiv['정관'] || 0) >= 1)
-    result.push({ name:'상관견관', type:'흉', desc:'규칙 vs 자유의 내면 갈등' });
+    result.push({ name:'상관견관', type:'흉', desc:'체제 vs 자유 내면 충돌/독립적 환경에서 발휘' });
   if (cnt['식상'] >= 1.5 && cnt['인성'] >= 1.5)
     result.push({ name:'상관패인', type:'반길반흉', desc:'파격적 창의력. 천재와 괴짜의 경계' });
   if (cnt['재성'] >= 1.5 && cnt['관성'] >= 1.5 && cnt['인성'] < 0.5)
@@ -492,7 +492,7 @@ function SJ_checkSamhyung(saju) {
       name: '무은지형(인사신)',
       type: inSaSinFound.length >= 3 ? '완전체' : '부분체',
       where: inSaSinFound.join(', '),
-      desc: '은혜를 원수로 갚는 형국. 보증 금지',
+      desc: '은혜↔배신 에너지/신뢰 관계에서 반전 리스크',
       health: '화상, 교통사고, 수술'
     });
   }
@@ -1173,7 +1173,7 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
       if (sjData.tongbyeons[t].name === '비겁탈재') hasBGTR = true;
     }
     if (hasSSJR && hasBGTR) {
-      points.push('"혼자 벌면 대박, 동업하면 쪽박. 파트너 선택이 인생을 가름" (식상생재+비겁탈재)');
+      points.push('재능 수익+재물 유출 동시 구조 → 독립 vs 협업 선택이 핵심');
     }
   }
 
@@ -1181,7 +1181,7 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
 
   // 3. 교운기 임박
   if (sjData.gyowoongiText && sjData.gyowoongiText.indexOf('지금!') >= 0) {
-    points.push('"지금이 인생 최대 전환점. 삶의 방향이 바뀌는 중" (교운기 임박)');
+    points.push('대운 전환기 진입 → 방향 재설정 시점');
   }
 
   // 4. 12운성 반전: 일지 사/절/묘 + 배우자 정재/정관
@@ -1190,7 +1190,7 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
     if ((iljiUns === '사' || iljiUns === '절' || iljiUns === '묘') && saju.jiSS && saju.jiSS[2]) {
       var spSS = saju.jiSS[2].ss;
       if (spSS === '정재' || spSS === '정관') {
-        points.push('"배우자궁은 약한데 배우자 에너지는 좋음. 만남이 늦지만 만나면 깊음" (12운성 반전)');
+        points.push('배우자궁 약+배우자 에너지 길 → 늦되 깊은 인연 구조');
       }
     }
   }
@@ -1204,9 +1204,9 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
       if (oLines[ol].indexOf('세운') >= 0) seLine = oLines[ol];
     }
     if (seLine.indexOf('기신') >= 0 && dwLine.indexOf('희신') >= 0) {
-      points.push('"큰 흐름은 좋은데 올해만 조심. 인내가 답" (세운기신+대운희신)');
+      points.push('대운 길+세운 흉 → 올해 인내/큰 흐름 신뢰');
     } else if (seLine.indexOf('희신') >= 0 && dwLine.indexOf('기신') >= 0) {
-      points.push('"큰 흐름은 나쁜데 올해는 기회. 올해 안에 움직여라" (세운희신+대운기신)');
+      points.push('대운 흉+세운 길 → 올해가 윈도우/신속 실행');
     }
   }
 
@@ -1214,7 +1214,7 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
   if (sjData.gongmangText && sjData.gongmangText.indexOf('월지') >= 0 && sjData.tongbyeons) {
     for (var t2 = 0; t2 < sjData.tongbyeons.length; t2++) {
       if (sjData.tongbyeons[t2].name === '식상생재') {
-        points.push('"직장은 안 맞는데 자기 사업하면 대박나는 구조" (월지공망+식상생재)');
+        points.push('월지 공망+재능 수익 구조 → 조직보다 독립형 수익이 유리');
         break;
       }
     }
@@ -1224,7 +1224,7 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
   if (sjData.hapTriggerText) {
     var curY = new Date().getFullYear();
     if (sjData.hapTriggerText.indexOf(curY + '년') >= 0 && sjData.hapTriggerText.indexOf('용신') >= 0) {
-      points.push('"올해 에너지가 폭발. 인생 최고의 기회" (삼합 트리거+용신)');
+      points.push('삼합 트리거+용신 활성 → 올해 에너지 폭발 타이밍');
     }
   }
 
@@ -1232,7 +1232,7 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
   if (saju.uns && saju.uns[2] === '건록') {
     var dohwa8 = SJ_getDohwa(r.dj);
     if (dohwa8 >= 0 && r.dj === dohwa8) {
-      points.push('"매력적이면서 독립적. 쉽게 안 넘어가는 매력" (도화+건록)');
+      points.push('이성 흡인력+자기 주도 에너지 공존 → 독립적 매력');
     }
   }
 
@@ -1244,7 +1244,7 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
       if (olbl.indexOf('기신') >= 0 || olbl.indexOf('구신') >= 0) {
         var hd = SJ_HEALTH_OH[lackOh];
         if (hd) {
-          points.push('"' + hd.organ + ' 건강 특별히 주의. 부족오행이 흉신" (건강 경고)');
+          points.push(hd.organ + ' 건강 리스크/부족오행이 흉신 → 예방 집중');
           break;
         }
       }
@@ -1253,7 +1253,7 @@ function SJ_generateKillingPoints(saju, gg, sjData) {
 
   // 10. 연애 타이밍 집중: ★★★
   if (sjData.loveTimingText && sjData.loveTimingText.indexOf('★★★') >= 0) {
-    points.push('"가까운 시일 내 인생 최대 연애/결혼 타이밍" (연애 타이밍 집중)');
+    points.push('연애·결혼 에너지 최고조 구간 진입');
   }
 
   if (points.length > 5) points = points.slice(0, 5);
