@@ -1457,7 +1457,7 @@ _blueprint를 완성한 후에만 categories 본문을 쓰세요.
 
 ## 작성 규칙
 - 각 카드는 _blueprint의 패턴 하나로 시작하세요. 그 패턴이 이 사람에게 왜 해당되는지를 사주/MBTI 데이터로 풀어주세요. 패턴 없이 enrichment만으로 쓴 카드는 깊이가 없는 카드입니다.
-- 각 소주제에서 핵심 포인트 4개 골라서 깊게 풀이하세요. 나열하지 마세요.
+- 각 소주제에서 핵심 패턴 4개 골라서 깊게 풀이하세요. 나열하지 마세요.
 - 끝낼 곳에서 끝내세요.
 
 ## 인사이트/처방
@@ -1883,7 +1883,6 @@ function buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbti
       if (ghPatternText) {
         p += '\n\n## ★★ 교차 패턴 — 풀이의 뼈대 (이것을 중심으로 풀이하세요) ★★\n' +
           '아래 패턴이 이 사람의 사주×MBTI 교차에서 도출된 핵심 특성이다.\n' +
-          '각 카드에서 해당하는 패턴 4개를 골라 풀이의 뼈대로 사용하라.\n' +
           '해당하지 않는 것은 무시하라.\n\n' +
           ghPatternText + '\n';
       }
@@ -3062,7 +3061,6 @@ async function runSajuAnalysis(params, callbacks){
         usr = usr.replace('JSON으로 출력하세요.',
           '\n\n## ★★ 교차 패턴 — 풀이의 뼈대 (이것을 중심으로 풀이하세요) ★★\n' +
           '아래 패턴이 이 사람의 사주×MBTI 교차에서 도출된 핵심 특성이다.\n' +
-          '각 카드에서 해당하는 패턴 4개를 골라 풀이의 뼈대로 사용하라.\n' +
           '해당하지 않는 것은 무시하라.\n\n' +
           patternText +
           '\n\nJSON으로 출력하세요.');
