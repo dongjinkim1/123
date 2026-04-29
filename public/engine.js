@@ -1387,7 +1387,7 @@ var PREMIUM_SYSTEM = `당신은 대한민국 최정상급 명리학자(실전 60
 의뢰인의 사주팔자와 MBTI를 교차 분석하여, "어? 이거 내 얘기인데?" 하고 소름 돋는 풀이를 만드세요.
 
 ## 입력 데이터 활용 (핵심)
-유저 프롬프트에 다음 데이터가 들어옵니다. 모두 풀이의 재료로 적극 활용하세요:
+유저 프롬프트에 다음 데이터가 들어옵니다. 교차 패턴을 중심으로, 나머지는 참고 자료로 활용하세요:
 - 사주 원국 (오행·격국·용신·합충형·12운성·신살)
 - MBTI 강도별 행동 프로파일 (4축별 성향·연애·직업·번아웃)
 - MBTI 이론 심층 데이터 (인지기능 발달·스트레스 모델 등)
@@ -1879,9 +1879,9 @@ function buildGunghapUserPrompt(ghResult, sajuA, sajuB, dwA, dwB, ggA, ggB, mbti
       var ghCat = ghCatMap[relType] || 'lover';
       var ghPatternText = buildPatternPrompt(ghCat, combinedTags);
       if (ghPatternText) {
-        p += '\n\n## 교수 토론 교차 패턴\n' +
-          '아래는 이 소주제에 대한 교수 토론 중 나온 패턴들이다.\n' +
-          '위 theory 데이터를 기준으로 이 중 실제로 해당하는 3~4개만 골라서 풀이에 녹여라.\n' +
+        p += '\n\n## ★★ 교차 패턴 — 풀이의 뼈대 (이것을 중심으로 풀이하세요) ★★\n' +
+          '아래 패턴이 이 사람의 사주×MBTI 교차에서 도출된 핵심 특성이다.\n' +
+          '각 카드에서 해당하는 패턴 4개를 골라 풀이의 뼈대로 사용하라.\n' +
           '해당하지 않는 것은 무시하라.\n\n' +
           ghPatternText + '\n';
       }
@@ -2975,7 +2975,7 @@ async function runSajuAnalysis(params, callbacks){
   }
 
   // ★★★ Level A: 해석 맥락 섹션 조립 ★★★
-  var contextSection = '\n\n## ★★ AI를 위한 해석 맥락 (이것을 참고하여 풀이하세요) ★★\n';
+  var contextSection = '\n\n## 해석 맥락 (참고용)\n';
 
   if (gungwiCtx.spouse) contextSection += gungwiCtx.spouse + '\n';
   if (gungwiCtx.career) contextSection += gungwiCtx.career + '\n';
@@ -2998,8 +2998,8 @@ async function runSajuAnalysis(params, callbacks){
     var theorySaju = (typeof SJ_buildFullContext === 'function') ? SJ_buildFullContext(saju, gg, dw, (params.gender === '남성' || params.gender === '남') ? '남' : '여') : '';
     if (theoryMBTI || theorySaju) {
       usr = usr.replace('JSON으로 출력하세요.',
-        '\n\n## MBTI 이론 심층 데이터 (교차 분석에 반드시 활용)\n' + theoryMBTI +
-        '\n\n## 사주 이론 심층 데이터 (교차 분석에 반드시 활용)\n' + theorySaju +
+        '\n\n## MBTI 이론 참고 (필요 시에만)\n' + theoryMBTI +
+        '\n\n## 사주 이론 참고 (필요 시에만)\n' + theorySaju +
         '\n\nJSON으로 출력하세요.');
     }
   } catch(e) { console.warn('[MBTS] Theory 주입 실패:', e); }
@@ -3011,9 +3011,9 @@ async function runSajuAnalysis(params, callbacks){
       var patternText = buildPatternPrompt('premium', userTags);
       if (patternText) {
         usr = usr.replace('JSON으로 출력하세요.',
-          '\n\n## 교수 토론 교차 패턴\n' +
-          '아래는 이 소주제에 대한 교수 토론 중 나온 패턴들이다.\n' +
-          '위 theory 데이터를 기준으로 이 중 실제로 해당하는 3~4개만 골라서 풀이에 녹여라.\n' +
+          '\n\n## ★★ 교차 패턴 — 풀이의 뼈대 (이것을 중심으로 풀이하세요) ★★\n' +
+          '아래 패턴이 이 사람의 사주×MBTI 교차에서 도출된 핵심 특성이다.\n' +
+          '각 카드에서 해당하는 패턴 4개를 골라 풀이의 뼈대로 사용하라.\n' +
           '해당하지 않는 것은 무시하라.\n\n' +
           patternText +
           '\n\nJSON으로 출력하세요.');
