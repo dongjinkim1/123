@@ -247,7 +247,7 @@ async function processJob(jobId, prompts, inputParams, ai) {
     const stream = client.messages.stream({
       model: MODEL,
       max_tokens: 30000,
-      temperature: 0.6,
+      temperature: 0.4,
       system: finalSystemPrompt,
       messages: [{ role: 'user', content: prompts.userPrompt }]
     })
