@@ -2770,6 +2770,7 @@ var TERM_HINTS = {
 };
 
 function applyTermHints(text) {
+  text = text.replace(/\([一-龥]+\)/g, '');
   var keys = Object.keys(TERM_HINTS).sort(function(a, b) { return b.length - a.length; });
   keys.forEach(function(term) {
     var re = new RegExp(term + '(?!\\()', 'g');
