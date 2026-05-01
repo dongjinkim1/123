@@ -300,6 +300,7 @@ function initLogin() {
       } else {
         console.log('[MBTS] 기존 세션 만료');
         clearSession();
+        if (typeof go === 'function') go('pgLanding');
       }
     });
   }

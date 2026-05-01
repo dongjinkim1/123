@@ -900,7 +900,7 @@ function go(id,skipPush){
   pg.style.display=flexPages.indexOf(id)>=0?'flex':'block';
   pg.classList.add('active');
   // ── 글로벌 네비바 show/hide + active 상태 ──
-  var _hideNavPages=['pgLogin','pgBirth','pgMBTI','pgLoad','pgGhLoad','pgChat','pgLanding','pgEditProfile'];
+  var _hideNavPages=['pgLogin','pgBirth','pgMBTI','pgLoad','pgGhLoad','pgChat','pgLanding','pgEditProfile','pgSplash'];
   var _gNav=document.getElementById('globalBottomNav');
   if(_gNav){
     _gNav.style.display=_hideNavPages.indexOf(id)>=0?'none':'flex';

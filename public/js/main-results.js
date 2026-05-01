@@ -2627,7 +2627,8 @@ setTimeout(async function() {
     await MBTSUser.load();
     await MBTSUser.loadHistory();
     cleanupMyProfile();
-    go('pgDash');
+    if (!window._splashRouted) go('pgDash');
+    window._splashRouted = false;
     if (typeof renderSaveCards === 'function') setTimeout(renderSaveCards, 200);
     if (typeof updateLoginUI === 'function') updateLoginUI();
     if (typeof updateHomeProfile === 'function') setTimeout(updateHomeProfile, 100);

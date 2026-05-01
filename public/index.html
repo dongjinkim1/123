@@ -51,8 +51,21 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
 <div class="stars" id="stars"></div>
 
+<!-- SPLASH: 세션 확인 전 기본 화면 -->
+<div class="page active" id="pgSplash" style="display:flex;align-items:center;justify-content:center">
+  <div style="text-align:center">
+    <div class="landing-logo logo">
+      <span class="m">M</span><span class="b">B</span>
+      <span class="t">T</span><span class="s">S</span>
+    </div>
+    <div style="margin-top:20px;opacity:.5">
+      <div style="width:24px;height:24px;border:2px solid #e0d8f0;border-top:2px solid #8B6CC1;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto"></div>
+    </div>
+  </div>
+</div>
+
 <!-- PAGE 1: LANDING -->
-<div class="page active" id="pgLanding">
+<div class="page" id="pgLanding">
   <div class="landing">
     <div class="landing-logo logo"><span class="m">M</span><span class="b">B</span><span class="t">T</span><span class="s">S</span></div>
     <div class="landing-sub">My Birth Time Story</div>
@@ -1192,6 +1205,42 @@ if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
   <div class="bnav" id="gnav-more" onclick="goNav(this,'pgMore')"><div class="bnav-icon bnav-more">•••</div><span>더보기</span></div>
 </div>
 
+<script>
+/* 조기 세션 감지 — 무거운 JS 로드 전에 실행 */
+(function(){
+  try {
+    var splash = document.getElementById('pgSplash');
+    if (window.location.search.indexOf('s=') >= 0) return;
+
+    var raw = localStorage.getItem('mbts_session');
+    if (raw) {
+      var s = JSON.parse(raw);
+      if (s && s.userId) {
+        splash.classList.remove('active'); splash.style.display = 'none';
+        var dash = document.getElementById('pgDash');
+        dash.classList.add('active'); dash.style.display = 'block';
+        var nk = s.nickname || '사용자';
+        var bl = s.cloverBalance || 0;
+        document.querySelectorAll('.user-nickname-display').forEach(function(el){ el.textContent = nk; });
+        document.querySelectorAll('.clover-balance-display').forEach(function(el){ el.textContent = bl; });
+        var nav = document.getElementById('globalBottomNav');
+        if (nav) nav.style.display = 'flex';
+        window._splashRouted = true;
+        return;
+      }
+    }
+    splash.classList.remove('active'); splash.style.display = 'none';
+    var landing = document.getElementById('pgLanding');
+    landing.classList.add('active'); landing.style.display = 'block';
+  } catch(e) {
+    try {
+      document.getElementById('pgSplash').style.display = 'none';
+      var l = document.getElementById('pgLanding');
+      l.classList.add('active'); l.style.display = 'block';
+    } catch(e2) {}
+  }
+})();
+</script>
 <script src="login.js"></script>
 <script src="/js/bundle.js"></script>
 

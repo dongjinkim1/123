@@ -1769,3 +1769,5 @@ button{font-family:inherit;cursor:pointer}
 .prog-bottom-pill.done { border-color: rgba(76,175,125,0.2); }
 .prog-bottom-pill.done .prog-bottom-text { color: #4CAF7D; font-weight: 600; }
 .prog-bottom-pill.done .prog-dots span.filled { background: #4CAF7D; }
+
+@keyframes spin{to{transform:rotate(360deg)}}
