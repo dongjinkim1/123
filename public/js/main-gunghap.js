@@ -332,8 +332,29 @@ async function _runGunghapAnalysis(){
       var _cachedText = _ghData.result.text;
       var _cachedAI = null;
       try { _cachedAI = JSON.parse(_cachedText); } catch(e) {
-        var _fb = _cachedText.indexOf('{'), _lb = _cachedText.lastIndexOf('}');
-        if (_fb >= 0 && _lb > _fb) try { _cachedAI = JSON.parse(_cachedText.substring(_fb, _lb+1)); } catch(e2) {}
+        var _fb2=_cachedText.indexOf('{'),_lb2=_cachedText.lastIndexOf('}');
+        if(_fb2>=0&&_lb2>_fb2) try{_cachedAI=JSON.parse(_cachedText.substring(_fb2,_lb2+1));}catch(e2){}
+        if(!_cachedAI){
+          var _lines=_cachedText.split('\n'),_si2=-1,_ei2=-1;
+          for(var _li=0;_li<_lines.length;_li++){
+            if(_si2<0&&_lines[_li].trim().charAt(0)==='{')_si2=_li;
+            if(_lines[_li].trim().charAt(0)==='}'||_lines[_li].trim().slice(-1)==='}')_ei2=_li;
+          }
+          if(_si2>=0&&_ei2>=_si2)try{_cachedAI=JSON.parse(_lines.slice(_si2,_ei2+1).join('\n'));}catch(e3){}
+        }
+        // 4차: 제어문자 제거
+        if(!_cachedAI){
+          var _san=_cachedText.substring(_fb2>=0?_fb2:0,(_lb2>0?_lb2+1:_cachedText.length));
+          _san=_san.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});
+          try{_cachedAI=JSON.parse(_san);}catch(e4){}
+        }
+        // 5차: 괄호 복구
+        if(!_cachedAI){
+          var _rep=_cachedText.substring(_fb2>=0?_fb2:0);
+          var _oB=(_rep.match(/{/g)||[]).length,_cB=(_rep.match(/}/g)||[]).length;
+          if(_oB>_cB) _rep+=('}'.repeat(_oB-_cB));
+          try{_cachedAI=JSON.parse(_rep);}catch(e5){}
+        }
       }
       if (_cachedAI) {
         go('pgGhRes');

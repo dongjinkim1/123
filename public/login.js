@@ -13,12 +13,22 @@ var mbtsSession = {
 
 // ── 세션 저장/불러오기 ──
 function saveSession(data) {
+  // 기존 세션의 signedUpAt/isNew 보존 (grace period 유지)
+  try {
+    var existing = JSON.parse(localStorage.getItem('mbts_session') || 'null');
+    if (existing) {
+      if (existing.signedUpAt && !data.signedUpAt) data.signedUpAt = existing.signedUpAt;
+      if (existing.isNew !== undefined && data.isNew === undefined) data.isNew = existing.isNew;
+    }
+  } catch(e) {}
   mbtsSession.userId = data.userId || data.user_id || null;
   mbtsSession.kakaoId = data.kakaoId || data.kakao_id || null;
   mbtsSession.nickname = data.nickname || '사용자';
   mbtsSession.profileImage = data.profileImage || data.profile_image || null;
   mbtsSession.provider = data.provider || 'kakao';
   mbtsSession.cloverBalance = data.cloverBalance || data.clover_balance || 0;
+  if (data.signedUpAt) mbtsSession.signedUpAt = data.signedUpAt;
+  if (data.isNew !== undefined) mbtsSession.isNew = data.isNew;
   try {
     localStorage.setItem('mbts_session', JSON.stringify(mbtsSession));
   } catch (e) {
@@ -142,7 +152,9 @@ function doTestLogin() {
         kakaoId: u.kakaoId,
         nickname: u.nickname || '테스트유저',
         provider: 'test',
-        cloverBalance: u.cloverBalance || 0
+        cloverBalance: u.cloverBalance || 0,
+        signedUpAt: Date.now(),
+        isNew: !!(data && data.isNew === true)
       });
       onLoginSuccess();
     } else {
