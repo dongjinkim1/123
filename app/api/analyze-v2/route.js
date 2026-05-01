@@ -66,6 +66,45 @@ export async function POST(request) {
       return Response.json({ error: '요청 한도 초과', retryAfter }, { status: 429 })
     }
 
+    // result caching — same input within 7 days returns cached result
+    // M6: include userId in the hash so users never read each other's job rows.
+    // Guest (no userId) cache is still shared but scoped under 'guest'.
+    const cacheUser = userId || 'guest'
+    const inputKey = JSON.stringify({u:cacheUser,y:+y,m:+m,d:+d,h:h?+h:null,min:min?+min:null,gender,mbtiChoices,mbtiIntensities:mbtiIntensities||[60,60,60,60]})
+    const inputHash = createHash('sha256').update(inputKey).digest('hex').slice(0, 32)
+
+    // M9: dedupe concurrent requests — same inputHash already processing in last 30s
+    const since30s = new Date(Date.now() - 30*1000).toISOString()
+    const { data: pending } = await supabase
+      .from('analysis_jobs')
+      .select('id, status')
+      .eq('input_hash', inputHash)
+      .in('status', ['processing','pending'])
+      .gte('created_at', since30s)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (pending && pending.id) {
+      console.log('[analyze-v2] dedupe hit — returning existing jobId:', pending.id)
+      return Response.json({ jobId: pending.id, status: 'created', dedup: true })
+    }
+
+    const { data: cached } = await supabase
+      .from('analysis_jobs')
+      .select('id, result')
+      .eq('input_hash', inputHash)
+      .eq('status', 'done')
+      .gte('created_at', new Date(Date.now() - 7*24*60*60*1000).toISOString())
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (cached && cached.result) {
+      console.log('[analyze-v2] cache hit:', inputHash)
+      return Response.json({ jobId: cached.id, status: 'done', result: cached.result, cached: true })
+    }
+
     // Stage 2B — 서버측 atomic 차감 (optimistic concurrency)
     // 김동진 TEST BYPASS 유지 (테스트 편의). 런칭 직전 별도 제거 예정.
     const COST = 15
@@ -131,45 +170,6 @@ export async function POST(request) {
         type: 'saju',
         description: '사주 분석',
       })
-    }
-
-    // result caching — same input within 7 days returns cached result
-    // M6: include userId in the hash so users never read each other's job rows.
-    // Guest (no userId) cache is still shared but scoped under 'guest'.
-    const cacheUser = userId || 'guest'
-    const inputKey = JSON.stringify({u:cacheUser,y:+y,m:+m,d:+d,h:h?+h:null,min:min?+min:null,gender,mbtiChoices,mbtiIntensities:mbtiIntensities||[60,60,60,60]})
-    const inputHash = createHash('sha256').update(inputKey).digest('hex').slice(0, 32)
-
-    // M9: dedupe concurrent requests — same inputHash already processing in last 30s
-    const since30s = new Date(Date.now() - 30*1000).toISOString()
-    const { data: pending } = await supabase
-      .from('analysis_jobs')
-      .select('id, status')
-      .eq('input_hash', inputHash)
-      .in('status', ['processing','pending'])
-      .gte('created_at', since30s)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle()
-
-    if (pending && pending.id) {
-      console.log('[analyze-v2] dedupe hit — returning existing jobId:', pending.id)
-      return Response.json({ jobId: pending.id, status: 'created', dedup: true })
-    }
-
-    const { data: cached } = await supabase
-      .from('analysis_jobs')
-      .select('id, result')
-      .eq('input_hash', inputHash)
-      .eq('status', 'done')
-      .gte('created_at', new Date(Date.now() - 7*24*60*60*1000).toISOString())
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle()
-
-    if (cached && cached.result) {
-      console.log('[analyze-v2] cache hit:', inputHash)
-      return Response.json({ jobId: cached.id, status: 'done', result: cached.result, cached: true })
     }
 
     // server-side prompt build
