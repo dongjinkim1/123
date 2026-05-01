@@ -336,6 +336,8 @@ async function _runGunghapAnalysis(){
     var _ghMsgs = ['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...','오행 보완 관계를 읽습니다...','인지기능 궁합 탐색...','연애 케미를 계산합니다...','갈등 패턴을 분석합니다...','장기 전망을 그립니다...','두 사람의 이야기를 쓰고 있습니다...'];
 
     var _ghLastProgress = 0;
+    var _ghRenderedSubCount = 0;
+    var _ghPageInitialized = false;
     var _ghHardDeadline = Date.now() + 900000; // M12: 15-min hard cap
     var _ghUidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var aiText = await new Promise(function(resolve, reject) {
@@ -370,9 +372,63 @@ async function _runGunghapAnalysis(){
             _ghPollStart = Date.now();
           }
 
+          // ── progressive sub 렌더링 ──
+          if (data.partial_subs && data.partial_subs.length > _ghRenderedSubCount) {
+            if (!_ghPageInitialized) {
+              _ghPageInitialized = true;
+              go('pgGhRes');
+              var _progEl = document.getElementById('ghResContent');
+              if (_progEl) {
+                var _cat = (window.GH_CATEGORIES && window.GH_CATEGORIES[ghRel]) || {label:'궁합',emoji:'💕',scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'업무'}};
+                var _sc = ghResult ? ghResult.scores : {};
+                var _ph = '<div class="res-wrap">';
+                _ph += '<div style="padding:16px 16px 0"><button onclick="history.back()" style="background:none;border:none;font-size:15px;color:var(--purple);cursor:pointer;padding:4px 0;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:4px"><span style="font-size:18px">←</span> 뒤로</button></div>';
+                if (typeof _buildGhHeader === 'function') {
+                  _ph += _buildGhHeader(sajuA, sajuB, mbtiObjA, mbtiObjB, null, null, ghRel, _sc);
+                }
+                _ph += '<div id="gh-prog-sub-container"></div>';
+                _ph += '<div id="gh-prog-skeleton" class="r-sub prog-sub-card" style="text-align:center;padding:20px;color:var(--text-3);font-size:13px"><span class="load-dots"><span></span><span></span><span></span></span> 풀이를 펼치는 중</div>';
+                _ph += '<div id="gh-prog-cta" style="display:none;padding:20px">';
+                _ph += '<button onclick="go(\'pgDash\')" class="r-cta-btn" style="background:rgba(232,69,60,.1);color:#E8453C">💕 새 궁합 보기</button>';
+                _ph += '<button onclick="shareResult()" class="r-cta-btn" style="background:#FEE500;color:#191919">💬 카카오 공유</button>';
+                _ph += '<p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-3)">본 풀이는 참고용 분석이며, 개인의 의사결정을 대체하지 않습니다.</p>';
+                _ph += '</div></div>';
+                _progEl.innerHTML = _ph;
+                setTimeout(function(){ var _cards = _progEl.querySelectorAll('.prog-sub-card'); for(var _ci=0;_ci<_cards.length;_ci++) _cards[_ci].classList.add('revealed'); }, 100);
+              }
+            }
+            var _container = document.getElementById('gh-prog-sub-container');
+            if (_container) {
+              for (var _si = _ghRenderedSubCount; _si < data.partial_subs.length; _si++) {
+                var _sub = data.partial_subs[_si];
+                var _subH = _sub.h || '';
+                var _subB = _sub.b || (_sub.content ? (_sub.content + (_sub.insightText ? ('\n\n' + (_sub.insightIcon||'💊') + ' ' + _sub.insightText) : '')) : '');
+                var _bodyHtml = (typeof renderSubBody === 'function') ? renderSubBody(_subB) : _subB.replace(/\n\n/g, '<br><br>');
+                var _card = document.createElement('div');
+                _card.className = 'r-sub prog-sub-card';
+                _card.innerHTML = '<div class="r-sub-h">' + _subH + '</div><div class="r-sub-b">' + _bodyHtml + '</div>';
+                _container.appendChild(_card);
+                setTimeout((function(c){ return function(){ c.classList.add('revealed'); }; })(_card), 50);
+              }
+              var _skel = document.getElementById('gh-prog-skeleton');
+              if (_skel) _container.parentNode.insertBefore(_skel, _container.nextSibling);
+            }
+            _ghRenderedSubCount = data.partial_subs.length;
+            _ghPollStart = Date.now();
+            if (data.progress) {
+              bar.style.width = Math.max(data.progress, fakePct) + '%';
+            }
+          }
+
           if (data.status === 'done' && data.result && data.result.text) {
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
+            if (_ghPageInitialized) {
+              var _skelDone = document.getElementById('gh-prog-skeleton');
+              if (_skelDone) _skelDone.style.display = 'none';
+              var _ctaDone = document.getElementById('gh-prog-cta');
+              if (_ctaDone) _ctaDone.style.display = 'block';
+            }
             resolve(data.result.text);
           } else if (data.status === 'failed') {
             clearInterval(_ghTimer);
@@ -463,7 +519,16 @@ async function _runGunghapAnalysis(){
       if(window._ghLoadTimeouts) window._ghLoadTimeouts.forEach(clearTimeout);
       await new Promise(function(resolve){setTimeout(resolve,1200);});
       go('pgGhRes');
-      fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);
+      if (!_ghPageInitialized) {
+        fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);
+      } else {
+        try {
+          if (aiResult && aiResult.quote) {
+            var _quoteEl = document.querySelector('#ghResContent .prog-sub-card[style*="border-left"]');
+            if (_quoteEl) _quoteEl.innerHTML = '"' + aiResult.quote + '"';
+          }
+        } catch(e) {}
+      }
     }
 
     // 궁합 결과 localStorage 저장
