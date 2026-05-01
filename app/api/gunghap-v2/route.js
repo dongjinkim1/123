@@ -78,13 +78,13 @@ export async function POST(request) {
     const inputHash = createHash('sha256').update(inputKey).digest('hex').slice(0, 32)
 
     // dedupe: 동일 입력 30초 이내 처리 중이면 기존 jobId 반환
-    const since30s = new Date(Date.now() - 30*1000).toISOString()
+    const since5m = new Date(Date.now() - 5*60*1000).toISOString()
     const { data: pending } = await supabase
       .from('analysis_jobs')
       .select('id, status')
       .eq('input_hash', inputHash)
       .in('status', ['processing','pending'])
-      .gte('created_at', since30s)
+      .gte("created_at", since5m)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle()
@@ -142,25 +142,32 @@ export async function POST(request) {
 
       let finalBalance = null
       if (updErr || !updated) {
-        // 충돌 — 1회 재시도
-        const { data: u2 } = await supabase.from('users').select('clover_balance').eq('id', userId).maybeSingle()
-        if (!u2) return Response.json({ error: 'User not found' }, { status: 404 })
-        const cb2 = u2.clover_balance || 0
-        if (cb2 < COST) {
-          return Response.json({ error: '클로버 부족', balance: cb2 }, { status: 402 })
+        // 충돌 — 최대 3회 재시도
+        let retrySuccess = false
+        let retryBalance = null
+        for (let attempt = 0; attempt < 3; attempt++) {
+          const { data: uR } = await supabase.from('users').select('clover_balance').eq('id', userId).maybeSingle()
+          if (!uR) return Response.json({ error: 'User not found' }, { status: 404 })
+          const cbR = uR.clover_balance || 0
+          if (cbR < COST) return Response.json({ error: '클로버 부족', balance: cbR }, { status: 402 })
+          const nbR = cbR - COST
+          const { data: updR, error: errR } = await supabase
+            .from('users')
+            .update({ clover_balance: nbR })
+            .eq('id', userId)
+            .eq('clover_balance', cbR)
+            .select('clover_balance')
+            .maybeSingle()
+          if (!errR && updR) {
+            retryBalance = updR.clover_balance
+            retrySuccess = true
+            break
+          }
         }
-        const nb2 = cb2 - COST
-        const { data: updated2, error: retryErr } = await supabase
-          .from('users')
-          .update({ clover_balance: nb2 })
-          .eq('id', userId)
-          .eq('clover_balance', cb2)
-          .select('clover_balance')
-          .maybeSingle()
-        if (retryErr || !updated2) {
+        if (!retrySuccess) {
           return Response.json({ error: 'Charge conflict — retry', code: 'race' }, { status: 409 })
         }
-        finalBalance = updated2.clover_balance
+        finalBalance = retryBalance
       } else {
         finalBalance = updated.clover_balance
       }
@@ -329,6 +336,33 @@ async function processJob(jobId, prompts, inputParams, ai, gp) {
       : 'unknown'
 
     await logError('gunghap', err.message, { jobId, errorType })
+
+    // ── 클로버 환불 (분석 실패) ──
+    if (inputParams.userId) {
+      try {
+        const { data: refundUser } = await supabase
+          .from('users')
+          .select('clover_balance, nickname')
+          .eq('id', inputParams.userId)
+          .maybeSingle()
+        if (refundUser && refundUser.nickname !== '김동진') {
+          const refundBalance = (refundUser.clover_balance || 0) + 15
+          await supabase.from('users')
+            .update({ clover_balance: refundBalance })
+            .eq('id', inputParams.userId)
+          await supabase.from('clover_history').insert({
+            user_id: inputParams.userId,
+            amount: 15,
+            balance_after: refundBalance,
+            type: 'refund',
+            description: '분석 실패 자동 환불'
+          })
+          console.log('[환불] 분석 실패 클로버 환불:', inputParams.userId, '+15')
+        }
+      } catch(refundErr) {
+        console.error('[환불] 환불 처리 실패:', refundErr.message)
+      }
+    }
 
     const { error: failErr } = await supabase.from('analysis_jobs').upsert({
       id: jobId,
