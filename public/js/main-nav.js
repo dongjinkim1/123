@@ -1208,7 +1208,7 @@ function renderSaveCards(){
     var isMe=(name==='나');
     var meBadge='';
     /* personMap에 등록 (궁합 선택용) */
-    personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
+    personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj,input:rec.input||null};
     var extraClass=(idx>=3)?' extra-card':'';
     var extraStyle=(idx>=3)?'display:none;':'';
     html+='<div class="animal-card'+extraClass+'" data-record-id="'+rec.id+'" onclick="openHistoryRecord(\''+rec.id+'\')" style="'+extraStyle+'--card-glow:'+glow+'">';
@@ -1543,7 +1543,7 @@ function renderGunghapPeopleList(){
     var ilju=rec.animalIlju||'';
     var sub=tag+(mbti?' · '+mbti:'')+(ilju?' · '+ilju:'');
     /* personMap에도 등록 */
-    personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
+    personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj,input:rec.input||null};
     html+='<div class="mini-person" data-rec-id="'+rec.id+'" onclick="pickPersonFromHistory(this,\''+rec.id+'\')">';
     html+='<div class="mini-emoji">'+(icon?'<img src="'+icon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
     var _eName=name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -1557,7 +1557,7 @@ function renderGunghapPeopleList(){
 function pickPersonFromHistory(el,recordId){
   var pm=personMap[recordId];
   if(!pm)return;
-  var extraData={saju:pm.saju,dw:pm.dw,gg:pm.gg,mbtiObj:pm.mbtiObj};
+  var extraData={saju:pm.saju,dw:pm.dw,gg:pm.gg,mbtiObj:pm.mbtiObj,input:pm.input||null};
   pickPersonById(el,recordId,pm.icon,pm.name,pm.tag,extraData);
 }
 
@@ -1580,8 +1580,11 @@ function pickPerson(el,emoji,name,tag,extraData){
   // saju 데이터 연결: extraData가 있으면 사용, 없으면 '나'면 _last* 사용
   if(extraData){
     data.saju=extraData.saju;data.dw=extraData.dw;data.gg=extraData.gg;data.mbtiObj=extraData.mbtiObj;
+    if(extraData._birthInfo) data._birthInfo=extraData._birthInfo;
+    else if(extraData.input) data._birthInfo=extraData.input;
   } else if(name==='나' && window._lastSaju){
     data.saju=window._lastSaju;data.dw=window._lastDW;data.gg=window._lastGG;data.mbtiObj=window._lastMBTIObj;
+    try{var _hist=JSON.parse(localStorage.getItem('mbts_history')||'[]');for(var _hi=_hist.length-1;_hi>=0;_hi--){if(_hist[_hi].input&&_hist[_hi].input.y){data._birthInfo=_hist[_hi].input;break;}}}catch(e){}
   }
 
   // 이미 A에 있으면 → A 해제
@@ -1628,6 +1631,8 @@ function pickPersonById(el,id,emoji,name,tag,extraData){
   var data={emoji:emoji,name:name,tag:tag,_id:id};
   if(extraData){
     data.saju=extraData.saju;data.dw=extraData.dw;data.gg=extraData.gg;data.mbtiObj=extraData.mbtiObj;
+    if(extraData._birthInfo) data._birthInfo=extraData._birthInfo;
+    else if(extraData.input) data._birthInfo=extraData.input;
   }
 
   // 이미 A에 있으면 → A 해제 (_id로 비교)

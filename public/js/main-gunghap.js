@@ -278,8 +278,8 @@ async function _runGunghapAnalysis(){
     }
 
     // ── 서버에 raw 입력 전송 (프롬프트 아님) ──
-    var _ghBirthA = ghA._birthInfo || {};
-    var _ghBirthB = ghB._birthInfo || {};
+    var _ghBirthA = ghA._birthInfo || ghA.input || {};
+    var _ghBirthB = ghB._birthInfo || ghB.input || {};
     // Bug 4 fix: mbtiType whitelist — '사주분석' bypasses '|| INFJ' fallback
     var _VALID_MBTI = ['INFP','ENFP','INFJ','ENFJ','INTP','ENTP','INTJ','ENTJ','ISFP','ESFP','ISFJ','ESFJ','ISTP','ESTP','ISTJ','ESTJ'];
     var _mbtiTypeA = (mbtiObjA && _VALID_MBTI.indexOf(mbtiObjA.type) !== -1) ? mbtiObjA.type : 'INFJ';
