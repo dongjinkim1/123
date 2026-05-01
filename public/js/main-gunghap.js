@@ -358,6 +358,12 @@ async function _runGunghapAnalysis(){
       }
       if (_cachedAI) {
         go('pgGhRes');
+        window._lastGunghapRenderData = {
+          aiR: _cachedAI, ghR: ghResult,
+          sajuA: sajuA, sajuB: sajuB,
+          mbtiA: mbtiObjA, mbtiB: mbtiObjB,
+          ggA: ggA, ggB: ggB, relType: ghRel
+        };
         fillGhResultProgressive(ghResult, _cachedAI, sajuA, sajuB, mbtiObjA, mbtiObjB, ghRel);
         // 히스토리 저장 스킵 — 원래 요청 때 이미 저장됨
       } else {
@@ -566,8 +572,20 @@ async function _runGunghapAnalysis(){
       await new Promise(function(resolve){setTimeout(resolve,1200);});
       go('pgGhRes');
       if (!_ghPageInitialized) {
+        window._lastGunghapRenderData = {
+          aiR: aiResult, ghR: ghResult,
+          sajuA: sajuA, sajuB: sajuB,
+          mbtiA: mbtiObjA, mbtiB: mbtiObjB,
+          ggA: ggA, ggB: ggB, relType: ghRel
+        };
         fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);
       } else {
+        window._lastGunghapRenderData = {
+          aiR: aiResult, ghR: ghResult,
+          sajuA: sajuA, sajuB: sajuB,
+          mbtiA: mbtiObjA, mbtiB: mbtiObjB,
+          ggA: ggA, ggB: ggB, relType: ghRel
+        };
         try {
           if (aiResult && aiResult.quote) {
             var _quoteEl = document.querySelector('#ghResContent .prog-sub-card[style*="border-left"]');

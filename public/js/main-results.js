@@ -442,6 +442,19 @@ function fillGhResultProgressive(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,relType){
   }
 }
 
+function renderGunghapResultV2(ghR, aiR, sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, unused, relType) {
+  // 공유 링크에서 궁합 결과 렌더
+  window._lastGunghapRenderData = {
+    aiR: aiR, ghR: ghR,
+    sajuA: sajuA, sajuB: sajuB,
+    mbtiA: mbtiA, mbtiB: mbtiB,
+    ggA: ggA, ggB: ggB, relType: relType
+  };
+  // ghResult가 없으면 빈 객체로 대체 (공유 뷰에서는 점수 없을 수 있음)
+  var safeGhR = ghR || { scores: {} };
+  fillGhResultProgressive(safeGhR, aiR, sajuA, sajuB, mbtiA, mbtiB, relType);
+}
+
 // ===== 궁합 탭 스크롤 함수 =====
 function scrollToGhSec(idx){
   var sec=document.getElementById('ghSec'+idx);
