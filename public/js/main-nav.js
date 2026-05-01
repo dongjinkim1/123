@@ -1584,7 +1584,7 @@ function pickPerson(el,emoji,name,tag,extraData){
     else if(extraData.input) data._birthInfo=extraData.input;
   } else if(name==='나' && window._lastSaju){
     data.saju=window._lastSaju;data.dw=window._lastDW;data.gg=window._lastGG;data.mbtiObj=window._lastMBTIObj;
-    try{var _hist=JSON.parse(localStorage.getItem('mbts_history')||'[]');for(var _hi=_hist.length-1;_hi>=0;_hi--){if(_hist[_hi].input&&_hist[_hi].input.y){data._birthInfo=_hist[_hi].input;break;}}}catch(e){}
+    try{var _hist=JSON.parse(localStorage.getItem('mbts_history')||'[]');var _found=null;for(var _hi=_hist.length-1;_hi>=0;_hi--){if(_hist[_hi].isMyProfile&&_hist[_hi].input&&_hist[_hi].input.y){_found=_hist[_hi].input;break;}}if(!_found){for(var _hj=_hist.length-1;_hj>=0;_hj--){if(_hist[_hj].input&&_hist[_hj].input.y){_found=_hist[_hj].input;break;}}}if(_found)data._birthInfo=_found;}catch(e){}
   }
 
   // 이미 A에 있으면 → A 해제
