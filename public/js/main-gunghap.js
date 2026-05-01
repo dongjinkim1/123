@@ -324,6 +324,26 @@ async function _runGunghapAnalysis(){
     }
     if (!_ghData.jobId) throw new Error(_ghData.error || 'job 생성 실패');
 
+    // ── 캐시 히트 → 폴링 스킵, 즉시 렌더 ──
+    if (_ghData.cached && _ghData.status === 'done' && _ghData.result && _ghData.result.text) {
+      console.log('[MBTS] 궁합 캐시 히트! 즉시 렌더링');
+      localStorage.removeItem('mbts_active_job');
+      var aiText = _ghData.result.text;
+      var aiResult = null;
+      try { aiResult = JSON.parse(aiText); } catch(e) {
+        var fb = aiText.indexOf('{'), lb = aiText.lastIndexOf('}');
+        if (fb >= 0 && lb > fb) try { aiResult = JSON.parse(aiText.substring(fb, lb+1)); } catch(e2) {}
+      }
+      bar.style.width = '100%';
+      if (aiResult) {
+        fillGhResultProgressive(ghResult, aiResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ghRel);
+      } else {
+        msg.textContent = 'AI 결과 파싱 실패';
+      }
+      _isAnalyzing = false;
+      return;
+    }
+
     var _ghJobId = _ghData.jobId;
     localStorage.setItem('mbts_active_job', JSON.stringify({
       jobId: _ghJobId, type: 'gunghap', createdAt: Date.now(), input: { relType: ghRel }
