@@ -269,7 +269,7 @@ async function _runGunghapAnalysis(){
     if (localStorage.getItem('mbts_active_job')) {
       try {
         var _ej2 = JSON.parse(localStorage.getItem('mbts_active_job'));
-        if (Date.now() - _ej2.createdAt < 120000) {
+        if (Date.now() - _ej2.createdAt < 300000) {
           if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
           return;
         }
@@ -477,6 +477,9 @@ async function _runGunghapAnalysis(){
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
             reject(new Error(data.error || '분석 실패'));
+          } else if (data.status === 'pending') {
+            // 서버 아직 시작 안 함 — 대기 (타임아웃으로 자연 종료)
+            console.log('[MBTS] gunghap job pending, 대기 중');
           } else if (data.status === 'partial') {
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
@@ -599,7 +602,10 @@ async function _runGunghapAnalysis(){
       try { ghHist = JSON.parse(localStorage.getItem('mbts_gh_history')) || []; } catch(e4) {}
       ghHist.push(ghRec);
       localStorage.setItem('mbts_gh_history', JSON.stringify(ghHist));
-    } catch(e3) { console.warn('[MBTS] 궁합 저장 실패:', e3); }
+    } catch(e3) {
+      console.warn('[MBTS] 궁합 저장 실패:', e3);
+      if (typeof showToast === 'function') showToast('저장 공간이 부족합니다. 이전 분석을 삭제해주세요.');
+    }
     window._skipGhHistorySave = false;
   }catch(err){
     _isAnalyzing=false;

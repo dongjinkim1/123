@@ -915,7 +915,7 @@ function startRealAnalysis(params){
   if (localStorage.getItem('mbts_active_job')) {
     try {
       var _ej = JSON.parse(localStorage.getItem('mbts_active_job'));
-      if (Date.now() - _ej.createdAt < 330000) {
+      if (Date.now() - _ej.createdAt < 300000) {
         if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
         _isAnalyzing = false;
         window._MBTS_analyzeInFlight = false;
@@ -1250,6 +1250,9 @@ function startRealAnalysis(params){
           alert('분석 오류: ' + (statusData.error || '알 수 없는 오류'));
           setTimeout(function(){ go('pgBirth'); }, 1000);
 
+        } else if (statusData.status === 'pending') {
+          // 서버 아직 시작 안 함 — 대기 (타임아웃으로 자연 종료)
+          console.log('[MBTS] saju job pending, 대기 중');
         } else if (statusData.status === 'partial') {
           clearInterval(_pollTimer);
           window._MBTS_activePollTimer = null;
@@ -2090,7 +2093,10 @@ function finalizeProgressivePage(result, saju, mt, gg, isAI) {
     hist.push(record);
     localStorage.setItem('mbts_history', JSON.stringify(hist));
     if(hist.length===1) localStorage.setItem('mbts_fortuneTarget', record.id);
-  } catch(e3) { console.warn('[PROGRESSIVE] 히스토리 저장 실패:', e3); }
+  } catch(e3) {
+    console.warn('[PROGRESSIVE] 히스토리 저장 실패:', e3);
+    if (typeof showToast === 'function') showToast('저장 공간이 부족합니다. 이전 분석을 삭제해주세요.');
+  }
 
   _progState = null;
   console.log('[PROGRESSIVE] 완료');
@@ -2636,7 +2642,7 @@ setTimeout(async function() {
     await MBTSUser.loadHistory();
     cleanupMyProfile();
     if (!window._splashRouted) go('pgDash');
-    window._splashRouted = false;
+    window._splashRouted = false; // 1회 사용 후 리셋 — 이후 go('pgDash')는 사용자 액션
     if (typeof renderSaveCards === 'function') setTimeout(renderSaveCards, 200);
     if (typeof updateLoginUI === 'function') updateLoginUI();
     if (typeof updateHomeProfile === 'function') setTimeout(updateHomeProfile, 100);

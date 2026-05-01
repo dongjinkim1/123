@@ -43,5 +43,7 @@ export async function GET(request) {
     progress: data.progress || null,
     createdAt: data.created_at,
     updatedAt: data.updated_at
+  }, {
+    headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' }
   })
 }

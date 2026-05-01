@@ -44,9 +44,9 @@ window.onerror = function(msg, url, line, col, err) {
       if (activeJob) {
         try {
           var aj = JSON.parse(activeJob);
-          if (Date.now() - aj.createdAt > 180000) {
+          if (Date.now() - aj.createdAt > 300000) {
             if (typeof _isAnalyzing !== 'undefined') _isAnalyzing = false;
-            console.log('[MBTS] 복구: _isAnalyzing stuck 해제 (3분 초과)');
+            console.log('[MBTS] 복구: _isAnalyzing stuck 해제 (5분 초과)');
           } else {
             return;
           }
@@ -64,7 +64,7 @@ window.onerror = function(msg, url, line, col, err) {
       localStorage.removeItem('mbts_active_job'); return;
     }
 
-    if (Date.now() - job.createdAt > 600000) {
+    if (Date.now() - job.createdAt > 300000) {
       localStorage.removeItem('mbts_active_job');
       return;
     }
