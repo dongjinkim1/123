@@ -55,8 +55,10 @@ export async function POST(request) {
     }
 
     // rate limiting
-    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
-    const identifier = userId || ip
+    const vercelIp = request.headers.get('x-vercel-forwarded-for')
+    const realIp = request.headers.get('x-real-ip')
+    const trustedIp = vercelIp || realIp || 'unknown'
+    const identifier = userId || trustedIp
     const { allowed, retryAfter } = await rl.checkRateLimit(supabase, identifier, 'gunghap', 60000, 5)
     if (!allowed) {
       return Response.json({ error: '요청 한도 초과', retryAfter }, { status: 429 })
