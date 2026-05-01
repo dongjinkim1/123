@@ -201,7 +201,7 @@ export async function POST(request) {
     }
 
     console.log('[gunghap-v2] job created:', jobId)
-    waitUntil(processJob(jobId, prompts, inputParams, ai))
+    waitUntil(processJob(jobId, prompts, inputParams, ai, gp))
 
     return Response.json({ jobId, status: 'created' })
 
@@ -211,10 +211,15 @@ export async function POST(request) {
   }
 }
 
-async function processJob(jobId, prompts, inputParams, ai) {
+async function processJob(jobId, prompts, inputParams, ai, gp) {
   const supabase = getServiceSupabase()
 
   try {
+    // 관계별 소주제명 동적 추출 (progressive rendering용)
+    const relType = inputParams.relType || 'ssom'
+    const relConfig = gp.GH_REL_CONFIG[relType]
+    const SUB_TITLES = relConfig ? relConfig.subs.map(s => s.h) : []
+
     const finalSystemPrompt = prompts.systemPrompt +
       '\n\n[CRITICAL MACHINE-TO-MACHINE INSTRUCTION]\n' +
       'This is an API endpoint, NOT a chat. Your output is fed directly into JSON.parse().\n' +
@@ -234,11 +239,65 @@ async function processJob(jobId, prompts, inputParams, ai) {
       messages: [{ role: 'user', content: prompts.userPrompt }]
     })
 
+    let fullText = ''
+    let detectedCount = 0
+    const detectedSubs = []
+    let partialUpdateChain = Promise.resolve()
+
+    stream.on('text', (text) => {
+      fullText += text
+
+      if (SUB_TITLES.length > 0 && detectedCount < SUB_TITLES.length) {
+        const nextIdx = detectedCount + 1
+        if (nextIdx < SUB_TITLES.length) {
+          const nextMarker = '"h":"' + SUB_TITLES[nextIdx] + '"'
+          const nextMarkerWs = '"h": "' + SUB_TITLES[nextIdx] + '"'
+          if (fullText.indexOf(nextMarker) >= 0 || fullText.indexOf(nextMarkerWs) >= 0) {
+            const prevTitle = SUB_TITLES[detectedCount]
+            const prevMarker = '"h":"' + prevTitle + '"'
+            const prevMarkerWs = '"h": "' + prevTitle + '"'
+            const pmPos = fullText.indexOf(prevMarker) >= 0 ? fullText.indexOf(prevMarker) : fullText.indexOf(prevMarkerWs)
+            const nmPos = fullText.indexOf(nextMarker) >= 0 ? fullText.indexOf(nextMarker) : fullText.indexOf(nextMarkerWs)
+            if (pmPos >= 0 && nmPos > pmPos) {
+              const prevStart = fullText.lastIndexOf('{', pmPos)
+              let nextStart = -1
+              const hPos1 = fullText.lastIndexOf('{"h"', nmPos)
+              const hPos2 = fullText.lastIndexOf('{"h": ', nmPos)
+              const hPos3 = fullText.lastIndexOf('{"h":"', nmPos)
+              nextStart = Math.max(hPos1, hPos2, hPos3)
+              if (nextStart < 0) nextStart = fullText.lastIndexOf('{', nmPos)
+              if (prevStart >= 0 && nextStart > prevStart) {
+                let subText = fullText.substring(prevStart, nextStart).replace(/,\s*$/, '')
+                const boundaryIdx = subText.search(/\]\s*\}/)
+                if (boundaryIdx >= 0) subText = subText.substring(0, boundaryIdx).replace(/[,\s]+$/, '')
+                try {
+                  const subObj = JSON.parse(subText)
+                  detectedSubs.push(subObj)
+                  const snapshot = detectedSubs.slice()
+                  const progress = Math.round(snapshot.length / SUB_TITLES.length * 100)
+                  partialUpdateChain = partialUpdateChain.then(function() {
+                    return supabase.from('analysis_jobs').update({
+                      partial_subs: snapshot,
+                      progress: progress
+                    }).eq('id', jobId)
+                  }).catch(function(e) { console.error('[gunghap-v2] partial update error:', e.message) })
+                } catch (e) { /* partial parse fail — skip */ }
+              }
+              detectedCount = nextIdx
+            }
+          }
+        }
+      }
+    })
+
     const finalMessage = await stream.finalMessage()
-    const fullText = finalMessage.content
+    await partialUpdateChain
+    fullText = finalMessage.content
       .filter(b => b.type === 'text')
       .map(b => b.text)
       .join('')
+
+    console.log('[gunghap-v2] Claude done:', fullText.length, 'chars, subs detected:', detectedSubs.length)
 
     const isComplete = ai.isValidJSON(fullText)
     await supabase.from('analysis_jobs').upsert({
