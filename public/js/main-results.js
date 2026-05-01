@@ -3,6 +3,14 @@
 // MBTS Bridge: engine.js ↔ 파이널 UI
 // ====================================================================
 
+// ── XSS 방지 헬퍼 ──
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/[<>&"']/g, function(c) {
+    return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
 // ── 데모 사람 사주 자동 계산 ──
 function getDemoData(y,m,d,gender,mbtiStr){
   try{
@@ -711,7 +719,7 @@ var MBTSShare = {
       if (!targetPg || !window._isSharedView) return;
       var ctaTop = document.createElement('div');
       ctaTop.style.cssText = 'padding:16px 20px;text-align:center;background:#F8F0FF';
-      ctaTop.innerHTML = '<div style="font-size:13px;color:#888;margin-bottom:8px">' + (nickname || '친구') + '님의 분석 결과</div><a href="https://mbts.kr" style="display:inline-block;padding:14px 32px;background:#8B6CC1;color:#fff;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;box-shadow:0 4px 15px rgba(139,108,193,0.3)">✨ 나도 MBTS 분석해보기</a>';
+      ctaTop.innerHTML = '<div style="font-size:13px;color:#888;margin-bottom:8px">' + escapeHtml(nickname || '친구') + '님의 분석 결과</div><a href="https://mbts.kr" style="display:inline-block;padding:14px 32px;background:#8B6CC1;color:#fff;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;box-shadow:0 4px 15px rgba(139,108,193,0.3)">✨ 나도 MBTS 분석해보기</a>';
       targetPg.insertBefore(ctaTop, targetPg.firstChild);
       var ctaBottom = document.createElement('div');
       ctaBottom.style.cssText = 'padding:24px 20px 48px;text-align:center;background:linear-gradient(180deg,#fff 0%,#F8F0FF 100%)';

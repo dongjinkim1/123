@@ -50,7 +50,8 @@ export async function GET(request) {
       profile_image: (userInfo.kakao_account && userInfo.kakao_account.profile)
         ? userInfo.kakao_account.profile.profile_image_url : null,
       email: (userInfo.kakao_account && userInfo.kakao_account.email)
-        ? userInfo.kakao_account.email : null
+        ? userInfo.kakao_account.email : null,
+      access_token: tokenData.access_token
     })
   } catch (err) {
     console.error('[kakao-token] Error:', err)

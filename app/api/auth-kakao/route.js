@@ -2,10 +2,28 @@ import { getServiceSupabase } from '@/lib/supabase'
 
 export async function POST(request) {
   try {
-    var { kakaoId, nickname, profileImage, email } = await request.json()
+    var { kakaoId, nickname, profileImage, email, accessToken } = await request.json()
 
     if (!kakaoId) {
       return Response.json({ error: 'Missing kakaoId' }, { status: 400 })
+    }
+
+    // ── 서버사이드 카카오 token 검증 ──
+    // accessToken 있는 경우(정상 카카오 로그인)만 검증. 없는 경우(doTestLogin 등 레거시) 허용.
+    if (accessToken) {
+      try {
+        const verifyRes = await fetch('https://kapi.kakao.com/v2/user/me', {
+          headers: { 'Authorization': 'Bearer ' + accessToken }
+        })
+        const verifyData = await verifyRes.json()
+        if (!verifyData.id || String(verifyData.id) !== String(kakaoId)) {
+          console.warn('[auth-kakao] Token verification failed:', { kakaoId, verifyId: verifyData.id })
+          return Response.json({ error: 'Token verification failed' }, { status: 401 })
+        }
+      } catch(e) {
+        console.error('[auth-kakao] Token verification error:', e.message)
+        return Response.json({ error: 'Token verification error' }, { status: 401 })
+      }
     }
 
     var supabase = getServiceSupabase()
