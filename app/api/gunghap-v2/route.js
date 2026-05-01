@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { createHash } from 'crypto'
 import { getServiceSupabase } from '@/lib/supabase'
 import { waitUntil } from '@vercel/functions'
 import { logError } from '@/lib/errorLog'
@@ -130,6 +131,50 @@ export async function POST(request) {
         description: '궁합 분석',
       })
     }
+
+    // ── 캐시 + dedupe (analyze-v2 동일) ──
+    const cacheUser = userId || 'guest'
+    const inputKey = JSON.stringify({
+      u: cacheUser,
+      a: { y:paramsA.y, m:paramsA.m, d:paramsA.d, h:paramsA.h||null, min:paramsA.min||null, gender:paramsA.gender, mbtiType:paramsA.mbtiType, mbtiAxes:paramsA.mbtiAxes||null },
+      b: { y:paramsB.y, m:paramsB.m, d:paramsB.d, h:paramsB.h||null, min:paramsB.min||null, gender:paramsB.gender, mbtiType:paramsB.mbtiType, mbtiAxes:paramsB.mbtiAxes||null },
+      rel: relType
+    })
+    const inputHash = createHash('sha256').update(inputKey).digest('hex').slice(0, 32)
+
+    // dedupe: 동일 입력 30초 이내 처리 중이면 기존 jobId 반환
+    const since30s = new Date(Date.now() - 30*1000).toISOString()
+    const { data: pending } = await supabase
+      .from('analysis_jobs')
+      .select('id, status')
+      .eq('input_hash', inputHash)
+      .in('status', ['processing','pending'])
+      .gte('created_at', since30s)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (pending && pending.id) {
+      console.log('[gunghap-v2] dedupe hit — returning existing jobId:', pending.id)
+      return Response.json({ jobId: pending.id, status: 'created', dedup: true })
+    }
+
+    // cache: 동일 입력 7일 이내 완료 결과 있으면 반환
+    const { data: cached } = await supabase
+      .from('analysis_jobs')
+      .select('id, result')
+      .eq('input_hash', inputHash)
+      .eq('status', 'done')
+      .gte('created_at', new Date(Date.now() - 7*24*60*60*1000).toISOString())
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (cached && cached.result) {
+      console.log('[gunghap-v2] cache hit:', inputHash)
+      return Response.json({ jobId: cached.id, status: 'done', result: cached.result, cached: true })
+    }
+
     const prompts = gp.buildGunghapPrompt(paramsA, paramsB, relType)
 
     if (!prompts || !prompts.systemPrompt || !prompts.userPrompt) {
@@ -147,6 +192,7 @@ export async function POST(request) {
       type: 'gunghap',
       status: 'processing',
       params: inputParams,
+      input_hash: inputHash,
       updated_at: new Date().toISOString()
     })
 
