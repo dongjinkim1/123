@@ -25,7 +25,7 @@ export async function POST(request) {
       // 기존 유저 — 닉네임/프로필 업데이트
       await supabase
         .from('users')
-        .update({ nickname: nickname || existingUser.nickname, profile_image: profileImage || existingUser.profile_image })
+        .update({ nickname: existingUser.nickname || nickname || '사용자', profile_image: profileImage || existingUser.profile_image })
         .eq('id', existingUser.id)
 
       return Response.json({
@@ -34,7 +34,7 @@ export async function POST(request) {
         user: {
           id: existingUser.id,
           kakaoId: kakaoId,
-          nickname: nickname || existingUser.nickname,
+          nickname: existingUser.nickname || nickname || '사용자',
           profileImage: profileImage || existingUser.profile_image,
           cloverBalance: existingUser.clover_balance || 0,
         },
