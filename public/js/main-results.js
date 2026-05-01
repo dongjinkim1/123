@@ -940,7 +940,7 @@ function startRealAnalysis(params){
       window._MBTS_analyzeInFlight = false;
       if (typeof showToast === 'function') showToast('클로버가 부족합니다 🍀');
       if (typeof showChargeModal === 'function') showChargeModal();
-      if (typeof go === 'function') go('home');
+      if (typeof go === 'function') go('pgDash');
       return;
     }
     // 로그인 필요 (userId 전송 실패)

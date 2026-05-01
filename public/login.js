@@ -91,38 +91,6 @@ function doKakaoLogin() {
   window.location.href = kakaoAuthUrl;
 }
 
-// ── 서버 API로 유저 생성/조회 ──
-function upsertKakaoUser(kakaoId, nickname, profileImage, email) {
-  fetch('/api/auth-kakao', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ kakaoId: kakaoId, nickname: nickname, profileImage: profileImage, email: email })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    if (data.success && data.user) {
-      var u = data.user;
-      console.log('[MBTS] ' + (data.isNew ? '신규 유저 생성' : '기존 유저 로그인') + ':', u.nickname);
-      saveSession({
-        userId: u.id,
-        kakaoId: u.kakaoId,
-        nickname: u.nickname,
-        profileImage: u.profileImage,
-        provider: 'kakao',
-        cloverBalance: u.cloverBalance || 0
-      });
-      onLoginSuccess();
-    } else {
-      console.error('[MBTS] 로그인 실패:', data.error);
-      if (typeof showToast === 'function') showToast('로그인 중 오류 발생');
-    }
-  })
-  .catch(function(err) {
-    console.error('[MBTS] 로그인 API 오류:', err);
-    if (typeof showToast === 'function') showToast('서버 연결 실패');
-  });
-}
-
 // ── 로그인 성공 후 처리 ──
 function onLoginSuccess() {
   updateLoginUI();
