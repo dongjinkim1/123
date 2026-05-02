@@ -1,4 +1,4 @@
-// MBTS Bundle — 20260502_1741
+// MBTS Bundle — 20260503_0219
 
 // ═══ main-nav.js (2400L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
@@ -2985,7 +2985,7 @@ async function _runGunghapAnalysis(){
 
     _isAnalyzing=false;
 
-    if (_ixGhProgInited) {
+    if (_ghPageInitialized) {
       // 프로그레시브 모드 → finalize
       if (typeof finalizeGhProgressivePage === 'function') {
         finalizeGhProgressivePage(aiResult, ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel, _ixGhCollectedSubs);

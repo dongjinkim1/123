@@ -580,7 +580,7 @@ async function _runGunghapAnalysis(){
 
     _isAnalyzing=false;
 
-    if (_ixGhProgInited) {
+    if (_ghPageInitialized) {
       // 프로그레시브 모드 → finalize
       if (typeof finalizeGhProgressivePage === 'function') {
         finalizeGhProgressivePage(aiResult, ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel, _ixGhCollectedSubs);
