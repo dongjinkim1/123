@@ -306,6 +306,24 @@ async function processJob(jobId, prompts, inputParams, ai, gp) {
 
     console.log('[gunghap-v2] Claude done:', fullText.length, 'chars, subs detected:', detectedSubs.length)
 
+    // ── 마지막 sub catchup: 전체 JSON에서 모든 subs 추출하여 partial_subs 갱신 ──
+    try {
+      var parsed = JSON.parse(fullText);
+      if (parsed && parsed.categories) {
+        var allSubs = [];
+        parsed.categories.forEach(function(cat) {
+          (cat.subs || []).forEach(function(sub) { allSubs.push(sub); });
+        });
+        if (allSubs.length > detectedSubs.length) {
+          await supabase.from('analysis_jobs').update({
+            partial_subs: allSubs,
+            progress: 100
+          }).eq('id', jobId);
+          console.log('[gunghap-v2] partial_subs catchup:', detectedSubs.length, '->', allSubs.length);
+        }
+      }
+    } catch(e) { /* 전체 JSON 파싱 실패 시 기존 partial_subs 유지 */ }
+
     const isComplete = ai.isValidJSON(fullText)
     await supabase.from('analysis_jobs').upsert({
       id: jobId,

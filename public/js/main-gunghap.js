@@ -473,6 +473,31 @@ async function _runGunghapAnalysis(){
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
             if (_ghPageInitialized) {
+              // ── 마지막 sub catchup: 전체 JSON에서 남은 sub 렌더링 ──
+              try {
+                var _doneResult = JSON.parse(data.result.text);
+                if (_doneResult && _doneResult.categories) {
+                  var _allDoneSubs = [];
+                  _doneResult.categories.forEach(function(c) {
+                    (c.subs || []).forEach(function(s) { _allDoneSubs.push(s); });
+                  });
+                  var _catchupContainer = document.getElementById('gh-prog-sub-container');
+                  if (_catchupContainer && _allDoneSubs.length > _ghRenderedSubCount) {
+                    for (var _di = _ghRenderedSubCount; _di < _allDoneSubs.length; _di++) {
+                      var _dSub = _allDoneSubs[_di];
+                      var _dH = _dSub.h || '';
+                      var _dB = _dSub.b || '';
+                      var _dBodyHtml = (typeof renderSubBody === 'function') ? renderSubBody(_dB) : _dB.replace(/\n\n/g, '<br><br>');
+                      var _dCard = document.createElement('div');
+                      _dCard.className = 'r-sub prog-sub-card';
+                      _dCard.innerHTML = '<div class="r-sub-h">' + _dH + '</div><div class="r-sub-b">' + _dBodyHtml + '</div>';
+                      _catchupContainer.appendChild(_dCard);
+                      setTimeout((function(c){ return function(){ c.classList.add('revealed'); }; })(_dCard), 50);
+                    }
+                    _ghRenderedSubCount = _allDoneSubs.length;
+                  }
+                }
+              } catch(e) { console.warn('[MBTS] done sub catchup error:', e); }
               var _skelDone = document.getElementById('gh-prog-skeleton');
               if (_skelDone) _skelDone.style.display = 'none';
               var _ctaDone = document.getElementById('gh-prog-cta');
