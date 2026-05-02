@@ -1,6 +1,6 @@
-// MBTS Bundle — 20260430_2334
+// MBTS Bundle — 20260502_1527
 
-// ═══ main-nav.js (2395L) ═══
+// ═══ main-nav.js (2400L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
 // Page navigation
 var pageStack=['pgLanding'];
@@ -903,7 +903,7 @@ function go(id,skipPush){
   pg.style.display=flexPages.indexOf(id)>=0?'flex':'block';
   pg.classList.add('active');
   // ── 글로벌 네비바 show/hide + active 상태 ──
-  var _hideNavPages=['pgLogin','pgBirth','pgMBTI','pgLoad','pgGhLoad','pgChat','pgLanding','pgEditProfile'];
+  var _hideNavPages=['pgLogin','pgBirth','pgMBTI','pgLoad','pgGhLoad','pgChat','pgLanding','pgEditProfile','pgSplash'];
   var _gNav=document.getElementById('globalBottomNav');
   if(_gNav){
     _gNav.style.display=_hideNavPages.indexOf(id)>=0?'none':'flex';
@@ -1211,7 +1211,7 @@ function renderSaveCards(){
     var isMe=(name==='나');
     var meBadge='';
     /* personMap에 등록 (궁합 선택용) */
-    personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
+    personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj,input:rec.input||null};
     var extraClass=(idx>=3)?' extra-card':'';
     var extraStyle=(idx>=3)?'display:none;':'';
     html+='<div class="animal-card'+extraClass+'" data-record-id="'+rec.id+'" onclick="openHistoryRecord(\''+rec.id+'\')" style="'+extraStyle+'--card-glow:'+glow+'">';
@@ -1546,7 +1546,7 @@ function renderGunghapPeopleList(){
     var ilju=rec.animalIlju||'';
     var sub=tag+(mbti?' · '+mbti:'')+(ilju?' · '+ilju:'');
     /* personMap에도 등록 */
-    personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj};
+    personMap[rec.id]={name:name,icon:icon,tag:tag,saju:rec.saju,dw:rec.dw,gg:rec.gg,mbtiObj:rec.mbtiObj,input:rec.input||null};
     html+='<div class="mini-person" data-rec-id="'+rec.id+'" onclick="pickPersonFromHistory(this,\''+rec.id+'\')">';
     html+='<div class="mini-emoji">'+(icon?'<img src="'+icon+'" style="width:70%;height:70%;object-fit:contain" onerror="this.replaceWith(document.createTextNode(\'🌟\'))">':'🌟')+'</div>';
     var _eName=name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -1560,7 +1560,7 @@ function renderGunghapPeopleList(){
 function pickPersonFromHistory(el,recordId){
   var pm=personMap[recordId];
   if(!pm)return;
-  var extraData={saju:pm.saju,dw:pm.dw,gg:pm.gg,mbtiObj:pm.mbtiObj};
+  var extraData={saju:pm.saju,dw:pm.dw,gg:pm.gg,mbtiObj:pm.mbtiObj,input:pm.input||null};
   pickPersonById(el,recordId,pm.icon,pm.name,pm.tag,extraData);
 }
 
@@ -1583,8 +1583,11 @@ function pickPerson(el,emoji,name,tag,extraData){
   // saju 데이터 연결: extraData가 있으면 사용, 없으면 '나'면 _last* 사용
   if(extraData){
     data.saju=extraData.saju;data.dw=extraData.dw;data.gg=extraData.gg;data.mbtiObj=extraData.mbtiObj;
+    if(extraData._birthInfo) data._birthInfo=extraData._birthInfo;
+    else if(extraData.input) data._birthInfo=extraData.input;
   } else if(name==='나' && window._lastSaju){
     data.saju=window._lastSaju;data.dw=window._lastDW;data.gg=window._lastGG;data.mbtiObj=window._lastMBTIObj;
+    try{var _hist=JSON.parse(localStorage.getItem('mbts_history')||'[]');var _found=null;for(var _hi=_hist.length-1;_hi>=0;_hi--){if(_hist[_hi].isMyProfile&&_hist[_hi].input&&_hist[_hi].input.y){_found=_hist[_hi].input;break;}}if(!_found){for(var _hj=_hist.length-1;_hj>=0;_hj--){if(_hist[_hj].input&&_hist[_hj].input.y){_found=_hist[_hj].input;break;}}}if(_found)data._birthInfo=_found;}catch(e){}
   }
 
   // 이미 A에 있으면 → A 해제
@@ -1631,6 +1634,8 @@ function pickPersonById(el,id,emoji,name,tag,extraData){
   var data={emoji:emoji,name:name,tag:tag,_id:id};
   if(extraData){
     data.saju=extraData.saju;data.dw=extraData.dw;data.gg=extraData.gg;data.mbtiObj=extraData.mbtiObj;
+    if(extraData._birthInfo) data._birthInfo=extraData._birthInfo;
+    else if(extraData.input) data._birthInfo=extraData.input;
   }
 
   // 이미 A에 있으면 → A 해제 (_id로 비교)
@@ -2397,7 +2402,7 @@ function mbtiGoNext(){if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null)return;i
 function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
 
 
-// ═══ main-gunghap.js (757L) ═══
+// ═══ main-gunghap.js (889L) ═══
 // main-gunghap.js — gunghap load animation, analysis execution, result filling
 function toggleExtraGh(){
   var items=document.querySelectorAll('.extra-gh');
@@ -2669,7 +2674,7 @@ async function _runGunghapAnalysis(){
     if (localStorage.getItem('mbts_active_job')) {
       try {
         var _ej2 = JSON.parse(localStorage.getItem('mbts_active_job'));
-        if (Date.now() - _ej2.createdAt < 120000) {
+        if (Date.now() - _ej2.createdAt < 300000) {
           if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
           return;
         }
@@ -2678,8 +2683,8 @@ async function _runGunghapAnalysis(){
     }
 
     // ── 서버에 raw 입력 전송 (프롬프트 아님) ──
-    var _ghBirthA = ghA._birthInfo || {};
-    var _ghBirthB = ghB._birthInfo || {};
+    var _ghBirthA = ghA._birthInfo || ghA.input || {};
+    var _ghBirthB = ghB._birthInfo || ghB.input || {};
     // Bug 4 fix: mbtiType whitelist — '사주분석' bypasses '|| INFJ' fallback
     var _VALID_MBTI = ['INFP','ENFP','INFJ','ENFJ','INTP','ENTP','INTJ','ENTJ','ISFP','ESFP','ISFJ','ESFJ','ISTP','ESTP','ISTJ','ESTJ'];
     var _mbtiTypeA = (mbtiObjA && _VALID_MBTI.indexOf(mbtiObjA.type) !== -1) ? mbtiObjA.type : 'INFJ';
@@ -2714,7 +2719,7 @@ async function _runGunghapAnalysis(){
       _isAnalyzing = false;
       if (typeof showToast === 'function') showToast('클로버가 부족합니다 🍀');
       if (typeof showChargeModal === 'function') showChargeModal();
-      if (typeof go === 'function') go('home');
+      if (typeof go === 'function') go('pgDash');
       return;
     }
     if (_ghData.error === '로그인이 필요합니다.') {
@@ -2723,6 +2728,55 @@ async function _runGunghapAnalysis(){
       return;
     }
     if (!_ghData.jobId) throw new Error(_ghData.error || 'job 생성 실패');
+
+    // 캐시 히트 → 폴링 스킵, 즉시 렌더
+    if (_ghData.cached && _ghData.status === 'done' && _ghData.result && _ghData.result.text) {
+      console.log('[MBTS] 궁합 캐시 히트! 즉시 렌더링');
+      localStorage.removeItem('mbts_active_job');
+      bar.style.width = '100%';
+      var _cachedText = _ghData.result.text;
+      var _cachedAI = null;
+      try { _cachedAI = JSON.parse(_cachedText); } catch(e) {
+        var _fb2=_cachedText.indexOf('{'),_lb2=_cachedText.lastIndexOf('}');
+        if(_fb2>=0&&_lb2>_fb2) try{_cachedAI=JSON.parse(_cachedText.substring(_fb2,_lb2+1));}catch(e2){}
+        if(!_cachedAI){
+          var _lines=_cachedText.split('\n'),_si2=-1,_ei2=-1;
+          for(var _li=0;_li<_lines.length;_li++){
+            if(_si2<0&&_lines[_li].trim().charAt(0)==='{')_si2=_li;
+            if(_lines[_li].trim().charAt(0)==='}'||_lines[_li].trim().slice(-1)==='}')_ei2=_li;
+          }
+          if(_si2>=0&&_ei2>=_si2)try{_cachedAI=JSON.parse(_lines.slice(_si2,_ei2+1).join('\n'));}catch(e3){}
+        }
+        // 4차: 제어문자 제거
+        if(!_cachedAI){
+          var _san=_cachedText.substring(_fb2>=0?_fb2:0,(_lb2>0?_lb2+1:_cachedText.length));
+          _san=_san.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?c:'';});
+          try{_cachedAI=JSON.parse(_san);}catch(e4){}
+        }
+        // 5차: 괄호 복구
+        if(!_cachedAI){
+          var _rep=_cachedText.substring(_fb2>=0?_fb2:0);
+          var _oB=(_rep.match(/{/g)||[]).length,_cB=(_rep.match(/}/g)||[]).length;
+          if(_oB>_cB) _rep+=('}'.repeat(_oB-_cB));
+          try{_cachedAI=JSON.parse(_rep);}catch(e5){}
+        }
+      }
+      if (_cachedAI) {
+        go('pgGhRes');
+        window._lastGunghapRenderData = {
+          aiR: _cachedAI, ghR: ghResult,
+          sajuA: sajuA, sajuB: sajuB,
+          mbtiA: mbtiObjA, mbtiB: mbtiObjB,
+          ggA: ggA, ggB: ggB, relType: ghRel
+        };
+        fillGhResultProgressive(ghResult, _cachedAI, sajuA, sajuB, mbtiObjA, mbtiObjB, ghRel);
+        // 히스토리 저장 스킵 — 원래 요청 때 이미 저장됨
+      } else {
+        msg.textContent = 'AI 결과 파싱 실패';
+      }
+      _isAnalyzing = false;
+      return;
+    }
 
     var _ghJobId = _ghData.jobId;
     localStorage.setItem('mbts_active_job', JSON.stringify({
@@ -2736,6 +2790,8 @@ async function _runGunghapAnalysis(){
     var _ghMsgs = ['두 사람의 사주를 펼칩니다...','천간지지 교차 분석 중...','오행 보완 관계를 읽습니다...','인지기능 궁합 탐색...','연애 케미를 계산합니다...','갈등 패턴을 분석합니다...','장기 전망을 그립니다...','두 사람의 이야기를 쓰고 있습니다...'];
 
     var _ghLastProgress = 0;
+    var _ghRenderedSubCount = 0;
+    var _ghPageInitialized = false;
     var _ghHardDeadline = Date.now() + 900000; // M12: 15-min hard cap
     var _ghUidQs = (typeof mbtsSession !== 'undefined' && mbtsSession && mbtsSession.userId) ? ('&userId=' + encodeURIComponent(mbtsSession.userId)) : '';
     var aiText = await new Promise(function(resolve, reject) {
@@ -2770,14 +2826,71 @@ async function _runGunghapAnalysis(){
             _ghPollStart = Date.now();
           }
 
+          // ── progressive sub 렌더링 ──
+          if (data.partial_subs && data.partial_subs.length > _ghRenderedSubCount) {
+            if (!_ghPageInitialized) {
+              _ghPageInitialized = true;
+              go('pgGhRes');
+              var _progEl = document.getElementById('ghResContent');
+              if (_progEl) {
+                var _cat = (window.GH_CATEGORIES && window.GH_CATEGORIES[ghRel]) || {label:'궁합',emoji:'💕',scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'업무'}};
+                var _sc = ghResult ? ghResult.scores : {};
+                var _ph = '<div class="res-wrap">';
+                _ph += '<div style="padding:16px 16px 0"><button onclick="history.back()" style="background:none;border:none;font-size:15px;color:var(--purple);cursor:pointer;padding:4px 0;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:4px"><span style="font-size:18px">←</span> 뒤로</button></div>';
+                if (typeof _buildGhHeader === 'function') {
+                  _ph += _buildGhHeader(sajuA, sajuB, mbtiObjA, mbtiObjB, null, null, ghRel, _sc);
+                }
+                _ph += '<div id="gh-prog-sub-container"></div>';
+                _ph += '<div id="gh-prog-skeleton" class="r-sub prog-sub-card" style="text-align:center;padding:20px;color:var(--text-3);font-size:13px"><span class="load-dots"><span></span><span></span><span></span></span> 풀이를 펼치는 중</div>';
+                _ph += '<div id="gh-prog-cta" style="display:none;padding:20px">';
+                _ph += '<button onclick="go(\'pgDash\')" class="r-cta-btn" style="background:rgba(232,69,60,.1);color:#E8453C">💕 새 궁합 보기</button>';
+                _ph += '<button onclick="shareResult()" class="r-cta-btn" style="background:#FEE500;color:#191919">💬 카카오 공유</button>';
+                _ph += '<p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-3)">본 풀이는 참고용 분석이며, 개인의 의사결정을 대체하지 않습니다.</p>';
+                _ph += '</div></div>';
+                _progEl.innerHTML = _ph;
+                setTimeout(function(){ var _cards = _progEl.querySelectorAll('.prog-sub-card'); for(var _ci=0;_ci<_cards.length;_ci++) _cards[_ci].classList.add('revealed'); }, 100);
+              }
+            }
+            var _container = document.getElementById('gh-prog-sub-container');
+            if (_container) {
+              for (var _si = _ghRenderedSubCount; _si < data.partial_subs.length; _si++) {
+                var _sub = data.partial_subs[_si];
+                var _subH = _sub.h || '';
+                var _subB = _sub.b || (_sub.content ? (_sub.content + (_sub.insightText ? ('\n\n' + (_sub.insightIcon||'💊') + ' ' + _sub.insightText) : '')) : '');
+                var _bodyHtml = (typeof renderSubBody === 'function') ? renderSubBody(_subB) : _subB.replace(/\n\n/g, '<br><br>');
+                var _card = document.createElement('div');
+                _card.className = 'r-sub prog-sub-card';
+                _card.innerHTML = '<div class="r-sub-h">' + _subH + '</div><div class="r-sub-b">' + _bodyHtml + '</div>';
+                _container.appendChild(_card);
+                setTimeout((function(c){ return function(){ c.classList.add('revealed'); }; })(_card), 50);
+              }
+              var _skel = document.getElementById('gh-prog-skeleton');
+              if (_skel) _container.parentNode.insertBefore(_skel, _container.nextSibling);
+            }
+            _ghRenderedSubCount = data.partial_subs.length;
+            _ghPollStart = Date.now();
+            if (data.progress) {
+              bar.style.width = Math.max(data.progress, fakePct) + '%';
+            }
+          }
+
           if (data.status === 'done' && data.result && data.result.text) {
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
+            if (_ghPageInitialized) {
+              var _skelDone = document.getElementById('gh-prog-skeleton');
+              if (_skelDone) _skelDone.style.display = 'none';
+              var _ctaDone = document.getElementById('gh-prog-cta');
+              if (_ctaDone) _ctaDone.style.display = 'block';
+            }
             resolve(data.result.text);
           } else if (data.status === 'failed') {
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
             reject(new Error(data.error || '분석 실패'));
+          } else if (data.status === 'pending') {
+            // 서버 아직 시작 안 함 — 대기 (타임아웃으로 자연 종료)
+            console.log('[MBTS] gunghap job pending, 대기 중');
           } else if (data.status === 'partial') {
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
@@ -2863,7 +2976,28 @@ async function _runGunghapAnalysis(){
       if(window._ghLoadTimeouts) window._ghLoadTimeouts.forEach(clearTimeout);
       await new Promise(function(resolve){setTimeout(resolve,1200);});
       go('pgGhRes');
-      fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);
+      if (!_ghPageInitialized) {
+        window._lastGunghapRenderData = {
+          aiR: aiResult, ghR: ghResult,
+          sajuA: sajuA, sajuB: sajuB,
+          mbtiA: mbtiObjA, mbtiB: mbtiObjB,
+          ggA: ggA, ggB: ggB, relType: ghRel
+        };
+        fillGhResultProgressive(ghResult,aiResult,sajuA,sajuB,mbtiObjA,mbtiObjB,ghRel);
+      } else {
+        window._lastGunghapRenderData = {
+          aiR: aiResult, ghR: ghResult,
+          sajuA: sajuA, sajuB: sajuB,
+          mbtiA: mbtiObjA, mbtiB: mbtiObjB,
+          ggA: ggA, ggB: ggB, relType: ghRel
+        };
+        try {
+          if (aiResult && aiResult.quote) {
+            var _quoteEl = document.querySelector('#ghResContent .prog-sub-card[style*="border-left"]');
+            if (_quoteEl) _quoteEl.innerHTML = '"' + aiResult.quote + '"';
+          }
+        } catch(e) {}
+      }
     }
 
     // 궁합 결과 localStorage 저장
@@ -2891,7 +3025,10 @@ async function _runGunghapAnalysis(){
       try { ghHist = JSON.parse(localStorage.getItem('mbts_gh_history')) || []; } catch(e4) {}
       ghHist.push(ghRec);
       localStorage.setItem('mbts_gh_history', JSON.stringify(ghHist));
-    } catch(e3) { console.warn('[MBTS] 궁합 저장 실패:', e3); }
+    } catch(e3) {
+      console.warn('[MBTS] 궁합 저장 실패:', e3);
+      if (typeof showToast === 'function') showToast('저장 공간이 부족합니다. 이전 분석을 삭제해주세요.');
+    }
     window._skipGhHistorySave = false;
   }catch(err){
     _isAnalyzing=false;
@@ -3156,11 +3293,19 @@ function finishAddPerson(mbtiStr){
 }
 
 
-// ═══ main-results.js (2651L) ═══
+// ═══ main-results.js (2679L) ═══
 // main-results.js — result rendering, analysis, showToast, job recovery
 // ====================================================================
 // MBTS Bridge: engine.js ↔ 파이널 UI
 // ====================================================================
+
+// ── XSS 방지 헬퍼 ──
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/[<>&"']/g, function(c) {
+    return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
 
 // ── 데모 사람 사주 자동 계산 ──
 function getDemoData(y,m,d,gender,mbtiStr){
@@ -3593,6 +3738,19 @@ function fillGhResultProgressive(ghR,aiR,sajuA,sajuB,mbtiA,mbtiB,relType){
   }
 }
 
+function renderGunghapResultV2(ghR, aiR, sajuA, sajuB, mbtiA, mbtiB, ggA, ggB, unused, relType) {
+  // 공유 링크에서 궁합 결과 렌더
+  window._lastGunghapRenderData = {
+    aiR: aiR, ghR: ghR,
+    sajuA: sajuA, sajuB: sajuB,
+    mbtiA: mbtiA, mbtiB: mbtiB,
+    ggA: ggA, ggB: ggB, relType: relType
+  };
+  // ghResult가 없으면 빈 객체로 대체 (공유 뷰에서는 점수 없을 수 있음)
+  var safeGhR = ghR || { scores: {} };
+  fillGhResultProgressive(safeGhR, aiR, sajuA, sajuB, mbtiA, mbtiB, relType);
+}
+
 // ===== 궁합 탭 스크롤 함수 =====
 function scrollToGhSec(idx){
   var sec=document.getElementById('ghSec'+idx);
@@ -3870,7 +4028,7 @@ var MBTSShare = {
       if (!targetPg || !window._isSharedView) return;
       var ctaTop = document.createElement('div');
       ctaTop.style.cssText = 'padding:16px 20px;text-align:center;background:#F8F0FF';
-      ctaTop.innerHTML = '<div style="font-size:13px;color:#888;margin-bottom:8px">' + (nickname || '친구') + '님의 분석 결과</div><a href="https://mbts.kr" style="display:inline-block;padding:14px 32px;background:#8B6CC1;color:#fff;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;box-shadow:0 4px 15px rgba(139,108,193,0.3)">✨ 나도 MBTS 분석해보기</a>';
+      ctaTop.innerHTML = '<div style="font-size:13px;color:#888;margin-bottom:8px">' + escapeHtml(nickname || '친구') + '님의 분석 결과</div><a href="https://mbts.kr" style="display:inline-block;padding:14px 32px;background:#8B6CC1;color:#fff;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;box-shadow:0 4px 15px rgba(139,108,193,0.3)">✨ 나도 MBTS 분석해보기</a>';
       targetPg.insertBefore(ctaTop, targetPg.firstChild);
       var ctaBottom = document.createElement('div');
       ctaBottom.style.cssText = 'padding:24px 20px 48px;text-align:center;background:linear-gradient(180deg,#fff 0%,#F8F0FF 100%)';
@@ -4066,7 +4224,7 @@ function startRealAnalysis(params){
   if (localStorage.getItem('mbts_active_job')) {
     try {
       var _ej = JSON.parse(localStorage.getItem('mbts_active_job'));
-      if (Date.now() - _ej.createdAt < 330000) {
+      if (Date.now() - _ej.createdAt < 300000) {
         if (typeof showToast === 'function') showToast('분석이 이미 진행 중이에요 ⏳');
         _isAnalyzing = false;
         window._MBTS_analyzeInFlight = false;
@@ -4099,7 +4257,7 @@ function startRealAnalysis(params){
       window._MBTS_analyzeInFlight = false;
       if (typeof showToast === 'function') showToast('클로버가 부족합니다 🍀');
       if (typeof showChargeModal === 'function') showChargeModal();
-      if (typeof go === 'function') go('home');
+      if (typeof go === 'function') go('pgDash');
       return;
     }
     // 로그인 필요 (userId 전송 실패)
@@ -4401,6 +4559,9 @@ function startRealAnalysis(params){
           alert('분석 오류: ' + (statusData.error || '알 수 없는 오류'));
           setTimeout(function(){ go('pgBirth'); }, 1000);
 
+        } else if (statusData.status === 'pending') {
+          // 서버 아직 시작 안 함 — 대기 (타임아웃으로 자연 종료)
+          console.log('[MBTS] saju job pending, 대기 중');
         } else if (statusData.status === 'partial') {
           clearInterval(_pollTimer);
           window._MBTS_activePollTimer = null;
@@ -5241,7 +5402,10 @@ function finalizeProgressivePage(result, saju, mt, gg, isAI) {
     hist.push(record);
     localStorage.setItem('mbts_history', JSON.stringify(hist));
     if(hist.length===1) localStorage.setItem('mbts_fortuneTarget', record.id);
-  } catch(e3) { console.warn('[PROGRESSIVE] 히스토리 저장 실패:', e3); }
+  } catch(e3) {
+    console.warn('[PROGRESSIVE] 히스토리 저장 실패:', e3);
+    if (typeof showToast === 'function') showToast('저장 공간이 부족합니다. 이전 분석을 삭제해주세요.');
+  }
 
   _progState = null;
   console.log('[PROGRESSIVE] 완료');
@@ -5786,7 +5950,8 @@ setTimeout(async function() {
     await MBTSUser.load();
     await MBTSUser.loadHistory();
     cleanupMyProfile();
-    go('pgDash');
+    if (!window._splashRouted) go('pgDash');
+    window._splashRouted = false; // 1회 사용 후 리셋 — 이후 go('pgDash')는 사용자 액션
     if (typeof renderSaveCards === 'function') setTimeout(renderSaveCards, 200);
     if (typeof updateLoginUI === 'function') updateLoginUI();
     if (typeof updateHomeProfile === 'function') setTimeout(updateHomeProfile, 100);
@@ -5856,9 +6021,9 @@ window.onerror = function(msg, url, line, col, err) {
       if (activeJob) {
         try {
           var aj = JSON.parse(activeJob);
-          if (Date.now() - aj.createdAt > 180000) {
+          if (Date.now() - aj.createdAt > 300000) {
             if (typeof _isAnalyzing !== 'undefined') _isAnalyzing = false;
-            console.log('[MBTS] 복구: _isAnalyzing stuck 해제 (3분 초과)');
+            console.log('[MBTS] 복구: _isAnalyzing stuck 해제 (5분 초과)');
           } else {
             return;
           }
@@ -5876,7 +6041,7 @@ window.onerror = function(msg, url, line, col, err) {
       localStorage.removeItem('mbts_active_job'); return;
     }
 
-    if (Date.now() - job.createdAt > 600000) {
+    if (Date.now() - job.createdAt > 300000) {
       localStorage.removeItem('mbts_active_job');
       return;
     }
