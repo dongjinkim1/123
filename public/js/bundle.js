@@ -1,4 +1,4 @@
-// MBTS Bundle — 20260522_0229
+// MBTS Bundle — 20260523_1347
 
 // ═══ main-nav.js (2404L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
@@ -2406,7 +2406,7 @@ function mbtiGoNext(){if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null)return;i
 function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
 
 
-// ═══ main-gunghap.js (972L) ═══
+// ═══ main-gunghap.js (974L) ═══
 // main-gunghap.js — gunghap load animation, analysis execution, result filling
 function toggleExtraGh(){
   var items=document.querySelectorAll('.extra-gh');
@@ -2698,14 +2698,16 @@ async function _runGunghapAnalysis(){
       h: _ghBirthA.h, min: _ghBirthA.min,
       gender: ghA.gender || '여성',
       mbtiType: _mbtiTypeA,
-      mbtiAxes: (mbtiObjA && mbtiObjA.axes) || null
+      mbtiAxes: (mbtiObjA && mbtiObjA.axes) || null,
+      name: (ghA.name || '나') + '님'
     };
     var _ghParamsB = {
       y: _ghBirthB.y, m: _ghBirthB.m, d: _ghBirthB.d,
       h: _ghBirthB.h, min: _ghBirthB.min,
       gender: ghB.gender || '남성',
       mbtiType: _mbtiTypeB,
-      mbtiAxes: (mbtiObjB && mbtiObjB.axes) || null
+      mbtiAxes: (mbtiObjB && mbtiObjB.axes) || null,
+      name: (ghB.name || '상대') + '님'
     };
 
     var _ghResp = await fetch('/api/gunghap-v2', {
