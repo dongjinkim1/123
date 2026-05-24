@@ -447,6 +447,7 @@ async function _runGunghapAnalysis(){
           if (data.partial_subs && data.partial_subs.length > _ghRenderedSubCount) {
             if (!_ghPageInitialized) {
               _ghPageInitialized = true;
+              window._ghProgState = { subCount: 0 };  // finalizeGhProgressivePage 참조용
               go('pgGhRes');
               var _progEl = document.getElementById('ghResContent');
               if (_progEl) {
@@ -480,6 +481,7 @@ async function _runGunghapAnalysis(){
                 _card.innerHTML = '<div class="r-sub-h">' + _subH + '</div><div class="r-sub-b">' + _bodyHtml + '</div>';
                 _container.appendChild(_card);
                 setTimeout((function(c){ return function(){ c.classList.add('revealed'); }; })(_card), 50);
+                if (window._ghProgState) window._ghProgState.subCount++;
               }
               var _skel = document.getElementById('gh-prog-skeleton');
               if (_skel) _container.parentNode.insertBefore(_skel, _container.nextSibling);
@@ -643,7 +645,7 @@ async function _runGunghapAnalysis(){
     if (_ghPageInitialized) {
       // 프로그레시브 모드 → finalize
       if (typeof finalizeGhProgressivePage === 'function') {
-        finalizeGhProgressivePage(aiResult, ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel, _ixGhCollectedSubs);
+        finalizeGhProgressivePage(aiResult, ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel);
       }
     } else {
       // 프로그레시브 미진입 → 기존 한방 렌더
