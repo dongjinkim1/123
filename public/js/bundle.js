@@ -1,4 +1,4 @@
-// MBTS Bundle — 20260524_2130
+// MBTS Bundle — 20260524_2253
 
 // ═══ main-nav.js (2404L) ═══
 // main-nav.js — navigation, state, profiles, dashboard, birth input, MBTI, gunghap selection
@@ -2406,7 +2406,7 @@ function mbtiGoNext(){if(mbtiCh[mbtiCur]===null||mbtiIt[mbtiCur]===null)return;i
 function mbtiGoBack(){if(mbtiCur>0){mbtiCur--;renderMBTI();}else go('pgBirth');}
 
 
-// ═══ main-gunghap.js (976L) ═══
+// ═══ main-gunghap.js (918L) ═══
 // main-gunghap.js — gunghap load animation, analysis execution, result filling
 function toggleExtraGh(){
   var items=document.querySelectorAll('.extra-gh');
@@ -2852,50 +2852,16 @@ async function _runGunghapAnalysis(){
             _ghPollStart = Date.now();
           }
 
-          // ── progressive sub 렌더링 ──
+          // ── progressive sub 렌더링 (개인분석과 동일 패턴: init/append/finalize 함수 호출) ──
           if (data.partial_subs && data.partial_subs.length > _ghRenderedSubCount) {
             if (!_ghPageInitialized) {
+              initGhProgressivePage(ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel);
               _ghPageInitialized = true;
-              window._ghProgState = { subCount: 0 };  // finalizeGhProgressivePage 참조용
-              go('pgGhRes');
-              var _progEl = document.getElementById('ghResContent');
-              if (_progEl) {
-                var _cat = (window.GH_CATEGORIES && window.GH_CATEGORIES[ghRel]) || {label:'궁합',emoji:'💕',scoreLabels:{love:'연애',comm:'소통',values:'가치관',work:'업무'}};
-                var _sc = ghResult ? ghResult.scores : {};
-                var _ph = '<div class="res-wrap">';
-                _ph += '<div style="padding:16px 16px 0"><button onclick="history.back()" style="background:none;border:none;font-size:15px;color:var(--purple);cursor:pointer;padding:4px 0;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:4px"><span style="font-size:18px">←</span> 뒤로</button></div>';
-                if (typeof _buildGhHeader === 'function') {
-                  _ph += _buildGhHeader(sajuA, sajuB, mbtiObjA, mbtiObjB, null, null, ghRel, _sc);
-                }
-                _ph += '<div id="gh-prog-sub-container"></div>';
-                _ph += '<div id="gh-prog-skeleton" class="r-sub prog-sub-card" style="text-align:center;padding:20px;color:var(--text-3);font-size:13px"><span class="load-dots"><span></span><span></span><span></span></span> 풀이를 펼치는 중</div>';
-                _ph += '<div id="gh-prog-cta" style="display:none;padding:20px">';
-                _ph += '<button onclick="go(\'pgDash\')" class="r-cta-btn" style="background:rgba(232,69,60,.1);color:#E8453C">💕 새 궁합 보기</button>';
-                _ph += '<button onclick="shareResult()" class="r-cta-btn" style="background:#FEE500;color:#191919">💬 카카오 공유</button>';
-                _ph += '<p style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-3)">본 풀이는 참고용 분석이며, 개인의 의사결정을 대체하지 않습니다.</p>';
-                _ph += '</div></div>';
-                _progEl.innerHTML = _ph;
-                setTimeout(function(){ var _cards = _progEl.querySelectorAll('.prog-sub-card'); for(var _ci=0;_ci<_cards.length;_ci++) _cards[_ci].classList.add('revealed'); }, 100);
-              }
             }
-            var _container = document.getElementById('gh-prog-sub-container');
-            if (_container) {
-              for (var _si = _ghRenderedSubCount; _si < data.partial_subs.length; _si++) {
-                var _sub = data.partial_subs[_si];
-                var _subH = _sub.h || '';
-                var _subB = _sub.b || (_sub.content ? (_sub.content + (_sub.insightText ? ('\n\n' + (_sub.insightIcon||'💊') + ' ' + _sub.insightText) : '')) : '');
-                var _bodyHtml = (typeof renderSubBody === 'function') ? renderSubBody(_subB) : _subB.replace(/\n\n/g, '<br><br>');
-                var _card = document.createElement('div');
-                _card.className = 'r-sub prog-sub-card';
-                _card.innerHTML = '<div class="r-sub-h">' + _subH + '</div><div class="r-sub-b">' + _bodyHtml + '</div>';
-                _container.appendChild(_card);
-                setTimeout((function(c){ return function(){ c.classList.add('revealed'); }; })(_card), 50);
-                if (window._ghProgState) window._ghProgState.subCount++;
-              }
-              var _skel = document.getElementById('gh-prog-skeleton');
-              if (_skel) _container.parentNode.insertBefore(_skel, _container.nextSibling);
+            for (var _si = _ghRenderedSubCount; _si < data.partial_subs.length; _si++) {
+              appendGhSubCard(data.partial_subs[_si], _si, ghRel);
+              _ghRenderedSubCount++;
             }
-            _ghRenderedSubCount = data.partial_subs.length;
             _ghPollStart = Date.now();
             if (data.progress) {
               bar.style.width = Math.max(data.progress, fakePct) + '%';
@@ -2905,37 +2871,7 @@ async function _runGunghapAnalysis(){
           if (data.status === 'done' && data.result && data.result.text) {
             clearInterval(_ghTimer);
             localStorage.removeItem('mbts_active_job');
-            if (_ghPageInitialized) {
-              // ── 마지막 sub catchup: 전체 JSON에서 남은 sub 렌더링 ──
-              try {
-                var _doneResult = JSON.parse(data.result.text);
-                if (_doneResult && _doneResult.categories) {
-                  var _allDoneSubs = [];
-                  _doneResult.categories.forEach(function(c) {
-                    (c.subs || []).forEach(function(s) { _allDoneSubs.push(s); });
-                  });
-                  var _catchupContainer = document.getElementById('gh-prog-sub-container');
-                  if (_catchupContainer && _allDoneSubs.length > _ghRenderedSubCount) {
-                    for (var _di = _ghRenderedSubCount; _di < _allDoneSubs.length; _di++) {
-                      var _dSub = _allDoneSubs[_di];
-                      var _dH = _dSub.h || '';
-                      var _dB = _dSub.b || '';
-                      var _dBodyHtml = (typeof renderSubBody === 'function') ? renderSubBody(_dB) : _dB.replace(/\n\n/g, '<br><br>');
-                      var _dCard = document.createElement('div');
-                      _dCard.className = 'r-sub prog-sub-card';
-                      _dCard.innerHTML = '<div class="r-sub-h">' + _dH + '</div><div class="r-sub-b">' + _dBodyHtml + '</div>';
-                      _catchupContainer.appendChild(_dCard);
-                      setTimeout((function(c){ return function(){ c.classList.add('revealed'); }; })(_dCard), 50);
-                    }
-                    _ghRenderedSubCount = _allDoneSubs.length;
-                  }
-                }
-              } catch(e) { console.warn('[MBTS] done sub catchup error:', e); }
-              var _skelDone = document.getElementById('gh-prog-skeleton');
-              if (_skelDone) _skelDone.style.display = 'none';
-              var _ctaDone = document.getElementById('gh-prog-cta');
-              if (_ctaDone) _ctaDone.style.display = 'block';
-            }
+            // catchup + skeleton/CTA 처리는 finalizeGhProgressivePage가 담당 (resolve 후 호출됨)
             resolve(data.result.text);
           } else if (data.status === 'failed') {
             clearInterval(_ghTimer);
@@ -3054,7 +2990,13 @@ async function _runGunghapAnalysis(){
     if (_ghPageInitialized) {
       // 프로그레시브 모드 → finalize
       if (typeof finalizeGhProgressivePage === 'function') {
-        finalizeGhProgressivePage(aiResult, ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel);
+        var _collectedSubs = [];
+        if (aiResult && aiResult.categories) {
+          aiResult.categories.forEach(function(cat) {
+            if (cat.subs) _collectedSubs = _collectedSubs.concat(cat.subs);
+          });
+        }
+        finalizeGhProgressivePage(aiResult, ghResult, sajuA, sajuB, mbtiObjA, mbtiObjB, ggA, ggB, ghRel, _collectedSubs);
       }
     } else {
       // 프로그레시브 미진입 → 기존 한방 렌더
