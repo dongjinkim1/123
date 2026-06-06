@@ -1,0 +1,18 @@
+[
+  {
+    "round": 1,
+    "stage": "myeongri",
+    "fails": [
+      { "code": "T2", "reason": "saeng factor에 normalize:polarityMag 사용 → 길흉 라벨이 없어 값이 상수가 되는 죽은 factor(saeng 정석 정규화는 bool01)." },
+      { "code": "T2", "reason": "geuk factor도 동일하게 normalize:polarityMag mispairing → 두 번째 죽은 factor." }
+    ]
+  },
+  {
+    "round": 2,
+    "stage": "myeongri",
+    "fails": [
+      { "code": "T2", "reason": "magnitude 주축(약오행 금 강도)에 모 오행 상생(토생금=강화)과 극 오행 압박(화극금=약화)을 둘 다 weight≥0 양의 가산항으로 합산 → 상반된 방향이 모두 점수를 올려 단조성/방향 위반." },
+      { "code": "T2", "reason": "발췌의 '상극 과다 원리'는 과다 오행 대상인데 금은 부족 오행(weakOh) → controller_pressure(화극금)를 부족 오행에 양의 기여로 붙인 것은 발췌 원리 적용 대상 불일치." }
+    ]
+  }
+]

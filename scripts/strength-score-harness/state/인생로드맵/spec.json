@@ -1,0 +1,16 @@
+{
+  "block": "인생로드맵",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "activation",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "daewoonHapChung", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 0.9 },
+      { "key": "strengthGatedExperience", "source": "gangdo", "normalize": "identity", "transform": "identity", "weight": 0.8 },
+      { "key": "incomingLuckFavor", "source": "gilhyung", "normalize": "polarityMag", "transform": "identity", "weight": 0.6 }
+    ]
+  },
+  "geunge": "P2-S04 — 인생 로드맵은 대운 합충 활성을 주축으로, 강도 게이트 경험치와 들어오는 운의 길흉을 보조로 둔다. 발췌 근거 부족.",
+  "flag": "발췌부족"
+}

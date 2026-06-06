@@ -1,0 +1,15 @@
+{
+  "block": "개운",
+  "pillar": null,
+  "oh": "목",
+  "gangdoAxis": "derived",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "yongsin_alignment", "source": "gilhyung", "against": "목", "normalize": "polarityMag", "transform": "identity", "weight": 0.7 },
+      { "key": "element_activation", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 0.2 }
+    ]
+  },
+  "geunge": "P1-S29 ⑬ 개운 — 용신 정렬(길흉 극성)을 주축으로, 합충 활성도를 보조로 둔다. 처방적 성격이라 근거 약함.",
+  "flag": "근거약함"
+}

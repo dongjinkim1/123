@@ -1,0 +1,17 @@
+{
+  "block": "자녀",
+  "pillar": "시지",
+  "oh": "화",
+  "gangdoAxis": "magnitude",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "dmStrengthBase", "source": "gangdo", "normalize": "identity", "transform": "identity", "weight": 1.0 },
+      { "key": "siksangChildStar", "source": "saeng", "against": "토", "normalize": "bool01", "transform": "identity", "weight": 0.7 },
+      { "key": "gwanseongChildStar", "source": "geuk", "against": "수", "normalize": "bool01", "transform": "identity", "weight": 0.7 },
+      { "key": "childPalaceImpact", "source": "wuichi", "normalize": "div5", "transform": "identity", "weight": 0.5 }
+    ]
+  },
+  "geunge": "P1-S59 ㉖ 자녀운 분석 — 일간 강도를 magnitude 주축으로, 식상(자녀성)·관성·시지 궁위 충격도를 보조로 둔다. 발췌 근거 부족.",
+  "flag": "발췌부족"
+}

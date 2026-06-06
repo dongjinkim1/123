@@ -1,0 +1,15 @@
+{
+  "block": "공망",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "magnitude",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "void_palace_strength", "source": "gangdo", "against": "일간", "normalize": "identity", "transform": "sqrt", "weight": 0.6 },
+      { "key": "hap_fill", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 0.3 }
+    ]
+  },
+  "geunge": "P1-S11 ⑤ 공망 — 공망 궁의 강도를 magnitude로 두고, 합으로 메워지는 정도를 보조로 둔다.",
+  "flag": ""
+}

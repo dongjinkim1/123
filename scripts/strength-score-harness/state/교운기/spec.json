@@ -1,0 +1,15 @@
+{
+  "block": "교운기",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "activation",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "transition_relation", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 1.0 },
+      { "key": "base_strength", "source": "gangdo", "normalize": "identity", "transform": "sqrt", "weight": 0.5 }
+    ]
+  },
+  "geunge": "P1-S15 ⑦ 대운 교운기 — 교운 시 합충 관계 활성도를 주축으로, 원국 기반 강도를 보조로 둔다. 발췌 근거 부족.",
+  "flag": "발췌부족"
+}

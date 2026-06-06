@@ -1,0 +1,16 @@
+{
+  "block": "월간하이라이트",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "activation",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "monthRelationTrigger", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 1.0 },
+      { "key": "osinMonthFavor", "source": "gilhyung", "normalize": "polarityMag", "transform": "identity", "weight": 0.8 },
+      { "key": "dmEnergyActivated", "source": "gangdo", "normalize": "identity", "transform": "identity", "weight": 0.6 }
+    ]
+  },
+  "geunge": "P1-S03 ① 5신 체계 — 월별 합충 트리거를 주축으로, 오신 길흉(polarityMag)과 일간 에너지 활성을 보조로 둔다. 발췌 근거 부족.",
+  "flag": "발췌부족"
+}

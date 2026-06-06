@@ -1,0 +1,28 @@
+{
+  "updatedAt": "2026-06-07",
+  "blocks": [
+    { "id": "신강약", "slug": "신강약", "status": "passed", "round": 1 },
+    { "id": "오신", "slug": "오신", "status": "passed", "round": 1 },
+    { "id": "육친", "slug": "육친", "status": "passed", "round": 1 },
+    { "id": "개운", "slug": "개운", "status": "passed", "round": 1 },
+    { "id": "공망", "slug": "공망", "status": "passed", "round": 1 },
+    { "id": "건강", "slug": "건강", "status": "passed", "round": 3 },
+    { "id": "직업적성", "slug": "직업적성", "status": "passed", "round": 2 },
+    { "id": "원국관계", "slug": "원국관계", "status": "passed", "round": 1 },
+    { "id": "형", "slug": "형", "status": "passed", "round": 1 },
+    { "id": "월률", "slug": "월률", "status": "passed", "round": 1 },
+    { "id": "신살", "slug": "신살", "status": "passed", "round": 1 },
+    { "id": "교운기", "slug": "교운기", "status": "passed", "round": 1 },
+    { "id": "러브타이밍", "slug": "러브타이밍", "status": "passed", "round": 1 },
+    { "id": "머니타이밍", "slug": "머니타이밍", "status": "passed", "round": 2 },
+    { "id": "합트리거", "slug": "합트리거", "status": "passed", "round": 1 },
+    { "id": "월간하이라이트", "slug": "월간하이라이트", "status": "passed", "round": 1 },
+    { "id": "택일", "slug": "택일", "status": "passed", "round": 1 },
+    { "id": "인생로드맵", "slug": "인생로드맵", "status": "passed", "round": 1 },
+    { "id": "자녀", "slug": "자녀", "status": "passed", "round": 1 },
+    { "id": "음양", "slug": "음양", "status": "passed", "round": 1 },
+    { "id": "투출", "slug": "투출", "status": "passed", "round": 1 },
+    { "id": "운성궁위", "slug": "운성궁위", "status": "passed", "round": 1 },
+    { "id": "통변", "slug": "통변", "status": "passed", "round": 1 }
+  ]
+}

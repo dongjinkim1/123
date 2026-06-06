@@ -1,0 +1,15 @@
+{
+  "block": "건강",
+  "pillar": null,
+  "oh": "금",
+  "gangdoAxis": "magnitude",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "weakOh_strength", "source": "gangdo", "against": "금", "normalize": "identity", "transform": "identity", "weight": 1.0 },
+      { "key": "mother_support_to_geum", "source": "saeng", "against": "금", "normalize": "bool01", "transform": "identity", "weight": 0.5 }
+    ]
+  },
+  "geunge": "P1-S21 오행 건강론 — '상생 보강 원리: 부족한 오행을 직접 보충하거나, 그 오행을 생하는 모(母) 오행을 보강'(예: 금(폐) 부족 → 토 보강(토생금)). 약오행 금 강도를 magnitude 주축에 두고, ground_truth saeng.generatedBy=토(토생금) 모 오행 보강만 금 강화와 같은 방향으로 bool01 가산한다. 화극금(상극)은 금을 약화시키고 '상극 과다 원리'는 과다 오행 대상이라 부족 오행 금에 적용 불가하므로 factor에서 제외.",
+  "flag": ""
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "round": 1,
+    "stage": "myeongri",
+    "fails": [
+      { "code": "T2", "reason": "activation 블록인데 운(運)에서 들어오는 트리거(relation)를 w0.3 보조로 강등하고 원국 재성 강도(gangdo)를 w1.0 주축으로 둠 → activation 블록의 주축 방향 오류(트리거가 주축이어야 함)." }
+    ]
+  }
+]

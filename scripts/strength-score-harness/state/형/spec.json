@@ -1,0 +1,16 @@
+{
+  "block": "형",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "activation",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "hyung_present", "source": "hyung", "normalize": "bool01", "transform": "identity", "weight": 1.0 },
+      { "key": "relation_strength", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 0.5 },
+      { "key": "chart_strength_activation", "source": "gangdo", "against": "일간", "normalize": "identity", "transform": "sqrt", "weight": 0.3 }
+    ]
+  },
+  "geunge": "P1-S17 SJ_checkSamhyung — 형의 존재를 bool 게이트로, 관계 강도와 원국 강도를 보조로 둔다.",
+  "flag": "hyung 0개 — hyung factor는 두되 본 원국에서 0으로 평가됨"
+}

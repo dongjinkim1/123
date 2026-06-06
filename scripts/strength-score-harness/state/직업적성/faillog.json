@@ -1,0 +1,10 @@
+[
+  {
+    "round": 1,
+    "stage": "myeongri",
+    "fails": [
+      { "code": "T2근거", "reason": "yongshin_alignment factor가 전제한 용신 정렬이 P1-S37(SJ_JOB_APTITUDE) 발췌에 부재 — 발췌에 없는 용신·길흉 라벨을 근거로 날조." },
+      { "code": "T2", "reason": "gilhyung+div5 mispairing → 길흉 크기가 5로 나뉘며 사실상 상수에 가까운 죽은 factor." }
+    ]
+  }
+]

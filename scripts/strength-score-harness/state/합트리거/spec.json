@@ -1,0 +1,15 @@
+{
+  "block": "합트리거",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "activation",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "hapchung_trigger", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 1.0 },
+      { "key": "hyung_gate", "source": "hyung", "normalize": "bool01", "transform": "identity", "weight": 0.3 }
+    ]
+  },
+  "geunge": "P2-S28 ⑦ 합충형 — 합충 트리거 활성도를 주축으로, 형 존재를 bool 보조 게이트로 둔다.",
+  "flag": ""
+}

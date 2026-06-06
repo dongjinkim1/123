@@ -1,0 +1,15 @@
+{
+  "block": "원국관계",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "activation",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "relation_strength", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 1.0 },
+      { "key": "chart_strength_activation", "source": "gangdo", "against": "일간", "normalize": "identity", "transform": "sqrt", "weight": 0.5 }
+    ]
+  },
+  "geunge": "P2-S26 원국 내 관계(합충형) 활성도를 주축으로, 원국 강도를 활성 보조로 둔다.",
+  "flag": ""
+}

@@ -1,0 +1,16 @@
+{
+  "block": "육친",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "magnitude",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "sipsung_strength", "source": "gangdo", "against": "일간", "normalize": "identity", "transform": "sqrt", "weight": 0.8 },
+      { "key": "saeng_support", "source": "saeng", "against": "일간", "normalize": "relMag", "transform": "identity", "weight": 0.3 },
+      { "key": "geuk_pressure", "source": "geuk", "against": "일간", "normalize": "relMag", "transform": "identity", "weight": 0.3 }
+    ]
+  },
+  "geunge": "P1-S05 ② 육친론 — 십성 강도 magnitude를 주축으로, 생/극 관계를 보조 가중으로 둔다.",
+  "flag": ""
+}

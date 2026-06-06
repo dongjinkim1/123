@@ -1,0 +1,807 @@
+{
+  "meta": {
+    "case": {
+      "y": 1993,
+      "m": 5,
+      "d": 26,
+      "h": 8,
+      "min": 40,
+      "lon": 126.98
+    },
+    "dmEl": "화",
+    "yongshinOh": "목",
+    "weakOh": "금",
+    "registry": [
+      "gangdo",
+      "wuichi",
+      "gilhyung",
+      "relation",
+      "hyung",
+      "saeng",
+      "geuk"
+    ],
+    "normalize": [
+      "identity",
+      "div5",
+      "polarityMag",
+      "bool01",
+      "relMag"
+    ],
+    "transform": [
+      "identity",
+      "sqrt",
+      "pow:k(k>0)",
+      "log1p",
+      "div:c(c>0)"
+    ],
+    "form": [
+      "weighted_sum",
+      "weighted_product",
+      "min_gate"
+    ],
+    "monotonicity": "wᵢ≥0 · fᵢ∈[0,1] · transform 단조증가 → gangdo factor 단조 비감소(M4)",
+    "openAxis": [
+      "음양",
+      "투출",
+      "운성궁위",
+      "통변"
+    ],
+    "note": "점수 도출·검증 산출물. 프롬프트에 배선하지 않는다.",
+    "generatedAt": "2026-06-06T18:16:07.376Z"
+  },
+  "blocks": {
+    "음양": {
+      "spec": {
+        "block": "음양",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "open",
+        "relevance": null,
+        "geunge": "4-OPEN: 음양은 강도(magnitude) 점수화 대상이 아니다. 음양/투출/12운성/통변은 축을 열어 둔다(producer 규칙 #7).",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "신강약": {
+      "spec": {
+        "block": "신강약",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "magnitude",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "strength_magnitude",
+              "source": "gangdo",
+              "against": "일간",
+              "normalize": "identity",
+              "transform": "sqrt",
+              "weight": 1
+            },
+            {
+              "key": "insung_support",
+              "source": "saeng",
+              "against": "일간",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 0.2
+            }
+          ]
+        },
+        "geunge": "P1-S45 ⑲ 신강/신약 판정 — 일간 대비 강도 magnitude를 그대로 축으로 삼고, 인성(생) 지원을 보조 가중으로 둔다.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "통변": {
+      "spec": {
+        "block": "통변",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "open",
+        "relevance": null,
+        "geunge": "4-OPEN: 통변(通變)은 해석 서사 영역으로 강도 점수화 대상이 아니다(producer 규칙 #7).",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "오신": {
+      "spec": {
+        "block": "오신",
+        "pillar": null,
+        "oh": "목",
+        "gangdoAxis": "derived",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "osin_polarity",
+              "source": "gilhyung",
+              "against": "목",
+              "normalize": "polarityMag",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "yongsin_strength",
+              "source": "gangdo",
+              "against": "일간",
+              "normalize": "identity",
+              "transform": "sqrt",
+              "weight": 0.3
+            }
+          ]
+        },
+        "geunge": "P1-S03 ① 5신 체계(용신·희신·한신·구신·기신) — 오행의 길흉 극성을 polarityMag로 크기화하고, 강도를 보조로 둔다.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "개운": {
+      "spec": {
+        "block": "개운",
+        "pillar": null,
+        "oh": "목",
+        "gangdoAxis": "derived",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "yongsin_alignment",
+              "source": "gilhyung",
+              "against": "목",
+              "normalize": "polarityMag",
+              "transform": "identity",
+              "weight": 0.7
+            },
+            {
+              "key": "element_activation",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 0.2
+            }
+          ]
+        },
+        "geunge": "P1-S29 ⑬ 개운 — 용신 정렬(길흉 극성)을 주축으로, 합충 활성도를 보조로 둔다. 처방적 성격이라 근거 약함.",
+        "flag": "근거약함"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "육친": {
+      "spec": {
+        "block": "육친",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "magnitude",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "sipsung_strength",
+              "source": "gangdo",
+              "against": "일간",
+              "normalize": "identity",
+              "transform": "sqrt",
+              "weight": 0.8
+            },
+            {
+              "key": "saeng_support",
+              "source": "saeng",
+              "against": "일간",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 0.3
+            },
+            {
+              "key": "geuk_pressure",
+              "source": "geuk",
+              "against": "일간",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 0.3
+            }
+          ]
+        },
+        "geunge": "P1-S05 ② 육친론 — 십성 강도 magnitude를 주축으로, 생/극 관계를 보조 가중으로 둔다.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "운성궁위": {
+      "spec": {
+        "block": "운성궁위",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "open",
+        "relevance": null,
+        "geunge": "4-OPEN: 12운성(운성궁위)은 강도 점수화 대상이 아니다(producer 규칙 #7). 궁위·운성은 위치/단계 정보로 축을 열어 둔다.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "공망": {
+      "spec": {
+        "block": "공망",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "magnitude",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "void_palace_strength",
+              "source": "gangdo",
+              "against": "일간",
+              "normalize": "identity",
+              "transform": "sqrt",
+              "weight": 0.6
+            },
+            {
+              "key": "hap_fill",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 0.3
+            }
+          ]
+        },
+        "geunge": "P1-S11 ⑤ 공망 — 공망 궁의 강도를 magnitude로 두고, 합으로 메워지는 정도를 보조로 둔다.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "건강": {
+      "spec": {
+        "block": "건강",
+        "pillar": null,
+        "oh": "금",
+        "gangdoAxis": "magnitude",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "weakOh_strength",
+              "source": "gangdo",
+              "against": "금",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "mother_support_to_geum",
+              "source": "saeng",
+              "against": "금",
+              "normalize": "bool01",
+              "transform": "identity",
+              "weight": 0.5
+            }
+          ]
+        },
+        "geunge": "P1-S21 오행 건강론 — '상생 보강 원리: 부족한 오행을 직접 보충하거나, 그 오행을 생하는 모(母) 오행을 보강'(예: 금(폐) 부족 → 토 보강(토생금)). 약오행 금 강도를 magnitude 주축에 두고, ground_truth saeng.generatedBy=토(토생금) 모 오행 보강만 금 강화와 같은 방향으로 bool01 가산한다. 화극금(상극)은 금을 약화시키고 '상극 과다 원리'는 과다 오행 대상이라 부족 오행 금에 적용 불가하므로 factor에서 제외.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 3
+      }
+    },
+    "직업적성": {
+      "spec": {
+        "block": "직업적성",
+        "pillar": null,
+        "oh": "목",
+        "gangdoAxis": "derived",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "sipsung_group_strength",
+              "source": "gangdo",
+              "against": "일간",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "sipsung_subgroup_strength",
+              "source": "gangdo",
+              "normalize": "identity",
+              "transform": "sqrt",
+              "weight": 0.5
+            }
+          ]
+        },
+        "geunge": "P1-S37 직업 적성 매칭(SJ_JOB_APTITUDE/SJ_buildJobText) — 발췌는 5개 십성군(비겁·식상·재성·관성·인성) 강도 분포에서 dominant·subdominant·weakest를 정렬해 직업을 매칭한다. 주력 십성군 강도를 derived 주축으로, 조합을 결정하는 보조 십성군 강도 분포를 sqrt 압축 보조로 둔다. 발췌에 용신·길흉 라벨이 전무하므로 용신 정렬은 쓰지 않는다.",
+        "flag": "근거약함"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 2
+      }
+    },
+    "원국관계": {
+      "spec": {
+        "block": "원국관계",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "activation",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "relation_strength",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "chart_strength_activation",
+              "source": "gangdo",
+              "against": "일간",
+              "normalize": "identity",
+              "transform": "sqrt",
+              "weight": 0.5
+            }
+          ]
+        },
+        "geunge": "P2-S26 원국 내 관계(합충형) 활성도를 주축으로, 원국 강도를 활성 보조로 둔다.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "형": {
+      "spec": {
+        "block": "형",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "activation",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "hyung_present",
+              "source": "hyung",
+              "normalize": "bool01",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "relation_strength",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 0.5
+            },
+            {
+              "key": "chart_strength_activation",
+              "source": "gangdo",
+              "against": "일간",
+              "normalize": "identity",
+              "transform": "sqrt",
+              "weight": 0.3
+            }
+          ]
+        },
+        "geunge": "P1-S17 SJ_checkSamhyung — 형의 존재를 bool 게이트로, 관계 강도와 원국 강도를 보조로 둔다.",
+        "flag": "hyung 0개 — hyung factor는 두되 본 원국에서 0으로 평가됨"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "투출": {
+      "spec": {
+        "block": "투출",
+        "pillar": "월지",
+        "oh": "화",
+        "gangdoAxis": "open",
+        "relevance": null,
+        "geunge": "4-OPEN: 투출은 강도 점수화 대상이 아니다(producer 규칙 #7). 월지 투간 사실은 기록하되 magnitude 축으로 닫지 않는다.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "월률": {
+      "spec": {
+        "block": "월률",
+        "pillar": "월지",
+        "oh": "화",
+        "gangdoAxis": "magnitude",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "woljisa_position_weight",
+              "source": "wuichi",
+              "normalize": "div5",
+              "transform": "identity",
+              "weight": 0.6
+            },
+            {
+              "key": "month_branch_strength",
+              "source": "gangdo",
+              "against": "일간",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 1
+            }
+          ]
+        },
+        "geunge": "P1-S27 월률분야(월령) — 월지 궁위 충격도를 div5로 크기화하고, 월지 강도를 magnitude 주축으로 둔다.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "신살": {
+      "spec": {
+        "block": "신살",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "magnitude",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "sinsal_strength",
+              "source": "gangdo",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "sinsal_gilshin",
+              "source": "gilhyung",
+              "normalize": "bool01",
+              "transform": "identity",
+              "weight": 0.4
+            }
+          ]
+        },
+        "geunge": "신살 강도 magnitude를 주축으로 두되, 발췌 근거가 부족하여 길신/흉신 극성은 bool 보조로만 둔다.",
+        "flag": "발췌부족"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "교운기": {
+      "spec": {
+        "block": "교운기",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "activation",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "transition_relation",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "base_strength",
+              "source": "gangdo",
+              "normalize": "identity",
+              "transform": "sqrt",
+              "weight": 0.5
+            }
+          ]
+        },
+        "geunge": "P1-S15 ⑦ 대운 교운기 — 교운 시 합충 관계 활성도를 주축으로, 원국 기반 강도를 보조로 둔다. 발췌 근거 부족.",
+        "flag": "발췌부족"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "러브타이밍": {
+      "spec": {
+        "block": "러브타이밍",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "activation",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "ilji_hap_trigger",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "jaegwan_strength",
+              "source": "gangdo",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 0.6
+            }
+          ]
+        },
+        "geunge": "P1-S39 ⑯ 연애/결혼 타이밍 — 일지 합 트리거(관계 활성)를 주축으로, 재·관 강도를 보조로 둔다. 발췌 근거 부족.",
+        "flag": "발췌부족"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "머니타이밍": {
+      "spec": {
+        "block": "머니타이밍",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "activation",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "annual_relation_trigger",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "jaeseong_strength",
+              "source": "gangdo",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 0.6
+            }
+          ]
+        },
+        "geunge": "P1-S53 재물운 타이밍(SJ_findMoneyTiming) — 발췌 점수 구조는 세운 천간 재성(+3)·세운 지지 재성오행(+2)·대운 재성(+2)·식상생재 시너지(+3) 등 운에서 들어오는 트리거가 지배적이다. activation 블록이므로 세운/대운 트리거 활성(relation)을 주축(w1.0)으로, 원국 재성 강도를 보조(w0.6)로 재배치한다. 러브타이밍과 동일한 trigger-주축 구조.",
+        "flag": "발췌부족"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 2
+      }
+    },
+    "합트리거": {
+      "spec": {
+        "block": "합트리거",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "activation",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "hapchung_trigger",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "hyung_gate",
+              "source": "hyung",
+              "normalize": "bool01",
+              "transform": "identity",
+              "weight": 0.3
+            }
+          ]
+        },
+        "geunge": "P2-S28 ⑦ 합충형 — 합충 트리거 활성도를 주축으로, 형 존재를 bool 보조 게이트로 둔다.",
+        "flag": ""
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "월간하이라이트": {
+      "spec": {
+        "block": "월간하이라이트",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "activation",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "monthRelationTrigger",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "osinMonthFavor",
+              "source": "gilhyung",
+              "normalize": "polarityMag",
+              "transform": "identity",
+              "weight": 0.8
+            },
+            {
+              "key": "dmEnergyActivated",
+              "source": "gangdo",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 0.6
+            }
+          ]
+        },
+        "geunge": "P1-S03 ① 5신 체계 — 월별 합충 트리거를 주축으로, 오신 길흉(polarityMag)과 일간 에너지 활성을 보조로 둔다. 발췌 근거 부족.",
+        "flag": "발췌부족"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "택일": {
+      "spec": {
+        "block": "택일",
+        "pillar": null,
+        "oh": "목",
+        "gangdoAxis": "activation",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "dayElementFavor",
+              "source": "gilhyung",
+              "normalize": "polarityMag",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "hapChungTrigger",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 0.7
+            },
+            {
+              "key": "energyToSeize",
+              "source": "gangdo",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 0.5
+            }
+          ]
+        },
+        "geunge": "P2-S04 — 택일은 길일 오행 정렬(polarityMag)을 주축으로, 합충 트리거와 강도를 보조로 둔다. 처방적 성격이라 근거 약함.",
+        "flag": "근거약함"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "인생로드맵": {
+      "spec": {
+        "block": "인생로드맵",
+        "pillar": null,
+        "oh": "화",
+        "gangdoAxis": "activation",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "daewoonHapChung",
+              "source": "relation",
+              "normalize": "relMag",
+              "transform": "identity",
+              "weight": 0.9
+            },
+            {
+              "key": "strengthGatedExperience",
+              "source": "gangdo",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 0.8
+            },
+            {
+              "key": "incomingLuckFavor",
+              "source": "gilhyung",
+              "normalize": "polarityMag",
+              "transform": "identity",
+              "weight": 0.6
+            }
+          ]
+        },
+        "geunge": "P2-S04 — 인생 로드맵은 대운 합충 활성을 주축으로, 강도 게이트 경험치와 들어오는 운의 길흉을 보조로 둔다. 발췌 근거 부족.",
+        "flag": "발췌부족"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    },
+    "자녀": {
+      "spec": {
+        "block": "자녀",
+        "pillar": "시지",
+        "oh": "화",
+        "gangdoAxis": "magnitude",
+        "relevance": {
+          "form": "weighted_sum",
+          "factors": [
+            {
+              "key": "dmStrengthBase",
+              "source": "gangdo",
+              "normalize": "identity",
+              "transform": "identity",
+              "weight": 1
+            },
+            {
+              "key": "siksangChildStar",
+              "source": "saeng",
+              "against": "토",
+              "normalize": "bool01",
+              "transform": "identity",
+              "weight": 0.7
+            },
+            {
+              "key": "gwanseongChildStar",
+              "source": "geuk",
+              "against": "수",
+              "normalize": "bool01",
+              "transform": "identity",
+              "weight": 0.7
+            },
+            {
+              "key": "childPalaceImpact",
+              "source": "wuichi",
+              "normalize": "div5",
+              "transform": "identity",
+              "weight": 0.5
+            }
+          ]
+        },
+        "geunge": "P1-S59 ㉖ 자녀운 분석 — 일간 강도를 magnitude 주축으로, 식상(자녀성)·관성·시지 궁위 충격도를 보조로 둔다. 발췌 근거 부족.",
+        "flag": "발췌부족"
+      },
+      "verify": {
+        "status": "passed",
+        "round": 1
+      }
+    }
+  }
+}

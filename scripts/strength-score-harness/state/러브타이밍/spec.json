@@ -1,0 +1,15 @@
+{
+  "block": "러브타이밍",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "activation",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "ilji_hap_trigger", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 1.0 },
+      { "key": "jaegwan_strength", "source": "gangdo", "normalize": "identity", "transform": "identity", "weight": 0.6 }
+    ]
+  },
+  "geunge": "P1-S39 ⑯ 연애/결혼 타이밍 — 일지 합 트리거(관계 활성)를 주축으로, 재·관 강도를 보조로 둔다. 발췌 근거 부족.",
+  "flag": "발췌부족"
+}

@@ -56,16 +56,20 @@ test('renderVerifyLog 카운트/집계', function () {
   assert.ok(/\| 오신 \| passed \| 1 \| 1 \| 0 \|/.test(log), '오신 집계행 불일치');
 });
 
-// 4) loadState: 실 state/ (현재 비어있음) → 모든 ground-truth 블록 pending·spec null
-test('loadState 실 state/ → 전부 pending', function () {
+// 4) loadState: 실 state/ — 등재 블록은 manifest status 병합, 미등재 블록은 pending·null 폴백
+test('loadState 실 state/ → manifest 병합 + 미등재 폴백', function () {
   var gt = JSON.parse(nodefs.readFileSync(path.join(__dirname, 'ground-truth.json'), 'utf8'));
   var st = F.loadState(gt);
   var ids = Object.keys(gt).filter(function (k) { return k !== '_meta'; });
   assert.ok(ids.length >= 20, '블록 수 비정상: ' + ids.length);
   ids.forEach(function (id) {
-    assert.strictEqual(st.blocks[id].status, 'pending', id + ' pending 아님');
-    assert.strictEqual(st.blocks[id].spec, null, id + ' spec null 아님');
+    assert.ok(st.blocks[id], id + ' 항목 누락');
+    assert.ok(['pending', 'passed', 'escalated'].indexOf(st.blocks[id].status) >= 0, id + ' status 비정상: ' + st.blocks[id].status);
   });
+  // 미등재 블록: manifest/디스크에 없으면 pending·null 폴백
+  var st2 = F.loadState({ _meta: {}, '__missing__': {} });
+  assert.strictEqual(st2.blocks['__missing__'].status, 'pending', '미등재 status 폴백 실패');
+  assert.strictEqual(st2.blocks['__missing__'].spec, null, '미등재 spec 폴백 실패');
 });
 
 console.log('\n' + passed + ' passed, ' + failed + ' failed\n');

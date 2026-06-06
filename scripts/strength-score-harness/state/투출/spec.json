@@ -1,0 +1,9 @@
+{
+  "block": "투출",
+  "pillar": "월지",
+  "oh": "화",
+  "gangdoAxis": "open",
+  "relevance": null,
+  "geunge": "4-OPEN: 투출은 강도 점수화 대상이 아니다(producer 규칙 #7). 월지 투간 사실은 기록하되 magnitude 축으로 닫지 않는다.",
+  "flag": ""
+}

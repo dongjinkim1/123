@@ -1,0 +1,15 @@
+{
+  "block": "신강약",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "magnitude",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "strength_magnitude", "source": "gangdo", "against": "일간", "normalize": "identity", "transform": "sqrt", "weight": 1.0 },
+      { "key": "insung_support", "source": "saeng", "against": "일간", "normalize": "relMag", "transform": "identity", "weight": 0.2 }
+    ]
+  },
+  "geunge": "P1-S45 ⑲ 신강/신약 판정 — 일간 대비 강도 magnitude를 그대로 축으로 삼고, 인성(생) 지원을 보조 가중으로 둔다.",
+  "flag": ""
+}

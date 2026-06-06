@@ -1,0 +1,15 @@
+{
+  "block": "월률",
+  "pillar": "월지",
+  "oh": "화",
+  "gangdoAxis": "magnitude",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "woljisa_position_weight", "source": "wuichi", "normalize": "div5", "transform": "identity", "weight": 0.6 },
+      { "key": "month_branch_strength", "source": "gangdo", "against": "일간", "normalize": "identity", "transform": "identity", "weight": 1.0 }
+    ]
+  },
+  "geunge": "P1-S27 월률분야(월령) — 월지 궁위 충격도를 div5로 크기화하고, 월지 강도를 magnitude 주축으로 둔다.",
+  "flag": ""
+}

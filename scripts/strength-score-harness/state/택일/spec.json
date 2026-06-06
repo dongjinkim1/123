@@ -1,0 +1,16 @@
+{
+  "block": "택일",
+  "pillar": null,
+  "oh": "목",
+  "gangdoAxis": "activation",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "dayElementFavor", "source": "gilhyung", "normalize": "polarityMag", "transform": "identity", "weight": 1.0 },
+      { "key": "hapChungTrigger", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 0.7 },
+      { "key": "energyToSeize", "source": "gangdo", "normalize": "identity", "transform": "identity", "weight": 0.5 }
+    ]
+  },
+  "geunge": "P2-S04 — 택일은 길일 오행 정렬(polarityMag)을 주축으로, 합충 트리거와 강도를 보조로 둔다. 처방적 성격이라 근거 약함.",
+  "flag": "근거약함"
+}

@@ -1,0 +1,15 @@
+{
+  "block": "신살",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "magnitude",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "sinsal_strength", "source": "gangdo", "normalize": "identity", "transform": "identity", "weight": 1.0 },
+      { "key": "sinsal_gilshin", "source": "gilhyung", "normalize": "bool01", "transform": "identity", "weight": 0.4 }
+    ]
+  },
+  "geunge": "신살 강도 magnitude를 주축으로 두되, 발췌 근거가 부족하여 길신/흉신 극성은 bool 보조로만 둔다.",
+  "flag": "발췌부족"
+}

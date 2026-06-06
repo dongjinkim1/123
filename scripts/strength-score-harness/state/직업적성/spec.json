@@ -1,0 +1,15 @@
+{
+  "block": "직업적성",
+  "pillar": null,
+  "oh": "목",
+  "gangdoAxis": "derived",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "sipsung_group_strength", "source": "gangdo", "against": "일간", "normalize": "identity", "transform": "identity", "weight": 1.0 },
+      { "key": "sipsung_subgroup_strength", "source": "gangdo", "normalize": "identity", "transform": "sqrt", "weight": 0.5 }
+    ]
+  },
+  "geunge": "P1-S37 직업 적성 매칭(SJ_JOB_APTITUDE/SJ_buildJobText) — 발췌는 5개 십성군(비겁·식상·재성·관성·인성) 강도 분포에서 dominant·subdominant·weakest를 정렬해 직업을 매칭한다. 주력 십성군 강도를 derived 주축으로, 조합을 결정하는 보조 십성군 강도 분포를 sqrt 압축 보조로 둔다. 발췌에 용신·길흉 라벨이 전무하므로 용신 정렬은 쓰지 않는다.",
+  "flag": "근거약함"
+}

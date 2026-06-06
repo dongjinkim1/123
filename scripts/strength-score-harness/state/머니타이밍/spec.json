@@ -1,0 +1,15 @@
+{
+  "block": "머니타이밍",
+  "pillar": null,
+  "oh": "화",
+  "gangdoAxis": "activation",
+  "relevance": {
+    "form": "weighted_sum",
+    "factors": [
+      { "key": "annual_relation_trigger", "source": "relation", "normalize": "relMag", "transform": "identity", "weight": 1.0 },
+      { "key": "jaeseong_strength", "source": "gangdo", "normalize": "identity", "transform": "identity", "weight": 0.6 }
+    ]
+  },
+  "geunge": "P1-S53 재물운 타이밍(SJ_findMoneyTiming) — 발췌 점수 구조는 세운 천간 재성(+3)·세운 지지 재성오행(+2)·대운 재성(+2)·식상생재 시너지(+3) 등 운에서 들어오는 트리거가 지배적이다. activation 블록이므로 세운/대운 트리거 활성(relation)을 주축(w1.0)으로, 원국 재성 강도를 보조(w0.6)로 재배치한다. 러브타이밍과 동일한 trigger-주축 구조.",
+  "flag": "발췌부족"
+}
