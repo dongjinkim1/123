@@ -113,7 +113,9 @@ var FORM = {
 // === factor 평가: resolve → normalize → transform → clamp01 (null=생략) ===
 function resolveFactor(factor, spec, ctx) {
   if (!factor || !REGISTRY[factor.source]) throw new Error('레지스트리 밖 source: ' + (factor && factor.source));
-  var raw = REGISTRY[factor.source](spec, ctx);
+  // factor-level against가 resolver(againstOh)에 닿도록 effective spec에 실어 전달(생략 시 spec 그대로).
+  var effSpec = (factor.against != null) ? Object.assign({}, spec, { against: factor.against }) : spec;
+  var raw = REGISTRY[factor.source](effSpec, ctx);
   if (raw === null || raw === undefined) return null;
   var nrm = NORMALIZE[factor.normalize || 'identity'];
   if (!nrm) throw new Error('알 수 없는 normalize: ' + factor.normalize);

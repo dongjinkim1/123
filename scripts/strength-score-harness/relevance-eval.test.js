@@ -123,5 +123,18 @@ test('wuichi pillar 생략 → gangdo만 / gilhyung 라벨 해석', function () 
   assert.strictEqual(E.resolveFactor(gh, { oh: '수' }, ctxFix(0.5)), 0.7); // 희신(길)
 });
 
+// 9) factor-level against 오버라이드가 resolver(againstOh)에 도달하는지
+//    (회귀: 과거 resolveFactor가 spec만 넘겨 factor.against가 무시되고 항상 일간(dmEl) 비교되던 버그)
+test('factor-level against 오버라이드 적용 (saeng/geuk)', function () {
+  var ctx = ctxFix(0.5); // saeng.generates='화'(=dmEl 화), geuk.controlledBy='금'
+  var spec = { block: 't', oh: '목' }; // spec.against 없음 — 오직 factor.against만으로 결정돼야 함
+  // saeng: against 일간(=화) → generates 일치 → 1 / against 금 → 불일치 → 0
+  assert.strictEqual(E.resolveFactor({ key: 's0', source: 'saeng', against: '일간', normalize: 'bool01', transform: 'identity', weight: 1 }, spec, ctx), 1, 'saeng against 일간 → 1');
+  assert.strictEqual(E.resolveFactor({ key: 's1', source: 'saeng', against: '금', normalize: 'bool01', transform: 'identity', weight: 1 }, spec, ctx), 0, 'saeng against 금 → 0 (오버라이드 적용 안 되면 1로 오판)');
+  // geuk: against 일간(화) → 불일치 → 0 / against 금 → controlledBy 일치 → 1 (반대 방향도 확인)
+  assert.strictEqual(E.resolveFactor({ key: 'g0', source: 'geuk', against: '일간', normalize: 'bool01', transform: 'identity', weight: 1 }, spec, ctx), 0, 'geuk against 일간 → 0');
+  assert.strictEqual(E.resolveFactor({ key: 'g1', source: 'geuk', against: '금', normalize: 'bool01', transform: 'identity', weight: 1 }, spec, ctx), 1, 'geuk against 금 → 1 (오버라이드 적용 안 되면 0으로 오판)');
+});
+
 console.log('\n' + passed + ' passed, ' + failed + ' failed\n');
 process.exit(failed ? 1 : 0);
