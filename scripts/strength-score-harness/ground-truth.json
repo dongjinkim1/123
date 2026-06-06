@@ -1,0 +1,765 @@
+{
+  "_meta": {
+    "case": {
+      "y": 1993,
+      "m": 5,
+      "d": 26,
+      "h": 8,
+      "min": 40,
+      "lon": 126.98
+    },
+    "dmEl": "화",
+    "dmGan": "정",
+    "yongshin": "갑목(연료)+임수",
+    "yongshinOh": "목",
+    "weakOh": "금",
+    "pillars": [
+      {
+        "pos": "년지",
+        "stem": "계",
+        "branch": "유",
+        "bi": 9
+      },
+      {
+        "pos": "월지",
+        "stem": "정",
+        "branch": "사",
+        "bi": 5
+      },
+      {
+        "pos": "일지",
+        "stem": "정",
+        "branch": "미",
+        "bi": 7
+      },
+      {
+        "pos": "시지",
+        "stem": "갑",
+        "branch": "진",
+        "bi": 4
+      }
+    ],
+    "topFeatures": [
+      {
+        "type": "십성",
+        "name": "겁재",
+        "score": 0.914,
+        "distinct": 2.36,
+        "ratio": 2.36,
+        "absolute": 3.66,
+        "label": "강"
+      },
+      {
+        "type": "신살",
+        "name": "천을귀인",
+        "score": 0.8,
+        "distinct": 1,
+        "ratio": 1,
+        "absolute": 3.45,
+        "label": "강"
+      },
+      {
+        "type": "십성",
+        "name": "비견",
+        "score": 0.704,
+        "distinct": 1.81,
+        "ratio": 1.81,
+        "absolute": 2.82,
+        "label": "강"
+      },
+      {
+        "type": "합충",
+        "name": "진유합",
+        "score": 0.7,
+        "distinct": 1,
+        "ratio": 1,
+        "absolute": 0.4,
+        "label": "강"
+      },
+      {
+        "type": "십성",
+        "name": "식신",
+        "score": 0.582,
+        "distinct": 1.5,
+        "ratio": 1.5,
+        "absolute": 2.33,
+        "label": "강"
+      },
+      {
+        "type": "십성",
+        "name": "상관",
+        "score": 0.569,
+        "distinct": 1.47,
+        "ratio": 1.47,
+        "absolute": 2.28,
+        "label": "중"
+      },
+      {
+        "type": "십성",
+        "name": "정재",
+        "score": 0.447,
+        "distinct": 1.15,
+        "ratio": 1.15,
+        "absolute": 1.79,
+        "label": "중"
+      }
+    ],
+    "note": "사실만(facts-only). gangdo=topFeatures(재계산 금지), 강화/약화·가중·form=producer."
+  },
+  "음양": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "신강약": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "통변": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "오신": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "목",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "화",
+      "generatedBy": "수"
+    },
+    "geuk": {
+      "controls": "토",
+      "controlledBy": "금"
+    }
+  },
+  "개운": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "목",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "화",
+      "generatedBy": "수"
+    },
+    "geuk": {
+      "controls": "토",
+      "controlledBy": "금"
+    }
+  },
+  "육친": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "운성궁위": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "공망": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "건강": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "금",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "수",
+      "generatedBy": "토"
+    },
+    "geuk": {
+      "controls": "목",
+      "controlledBy": "화"
+    }
+  },
+  "직업적성": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "목",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "화",
+      "generatedBy": "수"
+    },
+    "geuk": {
+      "controls": "토",
+      "controlledBy": "금"
+    }
+  },
+  "원국관계": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "형": {
+    "pillars": [],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "투출": {
+    "pillars": [
+      "월지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "월률": {
+    "pillars": [
+      "월지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "신살": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "교운기": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "러브타이밍": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "머니타이밍": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "합트리거": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "월간하이라이트": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "택일": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "목",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "화",
+      "generatedBy": "수"
+    },
+    "geuk": {
+      "controls": "토",
+      "controlledBy": "금"
+    }
+  },
+  "인생로드맵": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  },
+  "자녀": {
+    "pillars": [
+      "년지",
+      "월지",
+      "일지",
+      "시지"
+    ],
+    "oh": "화",
+    "relations": [
+      {
+        "name": "진유합",
+        "kind": "합",
+        "strength": 0.4,
+        "pillars": [
+          "시지",
+          "년지"
+        ]
+      }
+    ],
+    "hyung": [],
+    "saeng": {
+      "generates": "토",
+      "generatedBy": "목"
+    },
+    "geuk": {
+      "controls": "금",
+      "controlledBy": "수"
+    }
+  }
+}
