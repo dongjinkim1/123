@@ -1,8 +1,8 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0"
-echo [launcher] ì „ì›/ì ˆì „ í•´ì œ ê¶Œìž¥: powercfg /change standby-timeout-ac 0
-echo [launcher] ê¸°ë™ %date% %time% >> state\launcher.log
+echo [launcher] Àü¿ø/ÀýÀü ÇØÁ¦ ±ÇÀå: powercfg /change standby-timeout-ac 0
+echo [launcher] ±âµ¿ %date% %time% >> state\launcher.log
 
 :loop
 node harness2.js --run >> state\launcher_out.log 2>&1
@@ -12,18 +12,18 @@ echo [%date% %time%] harness2 exit %EC% >> state\launcher.log
 if %EC%==9 goto hardstop
 if %EC%==0 goto done
 if %EC%==7 (
-  echo [%date% %time%] rate limit â€” 3600ì´ˆ ëŒ€ê¸° í›„ ìž¬ê¸°ë™ >> state\launcher.log
+  echo [%date% %time%] rate limit ? 3600ÃÊ ´ë±â ÈÄ Àç±âµ¿ >> state\launcher.log
   timeout /t 3600 /nobreak >nul
 ) else (
-  echo [%date% %time%] ë¹„ì •ìƒ ì¢…ë£Œ â€” 60ì´ˆ í›„ ìž¬ê¸°ë™(ì €ë„ ìž¬ê°œ) >> state\launcher.log
+  echo [%date% %time%] ºñÁ¤»ó Á¾·á ? 60ÃÊ ÈÄ Àç±âµ¿(Àú³Î Àç°³) >> state\launcher.log
   timeout /t 60 /nobreak >nul
 )
 goto loop
 
 :hardstop
-echo [%date% %time%] HARD STOP(ì½”ë“œ 9) â€” ìž¬ê¸°ë™ ì œì™¸, ë³´ê³ ì„œ í™•ì¸ ìš”ë§ >> state\launcher.log
+echo [%date% %time%] HARD STOP(ÄÚµå 9) ? Àç±âµ¿ Á¦¿Ü, º¸°í¼­ È®ÀÎ ¿ä¸Á >> state\launcher.log
 exit /b 9
 
 :done
-echo [%date% %time%] í ì†Œì§„ â€” ì •ìƒ ì¢…ë£Œ >> state\launcher.log
+echo [%date% %time%] Å¥ ¼ÒÁø ? Á¤»ó Á¾·á >> state\launcher.log
 exit /b 0
