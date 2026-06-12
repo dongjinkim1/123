@@ -1,0 +1,47 @@
+﻿═══ harness2 TC 전체 로그 — 2026-06-13 06:23 ═══
+
+[tc-queue]
+[TC-1] 큐 전수(1928장) 검증: PASS
+[TC-1b] "올해조언" 무공백 → 중단: PASS
+[TC-22] 층화 분포(일반 1068장): PASS — 극신강 4.7% / 신강 12.6% / 중화 26.7% / 신약 42.0% / 극신약 14.0%
+전체 PASS (TC-1·1b·22)
+
+[tc-card]
+[TC-2] 카드-태그 정합(10주문서): PASS
+[TC-3] 쌍둥이 누출 0(5주문서): PASS
+전체 PASS (TC-2·3)
+
+[tc-transport]
+[TC-7] 4단 파서: PASS
+[TC-7] rate limit 감지: PASS
+[TC-7] 쿼터 구조·추정: PASS
+[TC-7] Supabase 비차단 보류: PASS
+전체 PASS (TC-7)
+
+[tc-arbiter]
+[TC-4·5] 접지 반려·스킵·C/TRASH 컷: PASS
+[TC-6] 태그 카드 보유·2~4 검증: PASS
+[TC-13] dedup prefilter·파생군 분기: PASS
+[TC-15] support 최종 태그 재계산: PASS
+[TC-19] impact·name 필수+score 차등: PASS
+[TC-20] 융화 가드(H2·기존 충돌·legacy prefilter): PASS
+전체 PASS (TC-4·5·6·13·15·19·20)
+
+[tc-loop-guard]
+[TC-16] 교정지시 코드 전용·격리: PASS
+[TC-10] 관찰자 비주입(grep): PASS
+[TC-9·22b] 가드 영속·재정렬·격리: PASS
+전체 PASS (TC-9·10·16·22b)
+
+[tc-sweep]
+[TC-11] falsify 축 파서: PASS
+[TC-12·18] 파생 주문서·1세대 가드: PASS
+[TC-14] 파생군 집계(전멸/동질/구분/혼재): PASS
+[TC-17] 파생 미주입(개방형 유지): PASS
+전체 PASS (TC-11·12·14·17·18)
+
+[tc-persist]
+[TC-21a] 턴 단위 영속(킬 시뮬): PASS
+[TC-21b] _aborted 보존 후 재토론 대상화: PASS
+[TC-21c] 저널 완료 마킹·영속: PASS
+전체 PASS (TC-21)
