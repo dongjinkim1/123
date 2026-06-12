@@ -1,0 +1,62 @@
+gen-tag-df 리포트 — 2026-06-12T20:22:50.835Z
+모집단 800명 / 에러 0건 / 시드 20260613 / baseYear 2026 / 엔진 1fca697
+태그 0개 유저: 0명
+
+[dwss] 10칸
+  dwss:겁재 = 150명 (18.8%)
+  dwss:비견 = 157명 (19.6%)
+  dwss:상관 = 149명 (18.6%)
+  dwss:식신 = 145명 (18.1%)
+  dwss:정관 = 134명 (16.8%)
+  dwss:정인 = 160명 (20.0%)
+  dwss:정재 = 150명 (18.8%)
+  dwss:편관 = 156명 (19.5%)
+  dwss:편인 = 143명 (17.9%)
+  dwss:편재 = 152명 (19.0%)
+[sess] 10칸
+  sess:겁재 = 161명 (20.1%)
+  sess:비견 = 161명 (20.1%)
+  sess:상관 = 145명 (18.1%)
+  sess:식신 = 145명 (18.1%)
+  sess:정관 = 157명 (19.6%)
+  sess:정인 = 172명 (21.5%)
+  sess:정재 = 165명 (20.6%)
+  sess:편관 = 157명 (19.6%)
+  sess:편인 = 172명 (21.5%)
+  sess:편재 = 165명 (20.6%)
+[fx] 24칸
+  fx:Fe_aux = 90명 (11.3%)
+  fx:Fe_dom = 95명 (11.9%)
+  fx:Fe_inf = 98명 (12.3%)
+  fx:Fi_aux = 117명 (14.6%)
+  fx:Fi_dom = 100명 (12.5%)
+  fx:Fi_inf = 103명 (12.9%)
+  fx:Ne_aux = 111명 (13.9%)
+  fx:Ne_dom = 94명 (11.8%)
+  fx:Ne_inf = 100명 (12.5%)
+  fx:Ni_aux = 90명 (11.3%)
+  fx:Ni_dom = 91명 (11.4%)
+  fx:Ni_inf = 119명 (14.9%)
+  fx:Se_aux = 87명 (10.9%)
+  fx:Se_dom = 119명 (14.9%)
+  fx:Se_inf = 91명 (11.4%)
+  fx:Si_aux = 108명 (13.5%)
+  fx:Si_dom = 100명 (12.5%)
+  fx:Si_inf = 94명 (11.8%)
+  fx:Te_aux = 101명 (12.6%)
+  fx:Te_dom = 103명 (12.9%)
+  fx:Te_inf = 100명 (12.5%)
+  fx:Ti_aux = 96명 (12.0%)
+  fx:Ti_dom = 98명 (12.3%)
+  fx:Ti_inf = 95명 (11.9%)
+[yongshin_el] 5칸
+  yongshin_el:금 = 133명 (16.6%)
+  yongshin_el:목 = 183명 (22.9%)
+  yongshin_el:수 = 224명 (28.0%)
+  yongshin_el:토 = 17명 (2.1%)
+  yongshin_el:화 = 243명 (30.4%)
+
+[yongshin_el 추출] 원문 99종 / 실패 0종 (0명, 0.0%)
+
+[axis 분포] axis:EI=100% axis:JP=100% axis:SN=100% axis:TF=100%
+[mbtiaxis 판정] axis-fixed-4-registered--mbtiaxis-deferred — axis: 방출은 고정 4종(EI/SN/TF/JP, 전원 보유 — 변별 0)뿐이라 축×강도 칸 미제공. mbtiaxis:{축}_{강도} 신설은 모집단 intensities=null이라 강도 칸 산출 불가 — fx 점수 컷과 동일하게 유저 실강도 데이터 축적 후 재검토로 이월. vocab에는 기존 axis: 4종 등재(② "mbtiaxis-또는-axis" 충족).
