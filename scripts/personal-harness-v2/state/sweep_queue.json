@@ -1,0 +1,111 @@
+{
+ "seq": 504,
+ "orders": [
+  {
+   "order_id": "YAD-S501",
+   "pattern_id": "H2-YAD-501",
+   "subject": "올해 조언",
+   "tier": "SWEEP",
+   "kind": "sweep",
+   "format": "파생",
+   "structure": "sweep",
+   "tags": [
+    "strength:극신강",
+    "ss:비겁",
+    "dwss:정인"
+   ],
+   "support": 0,
+   "cell": "strength:극신강",
+   "derived_from": "H2-YAD-001",
+   "sweep_axis": "strength",
+   "parent_mechanism": "신약+비겁 조합의 메커니즘",
+   "exists": false,
+   "skipped": "실존없음"
+  },
+  {
+   "order_id": "YAD-S502",
+   "pattern_id": "H2-YAD-502",
+   "subject": "올해 조언",
+   "tier": "SWEEP",
+   "kind": "sweep",
+   "format": "파생",
+   "structure": "sweep",
+   "tags": [
+    "strength:신강",
+    "ss:비겁",
+    "dwss:정인"
+   ],
+   "support": 15,
+   "cell": "strength:신강",
+   "derived_from": "H2-YAD-001",
+   "sweep_axis": "strength",
+   "parent_mechanism": "신약+비겁 조합의 메커니즘",
+   "exists": true
+  },
+  {
+   "order_id": "YAD-S503",
+   "pattern_id": "H2-YAD-503",
+   "subject": "올해 조언",
+   "tier": "SWEEP",
+   "kind": "sweep",
+   "format": "파생",
+   "structure": "sweep",
+   "tags": [
+    "strength:중화",
+    "ss:비겁",
+    "dwss:정인"
+   ],
+   "support": 23,
+   "cell": "strength:중화",
+   "derived_from": "H2-YAD-001",
+   "sweep_axis": "strength",
+   "parent_mechanism": "신약+비겁 조합의 메커니즘",
+   "exists": true
+  },
+  {
+   "order_id": "YAD-S504",
+   "pattern_id": "H2-YAD-504",
+   "subject": "올해 조언",
+   "tier": "SWEEP",
+   "kind": "sweep",
+   "format": "파생",
+   "structure": "sweep",
+   "tags": [
+    "strength:극신약",
+    "ss:비겁",
+    "dwss:정인"
+   ],
+   "support": 0,
+   "cell": "strength:극신약",
+   "derived_from": "H2-YAD-001",
+   "sweep_axis": "strength",
+   "parent_mechanism": "신약+비겁 조합의 메커니즘",
+   "exists": false,
+   "skipped": "실존없음"
+  }
+ ],
+ "families": [
+  {
+   "parent": "H2-YAD-001",
+   "axis": "strength",
+   "subject": "올해 조언",
+   "cells": [
+    "YAD-S501",
+    "YAD-S502",
+    "YAD-S503",
+    "YAD-S504"
+   ],
+   "done": [],
+   "results": [
+    {
+     "cell": "strength:극신강",
+     "outcome": "실존없음"
+    },
+    {
+     "cell": "strength:극신약",
+     "outcome": "실존없음"
+    }
+   ]
+  }
+ ]
+}
