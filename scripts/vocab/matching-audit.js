@@ -52,7 +52,7 @@ deadPatternSide.forEach(function (t) {
 w();
 
 var userTagAll = Object.keys(tagDf.df);
-var newPrefixSet = ['dwss:', 'sess:', 'fx:', 'yongshin_el:'];
+var newPrefixSet = ['dwss:', 'sess:', 'fx:', 'yongshin_el:', 'kts:'];
 function isNewAxis(t) { return newPrefixSet.some(function (p) { return t.indexOf(p) === 0; }); }
 var deadUserSide = userTagAll.filter(function (t) { return !patternTagSet[t] && !isNewAxis(t); }).sort();
 var deadUserNew = userTagAll.filter(function (t) { return !patternTagSet[t] && isNewAxis(t); }).sort();

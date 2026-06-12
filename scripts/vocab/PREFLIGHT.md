@@ -51,3 +51,11 @@
 - [x] audit-report — 죽은 태그 목록 ③ 인계 준비 완료
 
 **4항목 전부 PASS → §0-α에 따라 명령서② preflight 자동 연계 대상.**
+
+## ① 패치 (2026-06-13, 동진 지시) — kts 보정 축
+
+- **kts:{NF|NT|SJ|SP}** 신설: 라이브 temperament: 버그(substring(1,3) — S기질 영구 미포착)의 래퍼 레벨 보정. MBTI 타입 직접 산출(2번째 N→N+3번째 / S→S+4번째). 라이브는 RO 유지.
+- tag-df.json 재생성(시드 20260613 동일 — 기존 분포 전부 보존): vocab에 kts 4칸 등재 — NF 180 / NT 206 / **SJ 208 / SP 206** (kts:NF/NT 수 = 기존 temperament:NF/NT와 정확 일치 — 보정 정합 교차검증). 태그 종수 285→289.
+- meta.invalid_tags: 패턴 평면 전체 스캔 결과 temperament: 비정상 값 **없음** — 마킹 규칙은 미래 오염 방지용으로 meta에 유지.
+- meta.queueRules 신설: ② 주문서 후보·모니터 축·쌍둥이 가변 태그는 temperament: 대신 **kts:** 사용, invalid_tags 후보 제외.
+- **TW-9 PASS**: 16타입 전수 kts 정확 1개 방출 + Keirsey 매핑 정확(ISTJ→SJ, ESFP→SP 명시 확인). TW-1~8 전체 재PASS — 무변형·라이브 회귀 0 유지.

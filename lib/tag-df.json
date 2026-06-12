@@ -3,7 +3,7 @@
   "생성일": "2026-06-12",
   "모집단": 800,
   "시드": 20260613,
-  "엔진커밋": "1fca697",
+  "엔진커밋": "04db026",
   "baseYear": 2026,
   "birthRange": [
    1960,
@@ -19,6 +19,11 @@
   "mbtiaxis": {
    "decision": "axis-fixed-4-registered--mbtiaxis-deferred",
    "reason": "axis: 방출은 고정 4종(EI/SN/TF/JP, 전원 보유 — 변별 0)뿐이라 축×강도 칸 미제공. mbtiaxis:{축}_{강도} 신설은 모집단 intensities=null이라 강도 칸 산출 불가 — fx 점수 컷과 동일하게 유저 실강도 데이터 축적 후 재검토로 이월. vocab에는 기존 axis: 4종 등재(② \"mbtiaxis-또는-axis\" 충족)."
+  },
+  "invalid_tags": {},
+  "queueRules": {
+   "temperamentAxis": "kts",
+   "비고": "① 패치(2026-06-13): ② 주문서 후보·모니터 축·쌍둥이 가변 태그는 temperament: 대신 kts: 사용. invalid_tags는 큐 후보에서 제외. 라이브 temperament:는 substring(1,3) 버그로 SJ/SP 영구 미포착(RO 유지)."
   },
   "users비고": "tags는 실방출 unique. birth/hour/min/gender/mbti 보존 — ② 쌍둥이 엔진 실계산용(D2)"
  },
@@ -323,6 +328,12 @@
    "yongshin_el:토",
    "yongshin_el:화"
   ],
+  "kts": [
+   "kts:NF",
+   "kts:NT",
+   "kts:SJ",
+   "kts:SP"
+  ],
   "condition": [
    "condition:excess",
    "condition:lack",
@@ -406,6 +417,7 @@
   "fx:Te_aux": 0.1263,
   "fx:Se_inf": 0.1138,
   "yongshin_el:금": 0.1663,
+  "kts:NT": 0.2575,
   "dm:경": 0.0862,
   "ss:인성": 0.4075,
   "ss:정인": 0.3438,
@@ -430,6 +442,7 @@
   "fx:Fe_aux": 0.1125,
   "fx:Ne_inf": 0.125,
   "yongshin_el:화": 0.3038,
+  "kts:SJ": 0.26,
   "strength:극신약": 0.1412,
   "gyeokguk:정관격": 0.105,
   "ss:식상": 0.3375,
@@ -466,6 +479,7 @@
   "fx:Se_dom": 0.1487,
   "fx:Ti_aux": 0.12,
   "fx:Ni_inf": 0.1487,
+  "kts:SP": 0.2575,
   "dm:정": 0.1013,
   "strength:중화": 0.2775,
   "ss:관성": 0.3862,
@@ -483,6 +497,7 @@
   "fx:Fi_aux": 0.1462,
   "fx:Si_inf": 0.1175,
   "yongshin_el:토": 0.0213,
+  "kts:NF": 0.225,
   "dm:병": 0.1,
   "gyeokguk:편관격": 0.1013,
   "yongshin:갑목(연료)": 0.0375,
@@ -700,7 +715,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -770,7 +786,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -838,7 +855,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -909,7 +927,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -985,7 +1004,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:NF"
    ]
   },
   {
@@ -1051,7 +1071,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -1116,7 +1137,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -1183,7 +1205,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -1249,7 +1272,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -1325,7 +1349,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -1395,7 +1420,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -1460,7 +1486,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -1526,7 +1553,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -1592,7 +1620,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -1665,7 +1694,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -1740,7 +1770,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -1801,7 +1832,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -1876,7 +1908,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -1945,7 +1978,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -2022,7 +2056,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -2093,7 +2128,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -2160,7 +2196,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -2236,7 +2273,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -2311,7 +2349,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -2376,7 +2415,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -2444,7 +2484,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -2519,7 +2560,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -2585,7 +2627,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -2659,7 +2702,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -2724,7 +2768,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -2789,7 +2834,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -2861,7 +2907,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -2929,7 +2976,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -2998,7 +3046,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -3064,7 +3113,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -3133,7 +3183,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -3204,7 +3255,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -3275,7 +3327,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -3349,7 +3402,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -3418,7 +3472,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -3481,7 +3536,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -3559,7 +3615,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -3624,7 +3681,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -3688,7 +3746,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -3760,7 +3819,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -3834,7 +3894,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -3903,7 +3964,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -3975,7 +4037,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -4042,7 +4105,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -4113,7 +4177,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -4178,7 +4243,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -4248,7 +4314,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -4316,7 +4383,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -4390,7 +4458,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:NF"
    ]
   },
   {
@@ -4458,7 +4527,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -4530,7 +4600,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -4604,7 +4675,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -4679,7 +4751,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -4745,7 +4818,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -4818,7 +4892,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -4892,7 +4967,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -4972,7 +5048,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -5044,7 +5121,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:SP"
    ]
   },
   {
@@ -5115,7 +5193,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -5190,7 +5269,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -5263,7 +5343,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -5330,7 +5411,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -5399,7 +5481,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -5469,7 +5552,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -5537,7 +5621,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -5611,7 +5696,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -5683,7 +5769,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -5753,7 +5840,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -5826,7 +5914,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -5897,7 +5986,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -5965,7 +6055,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -6038,7 +6129,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -6103,7 +6195,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -6167,7 +6260,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -6240,7 +6334,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -6315,7 +6410,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -6388,7 +6484,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -6457,7 +6554,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -6518,7 +6616,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -6587,7 +6686,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -6658,7 +6758,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -6730,7 +6831,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -6801,7 +6903,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -6868,7 +6971,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -6942,7 +7046,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -7012,7 +7117,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -7085,7 +7191,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -7157,7 +7264,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -7232,7 +7340,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -7309,7 +7418,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -7383,7 +7493,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -7457,7 +7568,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -7522,7 +7634,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -7593,7 +7706,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -7666,7 +7780,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -7737,7 +7852,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -7809,7 +7925,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -7885,7 +8002,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -7958,7 +8076,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -8025,7 +8144,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -8093,7 +8213,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -8169,7 +8290,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -8238,7 +8360,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -8309,7 +8432,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -8381,7 +8505,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -8454,7 +8579,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -8522,7 +8648,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -8594,7 +8721,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -8663,7 +8791,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -8736,7 +8865,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -8810,7 +8940,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -8874,7 +9005,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -8946,7 +9078,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -9017,7 +9150,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -9084,7 +9218,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -9159,7 +9294,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -9222,7 +9358,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -9287,7 +9424,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -9359,7 +9497,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -9439,7 +9578,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -9508,7 +9648,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:NT"
    ]
   },
   {
@@ -9579,7 +9720,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -9648,7 +9790,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -9720,7 +9863,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -9792,7 +9936,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -9861,7 +10006,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -9929,7 +10075,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -10003,7 +10150,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -10080,7 +10228,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -10153,7 +10302,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -10218,7 +10368,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -10285,7 +10436,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -10359,7 +10511,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -10429,7 +10582,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -10496,7 +10650,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -10567,7 +10722,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -10635,7 +10791,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -10707,7 +10864,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -10778,7 +10936,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -10851,7 +11010,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -10924,7 +11084,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -10992,7 +11153,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -11061,7 +11223,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -11129,7 +11292,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -11204,7 +11368,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -11264,7 +11429,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -11332,7 +11498,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -11404,7 +11571,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -11469,7 +11637,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -11545,7 +11714,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -11610,7 +11780,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -11675,7 +11846,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -11746,7 +11918,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -11815,7 +11988,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -11887,7 +12061,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -11961,7 +12136,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -12027,7 +12203,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -12098,7 +12275,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -12168,7 +12346,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -12246,7 +12425,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -12312,7 +12492,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -12383,7 +12564,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -12461,7 +12643,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -12528,7 +12711,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -12600,7 +12784,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:SJ"
    ]
   },
   {
@@ -12668,7 +12853,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -12741,7 +12927,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -12814,7 +13001,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -12888,7 +13076,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -12955,7 +13144,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -13028,7 +13218,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -13097,7 +13288,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -13172,7 +13364,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -13241,7 +13434,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -13317,7 +13511,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -13388,7 +13583,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -13459,7 +13655,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -13519,7 +13716,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -13590,7 +13788,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -13657,7 +13856,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -13730,7 +13930,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -13795,7 +13996,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -13868,7 +14070,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -13939,7 +14142,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -14012,7 +14216,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -14086,7 +14291,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -14156,7 +14362,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -14228,7 +14435,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -14305,7 +14513,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -14378,7 +14587,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -14456,7 +14666,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -14528,7 +14739,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -14595,7 +14807,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -14662,7 +14875,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -14731,7 +14945,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -14798,7 +15013,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -14868,7 +15084,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -14937,7 +15154,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -15008,7 +15226,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -15074,7 +15293,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -15143,7 +15363,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -15212,7 +15433,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -15278,7 +15500,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -15352,7 +15575,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -15422,7 +15646,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -15492,7 +15717,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -15561,7 +15787,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -15623,7 +15850,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -15689,7 +15917,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -15763,7 +15992,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -15837,7 +16067,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -15908,7 +16139,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -15975,7 +16207,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -16044,7 +16277,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -16108,7 +16342,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -16178,7 +16413,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:SJ"
    ]
   },
   {
@@ -16248,7 +16484,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -16323,7 +16560,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -16396,7 +16634,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -16472,7 +16711,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -16541,7 +16781,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -16610,7 +16851,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -16679,7 +16921,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:NT"
    ]
   },
   {
@@ -16748,7 +16991,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -16824,7 +17068,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -16896,7 +17141,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -16965,7 +17211,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -17024,7 +17271,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -17093,7 +17341,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -17161,7 +17410,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -17222,7 +17472,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -17293,7 +17544,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -17365,7 +17617,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -17439,7 +17692,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -17509,7 +17763,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -17580,7 +17835,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -17651,7 +17907,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -17727,7 +17984,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -17801,7 +18059,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -17862,7 +18121,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -17929,7 +18189,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -17996,7 +18257,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -18061,7 +18323,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -18136,7 +18399,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -18207,7 +18471,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -18276,7 +18541,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -18343,7 +18609,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -18404,7 +18671,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -18474,7 +18742,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -18540,7 +18809,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -18601,7 +18871,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -18673,7 +18944,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -18747,7 +19019,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -18820,7 +19093,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -18885,7 +19159,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -18955,7 +19230,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -19022,7 +19298,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -19082,7 +19359,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -19153,7 +19431,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -19222,7 +19501,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -19290,7 +19570,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -19360,7 +19641,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -19435,7 +19717,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -19507,7 +19790,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -19577,7 +19861,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -19650,7 +19935,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -19726,7 +20012,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -19795,7 +20082,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -19869,7 +20157,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -19940,7 +20229,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -20010,7 +20300,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -20084,7 +20375,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -20153,7 +20445,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -20225,7 +20518,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -20300,7 +20594,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -20368,7 +20663,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -20443,7 +20739,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -20512,7 +20809,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -20583,7 +20881,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -20652,7 +20951,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -20718,7 +21018,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -20785,7 +21086,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -20858,7 +21160,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -20926,7 +21229,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -20992,7 +21296,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -21062,7 +21367,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -21129,7 +21435,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -21201,7 +21508,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -21275,7 +21583,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -21341,7 +21650,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:NF"
    ]
   },
   {
@@ -21409,7 +21719,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -21478,7 +21789,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -21548,7 +21860,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -21623,7 +21936,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -21696,7 +22010,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -21769,7 +22084,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -21835,7 +22151,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -21906,7 +22223,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -21975,7 +22293,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -22044,7 +22363,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -22113,7 +22433,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -22181,7 +22502,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -22248,7 +22570,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -22321,7 +22644,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -22381,7 +22705,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -22455,7 +22780,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -22528,7 +22854,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -22601,7 +22928,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -22674,7 +23002,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -22747,7 +23076,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -22812,7 +23142,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -22884,7 +23215,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -22953,7 +23285,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -23024,7 +23357,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -23091,7 +23425,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -23159,7 +23494,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -23232,7 +23568,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -23309,7 +23646,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -23386,7 +23724,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -23460,7 +23799,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:SJ"
    ]
   },
   {
@@ -23530,7 +23870,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -23597,7 +23938,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -23667,7 +24009,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -23741,7 +24084,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -23809,7 +24153,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -23882,7 +24227,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -23950,7 +24296,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -24016,7 +24363,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -24087,7 +24435,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -24157,7 +24506,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -24223,7 +24573,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -24288,7 +24639,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -24361,7 +24713,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -24433,7 +24786,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -24499,7 +24853,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -24572,7 +24927,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -24645,7 +25001,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -24720,7 +25077,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -24791,7 +25149,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:NT"
    ]
   },
   {
@@ -24855,7 +25214,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -24928,7 +25288,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -24999,7 +25360,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -25071,7 +25433,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -25144,7 +25507,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -25215,7 +25579,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -25286,7 +25651,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -25353,7 +25719,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -25421,7 +25788,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -25492,7 +25860,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -25562,7 +25931,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -25628,7 +25998,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -25698,7 +26069,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -25764,7 +26136,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -25827,7 +26200,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -25894,7 +26268,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -25965,7 +26340,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -26033,7 +26409,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -26106,7 +26483,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -26180,7 +26558,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -26249,7 +26628,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -26325,7 +26705,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -26398,7 +26779,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -26475,7 +26857,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -26545,7 +26928,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -26608,7 +26992,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -26681,7 +27066,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -26748,7 +27134,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -26826,7 +27213,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -26893,7 +27281,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:SP"
    ]
   },
   {
@@ -26965,7 +27354,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -27038,7 +27428,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -27103,7 +27494,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -27166,7 +27558,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -27237,7 +27630,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -27306,7 +27700,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -27368,7 +27763,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -27442,7 +27838,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -27511,7 +27908,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -27577,7 +27975,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -27647,7 +28046,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -27717,7 +28117,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -27782,7 +28183,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -27853,7 +28255,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -27927,7 +28330,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -28003,7 +28407,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -28075,7 +28480,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -28142,7 +28548,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -28214,7 +28621,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -28283,7 +28691,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -28356,7 +28765,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -28424,7 +28834,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -28498,7 +28909,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -28565,7 +28977,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -28637,7 +29050,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -28709,7 +29123,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -28781,7 +29196,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -28851,7 +29267,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -28927,7 +29344,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -28994,7 +29412,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -29062,7 +29481,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -29131,7 +29551,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -29200,7 +29621,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -29270,7 +29692,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -29337,7 +29760,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -29407,7 +29831,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -29479,7 +29904,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -29546,7 +29972,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -29613,7 +30040,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -29682,7 +30110,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -29757,7 +30186,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -29830,7 +30260,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -29904,7 +30335,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -29978,7 +30410,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -30049,7 +30482,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -30121,7 +30555,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -30189,7 +30624,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -30260,7 +30696,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -30324,7 +30761,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -30386,7 +30824,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -30460,7 +30899,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -30530,7 +30970,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -30598,7 +31039,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -30670,7 +31112,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -30741,7 +31184,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -30812,7 +31256,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -30884,7 +31329,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -30953,7 +31399,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -31021,7 +31468,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -31089,7 +31537,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -31157,7 +31606,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -31228,7 +31678,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -31296,7 +31747,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -31370,7 +31822,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -31442,7 +31895,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -31515,7 +31969,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -31588,7 +32043,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -31661,7 +32117,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -31739,7 +32196,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -31805,7 +32263,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -31870,7 +32329,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -31941,7 +32401,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -32015,7 +32476,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -32088,7 +32550,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -32158,7 +32621,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -32228,7 +32692,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -32298,7 +32763,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -32369,7 +32835,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -32441,7 +32908,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -32509,7 +32977,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -32580,7 +33049,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -32646,7 +33116,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -32720,7 +33191,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -32792,7 +33264,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -32859,7 +33332,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -32936,7 +33410,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -33004,7 +33479,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -33079,7 +33555,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -33155,7 +33632,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -33219,7 +33697,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -33296,7 +33775,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -33366,7 +33846,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -33441,7 +33922,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -33512,7 +33994,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -33578,7 +34061,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -33648,7 +34132,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -33722,7 +34207,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -33789,7 +34275,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -33856,7 +34343,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -33928,7 +34416,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -34000,7 +34489,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -34063,7 +34553,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -34125,7 +34616,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -34198,7 +34690,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -34267,7 +34760,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -34345,7 +34839,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:SP"
    ]
   },
   {
@@ -34419,7 +34914,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -34487,7 +34983,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -34561,7 +35058,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -34633,7 +35131,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -34706,7 +35205,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -34782,7 +35282,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -34850,7 +35351,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -34924,7 +35426,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -34993,7 +35496,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -35062,7 +35566,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -35125,7 +35630,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -35202,7 +35708,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -35269,7 +35776,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -35335,7 +35843,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -35403,7 +35912,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -35475,7 +35985,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -35545,7 +36056,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -35616,7 +36128,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -35690,7 +36203,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -35761,7 +36275,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -35829,7 +36344,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -35895,7 +36411,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -35961,7 +36478,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -36031,7 +36549,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -36104,7 +36623,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -36172,7 +36692,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -36245,7 +36766,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -36315,7 +36837,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -36383,7 +36906,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -36459,7 +36983,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -36532,7 +37057,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -36602,7 +37128,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -36675,7 +37202,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -36744,7 +37272,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -36814,7 +37343,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -36882,7 +37412,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -36950,7 +37481,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -37018,7 +37550,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -37089,7 +37622,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -37158,7 +37692,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -37223,7 +37758,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -37287,7 +37823,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -37352,7 +37889,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -37426,7 +37964,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -37491,7 +38030,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -37551,7 +38091,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -37618,7 +38159,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -37692,7 +38234,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -37763,7 +38306,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -37832,7 +38376,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -37899,7 +38444,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -37969,7 +38515,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -38040,7 +38587,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -38111,7 +38659,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -38183,7 +38732,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -38252,7 +38802,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -38327,7 +38878,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -38400,7 +38952,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -38469,7 +39022,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -38542,7 +39096,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -38614,7 +39169,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -38684,7 +39240,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -38755,7 +39312,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -38826,7 +39384,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -38895,7 +39454,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -38968,7 +39528,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -39038,7 +39599,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -39103,7 +39665,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -39173,7 +39736,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -39248,7 +39812,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -39318,7 +39883,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -39388,7 +39954,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -39457,7 +40024,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -39527,7 +40095,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -39598,7 +40167,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -39664,7 +40234,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -39734,7 +40305,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -39808,7 +40380,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -39883,7 +40456,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -39948,7 +40522,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -40022,7 +40597,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -40090,7 +40666,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -40158,7 +40735,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -40229,7 +40807,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -40298,7 +40877,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -40361,7 +40941,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -40430,7 +41011,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -40498,7 +41080,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -40568,7 +41151,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -40638,7 +41222,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -40708,7 +41293,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -40777,7 +41363,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -40848,7 +41435,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -40915,7 +41503,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -40982,7 +41571,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -41057,7 +41647,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -41133,7 +41724,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -41204,7 +41796,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -41277,7 +41870,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -41349,7 +41943,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -41417,7 +42012,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -41489,7 +42085,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -41562,7 +42159,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -41624,7 +42222,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -41695,7 +42294,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -41768,7 +42368,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -41841,7 +42442,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -41910,7 +42512,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -41981,7 +42584,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -42050,7 +42654,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -42118,7 +42723,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -42185,7 +42791,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -42256,7 +42863,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -42330,7 +42938,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -42395,7 +43004,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -42466,7 +43076,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -42535,7 +43146,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -42604,7 +43216,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -42671,7 +43284,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -42745,7 +43359,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -42821,7 +43436,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -42892,7 +43508,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -42959,7 +43576,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -43033,7 +43651,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -43101,7 +43720,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -43161,7 +43781,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -43232,7 +43853,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -43301,7 +43923,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -43375,7 +43998,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -43442,7 +44066,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -43516,7 +44141,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -43588,7 +44214,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -43654,7 +44281,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -43723,7 +44351,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -43797,7 +44426,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -43864,7 +44494,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -43933,7 +44564,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -44003,7 +44635,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -44079,7 +44712,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -44151,7 +44785,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -44218,7 +44853,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -44282,7 +44918,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -44348,7 +44985,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -44421,7 +45059,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -44492,7 +45131,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -44562,7 +45202,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -44634,7 +45275,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -44705,7 +45347,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -44771,7 +45414,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -44841,7 +45485,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -44912,7 +45557,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -44981,7 +45627,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -45051,7 +45698,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -45127,7 +45775,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -45197,7 +45846,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SJ"
    ]
   },
   {
@@ -45264,7 +45914,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -45338,7 +45989,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -45402,7 +46054,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -45472,7 +46125,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -45546,7 +46200,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -45619,7 +46274,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -45686,7 +46342,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -45758,7 +46415,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -45826,7 +46484,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -45896,7 +46555,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -45963,7 +46623,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -46027,7 +46688,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -46095,7 +46757,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -46169,7 +46832,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -46244,7 +46908,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -46318,7 +46983,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -46387,7 +47053,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -46457,7 +47124,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -46527,7 +47195,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -46600,7 +47269,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -46669,7 +47339,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -46739,7 +47410,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:NF"
    ]
   },
   {
@@ -46811,7 +47483,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -46875,7 +47548,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -46948,7 +47622,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -47009,7 +47684,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -47072,7 +47748,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -47145,7 +47822,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -47213,7 +47891,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -47278,7 +47957,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -47343,7 +48023,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -47416,7 +48097,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -47477,7 +48159,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -47544,7 +48227,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -47610,7 +48294,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -47683,7 +48368,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -47743,7 +48429,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -47807,7 +48494,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -47883,7 +48571,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -47955,7 +48644,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -48030,7 +48720,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -48100,7 +48791,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -48172,7 +48864,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -48237,7 +48930,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -48303,7 +48997,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -48377,7 +49072,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -48451,7 +49147,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -48519,7 +49216,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -48583,7 +49281,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -48655,7 +49354,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -48723,7 +49423,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -48793,7 +49494,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -48860,7 +49562,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -48927,7 +49630,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -48999,7 +49703,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -49072,7 +49777,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -49141,7 +49847,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -49213,7 +49920,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -49272,7 +49980,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -49350,7 +50059,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -49419,7 +50129,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -49490,7 +50201,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -49562,7 +50274,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -49635,7 +50348,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -49712,7 +50426,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -49778,7 +50493,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -49855,7 +50571,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -49928,7 +50645,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -49997,7 +50715,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -50065,7 +50784,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -50133,7 +50853,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -50198,7 +50919,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -50268,7 +50990,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -50340,7 +51063,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -50416,7 +51140,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -50492,7 +51217,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -50561,7 +51287,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:SJ"
    ]
   },
   {
@@ -50635,7 +51362,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -50709,7 +51437,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -50780,7 +51509,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -50853,7 +51583,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -50925,7 +51656,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -50997,7 +51729,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -51067,7 +51800,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -51142,7 +51876,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -51213,7 +51948,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -51284,7 +52020,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -51356,7 +52093,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -51432,7 +52170,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -51501,7 +52240,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -51568,7 +52308,8 @@
     "fx:Ni_dom",
     "fx:Te_aux",
     "fx:Se_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -51642,7 +52383,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -51708,7 +52450,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -51782,7 +52525,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -51851,7 +52595,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -51925,7 +52670,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -51994,7 +52740,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -52062,7 +52809,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -52137,7 +52885,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -52204,7 +52953,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:SJ"
    ]
   },
   {
@@ -52271,7 +53021,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -52340,7 +53091,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -52410,7 +53162,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -52485,7 +53238,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -52551,7 +53305,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -52615,7 +53370,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -52687,7 +53443,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -52761,7 +53518,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -52831,7 +53589,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -52899,7 +53658,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -52969,7 +53729,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -53042,7 +53803,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -53114,7 +53876,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -53189,7 +53952,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -53258,7 +54022,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -53333,7 +54098,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -53404,7 +54170,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -53479,7 +54246,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -53557,7 +54325,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -53628,7 +54397,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -53692,7 +54462,8 @@
     "fx:Si_dom",
     "fx:Fe_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -53767,7 +54538,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -53839,7 +54611,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -53909,7 +54682,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -53975,7 +54749,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -54045,7 +54820,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SJ"
    ]
   },
   {
@@ -54120,7 +54896,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NT"
    ]
   },
   {
@@ -54195,7 +54972,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -54267,7 +55045,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -54339,7 +55118,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -54405,7 +55185,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -54478,7 +55259,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -54547,7 +55329,8 @@
     "fx:Se_dom",
     "fx:Ti_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -54619,7 +55402,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -54692,7 +55476,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -54762,7 +55547,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:SP"
    ]
   },
   {
@@ -54826,7 +55612,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -54886,7 +55673,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SJ"
    ]
   },
   {
@@ -54957,7 +55745,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -55030,7 +55819,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -55098,7 +55888,8 @@
     "fx:Se_dom",
     "fx:Fi_aux",
     "fx:Ni_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -55166,7 +55957,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -55234,7 +56026,8 @@
     "fx:Ne_dom",
     "fx:Fi_aux",
     "fx:Si_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:NF"
    ]
   },
   {
@@ -55305,7 +56098,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -55369,7 +56163,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -55435,7 +56230,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -55511,7 +56307,8 @@
     "fx:Si_dom",
     "fx:Te_aux",
     "fx:Ne_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -55580,7 +56377,8 @@
     "fx:Fe_dom",
     "fx:Si_aux",
     "fx:Ti_inf",
-    "yongshin_el:토"
+    "yongshin_el:토",
+    "kts:SJ"
    ]
   },
   {
@@ -55653,7 +56451,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NF"
    ]
   },
   {
@@ -55714,7 +56513,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:SP"
    ]
   },
   {
@@ -55782,7 +56582,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   },
   {
@@ -55860,7 +56661,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -55927,7 +56729,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NF"
    ]
   },
   {
@@ -56000,7 +56803,8 @@
     "fx:Ti_dom",
     "fx:Ne_aux",
     "fx:Fe_inf",
-    "yongshin_el:금"
+    "yongshin_el:금",
+    "kts:NT"
    ]
   },
   {
@@ -56066,7 +56870,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -56136,7 +56941,8 @@
     "fx:Te_dom",
     "fx:Si_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SJ"
    ]
   },
   {
@@ -56198,7 +57004,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -56273,7 +57080,8 @@
     "fx:Ti_dom",
     "fx:Se_aux",
     "fx:Fe_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -56345,7 +57153,8 @@
     "fx:Fi_dom",
     "fx:Ne_aux",
     "fx:Te_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -56412,7 +57221,8 @@
     "fx:Ni_dom",
     "fx:Fe_aux",
     "fx:Se_inf",
-    "yongshin_el:목"
+    "yongshin_el:목",
+    "kts:NF"
    ]
   },
   {
@@ -56481,7 +57291,8 @@
     "fx:Fe_dom",
     "fx:Ni_aux",
     "fx:Ti_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NF"
    ]
   },
   {
@@ -56545,7 +57356,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:SP"
    ]
   },
   {
@@ -56611,7 +57423,8 @@
     "fx:Fi_dom",
     "fx:Se_aux",
     "fx:Te_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:SP"
    ]
   },
   {
@@ -56685,7 +57498,8 @@
     "fx:Ne_dom",
     "fx:Ti_aux",
     "fx:Si_inf",
-    "yongshin_el:수"
+    "yongshin_el:수",
+    "kts:NT"
    ]
   },
   {
@@ -56759,7 +57573,8 @@
     "fx:Te_dom",
     "fx:Ni_aux",
     "fx:Fi_inf",
-    "yongshin_el:화"
+    "yongshin_el:화",
+    "kts:NT"
    ]
   }
  ]

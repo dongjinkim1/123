@@ -96,6 +96,24 @@ function main() {
   });
   Object.keys(vocab).forEach(function (k) { vocab[k].sort(); });
 
+  // invalid_tags — 패턴 평면 전체에서 temperament: 비정상 값 마킹 (① 패치: ② 큐 후보 제외용)
+  var VALID_KTS = { 'temperament:NF': 1, 'temperament:NT': 1, 'temperament:SJ': 1, 'temperament:SP': 1 };
+  var pdata = require(path.join(LIB, 'pattern-data.js'));
+  var invalidTags = {};
+  Object.keys(pdata.MBTS_PATTERNS).forEach(function (cat) {
+    Object.keys(pdata.MBTS_PATTERNS[cat]).forEach(function (subj) {
+      pdata.MBTS_PATTERNS[cat][subj].forEach(function (p) {
+        (p.tags || []).forEach(function (t) {
+          if (t.indexOf('temperament:') === 0 && !VALID_KTS[t]) {
+            if (!invalidTags[t]) invalidTags[t] = { reason: 'Keirsey 4기질(NF/NT/SJ/SP) 외 값', slots: 0, where: [] };
+            invalidTags[t].slots++;
+            if (invalidTags[t].where.indexOf(cat + '/' + subj) < 0) invalidTags[t].where.push(cat + '/' + subj);
+          }
+        });
+      });
+    });
+  });
+
   // mbtiaxis 자동 판정 (W-D2/P2): axis: 방출이 축×강도 칸을 제공하는가
   var axisVals = vocab['axis'] || [];
   var axisHasIntensityCells = axisVals.some(function (t) { return !/^axis:(EI|SN|TF|JP)$/.test(t); });
@@ -120,6 +138,12 @@ function main() {
       'birthRange': [BIRTH_Y_MIN, BIRTH_Y_MAX], 'hourNullRate': HOUR_NULL_RATE,
       'mbti분포': '16종 시드 균등', 'genericPrefixes': GENERIC_PREFIXES,
       'mbtiaxis': mbtiaxisDecision,
+      'invalid_tags': invalidTags,
+      'queueRules': {
+        'temperamentAxis': 'kts',
+        '비고': '① 패치(2026-06-13): ② 주문서 후보·모니터 축·쌍둥이 가변 태그는 temperament: 대신 kts: 사용. ' +
+          'invalid_tags는 큐 후보에서 제외. 라이브 temperament:는 substring(1,3) 버그로 SJ/SP 영구 미포착(RO 유지).'
+      },
       'users비고': 'tags는 실방출 unique. birth/hour/min/gender/mbti 보존 — ② 쌍둥이 엔진 실계산용(D2)'
     },
     vocab: vocab,
@@ -137,7 +161,7 @@ function main() {
   var ys = Object.keys(yongshinRaw);
   var ysFail = ys.filter(function (k) { return !yongshinRaw[k].el; });
   var ysFailUsers = ysFail.reduce(function (s, k) { return s + yongshinRaw[k].count; }, 0);
-  var newAxes = ['dwss', 'sess', 'fx', 'yongshin_el'];
+  var newAxes = ['dwss', 'sess', 'fx', 'yongshin_el', 'kts'];
   var rep = [];
   rep.push('gen-tag-df 리포트 — ' + new Date().toISOString());
   rep.push('모집단 ' + users.length + '명 / 에러 ' + errors.length + '건 / 시드 ' + SEED + ' / baseYear ' + BASE_YEAR + ' / 엔진 ' + commit);
@@ -155,6 +179,8 @@ function main() {
   rep.push('');
   rep.push('[axis 분포] ' + (vocab['axis'] || []).map(function (t) { return t + '=' + (df[t] * 100).toFixed(0) + '%'; }).join(' '));
   rep.push('[mbtiaxis 판정] ' + mbtiaxisDecision.decision + ' — ' + mbtiaxisDecision.reason);
+  rep.push('[invalid_tags] ' + (Object.keys(invalidTags).length ?
+    Object.keys(invalidTags).map(function (t) { return t + '(' + invalidTags[t].slots + '슬롯)'; }).join(' ') : '없음'));
   if (errors.length) { rep.push(''); rep.push('[에러]'); errors.forEach(function (e) { rep.push('  ' + JSON.stringify(e)); }); }
 
   fs.writeFileSync(path.join(stateDir, 'gen_report.txt'), rep.join('\n'), 'utf8');

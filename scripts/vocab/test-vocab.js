@@ -148,9 +148,41 @@ function check(name, cond, detail) {
   console.log('[TW-5] fx 24칸: ' + (fails.length === before ? 'PASS' : 'FAIL'));
 })();
 
+// ── TW-9: kts — 16타입 전부 정확 1개 방출, Keirsey 매핑 정확 (① 패치) ──
+(function tw9() {
+  var before = fails.length;
+  var EXPECT = {
+    INFJ: 'NF', INFP: 'NF', ENFJ: 'NF', ENFP: 'NF',
+    INTJ: 'NT', INTP: 'NT', ENTJ: 'NT', ENTP: 'NT',
+    ISTJ: 'SJ', ISFJ: 'SJ', ESTJ: 'SJ', ESFJ: 'SJ',
+    ISTP: 'SP', ISFP: 'SP', ESTP: 'SP', ESFP: 'SP'
+  };
+  MBTI16.forEach(function (t) {
+    check('TW-9-map', v2.ktsTag(t) === 'kts:' + EXPECT[t],
+      t + ' → ' + v2.ktsTag(t) + ' (기대 kts:' + EXPECT[t] + ')');
+  });
+  // 라이브 버그 케이스 명시 확인: S기질이 kts에서 포착되는가
+  check('TW-9-istj', v2.ktsTag('ISTJ') === 'kts:SJ', 'ISTJ');
+  check('TW-9-esfp', v2.ktsTag('ESFP') === 'kts:SP', 'ESFP');
+  // 실방출 검증: 표본 16명(타입별 1명) — V2 산출에 kts 정확 1개
+  var rnd = mulberry32(11009);
+  muteTagLog();
+  MBTI16.forEach(function (t) {
+    var p = randomPerson(rnd);
+    p.mbti = t;
+    var e = calc(p);
+    var tags = v2.buildUserTagsV2(e.saju, e.gg, e.dw, t, null, { baseYear: 2026, birthYear: p.y });
+    var ktsList = tags.filter(function (x) { return x.indexOf('kts:') === 0; });
+    check('TW-9-emit', ktsList.length === 1 && ktsList[0] === 'kts:' + EXPECT[t],
+      t + ' 방출 ' + JSON.stringify(ktsList));
+  });
+  unmute();
+  console.log('[TW-9] kts 16타입 매핑+방출: ' + (fails.length === before ? 'PASS' : 'FAIL'));
+})();
+
 if (fails.length) {
   console.log('\nFAIL 상세:');
   fails.forEach(function (f) { console.log('  ✗ ' + f); });
   process.exit(1);
 }
-console.log('\n전체 PASS (TW-1·3·5)');
+console.log('\n전체 PASS (TW-1·3·5·9)');

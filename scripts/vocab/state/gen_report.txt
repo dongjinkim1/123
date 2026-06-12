@@ -1,5 +1,5 @@
-gen-tag-df 리포트 — 2026-06-12T20:22:50.835Z
-모집단 800명 / 에러 0건 / 시드 20260613 / baseYear 2026 / 엔진 1fca697
+gen-tag-df 리포트 — 2026-06-12T20:51:55.885Z
+모집단 800명 / 에러 0건 / 시드 20260613 / baseYear 2026 / 엔진 04db026
 태그 0개 유저: 0명
 
 [dwss] 10칸
@@ -55,8 +55,14 @@ gen-tag-df 리포트 — 2026-06-12T20:22:50.835Z
   yongshin_el:수 = 224명 (28.0%)
   yongshin_el:토 = 17명 (2.1%)
   yongshin_el:화 = 243명 (30.4%)
+[kts] 4칸
+  kts:NF = 180명 (22.5%)
+  kts:NT = 206명 (25.8%)
+  kts:SJ = 208명 (26.0%)
+  kts:SP = 206명 (25.8%)
 
 [yongshin_el 추출] 원문 99종 / 실패 0종 (0명, 0.0%)
 
 [axis 분포] axis:EI=100% axis:JP=100% axis:SN=100% axis:TF=100%
 [mbtiaxis 판정] axis-fixed-4-registered--mbtiaxis-deferred — axis: 방출은 고정 4종(EI/SN/TF/JP, 전원 보유 — 변별 0)뿐이라 축×강도 칸 미제공. mbtiaxis:{축}_{강도} 신설은 모집단 intensities=null이라 강도 칸 산출 불가 — fx 점수 컷과 동일하게 유저 실강도 데이터 축적 후 재검토로 이월. vocab에는 기존 axis: 4종 등재(② "mbtiaxis-또는-axis" 충족).
+[invalid_tags] 없음

@@ -112,6 +112,17 @@ function fxTags(mbtiType) {
   return ['fx:' + stack[0] + '_dom', 'fx:' + stack[1] + '_aux', 'fx:' + stack[3] + '_inf'];
 }
 
+// kts — Keirsey 기질 보정 축 (① 패치 2026-06-13).
+// 라이브 temperament:는 substring(1,3)이라 S기질(SJ/SP) 영구 미포착 — 라이브 RO 유지,
+// 래퍼에서 타입 직접 산출: 2번째 N → N+3번째(NF/NT), 2번째 S → S+4번째(SJ/SP).
+function ktsTag(mbtiType) {
+  if (!mbtiType || typeof mbtiType !== 'string' || mbtiType.length < 4) return null;
+  var c2 = mbtiType.charAt(1), c3 = mbtiType.charAt(2), c4 = mbtiType.charAt(3);
+  if (c2 === 'N') return (c3 === 'F' || c3 === 'T') ? 'kts:N' + c3 : null;
+  if (c2 === 'S') return (c4 === 'J' || c4 === 'P') ? 'kts:S' + c4 : null;
+  return null;
+}
+
 // 메인 래퍼. opts: { baseYear, birthYear }
 //   baseYear  — dwss/sess 기준 연도 (미지정 시 실행 연도)
 //   birthYear — dwss 대운 선택용 (미지정 시 dw.currentDWIdx fallback = 실행 시점 기준)
@@ -150,10 +161,14 @@ function buildUserTagsV2(saju, gg, dw, mbtiType, intensities, opts) {
     if (el) extra.push('yongshin_el:' + el);
   }
 
+  // 5. kts — Keirsey 기질 (temperament 라이브 버그 보정 축)
+  var kts = ktsTag(mbtiType);
+  if (kts) extra.push(kts);
+
   return base.concat(extra);
 }
 
-var NEW_PREFIXES = ['dwss:', 'sess:', 'fx:', 'yongshin_el:'];
+var NEW_PREFIXES = ['dwss:', 'sess:', 'fx:', 'yongshin_el:', 'kts:'];
 
 // V2 산출에서 신규 축 제거 → 기존 buildUserTags 산출 복원 (TW-1 검증용)
 function stripNewAxes(tags) {
@@ -166,6 +181,7 @@ module.exports = {
   buildUserTagsV2: buildUserTagsV2,
   extractYongshinEl: extractYongshinEl,
   fxTags: fxTags,
+  ktsTag: ktsTag,
   seunGanji: seunGanji,
   pickCurrentDaewoon: pickCurrentDaewoon,
   sipsungPairOf: sipsungPairOf,

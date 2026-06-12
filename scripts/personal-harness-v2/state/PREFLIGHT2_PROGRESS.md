@@ -58,6 +58,12 @@ tag-df.json 5축 등재 / users 800 소비 가능 / dwss·sess 전 서랍 ≥1 /
 
 명령서 참고 실측(100명, 극신강 1%)과 정합 — 기존 풀 극단 56% 쏠림 대비 교정 기반 확보.
 
+## order-queue 추가 규칙 (① 패치 2026-06-13 — 동진 지시, 구현 시 반영 의무)
+
+1. 주문서 조합 후보 축·D1 모니터 축에서 **`temperament:` 대신 `kts:` 사용** (kts:NF/NT/SJ/SP — tag-df meta.queueRules 소비). 라이브 temperament:는 SJ/SP 미포착 버그로 신뢰 불가(RO 유지 — 보정은 래퍼 kts가 담당).
+2. tag-df **meta.invalid_tags에 마킹된 태그는 큐 후보에서 제외** (현재 0건 — 미래 오염 방지 게이트).
+3. **V2 쌍둥이(D2) 가변 태그 검증도 kts 기준** — 동일 생일×16 MBTI 시 가변 = cf 8 + kts(temperament 아님).
+
 ## 다음 단계 (② 커밋 단위 1~10)
 
 1) 디렉토리+베이스 사본+가드+preflight 스크립트 → 2) order-queue(14키 검증·층화·generic prefix 제외) → … → 파일럿 20장 → 본 실행 (T1→T2→T3).
