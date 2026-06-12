@@ -1,0 +1,2094 @@
+{
+ "subject": "맞춤 재물 쌓는 법",
+ "tier": "T2",
+ "code": "MNY",
+ "coverage": 0.9513,
+ "coverageFill": 23,
+ "orders": [
+  {
+   "order_id": "MNY-001",
+   "pattern_id": "H2-MNY-001",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "fx:Fe_dom"
+   ],
+   "support": 31,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-002",
+   "pattern_id": "H2-MNY-002",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "tongbyeon:인성태과",
+    "relation:충"
+   ],
+   "support": 17,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-003",
+   "pattern_id": "H2-MNY-003",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "strength:신강+",
+    "fx:Fe_dom"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-004",
+   "pattern_id": "H2-MNY-004",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "relation:육합",
+    "dwss:정재",
+    "strength:신강+"
+   ],
+   "support": 3,
+   "strataCell": "극신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-005",
+   "pattern_id": "H2-MNY-005",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "fx:Ti_inf"
+   ],
+   "support": 44,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-006",
+   "pattern_id": "H2-MNY-006",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "yongshin:임수(세척)+병화",
+    "unsung:관대",
+    "unsung:사"
+   ],
+   "support": 2,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-007",
+   "pattern_id": "H2-MNY-007",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강",
+    "unsung:쇠",
+    "sess:편재",
+    "dm:계"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-008",
+   "pattern_id": "H2-MNY-008",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "kts:SJ",
+    "tongbyeon:인수생비",
+    "relation:충"
+   ],
+   "support": 5,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-009",
+   "pattern_id": "H2-MNY-009",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "gyeokguk:정관격"
+   ],
+   "support": 28,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-010",
+   "pattern_id": "H2-MNY-010",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "gyeokguk:정인격",
+    "dwss:식신",
+    "unsung:묘"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-011",
+   "pattern_id": "H2-MNY-011",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "yongshin:재성(제인성) — 목으로 인성 제어",
+    "fx:Fi_dom",
+    "ss:겁재"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-012",
+   "pattern_id": "H2-MNY-012",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "strength:신강+",
+    "ss:정관"
+   ],
+   "support": 19,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-013",
+   "pattern_id": "H2-MNY-013",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "sess:정인",
+    "condition:교운기",
+    "yongshin:임수(관개)+갑목"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-014",
+   "pattern_id": "H2-MNY-014",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "fx:Ne_dom"
+   ],
+   "support": 39,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-015",
+   "pattern_id": "H2-MNY-015",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정인",
+    "condition:excess"
+   ],
+   "support": 49,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-016",
+   "pattern_id": "H2-MNY-016",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "sinsal:양인",
+    "fx:Ni_inf",
+    "dm:경"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-017",
+   "pattern_id": "H2-MNY-017",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "kts:SJ",
+    "sinsal:백호",
+    "dm:신"
+   ],
+   "support": 5,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-018",
+   "pattern_id": "H2-MNY-018",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "dm:기",
+    "sess:정인",
+    "ss:인성"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-019",
+   "pattern_id": "H2-MNY-019",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편관",
+    "dm:신",
+    "unsung:쇠"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-020",
+   "pattern_id": "H2-MNY-020",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "yongshin_el:화",
+    "ss:재성"
+   ],
+   "support": 33,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-021",
+   "pattern_id": "H2-MNY-021",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "sess:정재",
+    "relation:충"
+   ],
+   "support": 28,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-022",
+   "pattern_id": "H2-MNY-022",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "yongshin:식신(제살청관) — 화으로 관성 정리"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-023",
+   "pattern_id": "H2-MNY-023",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "sinsal:도화"
+   ],
+   "support": 66,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-024",
+   "pattern_id": "H2-MNY-024",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NT",
+    "ss:정관",
+    "unsung:병",
+    "fx:Te_aux"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-025",
+   "pattern_id": "H2-MNY-025",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "unsung:병",
+    "yongshin:병화+경금"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-026",
+   "pattern_id": "H2-MNY-026",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:살인상생",
+    "unsung:묘"
+   ],
+   "support": 31,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-027",
+   "pattern_id": "H2-MNY-027",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "unsung:묘",
+    "sess:정인"
+   ],
+   "support": 22,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-028",
+   "pattern_id": "H2-MNY-028",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편인",
+    "kts:NT",
+    "yongshin:임수(균형)"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-029",
+   "pattern_id": "H2-MNY-029",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "unsung:장생",
+    "sess:편재",
+    "ss:정재"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-030",
+   "pattern_id": "H2-MNY-030",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정관",
+    "unsung:목욕",
+    "ss:정인"
+   ],
+   "support": 21,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-031",
+   "pattern_id": "H2-MNY-031",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "condition:교운기",
+    "dm:갑"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-032",
+   "pattern_id": "H2-MNY-032",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "tongbyeon:비겁탈재",
+    "dm:정"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-033",
+   "pattern_id": "H2-MNY-033",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(따뜻함)+무토",
+    "tongbyeon:비겁태과",
+    "ss:정인",
+    "tongbyeon:인수생비"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-034",
+   "pattern_id": "H2-MNY-034",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "ss:비겁"
+   ],
+   "support": 135,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-035",
+   "pattern_id": "H2-MNY-035",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "sinsal:학당귀인",
+    "sess:겁재"
+   ],
+   "support": 72,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-036",
+   "pattern_id": "H2-MNY-036",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "dm:신",
+    "kts:NT",
+    "fx:Si_inf"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-037",
+   "pattern_id": "H2-MNY-037",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_aux",
+    "yongshin:갑목(경작)+병화+계수"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-038",
+   "pattern_id": "H2-MNY-038",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편인격",
+    "sinsal:도화"
+   ],
+   "support": 35,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-039",
+   "pattern_id": "H2-MNY-039",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정인",
+    "fx:Ti_dom",
+    "relation:육합"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-040",
+   "pattern_id": "H2-MNY-040",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:살인상생",
+    "fx:Ne_aux",
+    "gyeokguk:편관격",
+    "sinsal:금여록"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-041",
+   "pattern_id": "H2-MNY-041",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "dm:임",
+    "ss:식신",
+    "tongbyeon:살인상생"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-042",
+   "pattern_id": "H2-MNY-042",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:을",
+    "sess:식신",
+    "ss:편재",
+    "fx:Te_aux"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-043",
+   "pattern_id": "H2-MNY-043",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "ss:편재",
+    "dwss:상관"
+   ],
+   "support": 14,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-044",
+   "pattern_id": "H2-MNY-044",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_aux",
+    "strength:중화",
+    "sinsal:양인",
+    "sinsal:도화"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-045",
+   "pattern_id": "H2-MNY-045",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "sinsal:화개",
+    "ss:정관",
+    "unsung:관대"
+   ],
+   "support": 17,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-046",
+   "pattern_id": "H2-MNY-046",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편재",
+    "strength:신약",
+    "relation:육합"
+   ],
+   "support": 27,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-047",
+   "pattern_id": "H2-MNY-047",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:금여록",
+    "fx:Fi_inf"
+   ],
+   "support": 31,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-048",
+   "pattern_id": "H2-MNY-048",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "ss:정관"
+   ],
+   "support": 172,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-049",
+   "pattern_id": "H2-MNY-049",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "gyeokguk:편인격"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-050",
+   "pattern_id": "H2-MNY-050",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "sinsal:학당귀인",
+    "ss:편재",
+    "yongshin_el:화"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-051",
+   "pattern_id": "H2-MNY-051",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "dm:경",
+    "ss:비견",
+    "gyeokguk:정인격"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-052",
+   "pattern_id": "H2-MNY-052",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "ss:관성"
+   ],
+   "support": 168,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-053",
+   "pattern_id": "H2-MNY-053",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "fx:Fe_aux"
+   ],
+   "support": 36,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-054",
+   "pattern_id": "H2-MNY-054",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:정관격",
+    "yongshin:갑목(경작)+병화+계수"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-055",
+   "pattern_id": "H2-MNY-055",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "ss:식상"
+   ],
+   "support": 111,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-056",
+   "pattern_id": "H2-MNY-056",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Si_dom",
+    "sinsal:도화"
+   ],
+   "support": 37,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-057",
+   "pattern_id": "H2-MNY-057",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "gyeokguk:정관격"
+   ],
+   "support": 84,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-058",
+   "pattern_id": "H2-MNY-058",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "ss:편관"
+   ],
+   "support": 101,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-059",
+   "pattern_id": "H2-MNY-059",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "tongbyeon:비겁탈재",
+    "sinsal:화개",
+    "strength:신약"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-060",
+   "pattern_id": "H2-MNY-060",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "yongshin:병화(빛)+임수",
+    "sess:정관"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-061",
+   "pattern_id": "H2-MNY-061",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "ss:겁재",
+    "sinsal:양인",
+    "dm:경"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-062",
+   "pattern_id": "H2-MNY-062",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "ss:정재",
+    "ss:겁재"
+   ],
+   "support": 48,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-063",
+   "pattern_id": "H2-MNY-063",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "sinsal:도화",
+    "dwss:식신",
+    "sinsal:월덕귀인"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-064",
+   "pattern_id": "H2-MNY-064",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:겁재",
+    "unsung:태"
+   ],
+   "support": 52,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-065",
+   "pattern_id": "H2-MNY-065",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "dwss:편관"
+   ],
+   "support": 64,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-066",
+   "pattern_id": "H2-MNY-066",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "fx:Ti_aux",
+    "sinsal:역마"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-067",
+   "pattern_id": "H2-MNY-067",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "ss:편재",
+    "strength:신약",
+    "sinsal:천덕귀인"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-068",
+   "pattern_id": "H2-MNY-068",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "dwss:편재",
+    "tongbyeon:재관쌍미"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-069",
+   "pattern_id": "H2-MNY-069",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "ss:인성",
+    "ss:편재",
+    "fx:Te_aux"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-070",
+   "pattern_id": "H2-MNY-070",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "relation:천간합"
+   ],
+   "support": 66,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-071",
+   "pattern_id": "H2-MNY-071",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "gyeokguk:양인격"
+   ],
+   "support": 92,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-072",
+   "pattern_id": "H2-MNY-072",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "kts:NF",
+    "fx:Ti_inf"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-073",
+   "pattern_id": "H2-MNY-073",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_inf",
+    "relation:육합",
+    "ss:식신",
+    "sinsal:금여록"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-074",
+   "pattern_id": "H2-MNY-074",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "sinsal:역마"
+   ],
+   "support": 51,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-075",
+   "pattern_id": "H2-MNY-075",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_aux",
+    "ss:정재"
+   ],
+   "support": 31,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-076",
+   "pattern_id": "H2-MNY-076",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "dwss:정인"
+   ],
+   "support": 59,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-077",
+   "pattern_id": "H2-MNY-077",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Si_inf",
+    "relation:충",
+    "ss:정관",
+    "unsung:건록"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-078",
+   "pattern_id": "H2-MNY-078",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:임수(균형)",
+    "sess:겁재",
+    "gyeokguk:편인격",
+    "condition:lack"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-079",
+   "pattern_id": "H2-MNY-079",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편인격",
+    "sess:겁재"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-080",
+   "pattern_id": "H2-MNY-080",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "sinsal:화개",
+    "unsung:태",
+    "strength:신약"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-081",
+   "pattern_id": "H2-MNY-081",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "ss:재성"
+   ],
+   "support": 71,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-082",
+   "pattern_id": "H2-MNY-082",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:목",
+    "ss:겁재"
+   ],
+   "support": 72,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-083",
+   "pattern_id": "H2-MNY-083",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "kts:SP",
+    "sess:편인"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-084",
+   "pattern_id": "H2-MNY-084",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "yongshin_el:금",
+    "condition:excess",
+    "tongbyeon:효신탈식"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-085",
+   "pattern_id": "H2-MNY-085",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:계",
+    "dwss:편관",
+    "ss:정재",
+    "condition:교운기"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-086",
+   "pattern_id": "H2-MNY-086",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "yongshin_el:수",
+    "unsung:관대"
+   ],
+   "support": 22,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-087",
+   "pattern_id": "H2-MNY-087",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(해동)",
+    "dm:을",
+    "dwss:식신",
+    "fx:Se_dom"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-088",
+   "pattern_id": "H2-MNY-088",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_inf",
+    "sinsal:화개",
+    "sess:겁재"
+   ],
+   "support": 8,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-089",
+   "pattern_id": "H2-MNY-089",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "sinsal:역마"
+   ],
+   "support": 116,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-090",
+   "pattern_id": "H2-MNY-090",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(해동)",
+    "fx:Ne_aux",
+    "unsung:관대",
+    "condition:excess"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-091",
+   "pattern_id": "H2-MNY-091",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:계",
+    "unsung:관대",
+    "ss:식신"
+   ],
+   "support": 11,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-092",
+   "pattern_id": "H2-MNY-092",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재성태과",
+    "yongshin_el:화",
+    "fx:Ne_inf"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-093",
+   "pattern_id": "H2-MNY-093",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재관쌍미",
+    "dwss:비견",
+    "fx:Si_inf"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-094",
+   "pattern_id": "H2-MNY-094",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_aux",
+    "unsung:병",
+    "dwss:식신"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-095",
+   "pattern_id": "H2-MNY-095",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "unsung:목욕",
+    "fx:Ti_inf"
+   ],
+   "support": 6,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-096",
+   "pattern_id": "H2-MNY-096",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "fx:Fi_inf"
+   ],
+   "support": 19,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-097",
+   "pattern_id": "H2-MNY-097",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:상관견관",
+    "unsung:묘",
+    "relation:육합",
+    "kts:SP"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-098",
+   "pattern_id": "H2-MNY-098",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식상생재",
+    "ss:재성"
+   ],
+   "support": 76,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-099",
+   "pattern_id": "H2-MNY-099",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "ss:정관",
+    "tongbyeon:관살혼잡"
+   ],
+   "support": 10,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-100",
+   "pattern_id": "H2-MNY-100",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:금여록",
+    "sinsal:역마",
+    "gyeokguk:편관격"
+   ],
+   "support": 7,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-101",
+   "pattern_id": "H2-MNY-101",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "dm:계"
+   ],
+   "support": 82,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-102",
+   "pattern_id": "H2-MNY-102",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "ss:상관"
+   ],
+   "support": 159,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-103",
+   "pattern_id": "H2-MNY-103",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:임수(담금질)+경금",
+    "fx:Si_inf"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-104",
+   "pattern_id": "H2-MNY-104",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "sess:정인"
+   ],
+   "support": 69,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-105",
+   "pattern_id": "H2-MNY-105",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "ss:재성"
+   ],
+   "support": 78,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-106",
+   "pattern_id": "H2-MNY-106",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "fx:Fi_aux"
+   ],
+   "support": 61,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-107",
+   "pattern_id": "H2-MNY-107",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정인",
+    "ss:비견"
+   ],
+   "support": 110,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-108",
+   "pattern_id": "H2-MNY-108",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "ss:상관"
+   ],
+   "support": 100,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-109",
+   "pattern_id": "H2-MNY-109",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "tongbyeon:비겁태과"
+   ],
+   "support": 21,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-110",
+   "pattern_id": "H2-MNY-110",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:무",
+    "yongshin_el:화"
+   ],
+   "support": 37,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-111",
+   "pattern_id": "H2-MNY-111",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "fx:Si_aux"
+   ],
+   "support": 22,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-112",
+   "pattern_id": "H2-MNY-112",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "tongbyeon:재성태과"
+   ],
+   "support": 20,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-113",
+   "pattern_id": "H2-MNY-113",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:정재",
+    "fx:Se_dom"
+   ],
+   "support": 16,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-114",
+   "pattern_id": "H2-MNY-114",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "sess:상관"
+   ],
+   "support": 51,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-115",
+   "pattern_id": "H2-MNY-115",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Te_aux",
+    "yongshin:병화(해동)"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-116",
+   "pattern_id": "H2-MNY-116",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:금여록",
+    "sinsal:백호"
+   ],
+   "support": 93,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-117",
+   "pattern_id": "H2-MNY-117",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "strength:신강+"
+   ],
+   "support": 33,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-118",
+   "pattern_id": "H2-MNY-118",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:중화",
+    "sess:편관"
+   ],
+   "support": 52,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-119",
+   "pattern_id": "H2-MNY-119",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "ss:재성"
+   ],
+   "support": 65,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-120",
+   "pattern_id": "H2-MNY-120",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:임",
+    "ss:관성"
+   ],
+   "support": 41,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-121",
+   "pattern_id": "H2-MNY-121",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:상관",
+    "sinsal:화개"
+   ],
+   "support": 65,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-122",
+   "pattern_id": "H2-MNY-122",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "kts:SJ"
+   ],
+   "support": 86,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-123",
+   "pattern_id": "H2-MNY-123",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정인",
+    "unsung:장생"
+   ],
+   "support": 58,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MNY-124",
+   "pattern_id": "H2-MNY-124",
+   "subject": "맞춤 재물 쌓는 법",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "yongshin_el:수"
+   ],
+   "support": 46,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  }
+ ]
+}

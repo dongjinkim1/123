@@ -1,0 +1,3192 @@
+{
+ "subject": "대운 흐름",
+ "tier": "T1",
+ "code": "DWF",
+ "coverage": 0.9525,
+ "coverageFill": 9,
+ "orders": [
+  {
+   "order_id": "DWF-001",
+   "pattern_id": "H2-DWF-001",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "condition:lack"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-002",
+   "pattern_id": "H2-DWF-002",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "unsung:제왕",
+    "ss:편관"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-003",
+   "pattern_id": "H2-DWF-003",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "ss:편재",
+    "dm:갑"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-004",
+   "pattern_id": "H2-DWF-004",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "unsung:제왕",
+    "sess:편관"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-005",
+   "pattern_id": "H2-DWF-005",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "ss:편관",
+    "dwss:비견"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-006",
+   "pattern_id": "H2-DWF-006",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "fx:Te_dom",
+    "fx:Fi_inf"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-007",
+   "pattern_id": "H2-DWF-007",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "ss:관성",
+    "strength:신약"
+   ],
+   "support": 36,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-008",
+   "pattern_id": "H2-DWF-008",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "ss:겁재"
+   ],
+   "support": 53,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-009",
+   "pattern_id": "H2-DWF-009",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "fx:Ni_aux"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-010",
+   "pattern_id": "H2-DWF-010",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "dm:경",
+    "ss:비견"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-011",
+   "pattern_id": "H2-DWF-011",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "fx:Ti_aux"
+   ],
+   "support": 20,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-012",
+   "pattern_id": "H2-DWF-012",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "tongbyeon:인수생비",
+    "strength:신강+"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-013",
+   "pattern_id": "H2-DWF-013",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "sinsal:양인",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-014",
+   "pattern_id": "H2-DWF-014",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "ss:인성",
+    "ss:정관"
+   ],
+   "support": 24,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-015",
+   "pattern_id": "H2-DWF-015",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "yongshin_el:수",
+    "yongshin:식신(제살청관) — 수으로 관성 정리",
+    "kts:SJ"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-016",
+   "pattern_id": "H2-DWF-016",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "unsung:제왕"
+   ],
+   "support": 46,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-017",
+   "pattern_id": "H2-DWF-017",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "kts:SJ"
+   ],
+   "support": 36,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-018",
+   "pattern_id": "H2-DWF-018",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "fx:Ne_aux",
+    "sess:편인",
+    "gyeokguk:상관격"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-019",
+   "pattern_id": "H2-DWF-019",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "ss:편인",
+    "tongbyeon:살인상생"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-020",
+   "pattern_id": "H2-DWF-020",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "gyeokguk:편관격"
+   ],
+   "support": 23,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-021",
+   "pattern_id": "H2-DWF-021",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "ss:비겁",
+    "fx:Te_aux"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-022",
+   "pattern_id": "H2-DWF-022",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "ss:관성",
+    "ss:정인",
+    "unsung:절"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-023",
+   "pattern_id": "H2-DWF-023",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "sinsal:화개"
+   ],
+   "support": 61,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-024",
+   "pattern_id": "H2-DWF-024",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "ss:정관",
+    "sinsal:천덕귀인",
+    "ss:편인"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-025",
+   "pattern_id": "H2-DWF-025",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "sinsal:화개"
+   ],
+   "support": 61,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-026",
+   "pattern_id": "H2-DWF-026",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "unsung:건록",
+    "fx:Ti_inf",
+    "unsung:태"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-027",
+   "pattern_id": "H2-DWF-027",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "fx:Ni_dom",
+    "dm:기",
+    "sess:정인"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-028",
+   "pattern_id": "H2-DWF-028",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "unsung:관대",
+    "unsung:병"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-029",
+   "pattern_id": "H2-DWF-029",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "ss:편인"
+   ],
+   "support": 72,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-030",
+   "pattern_id": "H2-DWF-030",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "strength:중화",
+    "dm:신",
+    "unsung:쇠"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-031",
+   "pattern_id": "H2-DWF-031",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "condition:excess"
+   ],
+   "support": 39,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-032",
+   "pattern_id": "H2-DWF-032",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "unsung:사",
+    "sess:편관"
+   ],
+   "support": 8,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-033",
+   "pattern_id": "H2-DWF-033",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "gyeokguk:건록격",
+    "relation:충"
+   ],
+   "support": 7,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-034",
+   "pattern_id": "H2-DWF-034",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "fx:Fi_inf"
+   ],
+   "support": 22,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-035",
+   "pattern_id": "H2-DWF-035",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "yongshin:임수(세척)+병화",
+    "tongbyeon:인수생비",
+    "ss:비견"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-036",
+   "pattern_id": "H2-DWF-036",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "yongshin_el:화",
+    "condition:lack"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-037",
+   "pattern_id": "H2-DWF-037",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "kts:SP",
+    "sinsal:천덕귀인"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-038",
+   "pattern_id": "H2-DWF-038",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "gyeokguk:정관격"
+   ],
+   "support": 18,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-039",
+   "pattern_id": "H2-DWF-039",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "ss:편관",
+    "gyeokguk:편재격",
+    "sinsal:화개"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-040",
+   "pattern_id": "H2-DWF-040",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "ss:정인",
+    "sess:편재",
+    "dm:계"
+   ],
+   "support": 4,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-041",
+   "pattern_id": "H2-DWF-041",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "ss:관성"
+   ],
+   "support": 65,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-042",
+   "pattern_id": "H2-DWF-042",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "dm:기"
+   ],
+   "support": 12,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-043",
+   "pattern_id": "H2-DWF-043",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "unsung:양",
+    "strength:신약",
+    "ss:정재"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-044",
+   "pattern_id": "H2-DWF-044",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "ss:겁재",
+    "sess:정재",
+    "gyeokguk:양인격"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-045",
+   "pattern_id": "H2-DWF-045",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "dwss:편관",
+    "sinsal:천덕귀인"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-046",
+   "pattern_id": "H2-DWF-046",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "sinsal:화개",
+    "sinsal:귀문관",
+    "yongshin_el:목"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-047",
+   "pattern_id": "H2-DWF-047",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "ss:정인",
+    "ss:정관"
+   ],
+   "support": 18,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-048",
+   "pattern_id": "H2-DWF-048",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "fx:Se_aux",
+    "sinsal:천덕귀인"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-049",
+   "pattern_id": "H2-DWF-049",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "gyeokguk:상관격",
+    "dwss:비견",
+    "kts:NT"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-050",
+   "pattern_id": "H2-DWF-050",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "yongshin_type:파격조정"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-051",
+   "pattern_id": "H2-DWF-051",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "gyeokguk:정관격"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-052",
+   "pattern_id": "H2-DWF-052",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "dm:계",
+    "yongshin_el:화",
+    "condition:lack"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-053",
+   "pattern_id": "H2-DWF-053",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "condition:lack",
+    "tongbyeon:상관견관",
+    "gyeokguk:편관격"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-054",
+   "pattern_id": "H2-DWF-054",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "ss:비겁",
+    "relation:충"
+   ],
+   "support": 24,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-055",
+   "pattern_id": "H2-DWF-055",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "ss:관성",
+    "unsung:관대",
+    "tongbyeon:식상생재"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-056",
+   "pattern_id": "H2-DWF-056",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "fx:Se_aux",
+    "ss:식상"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-057",
+   "pattern_id": "H2-DWF-057",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "unsung:묘",
+    "ss:재성"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-058",
+   "pattern_id": "H2-DWF-058",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "yongshin_type:파격조정",
+    "fx:Fi_dom",
+    "yongshin_el:토"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-059",
+   "pattern_id": "H2-DWF-059",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "sinsal:금여록"
+   ],
+   "support": 35,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-060",
+   "pattern_id": "H2-DWF-060",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "sinsal:도화",
+    "ss:편재"
+   ],
+   "support": 20,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-061",
+   "pattern_id": "H2-DWF-061",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "ss:편관",
+    "relation:해",
+    "sinsal:도화"
+   ],
+   "support": 11,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-062",
+   "pattern_id": "H2-DWF-062",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "tongbyeon:비겁탈재",
+    "yongshin_el:목",
+    "fx:Si_inf"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-063",
+   "pattern_id": "H2-DWF-063",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "yongshin:병화(제련)+갑목",
+    "relation:충",
+    "sinsal:역마"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-064",
+   "pattern_id": "H2-DWF-064",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "ss:식상",
+    "unsung:병"
+   ],
+   "support": 23,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-065",
+   "pattern_id": "H2-DWF-065",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "unsung:묘",
+    "sess:상관"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-066",
+   "pattern_id": "H2-DWF-066",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "fx:Te_dom",
+    "kts:NT",
+    "unsung:쇠"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-067",
+   "pattern_id": "H2-DWF-067",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "sess:식신"
+   ],
+   "support": 36,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-068",
+   "pattern_id": "H2-DWF-068",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "ss:비겁",
+    "sinsal:학당귀인",
+    "unsung:절"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-069",
+   "pattern_id": "H2-DWF-069",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "unsung:양"
+   ],
+   "support": 51,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-070",
+   "pattern_id": "H2-DWF-070",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "gyeokguk:양인격"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-071",
+   "pattern_id": "H2-DWF-071",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "relation:천간합",
+    "sinsal:귀문관",
+    "unsung:태"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-072",
+   "pattern_id": "H2-DWF-072",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "sinsal:천덕귀인",
+    "ss:식신",
+    "unsung:목욕"
+   ],
+   "support": 7,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-073",
+   "pattern_id": "H2-DWF-073",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "ss:정관",
+    "yongshin_type:파격조정",
+    "sinsal:천덕귀인"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-074",
+   "pattern_id": "H2-DWF-074",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "ss:비겁",
+    "relation:육합",
+    "unsung:쇠"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-075",
+   "pattern_id": "H2-DWF-075",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "sinsal:양인",
+    "gyeokguk:양인격",
+    "fx:Ni_aux"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-076",
+   "pattern_id": "H2-DWF-076",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "condition:excess",
+    "dwss:편재",
+    "strength:중화"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-077",
+   "pattern_id": "H2-DWF-077",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "yongshin_el:금",
+    "ss:비견",
+    "sinsal:양인"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-078",
+   "pattern_id": "H2-DWF-078",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "sess:정인",
+    "condition:교운기",
+    "fx:Ti_aux"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-079",
+   "pattern_id": "H2-DWF-079",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "ss:정재",
+    "ss:재성",
+    "yongshin_el:화"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-080",
+   "pattern_id": "H2-DWF-080",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "unsung:병"
+   ],
+   "support": 46,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-081",
+   "pattern_id": "H2-DWF-081",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "unsung:사",
+    "unsung:건록"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-082",
+   "pattern_id": "H2-DWF-082",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "fx:Ne_dom",
+    "gyeokguk:건록격"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-083",
+   "pattern_id": "H2-DWF-083",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "sinsal:금여록",
+    "sinsal:도화"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-084",
+   "pattern_id": "H2-DWF-084",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "strength:신강+",
+    "relation:해",
+    "dwss:편재"
+   ],
+   "support": 2,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-085",
+   "pattern_id": "H2-DWF-085",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "ss:관성",
+    "yongshin_el:금",
+    "condition:lack"
+   ],
+   "support": 6,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-086",
+   "pattern_id": "H2-DWF-086",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "ss:비견",
+    "sinsal:백호"
+   ],
+   "support": 19,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-087",
+   "pattern_id": "H2-DWF-087",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "yongshin_el:목"
+   ],
+   "support": 34,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-088",
+   "pattern_id": "H2-DWF-088",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "sess:상관",
+    "sess:식신"
+   ],
+   "support": 43,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-089",
+   "pattern_id": "H2-DWF-089",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "strength:신약"
+   ],
+   "support": 51,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-090",
+   "pattern_id": "H2-DWF-090",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "dwss:편관",
+    "kts:SJ",
+    "unsung:건록"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-091",
+   "pattern_id": "H2-DWF-091",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "sess:편재"
+   ],
+   "support": 33,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-092",
+   "pattern_id": "H2-DWF-092",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "fx:Fi_dom"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-093",
+   "pattern_id": "H2-DWF-093",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "yongshin_el:수",
+    "ss:상관",
+    "fx:Ni_dom"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-094",
+   "pattern_id": "H2-DWF-094",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "unsung:제왕",
+    "fx:Fi_aux"
+   ],
+   "support": 6,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-095",
+   "pattern_id": "H2-DWF-095",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "yongshin_type:파격조정"
+   ],
+   "support": 38,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-096",
+   "pattern_id": "H2-DWF-096",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "unsung:관대",
+    "ss:인성"
+   ],
+   "support": 20,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-097",
+   "pattern_id": "H2-DWF-097",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "gyeokguk:양인격",
+    "unsung:제왕",
+    "fx:Ni_dom"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-098",
+   "pattern_id": "H2-DWF-098",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "sinsal:도화",
+    "ss:식신"
+   ],
+   "support": 35,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-099",
+   "pattern_id": "H2-DWF-099",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "ss:편재",
+    "strength:중화",
+    "ss:식신"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-100",
+   "pattern_id": "H2-DWF-100",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "sess:겁재",
+    "sinsal:귀문관"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-101",
+   "pattern_id": "H2-DWF-101",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "kts:SJ",
+    "yongshin_el:화"
+   ],
+   "support": 11,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-102",
+   "pattern_id": "H2-DWF-102",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "relation:천간합"
+   ],
+   "support": 61,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-103",
+   "pattern_id": "H2-DWF-103",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "relation:육합",
+    "fx:Ne_dom"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-104",
+   "pattern_id": "H2-DWF-104",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "sinsal:천덕귀인",
+    "yongshin:식신(제살청관) — 목으로 관성 정리"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-105",
+   "pattern_id": "H2-DWF-105",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "relation:충",
+    "sess:정관",
+    "unsung:태"
+   ],
+   "support": 6,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-106",
+   "pattern_id": "H2-DWF-106",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "unsung:태",
+    "dm:무"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-107",
+   "pattern_id": "H2-DWF-107",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "ss:비견"
+   ],
+   "support": 64,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-108",
+   "pattern_id": "H2-DWF-108",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "yongshin_el:금",
+    "condition:excess"
+   ],
+   "support": 6,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-109",
+   "pattern_id": "H2-DWF-109",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "fx:Se_aux"
+   ],
+   "support": 11,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-110",
+   "pattern_id": "H2-DWF-110",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "unsung:절"
+   ],
+   "support": 52,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-111",
+   "pattern_id": "H2-DWF-111",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "sinsal:귀문관",
+    "ss:겁재"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-112",
+   "pattern_id": "H2-DWF-112",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "fx:Fe_aux"
+   ],
+   "support": 11,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-113",
+   "pattern_id": "H2-DWF-113",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "gyeokguk:식신격",
+    "ss:식신"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-114",
+   "pattern_id": "H2-DWF-114",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "gyeokguk:양인격",
+    "sinsal:도화"
+   ],
+   "support": 11,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-115",
+   "pattern_id": "H2-DWF-115",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "strength:신강+",
+    "ss:편인"
+   ],
+   "support": 5,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-116",
+   "pattern_id": "H2-DWF-116",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "ss:비견"
+   ],
+   "support": 64,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-117",
+   "pattern_id": "H2-DWF-117",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "fx:Si_inf"
+   ],
+   "support": 17,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-118",
+   "pattern_id": "H2-DWF-118",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "dwss:편인",
+    "sess:정관"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-119",
+   "pattern_id": "H2-DWF-119",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "ss:비겁"
+   ],
+   "support": 75,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-120",
+   "pattern_id": "H2-DWF-120",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "condition:excess",
+    "relation:천간합",
+    "ss:편관"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-121",
+   "pattern_id": "H2-DWF-121",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "relation:천간합"
+   ],
+   "support": 54,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-122",
+   "pattern_id": "H2-DWF-122",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "ss:편관",
+    "yongshin:임수(보호)+계수"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-123",
+   "pattern_id": "H2-DWF-123",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "unsung:절",
+    "sinsal:금여록"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-124",
+   "pattern_id": "H2-DWF-124",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "strength:신강"
+   ],
+   "support": 25,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-125",
+   "pattern_id": "H2-DWF-125",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "fx:Fi_inf",
+    "sinsal:천덕귀인",
+    "unsung:건록"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-126",
+   "pattern_id": "H2-DWF-126",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "sinsal:천덕귀인"
+   ],
+   "support": 48,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-127",
+   "pattern_id": "H2-DWF-127",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "ss:편관"
+   ],
+   "support": 58,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-128",
+   "pattern_id": "H2-DWF-128",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "yongshin:관성(제겁재) — 관성으로 겁재를 제어하여 재성 보호",
+    "yongshin_type:파격조정",
+    "strength:중화"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-129",
+   "pattern_id": "H2-DWF-129",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "tongbyeon:재관쌍미"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-130",
+   "pattern_id": "H2-DWF-130",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "fx:Ni_inf",
+    "unsung:제왕",
+    "unsung:절"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-131",
+   "pattern_id": "H2-DWF-131",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정관",
+    "strength:극신강",
+    "ss:인성",
+    "relation:육합"
+   ],
+   "support": 1,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-132",
+   "pattern_id": "H2-DWF-132",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "condition:교운기",
+    "ss:편인",
+    "kts:SJ"
+   ],
+   "support": 8,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-133",
+   "pattern_id": "H2-DWF-133",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "unsung:병",
+    "unsung:묘"
+   ],
+   "support": 24,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-134",
+   "pattern_id": "H2-DWF-134",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:상관패인",
+    "fx:Ni_inf"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-135",
+   "pattern_id": "H2-DWF-135",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "relation:충"
+   ],
+   "support": 133,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-136",
+   "pattern_id": "H2-DWF-136",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "fx:Ni_inf",
+    "sinsal:도화",
+    "ss:인성"
+   ],
+   "support": 6,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-137",
+   "pattern_id": "H2-DWF-137",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정재",
+    "strength:신강"
+   ],
+   "support": 26,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-138",
+   "pattern_id": "H2-DWF-138",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:양인",
+    "unsung:건록",
+    "fx:Ti_dom",
+    "ss:정인"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-139",
+   "pattern_id": "H2-DWF-139",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_type:파격조정",
+    "fx:Ni_aux"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-140",
+   "pattern_id": "H2-DWF-140",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "unsung:태",
+    "dm:을",
+    "kts:SJ"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-141",
+   "pattern_id": "H2-DWF-141",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:중화",
+    "yongshin_el:금",
+    "kts:NT"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-142",
+   "pattern_id": "H2-DWF-142",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "ss:정인",
+    "relation:해",
+    "dm:신"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-143",
+   "pattern_id": "H2-DWF-143",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "yongshin:병화(해동)+갑목"
+   ],
+   "support": 11,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-144",
+   "pattern_id": "H2-DWF-144",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "dwss:정재"
+   ],
+   "support": 68,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-145",
+   "pattern_id": "H2-DWF-145",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "fx:Ni_dom",
+    "ss:정재"
+   ],
+   "support": 14,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-146",
+   "pattern_id": "H2-DWF-146",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "yongshin_el:목"
+   ],
+   "support": 83,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-147",
+   "pattern_id": "H2-DWF-147",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "ss:편인",
+    "sinsal:화개",
+    "unsung:병"
+   ],
+   "support": 33,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-148",
+   "pattern_id": "H2-DWF-148",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "dm:신"
+   ],
+   "support": 88,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-149",
+   "pattern_id": "H2-DWF-149",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_aux",
+    "strength:중화"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-150",
+   "pattern_id": "H2-DWF-150",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "sess:편인"
+   ],
+   "support": 41,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-151",
+   "pattern_id": "H2-DWF-151",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "ss:식상",
+    "gyeokguk:편인격"
+   ],
+   "support": 18,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-152",
+   "pattern_id": "H2-DWF-152",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:임수(조절)+갑목",
+    "fx:Ti_aux",
+    "relation:천간합"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-153",
+   "pattern_id": "H2-DWF-153",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "yongshin:임수(세척)+병화",
+    "kts:SJ",
+    "ss:비견"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-154",
+   "pattern_id": "H2-DWF-154",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "strength:신약"
+   ],
+   "support": 112,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-155",
+   "pattern_id": "H2-DWF-155",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:천덕귀인",
+    "unsung:병"
+   ],
+   "support": 73,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-156",
+   "pattern_id": "H2-DWF-156",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "yongshin:인성(제상관) — 인성으로 상관을 누르고 정관을 보호"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-157",
+   "pattern_id": "H2-DWF-157",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "dwss:정관"
+   ],
+   "support": 63,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-158",
+   "pattern_id": "H2-DWF-158",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정인",
+    "fx:Si_aux",
+    "fx:Ti_inf",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-159",
+   "pattern_id": "H2-DWF-159",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:경금(조각)+임수+병화",
+    "kts:NF",
+    "relation:천간합"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-160",
+   "pattern_id": "H2-DWF-160",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "ss:식신",
+    "yongshin_el:화",
+    "dwss:편재"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-161",
+   "pattern_id": "H2-DWF-161",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:양인",
+    "fx:Te_dom",
+    "kts:SJ"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-162",
+   "pattern_id": "H2-DWF-162",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "sinsal:역마"
+   ],
+   "support": 94,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-163",
+   "pattern_id": "H2-DWF-163",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "dwss:편재",
+    "ss:편관"
+   ],
+   "support": 26,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-164",
+   "pattern_id": "H2-DWF-164",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "dwss:편관"
+   ],
+   "support": 59,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-165",
+   "pattern_id": "H2-DWF-165",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_inf",
+    "sinsal:백호"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-166",
+   "pattern_id": "H2-DWF-166",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "tongbyeon:상관패인"
+   ],
+   "support": 18,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-167",
+   "pattern_id": "H2-DWF-167",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편재격",
+    "fx:Ni_dom"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-168",
+   "pattern_id": "H2-DWF-168",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "relation:육합",
+    "ss:편인",
+    "dwss:정재"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-169",
+   "pattern_id": "H2-DWF-169",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "ss:편관",
+    "sinsal:천덕귀인"
+   ],
+   "support": 39,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-170",
+   "pattern_id": "H2-DWF-170",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:을",
+    "strength:신약"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-171",
+   "pattern_id": "H2-DWF-171",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "sess:식신",
+    "sinsal:천덕귀인",
+    "dm:갑"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-172",
+   "pattern_id": "H2-DWF-172",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(빛)+임수",
+    "unsung:병",
+    "ss:편관"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-173",
+   "pattern_id": "H2-DWF-173",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:식신격",
+    "sinsal:귀문관",
+    "sess:편인"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-174",
+   "pattern_id": "H2-DWF-174",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "sinsal:학당귀인",
+    "sess:편재",
+    "fx:Te_dom"
+   ],
+   "support": 8,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-175",
+   "pattern_id": "H2-DWF-175",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "sinsal:월덕귀인",
+    "yongshin_el:토"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-176",
+   "pattern_id": "H2-DWF-176",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정인",
+    "ss:편인",
+    "unsung:병",
+    "unsung:목욕"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-177",
+   "pattern_id": "H2-DWF-177",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "fx:Si_inf"
+   ],
+   "support": 14,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-178",
+   "pattern_id": "H2-DWF-178",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "ss:관성",
+    "unsung:목욕",
+    "gyeokguk:정재격"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-179",
+   "pattern_id": "H2-DWF-179",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "fx:Te_dom"
+   ],
+   "support": 46,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-180",
+   "pattern_id": "H2-DWF-180",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "unsung:장생"
+   ],
+   "support": 66,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-181",
+   "pattern_id": "H2-DWF-181",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:정인",
+    "fx:Ti_aux"
+   ],
+   "support": 20,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-182",
+   "pattern_id": "H2-DWF-182",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "fx:Fi_aux"
+   ],
+   "support": 37,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-183",
+   "pattern_id": "H2-DWF-183",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:갑",
+    "ss:상관"
+   ],
+   "support": 35,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-184",
+   "pattern_id": "H2-DWF-184",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "sess:정재"
+   ],
+   "support": 35,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-185",
+   "pattern_id": "H2-DWF-185",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "sess:편관"
+   ],
+   "support": 58,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-186",
+   "pattern_id": "H2-DWF-186",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:상관",
+    "unsung:태"
+   ],
+   "support": 27,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-187",
+   "pattern_id": "H2-DWF-187",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:계",
+    "ss:편관"
+   ],
+   "support": 52,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "DWF-188",
+   "pattern_id": "H2-DWF-188",
+   "subject": "대운 흐름",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "sess:겁재"
+   ],
+   "support": 70,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  }
+ ]
+}

@@ -1,0 +1,2016 @@
+{
+ "subject": "직장 적성",
+ "tier": "T2",
+ "code": "JOB",
+ "coverage": 0.9587,
+ "coverageFill": 18,
+ "orders": [
+  {
+   "order_id": "JOB-001",
+   "pattern_id": "H2-JOB-001",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "tongbyeon:비겁태과",
+    "ss:편인",
+    "fx:Fi_aux"
+   ],
+   "support": 4,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-002",
+   "pattern_id": "H2-JOB-002",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "yongshin_type:파격조정",
+    "yongshin_el:화"
+   ],
+   "support": 12,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-003",
+   "pattern_id": "H2-JOB-003",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강+",
+    "yongshin:계수(생존)+갑목"
+   ],
+   "support": 3,
+   "strataCell": "극신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-004",
+   "pattern_id": "H2-JOB-004",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "sinsal:천덕귀인"
+   ],
+   "support": 98,
+   "strataCell": "극신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-005",
+   "pattern_id": "H2-JOB-005",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:계수(생존)+갑목",
+    "relation:육합"
+   ],
+   "support": 4,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-006",
+   "pattern_id": "H2-JOB-006",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:목욕",
+    "dwss:겁재",
+    "kts:NF"
+   ],
+   "support": 13,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-007",
+   "pattern_id": "H2-JOB-007",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:임수(조절)+갑목",
+    "relation:충",
+    "unsung:병"
+   ],
+   "support": 2,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-008",
+   "pattern_id": "H2-JOB-008",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_aux",
+    "tongbyeon:비겁태과"
+   ],
+   "support": 9,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-009",
+   "pattern_id": "H2-JOB-009",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Si_dom",
+    "gyeokguk:편인격",
+    "strength:신강+",
+    "ss:비겁"
+   ],
+   "support": 2,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-010",
+   "pattern_id": "H2-JOB-010",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "tongbyeon:상관패인",
+    "dwss:정관"
+   ],
+   "support": 5,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-011",
+   "pattern_id": "H2-JOB-011",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:비견",
+    "ss:정인",
+    "strength:신강+"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-012",
+   "pattern_id": "H2-JOB-012",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:인수생비",
+    "dm:경",
+    "condition:교운기"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-013",
+   "pattern_id": "H2-JOB-013",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "ss:정인",
+    "strength:신강+"
+   ],
+   "support": 34,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-014",
+   "pattern_id": "H2-JOB-014",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "kts:SP",
+    "sinsal:귀문관"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-015",
+   "pattern_id": "H2-JOB-015",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "dwss:편관",
+    "kts:SP",
+    "sess:정관"
+   ],
+   "support": 2,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-016",
+   "pattern_id": "H2-JOB-016",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "sinsal:천덕귀인",
+    "condition:excess",
+    "sess:정관"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-017",
+   "pattern_id": "H2-JOB-017",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "yongshin_el:화"
+   ],
+   "support": 93,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-018",
+   "pattern_id": "H2-JOB-018",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "unsung:절",
+    "fx:Si_aux",
+    "relation:육합"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-019",
+   "pattern_id": "H2-JOB-019",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_aux",
+    "fx:Se_dom",
+    "dwss:정관"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-020",
+   "pattern_id": "H2-JOB-020",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "yongshin:병화(따뜻함)+무토"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-021",
+   "pattern_id": "H2-JOB-021",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "kts:NT",
+    "sess:정관",
+    "ss:인성"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-022",
+   "pattern_id": "H2-JOB-022",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정재",
+    "dwss:비견"
+   ],
+   "support": 48,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-023",
+   "pattern_id": "H2-JOB-023",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:목",
+    "sinsal:역마",
+    "gyeokguk:식신격",
+    "unsung:태"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-024",
+   "pattern_id": "H2-JOB-024",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "sess:식신"
+   ],
+   "support": 44,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-025",
+   "pattern_id": "H2-JOB-025",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "ss:식신"
+   ],
+   "support": 52,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-026",
+   "pattern_id": "H2-JOB-026",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_inf",
+    "relation:충"
+   ],
+   "support": 49,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-027",
+   "pattern_id": "H2-JOB-027",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_inf",
+    "sinsal:화개",
+    "ss:편관"
+   ],
+   "support": 26,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-028",
+   "pattern_id": "H2-JOB-028",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "strength:중화",
+    "yongshin_el:금",
+    "sess:겁재"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-029",
+   "pattern_id": "H2-JOB-029",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "tongbyeon:상관패인",
+    "dwss:상관"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-030",
+   "pattern_id": "H2-JOB-030",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "dwss:식신",
+    "fx:Se_dom"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-031",
+   "pattern_id": "H2-JOB-031",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "gyeokguk:양인격",
+    "fx:Ni_aux",
+    "dwss:정인"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-032",
+   "pattern_id": "H2-JOB-032",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁탈재",
+    "ss:겁재",
+    "relation:충",
+    "sess:편인"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-033",
+   "pattern_id": "H2-JOB-033",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "fx:Te_dom",
+    "fx:Fi_inf",
+    "unsung:묘"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-034",
+   "pattern_id": "H2-JOB-034",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "ss:비견"
+   ],
+   "support": 117,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-035",
+   "pattern_id": "H2-JOB-035",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "gyeokguk:건록격",
+    "ss:재성",
+    "dwss:편관"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-036",
+   "pattern_id": "H2-JOB-036",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "relation:육합"
+   ],
+   "support": 148,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-037",
+   "pattern_id": "H2-JOB-037",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:중화",
+    "relation:천간합",
+    "sinsal:역마"
+   ],
+   "support": 31,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-038",
+   "pattern_id": "H2-JOB-038",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "unsung:병"
+   ],
+   "support": 72,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-039",
+   "pattern_id": "H2-JOB-039",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_dom",
+    "sess:정인",
+    "ss:겁재",
+    "yongshin_el:화"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-040",
+   "pattern_id": "H2-JOB-040",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_aux",
+    "ss:재성",
+    "yongshin:병화(해동)+경금",
+    "sinsal:월덕귀인"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-041",
+   "pattern_id": "H2-JOB-041",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정인",
+    "sinsal:백호"
+   ],
+   "support": 66,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-042",
+   "pattern_id": "H2-JOB-042",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "ss:정재",
+    "ss:정인"
+   ],
+   "support": 24,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-043",
+   "pattern_id": "H2-JOB-043",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "fx:Fe_aux",
+    "sinsal:화개",
+    "ss:편인"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-044",
+   "pattern_id": "H2-JOB-044",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "ss:편인",
+    "fx:Si_dom",
+    "sinsal:학당귀인"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-045",
+   "pattern_id": "H2-JOB-045",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Si_aux",
+    "kts:SJ",
+    "ss:식상",
+    "fx:Ti_inf"
+   ],
+   "support": 22,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-046",
+   "pattern_id": "H2-JOB-046",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "ss:정관",
+    "unsung:묘"
+   ],
+   "support": 33,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-047",
+   "pattern_id": "H2-JOB-047",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_aux",
+    "unsung:병"
+   ],
+   "support": 30,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-048",
+   "pattern_id": "H2-JOB-048",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "condition:lack",
+    "sess:편인"
+   ],
+   "support": 23,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-049",
+   "pattern_id": "H2-JOB-049",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "condition:lack",
+    "dm:기"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-050",
+   "pattern_id": "H2-JOB-050",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "dwss:식신"
+   ],
+   "support": 33,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-051",
+   "pattern_id": "H2-JOB-051",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "dwss:편관",
+    "unsung:관대"
+   ],
+   "support": 30,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-052",
+   "pattern_id": "H2-JOB-052",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "sinsal:학당귀인",
+    "fx:Fi_inf"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-053",
+   "pattern_id": "H2-JOB-053",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:인성"
+   ],
+   "support": 123,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-054",
+   "pattern_id": "H2-JOB-054",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "ss:상관"
+   ],
+   "support": 64,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-055",
+   "pattern_id": "H2-JOB-055",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "ss:편인",
+    "unsung:쇠"
+   ],
+   "support": 50,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-056",
+   "pattern_id": "H2-JOB-056",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:식신(제살청관) — 수으로 관성 정리",
+    "unsung:절",
+    "sinsal:역마"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-057",
+   "pattern_id": "H2-JOB-057",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재다신약",
+    "condition:excess",
+    "sinsal:금여록",
+    "fx:Ni_dom"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-058",
+   "pattern_id": "H2-JOB-058",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "sinsal:월덕귀인",
+    "ss:비겁",
+    "dm:갑"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-059",
+   "pattern_id": "H2-JOB-059",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "strength:신약"
+   ],
+   "support": 73,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-060",
+   "pattern_id": "H2-JOB-060",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편관격",
+    "sess:편인",
+    "ss:비견",
+    "strength:신약"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-061",
+   "pattern_id": "H2-JOB-061",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_dom",
+    "ss:식상",
+    "sess:정인"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-062",
+   "pattern_id": "H2-JOB-062",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편재격",
+    "ss:편관",
+    "kts:SP"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-063",
+   "pattern_id": "H2-JOB-063",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "unsung:제왕",
+    "kts:NT",
+    "strength:신약"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-064",
+   "pattern_id": "H2-JOB-064",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "unsung:묘"
+   ],
+   "support": 115,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-065",
+   "pattern_id": "H2-JOB-065",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "unsung:양",
+    "sess:편인"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-066",
+   "pattern_id": "H2-JOB-066",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "fx:Te_inf",
+    "sinsal:천덕귀인",
+    "ss:편재"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-067",
+   "pattern_id": "H2-JOB-067",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "sinsal:역마"
+   ],
+   "support": 81,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-068",
+   "pattern_id": "H2-JOB-068",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "ss:비견"
+   ],
+   "support": 132,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-069",
+   "pattern_id": "H2-JOB-069",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "yongshin_el:목"
+   ],
+   "support": 86,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-070",
+   "pattern_id": "H2-JOB-070",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "unsung:쇠",
+    "ss:식신",
+    "yongshin_el:화"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-071",
+   "pattern_id": "H2-JOB-071",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "ss:관성"
+   ],
+   "support": 115,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-072",
+   "pattern_id": "H2-JOB-072",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:천덕귀인",
+    "ss:관성",
+    "sess:식신",
+    "unsung:절"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-073",
+   "pattern_id": "H2-JOB-073",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "ss:재성",
+    "unsung:건록"
+   ],
+   "support": 49,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-074",
+   "pattern_id": "H2-JOB-074",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "tongbyeon:식상생재",
+    "sess:편관",
+    "sess:정관"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-075",
+   "pattern_id": "H2-JOB-075",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정재",
+    "yongshin_el:수"
+   ],
+   "support": 40,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-076",
+   "pattern_id": "H2-JOB-076",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "yongshin:병화+갑목",
+    "yongshin_el:화",
+    "unsung:관대"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-077",
+   "pattern_id": "H2-JOB-077",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "sinsal:금여록"
+   ],
+   "support": 78,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-078",
+   "pattern_id": "H2-JOB-078",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "strength:신약"
+   ],
+   "support": 112,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-079",
+   "pattern_id": "H2-JOB-079",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "ss:식신",
+    "relation:해"
+   ],
+   "support": 42,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-080",
+   "pattern_id": "H2-JOB-080",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정인",
+    "fx:Ti_aux"
+   ],
+   "support": 20,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-081",
+   "pattern_id": "H2-JOB-081",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "dwss:비견"
+   ],
+   "support": 71,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-082",
+   "pattern_id": "H2-JOB-082",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "ss:정인"
+   ],
+   "support": 89,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-083",
+   "pattern_id": "H2-JOB-083",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "fx:Ne_inf",
+    "dwss:겁재",
+    "ss:인성"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-084",
+   "pattern_id": "H2-JOB-084",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "sinsal:학당귀인",
+    "fx:Fi_aux"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-085",
+   "pattern_id": "H2-JOB-085",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "kts:SP",
+    "sinsal:학당귀인",
+    "fx:Ti_aux"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-086",
+   "pattern_id": "H2-JOB-086",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "tongbyeon:관살혼잡",
+    "unsung:건록"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-087",
+   "pattern_id": "H2-JOB-087",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:기",
+    "fx:Se_dom",
+    "ss:겁재",
+    "condition:excess"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-088",
+   "pattern_id": "H2-JOB-088",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "fx:Si_aux",
+    "dwss:식신",
+    "fx:Ti_inf"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-089",
+   "pattern_id": "H2-JOB-089",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "condition:종격",
+    "ss:편관",
+    "unsung:양"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-090",
+   "pattern_id": "H2-JOB-090",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "sess:상관",
+    "ss:편재",
+    "fx:Te_dom"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-091",
+   "pattern_id": "H2-JOB-091",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "sess:상관",
+    "sess:식신",
+    "dwss:비견"
+   ],
+   "support": 7,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-092",
+   "pattern_id": "H2-JOB-092",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편관",
+    "ss:식신"
+   ],
+   "support": 68,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-093",
+   "pattern_id": "H2-JOB-093",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:무",
+    "kts:NT"
+   ],
+   "support": 28,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-094",
+   "pattern_id": "H2-JOB-094",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "tongbyeon:재관쌍미"
+   ],
+   "support": 90,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-095",
+   "pattern_id": "H2-JOB-095",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "kts:NT",
+    "relation:육합"
+   ],
+   "support": 29,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-096",
+   "pattern_id": "H2-JOB-096",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "strength:극신약",
+    "fx:Si_inf"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-097",
+   "pattern_id": "H2-JOB-097",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "strength:극신약",
+    "tongbyeon:재관쌍미",
+    "fx:Ti_aux"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-098",
+   "pattern_id": "H2-JOB-098",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식상생재",
+    "ss:정인"
+   ],
+   "support": 17,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-099",
+   "pattern_id": "H2-JOB-099",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_aux",
+    "sinsal:월덕귀인",
+    "unsung:태",
+    "dwss:정관"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-100",
+   "pattern_id": "H2-JOB-100",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "ss:편재",
+    "gyeokguk:정재격",
+    "strength:극신약"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-101",
+   "pattern_id": "H2-JOB-101",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:인성(제상관) — 인성으로 상관을 누르고 정관을 보호",
+    "unsung:태",
+    "ss:편인"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-102",
+   "pattern_id": "H2-JOB-102",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "fx:Ni_aux"
+   ],
+   "support": 38,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-103",
+   "pattern_id": "H2-JOB-103",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "ss:정관"
+   ],
+   "support": 172,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-104",
+   "pattern_id": "H2-JOB-104",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁탈재",
+    "fx:Fi_aux"
+   ],
+   "support": 26,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-105",
+   "pattern_id": "H2-JOB-105",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:효신탈식",
+    "condition:excess"
+   ],
+   "support": 14,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-106",
+   "pattern_id": "H2-JOB-106",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "ss:정관"
+   ],
+   "support": 113,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-107",
+   "pattern_id": "H2-JOB-107",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "condition:lack"
+   ],
+   "support": 39,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-108",
+   "pattern_id": "H2-JOB-108",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "kts:NF"
+   ],
+   "support": 19,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-109",
+   "pattern_id": "H2-JOB-109",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "dwss:편재"
+   ],
+   "support": 57,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-110",
+   "pattern_id": "H2-JOB-110",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "fx:Si_inf"
+   ],
+   "support": 31,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-111",
+   "pattern_id": "H2-JOB-111",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "dm:임"
+   ],
+   "support": 36,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-112",
+   "pattern_id": "H2-JOB-112",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "ss:정재"
+   ],
+   "support": 45,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-113",
+   "pattern_id": "H2-JOB-113",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "sess:겁재"
+   ],
+   "support": 49,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-114",
+   "pattern_id": "H2-JOB-114",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "yongshin_el:화"
+   ],
+   "support": 64,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-115",
+   "pattern_id": "H2-JOB-115",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "yongshin:병화(해동)+갑목"
+   ],
+   "support": 12,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-116",
+   "pattern_id": "H2-JOB-116",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:정재격",
+    "ss:상관"
+   ],
+   "support": 23,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-117",
+   "pattern_id": "H2-JOB-117",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "yongshin:식신(제살청관) — 목으로 관성 정리"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-118",
+   "pattern_id": "H2-JOB-118",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_inf",
+    "ss:편관"
+   ],
+   "support": 44,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "JOB-119",
+   "pattern_id": "H2-JOB-119",
+   "subject": "직장 적성",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "ss:재성"
+   ],
+   "support": 92,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  }
+ ]
+}

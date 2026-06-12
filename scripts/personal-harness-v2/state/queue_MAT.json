@@ -1,0 +1,1693 @@
+{
+ "subject": "잘 맞는 타입",
+ "tier": "T3",
+ "code": "MAT",
+ "coverage": 0.9513,
+ "coverageFill": 53,
+ "orders": [
+  {
+   "order_id": "MAT-001",
+   "pattern_id": "H2-MAT-001",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "relation:충"
+   ],
+   "support": 151,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-002",
+   "pattern_id": "H2-MAT-002",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "dwss:정재"
+   ],
+   "support": 45,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-003",
+   "pattern_id": "H2-MAT-003",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "sinsal:역마",
+    "fx:Ti_dom",
+    "ss:편관"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-004",
+   "pattern_id": "H2-MAT-004",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "gyeokguk:양인격",
+    "sess:정관"
+   ],
+   "support": 8,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-005",
+   "pattern_id": "H2-MAT-005",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "unsung:장생",
+    "kts:NF"
+   ],
+   "support": 14,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-006",
+   "pattern_id": "H2-MAT-006",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "fx:Fi_aux",
+    "sess:식신",
+    "tongbyeon:인성태과"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-007",
+   "pattern_id": "H2-MAT-007",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "dwss:식신"
+   ],
+   "support": 31,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-008",
+   "pattern_id": "H2-MAT-008",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강",
+    "sess:비견",
+    "ss:편재",
+    "gyeokguk:건록격"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-009",
+   "pattern_id": "H2-MAT-009",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_dom",
+    "strength:중화"
+   ],
+   "support": 29,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-010",
+   "pattern_id": "H2-MAT-010",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(온기)+계수(수분)",
+    "yongshin_el:화"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-011",
+   "pattern_id": "H2-MAT-011",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_inf",
+    "strength:중화",
+    "condition:교운기"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-012",
+   "pattern_id": "H2-MAT-012",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "sinsal:백호"
+   ],
+   "support": 93,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-013",
+   "pattern_id": "H2-MAT-013",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "ss:비겁"
+   ],
+   "support": 95,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-014",
+   "pattern_id": "H2-MAT-014",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "yongshin:갑목(경작)+병화+계수",
+    "fx:Se_dom",
+    "gyeokguk:정관격"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-015",
+   "pattern_id": "H2-MAT-015",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_inf",
+    "kts:NT"
+   ],
+   "support": 51,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-016",
+   "pattern_id": "H2-MAT-016",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "tongbyeon:비겁태과",
+    "dwss:정재"
+   ],
+   "support": 14,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-017",
+   "pattern_id": "H2-MAT-017",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "gyeokguk:정재격",
+    "ss:편인",
+    "fx:Ni_dom"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-018",
+   "pattern_id": "H2-MAT-018",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "strength:중화",
+    "sess:편인",
+    "fx:Fi_dom"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-019",
+   "pattern_id": "H2-MAT-019",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편재",
+    "dwss:정관",
+    "yongshin:임수(균형)+경금"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-020",
+   "pattern_id": "H2-MAT-020",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:인수생비",
+    "unsung:목욕",
+    "strength:중화"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-021",
+   "pattern_id": "H2-MAT-021",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_aux",
+    "strength:중화",
+    "yongshin:갑목+병화"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-022",
+   "pattern_id": "H2-MAT-022",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "yongshin_el:금",
+    "dwss:상관",
+    "ss:재성"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-023",
+   "pattern_id": "H2-MAT-023",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_aux",
+    "sess:편인",
+    "strength:신약",
+    "dwss:편인"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-024",
+   "pattern_id": "H2-MAT-024",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "unsung:건록",
+    "ss:관성",
+    "unsung:장생"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-025",
+   "pattern_id": "H2-MAT-025",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "ss:비겁"
+   ],
+   "support": 112,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-026",
+   "pattern_id": "H2-MAT-026",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "condition:교운기",
+    "relation:육합",
+    "sinsal:양인"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-027",
+   "pattern_id": "H2-MAT-027",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_dom",
+    "dm:경",
+    "relation:육합",
+    "ss:관성"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-028",
+   "pattern_id": "H2-MAT-028",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NT",
+    "ss:정재",
+    "sess:정인"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-029",
+   "pattern_id": "H2-MAT-029",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "unsung:절",
+    "ss:정인",
+    "sess:편관"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-030",
+   "pattern_id": "H2-MAT-030",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "sess:정관",
+    "ss:편인",
+    "relation:육합"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-031",
+   "pattern_id": "H2-MAT-031",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "relation:천간합",
+    "unsung:태"
+   ],
+   "support": 30,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-032",
+   "pattern_id": "H2-MAT-032",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NT",
+    "sess:비견"
+   ],
+   "support": 41,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-033",
+   "pattern_id": "H2-MAT-033",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "sinsal:금여록",
+    "dwss:비견"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-034",
+   "pattern_id": "H2-MAT-034",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:상관격",
+    "kts:NT",
+    "fx:Ne_dom"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-035",
+   "pattern_id": "H2-MAT-035",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "fx:Ti_inf",
+    "unsung:양"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-036",
+   "pattern_id": "H2-MAT-036",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "sess:정재"
+   ],
+   "support": 73,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-037",
+   "pattern_id": "H2-MAT-037",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "ss:겁재"
+   ],
+   "support": 52,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-038",
+   "pattern_id": "H2-MAT-038",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "fx:Ne_dom",
+    "unsung:묘",
+    "gyeokguk:편관격"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-039",
+   "pattern_id": "H2-MAT-039",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "sinsal:도화"
+   ],
+   "support": 130,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-040",
+   "pattern_id": "H2-MAT-040",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "condition:교운기",
+    "yongshin:계수(수분)+병화"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-041",
+   "pattern_id": "H2-MAT-041",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "unsung:제왕",
+    "relation:충",
+    "sinsal:학당귀인"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-042",
+   "pattern_id": "H2-MAT-042",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_inf",
+    "sinsal:역마",
+    "dm:병"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-043",
+   "pattern_id": "H2-MAT-043",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_inf",
+    "gyeokguk:식신격",
+    "condition:excess",
+    "unsung:병"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-044",
+   "pattern_id": "H2-MAT-044",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:관성(제겁재) — 관성으로 겁재를 제어하여 재성 보호",
+    "yongshin_el:목",
+    "condition:excess"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-045",
+   "pattern_id": "H2-MAT-045",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "fx:Si_dom",
+    "ss:편재",
+    "dm:정"
+   ],
+   "support": 8,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-046",
+   "pattern_id": "H2-MAT-046",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "fx:Se_dom"
+   ],
+   "support": 53,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-047",
+   "pattern_id": "H2-MAT-047",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재생관살",
+    "unsung:절",
+    "condition:종격"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-048",
+   "pattern_id": "H2-MAT-048",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:상관",
+    "ss:재성",
+    "dwss:겁재",
+    "relation:충"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-049",
+   "pattern_id": "H2-MAT-049",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:상관격",
+    "ss:정재"
+   ],
+   "support": 20,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-050",
+   "pattern_id": "H2-MAT-050",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:상관패인",
+    "unsung:관대"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-051",
+   "pattern_id": "H2-MAT-051",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "dm:임"
+   ],
+   "support": 30,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-052",
+   "pattern_id": "H2-MAT-052",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "dwss:정인"
+   ],
+   "support": 80,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-053",
+   "pattern_id": "H2-MAT-053",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:편인",
+    "yongshin_el:수"
+   ],
+   "support": 28,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-054",
+   "pattern_id": "H2-MAT-054",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_type:파격조정",
+    "tongbyeon:효신탈식"
+   ],
+   "support": 48,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-055",
+   "pattern_id": "H2-MAT-055",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "kts:NT"
+   ],
+   "support": 38,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-056",
+   "pattern_id": "H2-MAT-056",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(햇볕)",
+    "strength:극신강"
+   ],
+   "support": 1,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-057",
+   "pattern_id": "H2-MAT-057",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_aux",
+    "unsung:목욕"
+   ],
+   "support": 26,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-058",
+   "pattern_id": "H2-MAT-058",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:편인"
+   ],
+   "support": 134,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-059",
+   "pattern_id": "H2-MAT-059",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "sess:정관"
+   ],
+   "support": 40,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-060",
+   "pattern_id": "H2-MAT-060",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정인",
+    "yongshin:계수(관개)+갑목"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-061",
+   "pattern_id": "H2-MAT-061",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "sinsal:월덕귀인"
+   ],
+   "support": 61,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-062",
+   "pattern_id": "H2-MAT-062",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "kts:NT"
+   ],
+   "support": 70,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-063",
+   "pattern_id": "H2-MAT-063",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "ss:식상"
+   ],
+   "support": 67,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-064",
+   "pattern_id": "H2-MAT-064",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:상관",
+    "unsung:사"
+   ],
+   "support": 32,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-065",
+   "pattern_id": "H2-MAT-065",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_inf",
+    "fx:Se_dom"
+   ],
+   "support": 119,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-066",
+   "pattern_id": "H2-MAT-066",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "ss:편관"
+   ],
+   "support": 155,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-067",
+   "pattern_id": "H2-MAT-067",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Si_dom",
+    "gyeokguk:편인격"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-068",
+   "pattern_id": "H2-MAT-068",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:계수(냉각)+경금",
+    "unsung:제왕"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-069",
+   "pattern_id": "H2-MAT-069",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_type:파격조정",
+    "ss:재성"
+   ],
+   "support": 52,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-070",
+   "pattern_id": "H2-MAT-070",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_dom",
+    "yongshin_el:목"
+   ],
+   "support": 22,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-071",
+   "pattern_id": "H2-MAT-071",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:정인",
+    "sinsal:화개"
+   ],
+   "support": 68,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-072",
+   "pattern_id": "H2-MAT-072",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "condition:excess"
+   ],
+   "support": 46,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-073",
+   "pattern_id": "H2-MAT-073",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "condition:lack"
+   ],
+   "support": 61,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-074",
+   "pattern_id": "H2-MAT-074",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:갑",
+    "strength:신약"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-075",
+   "pattern_id": "H2-MAT-075",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:상관",
+    "yongshin_el:화"
+   ],
+   "support": 64,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-076",
+   "pattern_id": "H2-MAT-076",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:정관격",
+    "sess:식신"
+   ],
+   "support": 11,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-077",
+   "pattern_id": "H2-MAT-077",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "dwss:정관"
+   ],
+   "support": 28,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-078",
+   "pattern_id": "H2-MAT-078",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:상관격",
+    "dwss:편관"
+   ],
+   "support": 20,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-079",
+   "pattern_id": "H2-MAT-079",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "fx:Si_aux"
+   ],
+   "support": 37,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-080",
+   "pattern_id": "H2-MAT-080",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "ss:비겁"
+   ],
+   "support": 115,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-081",
+   "pattern_id": "H2-MAT-081",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "condition:lack"
+   ],
+   "support": 74,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-082",
+   "pattern_id": "H2-MAT-082",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "sess:정관"
+   ],
+   "support": 45,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-083",
+   "pattern_id": "H2-MAT-083",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:인수생비",
+    "yongshin_el:수"
+   ],
+   "support": 44,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-084",
+   "pattern_id": "H2-MAT-084",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:비견",
+    "relation:충"
+   ],
+   "support": 59,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-085",
+   "pattern_id": "H2-MAT-085",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재다신약",
+    "ss:편관"
+   ],
+   "support": 27,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-086",
+   "pattern_id": "H2-MAT-086",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:건록격",
+    "ss:비겁"
+   ],
+   "support": 76,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-087",
+   "pattern_id": "H2-MAT-087",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:상관",
+    "yongshin_el:금"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-088",
+   "pattern_id": "H2-MAT-088",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "sinsal:화개"
+   ],
+   "support": 44,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-089",
+   "pattern_id": "H2-MAT-089",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "dwss:상관"
+   ],
+   "support": 44,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-090",
+   "pattern_id": "H2-MAT-090",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:비견",
+    "unsung:병"
+   ],
+   "support": 54,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-091",
+   "pattern_id": "H2-MAT-091",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "unsung:태"
+   ],
+   "support": 73,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-092",
+   "pattern_id": "H2-MAT-092",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "ss:정관"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-093",
+   "pattern_id": "H2-MAT-093",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:갑",
+    "fx:Fe_aux"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-094",
+   "pattern_id": "H2-MAT-094",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "fx:Ti_inf"
+   ],
+   "support": 22,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-095",
+   "pattern_id": "H2-MAT-095",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "sess:겁재"
+   ],
+   "support": 49,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-096",
+   "pattern_id": "H2-MAT-096",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "kts:NF"
+   ],
+   "support": 61,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-097",
+   "pattern_id": "H2-MAT-097",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "sinsal:양인"
+   ],
+   "support": 54,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-098",
+   "pattern_id": "H2-MAT-098",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:목욕",
+    "ss:정재"
+   ],
+   "support": 91,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-099",
+   "pattern_id": "H2-MAT-099",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "fx:Ti_aux"
+   ],
+   "support": 30,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-100",
+   "pattern_id": "H2-MAT-100",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:식신(제살청관) — 수으로 관성 정리",
+    "ss:정인"
+   ],
+   "support": 7,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-101",
+   "pattern_id": "H2-MAT-101",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(온기)+경금",
+    "dwss:정인"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "MAT-102",
+   "pattern_id": "H2-MAT-102",
+   "subject": "잘 맞는 타입",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:재성"
+   ],
+   "support": 122,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  }
+ ]
+}

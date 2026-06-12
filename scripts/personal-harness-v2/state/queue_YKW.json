@@ -1,0 +1,3044 @@
+{
+ "subject": "올해 키워드",
+ "tier": "T1",
+ "code": "YKW",
+ "coverage": 0.9738,
+ "coverageFill": 0,
+ "orders": [
+  {
+   "order_id": "YKW-001",
+   "pattern_id": "H2-YKW-001",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "fx:Fe_inf"
+   ],
+   "support": 14,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-002",
+   "pattern_id": "H2-YKW-002",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "sess:비견",
+    "sinsal:도화"
+   ],
+   "support": 58,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-003",
+   "pattern_id": "H2-YKW-003",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "ss:비견",
+    "fx:Si_inf"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-004",
+   "pattern_id": "H2-YKW-004",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "ss:편관"
+   ],
+   "support": 52,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-005",
+   "pattern_id": "H2-YKW-005",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "kts:SJ",
+    "ss:정인",
+    "strength:중화"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-006",
+   "pattern_id": "H2-YKW-006",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "unsung:묘",
+    "sinsal:천덕귀인",
+    "gyeokguk:식신격"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-007",
+   "pattern_id": "H2-YKW-007",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "sinsal:도화",
+    "ss:인성"
+   ],
+   "support": 19,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-008",
+   "pattern_id": "H2-YKW-008",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "dwss:식신"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-009",
+   "pattern_id": "H2-YKW-009",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "sinsal:월덕귀인"
+   ],
+   "support": 57,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-010",
+   "pattern_id": "H2-YKW-010",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "strength:중화",
+    "ss:식상"
+   ],
+   "support": 13,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-011",
+   "pattern_id": "H2-YKW-011",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "unsung:관대"
+   ],
+   "support": 52,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-012",
+   "pattern_id": "H2-YKW-012",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "kts:NT",
+    "fx:Te_aux"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-013",
+   "pattern_id": "H2-YKW-013",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "ss:식상",
+    "tongbyeon:식상생재",
+    "fx:Fe_dom"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-014",
+   "pattern_id": "H2-YKW-014",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "unsung:제왕",
+    "ss:상관",
+    "sess:겁재"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-015",
+   "pattern_id": "H2-YKW-015",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "sinsal:월덕귀인",
+    "dwss:상관",
+    "ss:편재"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-016",
+   "pattern_id": "H2-YKW-016",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "fx:Te_aux",
+    "tongbyeon:식상태과",
+    "unsung:절"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-017",
+   "pattern_id": "H2-YKW-017",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "sinsal:역마",
+    "strength:중화"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-018",
+   "pattern_id": "H2-YKW-018",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "ss:겁재",
+    "sinsal:월덕귀인"
+   ],
+   "support": 29,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-019",
+   "pattern_id": "H2-YKW-019",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "sinsal:학당귀인",
+    "fx:Te_aux",
+    "dwss:편관"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-020",
+   "pattern_id": "H2-YKW-020",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "strength:신강+"
+   ],
+   "support": 16,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-021",
+   "pattern_id": "H2-YKW-021",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "ss:정재"
+   ],
+   "support": 47,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-022",
+   "pattern_id": "H2-YKW-022",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "dwss:식신",
+    "ss:식신"
+   ],
+   "support": 20,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-023",
+   "pattern_id": "H2-YKW-023",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "ss:편재"
+   ],
+   "support": 80,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-024",
+   "pattern_id": "H2-YKW-024",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "ss:상관",
+    "strength:중화"
+   ],
+   "support": 16,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-025",
+   "pattern_id": "H2-YKW-025",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "condition:lack"
+   ],
+   "support": 32,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-026",
+   "pattern_id": "H2-YKW-026",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "ss:식상"
+   ],
+   "support": 63,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-027",
+   "pattern_id": "H2-YKW-027",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "unsung:묘",
+    "yongshin:계수(냉각)"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-028",
+   "pattern_id": "H2-YKW-028",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "condition:lack"
+   ],
+   "support": 35,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-029",
+   "pattern_id": "H2-YKW-029",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "ss:관성"
+   ],
+   "support": 49,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-030",
+   "pattern_id": "H2-YKW-030",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "ss:정인",
+    "ss:재성"
+   ],
+   "support": 26,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-031",
+   "pattern_id": "H2-YKW-031",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "dm:갑",
+    "unsung:절",
+    "ss:정관"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-032",
+   "pattern_id": "H2-YKW-032",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "ss:정관"
+   ],
+   "support": 38,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-033",
+   "pattern_id": "H2-YKW-033",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "sinsal:화개",
+    "yongshin_el:화",
+    "unsung:제왕"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-034",
+   "pattern_id": "H2-YKW-034",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "sess:식신",
+    "kts:SJ",
+    "fx:Te_aux"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-035",
+   "pattern_id": "H2-YKW-035",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "unsung:절",
+    "sinsal:역마"
+   ],
+   "support": 29,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-036",
+   "pattern_id": "H2-YKW-036",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "ss:편재",
+    "ss:재성",
+    "tongbyeon:재관쌍미"
+   ],
+   "support": 14,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-037",
+   "pattern_id": "H2-YKW-037",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "dwss:편재",
+    "ss:비겁"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-038",
+   "pattern_id": "H2-YKW-038",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "ss:재성",
+    "dm:갑",
+    "unsung:장생"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-039",
+   "pattern_id": "H2-YKW-039",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "fx:Se_dom",
+    "unsung:병",
+    "yongshin:병화(해동)"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-040",
+   "pattern_id": "H2-YKW-040",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "dwss:편관",
+    "ss:겁재"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-041",
+   "pattern_id": "H2-YKW-041",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "unsung:장생"
+   ],
+   "support": 28,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-042",
+   "pattern_id": "H2-YKW-042",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "ss:식상",
+    "gyeokguk:정재격",
+    "relation:천간합"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-043",
+   "pattern_id": "H2-YKW-043",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "tongbyeon:재성태과",
+    "sinsal:화개"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-044",
+   "pattern_id": "H2-YKW-044",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "dwss:편재",
+    "yongshin:관성(제겁재) — 관성으로 겁재를 제어하여 재성 보호",
+    "dwss:식신"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-045",
+   "pattern_id": "H2-YKW-045",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "unsung:묘"
+   ],
+   "support": 32,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-046",
+   "pattern_id": "H2-YKW-046",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "fx:Si_inf",
+    "sess:상관"
+   ],
+   "support": 14,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-047",
+   "pattern_id": "H2-YKW-047",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "ss:겁재",
+    "sinsal:도화"
+   ],
+   "support": 29,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-048",
+   "pattern_id": "H2-YKW-048",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "tongbyeon:재다신약",
+    "sess:상관",
+    "unsung:건록"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-049",
+   "pattern_id": "H2-YKW-049",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "kts:SJ",
+    "ss:정재",
+    "dm:을"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-050",
+   "pattern_id": "H2-YKW-050",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "ss:재성",
+    "fx:Ti_inf"
+   ],
+   "support": 11,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-051",
+   "pattern_id": "H2-YKW-051",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "yongshin:병화(해동)"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-052",
+   "pattern_id": "H2-YKW-052",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "fx:Te_dom"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-053",
+   "pattern_id": "H2-YKW-053",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "sess:편관",
+    "ss:재성",
+    "ss:편재"
+   ],
+   "support": 30,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-054",
+   "pattern_id": "H2-YKW-054",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "fx:Ti_dom",
+    "ss:편인",
+    "ss:겁재"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-055",
+   "pattern_id": "H2-YKW-055",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "ss:정재",
+    "condition:lack"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-056",
+   "pattern_id": "H2-YKW-056",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "strength:극신약"
+   ],
+   "support": 9,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-057",
+   "pattern_id": "H2-YKW-057",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "tongbyeon:비겁탈재",
+    "sinsal:도화"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-058",
+   "pattern_id": "H2-YKW-058",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "yongshin_el:수",
+    "dwss:정재",
+    "unsung:병"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-059",
+   "pattern_id": "H2-YKW-059",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "relation:육합"
+   ],
+   "support": 57,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-060",
+   "pattern_id": "H2-YKW-060",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "ss:상관"
+   ],
+   "support": 64,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-061",
+   "pattern_id": "H2-YKW-061",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "ss:비겁"
+   ],
+   "support": 64,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-062",
+   "pattern_id": "H2-YKW-062",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "relation:해"
+   ],
+   "support": 51,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-063",
+   "pattern_id": "H2-YKW-063",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "fx:Si_dom"
+   ],
+   "support": 26,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-064",
+   "pattern_id": "H2-YKW-064",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "ss:인성",
+    "unsung:쇠",
+    "unsung:건록"
+   ],
+   "support": 19,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-065",
+   "pattern_id": "H2-YKW-065",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "ss:식상"
+   ],
+   "support": 43,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-066",
+   "pattern_id": "H2-YKW-066",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "sinsal:귀문관"
+   ],
+   "support": 41,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-067",
+   "pattern_id": "H2-YKW-067",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "ss:편인"
+   ],
+   "support": 54,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-068",
+   "pattern_id": "H2-YKW-068",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "unsung:건록",
+    "dwss:정인"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-069",
+   "pattern_id": "H2-YKW-069",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "dwss:식신",
+    "fx:Fi_dom",
+    "fx:Ne_aux"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-070",
+   "pattern_id": "H2-YKW-070",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "sinsal:금여록",
+    "kts:NT",
+    "dwss:정관"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-071",
+   "pattern_id": "H2-YKW-071",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "dwss:정재"
+   ],
+   "support": 29,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-072",
+   "pattern_id": "H2-YKW-072",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "unsung:목욕"
+   ],
+   "support": 43,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-073",
+   "pattern_id": "H2-YKW-073",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "yongshin_el:화",
+    "kts:NT"
+   ],
+   "support": 26,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-074",
+   "pattern_id": "H2-YKW-074",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "ss:정인"
+   ],
+   "support": 66,
+   "strataCell": "극신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-075",
+   "pattern_id": "H2-YKW-075",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "dwss:정인"
+   ],
+   "support": 37,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-076",
+   "pattern_id": "H2-YKW-076",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "yongshin:갑목(경작)+계수+병화",
+    "sinsal:월덕귀인",
+    "ss:정재"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-077",
+   "pattern_id": "H2-YKW-077",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "relation:충"
+   ],
+   "support": 67,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-078",
+   "pattern_id": "H2-YKW-078",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "dm:기",
+    "ss:재성"
+   ],
+   "support": 31,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-079",
+   "pattern_id": "H2-YKW-079",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "unsung:사",
+    "sinsal:학당귀인"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-080",
+   "pattern_id": "H2-YKW-080",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "condition:lack"
+   ],
+   "support": 54,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-081",
+   "pattern_id": "H2-YKW-081",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "fx:Si_inf",
+    "gyeokguk:정관격",
+    "ss:겁재"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-082",
+   "pattern_id": "H2-YKW-082",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "gyeokguk:편재격"
+   ],
+   "support": 15,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-083",
+   "pattern_id": "H2-YKW-083",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "relation:충",
+    "sinsal:역마"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-084",
+   "pattern_id": "H2-YKW-084",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "unsung:묘",
+    "tongbyeon:상관패인",
+    "ss:편관"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-085",
+   "pattern_id": "H2-YKW-085",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "ss:식신"
+   ],
+   "support": 64,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-086",
+   "pattern_id": "H2-YKW-086",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "kts:NT",
+    "yongshin:경금(수원)+임수"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-087",
+   "pattern_id": "H2-YKW-087",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "sinsal:금여록",
+    "sinsal:도화",
+    "ss:정관"
+   ],
+   "support": 7,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-088",
+   "pattern_id": "H2-YKW-088",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "sinsal:천덕귀인",
+    "sinsal:학당귀인",
+    "ss:관성"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-089",
+   "pattern_id": "H2-YKW-089",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "ss:편관",
+    "tongbyeon:식신제살"
+   ],
+   "support": 20,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-090",
+   "pattern_id": "H2-YKW-090",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "dm:계"
+   ],
+   "support": 82,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-091",
+   "pattern_id": "H2-YKW-091",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "unsung:태"
+   ],
+   "support": 59,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-092",
+   "pattern_id": "H2-YKW-092",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "strength:중화",
+    "fx:Ni_aux",
+    "dwss:식신"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-093",
+   "pattern_id": "H2-YKW-093",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "yongshin:병화(빛)+임수",
+    "tongbyeon:인수생비",
+    "sess:정관"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-094",
+   "pattern_id": "H2-YKW-094",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "unsung:관대",
+    "ss:정인"
+   ],
+   "support": 30,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-095",
+   "pattern_id": "H2-YKW-095",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "dwss:상관"
+   ],
+   "support": 35,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-096",
+   "pattern_id": "H2-YKW-096",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "kts:SJ",
+    "fx:Fe_aux",
+    "dwss:식신"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-097",
+   "pattern_id": "H2-YKW-097",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "relation:천간합",
+    "yongshin:편재(제편인) — 편인을 제어하여 식신을 살려야 함",
+    "ss:재성"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-098",
+   "pattern_id": "H2-YKW-098",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "kts:NT",
+    "unsung:쇠",
+    "strength:신강"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-099",
+   "pattern_id": "H2-YKW-099",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "unsung:양",
+    "ss:식상"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-100",
+   "pattern_id": "H2-YKW-100",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "sinsal:천덕귀인"
+   ],
+   "support": 48,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-101",
+   "pattern_id": "H2-YKW-101",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "relation:충"
+   ],
+   "support": 72,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-102",
+   "pattern_id": "H2-YKW-102",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "kts:NT",
+    "fx:Te_dom",
+    "ss:편관"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-103",
+   "pattern_id": "H2-YKW-103",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "kts:NF"
+   ],
+   "support": 36,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-104",
+   "pattern_id": "H2-YKW-104",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "dwss:겁재"
+   ],
+   "support": 27,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-105",
+   "pattern_id": "H2-YKW-105",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "ss:겁재",
+    "strength:중화"
+   ],
+   "support": 25,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-106",
+   "pattern_id": "H2-YKW-106",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "dm:기",
+    "condition:excess",
+    "fx:Ti_dom"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-107",
+   "pattern_id": "H2-YKW-107",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "dwss:편관",
+    "unsung:태",
+    "fx:Se_aux"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-108",
+   "pattern_id": "H2-YKW-108",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "unsung:절",
+    "sinsal:금여록",
+    "sinsal:역마"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-109",
+   "pattern_id": "H2-YKW-109",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "sess:정인",
+    "dwss:편재",
+    "sinsal:금여록"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-110",
+   "pattern_id": "H2-YKW-110",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "condition:lack",
+    "tongbyeon:비겁태과",
+    "sinsal:도화"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-111",
+   "pattern_id": "H2-YKW-111",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "relation:충",
+    "gyeokguk:정재격",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-112",
+   "pattern_id": "H2-YKW-112",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "sinsal:학당귀인",
+    "dm:무",
+    "sinsal:백호"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-113",
+   "pattern_id": "H2-YKW-113",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "dwss:정관",
+    "sess:정인",
+    "fx:Se_dom"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-114",
+   "pattern_id": "H2-YKW-114",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "tongbyeon:재관쌍미"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-115",
+   "pattern_id": "H2-YKW-115",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "ss:인성",
+    "ss:식신"
+   ],
+   "support": 16,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-116",
+   "pattern_id": "H2-YKW-116",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "tongbyeon:살인상생"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-117",
+   "pattern_id": "H2-YKW-117",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "fx:Si_aux",
+    "sinsal:귀문관"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-118",
+   "pattern_id": "H2-YKW-118",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "fx:Fe_dom",
+    "fx:Ti_inf"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-119",
+   "pattern_id": "H2-YKW-119",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "ss:편관"
+   ],
+   "support": 106,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-120",
+   "pattern_id": "H2-YKW-120",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "yongshin_type:파격조정",
+    "relation:해",
+    "dwss:비견"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-121",
+   "pattern_id": "H2-YKW-121",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "yongshin_el:화",
+    "condition:lack"
+   ],
+   "support": 20,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-122",
+   "pattern_id": "H2-YKW-122",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "ss:관성"
+   ],
+   "support": 88,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-123",
+   "pattern_id": "H2-YKW-123",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "tongbyeon:상관견관",
+    "condition:교운기"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-124",
+   "pattern_id": "H2-YKW-124",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "ss:비겁",
+    "fx:Ne_aux"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-125",
+   "pattern_id": "H2-YKW-125",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "sinsal:역마",
+    "unsung:사",
+    "dm:임"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-126",
+   "pattern_id": "H2-YKW-126",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "ss:정관"
+   ],
+   "support": 78,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-127",
+   "pattern_id": "H2-YKW-127",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "dwss:정인",
+    "unsung:사"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-128",
+   "pattern_id": "H2-YKW-128",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "sess:정재",
+    "condition:교운기",
+    "ss:관성"
+   ],
+   "support": 18,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-129",
+   "pattern_id": "H2-YKW-129",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "strength:극신약"
+   ],
+   "support": 33,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-130",
+   "pattern_id": "H2-YKW-130",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "dm:임"
+   ],
+   "support": 83,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-131",
+   "pattern_id": "H2-YKW-131",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Si_inf",
+    "dm:기",
+    "ss:인성",
+    "sinsal:금여록"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-132",
+   "pattern_id": "H2-YKW-132",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:인성태과",
+    "fx:Si_aux",
+    "fx:Ti_inf"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-133",
+   "pattern_id": "H2-YKW-133",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_inf",
+    "kts:NT",
+    "ss:비견"
+   ],
+   "support": 27,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-134",
+   "pattern_id": "H2-YKW-134",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(제련)+임수",
+    "fx:Si_dom",
+    "unsung:건록"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-135",
+   "pattern_id": "H2-YKW-135",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "relation:육합",
+    "dm:정"
+   ],
+   "support": 23,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-136",
+   "pattern_id": "H2-YKW-136",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_inf",
+    "ss:정인",
+    "dwss:편관",
+    "sinsal:백호"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-137",
+   "pattern_id": "H2-YKW-137",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "unsung:양"
+   ],
+   "support": 85,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-138",
+   "pattern_id": "H2-YKW-138",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "ss:편인",
+    "ss:비겁",
+    "fx:Si_dom"
+   ],
+   "support": 8,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-139",
+   "pattern_id": "H2-YKW-139",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:계수(관개)+갑목",
+    "strength:중화",
+    "fx:Ti_aux"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-140",
+   "pattern_id": "H2-YKW-140",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "unsung:관대",
+    "ss:정인"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-141",
+   "pattern_id": "H2-YKW-141",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "unsung:양",
+    "sess:편관"
+   ],
+   "support": 18,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-142",
+   "pattern_id": "H2-YKW-142",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "sinsal:귀문관",
+    "ss:비견",
+    "sess:정관"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-143",
+   "pattern_id": "H2-YKW-143",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "dwss:상관"
+   ],
+   "support": 46,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-144",
+   "pattern_id": "H2-YKW-144",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "yongshin:식신(제살청관) — 금으로 관성 정리"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-145",
+   "pattern_id": "H2-YKW-145",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "ss:정재"
+   ],
+   "support": 123,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-146",
+   "pattern_id": "H2-YKW-146",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "yongshin:병화+갑목"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-147",
+   "pattern_id": "H2-YKW-147",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "sinsal:화개"
+   ],
+   "support": 129,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-148",
+   "pattern_id": "H2-YKW-148",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "tongbyeon:인수생비"
+   ],
+   "support": 54,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-149",
+   "pattern_id": "H2-YKW-149",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "fx:Ti_inf",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-150",
+   "pattern_id": "H2-YKW-150",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:양인격",
+    "ss:편인",
+    "fx:Fe_dom",
+    "dwss:정관"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-151",
+   "pattern_id": "H2-YKW-151",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "sess:편관",
+    "fx:Ni_inf",
+    "kts:SP"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-152",
+   "pattern_id": "H2-YKW-152",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "fx:Se_dom",
+    "yongshin:식신(제살청관) — 금으로 관성 정리",
+    "tongbyeon:상관견관"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-153",
+   "pattern_id": "H2-YKW-153",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:역마",
+    "ss:재성",
+    "unsung:태"
+   ],
+   "support": 46,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-154",
+   "pattern_id": "H2-YKW-154",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "sinsal:월덕귀인"
+   ],
+   "support": 103,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-155",
+   "pattern_id": "H2-YKW-155",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:천덕귀인",
+    "ss:편인",
+    "kts:SJ",
+    "gyeokguk:정재격"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-156",
+   "pattern_id": "H2-YKW-156",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정재",
+    "relation:천간합",
+    "strength:신약"
+   ],
+   "support": 78,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-157",
+   "pattern_id": "H2-YKW-157",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "dwss:정인"
+   ],
+   "support": 73,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-158",
+   "pattern_id": "H2-YKW-158",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "unsung:묘"
+   ],
+   "support": 39,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-159",
+   "pattern_id": "H2-YKW-159",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "dm:신"
+   ],
+   "support": 27,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-160",
+   "pattern_id": "H2-YKW-160",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "unsung:병",
+    "sess:편재",
+    "sinsal:도화"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-161",
+   "pattern_id": "H2-YKW-161",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "tongbyeon:상관견관"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-162",
+   "pattern_id": "H2-YKW-162",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "relation:육합",
+    "ss:정재",
+    "dm:갑"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-163",
+   "pattern_id": "H2-YKW-163",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:비견",
+    "fx:Ne_inf",
+    "yongshin_el:목",
+    "sinsal:금여록"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-164",
+   "pattern_id": "H2-YKW-164",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "yongshin_el:금"
+   ],
+   "support": 30,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-165",
+   "pattern_id": "H2-YKW-165",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:갑목(연료)+경금",
+    "fx:Fi_aux",
+    "kts:NF"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-166",
+   "pattern_id": "H2-YKW-166",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "yongshin_el:목"
+   ],
+   "support": 68,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-167",
+   "pattern_id": "H2-YKW-167",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "tongbyeon:재성태과",
+    "sinsal:월덕귀인"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-168",
+   "pattern_id": "H2-YKW-168",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "fx:Si_aux"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-169",
+   "pattern_id": "H2-YKW-169",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "sess:편관",
+    "dm:신"
+   ],
+   "support": 52,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-170",
+   "pattern_id": "H2-YKW-170",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식상생재",
+    "gyeokguk:양인격",
+    "fx:Fe_inf"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-171",
+   "pattern_id": "H2-YKW-171",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "ss:관성"
+   ],
+   "support": 120,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-172",
+   "pattern_id": "H2-YKW-172",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "relation:해",
+    "ss:상관"
+   ],
+   "support": 42,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-173",
+   "pattern_id": "H2-YKW-173",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "sinsal:화개",
+    "tongbyeon:식신제살"
+   ],
+   "support": 20,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-174",
+   "pattern_id": "H2-YKW-174",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "fx:Si_dom"
+   ],
+   "support": 39,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-175",
+   "pattern_id": "H2-YKW-175",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "ss:관성",
+    "unsung:사",
+    "unsung:목욕"
+   ],
+   "support": 7,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-176",
+   "pattern_id": "H2-YKW-176",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Si_inf",
+    "yongshin_el:화"
+   ],
+   "support": 25,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-177",
+   "pattern_id": "H2-YKW-177",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "ss:상관",
+    "sinsal:학당귀인",
+    "condition:교운기"
+   ],
+   "support": 6,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-178",
+   "pattern_id": "H2-YKW-178",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "relation:해",
+    "kts:SJ",
+    "dwss:편인"
+   ],
+   "support": 7,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YKW-179",
+   "pattern_id": "H2-YKW-179",
+   "subject": "올해 키워드",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정재",
+    "sinsal:도화"
+   ],
+   "support": 120,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  }
+ ]
+}

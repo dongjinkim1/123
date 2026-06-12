@@ -1,0 +1,1660 @@
+{
+ "subject": "나의 성격",
+ "tier": "T3",
+ "code": "PSN",
+ "coverage": 0.9513,
+ "coverageFill": 51,
+ "orders": [
+  {
+   "order_id": "PSN-001",
+   "pattern_id": "H2-PSN-001",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "gyeokguk:편인격"
+   ],
+   "support": 17,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-002",
+   "pattern_id": "H2-PSN-002",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "kts:NT"
+   ],
+   "support": 81,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-003",
+   "pattern_id": "H2-PSN-003",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:겁재",
+    "unsung:제왕",
+    "dm:병",
+    "dwss:정관"
+   ],
+   "support": 8,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-004",
+   "pattern_id": "H2-PSN-004",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:건록격",
+    "fx:Se_dom"
+   ],
+   "support": 15,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-005",
+   "pattern_id": "H2-PSN-005",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "dwss:편인",
+    "ss:식상"
+   ],
+   "support": 13,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-006",
+   "pattern_id": "H2-PSN-006",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "sess:정인",
+    "unsung:묘"
+   ],
+   "support": 15,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-007",
+   "pattern_id": "H2-PSN-007",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "fx:Ni_inf",
+    "relation:해",
+    "ss:인성"
+   ],
+   "support": 9,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-008",
+   "pattern_id": "H2-PSN-008",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁탈재",
+    "dm:무",
+    "sinsal:도화"
+   ],
+   "support": 7,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-009",
+   "pattern_id": "H2-PSN-009",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:목욕",
+    "sess:정관"
+   ],
+   "support": 67,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-010",
+   "pattern_id": "H2-PSN-010",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "fx:Si_aux"
+   ],
+   "support": 45,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-011",
+   "pattern_id": "H2-PSN-011",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_dom",
+    "strength:중화",
+    "sess:정재"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-012",
+   "pattern_id": "H2-PSN-012",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "ss:정인",
+    "ss:비겁",
+    "strength:중화"
+   ],
+   "support": 14,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-013",
+   "pattern_id": "H2-PSN-013",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "tongbyeon:살인상생",
+    "ss:편재",
+    "dwss:정관"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-014",
+   "pattern_id": "H2-PSN-014",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "sinsal:도화",
+    "kts:SJ",
+    "unsung:절"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-015",
+   "pattern_id": "H2-PSN-015",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정재",
+    "kts:SJ",
+    "sinsal:월덕귀인"
+   ],
+   "support": 14,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-016",
+   "pattern_id": "H2-PSN-016",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "ss:비견"
+   ],
+   "support": 105,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-017",
+   "pattern_id": "H2-PSN-017",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정재",
+    "sess:상관"
+   ],
+   "support": 43,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-018",
+   "pattern_id": "H2-PSN-018",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "fx:Si_aux"
+   ],
+   "support": 26,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-019",
+   "pattern_id": "H2-PSN-019",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:계",
+    "ss:겁재",
+    "unsung:장생",
+    "condition:excess"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-020",
+   "pattern_id": "H2-PSN-020",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:계",
+    "ss:편관"
+   ],
+   "support": 52,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-021",
+   "pattern_id": "H2-PSN-021",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편인",
+    "sinsal:천덕귀인"
+   ],
+   "support": 44,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-022",
+   "pattern_id": "H2-PSN-022",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식상생재",
+    "yongshin_el:화",
+    "sinsal:백호",
+    "sinsal:천덕귀인"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-023",
+   "pattern_id": "H2-PSN-023",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "sinsal:화개",
+    "kts:SJ"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-024",
+   "pattern_id": "H2-PSN-024",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_aux",
+    "fx:Ni_inf"
+   ],
+   "support": 70,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-025",
+   "pattern_id": "H2-PSN-025",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "ss:비견",
+    "fx:Si_aux"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-026",
+   "pattern_id": "H2-PSN-026",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "sess:식신",
+    "kts:SP",
+    "gyeokguk:정인격"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-027",
+   "pattern_id": "H2-PSN-027",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "dwss:정인"
+   ],
+   "support": 43,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-028",
+   "pattern_id": "H2-PSN-028",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:금여록",
+    "tongbyeon:관성태과",
+    "unsung:장생",
+    "dwss:겁재"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-029",
+   "pattern_id": "H2-PSN-029",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "ss:재성",
+    "fx:Ti_dom",
+    "unsung:병"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-030",
+   "pattern_id": "H2-PSN-030",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "sinsal:학당귀인",
+    "fx:Ti_aux"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-031",
+   "pattern_id": "H2-PSN-031",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "yongshin:식신(제살청관) — 목으로 관성 정리",
+    "kts:SJ",
+    "unsung:장생"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-032",
+   "pattern_id": "H2-PSN-032",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "ss:식상",
+    "fx:Ti_aux"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-033",
+   "pattern_id": "H2-PSN-033",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "dwss:정재",
+    "dm:갑",
+    "ss:상관"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-034",
+   "pattern_id": "H2-PSN-034",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:양인격",
+    "unsung:사",
+    "kts:NT",
+    "tongbyeon:식상생재"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-035",
+   "pattern_id": "H2-PSN-035",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "yongshin:갑목(소통)+병화+계수",
+    "fx:Fi_aux"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-036",
+   "pattern_id": "H2-PSN-036",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "fx:Fe_dom"
+   ],
+   "support": 39,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-037",
+   "pattern_id": "H2-PSN-037",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:정인격",
+    "fx:Se_aux"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-038",
+   "pattern_id": "H2-PSN-038",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "fx:Ni_dom"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-039",
+   "pattern_id": "H2-PSN-039",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_inf",
+    "sess:편인",
+    "sess:정인"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-040",
+   "pattern_id": "H2-PSN-040",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "yongshin_el:수",
+    "gyeokguk:식신격"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-041",
+   "pattern_id": "H2-PSN-041",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "dm:신",
+    "fx:Ti_inf"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-042",
+   "pattern_id": "H2-PSN-042",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "ss:식신",
+    "ss:편재"
+   ],
+   "support": 62,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-043",
+   "pattern_id": "H2-PSN-043",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "ss:재성",
+    "fx:Te_dom",
+    "yongshin_el:화"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-044",
+   "pattern_id": "H2-PSN-044",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "fx:Te_inf"
+   ],
+   "support": 12,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-045",
+   "pattern_id": "H2-PSN-045",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "sess:비견",
+    "dwss:비견",
+    "ss:편인"
+   ],
+   "support": 8,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-046",
+   "pattern_id": "H2-PSN-046",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:갑",
+    "tongbyeon:재성태과",
+    "unsung:사"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-047",
+   "pattern_id": "H2-PSN-047",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "fx:Fi_aux",
+    "unsung:목욕",
+    "fx:Se_dom"
+   ],
+   "support": 21,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-048",
+   "pattern_id": "H2-PSN-048",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "strength:극신약",
+    "dwss:정관",
+    "sinsal:월덕귀인"
+   ],
+   "support": 7,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-049",
+   "pattern_id": "H2-PSN-049",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_dom",
+    "gyeokguk:편재격",
+    "fx:Si_aux",
+    "dwss:편관"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-050",
+   "pattern_id": "H2-PSN-050",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "sess:정재"
+   ],
+   "support": 63,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-051",
+   "pattern_id": "H2-PSN-051",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:무",
+    "ss:비견"
+   ],
+   "support": 51,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-052",
+   "pattern_id": "H2-PSN-052",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "yongshin_el:목"
+   ],
+   "support": 32,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-053",
+   "pattern_id": "H2-PSN-053",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "ss:비견"
+   ],
+   "support": 114,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-054",
+   "pattern_id": "H2-PSN-054",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "relation:충"
+   ],
+   "support": 108,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-055",
+   "pattern_id": "H2-PSN-055",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "dm:기"
+   ],
+   "support": 40,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-056",
+   "pattern_id": "H2-PSN-056",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "dwss:비견"
+   ],
+   "support": 65,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-057",
+   "pattern_id": "H2-PSN-057",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:양인",
+    "fx:Se_aux"
+   ],
+   "support": 18,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-058",
+   "pattern_id": "H2-PSN-058",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:정재",
+    "ss:정관"
+   ],
+   "support": 109,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-059",
+   "pattern_id": "H2-PSN-059",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "sinsal:백호"
+   ],
+   "support": 53,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-060",
+   "pattern_id": "H2-PSN-060",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "sess:겁재"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-061",
+   "pattern_id": "H2-PSN-061",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "dwss:식신"
+   ],
+   "support": 31,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-062",
+   "pattern_id": "H2-PSN-062",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_inf",
+    "unsung:양"
+   ],
+   "support": 30,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-063",
+   "pattern_id": "H2-PSN-063",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "ss:인성"
+   ],
+   "support": 126,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-064",
+   "pattern_id": "H2-PSN-064",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식상생재",
+    "fx:Fi_inf"
+   ],
+   "support": 17,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-065",
+   "pattern_id": "H2-PSN-065",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "gyeokguk:정재격"
+   ],
+   "support": 19,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-066",
+   "pattern_id": "H2-PSN-066",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "unsung:절"
+   ],
+   "support": 41,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-067",
+   "pattern_id": "H2-PSN-067",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "sess:편재"
+   ],
+   "support": 64,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-068",
+   "pattern_id": "H2-PSN-068",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "fx:Si_dom"
+   ],
+   "support": 32,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-069",
+   "pattern_id": "H2-PSN-069",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "yongshin:임수(광택)+병화"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-070",
+   "pattern_id": "H2-PSN-070",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "ss:편재"
+   ],
+   "support": 106,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-071",
+   "pattern_id": "H2-PSN-071",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "fx:Fe_aux"
+   ],
+   "support": 50,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-072",
+   "pattern_id": "H2-PSN-072",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재다신약",
+    "relation:충"
+   ],
+   "support": 15,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-073",
+   "pattern_id": "H2-PSN-073",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "strength:극신약"
+   ],
+   "support": 35,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-074",
+   "pattern_id": "H2-PSN-074",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "relation:천간합"
+   ],
+   "support": 66,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-075",
+   "pattern_id": "H2-PSN-075",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "ss:비견"
+   ],
+   "support": 75,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-076",
+   "pattern_id": "H2-PSN-076",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:목욕",
+    "strength:극신약"
+   ],
+   "support": 41,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-077",
+   "pattern_id": "H2-PSN-077",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "yongshin:갑목(연료)"
+   ],
+   "support": 10,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-078",
+   "pattern_id": "H2-PSN-078",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "dwss:편재"
+   ],
+   "support": 54,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-079",
+   "pattern_id": "H2-PSN-079",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "dm:정"
+   ],
+   "support": 20,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-080",
+   "pattern_id": "H2-PSN-080",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "sess:식신"
+   ],
+   "support": 46,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-081",
+   "pattern_id": "H2-PSN-081",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "fx:Fi_aux"
+   ],
+   "support": 45,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-082",
+   "pattern_id": "H2-PSN-082",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "ss:비견"
+   ],
+   "support": 83,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-083",
+   "pattern_id": "H2-PSN-083",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "dwss:정관"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-084",
+   "pattern_id": "H2-PSN-084",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "tongbyeon:식신제살"
+   ],
+   "support": 23,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-085",
+   "pattern_id": "H2-PSN-085",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "kts:SP"
+   ],
+   "support": 57,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-086",
+   "pattern_id": "H2-PSN-086",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_type:파격조정",
+    "sess:비견"
+   ],
+   "support": 32,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-087",
+   "pattern_id": "H2-PSN-087",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:관성(제겁재) — 관성으로 겁재를 제어하여 재성 보호",
+    "ss:정인"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-088",
+   "pattern_id": "H2-PSN-088",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "yongshin_el:화"
+   ],
+   "support": 69,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-089",
+   "pattern_id": "H2-PSN-089",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Se_inf",
+    "dm:정"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-090",
+   "pattern_id": "H2-PSN-090",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:excess",
+    "kts:NT"
+   ],
+   "support": 60,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-091",
+   "pattern_id": "H2-PSN-091",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:갑목(장작)+경금",
+    "sess:비견"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-092",
+   "pattern_id": "H2-PSN-092",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "kts:SJ"
+   ],
+   "support": 74,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-093",
+   "pattern_id": "H2-PSN-093",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "sinsal:귀문관"
+   ],
+   "support": 67,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-094",
+   "pattern_id": "H2-PSN-094",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "condition:excess"
+   ],
+   "support": 47,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-095",
+   "pattern_id": "H2-PSN-095",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Te_aux",
+    "relation:해"
+   ],
+   "support": 37,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-096",
+   "pattern_id": "H2-PSN-096",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "sess:비견"
+   ],
+   "support": 36,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-097",
+   "pattern_id": "H2-PSN-097",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "fx:Ti_inf"
+   ],
+   "support": 42,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-098",
+   "pattern_id": "H2-PSN-098",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_inf",
+    "ss:정인"
+   ],
+   "support": 38,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-099",
+   "pattern_id": "H2-PSN-099",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_aux",
+    "condition:lack"
+   ],
+   "support": 28,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "PSN-100",
+   "pattern_id": "H2-PSN-100",
+   "subject": "나의 성격",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:비견",
+    "relation:천간합"
+   ],
+   "support": 77,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  }
+ ]
+}

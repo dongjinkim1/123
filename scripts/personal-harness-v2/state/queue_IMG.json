@@ -1,0 +1,2283 @@
+{
+ "subject": "남들이 보는 나",
+ "tier": "T2",
+ "code": "IMG",
+ "coverage": 0.9525,
+ "coverageFill": 34,
+ "orders": [
+  {
+   "order_id": "IMG-001",
+   "pattern_id": "H2-IMG-001",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:극신강",
+    "tongbyeon:비겁태과",
+    "unsung:장생"
+   ],
+   "support": 1,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-002",
+   "pattern_id": "H2-IMG-002",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "strength:극신강"
+   ],
+   "support": 6,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-003",
+   "pattern_id": "H2-IMG-003",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정인",
+    "ss:겁재",
+    "kts:NT"
+   ],
+   "support": 29,
+   "strataCell": "극신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-004",
+   "pattern_id": "H2-IMG-004",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "condition:excess"
+   ],
+   "support": 41,
+   "strataCell": "극신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-005",
+   "pattern_id": "H2-IMG-005",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_aux",
+    "fx:Fe_dom",
+    "sinsal:도화",
+    "dwss:편재"
+   ],
+   "support": 3,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-006",
+   "pattern_id": "H2-IMG-006",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "sinsal:도화",
+    "strength:신강+",
+    "ss:비견"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-007",
+   "pattern_id": "H2-IMG-007",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "fx:Te_aux",
+    "gyeokguk:정인격",
+    "unsung:관대"
+   ],
+   "support": 2,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-008",
+   "pattern_id": "H2-IMG-008",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:상관",
+    "yongshin:계수(수분)+병화",
+    "tongbyeon:인수생비",
+    "ss:비겁"
+   ],
+   "support": 5,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-009",
+   "pattern_id": "H2-IMG-009",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_dom",
+    "unsung:제왕",
+    "dwss:상관"
+   ],
+   "support": 8,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-010",
+   "pattern_id": "H2-IMG-010",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "unsung:묘"
+   ],
+   "support": 113,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-011",
+   "pattern_id": "H2-IMG-011",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "yongshin:임수(냉각)+계수"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-012",
+   "pattern_id": "H2-IMG-012",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:정인격",
+    "kts:SP",
+    "sinsal:학당귀인",
+    "strength:신강+"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-013",
+   "pattern_id": "H2-IMG-013",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "sess:정인",
+    "fx:Fe_inf"
+   ],
+   "support": 9,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-014",
+   "pattern_id": "H2-IMG-014",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "gyeokguk:식신격",
+    "unsung:사"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-015",
+   "pattern_id": "H2-IMG-015",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:excess",
+    "ss:편인",
+    "strength:신강+"
+   ],
+   "support": 47,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-016",
+   "pattern_id": "H2-IMG-016",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편재",
+    "strength:신강"
+   ],
+   "support": 25,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-017",
+   "pattern_id": "H2-IMG-017",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:목",
+    "yongshin:재성(제인성) — 목으로 인성 제어"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-018",
+   "pattern_id": "H2-IMG-018",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강",
+    "kts:SP"
+   ],
+   "support": 26,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-019",
+   "pattern_id": "H2-IMG-019",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "ss:식상",
+    "sinsal:백호",
+    "ss:편관"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-020",
+   "pattern_id": "H2-IMG-020",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "ss:정인",
+    "relation:해",
+    "gyeokguk:양인격"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-021",
+   "pattern_id": "H2-IMG-021",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "ss:상관",
+    "sess:편인",
+    "dm:기"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-022",
+   "pattern_id": "H2-IMG-022",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:중화",
+    "fx:Fe_dom",
+    "condition:lack",
+    "gyeokguk:편재격"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-023",
+   "pattern_id": "H2-IMG-023",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정재",
+    "relation:천간합",
+    "strength:중화",
+    "unsung:제왕"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-024",
+   "pattern_id": "H2-IMG-024",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "sinsal:백호",
+    "ss:비견",
+    "ss:겁재"
+   ],
+   "support": 32,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-025",
+   "pattern_id": "H2-IMG-025",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:신",
+    "ss:겁재"
+   ],
+   "support": 26,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-026",
+   "pattern_id": "H2-IMG-026",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:천덕귀인",
+    "ss:인성",
+    "sinsal:역마",
+    "unsung:제왕"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-027",
+   "pattern_id": "H2-IMG-027",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "yongshin_el:화",
+    "gyeokguk:건록격"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-028",
+   "pattern_id": "H2-IMG-028",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "yongshin_el:화",
+    "kts:NT",
+    "strength:중화"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-029",
+   "pattern_id": "H2-IMG-029",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "yongshin:무토(제방)+병화+갑목",
+    "dm:임",
+    "sinsal:역마"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-030",
+   "pattern_id": "H2-IMG-030",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "dwss:상관"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-031",
+   "pattern_id": "H2-IMG-031",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "sinsal:백호",
+    "strength:중화"
+   ],
+   "support": 25,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-032",
+   "pattern_id": "H2-IMG-032",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "relation:육합"
+   ],
+   "support": 124,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-033",
+   "pattern_id": "H2-IMG-033",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "sess:정관",
+    "sinsal:월덕귀인",
+    "ss:관성"
+   ],
+   "support": 20,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-034",
+   "pattern_id": "H2-IMG-034",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:인수생비",
+    "gyeokguk:편재격",
+    "dwss:식신"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-035",
+   "pattern_id": "H2-IMG-035",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:상관",
+    "unsung:태",
+    "fx:Te_dom"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-036",
+   "pattern_id": "H2-IMG-036",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_inf",
+    "gyeokguk:정관격"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-037",
+   "pattern_id": "H2-IMG-037",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "sess:겁재"
+   ],
+   "support": 81,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-038",
+   "pattern_id": "H2-IMG-038",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정재",
+    "ss:편재"
+   ],
+   "support": 69,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-039",
+   "pattern_id": "H2-IMG-039",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "dm:계"
+   ],
+   "support": 52,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-040",
+   "pattern_id": "H2-IMG-040",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:역마",
+    "fx:Si_aux",
+    "unsung:제왕",
+    "ss:정인"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-041",
+   "pattern_id": "H2-IMG-041",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편재",
+    "sess:편재",
+    "tongbyeon:상관패인"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-042",
+   "pattern_id": "H2-IMG-042",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_aux",
+    "fx:Te_dom",
+    "ss:편인",
+    "unsung:장생"
+   ],
+   "support": 14,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-043",
+   "pattern_id": "H2-IMG-043",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "unsung:관대",
+    "sinsal:월덕귀인",
+    "fx:Fe_inf"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-044",
+   "pattern_id": "H2-IMG-044",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "ss:편인",
+    "fx:Se_inf",
+    "unsung:태"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-045",
+   "pattern_id": "H2-IMG-045",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:중화",
+    "fx:Se_aux"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-046",
+   "pattern_id": "H2-IMG-046",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "relation:충",
+    "sess:비견",
+    "fx:Te_dom"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-047",
+   "pattern_id": "H2-IMG-047",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "ss:편인",
+    "ss:식상",
+    "yongshin:임수(냉각)+경금"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-048",
+   "pattern_id": "H2-IMG-048",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_dom",
+    "ss:재성"
+   ],
+   "support": 45,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-049",
+   "pattern_id": "H2-IMG-049",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_inf",
+    "condition:교운기",
+    "yongshin_el:수",
+    "relation:육합"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-050",
+   "pattern_id": "H2-IMG-050",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:excess",
+    "unsung:절",
+    "ss:편인"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-051",
+   "pattern_id": "H2-IMG-051",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "fx:Si_aux",
+    "relation:충"
+   ],
+   "support": 20,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-052",
+   "pattern_id": "H2-IMG-052",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:식신(제살청관) — 목으로 관성 정리",
+    "tongbyeon:관살혼잡",
+    "yongshin_type:파격조정"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-053",
+   "pattern_id": "H2-IMG-053",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "ss:편관"
+   ],
+   "support": 77,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-054",
+   "pattern_id": "H2-IMG-054",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_inf",
+    "gyeokguk:양인격"
+   ],
+   "support": 14,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-055",
+   "pattern_id": "H2-IMG-055",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:목욕",
+    "tongbyeon:상관패인",
+    "gyeokguk:편인격"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-056",
+   "pattern_id": "H2-IMG-056",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "condition:교운기",
+    "sinsal:화개"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-057",
+   "pattern_id": "H2-IMG-057",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:계",
+    "fx:Fe_aux",
+    "ss:편재",
+    "yongshin_type:파격조정"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-058",
+   "pattern_id": "H2-IMG-058",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_inf",
+    "ss:재성",
+    "ss:관성"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-059",
+   "pattern_id": "H2-IMG-059",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "sess:비견",
+    "condition:excess",
+    "sinsal:도화"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-060",
+   "pattern_id": "H2-IMG-060",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "unsung:제왕"
+   ],
+   "support": 101,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-061",
+   "pattern_id": "H2-IMG-061",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_aux",
+    "dm:임",
+    "ss:식신",
+    "fx:Si_inf"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-062",
+   "pattern_id": "H2-IMG-062",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "yongshin_el:금",
+    "ss:편관"
+   ],
+   "support": 31,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-063",
+   "pattern_id": "H2-IMG-063",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "relation:육합",
+    "sinsal:귀문관",
+    "ss:인성"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-064",
+   "pattern_id": "H2-IMG-064",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "fx:Ti_dom",
+    "fx:Fe_inf",
+    "ss:편관"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-065",
+   "pattern_id": "H2-IMG-065",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:비견",
+    "dm:계",
+    "kts:NT"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-066",
+   "pattern_id": "H2-IMG-066",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:양인",
+    "yongshin:편재(제편인) — 편인을 제어하여 식신을 살려야 함"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-067",
+   "pattern_id": "H2-IMG-067",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편재격",
+    "ss:편재",
+    "unsung:병",
+    "sess:식신"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-068",
+   "pattern_id": "H2-IMG-068",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "sinsal:양인",
+    "dwss:상관"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-069",
+   "pattern_id": "H2-IMG-069",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "ss:편인"
+   ],
+   "support": 76,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-070",
+   "pattern_id": "H2-IMG-070",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "ss:편관",
+    "unsung:장생"
+   ],
+   "support": 44,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-071",
+   "pattern_id": "H2-IMG-071",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "unsung:장생"
+   ],
+   "support": 48,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-072",
+   "pattern_id": "H2-IMG-072",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "relation:천간합",
+    "sess:정재"
+   ],
+   "support": 33,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-073",
+   "pattern_id": "H2-IMG-073",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_aux",
+    "ss:편재",
+    "sess:겁재",
+    "sinsal:역마"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-074",
+   "pattern_id": "H2-IMG-074",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:신",
+    "yongshin:임수(냉각)+계수",
+    "ss:편인"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-075",
+   "pattern_id": "H2-IMG-075",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "fx:Te_dom",
+    "sess:식신",
+    "dm:갑"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-076",
+   "pattern_id": "H2-IMG-076",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:정관격",
+    "kts:SP",
+    "ss:정인",
+    "strength:신약"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-077",
+   "pattern_id": "H2-IMG-077",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "fx:Ti_aux",
+    "ss:상관"
+   ],
+   "support": 20,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-078",
+   "pattern_id": "H2-IMG-078",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "sinsal:도화",
+    "sinsal:금여록"
+   ],
+   "support": 25,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-079",
+   "pattern_id": "H2-IMG-079",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "tongbyeon:관살혼잡",
+    "sess:비견",
+    "ss:관성"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-080",
+   "pattern_id": "H2-IMG-080",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정인",
+    "gyeokguk:정재격",
+    "fx:Si_inf"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-081",
+   "pattern_id": "H2-IMG-081",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:상관견관",
+    "unsung:제왕"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-082",
+   "pattern_id": "H2-IMG-082",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "sinsal:화개"
+   ],
+   "support": 67,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-083",
+   "pattern_id": "H2-IMG-083",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재관쌍미",
+    "dwss:정인",
+    "ss:편재"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-084",
+   "pattern_id": "H2-IMG-084",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "dwss:상관",
+    "fx:Se_inf",
+    "ss:식신"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-085",
+   "pattern_id": "H2-IMG-085",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "fx:Ti_inf",
+    "ss:식신",
+    "ss:관성"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-086",
+   "pattern_id": "H2-IMG-086",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_dom",
+    "unsung:목욕",
+    "relation:해",
+    "ss:재성"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-087",
+   "pattern_id": "H2-IMG-087",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:갑목(경작)+병화+계수",
+    "gyeokguk:정관격",
+    "ss:정관"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-088",
+   "pattern_id": "H2-IMG-088",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "unsung:병",
+    "sinsal:화개",
+    "dm:정"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-089",
+   "pattern_id": "H2-IMG-089",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "condition:excess"
+   ],
+   "support": 52,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-090",
+   "pattern_id": "H2-IMG-090",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "tongbyeon:재관쌍미",
+    "ss:편재",
+    "dwss:정인"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-091",
+   "pattern_id": "H2-IMG-091",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "relation:천간합",
+    "ss:정재"
+   ],
+   "support": 34,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-092",
+   "pattern_id": "H2-IMG-092",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "strength:극신약",
+    "condition:excess"
+   ],
+   "support": 19,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-093",
+   "pattern_id": "H2-IMG-093",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정인",
+    "unsung:목욕",
+    "dm:무",
+    "gyeokguk:정관격"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-094",
+   "pattern_id": "H2-IMG-094",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "gyeokguk:편관격",
+    "dwss:편인",
+    "dm:정"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-095",
+   "pattern_id": "H2-IMG-095",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "gyeokguk:종재격"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-096",
+   "pattern_id": "H2-IMG-096",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:excess",
+    "unsung:관대",
+    "unsung:사"
+   ],
+   "support": 14,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-097",
+   "pattern_id": "H2-IMG-097",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "sess:편인",
+    "fx:Fi_inf",
+    "sinsal:금여록"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-098",
+   "pattern_id": "H2-IMG-098",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_type:종격",
+    "relation:육합",
+    "ss:편관"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-099",
+   "pattern_id": "H2-IMG-099",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:관성태과",
+    "unsung:절",
+    "condition:lack"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-100",
+   "pattern_id": "H2-IMG-100",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:목욕",
+    "strength:극신약",
+    "relation:충"
+   ],
+   "support": 13,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-101",
+   "pattern_id": "H2-IMG-101",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "ss:정인"
+   ],
+   "support": 20,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-102",
+   "pattern_id": "H2-IMG-102",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "ss:인성"
+   ],
+   "support": 94,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-103",
+   "pattern_id": "H2-IMG-103",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "tongbyeon:살인상생"
+   ],
+   "support": 56,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-104",
+   "pattern_id": "H2-IMG-104",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "ss:정재"
+   ],
+   "support": 57,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-105",
+   "pattern_id": "H2-IMG-105",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "yongshin:임수(세척)+병화"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-106",
+   "pattern_id": "H2-IMG-106",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "yongshin_el:목"
+   ],
+   "support": 60,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-107",
+   "pattern_id": "H2-IMG-107",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "ss:재성"
+   ],
+   "support": 69,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-108",
+   "pattern_id": "H2-IMG-108",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "sinsal:역마"
+   ],
+   "support": 123,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-109",
+   "pattern_id": "H2-IMG-109",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "condition:교운기"
+   ],
+   "support": 42,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-110",
+   "pattern_id": "H2-IMG-110",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "sinsal:월덕귀인"
+   ],
+   "support": 83,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-111",
+   "pattern_id": "H2-IMG-111",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "dwss:상관"
+   ],
+   "support": 67,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-112",
+   "pattern_id": "H2-IMG-112",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "yongshin_type:파격조정"
+   ],
+   "support": 85,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-113",
+   "pattern_id": "H2-IMG-113",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_dom",
+    "ss:관성"
+   ],
+   "support": 33,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-114",
+   "pattern_id": "H2-IMG-114",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:갑",
+    "relation:육합"
+   ],
+   "support": 27,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-115",
+   "pattern_id": "H2-IMG-115",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 29,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-116",
+   "pattern_id": "H2-IMG-116",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:식신격",
+    "ss:편재"
+   ],
+   "support": 27,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-117",
+   "pattern_id": "H2-IMG-117",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:인수생비",
+    "ss:비겁"
+   ],
+   "support": 111,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-118",
+   "pattern_id": "H2-IMG-118",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "ss:정재"
+   ],
+   "support": 101,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-119",
+   "pattern_id": "H2-IMG-119",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "tongbyeon:식상생재"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-120",
+   "pattern_id": "H2-IMG-120",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "dm:경"
+   ],
+   "support": 20,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-121",
+   "pattern_id": "H2-IMG-121",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "dwss:편재"
+   ],
+   "support": 46,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-122",
+   "pattern_id": "H2-IMG-122",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Si_inf",
+    "unsung:양"
+   ],
+   "support": 19,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-123",
+   "pattern_id": "H2-IMG-123",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:정인",
+    "ss:정재"
+   ],
+   "support": 71,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-124",
+   "pattern_id": "H2-IMG-124",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "sinsal:귀문관"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-125",
+   "pattern_id": "H2-IMG-125",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "sinsal:금여록"
+   ],
+   "support": 57,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-126",
+   "pattern_id": "H2-IMG-126",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "sess:식신"
+   ],
+   "support": 33,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-127",
+   "pattern_id": "H2-IMG-127",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "ss:비견"
+   ],
+   "support": 123,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-128",
+   "pattern_id": "H2-IMG-128",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "sinsal:양인"
+   ],
+   "support": 59,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-129",
+   "pattern_id": "H2-IMG-129",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "yongshin:갑목(설기)+경금"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-130",
+   "pattern_id": "H2-IMG-130",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "dwss:편인"
+   ],
+   "support": 67,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-131",
+   "pattern_id": "H2-IMG-131",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_aux",
+    "dwss:식신"
+   ],
+   "support": 16,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-132",
+   "pattern_id": "H2-IMG-132",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_dom",
+    "sinsal:역마"
+   ],
+   "support": 36,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-133",
+   "pattern_id": "H2-IMG-133",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:목욕",
+    "relation:해"
+   ],
+   "support": 94,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-134",
+   "pattern_id": "H2-IMG-134",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "relation:충"
+   ],
+   "support": 86,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "IMG-135",
+   "pattern_id": "H2-IMG-135",
+   "subject": "남들이 보는 나",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "sess:편인"
+   ],
+   "support": 74,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  }
+ ]
+}

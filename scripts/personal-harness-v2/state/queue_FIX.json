@@ -1,0 +1,1618 @@
+{
+ "subject": "고쳐야 할 점",
+ "tier": "T3",
+ "code": "FIX",
+ "coverage": 0.95,
+ "coverageFill": 48,
+ "orders": [
+  {
+   "order_id": "FIX-001",
+   "pattern_id": "H2-FIX-001",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:인수생비",
+    "unsung:관대",
+    "fx:Fi_inf",
+    "sinsal:도화"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-002",
+   "pattern_id": "H2-FIX-002",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "strength:신강+"
+   ],
+   "support": 52,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-003",
+   "pattern_id": "H2-FIX-003",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편인",
+    "relation:충",
+    "ss:인성",
+    "sinsal:월덕귀인"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-004",
+   "pattern_id": "H2-FIX-004",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "unsung:관대",
+    "ss:정인",
+    "ss:상관"
+   ],
+   "support": 15,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-005",
+   "pattern_id": "H2-FIX-005",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(빛)+임수",
+    "ss:편인"
+   ],
+   "support": 6,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-006",
+   "pattern_id": "H2-FIX-006",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "ss:비겁",
+    "ss:비견"
+   ],
+   "support": 77,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-007",
+   "pattern_id": "H2-FIX-007",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "yongshin:계수(관개)+갑목",
+    "ss:인성",
+    "ss:편인"
+   ],
+   "support": 2,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-008",
+   "pattern_id": "H2-FIX-008",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "sess:비견",
+    "fx:Ne_dom"
+   ],
+   "support": 7,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-009",
+   "pattern_id": "H2-FIX-009",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "unsung:절",
+    "fx:Fe_inf",
+    "dm:을"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-010",
+   "pattern_id": "H2-FIX-010",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "fx:Fi_aux"
+   ],
+   "support": 36,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-011",
+   "pattern_id": "H2-FIX-011",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "sess:편재",
+    "unsung:사"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-012",
+   "pattern_id": "H2-FIX-012",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "fx:Ti_dom"
+   ],
+   "support": 30,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-013",
+   "pattern_id": "H2-FIX-013",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "sinsal:화개"
+   ],
+   "support": 141,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-014",
+   "pattern_id": "H2-FIX-014",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "ss:관성"
+   ],
+   "support": 68,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-015",
+   "pattern_id": "H2-FIX-015",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "fx:Te_aux",
+    "relation:천간합",
+    "unsung:장생"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-016",
+   "pattern_id": "H2-FIX-016",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:정관",
+    "ss:비겁",
+    "dm:기"
+   ],
+   "support": 13,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-017",
+   "pattern_id": "H2-FIX-017",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "kts:SJ"
+   ],
+   "support": 80,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-018",
+   "pattern_id": "H2-FIX-018",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NT",
+    "fx:Te_aux",
+    "ss:인성"
+   ],
+   "support": 20,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-019",
+   "pattern_id": "H2-FIX-019",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "strength:중화"
+   ],
+   "support": 109,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-020",
+   "pattern_id": "H2-FIX-020",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:신",
+    "fx:Fe_dom",
+    "dwss:편재",
+    "sinsal:백호"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-021",
+   "pattern_id": "H2-FIX-021",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:정관격",
+    "unsung:관대",
+    "unsung:사",
+    "strength:중화"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-022",
+   "pattern_id": "H2-FIX-022",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "sinsal:월덕귀인",
+    "sinsal:도화",
+    "fx:Te_inf"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-023",
+   "pattern_id": "H2-FIX-023",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "ss:식신",
+    "tongbyeon:재다신약"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-024",
+   "pattern_id": "H2-FIX-024",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "ss:상관",
+    "ss:겁재",
+    "yongshin_el:화"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-025",
+   "pattern_id": "H2-FIX-025",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "unsung:관대",
+    "sinsal:화개",
+    "sinsal:학당귀인"
+   ],
+   "support": 18,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-026",
+   "pattern_id": "H2-FIX-026",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "unsung:건록",
+    "ss:정인",
+    "unsung:사"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-027",
+   "pattern_id": "H2-FIX-027",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:경",
+    "ss:비견",
+    "unsung:사"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-028",
+   "pattern_id": "H2-FIX-028",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식신제살",
+    "yongshin:경금(수원)+신금",
+    "dm:계",
+    "sinsal:귀문관"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-029",
+   "pattern_id": "H2-FIX-029",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "unsung:쇠",
+    "sinsal:월덕귀인"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-030",
+   "pattern_id": "H2-FIX-030",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "ss:편관",
+    "fx:Fe_inf"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-031",
+   "pattern_id": "H2-FIX-031",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "relation:육합",
+    "ss:편재"
+   ],
+   "support": 72,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-032",
+   "pattern_id": "H2-FIX-032",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:겁재"
+   ],
+   "support": 116,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-033",
+   "pattern_id": "H2-FIX-033",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:병",
+    "fx:Ne_aux"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-034",
+   "pattern_id": "H2-FIX-034",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "unsung:묘",
+    "ss:비겁",
+    "ss:정재"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-035",
+   "pattern_id": "H2-FIX-035",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "ss:비겁"
+   ],
+   "support": 135,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-036",
+   "pattern_id": "H2-FIX-036",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "sinsal:백호",
+    "sess:식신"
+   ],
+   "support": 18,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-037",
+   "pattern_id": "H2-FIX-037",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:역마",
+    "ss:편인"
+   ],
+   "support": 120,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-038",
+   "pattern_id": "H2-FIX-038",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편관격",
+    "yongshin_el:화"
+   ],
+   "support": 27,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-039",
+   "pattern_id": "H2-FIX-039",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_dom",
+    "kts:SP"
+   ],
+   "support": 46,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-040",
+   "pattern_id": "H2-FIX-040",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "dm:신",
+    "fx:Ti_aux",
+    "unsung:태"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-041",
+   "pattern_id": "H2-FIX-041",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식신제살",
+    "yongshin_el:금"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-042",
+   "pattern_id": "H2-FIX-042",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "dm:임",
+    "ss:정관",
+    "gyeokguk:정재격"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-043",
+   "pattern_id": "H2-FIX-043",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "fx:Se_aux",
+    "sinsal:역마",
+    "sinsal:도화"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-044",
+   "pattern_id": "H2-FIX-044",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:상관",
+    "sinsal:도화",
+    "ss:편재",
+    "kts:SP"
+   ],
+   "support": 9,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-045",
+   "pattern_id": "H2-FIX-045",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:목욕",
+    "unsung:병",
+    "fx:Ni_inf"
+   ],
+   "support": 8,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-046",
+   "pattern_id": "H2-FIX-046",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "unsung:장생",
+    "ss:관성",
+    "ss:식신"
+   ],
+   "support": 16,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-047",
+   "pattern_id": "H2-FIX-047",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "fx:Se_dom",
+    "gyeokguk:정임합화목격",
+    "ss:편관"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-048",
+   "pattern_id": "H2-FIX-048",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:경금(수원)+갑목",
+    "dwss:정인",
+    "dm:임",
+    "sinsal:도화"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-049",
+   "pattern_id": "H2-FIX-049",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "strength:극신약",
+    "unsung:양",
+    "kts:SP"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-050",
+   "pattern_id": "H2-FIX-050",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_aux",
+    "sinsal:금여록"
+   ],
+   "support": 33,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-051",
+   "pattern_id": "H2-FIX-051",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "yongshin_el:수"
+   ],
+   "support": 109,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-052",
+   "pattern_id": "H2-FIX-052",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "tongbyeon:인성태과"
+   ],
+   "support": 34,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-053",
+   "pattern_id": "H2-FIX-053",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "sinsal:역마"
+   ],
+   "support": 92,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-054",
+   "pattern_id": "H2-FIX-054",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "condition:교운기"
+   ],
+   "support": 49,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-055",
+   "pattern_id": "H2-FIX-055",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_aux",
+    "unsung:절"
+   ],
+   "support": 22,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-056",
+   "pattern_id": "H2-FIX-056",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "sinsal:백호"
+   ],
+   "support": 93,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-057",
+   "pattern_id": "H2-FIX-057",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_dom",
+    "unsung:목욕"
+   ],
+   "support": 21,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-058",
+   "pattern_id": "H2-FIX-058",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:상관",
+    "ss:식신"
+   ],
+   "support": 57,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-059",
+   "pattern_id": "H2-FIX-059",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "yongshin:임수+갑목"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-060",
+   "pattern_id": "H2-FIX-060",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:인성(제상관) — 인성으로 상관을 누르고 정관을 보호",
+    "ss:겁재"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-061",
+   "pattern_id": "H2-FIX-061",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "ss:겁재"
+   ],
+   "support": 109,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-062",
+   "pattern_id": "H2-FIX-062",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "ss:편관"
+   ],
+   "support": 88,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-063",
+   "pattern_id": "H2-FIX-063",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:편인",
+    "sinsal:화개"
+   ],
+   "support": 52,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-064",
+   "pattern_id": "H2-FIX-064",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "sinsal:월덕귀인"
+   ],
+   "support": 50,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-065",
+   "pattern_id": "H2-FIX-065",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "condition:교운기"
+   ],
+   "support": 60,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-066",
+   "pattern_id": "H2-FIX-066",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "sess:정재"
+   ],
+   "support": 53,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-067",
+   "pattern_id": "H2-FIX-067",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:인성(제상관) — 인성으로 상관을 누르고 정관을 보호",
+    "yongshin_type:파격조정"
+   ],
+   "support": 9,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-068",
+   "pattern_id": "H2-FIX-068",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "fx:Fi_inf"
+   ],
+   "support": 36,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-069",
+   "pattern_id": "H2-FIX-069",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편관격",
+    "sinsal:도화"
+   ],
+   "support": 32,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-070",
+   "pattern_id": "H2-FIX-070",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:천덕귀인",
+    "yongshin_el:수"
+   ],
+   "support": 56,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-071",
+   "pattern_id": "H2-FIX-071",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:정관",
+    "yongshin_el:수"
+   ],
+   "support": 39,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-072",
+   "pattern_id": "H2-FIX-072",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:NT",
+    "ss:겁재"
+   ],
+   "support": 80,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-073",
+   "pattern_id": "H2-FIX-073",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "sess:겁재"
+   ],
+   "support": 32,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-074",
+   "pattern_id": "H2-FIX-074",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편재격",
+    "sinsal:금여록"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-075",
+   "pattern_id": "H2-FIX-075",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "gyeokguk:정인격"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-076",
+   "pattern_id": "H2-FIX-076",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "dwss:정인"
+   ],
+   "support": 57,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-077",
+   "pattern_id": "H2-FIX-077",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:천덕귀인",
+    "ss:겁재"
+   ],
+   "support": 97,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-078",
+   "pattern_id": "H2-FIX-078",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "fx:Si_aux"
+   ],
+   "support": 26,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-079",
+   "pattern_id": "H2-FIX-079",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "sinsal:역마"
+   ],
+   "support": 88,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-080",
+   "pattern_id": "H2-FIX-080",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편인격",
+    "sess:겁재"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-081",
+   "pattern_id": "H2-FIX-081",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "gyeokguk:정관격"
+   ],
+   "support": 42,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-082",
+   "pattern_id": "H2-FIX-082",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:기",
+    "tongbyeon:재성태과"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-083",
+   "pattern_id": "H2-FIX-083",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "sess:정관"
+   ],
+   "support": 36,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-084",
+   "pattern_id": "H2-FIX-084",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "ss:편인"
+   ],
+   "support": 210,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-085",
+   "pattern_id": "H2-FIX-085",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:정재",
+    "gyeokguk:정재격"
+   ],
+   "support": 70,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-086",
+   "pattern_id": "H2-FIX-086",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁태과",
+    "unsung:쇠"
+   ],
+   "support": 27,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-087",
+   "pattern_id": "H2-FIX-087",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "yongshin_el:화"
+   ],
+   "support": 110,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-088",
+   "pattern_id": "H2-FIX-088",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "sinsal:학당귀인"
+   ],
+   "support": 73,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-089",
+   "pattern_id": "H2-FIX-089",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:갑",
+    "ss:관성"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-090",
+   "pattern_id": "H2-FIX-090",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "yongshin_el:화"
+   ],
+   "support": 95,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-091",
+   "pattern_id": "H2-FIX-091",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:역마",
+    "sinsal:도화"
+   ],
+   "support": 92,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-092",
+   "pattern_id": "H2-FIX-092",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:겁재",
+    "ss:정인"
+   ],
+   "support": 47,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-093",
+   "pattern_id": "H2-FIX-093",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "relation:충"
+   ],
+   "support": 32,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-094",
+   "pattern_id": "H2-FIX-094",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "relation:육합"
+   ],
+   "support": 125,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-095",
+   "pattern_id": "H2-FIX-095",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "relation:천간합"
+   ],
+   "support": 170,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-096",
+   "pattern_id": "H2-FIX-096",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_inf",
+    "unsung:제왕"
+   ],
+   "support": 32,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "FIX-097",
+   "pattern_id": "H2-FIX-097",
+   "subject": "고쳐야 할 점",
+   "tier": "T3",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "gyeokguk:상관격"
+   ],
+   "support": 23,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  }
+ ]
+}

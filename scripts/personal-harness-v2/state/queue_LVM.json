@@ -1,0 +1,2406 @@
+{
+ "subject": "연애 지뢰",
+ "tier": "T1",
+ "code": "LVM",
+ "coverage": 0.95,
+ "coverageFill": 23,
+ "orders": [
+  {
+   "order_id": "LVM-001",
+   "pattern_id": "H2-LVM-001",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "fx:Fe_inf"
+   ],
+   "support": 36,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-002",
+   "pattern_id": "H2-LVM-002",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "ss:정인"
+   ],
+   "support": 93,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-003",
+   "pattern_id": "H2-LVM-003",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강+",
+    "dwss:비견",
+    "ss:편인",
+    "unsung:관대"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-004",
+   "pattern_id": "H2-LVM-004",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "fx:Ti_aux"
+   ],
+   "support": 27,
+   "strataCell": "극신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-005",
+   "pattern_id": "H2-LVM-005",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:기",
+    "ss:정관",
+    "unsung:건록",
+    "ss:정재"
+   ],
+   "support": 3,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-006",
+   "pattern_id": "H2-LVM-006",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "gyeokguk:편인격",
+    "fx:Te_inf"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-007",
+   "pattern_id": "H2-LVM-007",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:무",
+    "strength:신강",
+    "fx:Ne_dom",
+    "yongshin_el:수"
+   ],
+   "support": 5,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-008",
+   "pattern_id": "H2-LVM-008",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "dwss:정관"
+   ],
+   "support": 47,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-009",
+   "pattern_id": "H2-LVM-009",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "ss:관성",
+    "ss:인성"
+   ],
+   "support": 56,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-010",
+   "pattern_id": "H2-LVM-010",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "relation:충",
+    "fx:Si_dom"
+   ],
+   "support": 14,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-011",
+   "pattern_id": "H2-LVM-011",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "ss:인성"
+   ],
+   "support": 60,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-012",
+   "pattern_id": "H2-LVM-012",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:금여록",
+    "sinsal:학당귀인"
+   ],
+   "support": 55,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-013",
+   "pattern_id": "H2-LVM-013",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "sinsal:귀문관",
+    "fx:Fe_inf"
+   ],
+   "support": 12,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-014",
+   "pattern_id": "H2-LVM-014",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편재",
+    "fx:Ne_inf",
+    "unsung:병"
+   ],
+   "support": 5,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-015",
+   "pattern_id": "H2-LVM-015",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "ss:비견",
+    "unsung:건록",
+    "yongshin_el:목"
+   ],
+   "support": 12,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-016",
+   "pattern_id": "H2-LVM-016",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "tongbyeon:인수생비"
+   ],
+   "support": 31,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-017",
+   "pattern_id": "H2-LVM-017",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "unsung:사",
+    "gyeokguk:정관격"
+   ],
+   "support": 7,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-018",
+   "pattern_id": "H2-LVM-018",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "relation:해",
+    "fx:Se_dom"
+   ],
+   "support": 55,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-019",
+   "pattern_id": "H2-LVM-019",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "gyeokguk:건록격",
+    "strength:신강"
+   ],
+   "support": 9,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-020",
+   "pattern_id": "H2-LVM-020",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "ss:정인",
+    "fx:Ti_aux",
+    "sess:정관"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-021",
+   "pattern_id": "H2-LVM-021",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "ss:편관",
+    "ss:비겁"
+   ],
+   "support": 28,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-022",
+   "pattern_id": "H2-LVM-022",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "sinsal:귀문관"
+   ],
+   "support": 83,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-023",
+   "pattern_id": "H2-LVM-023",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "tongbyeon:살인상생",
+    "strength:중화"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-024",
+   "pattern_id": "H2-LVM-024",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:중화",
+    "fx:Si_dom",
+    "dm:갑",
+    "dwss:식신"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-025",
+   "pattern_id": "H2-LVM-025",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_inf",
+    "gyeokguk:상관격",
+    "yongshin_el:화"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-026",
+   "pattern_id": "H2-LVM-026",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "condition:excess",
+    "dwss:상관",
+    "fx:Te_aux"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-027",
+   "pattern_id": "H2-LVM-027",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:갑목(연료)",
+    "sess:겁재",
+    "dwss:정재",
+    "kts:SJ"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-028",
+   "pattern_id": "H2-LVM-028",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "sinsal:화개",
+    "unsung:관대",
+    "sess:편재"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-029",
+   "pattern_id": "H2-LVM-029",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "sinsal:화개",
+    "fx:Se_inf"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-030",
+   "pattern_id": "H2-LVM-030",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁탈재",
+    "sinsal:양인",
+    "dwss:편재",
+    "ss:식신"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-031",
+   "pattern_id": "H2-LVM-031",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:상관",
+    "fx:Si_dom",
+    "unsung:사"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-032",
+   "pattern_id": "H2-LVM-032",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "ss:정재",
+    "fx:Si_dom",
+    "ss:재성"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-033",
+   "pattern_id": "H2-LVM-033",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_inf",
+    "dm:계"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-034",
+   "pattern_id": "H2-LVM-034",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁탈재",
+    "sess:비견",
+    "unsung:관대",
+    "ss:식신"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-035",
+   "pattern_id": "H2-LVM-035",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:상관",
+    "strength:중화",
+    "unsung:양",
+    "unsung:목욕"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-036",
+   "pattern_id": "H2-LVM-036",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "yongshin_type:파격조정"
+   ],
+   "support": 33,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-037",
+   "pattern_id": "H2-LVM-037",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "fx:Fi_aux",
+    "yongshin_el:화",
+    "kts:NF"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-038",
+   "pattern_id": "H2-LVM-038",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "relation:해"
+   ],
+   "support": 155,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-039",
+   "pattern_id": "H2-LVM-039",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "ss:식상",
+    "relation:천간합",
+    "sess:정관"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-040",
+   "pattern_id": "H2-LVM-040",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "ss:편재",
+    "tongbyeon:식상생재"
+   ],
+   "support": 20,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-041",
+   "pattern_id": "H2-LVM-041",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식상생재",
+    "ss:재성",
+    "kts:SJ",
+    "tongbyeon:비겁태과"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-042",
+   "pattern_id": "H2-LVM-042",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_aux",
+    "strength:중화"
+   ],
+   "support": 31,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-043",
+   "pattern_id": "H2-LVM-043",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "tongbyeon:비겁태과",
+    "ss:식상",
+    "ss:상관"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-044",
+   "pattern_id": "H2-LVM-044",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편인",
+    "sinsal:양인",
+    "fx:Si_aux"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-045",
+   "pattern_id": "H2-LVM-045",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "fx:Te_dom",
+    "relation:천간합"
+   ],
+   "support": 16,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-046",
+   "pattern_id": "H2-LVM-046",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:살인상생",
+    "ss:편인",
+    "kts:SJ"
+   ],
+   "support": 17,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-047",
+   "pattern_id": "H2-LVM-047",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "yongshin:임수(필수냉각)",
+    "dm:병",
+    "dwss:비견"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-048",
+   "pattern_id": "H2-LVM-048",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "unsung:장생",
+    "sinsal:천덕귀인"
+   ],
+   "support": 27,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-049",
+   "pattern_id": "H2-LVM-049",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "unsung:목욕"
+   ],
+   "support": 84,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-050",
+   "pattern_id": "H2-LVM-050",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "ss:재성"
+   ],
+   "support": 93,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-051",
+   "pattern_id": "H2-LVM-051",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "fx:Ti_dom",
+    "sinsal:화개",
+    "strength:중화"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-052",
+   "pattern_id": "H2-LVM-052",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "fx:Si_aux",
+    "sinsal:학당귀인"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-053",
+   "pattern_id": "H2-LVM-053",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식신제살",
+    "dm:신",
+    "unsung:양",
+    "unsung:사"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-054",
+   "pattern_id": "H2-LVM-054",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_type:파격조정",
+    "kts:NT",
+    "ss:상관",
+    "sinsal:금여록"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-055",
+   "pattern_id": "H2-LVM-055",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "ss:편인",
+    "ss:식신",
+    "sess:정재"
+   ],
+   "support": 22,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-056",
+   "pattern_id": "H2-LVM-056",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "sinsal:화개",
+    "fx:Te_dom",
+    "sinsal:월덕귀인"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-057",
+   "pattern_id": "H2-LVM-057",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:관성",
+    "ss:비겁",
+    "tongbyeon:상관견관"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-058",
+   "pattern_id": "H2-LVM-058",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:양인",
+    "ss:편관",
+    "ss:정재",
+    "fx:Ne_dom"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-059",
+   "pattern_id": "H2-LVM-059",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "ss:재성",
+    "dwss:비견",
+    "sinsal:월덕귀인"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-060",
+   "pattern_id": "H2-LVM-060",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "sinsal:월덕귀인"
+   ],
+   "support": 54,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-061",
+   "pattern_id": "H2-LVM-061",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "yongshin_el:화"
+   ],
+   "support": 81,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-062",
+   "pattern_id": "H2-LVM-062",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "strength:신약",
+    "ss:관성",
+    "fx:Ti_dom"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-063",
+   "pattern_id": "H2-LVM-063",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "sess:상관"
+   ],
+   "support": 61,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-064",
+   "pattern_id": "H2-LVM-064",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "yongshin:갑목(소통)+병화",
+    "sess:편재",
+    "strength:신약"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-065",
+   "pattern_id": "H2-LVM-065",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "relation:해",
+    "ss:식상",
+    "strength:신약"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-066",
+   "pattern_id": "H2-LVM-066",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "strength:신약",
+    "ss:정재"
+   ],
+   "support": 59,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-067",
+   "pattern_id": "H2-LVM-067",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "sinsal:월덕귀인",
+    "sinsal:백호"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-068",
+   "pattern_id": "H2-LVM-068",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:식신격",
+    "sinsal:백호",
+    "yongshin_el:수"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-069",
+   "pattern_id": "H2-LVM-069",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "sinsal:화개",
+    "ss:식상",
+    "unsung:제왕"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-070",
+   "pattern_id": "H2-LVM-070",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:기",
+    "ss:정인"
+   ],
+   "support": 35,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-071",
+   "pattern_id": "H2-LVM-071",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "relation:육합",
+    "unsung:사",
+    "dwss:상관"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-072",
+   "pattern_id": "H2-LVM-072",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Si_inf",
+    "dwss:편인"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-073",
+   "pattern_id": "H2-LVM-073",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "sess:편재",
+    "dm:계"
+   ],
+   "support": 27,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-074",
+   "pattern_id": "H2-LVM-074",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편관격",
+    "tongbyeon:식신제살"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-075",
+   "pattern_id": "H2-LVM-075",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "ss:비겁",
+    "kts:SP",
+    "sess:비견"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-076",
+   "pattern_id": "H2-LVM-076",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "sinsal:학당귀인",
+    "sess:식신"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-077",
+   "pattern_id": "H2-LVM-077",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(온기)+계수",
+    "unsung:태",
+    "tongbyeon:식신제살",
+    "ss:정인"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-078",
+   "pattern_id": "H2-LVM-078",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편인",
+    "tongbyeon:상관패인"
+   ],
+   "support": 18,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-079",
+   "pattern_id": "H2-LVM-079",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "dwss:겁재",
+    "sinsal:천덕귀인",
+    "fx:Ti_dom"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-080",
+   "pattern_id": "H2-LVM-080",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "fx:Fi_dom",
+    "fx:Te_inf",
+    "fx:Ne_aux"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-081",
+   "pattern_id": "H2-LVM-081",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "kts:NT",
+    "gyeokguk:정재격"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-082",
+   "pattern_id": "H2-LVM-082",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "yongshin_el:수",
+    "unsung:병"
+   ],
+   "support": 25,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-083",
+   "pattern_id": "H2-LVM-083",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "yongshin:임수(냉각)+갑목"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-084",
+   "pattern_id": "H2-LVM-084",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "dwss:정인",
+    "ss:정재",
+    "strength:신약"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-085",
+   "pattern_id": "H2-LVM-085",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_aux",
+    "strength:신약",
+    "dm:갑"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-086",
+   "pattern_id": "H2-LVM-086",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_type:파격조정",
+    "ss:정관"
+   ],
+   "support": 78,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-087",
+   "pattern_id": "H2-LVM-087",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "yongshin_el:화"
+   ],
+   "support": 90,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-088",
+   "pattern_id": "H2-LVM-088",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "dm:무",
+    "kts:SJ"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-089",
+   "pattern_id": "H2-LVM-089",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "dm:정"
+   ],
+   "support": 30,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-090",
+   "pattern_id": "H2-LVM-090",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "fx:Si_inf"
+   ],
+   "support": 47,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-091",
+   "pattern_id": "H2-LVM-091",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_aux",
+    "tongbyeon:상관견관",
+    "ss:식상"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-092",
+   "pattern_id": "H2-LVM-092",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "relation:충",
+    "yongshin_type:파격조정"
+   ],
+   "support": 37,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-093",
+   "pattern_id": "H2-LVM-093",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:식신(제살청관) — 목으로 관성 정리",
+    "yongshin_el:목",
+    "strength:신약",
+    "relation:육합"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-094",
+   "pattern_id": "H2-LVM-094",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "dwss:편인",
+    "sess:편인"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-095",
+   "pattern_id": "H2-LVM-095",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "yongshin:병화(해동)+신금"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-096",
+   "pattern_id": "H2-LVM-096",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "sinsal:천덕귀인",
+    "fx:Si_inf"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-097",
+   "pattern_id": "H2-LVM-097",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "dm:계"
+   ],
+   "support": 52,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-098",
+   "pattern_id": "H2-LVM-098",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_dom",
+    "unsung:제왕",
+    "sess:정재"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-099",
+   "pattern_id": "H2-LVM-099",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "sinsal:백호",
+    "strength:신약",
+    "sinsal:화개"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-100",
+   "pattern_id": "H2-LVM-100",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_aux",
+    "yongshin:정화+경금+병화",
+    "sinsal:귀문관",
+    "strength:신약"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-101",
+   "pattern_id": "H2-LVM-101",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_dom",
+    "kts:NT"
+   ],
+   "support": 51,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-102",
+   "pattern_id": "H2-LVM-102",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "sess:정인",
+    "unsung:쇠",
+    "condition:교운기"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-103",
+   "pattern_id": "H2-LVM-103",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "yongshin_type:파격조정"
+   ],
+   "support": 67,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-104",
+   "pattern_id": "H2-LVM-104",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "fx:Ne_dom",
+    "sinsal:역마"
+   ],
+   "support": 12,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-105",
+   "pattern_id": "H2-LVM-105",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "unsung:관대",
+    "ss:편재"
+   ],
+   "support": 29,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-106",
+   "pattern_id": "H2-LVM-106",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "unsung:목욕",
+    "kts:SP"
+   ],
+   "support": 9,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-107",
+   "pattern_id": "H2-LVM-107",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "condition:lack"
+   ],
+   "support": 73,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-108",
+   "pattern_id": "H2-LVM-108",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "yongshin:식신(제살) — 식신으로 편관을 제어해야 안정"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-109",
+   "pattern_id": "H2-LVM-109",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "dwss:비견",
+    "unsung:양"
+   ],
+   "support": 22,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-110",
+   "pattern_id": "H2-LVM-110",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "ss:편관"
+   ],
+   "support": 101,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-111",
+   "pattern_id": "H2-LVM-111",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:양인",
+    "dwss:정인",
+    "unsung:목욕"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-112",
+   "pattern_id": "H2-LVM-112",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "tongbyeon:관성태과",
+    "gyeokguk:정관격",
+    "ss:정인"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-113",
+   "pattern_id": "H2-LVM-113",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "tongbyeon:재다신약"
+   ],
+   "support": 23,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-114",
+   "pattern_id": "H2-LVM-114",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정재",
+    "dm:임",
+    "fx:Se_dom"
+   ],
+   "support": 10,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-115",
+   "pattern_id": "H2-LVM-115",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "sess:정재",
+    "strength:극신약",
+    "sinsal:화개"
+   ],
+   "support": 6,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-116",
+   "pattern_id": "H2-LVM-116",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "sess:편재"
+   ],
+   "support": 73,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-117",
+   "pattern_id": "H2-LVM-117",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "ss:정관"
+   ],
+   "support": 101,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-118",
+   "pattern_id": "H2-LVM-118",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정인",
+    "ss:상관",
+    "sinsal:백호",
+    "sess:편인"
+   ],
+   "support": 19,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-119",
+   "pattern_id": "H2-LVM-119",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "tongbyeon:재관쌍미"
+   ],
+   "support": 46,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-120",
+   "pattern_id": "H2-LVM-120",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "dwss:편관"
+   ],
+   "support": 18,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-121",
+   "pattern_id": "H2-LVM-121",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "condition:lack"
+   ],
+   "support": 82,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-122",
+   "pattern_id": "H2-LVM-122",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "sess:정관"
+   ],
+   "support": 71,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-123",
+   "pattern_id": "H2-LVM-123",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 46,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-124",
+   "pattern_id": "H2-LVM-124",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "condition:교운기"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-125",
+   "pattern_id": "H2-LVM-125",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "unsung:건록"
+   ],
+   "support": 85,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-126",
+   "pattern_id": "H2-LVM-126",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Te_aux",
+    "condition:교운기"
+   ],
+   "support": 24,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-127",
+   "pattern_id": "H2-LVM-127",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:기",
+    "dwss:편재"
+   ],
+   "support": 19,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-128",
+   "pattern_id": "H2-LVM-128",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:갑",
+    "condition:excess"
+   ],
+   "support": 18,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-129",
+   "pattern_id": "H2-LVM-129",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "ss:재성"
+   ],
+   "support": 109,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-130",
+   "pattern_id": "H2-LVM-130",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "unsung:병"
+   ],
+   "support": 54,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-131",
+   "pattern_id": "H2-LVM-131",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "fx:Fi_dom"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-132",
+   "pattern_id": "H2-LVM-132",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Te_dom",
+    "ss:편인"
+   ],
+   "support": 40,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-133",
+   "pattern_id": "H2-LVM-133",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_aux",
+    "condition:excess"
+   ],
+   "support": 33,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-134",
+   "pattern_id": "H2-LVM-134",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "strength:극신약"
+   ],
+   "support": 51,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-135",
+   "pattern_id": "H2-LVM-135",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:상관",
+    "fx:Ne_aux"
+   ],
+   "support": 23,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-136",
+   "pattern_id": "H2-LVM-136",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "kts:NT"
+   ],
+   "support": 67,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-137",
+   "pattern_id": "H2-LVM-137",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "fx:Fi_dom"
+   ],
+   "support": 46,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-138",
+   "pattern_id": "H2-LVM-138",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:신",
+    "gyeokguk:양인격"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-139",
+   "pattern_id": "H2-LVM-139",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편재격",
+    "sess:식신"
+   ],
+   "support": 29,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-140",
+   "pattern_id": "H2-LVM-140",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "fx:Se_dom"
+   ],
+   "support": 50,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-141",
+   "pattern_id": "H2-LVM-141",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:갑목+병화",
+    "ss:정인"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVM-142",
+   "pattern_id": "H2-LVM-142",
+   "subject": "연애 지뢰",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_inf",
+    "condition:lack"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  }
+ ]
+}

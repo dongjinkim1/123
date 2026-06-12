@@ -1,0 +1,1881 @@
+{
+ "subject": "연애 스타일",
+ "tier": "T2",
+ "code": "LVS",
+ "coverage": 0.9537,
+ "coverageFill": 11,
+ "orders": [
+  {
+   "order_id": "LVS-001",
+   "pattern_id": "H2-LVS-001",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "yongshin_el:화",
+    "yongshin:병화(따뜻함)"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-002",
+   "pattern_id": "H2-LVS-002",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강+",
+    "unsung:병",
+    "ss:겁재",
+    "ss:편인"
+   ],
+   "support": 14,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-003",
+   "pattern_id": "H2-LVS-003",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "sess:정재",
+    "dm:임",
+    "ss:정재"
+   ],
+   "support": 16,
+   "strataCell": "극신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-004",
+   "pattern_id": "H2-LVS-004",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "dwss:편재",
+    "ss:비견",
+    "ss:인성"
+   ],
+   "support": 21,
+   "strataCell": "극신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-005",
+   "pattern_id": "H2-LVS-005",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "ss:편인"
+   ],
+   "support": 81,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-006",
+   "pattern_id": "H2-LVS-006",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:excess",
+    "ss:비겁",
+    "fx:Se_dom"
+   ],
+   "support": 19,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-007",
+   "pattern_id": "H2-LVS-007",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "ss:정재"
+   ],
+   "support": 107,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-008",
+   "pattern_id": "H2-LVS-008",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강",
+    "tongbyeon:비겁태과"
+   ],
+   "support": 45,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-009",
+   "pattern_id": "H2-LVS-009",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "unsung:사"
+   ],
+   "support": 50,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-010",
+   "pattern_id": "H2-LVS-010",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "dwss:정관"
+   ],
+   "support": 43,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-011",
+   "pattern_id": "H2-LVS-011",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:경",
+    "tongbyeon:비겁태과"
+   ],
+   "support": 9,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-012",
+   "pattern_id": "H2-LVS-012",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "sinsal:금여록",
+    "ss:비겁"
+   ],
+   "support": 36,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-013",
+   "pattern_id": "H2-LVS-013",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정인",
+    "sinsal:화개"
+   ],
+   "support": 68,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-014",
+   "pattern_id": "H2-LVS-014",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "unsung:건록",
+    "fx:Si_aux"
+   ],
+   "support": 7,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-015",
+   "pattern_id": "H2-LVS-015",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:임수(균형)+경금",
+    "ss:정인",
+    "sinsal:도화"
+   ],
+   "support": 5,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-016",
+   "pattern_id": "H2-LVS-016",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "sinsal:천덕귀인",
+    "dwss:정인",
+    "ss:비겁"
+   ],
+   "support": 9,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-017",
+   "pattern_id": "H2-LVS-017",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_inf",
+    "relation:육합",
+    "dwss:정관",
+    "gyeokguk:정인격"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-018",
+   "pattern_id": "H2-LVS-018",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "gyeokguk:정관격",
+    "dwss:정재",
+    "sinsal:도화"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-019",
+   "pattern_id": "H2-LVS-019",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "sinsal:양인"
+   ],
+   "support": 30,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-020",
+   "pattern_id": "H2-LVS-020",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_dom",
+    "dm:임",
+    "ss:겁재",
+    "sinsal:월덕귀인"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-021",
+   "pattern_id": "H2-LVS-021",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "ss:정재",
+    "sinsal:학당귀인",
+    "relation:충"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-022",
+   "pattern_id": "H2-LVS-022",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "ss:정관",
+    "ss:인성"
+   ],
+   "support": 53,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-023",
+   "pattern_id": "H2-LVS-023",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "sess:편관",
+    "ss:정관",
+    "ss:정재"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-024",
+   "pattern_id": "H2-LVS-024",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:양인",
+    "dwss:상관",
+    "gyeokguk:편인격",
+    "ss:비겁"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-025",
+   "pattern_id": "H2-LVS-025",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:인수생비",
+    "ss:재성"
+   ],
+   "support": 22,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-026",
+   "pattern_id": "H2-LVS-026",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "sinsal:금여록"
+   ],
+   "support": 93,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-027",
+   "pattern_id": "H2-LVS-027",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "dwss:상관"
+   ],
+   "support": 66,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-028",
+   "pattern_id": "H2-LVS-028",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "unsung:태"
+   ],
+   "support": 71,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-029",
+   "pattern_id": "H2-LVS-029",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁태과",
+    "ss:비겁"
+   ],
+   "support": 89,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-030",
+   "pattern_id": "H2-LVS-030",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "unsung:목욕"
+   ],
+   "support": 64,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-031",
+   "pattern_id": "H2-LVS-031",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:임수(조절)+갑목",
+    "dm:정",
+    "sinsal:도화"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-032",
+   "pattern_id": "H2-LVS-032",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:목",
+    "tongbyeon:비겁탈재",
+    "ss:편관"
+   ],
+   "support": 11,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-033",
+   "pattern_id": "H2-LVS-033",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "fx:Te_aux",
+    "unsung:절"
+   ],
+   "support": 13,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-034",
+   "pattern_id": "H2-LVS-034",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:임수(세척)+병화",
+    "sess:편관"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-035",
+   "pattern_id": "H2-LVS-035",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "kts:NT"
+   ],
+   "support": 81,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-036",
+   "pattern_id": "H2-LVS-036",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "yongshin_el:목",
+    "fx:Si_aux",
+    "sinsal:백호"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-037",
+   "pattern_id": "H2-LVS-037",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편재격",
+    "unsung:양"
+   ],
+   "support": 32,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-038",
+   "pattern_id": "H2-LVS-038",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "unsung:장생"
+   ],
+   "support": 66,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-039",
+   "pattern_id": "H2-LVS-039",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:무",
+    "sess:편인"
+   ],
+   "support": 85,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-040",
+   "pattern_id": "H2-LVS-040",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "yongshin:편재(제편인) — 편재로 편인을 제어",
+    "ss:정인",
+    "gyeokguk:편인격"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-041",
+   "pattern_id": "H2-LVS-041",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_inf",
+    "ss:인성"
+   ],
+   "support": 40,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-042",
+   "pattern_id": "H2-LVS-042",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "ss:비견",
+    "dwss:정관"
+   ],
+   "support": 35,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-043",
+   "pattern_id": "H2-LVS-043",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "tongbyeon:인수생비"
+   ],
+   "support": 27,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-044",
+   "pattern_id": "H2-LVS-044",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "ss:인성",
+    "fx:Ne_aux",
+    "ss:정재"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-045",
+   "pattern_id": "H2-LVS-045",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:식신"
+   ],
+   "support": 102,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-046",
+   "pattern_id": "H2-LVS-046",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "ss:정관",
+    "sinsal:학당귀인",
+    "unsung:사"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-047",
+   "pattern_id": "H2-LVS-047",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:병",
+    "tongbyeon:식상생재"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-048",
+   "pattern_id": "H2-LVS-048",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "tongbyeon:식상태과"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-049",
+   "pattern_id": "H2-LVS-049",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:excess",
+    "fx:Fi_inf"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-050",
+   "pattern_id": "H2-LVS-050",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:겁재",
+    "dwss:상관"
+   ],
+   "support": 46,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-051",
+   "pattern_id": "H2-LVS-051",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "ss:겁재",
+    "sess:겁재"
+   ],
+   "support": 34,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-052",
+   "pattern_id": "H2-LVS-052",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "unsung:제왕",
+    "ss:편관",
+    "strength:신약"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-053",
+   "pattern_id": "H2-LVS-053",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "ss:인성",
+    "sinsal:학당귀인"
+   ],
+   "support": 36,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-054",
+   "pattern_id": "H2-LVS-054",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_inf",
+    "ss:비겁",
+    "kts:SP"
+   ],
+   "support": 17,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-055",
+   "pattern_id": "H2-LVS-055",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:금여록",
+    "kts:SJ"
+   ],
+   "support": 54,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-056",
+   "pattern_id": "H2-LVS-056",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_aux",
+    "unsung:태",
+    "ss:식상"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-057",
+   "pattern_id": "H2-LVS-057",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:살인상생",
+    "condition:lack"
+   ],
+   "support": 27,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-058",
+   "pattern_id": "H2-LVS-058",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "ss:편재",
+    "dm:임",
+    "ss:겁재"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-059",
+   "pattern_id": "H2-LVS-059",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "fx:Te_inf",
+    "yongshin:계수(냉각)",
+    "fx:Se_aux"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-060",
+   "pattern_id": "H2-LVS-060",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:경",
+    "yongshin_el:화",
+    "ss:인성",
+    "sess:편관"
+   ],
+   "support": 14,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-061",
+   "pattern_id": "H2-LVS-061",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "strength:신약"
+   ],
+   "support": 170,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-062",
+   "pattern_id": "H2-LVS-062",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "sinsal:화개",
+    "dwss:겁재"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-063",
+   "pattern_id": "H2-LVS-063",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정재",
+    "sess:정관"
+   ],
+   "support": 33,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-064",
+   "pattern_id": "H2-LVS-064",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "relation:육합",
+    "yongshin:무토(제방)+병화+갑목",
+    "sinsal:도화"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-065",
+   "pattern_id": "H2-LVS-065",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "sess:정인",
+    "sinsal:학당귀인",
+    "sess:편인"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-066",
+   "pattern_id": "H2-LVS-066",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "unsung:건록"
+   ],
+   "support": 121,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-067",
+   "pattern_id": "H2-LVS-067",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "ss:상관",
+    "ss:식신",
+    "yongshin_el:화"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-068",
+   "pattern_id": "H2-LVS-068",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "ss:인성"
+   ],
+   "support": 126,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-069",
+   "pattern_id": "H2-LVS-069",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "dm:신",
+    "fx:Ti_aux"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-070",
+   "pattern_id": "H2-LVS-070",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "kts:SJ"
+   ],
+   "support": 64,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-071",
+   "pattern_id": "H2-LVS-071",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_inf",
+    "sinsal:백호"
+   ],
+   "support": 33,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-072",
+   "pattern_id": "H2-LVS-072",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "fx:Fi_inf"
+   ],
+   "support": 52,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-073",
+   "pattern_id": "H2-LVS-073",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:목",
+    "tongbyeon:살인상생",
+    "tongbyeon:재관쌍미"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-074",
+   "pattern_id": "H2-LVS-074",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:신",
+    "yongshin:임수(세척)+계수"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-075",
+   "pattern_id": "H2-LVS-075",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "sess:식신"
+   ],
+   "support": 62,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-076",
+   "pattern_id": "H2-LVS-076",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "dwss:편재"
+   ],
+   "support": 29,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-077",
+   "pattern_id": "H2-LVS-077",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "fx:Te_dom",
+    "fx:Fi_inf"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-078",
+   "pattern_id": "H2-LVS-078",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "strength:신약",
+    "dwss:정인",
+    "fx:Se_dom"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-079",
+   "pattern_id": "H2-LVS-079",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "ss:편인",
+    "relation:충"
+   ],
+   "support": 30,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-080",
+   "pattern_id": "H2-LVS-080",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "ss:재성"
+   ],
+   "support": 152,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-081",
+   "pattern_id": "H2-LVS-081",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "ss:인성"
+   ],
+   "support": 142,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-082",
+   "pattern_id": "H2-LVS-082",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_inf",
+    "sess:편관"
+   ],
+   "support": 26,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-083",
+   "pattern_id": "H2-LVS-083",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "sess:정재",
+    "dwss:정인",
+    "kts:NF"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-084",
+   "pattern_id": "H2-LVS-084",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_dom",
+    "fx:Ti_aux"
+   ],
+   "support": 49,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-085",
+   "pattern_id": "H2-LVS-085",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "condition:교운기"
+   ],
+   "support": 60,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-086",
+   "pattern_id": "H2-LVS-086",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_dom",
+    "unsung:묘",
+    "kts:NF",
+    "relation:천간합"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-087",
+   "pattern_id": "H2-LVS-087",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "fx:Te_dom",
+    "sinsal:귀문관"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-088",
+   "pattern_id": "H2-LVS-088",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "sinsal:학당귀인",
+    "yongshin:갑목(장작)+경금"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-089",
+   "pattern_id": "H2-LVS-089",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "ss:정관",
+    "yongshin:경금(수원)+갑목",
+    "ss:관성"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-090",
+   "pattern_id": "H2-LVS-090",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "condition:excess"
+   ],
+   "support": 41,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-091",
+   "pattern_id": "H2-LVS-091",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "relation:육합",
+    "fx:Fe_inf"
+   ],
+   "support": 7,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-092",
+   "pattern_id": "H2-LVS-092",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_inf",
+    "yongshin:병화+계수"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-093",
+   "pattern_id": "H2-LVS-093",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "unsung:양"
+   ],
+   "support": 57,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-094",
+   "pattern_id": "H2-LVS-094",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_dom",
+    "sinsal:화개",
+    "tongbyeon:재다신약",
+    "dwss:상관"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-095",
+   "pattern_id": "H2-LVS-095",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:비견",
+    "dm:계",
+    "fx:Fi_inf",
+    "unsung:목욕"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-096",
+   "pattern_id": "H2-LVS-096",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(제련)+갑목",
+    "ss:비견",
+    "sess:정관"
+   ],
+   "support": 9,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-097",
+   "pattern_id": "H2-LVS-097",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:비견",
+    "dwss:정관",
+    "fx:Se_aux",
+    "kts:SP"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-098",
+   "pattern_id": "H2-LVS-098",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_dom",
+    "ss:편관",
+    "fx:Fi_inf"
+   ],
+   "support": 46,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-099",
+   "pattern_id": "H2-LVS-099",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "unsung:목욕"
+   ],
+   "support": 63,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-100",
+   "pattern_id": "H2-LVS-100",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "kts:NT"
+   ],
+   "support": 92,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-101",
+   "pattern_id": "H2-LVS-101",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_inf",
+    "fx:Se_dom"
+   ],
+   "support": 119,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-102",
+   "pattern_id": "H2-LVS-102",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "yongshin_el:목"
+   ],
+   "support": 68,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-103",
+   "pattern_id": "H2-LVS-103",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "dwss:정관"
+   ],
+   "support": 44,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-104",
+   "pattern_id": "H2-LVS-104",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "ss:비겁"
+   ],
+   "support": 68,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-105",
+   "pattern_id": "H2-LVS-105",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "dm:병"
+   ],
+   "support": 16,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-106",
+   "pattern_id": "H2-LVS-106",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "ss:편재"
+   ],
+   "support": 83,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-107",
+   "pattern_id": "H2-LVS-107",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "condition:lack"
+   ],
+   "support": 50,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-108",
+   "pattern_id": "H2-LVS-108",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "yongshin_el:화"
+   ],
+   "support": 86,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-109",
+   "pattern_id": "H2-LVS-109",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_aux",
+    "yongshin_el:화"
+   ],
+   "support": 30,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-110",
+   "pattern_id": "H2-LVS-110",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "ss:관성"
+   ],
+   "support": 94,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-111",
+   "pattern_id": "H2-LVS-111",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Se_aux",
+    "tongbyeon:식상생재"
+   ],
+   "support": 11,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LVS-112",
+   "pattern_id": "H2-LVS-112",
+   "subject": "연애 스타일",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "ss:정관"
+   ],
+   "support": 113,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  }
+ ]
+}

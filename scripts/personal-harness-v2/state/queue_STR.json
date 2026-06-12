@@ -1,0 +1,2214 @@
+{
+ "subject": "나의 장점",
+ "tier": "T2",
+ "code": "STR",
+ "coverage": 0.9513,
+ "coverageFill": 30,
+ "orders": [
+  {
+   "order_id": "STR-001",
+   "pattern_id": "H2-STR-001",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "sess:편인",
+    "kts:NF"
+   ],
+   "support": 9,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-002",
+   "pattern_id": "H2-STR-002",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁태과",
+    "fx:Ti_dom",
+    "condition:excess"
+   ],
+   "support": 10,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-003",
+   "pattern_id": "H2-STR-003",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "sinsal:천덕귀인",
+    "kts:SJ",
+    "unsung:건록"
+   ],
+   "support": 12,
+   "strataCell": "극신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-004",
+   "pattern_id": "H2-STR-004",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강+",
+    "sinsal:역마",
+    "sinsal:천덕귀인"
+   ],
+   "support": 8,
+   "strataCell": "극신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-005",
+   "pattern_id": "H2-STR-005",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "condition:excess"
+   ],
+   "support": 57,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-006",
+   "pattern_id": "H2-STR-006",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강",
+    "unsung:목욕"
+   ],
+   "support": 26,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-007",
+   "pattern_id": "H2-STR-007",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "condition:excess",
+    "dwss:비견",
+    "strength:신강"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-008",
+   "pattern_id": "H2-STR-008",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "sinsal:도화",
+    "sinsal:화개"
+   ],
+   "support": 22,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-009",
+   "pattern_id": "H2-STR-009",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(제련)+임수",
+    "tongbyeon:인수생비",
+    "ss:인성"
+   ],
+   "support": 6,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-010",
+   "pattern_id": "H2-STR-010",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "dwss:편관",
+    "fx:Fe_inf",
+    "fx:Ti_dom"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-011",
+   "pattern_id": "H2-STR-011",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "sinsal:천덕귀인"
+   ],
+   "support": 42,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-012",
+   "pattern_id": "H2-STR-012",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:금여록",
+    "fx:Fi_aux",
+    "sess:편관",
+    "unsung:사"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-013",
+   "pattern_id": "H2-STR-013",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_aux",
+    "ss:재성"
+   ],
+   "support": 39,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-014",
+   "pattern_id": "H2-STR-014",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:양인격",
+    "fx:Se_aux",
+    "tongbyeon:살인상생",
+    "dwss:비견"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-015",
+   "pattern_id": "H2-STR-015",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "sinsal:양인",
+    "sess:정관"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-016",
+   "pattern_id": "H2-STR-016",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "sinsal:화개"
+   ],
+   "support": 63,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-017",
+   "pattern_id": "H2-STR-017",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "dm:무"
+   ],
+   "support": 47,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-018",
+   "pattern_id": "H2-STR-018",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:상관"
+   ],
+   "support": 114,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-019",
+   "pattern_id": "H2-STR-019",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "tongbyeon:비겁탈재",
+    "sess:식신",
+    "dwss:식신"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-020",
+   "pattern_id": "H2-STR-020",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "condition:excess",
+    "dwss:정인",
+    "unsung:장생"
+   ],
+   "support": 18,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-021",
+   "pattern_id": "H2-STR-021",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "ss:인성",
+    "sinsal:금여록",
+    "ss:정인"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-022",
+   "pattern_id": "H2-STR-022",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_dom",
+    "unsung:장생",
+    "dm:무"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-023",
+   "pattern_id": "H2-STR-023",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "sess:식신",
+    "fx:Si_dom"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-024",
+   "pattern_id": "H2-STR-024",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "sinsal:귀문관",
+    "yongshin_el:금",
+    "kts:NF"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-025",
+   "pattern_id": "H2-STR-025",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_dom",
+    "kts:NF"
+   ],
+   "support": 54,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-026",
+   "pattern_id": "H2-STR-026",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "unsung:병",
+    "kts:SP",
+    "relation:해"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-027",
+   "pattern_id": "H2-STR-027",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "ss:정재",
+    "tongbyeon:상관패인",
+    "relation:해"
+   ],
+   "support": 14,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-028",
+   "pattern_id": "H2-STR-028",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_aux",
+    "unsung:쇠"
+   ],
+   "support": 22,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-029",
+   "pattern_id": "H2-STR-029",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "dm:계"
+   ],
+   "support": 18,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-030",
+   "pattern_id": "H2-STR-030",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_dom",
+    "ss:정재"
+   ],
+   "support": 29,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-031",
+   "pattern_id": "H2-STR-031",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "sess:정재",
+    "unsung:장생"
+   ],
+   "support": 27,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-032",
+   "pattern_id": "H2-STR-032",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:중화",
+    "ss:정관",
+    "dm:신",
+    "fx:Si_aux"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-033",
+   "pattern_id": "H2-STR-033",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(온기)+계수",
+    "sinsal:학당귀인",
+    "sinsal:화개"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-034",
+   "pattern_id": "H2-STR-034",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "dwss:식신",
+    "relation:해",
+    "unsung:건록"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-035",
+   "pattern_id": "H2-STR-035",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "gyeokguk:양인격"
+   ],
+   "support": 32,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-036",
+   "pattern_id": "H2-STR-036",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "dm:정"
+   ],
+   "support": 36,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-037",
+   "pattern_id": "H2-STR-037",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "fx:Si_dom",
+    "unsung:쇠",
+    "ss:편인"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-038",
+   "pattern_id": "H2-STR-038",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:임수(관개)+갑목",
+    "ss:겁재"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-039",
+   "pattern_id": "H2-STR-039",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:역마",
+    "yongshin_el:화",
+    "ss:편관",
+    "ss:상관"
+   ],
+   "support": 18,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-040",
+   "pattern_id": "H2-STR-040",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "tongbyeon:효신탈식",
+    "sinsal:학당귀인"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-041",
+   "pattern_id": "H2-STR-041",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_inf",
+    "strength:중화",
+    "sinsal:천덕귀인"
+   ],
+   "support": 11,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-042",
+   "pattern_id": "H2-STR-042",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_type:파격조정",
+    "sess:비견"
+   ],
+   "support": 32,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-043",
+   "pattern_id": "H2-STR-043",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 31,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-044",
+   "pattern_id": "H2-STR-044",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "fx:Fe_dom",
+    "gyeokguk:정인격"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-045",
+   "pattern_id": "H2-STR-045",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "gyeokguk:상관격",
+    "ss:편인",
+    "fx:Ne_dom"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-046",
+   "pattern_id": "H2-STR-046",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "ss:식신",
+    "unsung:병",
+    "fx:Si_inf"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-047",
+   "pattern_id": "H2-STR-047",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "dwss:비견",
+    "yongshin_el:금",
+    "kts:SP"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-048",
+   "pattern_id": "H2-STR-048",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_dom",
+    "fx:Ne_aux",
+    "ss:식상",
+    "kts:NT"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-049",
+   "pattern_id": "H2-STR-049",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "dm:무",
+    "ss:식신"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-050",
+   "pattern_id": "H2-STR-050",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "sinsal:학당귀인",
+    "fx:Te_aux",
+    "sinsal:천덕귀인"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-051",
+   "pattern_id": "H2-STR-051",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "dwss:정재",
+    "fx:Ne_inf",
+    "sess:편재"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-052",
+   "pattern_id": "H2-STR-052",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "ss:정재"
+   ],
+   "support": 111,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-053",
+   "pattern_id": "H2-STR-053",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "strength:신약",
+    "fx:Si_dom",
+    "sinsal:도화"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-054",
+   "pattern_id": "H2-STR-054",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:겁재",
+    "ss:인성",
+    "unsung:병"
+   ],
+   "support": 22,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-055",
+   "pattern_id": "H2-STR-055",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편재격",
+    "sess:상관",
+    "yongshin:관성(제겁재) — 관성으로 겁재를 제어하여 재성 보호"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-056",
+   "pattern_id": "H2-STR-056",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_inf",
+    "ss:편관"
+   ],
+   "support": 45,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-057",
+   "pattern_id": "H2-STR-057",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "fx:Te_dom",
+    "unsung:목욕",
+    "yongshin_el:수"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-058",
+   "pattern_id": "H2-STR-058",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "unsung:사",
+    "ss:정재"
+   ],
+   "support": 22,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-059",
+   "pattern_id": "H2-STR-059",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "kts:NF",
+    "unsung:절"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-060",
+   "pattern_id": "H2-STR-060",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재관쌍미",
+    "unsung:제왕",
+    "fx:Fi_inf",
+    "dwss:겁재"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-061",
+   "pattern_id": "H2-STR-061",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "kts:NT",
+    "fx:Ni_aux",
+    "dwss:정관"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-062",
+   "pattern_id": "H2-STR-062",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Si_inf",
+    "sess:편관",
+    "ss:상관"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-063",
+   "pattern_id": "H2-STR-063",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "ss:정인",
+    "dm:신"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-064",
+   "pattern_id": "H2-STR-064",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:역마",
+    "unsung:병",
+    "ss:재성"
+   ],
+   "support": 32,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-065",
+   "pattern_id": "H2-STR-065",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "fx:Fe_inf",
+    "ss:재성",
+    "strength:신약"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-066",
+   "pattern_id": "H2-STR-066",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "condition:교운기"
+   ],
+   "support": 87,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-067",
+   "pattern_id": "H2-STR-067",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "dm:갑"
+   ],
+   "support": 25,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-068",
+   "pattern_id": "H2-STR-068",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "fx:Fi_dom",
+    "ss:정인"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-069",
+   "pattern_id": "H2-STR-069",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "condition:excess",
+    "sinsal:월덕귀인"
+   ],
+   "support": 36,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-070",
+   "pattern_id": "H2-STR-070",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "ss:재성"
+   ],
+   "support": 105,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-071",
+   "pattern_id": "H2-STR-071",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정관",
+    "unsung:장생"
+   ],
+   "support": 40,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-072",
+   "pattern_id": "H2-STR-072",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "ss:식상",
+    "unsung:목욕"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-073",
+   "pattern_id": "H2-STR-073",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "ss:식신"
+   ],
+   "support": 124,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-074",
+   "pattern_id": "H2-STR-074",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "dwss:정관",
+    "unsung:절"
+   ],
+   "support": 14,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-075",
+   "pattern_id": "H2-STR-075",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:편재",
+    "fx:Ni_inf",
+    "ss:정관",
+    "relation:육합"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-076",
+   "pattern_id": "H2-STR-076",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식신제살",
+    "kts:SJ",
+    "dm:기"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-077",
+   "pattern_id": "H2-STR-077",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "tongbyeon:재관쌍미",
+    "sess:정재"
+   ],
+   "support": 25,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-078",
+   "pattern_id": "H2-STR-078",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "tongbyeon:재생관살"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-079",
+   "pattern_id": "H2-STR-079",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "ss:편재",
+    "strength:신약",
+    "kts:SP"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-080",
+   "pattern_id": "H2-STR-080",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_inf",
+    "dm:임",
+    "strength:신약",
+    "fx:Se_aux"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-081",
+   "pattern_id": "H2-STR-081",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "unsung:목욕",
+    "relation:천간합"
+   ],
+   "support": 33,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-082",
+   "pattern_id": "H2-STR-082",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "sinsal:양인"
+   ],
+   "support": 46,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-083",
+   "pattern_id": "H2-STR-083",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:무",
+    "sinsal:도화",
+    "fx:Ni_dom"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-084",
+   "pattern_id": "H2-STR-084",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:무",
+    "fx:Te_aux",
+    "ss:비견"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-085",
+   "pattern_id": "H2-STR-085",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "condition:교운기",
+    "ss:인성"
+   ],
+   "support": 40,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-086",
+   "pattern_id": "H2-STR-086",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "yongshin_el:목",
+    "dwss:식신",
+    "relation:육합"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-087",
+   "pattern_id": "H2-STR-087",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재생관살",
+    "yongshin_el:화",
+    "tongbyeon:식신제살"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-088",
+   "pattern_id": "H2-STR-088",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:목욕",
+    "yongshin_el:화",
+    "sinsal:귀문관",
+    "ss:편관"
+   ],
+   "support": 6,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-089",
+   "pattern_id": "H2-STR-089",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "ss:편재",
+    "dwss:비견",
+    "kts:SP"
+   ],
+   "support": 11,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-090",
+   "pattern_id": "H2-STR-090",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정관",
+    "ss:정재",
+    "unsung:태"
+   ],
+   "support": 25,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-091",
+   "pattern_id": "H2-STR-091",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NT",
+    "dwss:비견"
+   ],
+   "support": 36,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-092",
+   "pattern_id": "H2-STR-092",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:금여록",
+    "tongbyeon:식상생재",
+    "ss:식상",
+    "sess:비견"
+   ],
+   "support": 7,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-093",
+   "pattern_id": "H2-STR-093",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화+신금",
+    "unsung:장생",
+    "relation:해"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-094",
+   "pattern_id": "H2-STR-094",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "kts:NT",
+    "sess:정관",
+    "sinsal:금여록"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-095",
+   "pattern_id": "H2-STR-095",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "ss:편관"
+   ],
+   "support": 72,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-096",
+   "pattern_id": "H2-STR-096",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "kts:SJ",
+    "fx:Si_aux"
+   ],
+   "support": 20,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-097",
+   "pattern_id": "H2-STR-097",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "ss:겁재",
+    "gyeokguk:정관격",
+    "sinsal:양인"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-098",
+   "pattern_id": "H2-STR-098",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:excess",
+    "fx:Ni_inf",
+    "sinsal:귀문관"
+   ],
+   "support": 9,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-099",
+   "pattern_id": "H2-STR-099",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "sess:겁재",
+    "sinsal:월덕귀인"
+   ],
+   "support": 29,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-100",
+   "pattern_id": "H2-STR-100",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "fx:Fi_inf"
+   ],
+   "support": 15,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-101",
+   "pattern_id": "H2-STR-101",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "sinsal:금여록",
+    "fx:Ti_inf",
+    "sess:상관"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-102",
+   "pattern_id": "H2-STR-102",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(해동)+갑목",
+    "tongbyeon:재다신약"
+   ],
+   "support": 8,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-103",
+   "pattern_id": "H2-STR-103",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:천간합",
+    "dwss:편관"
+   ],
+   "support": 61,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-104",
+   "pattern_id": "H2-STR-104",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Si_dom",
+    "kts:SJ"
+   ],
+   "support": 100,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-105",
+   "pattern_id": "H2-STR-105",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_aux",
+    "ss:편인"
+   ],
+   "support": 49,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-106",
+   "pattern_id": "H2-STR-106",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:편재(제편인) — 편재로 편인을 제어",
+    "dwss:상관"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-107",
+   "pattern_id": "H2-STR-107",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:목",
+    "fx:Ni_dom"
+   ],
+   "support": 23,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-108",
+   "pattern_id": "H2-STR-108",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "ss:정재"
+   ],
+   "support": 74,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-109",
+   "pattern_id": "H2-STR-109",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "yongshin_el:화"
+   ],
+   "support": 85,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-110",
+   "pattern_id": "H2-STR-110",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "dm:신"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-111",
+   "pattern_id": "H2-STR-111",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:양인",
+    "unsung:목욕"
+   ],
+   "support": 30,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-112",
+   "pattern_id": "H2-STR-112",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "yongshin:임수(광택)+병화"
+   ],
+   "support": 9,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-113",
+   "pattern_id": "H2-STR-113",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "unsung:관대"
+   ],
+   "support": 102,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-114",
+   "pattern_id": "H2-STR-114",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:편인",
+    "sinsal:양인"
+   ],
+   "support": 25,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-115",
+   "pattern_id": "H2-STR-115",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:중화",
+    "unsung:건록"
+   ],
+   "support": 74,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-116",
+   "pattern_id": "H2-STR-116",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:정관",
+    "unsung:병"
+   ],
+   "support": 47,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-117",
+   "pattern_id": "H2-STR-117",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:상관격",
+    "sinsal:금여록"
+   ],
+   "support": 45,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-118",
+   "pattern_id": "H2-STR-118",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "dwss:편재"
+   ],
+   "support": 48,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-119",
+   "pattern_id": "H2-STR-119",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "sinsal:월덕귀인"
+   ],
+   "support": 122,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-120",
+   "pattern_id": "H2-STR-120",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Se_dom",
+    "sess:편관"
+   ],
+   "support": 21,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-121",
+   "pattern_id": "H2-STR-121",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "ss:겁재"
+   ],
+   "support": 87,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-122",
+   "pattern_id": "H2-STR-122",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:신강",
+    "fx:Te_inf"
+   ],
+   "support": 11,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-123",
+   "pattern_id": "H2-STR-123",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "yongshin_el:목"
+   ],
+   "support": 78,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-124",
+   "pattern_id": "H2-STR-124",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "sinsal:화개"
+   ],
+   "support": 114,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-125",
+   "pattern_id": "H2-STR-125",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "sinsal:화개"
+   ],
+   "support": 133,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-126",
+   "pattern_id": "H2-STR-126",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:신강",
+    "strength:신강+"
+   ],
+   "support": 106,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-127",
+   "pattern_id": "H2-STR-127",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "ss:식신"
+   ],
+   "support": 146,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-128",
+   "pattern_id": "H2-STR-128",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:관성(제겁재) — 관성으로 겁재를 제어하여 재성 보호",
+    "yongshin_el:금"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-129",
+   "pattern_id": "H2-STR-129",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:살인상생",
+    "kts:NF"
+   ],
+   "support": 25,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-130",
+   "pattern_id": "H2-STR-130",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "yongshin:식신(제살) — 식신으로 편관을 제어해야 안정"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "STR-131",
+   "pattern_id": "H2-STR-131",
+   "subject": "나의 장점",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dwss:편관",
+    "dm:무"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  }
+ ]
+}

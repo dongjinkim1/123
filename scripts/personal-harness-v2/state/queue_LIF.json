@@ -1,0 +1,2077 @@
+{
+ "subject": "인생 한줄 마무리",
+ "tier": "T2",
+ "code": "LIF",
+ "coverage": 0.9513,
+ "coverageFill": 22,
+ "orders": [
+  {
+   "order_id": "LIF-001",
+   "pattern_id": "H2-LIF-001",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "dwss:비견"
+   ],
+   "support": 63,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-002",
+   "pattern_id": "H2-LIF-002",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:건록",
+    "sinsal:도화",
+    "gyeokguk:종강격"
+   ],
+   "support": 1,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-003",
+   "pattern_id": "H2-LIF-003",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "strength:극신강"
+   ],
+   "support": 4,
+   "strataCell": "극신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-004",
+   "pattern_id": "H2-LIF-004",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "fx:Ni_inf",
+    "sess:편재",
+    "tongbyeon:비겁태과"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-005",
+   "pattern_id": "H2-LIF-005",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "unsung:제왕",
+    "dm:계"
+   ],
+   "support": 11,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-006",
+   "pattern_id": "H2-LIF-006",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁탈재",
+    "ss:편재"
+   ],
+   "support": 62,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-007",
+   "pattern_id": "H2-LIF-007",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "sinsal:월덕귀인",
+    "fx:Fe_inf"
+   ],
+   "support": 15,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-008",
+   "pattern_id": "H2-LIF-008",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:기",
+    "fx:Te_aux",
+    "condition:lack",
+    "unsung:사"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-009",
+   "pattern_id": "H2-LIF-009",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:양인",
+    "ss:비견"
+   ],
+   "support": 41,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-010",
+   "pattern_id": "H2-LIF-010",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:목",
+    "sinsal:도화",
+    "dwss:상관"
+   ],
+   "support": 20,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-011",
+   "pattern_id": "H2-LIF-011",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NT",
+    "relation:해"
+   ],
+   "support": 78,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-012",
+   "pattern_id": "H2-LIF-012",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "unsung:병"
+   ],
+   "support": 66,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-013",
+   "pattern_id": "H2-LIF-013",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "sess:편관"
+   ],
+   "support": 36,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-014",
+   "pattern_id": "H2-LIF-014",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_aux",
+    "sess:편재"
+   ],
+   "support": 16,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-015",
+   "pattern_id": "H2-LIF-015",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "condition:excess"
+   ],
+   "support": 18,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-016",
+   "pattern_id": "H2-LIF-016",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:천덕귀인",
+    "fx:Ne_dom"
+   ],
+   "support": 21,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-017",
+   "pattern_id": "H2-LIF-017",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "unsung:건록"
+   ],
+   "support": 80,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-018",
+   "pattern_id": "H2-LIF-018",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강+",
+    "sess:상관",
+    "yongshin_el:수"
+   ],
+   "support": 6,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-019",
+   "pattern_id": "H2-LIF-019",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "fx:Te_inf",
+    "dm:계",
+    "fx:Se_aux"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-020",
+   "pattern_id": "H2-LIF-020",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "unsung:묘"
+   ],
+   "support": 130,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-021",
+   "pattern_id": "H2-LIF-021",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "relation:해",
+    "fx:Te_dom"
+   ],
+   "support": 19,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-022",
+   "pattern_id": "H2-LIF-022",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "sess:정인",
+    "ss:정인"
+   ],
+   "support": 22,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-023",
+   "pattern_id": "H2-LIF-023",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "ss:편인",
+    "yongshin:식신(제살청관) — 금으로 관성 정리"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-024",
+   "pattern_id": "H2-LIF-024",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편인",
+    "ss:식신",
+    "ss:정인",
+    "fx:Ne_inf"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-025",
+   "pattern_id": "H2-LIF-025",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "yongshin:경금(수원)+갑목",
+    "ss:겁재"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-026",
+   "pattern_id": "H2-LIF-026",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:중화",
+    "sess:정관",
+    "sess:편관",
+    "yongshin_el:수"
+   ],
+   "support": 32,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-027",
+   "pattern_id": "H2-LIF-027",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "ss:편인"
+   ],
+   "support": 108,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-028",
+   "pattern_id": "H2-LIF-028",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "sinsal:양인",
+    "ss:인성",
+    "gyeokguk:식신격"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-029",
+   "pattern_id": "H2-LIF-029",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "ss:편인",
+    "unsung:병",
+    "relation:충"
+   ],
+   "support": 19,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-030",
+   "pattern_id": "H2-LIF-030",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "ss:정인"
+   ],
+   "support": 71,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-031",
+   "pattern_id": "H2-LIF-031",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:임수(광택)+병화",
+    "ss:재성"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-032",
+   "pattern_id": "H2-LIF-032",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정재",
+    "dm:경",
+    "yongshin:임수(담금질)+경금"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-033",
+   "pattern_id": "H2-LIF-033",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "sinsal:백호",
+    "strength:중화"
+   ],
+   "support": 46,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-034",
+   "pattern_id": "H2-LIF-034",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정인",
+    "condition:excess"
+   ],
+   "support": 57,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-035",
+   "pattern_id": "H2-LIF-035",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정재",
+    "fx:Ni_inf",
+    "yongshin_el:금",
+    "fx:Fi_aux"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-036",
+   "pattern_id": "H2-LIF-036",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "relation:천간합"
+   ],
+   "support": 61,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-037",
+   "pattern_id": "H2-LIF-037",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "gyeokguk:양인격",
+    "ss:재성",
+    "unsung:제왕"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-038",
+   "pattern_id": "H2-LIF-038",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(빛)+임수",
+    "ss:편인"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-039",
+   "pattern_id": "H2-LIF-039",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_inf",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 18,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-040",
+   "pattern_id": "H2-LIF-040",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "fx:Ne_dom",
+    "ss:비겁"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-041",
+   "pattern_id": "H2-LIF-041",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_aux",
+    "ss:재성",
+    "kts:SP",
+    "sess:겁재"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-042",
+   "pattern_id": "H2-LIF-042",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편재격",
+    "dm:병",
+    "unsung:묘"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-043",
+   "pattern_id": "H2-LIF-043",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NF",
+    "fx:Fi_aux",
+    "unsung:절"
+   ],
+   "support": 13,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-044",
+   "pattern_id": "H2-LIF-044",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "ss:정인"
+   ],
+   "support": 97,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-045",
+   "pattern_id": "H2-LIF-045",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "tongbyeon:비겁탈재",
+    "ss:비겁"
+   ],
+   "support": 91,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-046",
+   "pattern_id": "H2-LIF-046",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "tongbyeon:비겁탈재",
+    "strength:신약"
+   ],
+   "support": 52,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-047",
+   "pattern_id": "H2-LIF-047",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "yongshin:신금(수원)+병화+갑목",
+    "ss:비견"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-048",
+   "pattern_id": "H2-LIF-048",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "relation:충",
+    "sinsal:도화"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-049",
+   "pattern_id": "H2-LIF-049",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:건록격",
+    "ss:비겁"
+   ],
+   "support": 76,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-050",
+   "pattern_id": "H2-LIF-050",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "strength:신약",
+    "fx:Ti_inf",
+    "tongbyeon:식신제살"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-051",
+   "pattern_id": "H2-LIF-051",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:천덕귀인",
+    "yongshin_el:화",
+    "gyeokguk:건록격",
+    "unsung:양"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-052",
+   "pattern_id": "H2-LIF-052",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "fx:Se_dom",
+    "tongbyeon:상관견관",
+    "unsung:병"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-053",
+   "pattern_id": "H2-LIF-053",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "dm:신",
+    "ss:재성"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-054",
+   "pattern_id": "H2-LIF-054",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "tongbyeon:효신탈식",
+    "yongshin_el:목"
+   ],
+   "support": 14,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-055",
+   "pattern_id": "H2-LIF-055",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "ss:인성"
+   ],
+   "support": 92,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-056",
+   "pattern_id": "H2-LIF-056",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_dom",
+    "sinsal:화개",
+    "yongshin_el:목"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-057",
+   "pattern_id": "H2-LIF-057",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "condition:교운기",
+    "sinsal:금여록"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-058",
+   "pattern_id": "H2-LIF-058",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "ss:정재"
+   ],
+   "support": 71,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-059",
+   "pattern_id": "H2-LIF-059",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(온기)+계수",
+    "relation:충"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-060",
+   "pattern_id": "H2-LIF-060",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:효신탈식",
+    "condition:excess",
+    "dm:병"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-061",
+   "pattern_id": "H2-LIF-061",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "relation:해",
+    "ss:정재",
+    "sinsal:금여록"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-062",
+   "pattern_id": "H2-LIF-062",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_inf",
+    "tongbyeon:재관쌍미",
+    "ss:인성",
+    "unsung:쇠"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-063",
+   "pattern_id": "H2-LIF-063",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "ss:상관"
+   ],
+   "support": 64,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-064",
+   "pattern_id": "H2-LIF-064",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "ss:식상",
+    "dwss:편관"
+   ],
+   "support": 22,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-065",
+   "pattern_id": "H2-LIF-065",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "sinsal:천덕귀인",
+    "fx:Ti_aux",
+    "sinsal:역마"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-066",
+   "pattern_id": "H2-LIF-066",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "ss:편재",
+    "ss:편인",
+    "dwss:정인"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-067",
+   "pattern_id": "H2-LIF-067",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:역마",
+    "ss:정재",
+    "dm:병"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-068",
+   "pattern_id": "H2-LIF-068",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "kts:NF",
+    "sinsal:학당귀인"
+   ],
+   "support": 18,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-069",
+   "pattern_id": "H2-LIF-069",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_dom",
+    "gyeokguk:식신격",
+    "yongshin_el:수",
+    "relation:해"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-070",
+   "pattern_id": "H2-LIF-070",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:화",
+    "ss:재성"
+   ],
+   "support": 94,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-071",
+   "pattern_id": "H2-LIF-071",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "sess:정인"
+   ],
+   "support": 59,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-072",
+   "pattern_id": "H2-LIF-072",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ni_aux",
+    "unsung:쇠"
+   ],
+   "support": 23,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-073",
+   "pattern_id": "H2-LIF-073",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "ss:식상",
+    "tongbyeon:비겁탈재",
+    "relation:충"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-074",
+   "pattern_id": "H2-LIF-074",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "condition:excess",
+    "fx:Ti_inf",
+    "sinsal:화개"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-075",
+   "pattern_id": "H2-LIF-075",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:사",
+    "dm:임",
+    "unsung:장생",
+    "sinsal:화개"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-076",
+   "pattern_id": "H2-LIF-076",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편관격",
+    "sess:상관"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-077",
+   "pattern_id": "H2-LIF-077",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_dom",
+    "sinsal:도화",
+    "ss:관성"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-078",
+   "pattern_id": "H2-LIF-078",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:금",
+    "ss:정인"
+   ],
+   "support": 39,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-079",
+   "pattern_id": "H2-LIF-079",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:월덕귀인",
+    "dwss:상관",
+    "fx:Se_inf"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-080",
+   "pattern_id": "H2-LIF-080",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "fx:Ne_inf",
+    "ss:겁재",
+    "dm:무"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-081",
+   "pattern_id": "H2-LIF-081",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "kts:NT",
+    "relation:충"
+   ],
+   "support": 32,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-082",
+   "pattern_id": "H2-LIF-082",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:쇠",
+    "kts:NT",
+    "fx:Ne_aux",
+    "sinsal:화개"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-083",
+   "pattern_id": "H2-LIF-083",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:신",
+    "ss:관성"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-084",
+   "pattern_id": "H2-LIF-084",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "yongshin_el:수",
+    "fx:Ne_inf"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-085",
+   "pattern_id": "H2-LIF-085",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "unsung:관대",
+    "gyeokguk:편관격"
+   ],
+   "support": 22,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-086",
+   "pattern_id": "H2-LIF-086",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "sinsal:도화",
+    "ss:정관"
+   ],
+   "support": 55,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-087",
+   "pattern_id": "H2-LIF-087",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:장생",
+    "unsung:양",
+    "sess:편재"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-088",
+   "pattern_id": "H2-LIF-088",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:상관",
+    "yongshin:경금(다듬기)+임수",
+    "fx:Ne_aux",
+    "ss:식상"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-089",
+   "pattern_id": "H2-LIF-089",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:비견",
+    "tongbyeon:재관쌍미",
+    "yongshin_el:목",
+    "unsung:절"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-090",
+   "pattern_id": "H2-LIF-090",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "condition:excess",
+    "relation:해",
+    "strength:극신약"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-091",
+   "pattern_id": "H2-LIF-091",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:식신제살",
+    "condition:lack",
+    "dm:갑",
+    "fx:Fi_dom"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-092",
+   "pattern_id": "H2-LIF-092",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:신금(수원)+병화+갑목",
+    "sess:정재",
+    "ss:식신"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-093",
+   "pattern_id": "H2-LIF-093",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "fx:Ne_aux",
+    "dwss:정인",
+    "tongbyeon:재성태과"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-094",
+   "pattern_id": "H2-LIF-094",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:갑",
+    "yongshin:정화(제련)+경금",
+    "tongbyeon:재다신약",
+    "condition:lack"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-095",
+   "pattern_id": "H2-LIF-095",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "dwss:편관"
+   ],
+   "support": 46,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-096",
+   "pattern_id": "H2-LIF-096",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "relation:육합"
+   ],
+   "support": 90,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-097",
+   "pattern_id": "H2-LIF-097",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "unsung:묘",
+    "sess:편재",
+    "ss:편재"
+   ],
+   "support": 8,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-098",
+   "pattern_id": "H2-LIF-098",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:절",
+    "dm:임",
+    "ss:겁재",
+    "yongshin_type:파격조정"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-099",
+   "pattern_id": "H2-LIF-099",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정재",
+    "kts:SJ",
+    "tongbyeon:재관쌍미",
+    "fx:Te_dom"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-100",
+   "pattern_id": "H2-LIF-100",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정재",
+    "ss:식상",
+    "gyeokguk:정관격"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-101",
+   "pattern_id": "H2-LIF-101",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "sess:편인",
+    "gyeokguk:정재격"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-102",
+   "pattern_id": "H2-LIF-102",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "ss:식상"
+   ],
+   "support": 105,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-103",
+   "pattern_id": "H2-LIF-103",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "unsung:양"
+   ],
+   "support": 89,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-104",
+   "pattern_id": "H2-LIF-104",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:excess",
+    "sess:정인"
+   ],
+   "support": 51,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-105",
+   "pattern_id": "H2-LIF-105",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:관살혼잡",
+    "kts:NT"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-106",
+   "pattern_id": "H2-LIF-106",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:정재격",
+    "tongbyeon:재관쌍미"
+   ],
+   "support": 14,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-107",
+   "pattern_id": "H2-LIF-107",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "ss:비견"
+   ],
+   "support": 122,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-108",
+   "pattern_id": "H2-LIF-108",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "fx:Ti_inf"
+   ],
+   "support": 22,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-109",
+   "pattern_id": "H2-LIF-109",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:양인격",
+    "ss:식상"
+   ],
+   "support": 30,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-110",
+   "pattern_id": "H2-LIF-110",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "sinsal:화개"
+   ],
+   "support": 74,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-111",
+   "pattern_id": "H2-LIF-111",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "kts:NF"
+   ],
+   "support": 85,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-112",
+   "pattern_id": "H2-LIF-112",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "condition:교운기",
+    "fx:Fe_inf"
+   ],
+   "support": 26,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-113",
+   "pattern_id": "H2-LIF-113",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:식신격",
+    "ss:편인"
+   ],
+   "support": 29,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-114",
+   "pattern_id": "H2-LIF-114",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_aux",
+    "fx:Te_inf"
+   ],
+   "support": 54,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-115",
+   "pattern_id": "H2-LIF-115",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:편관",
+    "unsung:목욕"
+   ],
+   "support": 67,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-116",
+   "pattern_id": "H2-LIF-116",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:무계합화화격",
+    "ss:정관"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-117",
+   "pattern_id": "H2-LIF-117",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "sinsal:월덕귀인"
+   ],
+   "support": 110,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-118",
+   "pattern_id": "H2-LIF-118",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:신약",
+    "unsung:장생"
+   ],
+   "support": 109,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-119",
+   "pattern_id": "H2-LIF-119",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "ss:편재"
+   ],
+   "support": 112,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-120",
+   "pattern_id": "H2-LIF-120",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "dm:정",
+    "dwss:비견"
+   ],
+   "support": 14,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-121",
+   "pattern_id": "H2-LIF-121",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:정인",
+    "fx:Ti_aux"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-122",
+   "pattern_id": "H2-LIF-122",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "ss:상관"
+   ],
+   "support": 106,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "LIF-123",
+   "pattern_id": "H2-LIF-123",
+   "subject": "인생 한줄 마무리",
+   "tier": "T2",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(해동)",
+    "unsung:쇠"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  }
+ ]
+}

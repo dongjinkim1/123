@@ -1,0 +1,3044 @@
+{
+ "subject": "올해 조언",
+ "tier": "T1",
+ "code": "YAD",
+ "coverage": 0.9912,
+ "coverageFill": 0,
+ "orders": [
+  {
+   "order_id": "YAD-001",
+   "pattern_id": "H2-YAD-001",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "yongshin_el:목",
+    "ss:상관"
+   ],
+   "support": 36,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-002",
+   "pattern_id": "H2-YAD-002",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "relation:해",
+    "ss:정관",
+    "sinsal:천덕귀인"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-003",
+   "pattern_id": "H2-YAD-003",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "ss:정관",
+    "sinsal:역마",
+    "relation:해"
+   ],
+   "support": 11,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-004",
+   "pattern_id": "H2-YAD-004",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "tongbyeon:식상생재"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-005",
+   "pattern_id": "H2-YAD-005",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "ss:식상",
+    "ss:상관"
+   ],
+   "support": 36,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-006",
+   "pattern_id": "H2-YAD-006",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "fx:Ni_dom",
+    "condition:lack"
+   ],
+   "support": 6,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-007",
+   "pattern_id": "H2-YAD-007",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "sinsal:양인"
+   ],
+   "support": 33,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-008",
+   "pattern_id": "H2-YAD-008",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "condition:종격",
+    "ss:식신",
+    "condition:excess"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-009",
+   "pattern_id": "H2-YAD-009",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "unsung:건록",
+    "unsung:관대",
+    "yongshin_el:목"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-010",
+   "pattern_id": "H2-YAD-010",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "fx:Fe_aux"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-011",
+   "pattern_id": "H2-YAD-011",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "unsung:쇠"
+   ],
+   "support": 31,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-012",
+   "pattern_id": "H2-YAD-012",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "unsung:건록",
+    "dwss:편재"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-013",
+   "pattern_id": "H2-YAD-013",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:겁재",
+   "tags": [
+    "sess:겁재",
+    "dwss:정재",
+    "fx:Ti_dom",
+    "strength:신약"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-014",
+   "pattern_id": "H2-YAD-014",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "sinsal:천덕귀인"
+   ],
+   "support": 48,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-015",
+   "pattern_id": "H2-YAD-015",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "fx:Fe_inf"
+   ],
+   "support": 14,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-016",
+   "pattern_id": "H2-YAD-016",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "relation:해",
+    "condition:교운기",
+    "strength:신약"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-017",
+   "pattern_id": "H2-YAD-017",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "sinsal:화개"
+   ],
+   "support": 66,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-018",
+   "pattern_id": "H2-YAD-018",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "ss:겁재",
+    "relation:충",
+    "ss:비겁"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-019",
+   "pattern_id": "H2-YAD-019",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "sinsal:화개",
+    "ss:식신"
+   ],
+   "support": 63,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-020",
+   "pattern_id": "H2-YAD-020",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "unsung:건록",
+    "ss:상관"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-021",
+   "pattern_id": "H2-YAD-021",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "relation:육합",
+    "unsung:절"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-022",
+   "pattern_id": "H2-YAD-022",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "ss:재성",
+    "kts:SP",
+    "unsung:쇠"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-023",
+   "pattern_id": "H2-YAD-023",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "sess:겁재"
+   ],
+   "support": 161,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-024",
+   "pattern_id": "H2-YAD-024",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "dm:병"
+   ],
+   "support": 80,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-025",
+   "pattern_id": "H2-YAD-025",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "gyeokguk:편인격",
+    "yongshin:갑목(연료)+경금",
+    "ss:식신"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-026",
+   "pattern_id": "H2-YAD-026",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:비견",
+   "tags": [
+    "sess:비견",
+    "unsung:목욕",
+    "dwss:편재"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-027",
+   "pattern_id": "H2-YAD-027",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "unsung:장생",
+    "ss:비견"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-028",
+   "pattern_id": "H2-YAD-028",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "unsung:관대"
+   ],
+   "support": 31,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-029",
+   "pattern_id": "H2-YAD-029",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "dwss:편관",
+    "dm:을",
+    "relation:해"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-030",
+   "pattern_id": "H2-YAD-030",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "tongbyeon:재관쌍미",
+    "gyeokguk:편재격"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-031",
+   "pattern_id": "H2-YAD-031",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "sess:식신",
+    "fx:Ne_aux",
+    "yongshin:비겁→식상 흐름 강화(표현의 흐름을 따라감)"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-032",
+   "pattern_id": "H2-YAD-032",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "unsung:목욕"
+   ],
+   "support": 51,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-033",
+   "pattern_id": "H2-YAD-033",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "unsung:건록",
+    "dwss:편관"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-034",
+   "pattern_id": "H2-YAD-034",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "ss:비견"
+   ],
+   "support": 67,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-035",
+   "pattern_id": "H2-YAD-035",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "yongshin:정화(제련)+경금",
+    "kts:NT",
+    "unsung:건록"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-036",
+   "pattern_id": "H2-YAD-036",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "fx:Ne_aux"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-037",
+   "pattern_id": "H2-YAD-037",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "yongshin:병화(햇볕)"
+   ],
+   "support": 2,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-038",
+   "pattern_id": "H2-YAD-038",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "ss:식신",
+    "sinsal:화개",
+    "strength:중화"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-039",
+   "pattern_id": "H2-YAD-039",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:상관",
+   "tags": [
+    "sess:상관",
+    "kts:SJ"
+   ],
+   "support": 36,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-040",
+   "pattern_id": "H2-YAD-040",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "dwss:겁재",
+    "ss:식신",
+    "sinsal:역마"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-041",
+   "pattern_id": "H2-YAD-041",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "gyeokguk:양인격",
+    "unsung:제왕",
+    "dwss:비견"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-042",
+   "pattern_id": "H2-YAD-042",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "ss:관성",
+    "fx:Ne_dom",
+    "dm:을"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-043",
+   "pattern_id": "H2-YAD-043",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "unsung:목욕"
+   ],
+   "support": 51,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-044",
+   "pattern_id": "H2-YAD-044",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "yongshin:계수(수분)+병화"
+   ],
+   "support": 15,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-045",
+   "pattern_id": "H2-YAD-045",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "relation:충",
+    "ss:정재"
+   ],
+   "support": 18,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-046",
+   "pattern_id": "H2-YAD-046",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "sinsal:역마",
+    "yongshin:편재(제편인) — 편재로 편인을 제어",
+    "kts:NT"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-047",
+   "pattern_id": "H2-YAD-047",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "unsung:쇠",
+    "relation:육합",
+    "ss:편관"
+   ],
+   "support": 6,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-048",
+   "pattern_id": "H2-YAD-048",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "sess:상관"
+   ],
+   "support": 145,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-049",
+   "pattern_id": "H2-YAD-049",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "unsung:사"
+   ],
+   "support": 54,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-050",
+   "pattern_id": "H2-YAD-050",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "relation:천간합",
+    "fx:Fi_aux",
+    "dwss:정재"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-051",
+   "pattern_id": "H2-YAD-051",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "sinsal:화개",
+    "sinsal:역마",
+    "ss:편관"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-052",
+   "pattern_id": "H2-YAD-052",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:식신",
+   "tags": [
+    "sess:식신",
+    "relation:해",
+    "ss:겁재",
+    "fx:Ne_aux"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-053",
+   "pattern_id": "H2-YAD-053",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "sinsal:월덕귀인",
+    "gyeokguk:양인격",
+    "relation:해"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-054",
+   "pattern_id": "H2-YAD-054",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "fx:Ti_aux",
+    "ss:편인"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-055",
+   "pattern_id": "H2-YAD-055",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "yongshin_el:화",
+    "ss:편재"
+   ],
+   "support": 29,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-056",
+   "pattern_id": "H2-YAD-056",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "fx:Fe_inf",
+    "kts:NT",
+    "dwss:비견"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-057",
+   "pattern_id": "H2-YAD-057",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "ss:인성",
+    "dm:신"
+   ],
+   "support": 59,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-058",
+   "pattern_id": "H2-YAD-058",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "dwss:정관",
+    "kts:NT",
+    "condition:교운기"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-059",
+   "pattern_id": "H2-YAD-059",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "fx:Si_aux",
+    "sinsal:도화"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-060",
+   "pattern_id": "H2-YAD-060",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "sinsal:천덕귀인",
+    "dwss:식신"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-061",
+   "pattern_id": "H2-YAD-061",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "ss:재성",
+    "sinsal:백호"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-062",
+   "pattern_id": "H2-YAD-062",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "yongshin_el:화",
+    "unsung:절"
+   ],
+   "support": 25,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-063",
+   "pattern_id": "H2-YAD-063",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "dm:경",
+    "fx:Ni_aux"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-064",
+   "pattern_id": "H2-YAD-064",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "relation:육합"
+   ],
+   "support": 57,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-065",
+   "pattern_id": "H2-YAD-065",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정관",
+   "tags": [
+    "sess:정관",
+    "dwss:비견",
+    "fx:Te_aux",
+    "sess:편관"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-066",
+   "pattern_id": "H2-YAD-066",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "sess:편인",
+    "condition:교운기"
+   ],
+   "support": 46,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-067",
+   "pattern_id": "H2-YAD-067",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "fx:Te_aux",
+    "ss:재성",
+    "sinsal:도화"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-068",
+   "pattern_id": "H2-YAD-068",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "ss:정관"
+   ],
+   "support": 56,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-069",
+   "pattern_id": "H2-YAD-069",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "fx:Fi_inf"
+   ],
+   "support": 24,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-070",
+   "pattern_id": "H2-YAD-070",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "relation:천간합",
+    "unsung:건록"
+   ],
+   "support": 17,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-071",
+   "pattern_id": "H2-YAD-071",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "unsung:태",
+    "yongshin_type:파격조정",
+    "dwss:상관"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-072",
+   "pattern_id": "H2-YAD-072",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "sinsal:백호",
+    "dwss:정인",
+    "strength:중화"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-073",
+   "pattern_id": "H2-YAD-073",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "ss:겁재"
+   ],
+   "support": 87,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-074",
+   "pattern_id": "H2-YAD-074",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "fx:Ne_aux",
+    "ss:편관",
+    "kts:NF"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-075",
+   "pattern_id": "H2-YAD-075",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "dwss:정인",
+    "ss:재성",
+    "fx:Te_inf"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-076",
+   "pattern_id": "H2-YAD-076",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "gyeokguk:정인격",
+    "condition:lack",
+    "fx:Si_dom"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-077",
+   "pattern_id": "H2-YAD-077",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "dwss:정관"
+   ],
+   "support": 37,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-078",
+   "pattern_id": "H2-YAD-078",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정인",
+   "tags": [
+    "sess:정인",
+    "fx:Se_aux"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-079",
+   "pattern_id": "H2-YAD-079",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "sess:편재",
+    "condition:excess"
+   ],
+   "support": 41,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-080",
+   "pattern_id": "H2-YAD-080",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "fx:Fi_dom",
+    "dwss:정재",
+    "gyeokguk:정인격"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-081",
+   "pattern_id": "H2-YAD-081",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "fx:Fi_aux"
+   ],
+   "support": 34,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-082",
+   "pattern_id": "H2-YAD-082",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "dm:임"
+   ],
+   "support": 83,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-083",
+   "pattern_id": "H2-YAD-083",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "tongbyeon:살인상생",
+    "sinsal:도화",
+    "sinsal:귀문관"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-084",
+   "pattern_id": "H2-YAD-084",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "unsung:제왕"
+   ],
+   "support": 52,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-085",
+   "pattern_id": "H2-YAD-085",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "sess:편재"
+   ],
+   "support": 165,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-086",
+   "pattern_id": "H2-YAD-086",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "sinsal:귀문관",
+    "sess:편재",
+    "unsung:병"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-087",
+   "pattern_id": "H2-YAD-087",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "yongshin_el:토",
+    "dm:임"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-088",
+   "pattern_id": "H2-YAD-088",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "unsung:양"
+   ],
+   "support": 41,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-089",
+   "pattern_id": "H2-YAD-089",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "gyeokguk:건록격"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-090",
+   "pattern_id": "H2-YAD-090",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "fx:Ni_inf"
+   ],
+   "support": 35,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-091",
+   "pattern_id": "H2-YAD-091",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:정재",
+   "tags": [
+    "sess:정재",
+    "relation:천간합",
+    "yongshin:병화+신금",
+    "fx:Ne_dom"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-092",
+   "pattern_id": "H2-YAD-092",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "ss:비견",
+    "gyeokguk:편인격"
+   ],
+   "support": 19,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-093",
+   "pattern_id": "H2-YAD-093",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "relation:해",
+    "relation:천간합"
+   ],
+   "support": 29,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-094",
+   "pattern_id": "H2-YAD-094",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "ss:정관"
+   ],
+   "support": 68,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-095",
+   "pattern_id": "H2-YAD-095",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "tongbyeon:살인상생",
+    "ss:정인"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-096",
+   "pattern_id": "H2-YAD-096",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "dwss:편관",
+    "yongshin:임수(세척)+계수"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-097",
+   "pattern_id": "H2-YAD-097",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "sinsal:도화"
+   ],
+   "support": 54,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-098",
+   "pattern_id": "H2-YAD-098",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "fx:Ti_aux"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-099",
+   "pattern_id": "H2-YAD-099",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "sinsal:화개",
+    "fx:Fi_dom"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-100",
+   "pattern_id": "H2-YAD-100",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "strength:신약",
+    "fx:Ni_aux",
+    "yongshin:병화(제련)+갑목"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-101",
+   "pattern_id": "H2-YAD-101",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "sinsal:역마",
+    "fx:Ni_aux",
+    "unsung:건록"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-102",
+   "pattern_id": "H2-YAD-102",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "yongshin_el:수",
+    "dwss:편재",
+    "dwss:편인"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-103",
+   "pattern_id": "H2-YAD-103",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "dm:경",
+    "kts:SJ"
+   ],
+   "support": 20,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-104",
+   "pattern_id": "H2-YAD-104",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편관",
+   "tags": [
+    "sess:편관",
+    "ss:상관"
+   ],
+   "support": 64,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-105",
+   "pattern_id": "H2-YAD-105",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "sinsal:천덕귀인",
+    "gyeokguk:건록격"
+   ],
+   "support": 8,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-106",
+   "pattern_id": "H2-YAD-106",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "dm:무"
+   ],
+   "support": 85,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-107",
+   "pattern_id": "H2-YAD-107",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "relation:충"
+   ],
+   "support": 67,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-108",
+   "pattern_id": "H2-YAD-108",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "strength:신강+"
+   ],
+   "support": 30,
+   "strataCell": "극신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-109",
+   "pattern_id": "H2-YAD-109",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "relation:충",
+    "ss:인성"
+   ],
+   "support": 26,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-110",
+   "pattern_id": "H2-YAD-110",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "ss:정관"
+   ],
+   "support": 56,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-111",
+   "pattern_id": "H2-YAD-111",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "ss:비겁"
+   ],
+   "support": 95,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-112",
+   "pattern_id": "H2-YAD-112",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "relation:천간합"
+   ],
+   "support": 79,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-113",
+   "pattern_id": "H2-YAD-113",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "ss:편인",
+    "ss:정관"
+   ],
+   "support": 15,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-114",
+   "pattern_id": "H2-YAD-114",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "ss:정관"
+   ],
+   "support": 56,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-115",
+   "pattern_id": "H2-YAD-115",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "relation:충",
+    "kts:SJ",
+    "condition:excess"
+   ],
+   "support": 4,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-116",
+   "pattern_id": "H2-YAD-116",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "unsung:절"
+   ],
+   "support": 35,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-117",
+   "pattern_id": "H2-YAD-117",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편인",
+   "tags": [
+    "sess:편인",
+    "fx:Ne_aux",
+    "kts:NF",
+    "dm:무"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-118",
+   "pattern_id": "H2-YAD-118",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "yongshin:병화+신금",
+    "fx:Fe_aux"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-119",
+   "pattern_id": "H2-YAD-119",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "unsung:절"
+   ],
+   "support": 41,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-120",
+   "pattern_id": "H2-YAD-120",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "dwss:편재",
+    "unsung:장생",
+    "gyeokguk:정관격"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-121",
+   "pattern_id": "H2-YAD-121",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "ss:편관",
+    "fx:Ti_dom",
+    "sess:정재"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-122",
+   "pattern_id": "H2-YAD-122",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "gyeokguk:정관격"
+   ],
+   "support": 31,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-123",
+   "pattern_id": "H2-YAD-123",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "sinsal:천덕귀인",
+    "sess:정재",
+    "unsung:양"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-124",
+   "pattern_id": "H2-YAD-124",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "yongshin:병화+경금",
+    "relation:육합"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-125",
+   "pattern_id": "H2-YAD-125",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "dm:계",
+    "yongshin_el:화"
+   ],
+   "support": 38,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-126",
+   "pattern_id": "H2-YAD-126",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "condition:교운기"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-127",
+   "pattern_id": "H2-YAD-127",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "dwss:상관",
+    "gyeokguk:정재격",
+    "unsung:장생"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-128",
+   "pattern_id": "H2-YAD-128",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "kts:SP",
+    "ss:정재",
+    "ss:재성"
+   ],
+   "support": 18,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-129",
+   "pattern_id": "H2-YAD-129",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "ss:정관"
+   ],
+   "support": 78,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-130",
+   "pattern_id": "H2-YAD-130",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "sess:편재",
+   "tags": [
+    "sess:편재",
+    "strength:중화",
+    "dwss:편재",
+    "yongshin:식신(제살청관) — 목으로 관성 정리"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-131",
+   "pattern_id": "H2-YAD-131",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "unsung:제왕"
+   ],
+   "support": 95,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-132",
+   "pattern_id": "H2-YAD-132",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁태과",
+    "dwss:편재",
+    "ss:편인"
+   ],
+   "support": 12,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-133",
+   "pattern_id": "H2-YAD-133",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:정관",
+    "fx:Te_aux",
+    "ss:겁재"
+   ],
+   "support": 10,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-134",
+   "pattern_id": "H2-YAD-134",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "sinsal:월덕귀인",
+    "dwss:비견"
+   ],
+   "support": 26,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-135",
+   "pattern_id": "H2-YAD-135",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편인격",
+    "sinsal:백호"
+   ],
+   "support": 34,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-136",
+   "pattern_id": "H2-YAD-136",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ne_inf",
+    "dwss:편관",
+    "strength:신강+"
+   ],
+   "support": 2,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-137",
+   "pattern_id": "H2-YAD-137",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "ss:겁재"
+   ],
+   "support": 101,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-138",
+   "pattern_id": "H2-YAD-138",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁탈재",
+    "strength:신강",
+    "relation:해",
+    "ss:비겁"
+   ],
+   "support": 11,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-139",
+   "pattern_id": "H2-YAD-139",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Si_aux",
+    "ss:편인",
+    "sess:비견",
+    "unsung:장생"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-140",
+   "pattern_id": "H2-YAD-140",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "ss:비견"
+   ],
+   "support": 126,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-141",
+   "pattern_id": "H2-YAD-141",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:해",
+    "fx:Te_aux",
+    "ss:편관"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-142",
+   "pattern_id": "H2-YAD-142",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:정관격",
+    "ss:관성",
+    "dwss:정인",
+    "dwss:정재"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-143",
+   "pattern_id": "H2-YAD-143",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:식신",
+    "relation:천간합"
+   ],
+   "support": 61,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-144",
+   "pattern_id": "H2-YAD-144",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "sinsal:역마",
+    "relation:해"
+   ],
+   "support": 46,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-145",
+   "pattern_id": "H2-YAD-145",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:효신탈식",
+    "yongshin_el:금"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-146",
+   "pattern_id": "H2-YAD-146",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "tongbyeon:비겁태과"
+   ],
+   "support": 48,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-147",
+   "pattern_id": "H2-YAD-147",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:계수(윤택)+병화+갑목",
+    "unsung:병",
+    "sinsal:화개",
+    "ss:정재"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-148",
+   "pattern_id": "H2-YAD-148",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:역마",
+    "unsung:쇠"
+   ],
+   "support": 58,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-149",
+   "pattern_id": "H2-YAD-149",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "ss:정재"
+   ],
+   "support": 90,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-150",
+   "pattern_id": "H2-YAD-150",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "yongshin:병화(빛)+임수",
+    "tongbyeon:상관패인",
+    "fx:Te_aux"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-151",
+   "pattern_id": "H2-YAD-151",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "gyeokguk:상관격",
+    "unsung:절"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-152",
+   "pattern_id": "H2-YAD-152",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:식신",
+    "strength:신약",
+    "dwss:상관"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-153",
+   "pattern_id": "H2-YAD-153",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:화개",
+    "ss:편재",
+    "ss:식상",
+    "relation:천간합"
+   ],
+   "support": 11,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-154",
+   "pattern_id": "H2-YAD-154",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:귀문관",
+    "ss:겁재",
+    "condition:excess",
+    "gyeokguk:편재격"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-155",
+   "pattern_id": "H2-YAD-155",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:식신격",
+    "dwss:겁재"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-156",
+   "pattern_id": "H2-YAD-156",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "strength:신약",
+    "relation:해",
+    "relation:천간합"
+   ],
+   "support": 43,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-157",
+   "pattern_id": "H2-YAD-157",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_inf",
+    "ss:상관",
+    "relation:해",
+    "ss:관성"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-158",
+   "pattern_id": "H2-YAD-158",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:상관패인",
+    "yongshin:병화+경금",
+    "sinsal:도화",
+    "dwss:편관"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-159",
+   "pattern_id": "H2-YAD-159",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:편재",
+    "sinsal:역마",
+    "dwss:편인"
+   ],
+   "support": 13,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-160",
+   "pattern_id": "H2-YAD-160",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:상관",
+    "fx:Ne_aux"
+   ],
+   "support": 23,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-161",
+   "pattern_id": "H2-YAD-161",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:상관",
+    "relation:해",
+    "sinsal:화개",
+    "unsung:관대"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-162",
+   "pattern_id": "H2-YAD-162",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "fx:Fi_aux",
+    "tongbyeon:관살혼잡"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-163",
+   "pattern_id": "H2-YAD-163",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재생관살",
+    "sinsal:역마"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-164",
+   "pattern_id": "H2-YAD-164",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "fx:Se_aux",
+    "strength:신약",
+    "dm:신"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-165",
+   "pattern_id": "H2-YAD-165",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fi_dom",
+    "dm:갑",
+    "dwss:정관"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-166",
+   "pattern_id": "H2-YAD-166",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:기",
+    "ss:상관"
+   ],
+   "support": 29,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-167",
+   "pattern_id": "H2-YAD-167",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식신",
+    "ss:편인",
+    "unsung:쇠"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-168",
+   "pattern_id": "H2-YAD-168",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:살인상생",
+    "condition:lack"
+   ],
+   "support": 27,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-169",
+   "pattern_id": "H2-YAD-169",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "dm:계"
+   ],
+   "support": 20,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-170",
+   "pattern_id": "H2-YAD-170",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:상관",
+    "tongbyeon:식신제살"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-171",
+   "pattern_id": "H2-YAD-171",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_dom",
+    "sess:비견"
+   ],
+   "support": 20,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-172",
+   "pattern_id": "H2-YAD-172",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:비견",
+    "sess:겁재"
+   ],
+   "support": 161,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-173",
+   "pattern_id": "H2-YAD-173",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재다신약",
+    "relation:육합",
+    "ss:상관"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-174",
+   "pattern_id": "H2-YAD-174",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "dwss:비견",
+    "yongshin:갑목(연료)+경금"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-175",
+   "pattern_id": "H2-YAD-175",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:도화",
+    "ss:재성",
+    "yongshin_el:수"
+   ],
+   "support": 29,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-176",
+   "pattern_id": "H2-YAD-176",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "ss:편재",
+    "sinsal:화개"
+   ],
+   "support": 45,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-177",
+   "pattern_id": "H2-YAD-177",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Ti_dom",
+    "gyeokguk:정재격",
+    "relation:육합"
+   ],
+   "support": 6,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-178",
+   "pattern_id": "H2-YAD-178",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:학당귀인",
+    "strength:극신약",
+    "fx:Ne_inf"
+   ],
+   "support": 5,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "YAD-179",
+   "pattern_id": "H2-YAD-179",
+   "subject": "올해 조언",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dwss:상관",
+    "ss:재성"
+   ],
+   "support": 70,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  }
+ ]
+}

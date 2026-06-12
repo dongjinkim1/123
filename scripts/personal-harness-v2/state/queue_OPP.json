@@ -1,0 +1,3336 @@
+{
+ "subject": "기회의 시기",
+ "tier": "T1",
+ "code": "OPP",
+ "coverage": 0.955,
+ "coverageFill": 18,
+ "orders": [
+  {
+   "order_id": "OPP-001",
+   "pattern_id": "H2-OPP-001",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "fx:Te_aux",
+    "sess:정인",
+    "fx:Ni_dom"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-002",
+   "pattern_id": "H2-OPP-002",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "dm:정"
+   ],
+   "support": 16,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-003",
+   "pattern_id": "H2-OPP-003",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "fx:Fi_inf",
+    "sess:비견",
+    "ss:재성"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-004",
+   "pattern_id": "H2-OPP-004",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "kts:NT"
+   ],
+   "support": 34,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-005",
+   "pattern_id": "H2-OPP-005",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "sinsal:양인"
+   ],
+   "support": 22,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-006",
+   "pattern_id": "H2-OPP-006",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "ss:비견",
+    "tongbyeon:인수생비"
+   ],
+   "support": 11,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-007",
+   "pattern_id": "H2-OPP-007",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 29,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-008",
+   "pattern_id": "H2-OPP-008",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "sess:편인",
+    "unsung:병"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-009",
+   "pattern_id": "H2-OPP-009",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "ss:정재"
+   ],
+   "support": 57,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-010",
+   "pattern_id": "H2-OPP-010",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "sess:겁재",
+    "fx:Ni_inf"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-011",
+   "pattern_id": "H2-OPP-011",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "ss:비겁",
+    "fx:Se_dom",
+    "fx:Ni_inf"
+   ],
+   "support": 12,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-012",
+   "pattern_id": "H2-OPP-012",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "dwss:편재",
+    "fx:Si_inf"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-013",
+   "pattern_id": "H2-OPP-013",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:겁재",
+   "tags": [
+    "dwss:겁재",
+    "relation:육합"
+   ],
+   "support": 57,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-014",
+   "pattern_id": "H2-OPP-014",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "ss:정인",
+    "unsung:장생",
+    "sess:정관"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-015",
+   "pattern_id": "H2-OPP-015",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "ss:편재",
+    "sinsal:백호"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-016",
+   "pattern_id": "H2-OPP-016",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "ss:재성",
+    "yongshin_el:화"
+   ],
+   "support": 23,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-017",
+   "pattern_id": "H2-OPP-017",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "sinsal:학당귀인",
+    "sinsal:금여록"
+   ],
+   "support": 18,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-018",
+   "pattern_id": "H2-OPP-018",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "unsung:사"
+   ],
+   "support": 37,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-019",
+   "pattern_id": "H2-OPP-019",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "unsung:태",
+    "fx:Fi_aux",
+    "kts:NF"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-020",
+   "pattern_id": "H2-OPP-020",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "ss:식상"
+   ],
+   "support": 51,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-021",
+   "pattern_id": "H2-OPP-021",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "unsung:묘",
+    "dwss:편관"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-022",
+   "pattern_id": "H2-OPP-022",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "fx:Se_inf",
+    "ss:편재"
+   ],
+   "support": 9,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-023",
+   "pattern_id": "H2-OPP-023",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "gyeokguk:정인격"
+   ],
+   "support": 9,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-024",
+   "pattern_id": "H2-OPP-024",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "unsung:병",
+    "condition:lack"
+   ],
+   "support": 15,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-025",
+   "pattern_id": "H2-OPP-025",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "kts:SP",
+    "relation:천간합"
+   ],
+   "support": 27,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-026",
+   "pattern_id": "H2-OPP-026",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:비견",
+   "tags": [
+    "dwss:비견",
+    "yongshin_el:화"
+   ],
+   "support": 51,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-027",
+   "pattern_id": "H2-OPP-027",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "sinsal:귀문관"
+   ],
+   "support": 43,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-028",
+   "pattern_id": "H2-OPP-028",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "sess:상관",
+    "ss:인성",
+    "dwss:편관"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-029",
+   "pattern_id": "H2-OPP-029",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "strength:신약",
+    "unsung:병",
+    "yongshin_el:금"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-030",
+   "pattern_id": "H2-OPP-030",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "fx:Ni_aux"
+   ],
+   "support": 20,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-031",
+   "pattern_id": "H2-OPP-031",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "unsung:쇠",
+    "fx:Ti_inf"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-032",
+   "pattern_id": "H2-OPP-032",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "unsung:관대"
+   ],
+   "support": 51,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-033",
+   "pattern_id": "H2-OPP-033",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "strength:중화"
+   ],
+   "support": 44,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-034",
+   "pattern_id": "H2-OPP-034",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "fx:Te_dom",
+    "ss:겁재",
+    "relation:충"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-035",
+   "pattern_id": "H2-OPP-035",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "sinsal:월덕귀인",
+    "gyeokguk:편관격",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-036",
+   "pattern_id": "H2-OPP-036",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "sinsal:금여록"
+   ],
+   "support": 33,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-037",
+   "pattern_id": "H2-OPP-037",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "relation:육합",
+    "unsung:제왕",
+    "yongshin_el:수"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-038",
+   "pattern_id": "H2-OPP-038",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "kts:NT",
+    "dm:병"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-039",
+   "pattern_id": "H2-OPP-039",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:상관",
+   "tags": [
+    "dwss:상관",
+    "unsung:쇠"
+   ],
+   "support": 46,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-040",
+   "pattern_id": "H2-OPP-040",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "strength:신강"
+   ],
+   "support": 21,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-041",
+   "pattern_id": "H2-OPP-041",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "fx:Si_aux",
+    "sinsal:도화",
+    "unsung:건록"
+   ],
+   "support": 3,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-042",
+   "pattern_id": "H2-OPP-042",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "gyeokguk:정관격"
+   ],
+   "support": 16,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-043",
+   "pattern_id": "H2-OPP-043",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "relation:천간합",
+    "ss:식상"
+   ],
+   "support": 19,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-044",
+   "pattern_id": "H2-OPP-044",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "unsung:목욕",
+    "yongshin_el:수"
+   ],
+   "support": 16,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-045",
+   "pattern_id": "H2-OPP-045",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "ss:정재"
+   ],
+   "support": 45,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-046",
+   "pattern_id": "H2-OPP-046",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "sinsal:백호"
+   ],
+   "support": 49,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-047",
+   "pattern_id": "H2-OPP-047",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "ss:비겁"
+   ],
+   "support": 68,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-048",
+   "pattern_id": "H2-OPP-048",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "relation:해"
+   ],
+   "support": 46,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-049",
+   "pattern_id": "H2-OPP-049",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "sess:정인"
+   ],
+   "support": 25,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-050",
+   "pattern_id": "H2-OPP-050",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "ss:정관"
+   ],
+   "support": 63,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-051",
+   "pattern_id": "H2-OPP-051",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "yongshin:갑목(경작)+병화+계수",
+    "sess:정인"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-052",
+   "pattern_id": "H2-OPP-052",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:식신",
+   "tags": [
+    "dwss:식신",
+    "sess:정재",
+    "dwss:편인",
+    "sinsal:월덕귀인"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-053",
+   "pattern_id": "H2-OPP-053",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "ss:비견",
+    "unsung:병",
+    "dm:을"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-054",
+   "pattern_id": "H2-OPP-054",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "sinsal:귀문관"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-055",
+   "pattern_id": "H2-OPP-055",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "unsung:병"
+   ],
+   "support": 47,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-056",
+   "pattern_id": "H2-OPP-056",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "strength:중화"
+   ],
+   "support": 44,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-057",
+   "pattern_id": "H2-OPP-057",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "unsung:태",
+    "fx:Te_dom",
+    "ss:인성"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-058",
+   "pattern_id": "H2-OPP-058",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "yongshin_el:수",
+    "fx:Fi_aux",
+    "sess:상관"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-059",
+   "pattern_id": "H2-OPP-059",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "tongbyeon:재다신약",
+    "ss:편인",
+    "sinsal:백호"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-060",
+   "pattern_id": "H2-OPP-060",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "unsung:사",
+    "ss:상관",
+    "sinsal:양인"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-061",
+   "pattern_id": "H2-OPP-061",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "dwss:겁재"
+   ],
+   "support": 21,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-062",
+   "pattern_id": "H2-OPP-062",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "ss:정인",
+    "dm:갑",
+    "yongshin:계수(냉각)"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-063",
+   "pattern_id": "H2-OPP-063",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "yongshin_el:금",
+    "ss:관성",
+    "strength:신약"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-064",
+   "pattern_id": "H2-OPP-064",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "yongshin:임수(균형)+경금",
+    "yongshin_el:수",
+    "sess:비견"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-065",
+   "pattern_id": "H2-OPP-065",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정관",
+   "tags": [
+    "dwss:정관",
+    "sinsal:금여록",
+    "ss:관성"
+   ],
+   "support": 11,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-066",
+   "pattern_id": "H2-OPP-066",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "relation:해",
+    "tongbyeon:식상태과"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-067",
+   "pattern_id": "H2-OPP-067",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "sess:정인"
+   ],
+   "support": 37,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-068",
+   "pattern_id": "H2-OPP-068",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "kts:NF",
+    "fx:Fi_dom"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-069",
+   "pattern_id": "H2-OPP-069",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "ss:비견",
+    "dwss:상관",
+    "dm:경"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-070",
+   "pattern_id": "H2-OPP-070",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "sinsal:귀문관",
+    "unsung:절",
+    "gyeokguk:편인격"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-071",
+   "pattern_id": "H2-OPP-071",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "kts:SJ",
+    "gyeokguk:상관격",
+    "dwss:정재"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-072",
+   "pattern_id": "H2-OPP-072",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "fx:Ti_dom",
+    "sess:식신"
+   ],
+   "support": 6,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-073",
+   "pattern_id": "H2-OPP-073",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "strength:신강+",
+    "fx:Se_dom",
+    "unsung:목욕"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-074",
+   "pattern_id": "H2-OPP-074",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "unsung:쇠"
+   ],
+   "support": 42,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-075",
+   "pattern_id": "H2-OPP-075",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "strength:신강+",
+    "sinsal:백호"
+   ],
+   "support": 7,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-076",
+   "pattern_id": "H2-OPP-076",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "sinsal:천덕귀인",
+    "sinsal:학당귀인",
+    "sinsal:역마"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-077",
+   "pattern_id": "H2-OPP-077",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "fx:Ti_aux"
+   ],
+   "support": 20,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-078",
+   "pattern_id": "H2-OPP-078",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정인",
+   "tags": [
+    "dwss:정인",
+    "gyeokguk:편인격",
+    "yongshin:병화(광택)+임수"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-079",
+   "pattern_id": "H2-OPP-079",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "sess:겁재",
+    "unsung:절",
+    "sinsal:역마"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-080",
+   "pattern_id": "H2-OPP-080",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "fx:Te_inf",
+    "unsung:쇠",
+    "fx:Fi_dom"
+   ],
+   "support": 7,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-081",
+   "pattern_id": "H2-OPP-081",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "unsung:목욕"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-082",
+   "pattern_id": "H2-OPP-082",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "sinsal:도화",
+    "sess:식신",
+    "relation:충"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-083",
+   "pattern_id": "H2-OPP-083",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "sinsal:역마",
+    "relation:천간합",
+    "ss:편관"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-084",
+   "pattern_id": "H2-OPP-084",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "unsung:태"
+   ],
+   "support": 43,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-085",
+   "pattern_id": "H2-OPP-085",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "yongshin:병화(제련)+갑목",
+    "yongshin_el:화"
+   ],
+   "support": 2,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-086",
+   "pattern_id": "H2-OPP-086",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "gyeokguk:정관격",
+    "tongbyeon:살인상생",
+    "ss:겁재"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-087",
+   "pattern_id": "H2-OPP-087",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "relation:충"
+   ],
+   "support": 50,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-088",
+   "pattern_id": "H2-OPP-088",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "sinsal:천덕귀인"
+   ],
+   "support": 44,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-089",
+   "pattern_id": "H2-OPP-089",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "dwss:겁재"
+   ],
+   "support": 24,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-090",
+   "pattern_id": "H2-OPP-090",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "fx:Fi_dom",
+    "fx:Se_aux",
+    "fx:Te_inf"
+   ],
+   "support": 10,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-091",
+   "pattern_id": "H2-OPP-091",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:정재",
+   "tags": [
+    "dwss:정재",
+    "ss:정인",
+    "gyeokguk:양인격"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-092",
+   "pattern_id": "H2-OPP-092",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "tongbyeon:재관쌍미"
+   ],
+   "support": 12,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-093",
+   "pattern_id": "H2-OPP-093",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "sinsal:역마"
+   ],
+   "support": 61,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-094",
+   "pattern_id": "H2-OPP-094",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "tongbyeon:비겁태과",
+    "ss:편관",
+    "sinsal:역마"
+   ],
+   "support": 3,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-095",
+   "pattern_id": "H2-OPP-095",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "ss:정관",
+    "dwss:편재",
+    "fx:Fe_dom"
+   ],
+   "support": 2,
+   "strataCell": "극신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-096",
+   "pattern_id": "H2-OPP-096",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "ss:비견"
+   ],
+   "support": 69,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-097",
+   "pattern_id": "H2-OPP-097",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "unsung:병"
+   ],
+   "support": 57,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-098",
+   "pattern_id": "H2-OPP-098",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "fx:Ne_aux",
+    "unsung:관대",
+    "ss:비견"
+   ],
+   "support": 5,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-099",
+   "pattern_id": "H2-OPP-099",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "ss:비겁",
+    "ss:인성",
+    "fx:Fi_inf"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-100",
+   "pattern_id": "H2-OPP-100",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "kts:NF"
+   ],
+   "support": 42,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-101",
+   "pattern_id": "H2-OPP-101",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "yongshin:병화+갑목+계수",
+    "ss:겁재"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-102",
+   "pattern_id": "H2-OPP-102",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "kts:NT",
+    "strength:신약"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-103",
+   "pattern_id": "H2-OPP-103",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "dm:신",
+    "dwss:편인",
+    "fx:Te_inf"
+   ],
+   "support": 1,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-104",
+   "pattern_id": "H2-OPP-104",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편관",
+   "tags": [
+    "dwss:편관",
+    "gyeokguk:식신격"
+   ],
+   "support": 19,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-105",
+   "pattern_id": "H2-OPP-105",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "dm:신",
+    "strength:신강",
+    "tongbyeon:상관패인"
+   ],
+   "support": 1,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-106",
+   "pattern_id": "H2-OPP-106",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "relation:해",
+    "fx:Ni_dom"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-107",
+   "pattern_id": "H2-OPP-107",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "sess:편재",
+    "gyeokguk:양인격",
+    "unsung:쇠"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-108",
+   "pattern_id": "H2-OPP-108",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "fx:Te_dom",
+    "gyeokguk:양인격",
+    "strength:신강"
+   ],
+   "support": 4,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-109",
+   "pattern_id": "H2-OPP-109",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "unsung:병",
+    "ss:비견"
+   ],
+   "support": 22,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-110",
+   "pattern_id": "H2-OPP-110",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "dm:신",
+    "unsung:장생",
+    "ss:식신"
+   ],
+   "support": 6,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-111",
+   "pattern_id": "H2-OPP-111",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "ss:비견"
+   ],
+   "support": 64,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-112",
+   "pattern_id": "H2-OPP-112",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "ss:비겁",
+    "ss:식신"
+   ],
+   "support": 25,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-113",
+   "pattern_id": "H2-OPP-113",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "ss:관성",
+    "dwss:식신"
+   ],
+   "support": 12,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-114",
+   "pattern_id": "H2-OPP-114",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "sinsal:학당귀인",
+    "yongshin_el:화",
+    "dm:임"
+   ],
+   "support": 5,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-115",
+   "pattern_id": "H2-OPP-115",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "sinsal:양인",
+    "sinsal:역마",
+    "ss:편재"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-116",
+   "pattern_id": "H2-OPP-116",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "condition:lack",
+    "sess:겁재"
+   ],
+   "support": 3,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-117",
+   "pattern_id": "H2-OPP-117",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편인",
+   "tags": [
+    "dwss:편인",
+    "condition:excess",
+    "tongbyeon:재성태과"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-118",
+   "pattern_id": "H2-OPP-118",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "sinsal:귀문관",
+    "ss:겁재"
+   ],
+   "support": 17,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-119",
+   "pattern_id": "H2-OPP-119",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "tongbyeon:비겁탈재"
+   ],
+   "support": 26,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-120",
+   "pattern_id": "H2-OPP-120",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "sess:편인"
+   ],
+   "support": 29,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-121",
+   "pattern_id": "H2-OPP-121",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "unsung:제왕",
+    "unsung:병",
+    "fx:Te_dom"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-122",
+   "pattern_id": "H2-OPP-122",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "sinsal:천덕귀인"
+   ],
+   "support": 48,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-123",
+   "pattern_id": "H2-OPP-123",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "sess:편재",
+    "gyeokguk:양인격",
+    "sinsal:백호"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-124",
+   "pattern_id": "H2-OPP-124",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "dm:정",
+    "ss:겁재"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-125",
+   "pattern_id": "H2-OPP-125",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "kts:NF"
+   ],
+   "support": 28,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-126",
+   "pattern_id": "H2-OPP-126",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "fx:Te_aux",
+    "fx:Se_inf"
+   ],
+   "support": 14,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-127",
+   "pattern_id": "H2-OPP-127",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "ss:비겁"
+   ],
+   "support": 75,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-128",
+   "pattern_id": "H2-OPP-128",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "ss:비견",
+    "kts:NF",
+    "unsung:건록"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-129",
+   "pattern_id": "H2-OPP-129",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "ss:편관"
+   ],
+   "support": 58,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-130",
+   "pattern_id": "H2-OPP-130",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "anchor",
+   "anchor": "dwss:편재",
+   "tags": [
+    "dwss:편재",
+    "ss:정재",
+    "relation:천간합"
+   ],
+   "support": 25,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-131",
+   "pattern_id": "H2-OPP-131",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:극신강",
+    "dm:임",
+    "ss:겁재",
+    "fx:Fe_inf"
+   ],
+   "support": 1,
+   "strataCell": "극신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-132",
+   "pattern_id": "H2-OPP-132",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:역마",
+    "sinsal:월덕귀인",
+    "fx:Ne_aux"
+   ],
+   "support": 11,
+   "strataCell": "극신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-133",
+   "pattern_id": "H2-OPP-133",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "tongbyeon:인수생비"
+   ],
+   "support": 32,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-134",
+   "pattern_id": "H2-OPP-134",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_dom",
+    "dm:정"
+   ],
+   "support": 5,
+   "strataCell": "신강",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-135",
+   "pattern_id": "H2-OPP-135",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:제왕",
+    "ss:비겁",
+    "yongshin:병화(제련)+임수"
+   ],
+   "support": 8,
+   "strataCell": "신강",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-136",
+   "pattern_id": "H2-OPP-136",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비겁",
+    "dm:경",
+    "yongshin_el:화"
+   ],
+   "support": 15,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-137",
+   "pattern_id": "H2-OPP-137",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "strength:신강",
+    "yongshin_el:화",
+    "sess:정재"
+   ],
+   "support": 6,
+   "strataCell": "신강",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-138",
+   "pattern_id": "H2-OPP-138",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:양",
+    "ss:관성",
+    "ss:인성"
+   ],
+   "support": 30,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-139",
+   "pattern_id": "H2-OPP-139",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정재",
+    "ss:정인",
+    "ss:상관"
+   ],
+   "support": 12,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-140",
+   "pattern_id": "H2-OPP-140",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sinsal:백호",
+    "dm:무",
+    "yongshin:갑목(소통)+계수"
+   ],
+   "support": 10,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-141",
+   "pattern_id": "H2-OPP-141",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "gyeokguk:편인격",
+    "yongshin:편재(제편인) — 편재로 편인을 제어",
+    "yongshin_type:파격조정"
+   ],
+   "support": 28,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-142",
+   "pattern_id": "H2-OPP-142",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(광택)+임수",
+    "fx:Fi_dom"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-143",
+   "pattern_id": "H2-OPP-143",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "unsung:장생",
+    "unsung:건록"
+   ],
+   "support": 27,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-144",
+   "pattern_id": "H2-OPP-144",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "strength:중화",
+    "fx:Fe_inf"
+   ],
+   "support": 8,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-145",
+   "pattern_id": "H2-OPP-145",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁탈재",
+    "fx:Fi_inf",
+    "unsung:쇠"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-146",
+   "pattern_id": "H2-OPP-146",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "fx:Te_inf",
+    "relation:육합"
+   ],
+   "support": 16,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-147",
+   "pattern_id": "H2-OPP-147",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "dwss:편관",
+    "ss:비겁",
+    "kts:NF"
+   ],
+   "support": 6,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-148",
+   "pattern_id": "H2-OPP-148",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:식상",
+    "fx:Ti_aux",
+    "yongshin:계수(관개)+갑목"
+   ],
+   "support": 3,
+   "strataCell": "중화",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-149",
+   "pattern_id": "H2-OPP-149",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "ss:비견",
+    "unsung:목욕",
+    "gyeokguk:상관격"
+   ],
+   "support": 7,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-150",
+   "pattern_id": "H2-OPP-150",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:관살혼잡",
+    "ss:비견"
+   ],
+   "support": 19,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-151",
+   "pattern_id": "H2-OPP-151",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:재성",
+    "ss:정재"
+   ],
+   "support": 64,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-152",
+   "pattern_id": "H2-OPP-152",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재관쌍미",
+    "sinsal:귀문관"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-153",
+   "pattern_id": "H2-OPP-153",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "strength:신약",
+    "ss:편인",
+    "sinsal:도화"
+   ],
+   "support": 38,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-154",
+   "pattern_id": "H2-OPP-154",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:병",
+    "yongshin_el:화",
+    "tongbyeon:재다신약"
+   ],
+   "support": 4,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-155",
+   "pattern_id": "H2-OPP-155",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:재성",
+    "dwss:정재",
+    "kts:SP"
+   ],
+   "support": 15,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-156",
+   "pattern_id": "H2-OPP-156",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편인",
+    "unsung:제왕",
+    "fx:Ne_dom",
+    "ss:편관"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-157",
+   "pattern_id": "H2-OPP-157",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:관살혼잡",
+    "tongbyeon:재생관살",
+    "unsung:절"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-158",
+   "pattern_id": "H2-OPP-158",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Se_dom",
+    "ss:정관",
+    "sinsal:백호",
+    "strength:신약"
+   ],
+   "support": 9,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-159",
+   "pattern_id": "H2-OPP-159",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "unsung:건록"
+   ],
+   "support": 96,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-160",
+   "pattern_id": "H2-OPP-160",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:비겁태과",
+    "yongshin_el:화",
+    "strength:신약"
+   ],
+   "support": 2,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-161",
+   "pattern_id": "H2-OPP-161",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:NT",
+    "tongbyeon:비겁태과"
+   ],
+   "support": 25,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-162",
+   "pattern_id": "H2-OPP-162",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "relation:충",
+    "sess:정관",
+    "gyeokguk:상관격",
+    "fx:Se_inf"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-163",
+   "pattern_id": "H2-OPP-163",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "tongbyeon:재관쌍미",
+    "ss:재성",
+    "gyeokguk:정관격",
+    "ss:겁재"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-164",
+   "pattern_id": "H2-OPP-164",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:정관",
+    "sinsal:귀문관",
+    "sinsal:월덕귀인"
+   ],
+   "support": 16,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-165",
+   "pattern_id": "H2-OPP-165",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SP",
+    "sess:정인"
+   ],
+   "support": 35,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-166",
+   "pattern_id": "H2-OPP-166",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:묘",
+    "tongbyeon:비겁탈재",
+    "ss:정재",
+    "ss:비겁"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-167",
+   "pattern_id": "H2-OPP-167",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "unsung:제왕",
+    "sinsal:금여록"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-168",
+   "pattern_id": "H2-OPP-168",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "yongshin:병화(해동)",
+    "ss:재성"
+   ],
+   "support": 8,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-169",
+   "pattern_id": "H2-OPP-169",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "dm:계",
+    "tongbyeon:비겁탈재",
+    "unsung:태"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-170",
+   "pattern_id": "H2-OPP-170",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "kts:SJ",
+    "gyeokguk:정재격",
+    "strength:신약",
+    "ss:식신"
+   ],
+   "support": 3,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-171",
+   "pattern_id": "H2-OPP-171",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "sess:상관",
+    "sinsal:학당귀인"
+   ],
+   "support": 28,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-172",
+   "pattern_id": "H2-OPP-172",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:갑목(연료)+임수",
+    "ss:정관",
+    "dwss:정재",
+    "fx:Fi_inf"
+   ],
+   "support": 1,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-173",
+   "pattern_id": "H2-OPP-173",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "fx:Te_aux",
+    "yongshin_el:목"
+   ],
+   "support": 30,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-174",
+   "pattern_id": "H2-OPP-174",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:계수(냉각)+경금",
+    "sess:식신",
+    "unsung:사"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-175",
+   "pattern_id": "H2-OPP-175",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "condition:lack",
+    "kts:NF",
+    "yongshin_el:목",
+    "gyeokguk:편관격"
+   ],
+   "support": 1,
+   "strataCell": "극신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-176",
+   "pattern_id": "H2-OPP-176",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "condition:excess"
+   ],
+   "support": 60,
+   "strataCell": "극신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-177",
+   "pattern_id": "H2-OPP-177",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "ss:정관",
+    "yongshin_el:화",
+    "strength:극신약"
+   ],
+   "support": 16,
+   "strataCell": "극신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-178",
+   "pattern_id": "H2-OPP-178",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "unsung:태",
+    "dm:임",
+    "fx:Si_inf"
+   ],
+   "support": 4,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-179",
+   "pattern_id": "H2-OPP-179",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "general",
+   "anchor": null,
+   "tags": [
+    "yongshin:병화(해동)+갑목",
+    "gyeokguk:정재격"
+   ],
+   "support": 8,
+   "strataCell": "극신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-180",
+   "pattern_id": "H2-OPP-180",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:관성(제겁재) — 관성으로 겁재를 제어하여 재성 보호",
+    "sinsal:학당귀인"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-181",
+   "pattern_id": "H2-OPP-181",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Se_dom",
+    "yongshin:임수(세척)+계수"
+   ],
+   "support": 2,
+   "strataCell": "중화",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-182",
+   "pattern_id": "H2-OPP-182",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sinsal:금여록",
+    "gyeokguk:편재격"
+   ],
+   "support": 19,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-183",
+   "pattern_id": "H2-OPP-183",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "strength:극신약",
+    "fx:Si_aux"
+   ],
+   "support": 16,
+   "strataCell": "극신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-184",
+   "pattern_id": "H2-OPP-184",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "sess:편재",
+    "fx:Te_inf"
+   ],
+   "support": 24,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-185",
+   "pattern_id": "H2-OPP-185",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "unsung:관대",
+    "fx:Fe_aux"
+   ],
+   "support": 25,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-186",
+   "pattern_id": "H2-OPP-186",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편재",
+    "dm:정"
+   ],
+   "support": 43,
+   "strataCell": "신약",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-187",
+   "pattern_id": "H2-OPP-187",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:비견",
+    "ss:겁재"
+   ],
+   "support": 116,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-188",
+   "pattern_id": "H2-OPP-188",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_aux",
+    "strength:신강+"
+   ],
+   "support": 14,
+   "strataCell": "신강",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-189",
+   "pattern_id": "H2-OPP-189",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:인성",
+    "ss:정인"
+   ],
+   "support": 173,
+   "strataCell": "중화",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-190",
+   "pattern_id": "H2-OPP-190",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "relation:육합",
+    "condition:교운기"
+   ],
+   "support": 72,
+   "strataCell": "신약",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-191",
+   "pattern_id": "H2-OPP-191",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin_el:수",
+    "unsung:사"
+   ],
+   "support": 67,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-192",
+   "pattern_id": "H2-OPP-192",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "yongshin:식신(제살) — 식신으로 편관을 제어해야 안정",
+    "yongshin_type:파격조정"
+   ],
+   "support": 7,
+   "strataCell": "신약",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-193",
+   "pattern_id": "H2-OPP-193",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:관성",
+    "gyeokguk:편관격"
+   ],
+   "support": 53,
+   "strataCell": "신약",
+   "format": "시간서사",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-194",
+   "pattern_id": "H2-OPP-194",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "fx:Fe_inf"
+   ],
+   "support": 45,
+   "strataCell": "신약",
+   "format": "반박라운드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-195",
+   "pattern_id": "H2-OPP-195",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "fx:Fe_dom",
+    "sinsal:귀문관"
+   ],
+   "support": 27,
+   "strataCell": "중화",
+   "format": "하이브리드",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-196",
+   "pattern_id": "H2-OPP-196",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:겁재",
+    "fx:Fi_aux"
+   ],
+   "support": 53,
+   "strataCell": "신강",
+   "format": "장면",
+   "structure": "debate"
+  },
+  {
+   "order_id": "OPP-197",
+   "pattern_id": "H2-OPP-197",
+   "subject": "기회의 시기",
+   "tier": "T1",
+   "kind": "coverage-fill",
+   "anchor": null,
+   "tags": [
+    "ss:편관",
+    "sess:정재"
+   ],
+   "support": 106,
+   "strataCell": "중화",
+   "format": "쌍둥이대조",
+   "structure": "debate"
+  }
+ ]
+}
