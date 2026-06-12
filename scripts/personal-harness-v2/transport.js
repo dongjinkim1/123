@@ -40,17 +40,27 @@ function opusForbidden() {
   return !fs.existsSync(flag);
 }
 
+// claude 바이너리 탐지 — 현 환경은 네이티브 exe(.local\bin\claude.exe), 구 npm 설치(.cmd)는 shell 필요
+var CLAUDE_BIN = (function () {
+  var exe = path.join(process.env.USERPROFILE || '', '.local', 'bin', 'claude.exe');
+  if (fs.existsSync(exe)) return { bin: exe, shell: false };
+  return { bin: 'claude.cmd', shell: true }; // 폴백 — 인자 고정 화이트리스트라 셸 리스크 없음
+})();
+
 // 1회 spawn. systemHint+payload는 stdin으로 (Windows argv 32KB 제한 회피).
 function spawnOnce(prompt, opts) {
   var args = ['-p', '--model', MODEL];
   if (opts && opts.resumeSession) args.push('--resume', opts.resumeSession);
   if (opts && opts.captureSession) args.push('--output-format', 'json');
-  var r = cp.spawnSync('claude.cmd', args, {
+  var r = cp.spawnSync(CLAUDE_BIN.bin, args, {
     input: prompt, encoding: 'utf8', timeout: CALL_TIMEOUT_MS,
-    cwd: 'C:\\tmp', shell: false, windowsHide: true,
+    cwd: 'C:\\tmp', shell: CLAUDE_BIN.shell, windowsHide: true,
     maxBuffer: 16 * 1024 * 1024
   });
-  if (r.error && r.error.code === 'ETIMEDOUT') return { ok: false, out: '', err: 'TIMEOUT' };
+  if (r.error && (r.error.code === 'ETIMEDOUT' || /ETIMEDOUT/.test(String(r.error)))) {
+    return { ok: false, out: '', err: 'TIMEOUT' };
+  }
+  if (r.error) return { ok: false, out: '', err: String(r.error.code || r.error) };
   var out = (r.stdout || '').trim();
   var err = (r.stderr || '').trim();
   if (r.status !== 0 && !out) return { ok: false, out: out, err: err || ('exit ' + r.status) };
