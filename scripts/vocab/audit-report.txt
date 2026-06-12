@@ -1,0 +1,184 @@
+═══ matching-audit 리포트 — 2026-06-12 ═══
+모집단 800명 (시드 20260613, baseYear 2026, 엔진 1fca697)
+
+── 1a. 패턴측 죽은 태그 (premium 사용 태그 중 800명 보유 0) ──
+premium 태그 종수 112 / 죽은 태그 36종
+※ [모집단한계] = intensities=null인 본 모집단에서만 죽음(실유저는 방출) / 그 외 = 구조적 죽음(buildUserTags 미방출)
+  condition:패격 (패턴 슬롯 6개) [서버 gg에 isPagyeok 필드 부재 — analyzeGyeokguk 반환은 pagyeokInfo뿐]
+  intensity:88 (패턴 슬롯 6개) [모집단한계]
+  ref:MT_ANGER (패턴 슬롯 13개)
+  ref:MT_AXES (패턴 슬롯 17개)
+  ref:MT_CAREER (패턴 슬롯 7개)
+  ref:MT_CONFLICT (패턴 슬롯 17개)
+  ref:MT_DECISION (패턴 슬롯 15개)
+  ref:MT_FRIENDSHIP (패턴 슬롯 2개)
+  ref:MT_INTERACTION_STYLES (패턴 슬롯 12개)
+  ref:MT_LOVE (패턴 슬롯 27개)
+  ref:MT_MATURITY (패턴 슬롯 8개)
+  ref:MT_MONEY (패턴 슬롯 5개)
+  ref:MT_RELATION (패턴 슬롯 6개)
+  ref:MT_SELFCARE (패턴 슬롯 4개)
+  ref:MT_SOCIAL (패턴 슬롯 4개)
+  ref:MT_TEMPERAMENTS (패턴 슬롯 16개)
+  stress:grip (패턴 슬롯 9개) [모집단한계]
+  stress:loop (패턴 슬롯 10개) [모집단한계]
+  temperament:SJ (패턴 슬롯 1개) [방출버그 — substring(1,3)이 S기질 미포착: ISTJ→"ST"≠SJ. 런타임 RO라 보고만]
+  temperament:SP (패턴 슬롯 1개) [방출버그 — substring(1,3)이 S기질 미포착: ISTJ→"ST"≠SJ. 런타임 RO라 보고만]
+  uses:development (패턴 슬롯 12개)
+  uses:gaeun (패턴 슬롯 17개)
+  uses:gongmang (패턴 슬롯 5개)
+  uses:gunghap (패턴 슬롯 4개)
+  uses:intensity (패턴 슬롯 14개) [모집단한계]
+  uses:job (패턴 슬롯 24개)
+  uses:mistype (패턴 슬롯 5개)
+  uses:mulsang (패턴 슬롯 9개)
+  uses:napeum (패턴 슬롯 6개)
+  uses:sewoon (패턴 슬롯 37개)
+  uses:shadow (패턴 슬롯 10개)
+  uses:sipsung_rel (패턴 슬롯 23개)
+  uses:taekil (패턴 슬롯 3개)
+  uses:tuchul (패턴 슬롯 6개)
+  uses:wolun (패턴 슬롯 11개)
+  uses:yinyang (패턴 슬롯 5개)
+
+── 1b. 유저측 죽은 태그 (방출되나 premium 패턴 매칭 0) ──
+유저 방출 태그 종수 285 / 죽은 태그(기존 평면) 160종
+  그중 yongshin: 자유 문자열 99종 — W3 죽은 태그 재현 확인
+  cf:Ni (보유 387명)
+  cf:Se (보유 387명)
+  cf:Si (보유 413명)
+  cf:Te (보유 421명)
+  cf:Ti (보유 379명)
+  dm:갑 (보유 79명)
+  dm:경 (보유 69명)
+  dm:계 (보유 82명)
+  dm:무 (보유 85명)
+  dm:병 (보유 80명)
+  dm:신 (보유 88명)
+  dm:을 (보유 66명)
+  dm:임 (보유 83명)
+  dm:정 (보유 81명)
+  gyeokguk:갑기합화토격 (보유 2명)
+  gyeokguk:건록격 (보유 76명)
+  gyeokguk:무계합화화격 (보유 2명)
+  gyeokguk:양인격 (보유 92명)
+  gyeokguk:정관격 (보유 84명)
+  gyeokguk:정인격 (보유 67명)
+  gyeokguk:정임합화목격 (보유 3명)
+  gyeokguk:종강격 (보유 1명)
+  gyeokguk:종살격 (보유 1명)
+  gyeokguk:종아격 (보유 1명)
+  gyeokguk:종재격 (보유 2명)
+  gyeokguk:편관격 (보유 81명)
+  gyeokguk:편인격 (보유 88명)
+  gyeokguk:편재격 (보유 82명)
+  relation:육합 (보유 303명)
+  sinsal:귀문관 (보유 187명)
+  sinsal:금여록 (보유 210명)
+  sinsal:문창귀인 (보유 384명)
+  sinsal:백호 (보유 264명)
+  sinsal:월덕귀인 (보유 278명)
+  sinsal:천덕귀인 (보유 240명)
+  sinsal:학당귀인 (보유 252명)
+  ss:비견 (보유 332명)
+  ss:정인 (보유 275명)
+  ss:편인 (보유 348명)
+  strength:신강 (보유 106명)
+  strength:신약 (보유 349명)
+  temperament:NF (보유 180명)
+  temperament:NT (보유 206명)
+  tongbyeon:관성태과 (보유 19명)
+  tongbyeon:비겁태과 (보유 89명)
+  tongbyeon:상관견관 (보유 36명)
+  tongbyeon:상관패인 (보유 87명)
+  tongbyeon:식상태과 (보유 24명)
+  tongbyeon:인성태과 (보유 34명)
+  tongbyeon:재생관살 (보유 28명)
+  unsung:건록 (보유 221명)
+  unsung:관대 (보유 242명)
+  unsung:목욕 (보유 225명)
+  unsung:묘 (보유 239명)
+  unsung:병 (보유 257명)
+  unsung:쇠 (보유 217명)
+  unsung:장생 (보유 252명)
+  unsung:제왕 (보유 254명)
+  yongshin_type:조후 (보유 612명)
+  yongshin_type:종격 (보유 5명)
+  yongshin_type:파격조정 (보유 183명)
+신규 4축 태그(패턴 미공급 — ②가 공급 예정인 의도 상태) 49종: 생략
+
+── 2. 신규 4축 커버리지 ──
+[dwss] 10칸, 보유자 0 칸 0개
+  dwss:겁재 = 150명 (18.8%)
+  dwss:비견 = 157명 (19.6%)
+  dwss:상관 = 149명 (18.6%)
+  dwss:식신 = 145명 (18.1%)
+  dwss:정관 = 134명 (16.8%)
+  dwss:정인 = 160명 (20.0%)
+  dwss:정재 = 150명 (18.8%)
+  dwss:편관 = 156명 (19.5%)
+  dwss:편인 = 143명 (17.9%)
+  dwss:편재 = 152명 (19.0%)
+[sess] 10칸, 보유자 0 칸 0개
+  sess:겁재 = 161명 (20.1%)
+  sess:비견 = 161명 (20.1%)
+  sess:상관 = 145명 (18.1%)
+  sess:식신 = 145명 (18.1%)
+  sess:정관 = 157명 (19.6%)
+  sess:정인 = 172명 (21.5%)
+  sess:정재 = 165명 (20.6%)
+  sess:편관 = 157명 (19.6%)
+  sess:편인 = 172명 (21.5%)
+  sess:편재 = 165명 (20.6%)
+[fx] 24칸, 보유자 0 칸 0개
+  fx:Fe_aux = 90명 (11.3%)
+  fx:Fe_dom = 95명 (11.9%)
+  fx:Fe_inf = 98명 (12.3%)
+  fx:Fi_aux = 117명 (14.6%)
+  fx:Fi_dom = 100명 (12.5%)
+  fx:Fi_inf = 103명 (12.9%)
+  fx:Ne_aux = 111명 (13.9%)
+  fx:Ne_dom = 94명 (11.8%)
+  fx:Ne_inf = 100명 (12.5%)
+  fx:Ni_aux = 90명 (11.3%)
+  fx:Ni_dom = 91명 (11.4%)
+  fx:Ni_inf = 119명 (14.9%)
+  fx:Se_aux = 87명 (10.9%)
+  fx:Se_dom = 119명 (14.9%)
+  fx:Se_inf = 91명 (11.4%)
+  fx:Si_aux = 108명 (13.5%)
+  fx:Si_dom = 100명 (12.5%)
+  fx:Si_inf = 94명 (11.8%)
+  fx:Te_aux = 101명 (12.6%)
+  fx:Te_dom = 103명 (12.9%)
+  fx:Te_inf = 100명 (12.5%)
+  fx:Ti_aux = 96명 (12.0%)
+  fx:Ti_dom = 98명 (12.3%)
+  fx:Ti_inf = 95명 (11.9%)
+[yongshin_el] 5칸, 보유자 0 칸 0개
+  yongshin_el:금 = 133명 (16.6%)
+  yongshin_el:목 = 183명 (22.9%)
+  yongshin_el:수 = 224명 (28.0%)
+  yongshin_el:토 = 17명 (2.1%)
+  yongshin_el:화 = 243명 (30.4%)
+[axis] axis:EI axis:JP axis:SN axis:TF — 전원 보유(변별 0), mbtiaxis 판정: axis-fixed-4-registered--mbtiaxis-deferred
+
+── 3. T1 시기성 4종 × 800명 matchPatterns(limit 5) 시뮬 ──
+generic-fill률 = top5 슬롯 중 spec-hit 아닌(specific 0매칭·빈) 슬롯 비율 — F1 잣대
+
+[대운 흐름] (premium 풀 8패턴)
+  전(기존 태그): generic-fill 62.8% | spec-hit≥1 유저 91.0% | ≥2 유저 58.1%
+  후(신규 포함): generic-fill 62.8% | spec-hit≥1 유저 91.0% | ≥2 유저 58.1%
+[올해 키워드] (premium 풀 13패턴)
+  전(기존 태그): generic-fill 41.5% | spec-hit≥1 유저 96.1% | ≥2 유저 83.1%
+  후(신규 포함): generic-fill 41.5% | spec-hit≥1 유저 96.1% | ≥2 유저 83.1%
+[올해 조언] (premium 풀 5패턴)
+  전(기존 태그): generic-fill 86.9% | spec-hit≥1 유저 65.6% | ≥2 유저 0.0%
+  후(신규 포함): generic-fill 86.9% | spec-hit≥1 유저 65.6% | ≥2 유저 0.0%
+[기회의 시기] (premium 풀 16패턴)
+  전(기존 태그): generic-fill 27.5% | spec-hit≥1 유저 96.4% | ≥2 유저 86.9%
+  후(신규 포함): generic-fill 27.5% | spec-hit≥1 유저 96.4% | ≥2 유저 86.9%
+
+전/후 결과 동일 3200/3200 — 패턴측 신규 태그 0이므로 동일=정상(라이브 회귀 0).
+해석: 신규 축은 유저측 준비 완료 — generic-fill 해소는 ②의 패턴 공급(앵커 큐)이 담당.
+F1 베이스라인 갱신치는 위 "전" 수치. ③ 매칭 v3는 본 리포트의 죽은 태그 목록을 인계받는다.
