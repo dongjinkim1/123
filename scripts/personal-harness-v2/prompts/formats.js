@@ -63,7 +63,9 @@ function sweepPrompt(parentMechanism, swappedTags, cards) {
     '이번 조건: [' + swappedTags.join(' + ') + ']\n\n' + cardBlock(cards, null) +
     '\n이 조건에서 위 메커니즘은 발현/변형/소멸/역전 중 무엇인가 — 소멸이면 소멸을 선언하라.\n\n' +
     '## 최종 산출 (JSON 하나만)\n' +
-    '발현·변형·역전: {"name":"…","mechanism":"이 조건에서의 메커니즘","scene":"…","falsify":"…","tags":[…]}\n' +
+    '발현·변형·역전: {"name":"…","mechanism":"이 조건에서의 메커니즘","scene":"…","falsify":"…","tags":' +
+    JSON.stringify(swappedTags) + '}\n' +
+    '(tags는 위 조건 태그를 그대로 사용 — 임의 키워드 금지)\n' +
     '소멸: {"소멸선언":true,"사유":"이 조건에서 성립하지 않는 이유 1줄"}';
 }
 

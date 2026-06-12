@@ -100,6 +100,8 @@ function processOrder(order, st, isPilot) {
       : db.runDebate(order, sample.cards, sample.twins, call, corr));
 
   var out = run.output;
+  // 파생 조건 태그는 치환 조합으로 고정(D11 §4) — LLM 자유 키워드 차단 (코드 강제)
+  if (isSweep && out && !out['소멸선언']) out.tags = order.tags.slice();
   var invalid = db.validOutput(out);
   if (invalid && out && out['소멸선언']) invalid = null;
   if (invalid) { decide(st, order, { decision: 'reject', reason: '산출 가드: ' + invalid }, null, isPilot); return; }

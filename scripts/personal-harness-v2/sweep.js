@@ -14,7 +14,8 @@ var AXIS_PATTERNS = [
   { axis: 'cf', re: /\b(Ni|Ne|Si|Se|Ti|Te|Fi|Fe)\b/ },
   { axis: 'kts', re: /\b(NF|NT|SJ|SP)\b|기질/ },
   { axis: 'dwss', re: /대운/ },
-  { axis: 'sess', re: /세운|올해의? 운|올해 운/ },
+  // 'XX년' = 세운 십성 표현 (파일럿 실측 — "같은 겁재년이라도" 류)
+  { axis: 'sess', re: /세운|올해의? 운|올해 운|(비견|겁재|식신|상관|편재|정재|편관|정관|편인|정인)년/ },
   { axis: 'yongshin_el', re: /용신/ }
 ];
 
@@ -75,6 +76,15 @@ function trigger(parentRecord, tdf, codes, log) {
   if (!parentTag) { log('[sweep] 부모 태그에 축 부재(' + parsed.axis + ') — 스킵: ' + parentRecord.id); return { queued: 0, reason: '부모 태그에 축 없음' }; }
 
   var sq = loadSweepQueue();
+  // 중복 적재 가드 — 재기동·재시도 시 같은 부모의 파생군이 이중 생성되는 것 방지
+  var existing = sq.families.filter(function (f) { return f.parent === parentRecord.id; })[0];
+  if (existing) {
+    var pending = sq.orders.filter(function (o) {
+      return o.derived_from === parentRecord.id && !o.skipped && existing.done.indexOf(o.order_id) < 0;
+    }).length;
+    log('[sweep] 기적재 파생군 재사용: ' + parentRecord.id + ' (미완료 ' + pending + '칸)');
+    return { queued: pending, axis: existing.axis, reused: true };
+  }
   var code = codes[parentRecord.subject];
   var family = { parent: parentRecord.id, axis: parsed.axis, subject: parentRecord.subject,
     cells: [], done: [], results: [] };

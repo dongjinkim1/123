@@ -29,9 +29,15 @@ function log(s) { logs.push(s); }
 })();
 
 // ── TC-12·18: 파생 주문서 생성 + 1세대 가드 ──
+// 실 운영 state 보호: 기존 sweep_queue를 백업하고 테스트 후 복원 (파일럿 오염 사고 재발 방지)
+var sqPath = path.join(STATE, 'sweep_queue.json');
+var sqBackup = fs.existsSync(sqPath) ? fs.readFileSync(sqPath, 'utf8') : null;
+process.on('exit', function () {
+  if (sqBackup != null) fs.writeFileSync(sqPath, sqBackup, 'utf8');
+  else if (fs.existsSync(sqPath)) fs.unlinkSync(sqPath);
+});
 (function () {
   var before = fails.length;
-  var sqPath = path.join(STATE, 'sweep_queue.json');
   if (fs.existsSync(sqPath)) fs.unlinkSync(sqPath);
   var parent = { id: 'H2-YAD-001', subject: '올해 조언', tier: 'S',
     tags: ['strength:신약', 'ss:비겁', 'dwss:정인'], falsify: '신강이면 아님',
