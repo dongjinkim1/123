@@ -31,6 +31,12 @@ function isRateLimited(text) {
   return /rate.?limit|overloaded|429|quota|exceeded|too many requests|usage limit/i.test(text || '');
 }
 
+// 모델 미가용 감지 (하드 정지 2호) — CC가 exit 0 + rate limit 아닌 안내 텍스트를 반환하므로
+// 이걸 못 잡으면 JSON 파싱만 실패해 무한 가짜 reject 루프(쿼터 출혈)가 됨. 2026-06-13 실측 버그.
+function isModelUnavailable(text) {
+  return /issue with the selected model|may not exist or you may not have access|--model to pick a different model/i.test(text || '');
+}
+
 // QuotaWaitError — harness2가 잡아 저장→대기→재개
 function QuotaWaitError(msg) { var e = new Error(msg); e.code = 'QUOTA_WAIT'; return e; }
 
@@ -84,6 +90,13 @@ function call(role, prompt, opts) {
   var r = spawnOnce(prompt, sessOpt);
   var ms = Date.now() - t0;
 
+  // 하드 정지 2호: fable 미가용 — 재시도·reject 루프 금지, 즉시 throw (opus 자동 폴백 금지)
+  if (isModelUnavailable(r.out) || isModelUnavailable(r.err)) {
+    var em = new Error('MODEL_UNAVAILABLE: ' + MODEL + ' — ' + (r.out || r.err).slice(0, 160));
+    em.code = 'MODEL_UNAVAILABLE';
+    throw em;
+  }
+
   if (!r.ok || isRateLimited(r.out) || isRateLimited(r.err)) {
     if (isRateLimited(r.out) || isRateLimited(r.err)) {
       q.rateLimitHits++; saveQuota(q);
@@ -136,4 +149,4 @@ function ping() {
 
 module.exports = { call: call, ping: ping, uploadOrDefer: uploadOrDefer,
   loadQuota: loadQuota, estTokens: estTokens, isRateLimited: isRateLimited,
-  MODEL: MODEL, _sessions: sessions };
+  isModelUnavailable: isModelUnavailable, MODEL: MODEL, _sessions: sessions };

@@ -242,6 +242,13 @@ function main() {
     process.exit(0);
   } catch (e) {
     saveJSON('harness_state.json', st);
+    if (e && e.code === 'MODEL_UNAVAILABLE') {
+      // 하드 정지 2호 — fable 미가용. opus 자동 폴백 금지(C22·§0-α 품질 불변).
+      // 코드 9 = launcher 재기동 제외(무한 가짜 reject로 쿼터 태우는 것 방지).
+      aLog('[하드 정지 2호] ' + e.message + ' — 코드9 정지. opus 자동 폴백 금지(동진 승인 필요).');
+      console.error('HARD-STOP(9): ' + e.message);
+      process.exit(9);
+    }
     if (e && e.code === 'QUOTA_WAIT') {
       aLog('[rate limit] 저장 후 대기 종료(코드 7) — launcher가 1시간 후 재기동');
       var rl = loadJSON('ratelimit.json', { since: now() });
