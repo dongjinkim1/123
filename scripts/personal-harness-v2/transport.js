@@ -10,8 +10,19 @@ var cp = require('child_process');
 var ai = require(path.join(__dirname, '..', '..', 'lib', 'ai-client.js'));
 
 var STATE = path.join(__dirname, 'state');
-var MODEL = 'claude-fable-5';
+// 2026-06-13: fable-5 정부 차단 영구 불가 → 동진 정식 승인으로 opus-4-8 전환(§0-α D8).
+var MODEL = 'claude-opus-4-8';
 var CALL_TIMEOUT_MS = 240000;
+
+// 구독(CC/Max) 쿼터 전용 — API 키 종량 과금 폴백 절대 금지(동진 지시 2026-06-13).
+// claude.exe가 ANTHROPIC_API_KEY를 발견하면 종량 과금하므로 spawn env에서 제거 → OAuth만.
+var SUBSCRIPTION_ENV = (function () {
+  var e = Object.assign({}, process.env);
+  delete e.ANTHROPIC_API_KEY;
+  delete e.ANTHROPIC_AUTH_TOKEN;
+  delete e.CLAUDE_API_KEY;
+  return e;
+})();
 var QUOTA_FILE = path.join(STATE, 'quota.json');
 
 // 역할별 CLI 세션 id 저장 (전략 a용) — 같은 fable이라도 페르소나 세션 공유 금지
@@ -61,7 +72,7 @@ function spawnOnce(prompt, opts) {
   var r = cp.spawnSync(CLAUDE_BIN.bin, args, {
     input: prompt, encoding: 'utf8', timeout: CALL_TIMEOUT_MS,
     cwd: 'C:\\tmp', shell: CLAUDE_BIN.shell, windowsHide: true,
-    maxBuffer: 16 * 1024 * 1024
+    maxBuffer: 16 * 1024 * 1024, env: SUBSCRIPTION_ENV
   });
   if (r.error && (r.error.code === 'ETIMEDOUT' || /ETIMEDOUT/.test(String(r.error)))) {
     return { ok: false, out: '', err: 'TIMEOUT' };
