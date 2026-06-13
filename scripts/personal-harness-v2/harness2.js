@@ -14,13 +14,21 @@ var bg = require('./balance-guard.js');
 var ob = require('./observer/observer.js');
 var sw = require('./sweep.js');
 
-var STATE = path.join(__dirname, 'state');
+var SHARED = path.join(__dirname, 'state');                                     // 동결 자산 읽기(큐·subj_codes·캘리브)
+var STATE = process.env.H2_STATE ? path.resolve(process.env.H2_STATE) : SHARED; // 워커별 쓰기(저널·채택·전사·스윕…)
+if (STATE !== SHARED && !fs.existsSync(STATE)) fs.mkdirSync(STATE, { recursive: true });
 var LIB = path.join(__dirname, '..', '..', 'lib');
 var tdf = JSON.parse(fs.readFileSync(path.join(LIB, 'tag-df.json'), 'utf8'));
-var codes = JSON.parse(fs.readFileSync(path.join(STATE, 'subj_codes.json'), 'utf8'));
+var codes = JSON.parse(fs.readFileSync(path.join(SHARED, 'subj_codes.json'), 'utf8'));
 var ORDER_T = ['T1', 'T2', 'T3'];
 var CP_EVERY = 30;
 var INTERLEAVE = 5; // 메인 5 : 사이드 1 (§0-α 기본값)
+// 병렬 워커: 담당 소주제만 처리(--subjects "OPP,YAD" = 소주제 코드, ASCII로 bat 인코딩 안전).
+// 미지정 = 전체(단일 워커 = 기존 동작)
+var SUBJECT_FILTER = (function () {
+  var i = process.argv.indexOf('--subjects');
+  return (i >= 0 && process.argv[i + 1]) ? process.argv[i + 1].split(',').map(function (s) { return s.trim(); }) : null;
+})();
 
 function now() { return new Date().toISOString().slice(0, 16).replace('T', ' '); }
 function aLog(line) { fs.appendFileSync(path.join(STATE, 'auto_decisions.log'), '[' + now() + ']' + line + '\n', 'utf8'); }
@@ -178,10 +186,14 @@ function journal(st, order, decision, reason) {
 }
 
 // ── 큐 적재·재개 ──
+function loadShared(f, dflt) {
+  try { return JSON.parse(fs.readFileSync(path.join(SHARED, f), 'utf8')); } catch (e) { return dflt; }
+}
 function loadQueues(pilot) {
   var all = [];
   Object.keys(codes).forEach(function (subj) {
-    var q = loadJSON('queue_' + codes[subj] + '.json', null);
+    if (!pilot && SUBJECT_FILTER && SUBJECT_FILTER.indexOf(codes[subj]) < 0) return; // 워커 담당 코드만(병렬)
+    var q = loadShared('queue_' + codes[subj] + '.json', null);              // 큐는 SHARED(동결)에서 읽음
     if (q) all.push(q);
   });
   all.sort(function (a, b) { return ORDER_T.indexOf(a.tier) - ORDER_T.indexOf(b.tier); });

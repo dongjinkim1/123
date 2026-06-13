@@ -9,7 +9,8 @@ var path = require('path');
 var cp = require('child_process');
 var ai = require(path.join(__dirname, '..', '..', 'lib', 'ai-client.js'));
 
-var STATE = path.join(__dirname, 'state');
+// 워커별 quota·pending·flag 격리: H2_STATE env로 STATE 오버라이드(미지정=기존 단일 경로)
+var STATE = process.env.H2_STATE ? path.resolve(process.env.H2_STATE) : path.join(__dirname, 'state');
 // 2026-06-13: fable-5 정부 차단 영구 불가 → 동진 정식 승인으로 opus-4-8 전환(§0-α D8).
 var MODEL = 'claude-opus-4-8';
 var CALL_TIMEOUT_MS = 240000;

@@ -4,7 +4,9 @@
 
 var fs = require('fs');
 var path = require('path');
-var OBS_DIR = path.join(__dirname, '..', 'state', 'observer');
+// 워커별 observer 산출 격리: H2_STATE env로 STATE 오버라이드(미지정=기존 단일 경로)
+var STATE = process.env.H2_STATE ? path.resolve(process.env.H2_STATE) : path.join(__dirname, '..', 'state');
+var OBS_DIR = path.join(STATE, 'observer');
 
 function summarizeBatch(records) {
   return records.map(function (r) {

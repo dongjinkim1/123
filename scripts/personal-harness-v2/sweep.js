@@ -5,7 +5,8 @@
 
 var fs = require('fs');
 var path = require('path');
-var STATE = path.join(__dirname, 'state');
+// 워커별 sweep_queue 격리: H2_STATE env로 STATE 오버라이드(미지정=기존 단일 경로)
+var STATE = process.env.H2_STATE ? path.resolve(process.env.H2_STATE) : path.join(__dirname, 'state');
 var SWEEP_TIER_MIN = 'S'; // A 확장은 자동 변경 금지(§0-α — 귀가 후 결정)
 
 // falsify 서술 → 축 식별 (서술 내 첫 등장 위치 기준 — 복수 축은 첫 축만+잔여 로그)
