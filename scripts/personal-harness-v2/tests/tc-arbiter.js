@@ -118,8 +118,22 @@ var goodOut = { name: '테스트 패턴', mechanism: '조건 조합이 만드는
   console.log('[TC-20] 융화 가드(H2·기존 충돌·legacy prefilter): ' + (fails.length === before ? 'PASS' : 'FAIL'));
 })();
 
+// ── TC-13c: 스윕 파생 family_id = derived_from (③ 다양성 페널티 키 — 2026-06-13 fix) ──
+(function () {
+  var before = fails.length;
+  var sweepOrder = Object.assign({}, order, { pattern_id: 'H2-OPP-777', derived_from: 'H2-OPP-001', sweep_axis: 'sess' });
+  var r = ar.judge(sweepOrder, goodOut, cards, [], tdf, mockCall({ verdict: '통과', tier: 'A', impact: 7 }));
+  check('TC-13c', r.decision === 'accept' && r.record.family_id === 'H2-OPP-001' && r.record.derived_from === 'H2-OPP-001',
+    'family_id=' + (r.record && r.record.family_id) + ' derived_from=' + (r.record && r.record.derived_from));
+  // 4자리 seq id도 통과해야 함 (스윕 seq 1000+ 잠복버그 fix)
+  var bigOrder = Object.assign({}, order, { pattern_id: 'H2-OPP-1003' });
+  var r2 = ar.judge(bigOrder, goodOut, cards, [], tdf, mockCall({ verdict: '통과', tier: 'B', impact: 6 }));
+  check('TC-13c-id4', r2.decision === 'accept', '4자리 id 반려됨: ' + (r2.reason || ''));
+  console.log('[TC-13c] 스윕 family_id=부모 + 4자리 id 허용: ' + (fails.length === before ? 'PASS' : 'FAIL'));
+})();
+
 if (fails.length) {
   console.log('\nFAIL:'); fails.forEach(function (f) { console.log('  ✗ ' + f); });
   process.exit(1);
 }
-console.log('전체 PASS (TC-4·5·6·13·15·19·20)');
+console.log('전체 PASS (TC-4·5·6·13·15·19·20 + 13c)');

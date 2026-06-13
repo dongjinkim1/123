@@ -94,7 +94,8 @@ function judge(order, output, cards, accepted, tdf, callFn) {
   if (!(typeof v.impact === 'number' && v.impact >= 1 && v.impact <= 10 && v.impact % 1 === 0)) {
     return { decision: 'reject', reason: 'impact 1~10 정수 미부여 — 채택 차단(TC-19)', coded: true };
   }
-  if (!/^H2-[A-Z]{3}-\d{3}$/.test(order.pattern_id)) {
+  if (!/^H2-[A-Z]{3}-\d{3,}$/.test(order.pattern_id)) {
+    // \d{3,}: 스윕 seq가 1000+로 넘어가도 허용(전 소주제 공유 seq라 4자리 도달 가능)
     return { decision: 'reject', reason: 'id 네임스페이스 위반: ' + order.pattern_id, coded: true };
   }
   var idClash = premiumIndex.some(function (p) { return p.id === order.pattern_id; }) ||
@@ -125,8 +126,9 @@ function judge(order, output, cards, accepted, tdf, callFn) {
     name: output.name, mechanism: output.mechanism, scene: output.scene || '',
     falsify: output.falsify, format: order.format, order_id: order.order_id,
     support: support, tier: v.tier, impact: v.impact, variations: null,
-    model: r.model || 'claude-fable-5', transport: 'cc',
-    family_id: familyId, derived_from: order.derived_from || null,
+    model: r.model || 'claude-opus-4-8', transport: 'cc',
+    // family_id: 일반 경로=선채택 id(familyId) / 스윕 경로=부모 id(derived_from) — ③ 다양성 페널티 키
+    family_id: familyId || (order.derived_from || null), derived_from: order.derived_from || null,
     sweep_axis: order.sweep_axis || null
   };
   return { decision: 'accept', reason: v.reason || '', record: record };
