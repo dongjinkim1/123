@@ -13,6 +13,7 @@ var sl = require('./slow-loop.js');
 var bg = require('./balance-guard.js');
 var ob = require('./observer/observer.js');
 var sw = require('./sweep.js');
+var rc = require('./reception.js');
 
 var SHARED = path.join(__dirname, 'state');                                     // 동결 자산 읽기(큐·subj_codes·캘리브)
 var STATE = process.env.H2_STATE ? path.resolve(process.env.H2_STATE) : SHARED; // 워커별 쓰기(저널·채택·전사·스윕…)
@@ -29,6 +30,9 @@ var SUBJECT_FILTER = (function () {
   var i = process.argv.indexOf('--subjects');
   return (i >= 0 && process.argv[i + 1]) ? process.argv[i + 1].split(',').map(function (s) { return s.trim(); }) : null;
 })();
+// reception 모드: 켜지면 S/A 사주단독 채택분을 cf 유형별 수용 변형으로 분할(sweep 슬롯 재사용).
+// 미지정(=기존 --run) 시 전 훅 휴면 → 라이브 거동 불변.
+var RECEPTION = process.argv.indexOf('--reception') >= 0;
 
 function now() { return new Date().toISOString().slice(0, 16).replace('T', ' '); }
 function aLog(line) { fs.appendFileSync(path.join(STATE, 'auto_decisions.log'), '[' + now() + ']' + line + '\n', 'utf8'); }
@@ -96,6 +100,7 @@ function tally(arr, key) {
 
 // ── 주문서 1장 처리 ──
 function processOrder(order, st, isPilot) {
+  if (order.structure === 'reception') return processReception(order, st); // 수용분할(부모1→변형N), 별 경로
   var call = makeCall(order);
   var sample = cs.sampleCards(order, tdf);
   if (!sample.cards.length) { journal(st, order, 'skip', '보유 카드 0'); return; }
@@ -129,6 +134,22 @@ function processOrder(order, st, isPilot) {
   decide(st, order, verdict, out, isPilot);
 }
 
+// ── 수용분할 처리 (부모1→변형N, 이미 arbiter 통과분) ──
+function processReception(order, st) {
+  var recs = rc.run(order.parent, tdf, makeCall(order), st.accepted, aLog); // production 8필드 레코드 배열(빈=분할안됨)
+  recs.forEach(function (r) {
+    st.accepted.push(r);
+    fs.appendFileSync(path.join(STATE, 'accepted.jsonl'), JSON.stringify(r) + '\n', 'utf8');
+    tp.uploadOrDefer(r);
+    if (r.tags) bg.onAccept(st.guard, r.tags);
+  });
+  journal(st, order, recs.length ? 'accept' : 'skip',
+    recs.length ? ('reception ' + recs.length + '변형(' + recs.map(function (r) { return r.tier; }).join('') + ')') : 'reception 분할안됨');
+  st.done[order.order_id] = 'reception';
+  var rq = rc.loadQueue(); rq.done = rq.done || [];
+  if (rq.done.indexOf(order.parent.id) < 0) { rq.done.push(order.parent.id); rc.saveQueue(rq); }
+}
+
 function decide(st, order, verdict, out, isPilot) {
   if (verdict.decision === 'accept') {
     var rec = verdict.record;
@@ -138,7 +159,11 @@ function decide(st, order, verdict, out, isPilot) {
     bg.onAccept(st.guard, rec.tags);
     journal(st, order, 'accept', verdict.reason + ' [' + rec.tier + '/i' + rec.impact + ']');
     if (order.structure === 'sweep') sweepResult(st, order, '채택', rec.mechanism);
-    else if (rec.tier === 'S' && !isPilot) {
+    else if (RECEPTION && !rec.derived_from && !rc.hasMbtiTag(rec.tags) && (rec.tier === 'S' || rec.tier === 'A') && !isPilot) {
+      var rt = rc.trigger(rec, aLog); // 수용분할 충전 (사주단독 S/A) — sweep 대체
+      if (rt.queued) aLog('[reception 충전] ' + rec.id + ' (' + rec.tier + ')');
+    }
+    else if (!RECEPTION && rec.tier === 'S' && !isPilot) {
       var tr = sw.trigger(rec, tdf, codes, aLog);
       if (tr.queued) aLog('[sweep 충전] ' + rec.id + ' → ' + tr.queued + '장(' + tr.axis + ')');
     }
@@ -230,11 +255,17 @@ function main() {
       if (st.done[order.order_id]) continue;
       processOrder(order, st, pilot);
       sinceMain++;
-      // 사이드 큐 인터리브 (메인 5 : 사이드 1)
+      // 사이드 큐 인터리브 (메인 5 : 사이드 1) — RECEPTION이면 reception_queue, 아니면 sweep
       if (!pilot && sinceMain % INTERLEAVE === 0) {
-        var sq = sw.loadSweepQueue();
-        var side = sq.orders.filter(function (o2) { return !o2.skipped && !st.done[o2.order_id]; })[0];
-        if (side) processOrder(side, st, false);
+        if (RECEPTION) {
+          var rq = rc.loadQueue();
+          var rp = rq.orders.filter(function (o2) { return (rq.done || []).indexOf(o2.parentId) < 0; })[0];
+          if (rp) processOrder({ order_id: 'RCV-' + rp.parentId, subject: rp.parent.subject, structure: 'reception', parent: rp.parent }, st, false);
+        } else {
+          var sq = sw.loadSweepQueue();
+          var side = sq.orders.filter(function (o2) { return !o2.skipped && !st.done[o2.order_id]; })[0];
+          if (side) processOrder(side, st, false);
+        }
       }
       if (st.processed > 0 && st.processed % CP_EVERY === 0) {
         var recent = loadJSON('journal_recent_cache.json', []);

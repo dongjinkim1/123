@@ -128,4 +128,4 @@ function run(parent, tdf, callFn, accepted, log) {
   });
 }
 
-module.exports = { trigger: trigger, run: run, pickCore: pickCore, hasMbtiTag: hasMbtiTag, holders: holders, FLOOR: FLOOR, EMITTED_SAJU: EMITTED_SAJU };
+module.exports = { trigger: trigger, run: run, pickCore: pickCore, hasMbtiTag: hasMbtiTag, holders: holders, loadQueue: loadQueue, saveQueue: saveQueue, FLOOR: FLOOR, EMITTED_SAJU: EMITTED_SAJU };
