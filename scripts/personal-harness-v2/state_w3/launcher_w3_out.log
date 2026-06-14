@@ -1,0 +1,32 @@
+Error: ENOENT: no such file or directory, open 'C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\state_w3\reports\checkpoint_001.md'
+    at Object.writeFileSync (node:fs:2412:20)
+    at checkpoint (C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\harness2.js:80:6)
+    at main (C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\harness2.js:241:9)
+    at Object.<anonymous> (C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\harness2.js:285:30)
+    at Module._compile (node:internal/modules/cjs/loader:1804:14)
+    at Object..js (node:internal/modules/cjs/loader:1936:10)
+    at Module.load (node:internal/modules/cjs/loader:1525:32)
+    at Module._load (node:internal/modules/cjs/loader:1327:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\김쪨리\\Desktop\\mbts-app\\scripts\\personal-harness-v2\\state_w3\\reports\\checkpoint_001.md'
+}
+Error: ENOENT: no such file or directory, open 'C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\state_w3\reports\checkpoint_002.md'
+    at Object.writeFileSync (node:fs:2412:20)
+    at checkpoint (C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\harness2.js:80:6)
+    at main (C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\harness2.js:241:9)
+    at Object.<anonymous> (C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\harness2.js:285:30)
+    at Module._compile (node:internal/modules/cjs/loader:1804:14)
+    at Object..js (node:internal/modules/cjs/loader:1936:10)
+    at Module.load (node:internal/modules/cjs/loader:1525:32)
+    at Module._load (node:internal/modules/cjs/loader:1327:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\김쪨리\\Desktop\\mbts-app\\scripts\\personal-harness-v2\\state_w3\\reports\\checkpoint_002.md'
+}

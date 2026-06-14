@@ -1,0 +1,26 @@
+[2026-06-13 17:51][sweep] 부모 태그에 축 부재(strength) — 스킵: H2-DWF-006
+[2026-06-13 18:31][sweep] 복수 축 — 첫 축 strength 채택, 잔여 dwss,cf
+[2026-06-13 19:21][sweep 충전] H2-DWF-016 → 4장(dwss)
+[2026-06-13 19:37][sweep] 복수 축 — 첫 축 strength 채택, 잔여 cf
+[2026-06-13 19:37][sweep] 부모 태그에 축 부재(strength) — 스킵: H2-DWF-018
+[2026-06-13 21:03][sweep] 부모 태그에 축 부재(cf) — 스킵: H2-DWF-027
+[2026-06-13 21:08][비정상 종료] ENOENT: no such file or directory, open 'C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\state_w2\reports\checkpoint_001.md'
+[2026-06-13 21:24][sweep] 복수 축 — 첫 축 strength 채택, 잔여 yongshin_el
+[2026-06-13 21:24][sweep 충전] H2-DWF-030 → 2장(strength)
+[2026-06-13 21:37][sweep] 복수 축 — 첫 축 strength 채택, 잔여 yongshin_el,dwss
+[2026-06-13 21:37][sweep] 부모 태그에 축 부재(strength) — 스킵: H2-DWF-032
+[2026-06-13 22:21][sweep] 복수 축 — 첫 축 cf 채택, 잔여 kts
+[2026-06-13 22:21][sweep 충전] H2-DWF-037 → 1장(cf)
+[2026-06-13 23:05][sweep 충전] H2-DWF-042 → 2장(dwss)
+[2026-06-13 23:37][sweep] 복수 축 — 첫 축 strength 채택, 잔여 dwss
+[2026-06-13 23:37][sweep] 부모 태그에 축 부재(strength) — 스킵: H2-DWF-046
+[2026-06-14 00:40][비정상 종료] ENOENT: no such file or directory, open 'C:\Users\김쪨리\Desktop\mbts-app\scripts\personal-harness-v2\state_w2\reports\checkpoint_002.md'
+[2026-06-14 00:53][sweep] 복수 축 — 첫 축 strength 채택, 잔여 yongshin_el
+[2026-06-14 00:53][sweep 충전] H2-DWF-055 → 2장(strength)
+[2026-06-14 01:42][sweep] 축 식별 실패 — 스킵: H2-DWF-061
+[2026-06-14 01:48][sweep] 복수 축 — 첫 축 strength 채택, 잔여 cf
+[2026-06-14 01:48][sweep] 부모 태그에 축 부재(strength) — 스킵: H2-DWF-062
+[2026-06-14 02:36][sweep] 복수 축 — 첫 축 yongshin_el 채택, 잔여 strength
+[2026-06-14 02:36][sweep] 부모 태그에 축 부재(yongshin_el) — 스킵: H2-DWF-068
+[2026-06-14 03:07][sweep] 복수 축 — 첫 축 strength 채택, 잔여 dwss
+[2026-06-14 03:07][sweep] 부모 태그에 축 부재(strength) — 스킵: H2-DWF-073
