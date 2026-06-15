@@ -30,7 +30,8 @@ function runDebate(order, cards, twins, callFn, correction) {
   var ctxAll = transcript.map(function (t) { return '[' + t.speaker + ']\n' + t.text; }).join('\n\n');
   var synth = callFn('debate-synth',
     '너는 토론 서기다. 아래 토론에서 살아남은 결론만 충실히 조립하라(새 주장 추가 금지).\n\n# 토론 전문\n' +
-    ctxAll + '\n\n# 원 주문 조건\n[' + order.tags.join(' + ') + '] / 소주제: ' + order.subject +
+    ctxAll + '\n\n# 원 주문 조건 (' + order.tags.length + '개 — tags는 이 개수를 그대로 유지, 추가 금지)\n[' +
+    order.tags.join(' + ') + '] / 소주제: ' + order.subject +
     '\n\n' + prompts.OUTPUT_SPEC, { expectJson: true });
   transcript.push({ speaker: 'debate-synth', text: synth.text, tokens: synth.tokens, ms: synth.ms });
 

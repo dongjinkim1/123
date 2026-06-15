@@ -53,11 +53,25 @@ function recalcSupport(tags, tdf) {
   return n;
 }
 
-function judgePrompt(order, output, cands, theoryExcerpt) {
+// impact 자기교정 — 최근 윈도우 분포 + 쏠림 경고(판정자 자기인지용)
+// 혼재(기존 292의 7쏠림)에 갇히지 않도록 최근 40개만 본다 — 안 그러면 7만 피하고 6으로 재쏠림.
+function impactCalib(accepted) {
+  var recent = (accepted || []).slice(-40);
+  var d = {};
+  recent.forEach(function (p) { if (p.impact != null) d[p.impact] = (d[p.impact] || 0) + 1; });
+  var n = recent.length, maxK = null, maxV = 0;
+  Object.keys(d).forEach(function (k) { if (d[k] > maxV) { maxV = d[k]; maxK = k; } });
+  var skew = (n >= 15 && maxV / n > 0.4)
+    ? ('최근 ' + n + '개 중 impact ' + maxK + '이 ' + Math.round(maxV / n * 100) + '% — 이 값을 피하고, 특히 3~4(사소)와 8~10(중대)을 적극 부여하라')
+    : '';
+  return { dist: d, n: n, skew: skew };
+}
+
+function judgePrompt(order, output, cands, theoryExcerpt, impactDist) {
   return '너는 패턴 품질 판정자다. 기존 풀과 같은 저울로 채점하라.\n\n' +
     '# 캘리브레이션 (기존 premium ' + calib['기준'] + ')\n' +
-    'tier 분포: ' + JSON.stringify(calib.tier) + ' / impact 평균 ' + calib['impact_평균'] +
-    ', 분포 ' + JSON.stringify(calib['impact_분포']) + '\n\n' +
+    'tier 분포: ' + JSON.stringify(calib.tier) + ' / impact 분포 ' + JSON.stringify(calib['impact_분포']) +
+    ' (이처럼 3~10에 넓게 — 중간값으로 몰지 말 것)\n\n' +
     '# 후보 패턴\n소주제: ' + order.subject + '\n조건: [' + output.tags.join(' + ') + ']\n' +
     'name: ' + output.name + '\nmechanism: ' + output.mechanism + '\nscene(장식 — 주장 아님): ' +
     (output.scene || '') + '\nfalsify: ' + output.falsify + '\n\n' +
@@ -65,10 +79,15 @@ function judgePrompt(order, output, cands, theoryExcerpt) {
     (cands.length ? '# 중복 의심 후보 (mechanism 실질 동일 여부 판단)\n' +
       cands.map(function (c) { return c.id + ' [' + c.origin + ']: ' + c.body; }).join('\n') + '\n\n' : '') +
     '# 판정 기준\n반려 사유 축: 병렬(두 체계 나열만) / 평면(조건 없는 일반론) / 바넘(falsify가 반대 조건에서도 성립) / 드리프트(체계 밖 의미).\n' +
-    'tier: S(확신·고품질)~B(평균)~C(바넘 경계)~TRASH. impact(1~10 정수): 유저 의사결정·행동에 미치는 영향 폭 — tier와 별개 축.\n' +
+    'tier: S(확신·고품질)~B(평균)~C(바넘 경계)~TRASH.\n' +
+    '# impact (1~10 정수, tier와 별개 축 — 유저 의사결정·행동에 미치는 영향 폭)\n' +
+    '앵커: 3=사소한 참고 / 5=한 영역 보통 / 7=뚜렷한 영향 / 8=중대한 의사결정 좌우 / 10=인생 행로급.\n' +
+    '중요: 5·6·7 중간값으로 몰지 마라. 진짜 사소하면 3~4, 진짜 중대하면 8~10을 망설임 없이 부여하라. 한 값 쏠림은 실패.\n' +
+    (impactDist && impactDist.n ? '현재 세션 채택 impact 분포: ' + JSON.stringify(impactDist.dist) +
+      (impactDist.skew ? ' — ' + impactDist.skew : '') + '\n' : '') +
     '무의미 조합이면 verdict=스킵.\n\n' +
     '# 산출 (JSON 하나만)\n' +
-    '{"verdict":"통과|반려|스킵","reason":"1줄 자유 서술","tier":"S|A|B|C|TRASH","impact":7,"duplicateOf":"중복이면 후보 id, 아니면 null"}';
+    '{"verdict":"통과|반려|스킵","reason":"1줄 자유 서술","tier":"S|A|B|C|TRASH","impact":5,"duplicateOf":"중복이면 후보 id, 아니면 null"}';
 }
 
 // judge — callFn 주입형. 반환 {decision, record?}
@@ -78,9 +97,13 @@ function judge(order, output, cards, accepted, tdf, callFn) {
   if (!tagsValid(output.tags, cards)) {
     return { decision: 'reject', reason: 'tags 카드 보유 위반(2~4·실보유)', coded: true };
   }
+  // 태그 패딩 차단 — 산출 태그수가 주문보다 많으면 reject (저차 주문에 +패딩 방지)
+  if (order.tags && output.tags.length > order.tags.length) {
+    return { decision: 'reject', reason: '태그 패딩 차단: 산출 ' + output.tags.length + '개 > 주문 ' + order.tags.length + '개', coded: true };
+  }
   var cands = prefilter(order.subject, output.tags, accepted);
   var theory = lookup.extract(output.mechanism + ' ' + output.tags.join(' '));
-  var r = callFn('arbiter', judgePrompt(order, output, cands, theory), { expectJson: true });
+  var r = callFn('arbiter', judgePrompt(order, output, cands, theory, impactCalib(accepted)), { expectJson: true });
   var v = r.json;
   if (!v || !v.verdict) return { decision: 'reject', reason: '판정 파싱 실패', coded: true };
 
@@ -127,7 +150,7 @@ function judge(order, output, cards, accepted, tdf, callFn) {
     falsify: output.falsify, format: order.format, order_id: order.order_id,
     support: support, tier: v.tier, impact: v.impact, variations: null,
     model: r.model || 'claude-opus-4-8', transport: 'cc',
-    // family_id: 일반 경로=선채택 id(familyId) / 스윕 경로=부모 id(derived_from) — ③ 다양성 페널티 키
+    // family_id: 일반 경로=선채택 id(familyId) / 스윕 경로=부모 id(derived_from) — 파생군 추적 메타(다양성 페널티 미구현)
     family_id: familyId || (order.derived_from || null), derived_from: order.derived_from || null,
     sweep_axis: order.sweep_axis || null
   };
@@ -136,4 +159,4 @@ function judge(order, output, cards, accepted, tdf, callFn) {
 
 module.exports = { judge: judge, prefilter: prefilter, tagsValid: tagsValid,
   recalcSupport: recalcSupport, tagOverlap: tagOverlap, judgePrompt: judgePrompt,
-  LOAD_CUT: LOAD_CUT };
+  impactCalib: impactCalib, LOAD_CUT: LOAD_CUT };

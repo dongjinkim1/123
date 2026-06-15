@@ -30,9 +30,9 @@ var SUBJECT_FILTER = (function () {
   var i = process.argv.indexOf('--subjects');
   return (i >= 0 && process.argv[i + 1]) ? process.argv[i + 1].split(',').map(function (s) { return s.trim(); }) : null;
 })();
-// reception 모드: 켜지면 S/A 사주단독 채택분을 cf 유형별 수용 변형으로 분할(sweep 슬롯 재사용).
-// 미지정(=기존 --run) 시 전 훅 휴면 → 라이브 거동 불변.
-var RECEPTION = process.argv.indexOf('--reception') >= 0;
+// reception 모드: 기본 ON — S/A 사주단독 채택분을 cf 유형별 수용 변형으로 분할(sweep 슬롯 재사용).
+// 레거시 sweep 파생으로 돌리려면 --sweep (또는 --no-reception). reception이 주 파생 경로(D-fix).
+var RECEPTION = process.argv.indexOf('--sweep') < 0 && process.argv.indexOf('--no-reception') < 0;
 
 function now() { return new Date().toISOString().slice(0, 16).replace('T', ' '); }
 function aLog(line) { fs.appendFileSync(path.join(STATE, 'auto_decisions.log'), '[' + now() + ']' + line + '\n', 'utf8'); }
@@ -196,7 +196,6 @@ function sweepResult(st, order, outcome, mechanism) {
       st.accepted.forEach(function (p) { if (p.id === fam.parent) p.falsify_verified = true; });
       aLog('[파생군 전멸] 부모 falsify_verified=true: ' + fam.parent);
     }
-    if (agg.resubmit) aLog('[파생군 재심 제출] ' + fam.parent + ' (전부생존+동질)');
   }
   sw.saveSweepQueue(sq);
 }

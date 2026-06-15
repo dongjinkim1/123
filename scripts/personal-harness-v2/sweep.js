@@ -113,6 +113,8 @@ function trigger(parentRecord, tdf, codes, log) {
 }
 
 // 파생군 집계 (전 칸 완료 시) — 전멸/전부생존/혼재
+// resubmit(전부생존+동질 → 재심) 경로는 미구현 스텁이라 제거(소비처 0). 동질성 LLM 콜도 함께 제거.
+// callFn/log 인자는 harness2 호출부 호환 위해 시그니처만 유지.
 function aggregate(family, callFn, log) {
   var outcomes = family.results.map(function (r) { return r.outcome; });
   var real = outcomes.filter(function (o) { return o !== '실존없음'; });
@@ -121,17 +123,7 @@ function aggregate(family, callFn, log) {
     return { kind: 'extinct-all', falsifyVerified: true }; // 부모 falsify_verified=true 역기록
   }
   if (real.every(function (o) { return o === '채택'; })) {
-    var mechs = family.results.filter(function (r) { return r.mechanism; })
-      .map(function (r) { return '[' + r.cell + '] ' + r.mechanism; }).join('\n');
-    var r = callFn('homogeneity',
-      '파생군 동질성 검사: 아래 조건별 mechanism들이 실질적으로 구분되는가. {"distinct":true|false,"reason":"1줄"} JSON만.\n\n' + mechs,
-      { expectJson: true });
-    var distinct = r.json && r.json.distinct;
-    if (!distinct) {
-      log('[sweep] 전부생존+동질 → 파생군 전체(부모 포함) 재심 제출: ' + family.parent);
-      return { kind: 'all-survive-homogeneous', resubmit: true };
-    }
-    return { kind: 'all-survive-distinct' };
+    return { kind: 'all-survive' }; // 전부 생존 — 강도 사다리(정상)
   }
   return { kind: 'mixed-ladder' }; // 정상 — 강도 사다리
 }
