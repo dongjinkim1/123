@@ -6,10 +6,31 @@ var ELEM_LEX = {
   metal: ['쇠의','쇠가','쇠로','칼','칼날','날카','베이','베인','끊어','끊는','끊고','예리'],
   earth: ['흙의','흙이','흙을','흙으로','흙처럼','우물','메마','메말','빚은','빚어','빚는','품어','품고','품는','길어 올','길어가','채워','비옥']
 };
+// 제목 전용 오행/사물 이미지 union (본문 lex 갭 보강: 바깥형태·바명사·이미지어). 첫 줄에만 적용.
+var TITLE_ELEM = [
+  '물 한','물에 ','물처럼','물방울','물결','물줄기','빗물','강물','바닷물','깊은 물','물안개','물속','물 위',
+  '불씨','불꽃','불길','불티','타오르','잿더미','모닥불','횃불',
+  '나무가','나무를','나무처럼','나무 같','나뭇','고목','거목','새싹','떡잎','수풀',
+  '칼을','칼이','칼날','칼로','칼처럼','칼 같','무쇠','쇠처럼','쇠를','쇠가 ','쇳','녹슨',
+  '흙으로','흙에 ','흙바닥','흙먼지','진흙','흙냄새','우물'
+];
+// 오그라듦(미화·자기계발·시적) denylist — 전체 텍스트. 고정밀 표현만.
+var CRINGE_LEX = [
+  '운명','별처럼','별이 되','별빛','윤슬','빛나는','반짝이','반짝반짝','날개를 펴','날개를 펼',
+  '진정한 나','진짜 나를','세상은 당신','세상이 당신','우주가','우주는','특별한 존재',
+  '눈부신','눈부시','찬란','마법','꽃길','빛을 잃지','당신은 충분','소중한 당신'
+];
 function escapeRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
 function countOcc(text,word){ var re=new RegExp(escapeRe(word),'g'); var m=text.match(re); return m?m.length:0; }
 function elemImageDetail(text,elem){ var lex=ELEM_LEX[elem]; var total=0; var hits=[]; var i; var c; for(i=0;i<lex.length;i++){ c=countOcc(text,lex[i]); if(c>0){ total+=c; hits.push(lex[i]); } } return { count:total, words:hits }; }
 function quoteCount(text){ var m=text.match(/"[^"]+"/g); return m?m.length:0; }
+function firstLineOf(text){ var lines=text.split('\n'); var i; for(i=0;i<lines.length;i++){ if(lines[i].trim().length>0){ return lines[i].trim(); } } return ''; }
+function titleElemHits(text){
+  var t=firstLineOf(text); var hits=[]; var i; var w;
+  for(i=0;i<TITLE_ELEM.length;i++){ w=TITLE_ELEM[i]; if(t.indexOf(w)!==-1){ hits.push(w.replace(/ $/,'')); } }
+  return hits;
+}
+function cringeHits(text){ var hits=[]; var i; for(i=0;i<CRINGE_LEX.length;i++){ if(text.indexOf(CRINGE_LEX[i])!==-1){ hits.push(CRINGE_LEX[i]); } } return hits; }
 function structureCheck(text){
   var reasons=[]; var lines=text.split('\n'); var i;
   var firstLine='';
@@ -30,11 +51,17 @@ function structureCheck(text){
   return reasons;
 }
 function scoreText(elem,text){
-  var ed=elemImageDetail(text,elem); var qc=quoteCount(text); var sr=structureCheck(text); var reasons=[]; var k;
+  var ed=elemImageDetail(text,elem); var qc=quoteCount(text); var sr=structureCheck(text);
+  var th=titleElemHits(text); var ch=cringeHits(text); var reasons=[]; var k;
   if(ed.count>2){ reasons.push('오행 비유 남발: '+ed.count+'회 (허용 2). 걸린 단어: '+ed.words.join('/')+'. 융합 문장 외 오행 단어 빼고 행동·상황으로.'); }
   if(qc<2){ reasons.push('인용 부족: '+qc+'개 (타인 대사 + 자기 내면 대사 각 1).'); }
   for(k=0;k<sr.length;k++){ reasons.push(sr[k]); }
+  if(th.length>0){ reasons.push('제목에 오행/사물 이미지: '+th.join('/')+' — 제목엔 비유 이미지 금지. 담백한 행동·상황 캐치로 다시.'); }
+  if(ch.length>0){ reasons.push('오그라듦 표현: '+ch.join('/')+' — 미화·자기계발·시적 표현 빼고 담백하게.'); }
   var gE=(ed.count<=2)?'PASS':'FAIL'; var gQ=(qc>=2)?'PASS':'FAIL'; var gS=(sr.length===0)?'PASS':'FAIL';
-  return { elemImg:ed.count, elemWords:ed.words, quotes:qc, gateElem:gE, gateQuote:gQ, gateStruct:gS, pass:(gE==='PASS')&&(gQ==='PASS')&&(gS==='PASS'), failReasons:reasons };
+  var gT=(th.length===0)?'PASS':'FAIL'; var gC=(ch.length===0)?'PASS':'FAIL';
+  return { elemImg:ed.count, elemWords:ed.words, quotes:qc, titleElem:th, cringe:ch,
+    gateElem:gE, gateQuote:gQ, gateStruct:gS, gateTitle:gT, gateCringe:gC,
+    pass:(gE==='PASS')&&(gQ==='PASS')&&(gS==='PASS')&&(gT==='PASS')&&(gC==='PASS'), failReasons:reasons };
 }
-module.exports = { elemImageDetail:elemImageDetail, quoteCount:quoteCount, structureCheck:structureCheck, scoreText:scoreText };
+module.exports = { elemImageDetail:elemImageDetail, quoteCount:quoteCount, structureCheck:structureCheck, titleElemHits:titleElemHits, cringeHits:cringeHits, scoreText:scoreText };
