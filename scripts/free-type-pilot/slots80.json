@@ -1,0 +1,642 @@
+[
+ {
+  "id": "01",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "INTP",
+  "opening": "관찰(모임에서 사람 읽기)",
+  "title": "모순·반전형"
+ },
+ {
+  "id": "02",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "INTJ",
+  "opening": "판을 주도하는 장면",
+  "title": "경고·결과형"
+ },
+ {
+  "id": "03",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ENTP",
+  "opening": "갈등·충돌 직면 장면",
+  "title": "속도형"
+ },
+ {
+  "id": "04",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ENTJ",
+  "opening": "챙기는 장면",
+  "title": "통찰·대비형"
+ },
+ {
+  "id": "05",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "INFP",
+  "opening": "좋아하는 것에 빠진 순간",
+  "title": "행동대조형"
+ },
+ {
+  "id": "06",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "INFJ",
+  "opening": "혼자 몰입한 순간",
+  "title": "관계·거리형"
+ },
+ {
+  "id": "07",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ENFP",
+  "opening": "혼자 파고드는 장면",
+  "title": "성장형"
+ },
+ {
+  "id": "08",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ENFJ",
+  "opening": "낯선 환경 적응 장면",
+  "title": "인과형"
+ },
+ {
+  "id": "09",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ISTP",
+  "opening": "마감·원칙 지키는 장면",
+  "title": "습관·디테일형"
+ },
+ {
+  "id": "10",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ISTJ",
+  "opening": "고민 들어주는 장면",
+  "title": "역할형"
+ },
+ {
+  "id": "11",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ESTP",
+  "opening": "결정·행동 순간",
+  "title": "자기인식형"
+ },
+ {
+  "id": "12",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ESTJ",
+  "opening": "분위기 띄우는 장면",
+  "title": "상황·장면형"
+ },
+ {
+  "id": "13",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ISFP",
+  "opening": "관찰(모임에서 사람 읽기)",
+  "title": "모순·반전형"
+ },
+ {
+  "id": "14",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ISFJ",
+  "opening": "판을 주도하는 장면",
+  "title": "경고·결과형"
+ },
+ {
+  "id": "15",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ESFP",
+  "opening": "갈등·충돌 직면 장면",
+  "title": "속도형"
+ },
+ {
+  "id": "16",
+  "ohaeng": "물",
+  "elem": "water",
+  "mbti": "ESFJ",
+  "opening": "챙기는 장면",
+  "title": "통찰·대비형"
+ },
+ {
+  "id": "17",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "INTP",
+  "opening": "혼자 몰입한 순간",
+  "title": "역할형"
+ },
+ {
+  "id": "18",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "INTJ",
+  "opening": "혼자 파고드는 장면",
+  "title": "자기인식형"
+ },
+ {
+  "id": "19",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ENTP",
+  "opening": "낯선 환경 적응 장면",
+  "title": "상황·장면형"
+ },
+ {
+  "id": "20",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ENTJ",
+  "opening": "마감·원칙 지키는 장면",
+  "title": "모순·반전형"
+ },
+ {
+  "id": "21",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "INFP",
+  "opening": "고민 들어주는 장면",
+  "title": "경고·결과형"
+ },
+ {
+  "id": "22",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "INFJ",
+  "opening": "결정·행동 순간",
+  "title": "속도형"
+ },
+ {
+  "id": "23",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ENFP",
+  "opening": "분위기 띄우는 장면",
+  "title": "통찰·대비형"
+ },
+ {
+  "id": "24",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ENFJ",
+  "opening": "관찰(모임에서 사람 읽기)",
+  "title": "행동대조형"
+ },
+ {
+  "id": "25",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ISTP",
+  "opening": "판을 주도하는 장면",
+  "title": "관계·거리형"
+ },
+ {
+  "id": "26",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ISTJ",
+  "opening": "갈등·충돌 직면 장면",
+  "title": "성장형"
+ },
+ {
+  "id": "27",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ESTP",
+  "opening": "챙기는 장면",
+  "title": "인과형"
+ },
+ {
+  "id": "28",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ESTJ",
+  "opening": "좋아하는 것에 빠진 순간",
+  "title": "습관·디테일형"
+ },
+ {
+  "id": "29",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ISFP",
+  "opening": "혼자 몰입한 순간",
+  "title": "역할형"
+ },
+ {
+  "id": "30",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ISFJ",
+  "opening": "혼자 파고드는 장면",
+  "title": "자기인식형"
+ },
+ {
+  "id": "31",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ESFP",
+  "opening": "낯선 환경 적응 장면",
+  "title": "상황·장면형"
+ },
+ {
+  "id": "32",
+  "ohaeng": "불",
+  "elem": "fire",
+  "mbti": "ESFJ",
+  "opening": "마감·원칙 지키는 장면",
+  "title": "모순·반전형"
+ },
+ {
+  "id": "33",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "INTP",
+  "opening": "결정·행동 순간",
+  "title": "성장형"
+ },
+ {
+  "id": "34",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "INTJ",
+  "opening": "분위기 띄우는 장면",
+  "title": "인과형"
+ },
+ {
+  "id": "35",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ENTP",
+  "opening": "관찰(모임에서 사람 읽기)",
+  "title": "습관·디테일형"
+ },
+ {
+  "id": "36",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ENTJ",
+  "opening": "판을 주도하는 장면",
+  "title": "역할형"
+ },
+ {
+  "id": "37",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "INFP",
+  "opening": "갈등·충돌 직면 장면",
+  "title": "자기인식형"
+ },
+ {
+  "id": "38",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "INFJ",
+  "opening": "챙기는 장면",
+  "title": "상황·장면형"
+ },
+ {
+  "id": "39",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ENFP",
+  "opening": "좋아하는 것에 빠진 순간",
+  "title": "모순·반전형"
+ },
+ {
+  "id": "40",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ENFJ",
+  "opening": "혼자 몰입한 순간",
+  "title": "경고·결과형"
+ },
+ {
+  "id": "41",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ISTP",
+  "opening": "혼자 파고드는 장면",
+  "title": "속도형"
+ },
+ {
+  "id": "42",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ISTJ",
+  "opening": "낯선 환경 적응 장면",
+  "title": "통찰·대비형"
+ },
+ {
+  "id": "43",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ESTP",
+  "opening": "마감·원칙 지키는 장면",
+  "title": "행동대조형"
+ },
+ {
+  "id": "44",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ESTJ",
+  "opening": "고민 들어주는 장면",
+  "title": "관계·거리형"
+ },
+ {
+  "id": "45",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ISFP",
+  "opening": "결정·행동 순간",
+  "title": "성장형"
+ },
+ {
+  "id": "46",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ISFJ",
+  "opening": "분위기 띄우는 장면",
+  "title": "인과형"
+ },
+ {
+  "id": "47",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ESFP",
+  "opening": "관찰(모임에서 사람 읽기)",
+  "title": "습관·디테일형"
+ },
+ {
+  "id": "48",
+  "ohaeng": "나무",
+  "elem": "wood",
+  "mbti": "ESFJ",
+  "opening": "판을 주도하는 장면",
+  "title": "역할형"
+ },
+ {
+  "id": "49",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "INTP",
+  "opening": "챙기는 장면",
+  "title": "통찰·대비형"
+ },
+ {
+  "id": "50",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "INTJ",
+  "opening": "좋아하는 것에 빠진 순간",
+  "title": "행동대조형"
+ },
+ {
+  "id": "51",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ENTP",
+  "opening": "혼자 몰입한 순간",
+  "title": "관계·거리형"
+ },
+ {
+  "id": "52",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ENTJ",
+  "opening": "혼자 파고드는 장면",
+  "title": "성장형"
+ },
+ {
+  "id": "53",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "INFP",
+  "opening": "낯선 환경 적응 장면",
+  "title": "인과형"
+ },
+ {
+  "id": "54",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "INFJ",
+  "opening": "마감·원칙 지키는 장면",
+  "title": "습관·디테일형"
+ },
+ {
+  "id": "55",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ENFP",
+  "opening": "고민 들어주는 장면",
+  "title": "역할형"
+ },
+ {
+  "id": "56",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ENFJ",
+  "opening": "결정·행동 순간",
+  "title": "자기인식형"
+ },
+ {
+  "id": "57",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ISTP",
+  "opening": "분위기 띄우는 장면",
+  "title": "상황·장면형"
+ },
+ {
+  "id": "58",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ISTJ",
+  "opening": "관찰(모임에서 사람 읽기)",
+  "title": "모순·반전형"
+ },
+ {
+  "id": "59",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ESTP",
+  "opening": "판을 주도하는 장면",
+  "title": "경고·결과형"
+ },
+ {
+  "id": "60",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ESTJ",
+  "opening": "갈등·충돌 직면 장면",
+  "title": "속도형"
+ },
+ {
+  "id": "61",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ISFP",
+  "opening": "챙기는 장면",
+  "title": "통찰·대비형"
+ },
+ {
+  "id": "62",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ISFJ",
+  "opening": "좋아하는 것에 빠진 순간",
+  "title": "행동대조형"
+ },
+ {
+  "id": "63",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ESFP",
+  "opening": "혼자 몰입한 순간",
+  "title": "관계·거리형"
+ },
+ {
+  "id": "64",
+  "ohaeng": "쇠",
+  "elem": "metal",
+  "mbti": "ESFJ",
+  "opening": "혼자 파고드는 장면",
+  "title": "성장형"
+ },
+ {
+  "id": "65",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "INTP",
+  "opening": "마감·원칙 지키는 장면",
+  "title": "모순·반전형"
+ },
+ {
+  "id": "66",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "INTJ",
+  "opening": "고민 들어주는 장면",
+  "title": "경고·결과형"
+ },
+ {
+  "id": "67",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ENTP",
+  "opening": "결정·행동 순간",
+  "title": "속도형"
+ },
+ {
+  "id": "68",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ENTJ",
+  "opening": "분위기 띄우는 장면",
+  "title": "통찰·대비형"
+ },
+ {
+  "id": "69",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "INFP",
+  "opening": "관찰(모임에서 사람 읽기)",
+  "title": "행동대조형"
+ },
+ {
+  "id": "70",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "INFJ",
+  "opening": "판을 주도하는 장면",
+  "title": "관계·거리형"
+ },
+ {
+  "id": "71",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ENFP",
+  "opening": "갈등·충돌 직면 장면",
+  "title": "성장형"
+ },
+ {
+  "id": "72",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ENFJ",
+  "opening": "챙기는 장면",
+  "title": "인과형"
+ },
+ {
+  "id": "73",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ISTP",
+  "opening": "좋아하는 것에 빠진 순간",
+  "title": "습관·디테일형"
+ },
+ {
+  "id": "74",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ISTJ",
+  "opening": "혼자 몰입한 순간",
+  "title": "역할형"
+ },
+ {
+  "id": "75",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ESTP",
+  "opening": "혼자 파고드는 장면",
+  "title": "자기인식형"
+ },
+ {
+  "id": "76",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ESTJ",
+  "opening": "낯선 환경 적응 장면",
+  "title": "상황·장면형"
+ },
+ {
+  "id": "77",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ISFP",
+  "opening": "마감·원칙 지키는 장면",
+  "title": "모순·반전형"
+ },
+ {
+  "id": "78",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ISFJ",
+  "opening": "고민 들어주는 장면",
+  "title": "경고·결과형"
+ },
+ {
+  "id": "79",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ESFP",
+  "opening": "결정·행동 순간",
+  "title": "속도형"
+ },
+ {
+  "id": "80",
+  "ohaeng": "흙",
+  "elem": "earth",
+  "mbti": "ESFJ",
+  "opening": "분위기 띄우는 장면",
+  "title": "통찰·대비형"
+ }
+]
