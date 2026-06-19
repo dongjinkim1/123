@@ -1,0 +1,12 @@
+[
+ {"id":"01","ohaeng":"물","elem":"water","mbti":"INTP","opening":"관찰(모임에서 사람 읽기)","title":"모순/반전형"},
+ {"id":"02","ohaeng":"불","elem":"fire","mbti":"INTP","opening":"혼자 몰입한 순간","title":"인과형","note":"충돌쌍: 발산오행x내향분석"},
+ {"id":"03","ohaeng":"물","elem":"water","mbti":"ESTP","opening":"결정/행동 순간","title":"속도형","note":"충돌쌍: 정적오행x즉흥행동"},
+ {"id":"04","ohaeng":"흙","elem":"earth","mbti":"ESFJ","opening":"챙기는 장면","title":"역할형"},
+ {"id":"05","ohaeng":"쇠","elem":"metal","mbti":"ISTJ","opening":"마감/원칙 지키는 장면","title":"행동대조형"},
+ {"id":"06","ohaeng":"불","elem":"fire","mbti":"ENTJ","opening":"판을 주도하는 장면","title":"비유/이미지형"},
+ {"id":"07","ohaeng":"나무","elem":"wood","mbti":"INTP","opening":"혼자 파고드는 장면","title":"성장형"},
+ {"id":"08","ohaeng":"쇠","elem":"metal","mbti":"ENFP","opening":"분위기 띄우는 장면","title":"경고/결과형"},
+ {"id":"09","ohaeng":"나무","elem":"wood","mbti":"ISFP","opening":"좋아하는 것에 빠진 순간","title":"이미지형"},
+ {"id":"10","ohaeng":"흙","elem":"earth","mbti":"INFJ","opening":"고민 들어주는 장면","title":"통찰/대비형"}
+]
