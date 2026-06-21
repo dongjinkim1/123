@@ -7,7 +7,7 @@ import { logError } from '@/lib/errorLog'
 export const maxDuration = 800
 
 const client = new Anthropic()
-const MODEL = 'claude-opus-4-8'
+const MODEL = 'claude-opus-4-6'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
