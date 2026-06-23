@@ -1,6 +1,6 @@
 'use strict';
 var fs = require('fs');
-// 본문 금지: 오행 비유 "동사 활용형"만. (도입 융합문의 명사형 '고임/기운/기질'은 안 걸리게 설계)
+// 본문 금지: 오행 비유 "동사 활용형"만. (도입 융합문의 명사형 '기운/기질'류는 안 걸리게 설계)
 var OHAENG = [
   // 물
   '가라앉','스며','스민','출렁','차올라','차오르','물꼬','잠겨','잠긴','잠기','적셔','적시','젖어','젖는',
@@ -30,6 +30,7 @@ function check(file){
   }
   return hits;
 }
+if (require.main === module) {
 var dir = process.argv[2] || '.';
 var files = fs.readdirSync(dir).filter(function(f){return /\.md$/.test(f);}).sort();
 var allPass = true;
@@ -39,3 +40,5 @@ files.forEach(function(f){
   else { allPass=false; console.log('FAIL  '+f); h.forEach(function(x){console.log(x);}); }
 });
 console.log('\n=== '+(allPass?'ALL PASS':'FAIL 있음')+' ('+files.length+'개) ===');
+}
+module.exports.OHAENG = OHAENG;
