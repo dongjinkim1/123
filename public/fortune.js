@@ -104,10 +104,14 @@ function checkOverlays(saju, gg, dw) {
   if (gyM[r.dg] === tj) results.push('금여록');
   var hdM = [11,6,2,9,2,9,5,0,8,3];
   if (hdM[r.dg] === tj) results.push('학당귀인');
-  var gmM = [9,6,7,8,5,4,1,2,3,0,11,10];
+  // 귀문관살: 자酉 축午 인未 묘申 진亥 사戌 (+역방향) — 천라지망 혼입 제거
+  var gmM = [9,6,7,8,11,10,1,2,3,0,5,4];
   if (r.dj != null && gmM[r.dj] === tj) results.push('귀문관살');
-  var bhM = [4,1,7,2,10,7,4,1,10,7];
-  if (bhM[r.dg] === tj) results.push('백호살');
+  // 백호대살 7종 — 오늘의 간지가 그 자체로 동주일 때 성립 (일간→지지 방식은 무근)
+  var BAEKHO = [[0,4],[1,7],[2,10],[3,1],[4,4],[8,10],[9,1]]; // 갑진 을미 병술 정축 무진 임술 계축
+  for (var bi = 0; bi < BAEKHO.length; bi++) {
+    if (tg === BAEKHO[bi][0] && tj === BAEKHO[bi][1]) { results.push('백호살'); break; }
+  }
 
   // ── 납음 관계 ──
   if (typeof SJ_getNapeum === 'function' || typeof getNapeum === 'function') {
