@@ -3952,7 +3952,8 @@ var ILJU_DATA={
    ========================================== */
 function profileAnalysis(saju,gg,rel){
   var dm=saju.dm,dmEl=saju.dmEl;
-  var dayBrSS=saju.ss[2]?saju.ss[2].ss:'',dayUns=saju.uns[2]||'';
+  // ★ 배우자궁(일지) 십성은 jiSS[2] — ss[2]는 일주 '천간'이라 항상 비견이 나온다
+  var dayBrSS=saju.jiSS&&saju.jiSS[2]?saju.jiSS[2].ss:'',dayUns=saju.uns[2]||'';
   var ySS=saju.ss[0]?saju.ss[0].ss:'',mSS=saju.ss[1]?saju.ss[1].ss:'',hSS=saju.ss[3]?saju.ss[3].ss:'';
   var strongUns=['건록','제왕','관대','장생'].indexOf(dayUns)>=0;
 
