@@ -2479,15 +2479,23 @@ function getSpecialSinsal(yg,yj,mg,mj,dg,dj,hg,hj){
   }
   var yiM={0:3,2:6,4:6,6:9,8:0};
   if(dg!=null&&dg in yiM){var t=yiM[dg];for(var b=0;b<aJ.length;b++)if(aJ[b].j===t)R.push({name:'양인살',type:'bad',desc:'일간 '+TGAN_KR[dg]+' → '+aJ[b].l});}
-  var cdM={0:{t:'ji',v:5},1:{t:'gan',v:6},2:{t:'gan',v:3},3:{t:'gan',v:8},4:{t:'gan',v:8},5:{t:'gan',v:7},6:{t:'ji',v:11},7:{t:'gan',v:0},8:{t:'gan',v:9},9:{t:'ji',v:2},10:{t:'gan',v:2},11:{t:'gan',v:1}};
+  // 천덕귀인 정본표: 자巳 축庚 인丁 묘申 진壬 사辛 오亥 미甲 신癸 유寅 술丙 해乙
+  var cdM={0:{t:'ji',v:5},1:{t:'gan',v:6},2:{t:'gan',v:3},3:{t:'ji',v:8},4:{t:'gan',v:8},5:{t:'gan',v:7},6:{t:'ji',v:11},7:{t:'gan',v:0},8:{t:'gan',v:9},9:{t:'ji',v:2},10:{t:'gan',v:2},11:{t:'gan',v:1}};
   if(mj!=null&&cdM[mj]){var cd=cdM[mj];if(cd.t==='gan'){for(var a=0;a<aGF.length;a++)if(aGF[a].g===cd.v)R.push({name:'천덕귀인',type:'good',desc:'월지 → '+aGF[a].l+' '+TGAN_KR[aGF[a].g]});}else{for(var b=0;b<aJ.length;b++)if(aJ[b].j===cd.v&&aJ[b].l!=='월지')R.push({name:'천덕귀인',type:'good',desc:'월지 → '+aJ[b].l+' '+JIJI_KR[aJ[b].j]});}}
   if(mj!=null){var g2=getSamhapGroup(mj);var wdG=[8,2,6,0][g2];for(var a=0;a<aGF.length;a++)if(aGF[a].g===wdG)R.push({name:'월덕귀인',type:'good',desc:'월지 삼합 → '+aGF[a].l});}
   var gyM=[4,5,7,8,7,8,10,11,1,2];
   if(dg!=null){var t2=gyM[dg];for(var b=0;b<aJ.length;b++)if(aJ[b].j===t2)R.push({name:'금여록',type:'good',desc:'일간 → '+aJ[b].l});}
-  var gmM=[9,6,7,8,5,4,1,2,3,0,11,10];
+  // 귀문관살: 자酉 축午 인未 묘申 진亥 사戌 (+역방향) — 천라지망 혼입 제거
+  var gmM=[9,6,7,8,11,10,1,2,3,0,5,4];
   if(dj!=null){var t3=gmM[dj];for(var b=0;b<aJ.length;b++)if(aJ[b].j===t3&&aJ[b].l!=='일지')R.push({name:'귀문관살',type:'bad',desc:'일지 → '+aJ[b].l});}
-  var bhM=[4,1,7,2,10,7,4,1,10,7];
-  if(dg!=null){var t4=bhM[dg];for(var b=0;b<aJ.length;b++)if(aJ[b].j===t4)R.push({name:'백호살',type:'bad',desc:'일간 → '+aJ[b].l});}
+  // 백호대살 7종 — 간지 '동주' 판정 (일간→지지 방식은 무근이라 폐기)
+  var BAEKHO=[[0,4],[1,7],[2,10],[3,1],[4,4],[8,10],[9,1]]; // 갑진 을미 병술 정축 무진 임술 계축
+  var bhP=[{g:yg,j:yj,l:'년주'},{g:mg,j:mj,l:'월주'},{g:dg,j:dj,l:'일주'},{g:hg,j:hj,l:'시주'}];
+  for(var a=0;a<bhP.length;a++){
+    var bp=bhP[a];if(bp.g==null||bp.j==null)continue;
+    for(var b=0;b<BAEKHO.length;b++)if(bp.g===BAEKHO[b][0]&&bp.j===BAEKHO[b][1]){
+      R.push({name:'백호살',type:'bad',desc:bp.l+' '+TGAN_KR[bp.g]+JIJI_KR[bp.j]+' 동주'});break;}
+  }
   var hdM=[11,6,2,9,2,9,5,0,8,3];
   if(dg!=null){var t5=hdM[dg];for(var b=0;b<aJ.length;b++)if(aJ[b].j===t5)R.push({name:'학당귀인',type:'good',desc:'일간 → '+aJ[b].l});}
   var seen={};return R.filter(function(r){var k=r.name+r.desc;if(seen[k])return false;seen[k]=1;return true;});
@@ -2676,7 +2684,8 @@ function analyzeDWSEvsWonkuk(saju, dw){
   // 지지삼합 원소
   var SAMHAP_CENTER = [[8,0,4,'수'],[2,6,10,'화'],[11,3,7,'목'],[5,9,1,'금']];
   // 지지형
-  var HYUNG_PAIRS = [[2,5],[5,8],[8,2],[3,0],[0,3],[4,4],[6,6],[7,7],[10,10],[1,10],[10,7],[1,4]];
+  // JIJI_HYUNG과 동일 목록 (아래 검사는 양방향 비교)
+  var HYUNG_PAIRS = [[2,5],[5,8],[2,8],[1,10],[10,7],[1,7],[0,3],[4,4],[6,6],[9,9],[11,11]];
   // 지지해
   var HAE_PAIRS = [[0,7],[1,6],[2,5],[3,4],[8,11],[9,10]];
 
@@ -2703,7 +2712,8 @@ function analyzeDWSEvsWonkuk(saju, dw){
     // 형
     wonJis.forEach(function(wj){
       HYUNG_PAIRS.forEach(function(hp){
-        if(targetJi===hp[0]&&wj.v===hp[1])
+        // ★ 양방향 비교 — 단방향이면 대운巳 ↔ 원국寅 같은 조합이 검출되지 않는다
+        if((targetJi===hp[0]&&wj.v===hp[1])||(targetJi===hp[1]&&wj.v===hp[0]))
           results.push({type:'형',target:targetLabel+targetKr,won:wj.l+wj.kr,
             desc:targetKr+wj.kr+'형 — 갈등·시련·성장통',
             impact:wj.l==='일지'?'배우자·건강':wj.l==='월지'?'직업·사회':'관계·환경'});
@@ -3555,7 +3565,9 @@ var JIJI_BANGHAP=[[11,0,1,'수'],[2,3,4,'목'],[5,6,7,'화'],[8,9,10,'금']];
 // 지지충
 var JIJI_CHUNG=[[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]];
 // 지지형
-var JIJI_HYUNG=[[2,5,'무은지형'],[5,8,'지세지형'],[2,8,'무은지형'],[3,3,'자형'],[6,6,'자형'],[9,9,'자형'],[0,3,'무례지형'],[1,10,'은혜지형'],[4,4,'자형'],[7,7,'자형'],[11,11,'자형']];
+// 삼형A 인사신=무은지형, 삼형B 축술미=지세지형(恃勢), 상형 자묘=무례지형,
+// 자형 진진·오오·유유·해해. (묘묘·미미는 자형 아님, 축진은 破 → JIJI_PA)
+var JIJI_HYUNG=[[2,5,'무은지형'],[5,8,'무은지형'],[2,8,'무은지형'],[1,10,'지세지형'],[10,7,'지세지형'],[1,7,'지세지형'],[0,3,'무례지형'],[4,4,'자형'],[6,6,'자형'],[9,9,'자형'],[11,11,'자형']];
 // 지지파
 var JIJI_PA=[[0,9],[1,4],[2,11],[3,6],[5,8],[7,10]];
 // ★ 천간충 4쌍 (같은 오행 양양끼리 극)
@@ -3632,6 +3644,14 @@ function calcRelations(saju){
     }
   }
   // ★ 지지해(害)
+  // ★ 지지파(破) — 테이블은 있었으나 검사 루프가 없어 항상 비어 있었다
+  for(var i=0;i<jis.length;i++)for(var j=i+1;j<jis.length;j++){
+    for(var k=0;k<JIJI_PA.length;k++){
+      var pa=JIJI_PA[k];
+      if((jis[i].v===pa[0]&&jis[j].v===pa[1])||(jis[i].v===pa[1]&&jis[j].v===pa[0]))
+        result.jijiPa.push({a:jis[i],b:jis[j],desc:JIJI_KR[jis[i].v]+JIJI_KR[jis[j].v]+'파'});
+    }
+  }
   for(var i=0;i<jis.length;i++)for(var j=i+1;j<jis.length;j++){
     for(var k=0;k<JIJI_HAE.length;k++){
       var hae=JIJI_HAE[k];
@@ -3795,7 +3815,8 @@ function calcExtraSinsal(saju){
   // ④ 간여지동(干與支同): 천간과 지지 정기가 동일한 일주 (출처: 淵海子平)
   //    甲寅(寅정기=甲), 乙卯(卯정기=乙), 戊辰(辰정기=戊), 己未(未정기=己), 庚申(申정기=庚), 辛酉(酉정기=辛)
   //    ※ v29 수정: 乙巳(巳정기=丙≠乙)→乙卯, 戊午(午정기=丁≠戊)→戊辰 교정, 己未 추가
-  var GANYEO=[[0,2],[1,3],[4,4],[5,7],[6,8],[7,9]];
+  // 간여지동 12주: 갑인 을묘 병오 정사 무진 무술 기축 기미 경신 신유 임자 계해
+  var GANYEO=[[0,2],[1,3],[2,6],[3,5],[4,4],[4,10],[5,1],[5,7],[6,8],[7,9],[8,0],[9,11]];
   for(var i=0;i<GANYEO.length;i++){
     if(dg===GANYEO[i][0]&&dj===GANYEO[i][1]){
       result.push({name:'간여지동',desc:'일주 '+TGAN_KR[dg]+JIJI_KR[dj],
@@ -3838,7 +3859,8 @@ function calcExtraSinsal(saju){
           personality:'신경 예민, 꿈이나 영감이 강함'});}}}}
 
   // ⑨ 천덕귀인 (월지 기준)
-  var CHEONDUK=[{t:1,v:5},{t:0,v:6},{t:0,v:3},{t:0,v:7},{t:0,v:8},{t:0,v:7},{t:1,v:11},{t:0,v:0},{t:0,v:9},{t:1,v:2},{t:0,v:2},{t:0,v:1}];
+  // 정본표 — 묘월은 辛(천간)이 아니라 申(지지)
+  var CHEONDUK=[{t:1,v:5},{t:0,v:6},{t:0,v:3},{t:1,v:8},{t:0,v:8},{t:0,v:7},{t:1,v:11},{t:0,v:0},{t:0,v:9},{t:1,v:2},{t:0,v:2},{t:0,v:1}];
   if(r.mj!=null){var cd=CHEONDUK[r.mj];var cdf=false;
     if(cd.t===0){for(var i=0;i<allGans.length;i++){if(allGans[i]===cd.v){cdf=true;break;}}}
     else{for(var i=0;i<allJis.length;i++){if(allJis[i]===cd.v){cdf=true;break;}}}
