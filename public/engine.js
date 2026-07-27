@@ -392,12 +392,17 @@ var JG_LONG=[{n:'소한',l:285,mb:1},{n:'입춘',l:315,mb:2},{n:'경칩',l:345,m
 function getJeolgiTimes(yr){var r=[];for(var y=yr-1;y<=yr+1;y++)for(var j=0;j<JG_LONG.length;j++){var jg=JG_LONG[j];r.push({n:jg.n,mb:jg.mb,jd:findSolarTermJD(y,jg.l)});}r.sort(function(a,b){return a.jd-b.jd;});return r;}
 
 function calculateSaju(year,month,day,hourBranch,hour,minute){
+  // ★ 주의: dateToJDN은 해당 날짜 00:00(자정) 기준 JD를 돌려준다(끝자리 .5).
+  //   변수명 bjdNoon은 '정오'로 오인하기 쉬우나 실제 값은 자정 기준이며, 일주 계산에만 쓴다.
   var bjdNoon=dateToJDN(year,month,day);
-  // ★ 절기 비교용: 사용자의 KST 생시를 반영한 JD
+  // ★ 절기 비교용: 자정 기준 JD에 생시(시·분)를 그대로 더해 실제 출생 시각의 JD를 만든다.
+  //   시간 미상이면 정오(+0.5)로 대표한다.
   var bjd=bjdNoon;
   if(hour!==null&&hour!==undefined&&hour!==''){
-    bjd+=(+hour-12)/24;
+    bjd+=(+hour)/24;
     if(minute!==null&&minute!==undefined&&minute!=='') bjd+=(+minute)/1440;
+  } else {
+    bjd+=0.5;
   }
   // ★ KST 보정: 절기 JD(UTC)를 KST로 변환 (+9시간)
   var KST=9/24;
@@ -537,8 +542,10 @@ function calcSajuForApp(y,m,d,h,min,cityLng){
 function calcDaewoon(saju, birthY, birthM, birthD, birthH, birthMin, gender){
   var raw=saju.raw;
   // 생시 반영한 정밀 JD (시간 미상시 정오 기준)
+  // ★ dateToJDN은 자정 기준 JD — 생시(시·분)를 그대로 더한다.
   var birthJD=dateToJDN(birthY,birthM,birthD);
-  if(birthH!==null&&birthH!==undefined&&birthH!==''){birthJD+=(birthH-12)/24;if(birthMin!==null&&birthMin!==undefined&&birthMin!=='')birthJD+=birthMin/1440;}
+  if(birthH!==null&&birthH!==undefined&&birthH!==''){birthJD+=(+birthH)/24;if(birthMin!==null&&birthMin!==undefined&&birthMin!=='')birthJD+=(+birthMin)/1440;}
+  else birthJD+=0.5;
 
   // Step 1: 순행/역행 결정 (양남음녀=순행, 음남양녀=역행)
   var isYangGan=(raw.yg%2===0);
