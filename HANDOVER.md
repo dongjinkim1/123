@@ -24,9 +24,14 @@
 
 `CLAUDE.md` 에 있는 규칙을 **무조건** 따라야 함.
 
+> **2026-07-27 개정 — 동진 지시로 파일 수정 금지 전면 해제.**
+> `public/engine.js`·`public/saju.js` 동결 조항은 폐지. 레포 전 파일 수정 가능.
+
 | 규칙 | 내용 |
 |---|---|
-| 수정 금지 | `public/engine.js` · `public/saju.js` — 한 글자도 건들지 말 것 |
+| ~~수정 금지~~ (폐지) | ~~`public/engine.js` · `public/saju.js`~~ — 2026-07-27 해제. 단 `_archive/engine_OLD.js`는 롤백 백업이라 보존 |
+| push 금지 | 로컬 커밋까지만. push(=Vercel 자동배포)는 **동진 승인 후**에만 |
+| bundle.js 편집 금지 | `public/js/bundle.js`는 `prebuild.js` 산출물 — 소스(`public/js/main-*.js`) 수정 후 재생성 |
 | 한 번에 한 파일 | 동시에 여러 파일 수정 금지 |
 | 요청 외 파일 금지 | 사용자가 지정하지 않은 파일은 건드리지 말 것 |
 | 새 파일 금지 | 명시적 요청 시에만 파일 생성 |
@@ -414,10 +419,12 @@ ADMIN_PASSWORD                    # 관리자 페이지
 
 ## 8. 알려진 이슈 / 지뢰밭
 
-1. **engine.js / saju.js 수정 금지** — 크기도 크고 내부 의존이 엉켜 있어 리팩터가 힘듦.
-   기능 추가는 별도 모듈 (service.js 처럼 IIFE) 로 overlay 해서 얹는 패턴.
+1. **engine.js / saju.js — 수정 금지 해제(2026-07-27)** — 다만 크기가 크고 내부 의존이 엉켜 있어
+   리팩터는 여전히 위험하다. 기능 추가는 되도록 별도 모듈 (service.js 처럼 IIFE) 로 overlay 하는 패턴 유지.
+   계산 코어를 손댈 때는 `scripts/repair-verify/` 게이트(그리드 diff·앵커·클라/서버 대조)로 회귀를 확인할 것.
 2. **클라 / 서버 로직 이중 존재** — 사주 계산·프롬프트 빌더가 `public/engine.js` 와 `lib/` 에 둘 다 있음.
    서버는 "신뢰 가능한 재계산 + 프롬프트 빌드" 용, 클라는 즉시 UI 반영용. 수정할 때는 **양쪽 싱크** 주의.
+   `public/saju-theory.js`는 호출처 없는 死사본이지만 정본과 동일하게 유지한다(2026-07-27 엔진수리 1차 기준).
 3. **Job 복구가 3분/10분 두 개 타임아웃** — `mbts_active_job.createdAt` 이 3분 넘으면 `_isAnalyzing`
    stuck 을 해제하고, 10분 넘으면 아예 삭제. 지연이 큰 요청에서 가끔 사용자가 "다시 시도" 봐야 함.
 4. **AI JSON 파싱 실패** — Claude 가 종종 앞뒤에 텍스트 붙이거나 제어문자 삽입. `parseAIResponse` 4단계
