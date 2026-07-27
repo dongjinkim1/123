@@ -812,30 +812,45 @@ function analyzeDWSEvsWonkuk(saju, dw){
    ========================================== */
 function resolveHapChungPriority(relations){
   if(!relations) return {resolved:[], summary:''};
-  var haps = (relations.jijiYukhap||[]).concat(relations.jijiSamhap||[]);
+  // ★ 구조 어댑터: calcRelations의 육합은 {a,b} 형태, 삼합은 {members} 형태로 서로 다르다.
+  //   (키도 jijiYukhap이 아니라 jijiHap — 기존 코드는 이 둘 때문에 육합이 통째로 무시됐다.)
+  var haps = [];
+  (relations.jijiHap||[]).forEach(function(h){
+    haps.push({desc:h.desc, jis:[h.a.v,h.b.v], positions:[h.a.l,h.b.l]});
+  });
+  (relations.jijiSamhap||[]).forEach(function(h){
+    var ms = h.members||[];
+    haps.push({desc:h.desc, jis:ms.map(function(m){return m.v;}), positions:ms.map(function(m){return m.l;})});
+  });
   var chungs = relations.jijiChung||[];
   var resolved = [];
   var summary = [];
+  var posOrder = ['연지','월지','일지','시지'];
+
+  // ★ 인접 판정: 충에서 '합에 속하지 않은 쪽' 기둥만 본다.
+  //   충의 한쪽은 합 구성원 자신이므로 그것까지 인접 판정에 넣으면 거리가 항상 0이 되어
+  //   탐합망충이 구조적으로 도달 불가가 된다(기존 결함의 원인).
+  function isAdjacentToHap(hap, positions){
+    var adjacent = false;
+    positions.forEach(function(p){
+      if(hap.positions.indexOf(p)>=0) return;   // 합 구성 기둥 자신은 제외
+      var pi = posOrder.indexOf(p);
+      if(pi<0) return;
+      hap.positions.forEach(function(hp){
+        var hi = posOrder.indexOf(hp);
+        if(hi>=0 && Math.abs(pi-hi)<=1) adjacent = true;
+      });
+    });
+    return adjacent;
+  }
 
   // 각 합에 대해, 충이 합을 깨는지(합피충파) 검사
   haps.forEach(function(hap){
-    var hapJis = hap.members ? hap.members.map(function(m){return m.v;}) : [];
     var broken = false;
     chungs.forEach(function(chung){
       // 충의 두 지지 중 하나가 합의 구성원이면 → 합 파괴 가능
-      if(hapJis.indexOf(chung.a.v)>=0 || hapJis.indexOf(chung.b.v)>=0){
-        // 인접성 판단: 합 구성원과 충 구성원이 인접 위치(연-월, 월-일, 일-시)면 합이 깨짐
-        var hapPositions = hap.members.map(function(m){return m.l;});
-        var chungPositions = [chung.a.l, chung.b.l];
-        var adjacent = false;
-        var posOrder = ['연지','월지','일지','시지'];
-        chungPositions.forEach(function(cp){
-          hapPositions.forEach(function(hp){
-            var ci = posOrder.indexOf(cp), hi = posOrder.indexOf(hp);
-            if(Math.abs(ci-hi)<=1) adjacent = true;
-          });
-        });
-        if(adjacent){
+      if(hap.jis.indexOf(chung.a.v)>=0 || hap.jis.indexOf(chung.b.v)>=0){
+        if(isAdjacentToHap(hap, [chung.a.l, chung.b.l])){
           broken = true;
           resolved.push({type:'합피충파', desc: hap.desc + ' → 인접 ' + chung.desc + '에 의해 깨짐'});
           summary.push(hap.desc+'이 '+chung.desc+'에 의해 파괴됨(합피충파)');
@@ -845,7 +860,7 @@ function resolveHapChungPriority(relations){
     if(!broken){
       // 탐합망충: 합이 충을 흡수하는지
       chungs.forEach(function(chung){
-        if(hapJis.indexOf(chung.a.v)>=0 || hapJis.indexOf(chung.b.v)>=0){
+        if(hap.jis.indexOf(chung.a.v)>=0 || hap.jis.indexOf(chung.b.v)>=0){
           resolved.push({type:'탐합망충', desc: hap.desc + '이 ' + chung.desc + '을 흡수함'});
           summary.push(hap.desc+'이 '+chung.desc+'을 흡수(탐합망충)');
         }
