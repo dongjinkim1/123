@@ -2385,7 +2385,52 @@ function findSolarTermJD(yr,tgt){var nd=function(a,b){var d=a-b;while(d>180)d-=3
 var JG_LONG=[{n:'소한',l:285,mb:1},{n:'입춘',l:315,mb:2},{n:'경칩',l:345,mb:3},{n:'청명',l:15,mb:4},{n:'입하',l:45,mb:5},{n:'망종',l:75,mb:6},{n:'소서',l:105,mb:7},{n:'입추',l:135,mb:8},{n:'백로',l:165,mb:9},{n:'한로',l:195,mb:10},{n:'입동',l:225,mb:11},{n:'대설',l:255,mb:0}];
 function getJeolgiTimes(yr){var r=[];for(var y=yr-1;y<=yr+1;y++)for(var j=0;j<JG_LONG.length;j++){var jg=JG_LONG[j];r.push({n:jg.n,mb:jg.mb,jd:findSolarTermJD(y,jg.l)});}r.sort(function(a,b){return a.jd-b.jd;});return r;}
 
-function calculateSaju(year,month,day,hourBranch,hour,minute){
+/* ====== ★ 출생시각 정규화 (F4 벽시계→KST · F3 정통 자시설) ======
+   적용 순서: ① 서머타임 제거 → ② 표준시(UTC+8:30)→KST 보정 → ③ 진태양시 보정
+              → ④ 23:00 이후 익일 귀속(자시)
+   ①②는 반드시 이 순서 — 1955~60년은 UTC+8:30 위에 +1h 서머타임이 얹혀 있다. */
+var KOREA_HALFHOUR_FROM=19540321, KOREA_HALFHOUR_TO=19610809;
+var KOREA_DST=[
+  [19480601,0,19480912,1440],[19490403,0,19490910,1440],[19500401,0,19500909,1440],
+  [19510506,0,19510908,1440],[19550505,0,19550908,1440],[19560520,0,19560929,1440],
+  [19570505,0,19570921,1440],[19580504,0,19580920,1440],[19590503,0,19590919,1440],
+  [19600501,0,19600917,1440],[19870510,120,19871011,180],[19880508,120,19881009,180]
+];
+function _addDaysYMD(y,m,d,n){
+  var t=new Date(Date.UTC(y,m-1,d));t.setUTCDate(t.getUTCDate()+n);
+  return{y:t.getUTCFullYear(),m:t.getUTCMonth()+1,d:t.getUTCDate()};
+}
+function _shiftDateTime(y,m,d,h,min,deltaMin){
+  var total=(+h)*60+(+min||0)+deltaMin;
+  var dayOff=Math.floor(total/1440), rem=total-dayOff*1440;
+  var dt=dayOff?_addDaysYMD(y,m,d,dayOff):{y:y,m:m,d:d};
+  return{y:dt.y,m:dt.m,d:dt.d,h:Math.floor(rem/60),min:Math.round(rem%60)};
+}
+function normalizeWallClockToKST(y,m,d,h,min){
+  var v=y*10000+m*100+d, t=(+h)*60+(+min||0), shift=0;
+  for(var i=0;i<KOREA_DST.length;i++){
+    var w=KOREA_DST[i];
+    if(((v>w[0])||(v===w[0]&&t>=w[1]))&&((v<w[2])||(v===w[2]&&t<w[3]))){shift-=60;break;}
+  }
+  if(v>=KOREA_HALFHOUR_FROM&&v<=KOREA_HALFHOUR_TO)shift+=30;
+  return shift?_shiftDateTime(y,m,d,h,min,shift):{y:y,m:m,d:d,h:+h,min:(+min||0)};
+}
+function normalizeBirthTime(y,m,d,h,min,cityLng){
+  var hasHour=(h!==null&&h!==undefined&&h!=='');
+  var kst=hasHour?normalizeWallClockToKST(y,m,d,h,min):{y:y,m:m,d:d,h:null,min:null};
+  var trueSolarMin=0, solar=kst;
+  if(hasHour&&cityLng&&cityLng>0){
+    trueSolarMin=getTrueSolarCorrection(kst.y,kst.m,kst.d,cityLng);
+    if(trueSolarMin!==0)solar=_shiftDateTime(kst.y,kst.m,kst.d,kst.h,kst.min,trueSolarMin);
+  }
+  var dayDate={y:solar.y,m:solar.m,d:solar.d}, zasiRolled=false;
+  if(hasHour&&solar.h>=23){dayDate=_addDaysYMD(solar.y,solar.m,solar.d,1);zasiRolled=true;}
+  return{kst:kst,solar:solar,dayDate:dayDate,zasiRolled:zasiRolled,trueSolarMin:trueSolarMin,
+         hourBranch:hasHour?Math.floor(((solar.h+1)%24)/2):-1};
+}
+
+// dayDate: 일주 계산 전용 날짜 override({y,m,d}) — 정통 자시설 이월용. 미지정 시 출생일.
+function calculateSaju(year,month,day,hourBranch,hour,minute,dayDate){
   // ★ 주의: dateToJDN은 해당 날짜 00:00(자정) 기준 JD를 돌려준다(끝자리 .5).
   //   변수명 bjdNoon은 '정오'로 오인하기 쉬우나 실제 값은 자정 기준이며, 일주 계산에만 쓴다.
   var bjdNoon=dateToJDN(year,month,day);
@@ -2406,7 +2451,9 @@ function calculateSaju(year,month,day,hourBranch,hour,minute){
   var mb=2,cj='입춘';for(var i=jt.length-1;i>=0;i--)if(bjd>=jt[i].jd+KST){mb=jt[i].mb;cj=jt[i].n;break;}
   var mss=[2,4,6,8,0],mg=(mss[yg%5]+(mb-2+12)%12)%10,mj=mb;
   // ★ 일주는 날짜(정오) 기준 — 시간에 영향받지 않음
-  var dIdx=((Math.floor(bjdNoon)+50)%60+60)%60,dg=dIdx%10,dj=dIdx%12;
+  // ★ 일주는 날짜 기준 — 정통 자시설 이월이 있으면 dayDate가 익일로 넘어온다.
+  var _dj=dayDate?dateToJDN(dayDate.y,dayDate.m,dayDate.d):bjdNoon;
+  var dIdx=((Math.floor(_dj)+50)%60+60)%60,dg=dIdx%10,dj=dIdx%12;
   var hg=null,hj=null;
   if(hourBranch>=0){hj=hourBranch;var hss=[0,2,4,6,8];hg=(hss[dg%5]+hourBranch)%10;}
   return{yg:yg,yj:yj,mg:mg,mj:mj,dg:dg,dj:dj,hg:hg,hj:hj,sy:sy,cj:cj};
@@ -2447,26 +2494,12 @@ function getSpecialSinsal(yg,yj,mg,mj,dg,dj,hg,hj){
 }
 
 function calcSajuForApp(y,m,d,h,min,cityLng){
-  // ★ 진태양시 보정: 출생지 경도 기반
-  var trueSolarMin = 0;
-  var trueH = h, trueMin = min;
-  if(h!==null && h!==undefined && h!=='' && cityLng && cityLng > 0){
-    trueSolarMin = getTrueSolarCorrection(y, m, d, cityLng);
-    var totalMin = (+h)*60 + (+min||0) + trueSolarMin;
-    // 날짜 변경선 처리
-    if(totalMin < 0) totalMin += 1440;
-    if(totalMin >= 1440) totalMin -= 1440;
-    trueH = Math.floor(totalMin / 60);
-    trueMin = Math.round(totalMin % 60);
-  }
-  var hb=(trueH!==null&&trueH!==undefined&&trueH!=="")?Math.floor(((+trueH+1)%24)/2):-1;
-  var s=calculateSaju(y,m,d,hb,h,min); // 절기 비교는 원래 KST 시간 사용
-  // 시주만 진태양시 기준으로 재계산
-  if(hb>=0 && trueSolarMin !== 0){
-    var trueHB = Math.floor(((+trueH+1)%24)/2);
-    s.hj = trueHB;
-    var hss=[0,2,4,6,8]; s.hg=(hss[s.dg%5]+trueHB)%10;
-  }
+  // ★ 벽시계→KST→진태양시→자시 이월을 한 번에 정규화 (이중 보정 금지)
+  var N=normalizeBirthTime(y,m,d,h,min,cityLng);
+  var trueSolarMin=N.trueSolarMin;
+  var hb=N.hourBranch;
+  // 절기 비교는 KST 절대시각, 일주는 자시 이월이 반영된 날짜 기준
+  var s=calculateSaju(N.kst.y,N.kst.m,N.kst.d,hb,N.kst.h,N.kst.min,N.dayDate);
   var P=[{l:"연주",s:TGAN_KR[s.yg],b:JIJI_KR[s.yj],gi:s.yg,bi:s.yj},{l:"월주",s:TGAN_KR[s.mg],b:JIJI_KR[s.mj],gi:s.mg,bi:s.mj},{l:"일주",s:TGAN_KR[s.dg],b:JIJI_KR[s.dj],gi:s.dg,bi:s.dj},{l:"시주",s:s.hg!=null?TGAN_KR[s.hg]:"?",b:s.hj!=null?JIJI_KR[s.hj]:"?",gi:s.hg,bi:s.hj}];
   var el={'목':0,'화':0,'토':0,'금':0,'수':0};
   P.forEach(function(p){if(p.gi!=null)el[OHAENG_TGAN[p.gi]]++;if(p.bi!=null)el[OHAENG_JIJI[p.bi]]++;});
@@ -2536,9 +2569,10 @@ function calcSajuForApp(y,m,d,h,min,cityLng){
 function calcDaewoon(saju, birthY, birthM, birthD, birthH, birthMin, gender){
   var raw=saju.raw;
   // 생시 반영한 정밀 JD (시간 미상시 정오 기준)
-  // ★ dateToJDN은 자정 기준 JD — 생시(시·분)를 그대로 더한다.
-  var birthJD=dateToJDN(birthY,birthM,birthD);
-  if(birthH!==null&&birthH!==undefined&&birthH!==''){birthJD+=(+birthH)/24;if(birthMin!==null&&birthMin!==undefined&&birthMin!=='')birthJD+=(+birthMin)/1440;}
+  // ★ 절기 비교 기준: 벽시계를 KST로 정규화한 절대시각(진태양시·자시 이월 미적용)
+  var _nb=normalizeBirthTime(birthY,birthM,birthD,birthH,birthMin,null);
+  var birthJD=dateToJDN(_nb.kst.y,_nb.kst.m,_nb.kst.d);
+  if(_nb.kst.h!==null){birthJD+=(+_nb.kst.h)/24+(+_nb.kst.min||0)/1440;}
   else birthJD+=0.5;
 
   // Step 1: 순행/역행 결정 (양남음녀=순행, 음남양녀=역행)
